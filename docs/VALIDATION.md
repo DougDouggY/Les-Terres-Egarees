@@ -21,3 +21,14 @@ Les quatre variantes comprennent des frappes après la fusion des initiatives.
 Le serveur de développement reste lancé sur le port 5173 dans la machine préparée. Les processus ne sont pas garantis de survivre à une restauration : les instructions de redémarrage sont enregistrées dans `start_skill`.
 
 La configuration cloud a été enregistrée en brouillon (`install_script`, `start_skill`). Elle n’a pas été publiée automatiquement.
+
+## Retours visuels — seconde passe
+
+25 tests de règles/carte/sauvegarde réussis. Les quatre variantes restent gagnables
+(54, 52, 58 et 62 activations, quatre survivants). Deux tests navigateur réussis :
+mission complète et contrôle pixel du brouillard (animation, raccords entre cases,
+indépendance des perspectives, réapparition hors de portée). Inspection des captures
+du nouveau sanctuaire et de la brume. Aucune génération d'images effectuée.
+
+Les références externes fournies sont bloquées par le réseau : comparaison
+exacte des styles et des formules reportée, voir FEEDBACK.md.

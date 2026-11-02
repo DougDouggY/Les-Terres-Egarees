@@ -63,6 +63,7 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  mapRevision?: number;
   version: 1;
   factions: [Faction, Faction];
   units: Unit[];

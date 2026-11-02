@@ -96,6 +96,41 @@ set(8, 6, "rock");
 set(21, 13, "rock");
 set(22, 7, "forest");
 set(10, 9, "forest");
+// Authored courtyard: four double-width gates, broken outer walls and inner baffles.
+export const MAP_REVISION = 2;
+export const refurbishedWalls = new Set<number>();
+const wallSegments = [
+  [12, 6, 16, 6],
+  [19, 6, 22, 6],
+  [12, 7, 12, 8],
+  [12, 11, 12, 13],
+  [22, 7, 22, 8],
+  [22, 11, 22, 13],
+  [12, 14, 16, 14],
+  [19, 14, 22, 14],
+  [10, 11, 10, 12],
+  [24, 7, 24, 8],
+  [14, 8, 14, 9],
+  [20, 11, 20, 12],
+];
+for (const [x1, y1, x2, y2] of wallSegments)
+  for (let y = y1; y <= y2; y++)
+    for (let x = x1; x <= x2; x++) {
+      const c = map[y * W + x];
+      if (c.walk) refurbishedWalls.add(y * W + x);
+      set(x, y, "wall");
+    }
+for (const [x, y] of [
+  [12, 9],
+  [12, 10],
+  [22, 9],
+  [22, 10],
+  [17, 6],
+  [18, 6],
+  [17, 14],
+  [18, 14],
+])
+  set(x, y, "stairs");
 // Multi-cell arrival props: one explicit 3×2 collision/occlusion footprint per sector.
 export const arrivalFootprints = [
   { sector: 1 as const, x: 3, y: 2, w: 3, h: 2 },
@@ -133,7 +168,19 @@ export function tileIndex(c: Cell) {
     return (l || r) && (t || b) ? 23 : t || b ? 21 : 20;
   }
   if (c.terrain === "tree") return [6, 28, 29][(c.x + c.y) % 3];
-  if (c.terrain === "wall")
-    return cell(c.x, c.y + 1)?.terrain === "wall" ? 24 : 8;
+  if (c.terrain === "wall") return wallVariant(c).tile;
   return c.tile;
+}
+
+export function wallVariant(c: Cell) {
+  const n = cell(c.x, c.y - 1)?.terrain === "wall",
+    e = cell(c.x + 1, c.y)?.terrain === "wall",
+    south = cell(c.x, c.y + 1)?.terrain === "wall",
+    w = cell(c.x - 1, c.y)?.terrain === "wall";
+  if (n && e && !south && !w) return { tile: 25, rotation: 0 };
+  if (e && south && !n && !w) return { tile: 25, rotation: Math.PI / 2 };
+  if (south && w && !n && !e) return { tile: 25, rotation: Math.PI };
+  if (w && n && !e && !south) return { tile: 25, rotation: Math.PI * 1.5 };
+  if ((n || south) && !e && !w) return { tile: 24, rotation: 0 };
+  return { tile: e || w ? 8 : 26, rotation: 0 };
 }

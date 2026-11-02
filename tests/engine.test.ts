@@ -80,7 +80,7 @@ test("visibilité indépendante, mémoire et mur opaque", () => {
   assert.ok(s.players[0].visible.includes(E.key(5, 5)));
   assert.ok(!s.players[1].visible.includes(E.key(5, 5)));
   assert.ok(!E.seen(s, 1, s.units[2]));
-  assert.equal(E.los({ x: 17, y: 5 }, { x: 17, y: 7 }), false);
+  assert.equal(E.los({ x: 16, y: 5 }, { x: 16, y: 7 }), false);
   const old = [...s.players[0].visible];
   s.units[0].x = 13;
   s.units[0].y = 9;
@@ -303,4 +303,54 @@ test("visibilité cohérente d’un décor à plusieurs cases sans révéler au-
           .some((u) => E.distance(u, E.map[k]) <= u.vision),
       );
   }
+});
+
+test("enceinte : quatre portes doubles praticables, mur continu et angles cohérents", () => {
+  for (const [x, y] of [
+    [12, 9],
+    [12, 10],
+    [22, 9],
+    [22, 10],
+    [17, 6],
+    [18, 6],
+    [17, 14],
+    [18, 14],
+  ])
+    assert.ok(E.cell(x, y)?.walk);
+  for (const [x, y] of [
+    [12, 6],
+    [22, 6],
+    [12, 14],
+    [22, 14],
+  ]) {
+    const c = E.cell(x, y)!;
+    assert.equal(c.walk, false);
+    assert.equal(E.wallVariant(c).tile, 25);
+  }
+});
+test("ancienne sauvegarde : repositionnement limité aux murs ajoutés, sans perdre la progression", () => {
+  const s = fresh();
+  delete s.mapRevision;
+  const u = s.units[0];
+  u.x = 12;
+  u.y = 8;
+  u.hp = 22;
+  u.xp = 80;
+  u.potions = 1;
+  s.fronts[0].round = 4;
+  const loaded = E.decode(JSON.stringify(s));
+  assert.equal(loaded.mapRevision, E.MAP_REVISION);
+  E.validate(loaded);
+  assert.notDeepEqual(
+    { x: loaded.units[0].x, y: loaded.units[0].y },
+    { x: 12, y: 8 },
+  );
+  assert.equal(loaded.units[0].hp, 22);
+  assert.equal(loaded.units[0].xp, 80);
+  assert.equal(loaded.units[0].potions, 1);
+  assert.equal(loaded.fronts[0].round, 4);
+  const invalid = fresh();
+  invalid.units[0].x = 0;
+  invalid.units[0].y = 0;
+  assert.throws(() => E.decode(JSON.stringify(invalid)));
 });

@@ -1,5 +1,5 @@
 import type { Campaign, Unit, Perspective, Faction } from "./types";
-import { key, cell, map, distance } from "./map";
+import { key, cell, map, distance, MAP_REVISION } from "./map";
 import { makeUnit } from "./units";
 import { alive, at } from "./queries";
 import { visibility } from "./vision";
@@ -63,6 +63,7 @@ export function createCampaign(factions: [Faction, Faction]): Campaign {
   });
   const s: Campaign = {
     version: 1,
+    mapRevision: MAP_REVISION,
     factions,
     units,
     players: [p(), p()],

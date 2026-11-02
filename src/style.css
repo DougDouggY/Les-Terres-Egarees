@@ -1970,3 +1970,56 @@ h2 {
     #13251c 45%
   );
 }
+
+/* Higher-resolution map buffer, gently filtered artwork, continuous moving fog. */
+.canvas-wrap canvas,
+#combat {
+  image-rendering: auto;
+}
+.canvas-wrap canvas {
+  filter: saturate(0.87) brightness(1.04);
+}
+.stats > div[title] {
+  cursor: help;
+}
+.world-fog {
+  background: radial-gradient(
+    ellipse at 42% 58%,
+    transparent 9%,
+    #72868cdd 32%,
+    #73878efc 58%
+  );
+  overflow: hidden;
+  pointer-events: none;
+}
+.world-fog:before,
+.world-fog:after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background:
+    radial-gradient(ellipse at 20% 35%, #d6e0df55, transparent 30%),
+    radial-gradient(ellipse at 70% 60%, #e2e7e73b, transparent 27%),
+    radial-gradient(ellipse at 50% 20%, #a3b9bf66, transparent 35%);
+  mask-image: radial-gradient(ellipse at 46% 54%, transparent 8%, #000 32%);
+  animation: world-mist 38s linear infinite alternate;
+}
+.world-fog:after {
+  animation-direction: alternate-reverse;
+  animation-duration: 53s;
+  opacity: 0.65;
+}
+@keyframes world-mist {
+  from {
+    transform: translate(-3%, -2%) scale(1);
+  }
+  to {
+    transform: translate(6%, 4%) scale(1.12);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .world-fog:before,
+  .world-fog:after {
+    animation: none;
+  }
+}

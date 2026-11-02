@@ -1,3 +1,4 @@
+import { Mist } from "./fog";
 import "@fontsource/cormorant-garamond/latin-500.css";
 import "@fontsource/cormorant-garamond/latin-600.css";
 import "@fontsource/manrope/latin-400.css";
@@ -350,7 +351,10 @@ function unitCard(u: Unit) {
     ["PRÉC", u.accuracy],
     ["MVT", u.move],
   ]
-    .map(([n, v]) => `<div><span>${n}</span><b>${v}</b></div>`)
+    .map(
+      ([n, v]) =>
+        `<div title="${({ FOR: "Force : augmente les dégâts physiques.", DÉF: "Défense : réduit les dégâts reçus, en plus du couvert.", AGI: "Agilité : réduit la précision adverse ; 4 points d’écart donnent une seconde frappe.", INIT: "Initiative : détermine l’ordre de passage, indépendamment de l’agilité.", PRÉC: "Précision : augmente les chances de toucher.", MVT: "Mouvement : budget de déplacement, selon le coût du terrain." } as Record<string, string>)[String(n)]}"><span>${n}</span><b>${v}</b></div>`,
+    )
     .join(
       "",
     )}</div><div class="equipment"><span>ARME ÉQUIPÉE</span><strong>${E.weapons[u.kind]}</strong><small>Portée ${u.minRange}–${u.range} cases</small></div><div class="xp-label"><span>EXPÉRIENCE</span><b>${u.xp} / 100</b></div><div class="bar xp"><i style="width:${u.xp}%"></i></div>`;
@@ -389,7 +393,7 @@ function battleUI() {
     .map((t) => `<p>${esc(t)}</p>`)
     .join(
       "",
-    )}</div></aside><section class="map-section"><div class="map-heading"><span><i class="player-dot p${s.active}"></i> ${factionName(s.factions[s.active - 1])}</span><span>LE SANCTUAIRE DES VEILLEURS</span></div><div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="960" height="640" aria-label="Carte tactique. Cliquez une unité puis une case bleue pour déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="960" height="640" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}<div class="map-vignette"></div><div class="map-compass">N<br>✦</div><div class="map-status">${s.merged ? "VISIBILITÉ PARTAGÉE" : "BRUME DE GUERRE · VUE INDÉPENDANTE"}</div></div><div class="map-toolbar"><span><i class="legend blue"></i> DÉPLACEMENT <i class="legend red"></i> ATTAQUE <i class="legend grey"></i> TERRAIN MÉMORISÉ</span><span id="terrain-info">Survolez une case pour inspecter le terrain</span></div><div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u && u.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : (u?.name ?? "La brume s’éclaircit")}</strong><small>${own ? "Sélectionnez votre unité, déplacez-la puis choisissez une action." : u?.owner === 0 ? "Les morts-vivants avancent…" : "Changez de perspective pour jouer cette activation."}</small></div>${own ? button("Attendre <span>→</span>", "wait", "primary", busy) : u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></section><aside class="unit-sidebar">${sel && E.seen(s, s.active, sel) ? unitCard(sel) : `<div class="empty-unit">${mark}<span class="eyebrow">DANS LA BRUME</span><h2>Chaque pas<br>compte.</h2><p>Sélectionnez une unité pour consulter ses forces, son équipement et ses possibilités d’action.</p><div class="rule-note">L’initiative détermine l’ordre.<br>L’agilité permet une double frappe dès 4 points d’écart.</div></div>`}${sel && own && sel.id === u?.id ? `<div class="action-menu">${button("Attaquer", "attack-mode", "primary", busy)}${button(`Objets · Potion (${sel.potions})`, "heal", "", busy || !sel.potions || sel.hp === sel.maxHp)}${button("Attendre", "wait", "", busy)}${button("Annuler", "cancel", "", busy)}</div>` : ""}<div class="controls"><span>TAB</span> Changer d’expédition<br><span>ÉCHAP</span> Annuler / Menu<br><span>↑ ↓ ← →</span> Déplacer la caméra</div></aside></div><footer class="battle-footer"><span>LA BRUME CACHE BIEN PLUS QUE LE CHEMIN.</span><span>${button("Sauvegarder", "save", "text-button", busy || !!origin)} <i>◆</i> ${button("Règles du combat", "rules", "text-button")}</span></footer></main>`;
+    )}</div></aside><section class="map-section"><div class="map-heading"><span><i class="player-dot p${s.active}"></i> ${factionName(s.factions[s.active - 1])}</span><span>LE SANCTUAIRE DES VEILLEURS</span></div><div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Cliquez une unité puis une case bleue pour déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}<div class="map-vignette"></div><div class="map-compass">N<br>✦</div><div class="map-status">${s.merged ? "VISIBILITÉ PARTAGÉE" : "BRUME DE GUERRE · VUE INDÉPENDANTE"}</div></div><div class="map-toolbar"><span><i class="legend blue"></i> DÉPLACEMENT <i class="legend red"></i> ATTAQUE <i class="legend grey"></i> BRUME HORS DE VUE</span><span id="terrain-info">Survolez une case pour inspecter le terrain</span></div><div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u && u.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : (u?.name ?? "La brume s’éclaircit")}</strong><small>${own ? "Sélectionnez votre unité, déplacez-la puis choisissez une action." : u?.owner === 0 ? "Les morts-vivants avancent…" : "Changez de perspective pour jouer cette activation."}</small></div>${own ? button("Attendre <span>→</span>", "wait", "primary", busy) : u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></section><aside class="unit-sidebar">${sel && E.seen(s, s.active, sel) ? unitCard(sel) : `<div class="empty-unit">${mark}<span class="eyebrow">DANS LA BRUME</span><h2>Chaque pas<br>compte.</h2><p>Sélectionnez une unité pour consulter ses forces, son équipement et ses possibilités d’action.</p><div class="rule-note">L’initiative détermine l’ordre.<br>L’agilité permet une double frappe dès 4 points d’écart.</div></div>`}${sel && own && sel.id === u?.id ? `<div class="action-menu">${button("Attaquer", "attack-mode", "primary", busy)}${button(`Objets · Potion (${sel.potions})`, "heal", "", busy || !sel.potions || sel.hp === sel.maxHp)}${button("Attendre", "wait", "", busy)}${button("Annuler", "cancel", "", busy)}</div>` : ""}<div class="controls"><span>TAB</span> Changer d’expédition<br><span>ÉCHAP</span> Annuler / Menu<br><span>↑ ↓ ← →</span> Déplacer la caméra</div></aside></div><footer class="battle-footer"><span>LA BRUME CACHE BIEN PLUS QUE LE CHEMIN.</span><span>${button("Sauvegarder", "save", "text-button", busy || !!origin)} <i>◆</i> ${button("Règles du combat", "rules", "text-button")}</span></footer></main>`;
   bindCanvas();
   if (u?.owner === 0 && !busy) void enemyTurn();
 }
@@ -467,6 +471,8 @@ function drawSprite(
   const sw = sheet.width / 8,
     sh = sheet.height / 5;
   ctx.save();
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   ctx.translate(x + size / 2, y + size / 2);
   if (flip) ctx.scale(-1, 1);
   ctx.drawImage(
@@ -495,10 +501,7 @@ let moveAnim: {
     applied: boolean;
     done: () => void;
   } | null = null;
-const fogReveal: [Map<number, number>, Map<number, number>] = [
-  new Map(),
-  new Map(),
-];
+const mist = new Mist(E.W, E.H);
 let reachSignature = "",
   reachCache = new Map<number, { cost: number; steps: number[] }>();
 function movementField(s: Campaign, u: Unit) {
@@ -530,8 +533,10 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     visible = new Set(s.players[p - 1].visible),
     explored = new Set(s.players[p - 1].explored),
     cam = s.players[p - 1].camera;
-  ctx.imageSmoothingEnabled = false;
-  ctx.fillStyle = "#101e22";
+  ctx.setTransform(2, 0, 0, 2, 0, 0);
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.fillStyle = "#71858a";
   ctx.fillRect(0, 0, 960, 640);
   ctx.save();
   ctx.translate(-cam.x * 32, -cam.y * 32);
@@ -539,11 +544,16 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     const k = E.key(c.x, c.y),
       x = c.x * 32,
       y = c.y * 32;
-    if (!explored.has(k)) {
-      ctx.fillStyle = (c.x + c.y) % 2 ? "#172529" : "#19292c";
-      ctx.fillRect(x, y, 32, 32);
+    if (
+      !visible.has(k) &&
+      ![-1, 0, 1].some((dy) =>
+        [-1, 0, 1].some((dx) => {
+          const n = E.cell(c.x + dx, c.y + dy);
+          return n && visible.has(E.key(n.x, n.y));
+        }),
+      )
+    )
       continue;
-    }
     if (tiles.complete && tiles.naturalWidth) {
       const i = E.tileIndex(c),
         tw = tiles.width / 8,
@@ -573,6 +583,23 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
           32,
           32,
         );
+      } else if (c.terrain === "wall") {
+        const variant = E.wallVariant(c);
+        ctx.save();
+        ctx.translate(x + 16, y + 16);
+        ctx.rotate(variant.rotation);
+        ctx.drawImage(
+          tiles,
+          (variant.tile % 8) * tw,
+          Math.floor(variant.tile / 8) * th,
+          tw,
+          th,
+          -16,
+          -16,
+          32,
+          32,
+        );
+        ctx.restore();
       } else
         ctx.drawImage(
           tiles,
@@ -600,19 +627,6 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
         32,
       );
     }
-    if (!visible.has(k)) {
-      ctx.fillStyle = "#0b1926ae";
-      ctx.fillRect(x, y, 32, 32);
-      fogReveal[p - 1].delete(k);
-    } else {
-      const revealed = fogReveal[p - 1].get(k) ?? time;
-      if (!fogReveal[p - 1].has(k)) fogReveal[p - 1].set(k, time);
-      const alpha = Math.max(0, 1 - (time - revealed) / 450);
-      if (alpha > 0) {
-        ctx.fillStyle = `rgba(17,34,39,${alpha})`;
-        ctx.fillRect(x, y, 32, 32);
-      }
-    }
     ctx.strokeStyle = "#cad4be09";
     ctx.strokeRect(x, y, 32, 32);
   }
@@ -623,7 +637,16 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ? new Map([[E.key(sel.x, sel.y), { cost: 0, steps: [] }]])
       : movementField(s, sel);
     for (const [k] of reach) {
-      if (!visible.has(k)) continue;
+      if (
+        !visible.has(k) &&
+        ![-1, 0, 1].some((dy) =>
+          [-1, 0, 1].some((dx) => {
+            const n = E.cell(c.x + dx, c.y + dy);
+            return n && visible.has(E.key(n.x, n.y));
+          }),
+        )
+      )
+        continue;
       const c = E.map[k];
       ctx.fillStyle = "#4bade34a";
       ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
@@ -678,7 +701,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     ctx.ellipse(x + 16, y + 24, 11, 4, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalAlpha = 1;
-    drawSprite(ctx, u, x - 4, y - 7, 40, frame);
+    drawSprite(ctx, u, x - 6, y - 10, 44, frame);
     ctx.fillStyle = "#14201c";
     ctx.fillRect(x + 3, y + 29, 26, 3);
     ctx.fillStyle = u.owner === 0 ? "#c87e6a" : "#8ebe99";
@@ -694,7 +717,8 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ctx.strokeRect(x - 1, y - 1, 34, 34);
     }
   }
-  if (explored.has(E.key(16, 10))) {
+  mist.draw(ctx, visible, p, time);
+  if (visible.has(E.key(16, 10))) {
     ctx.font = "7px Georgia";
     ctx.textAlign = "center";
     ctx.fillStyle = "#e4dbb8";
@@ -703,7 +727,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     ctx.fillText("SANCTUAIRE DES VEILLEURS", 17 * 32 + 16, 6 * 32 - 6);
     ctx.shadowBlur = 0;
   }
-  if (hover !== null) {
+  if (hover !== null && visible.has(hover)) {
     const c = E.map[hover];
     ctx.strokeStyle = "#f0ead190";
     ctx.lineWidth = 1;
@@ -711,9 +735,11 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   }
   ctx.restore();
 }
+let lastMapFrame = 0;
 function animation(time: number) {
   requestAnimationFrame(animation);
-  if (screen === "battle") {
+  if (screen === "battle" && time - lastMapFrame >= 1000 / 30) {
+    lastMapFrame = time;
     const a = document.querySelector<HTMLCanvasElement>("#map"),
       b = document.querySelector<HTMLCanvasElement>("#map2");
     if (a) renderMap(a, state!.active, time);
@@ -1108,7 +1134,7 @@ app.addEventListener("click", async (e) => {
     configure();
   } else if (action === "begin") {
     state = E.createCampaign(factions);
-    fogReveal.forEach((m) => m.clear());
+    mist.reset();
     selected = null;
     origin = null;
     moved = false;
