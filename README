@@ -56,12 +56,12 @@ PUBLICATION GITHUB PAGES
 Le workflow .github/workflows/pages.yml publie le jeu après un push sur main.
 Voir docs/DEPLOYMENT.md pour les réglages GitHub et le chemin de compilation.
 
-COMPARER LES RENDUS (TEMPORAIRE)
--------------------------------
-Au-dessus de la carte, « Atelier visuel » permet de sélectionner :
-1. Tuiles fondues : raccords progressifs entre textures.
-2. Sol continu : textures en coordonnées monde, limitées par les terrains de chaque case.
-3. Tuiles variées : herbe nue, une ou plusieurs touffes, distribution stable.
+CARTE RÉGIONALE ET INSPECTION
+----------------------------
+La carte adopte une échelle régionale : un secteur représente environ 100 m.
+Le village détruit occupe 3 × 3 cases, avec une seule entrée au milieu sud.
+La mer reste dans le coin nord-ouest ; drakkar et convoi détruits occupent
+chacun une case. Les côtes et chemins suivent les cases avec des raccords adoucis.
 
 « Retirer la brume (test) » affiche la carte entière sans modifier l’exploration
 réelle. « Rétablir la brume » revient à la visibilité de l’expédition.

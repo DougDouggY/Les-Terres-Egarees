@@ -1,119 +1,133 @@
-import {
-  map,
-  cell,
-  W,
-  H,
-  TILE,
-  tileIndex,
-  wallVariant,
-  stairsRotation,
-  key,
-} from "./game/map";
-import type { Cell, Faction } from "./game/types";
-export type TerrainStyle = "blended" | "continuous" | "varied";
+import { map, W, H, TILE, tileIndex, village, roadRoutes } from "./game/map";
+import type { Faction } from "./game/types";
+export type TerrainStyle = "regional";
 export const terrainStyles: Record<TerrainStyle, string> = {
-  blended: "1 · Tuiles fondues",
-  continuous: "2 · Sol continu",
-  varied: "3 · Tuiles variées",
+  regional: "Carte régionale · secteurs ≈ 100 m",
 };
-/** Stable decorative variation. Never changes terrain types, costs or collisions. */
 export function decorationIndex(x: number, y: number) {
   let n = Math.imul(x + 37, 374761393) ^ Math.imul(y + 71, 668265263);
   n = Math.imul(n ^ (n >>> 13), 1274126177);
   const v = (n ^ (n >>> 16)) >>> 0;
   return v % 10 < 3 ? 0 : 1 + (v % 7);
 }
-const grounds = new Set(["grass", "earth", "sand", "forest", "floor", "ruin"]);
 export class TerrainRenderer {
-  reset() {
-    this.cache.clear();
-  }
-  private cache = new Map<string, HTMLCanvasElement>();
-  private continuousTextures = new Map<string, HTMLCanvasElement>();
-  private patches = new Map<string, HTMLCanvasElement>();
+  private cache: HTMLCanvasElement | null = null;
+  private stamps = new Map<number, HTMLCanvasElement>();
   constructor(
     private atlas: HTMLImageElement,
-    private roads: HTMLImageElement,
-    private grass: HTMLImageElement,
-    private arrivals: HTMLImageElement,
+    _roads?: HTMLImageElement,
+    _grass?: HTMLImageElement,
+    _arrivals?: HTMLImageElement,
   ) {}
-  private tile(
+  reset() {
+    this.cache = null;
+  }
+  private stamp(
     ctx: CanvasRenderingContext2D,
     index: number,
     x: number,
     y: number,
-    angle = 0,
+    flip = false,
   ) {
     const sw = this.atlas.width / 8,
       sh = this.atlas.height / 4;
     ctx.save();
     ctx.translate(x + 16, y + 16);
-    ctx.rotate(angle);
-    ctx.drawImage(
-      this.atlas,
-      (index % 8) * sw,
-      Math.floor(index / 8) * sh,
-      sw,
-      sh,
-      -16,
-      -16,
-      32,
-      32,
-    );
+    if (flip) ctx.scale(-1, 1);
+    let tile = this.stamps.get(index);
+    if (!tile) {
+      tile = document.createElement("canvas");
+      tile.width = tile.height = 128;
+      const t = tile.getContext("2d")!;
+      t.drawImage(
+        this.atlas,
+        (index % 8) * sw,
+        Math.floor(index / 8) * sh,
+        sw,
+        sh,
+        0,
+        0,
+        128,
+        128,
+      );
+      const pixels = t.getImageData(0, 0, 128, 128);
+      for (let py = 0; py < 128; py++)
+        for (let px = 0; px < 128; px++) {
+          const edge = Math.min(px, py, 127 - px, 127 - py) / 14;
+          pixels.data[(py * 128 + px) * 4 + 3] *= Math.min(1, edge);
+        }
+      t.putImageData(pixels, 0, 0);
+      this.stamps.set(index, tile);
+    }
+    ctx.drawImage(tile, -16, -16, 32, 32);
     ctx.restore();
   }
-  private patch(c: Cell) {
-    const id =
-      c.terrain === "grass"
-        ? `grass-${decorationIndex(c.x, c.y)}`
-        : `tile-${tileIndex(c)}`;
-    let patch = this.patches.get(id);
-    if (!patch) {
-      patch = document.createElement("canvas");
-      patch.width = patch.height = 128;
-      const p = patch.getContext("2d")!;
-      if (c.terrain === "grass")
-        p.drawImage(
-          this.grass,
-          decorationIndex(c.x, c.y) * 128,
-          0,
-          128,
-          128,
-          0,
-          0,
-          128,
-          128,
-        );
-      else {
-        const i = tileIndex(c),
-          sw = this.atlas.width / 8,
-          sh = this.atlas.height / 4;
-        p.drawImage(
-          this.atlas,
-          (i % 8) * sw,
-          Math.floor(i / 8) * sh,
-          sw,
-          sh,
-          0,
-          0,
-          128,
-          128,
-        );
+  private pattern(ctx: CanvasRenderingContext2D, index: number) {
+    const tile = document.createElement("canvas");
+    tile.width = tile.height = 128;
+    tile
+      .getContext("2d")!
+      .drawImage(
+        this.atlas,
+        ((index % 8) * this.atlas.width) / 8,
+        (Math.floor(index / 8) * this.atlas.height) / 4,
+        this.atlas.width / 8,
+        this.atlas.height / 4,
+        0,
+        0,
+        128,
+        128,
+      );
+    // Mirrored repeats share identical pixels at each edge.
+    const seamless = document.createElement("canvas");
+    seamless.width = seamless.height = 256;
+    const m = seamless.getContext("2d")!;
+    for (let y = 0; y < 2; y++)
+      for (let x = 0; x < 2; x++) {
+        m.save();
+        m.translate(x ? 256 : 0, y ? 256 : 0);
+        m.scale(x ? -1 : 1, y ? -1 : 1);
+        m.drawImage(tile, 0, 0);
+        m.restore();
       }
-      this.patches.set(id, patch);
-    }
-    return patch;
+    const p = ctx.createPattern(seamless, "repeat")!;
+    p.setTransform(new DOMMatrix().scale(0.5));
+    return p;
   }
-  layer(style: TerrainStyle, factions: readonly Faction[]) {
-    if (
-      ![this.atlas, this.roads, this.grass, this.arrivals].every(
-        (i) => i.complete && i.naturalWidth,
-      )
-    )
-      return null;
-    const signature = style + factions.join("/");
-    const cached = this.cache.get(signature);
-    if (cached) return cached;
+  private mask(
+    predicate: (c: (typeof map)[number]) => boolean,
+    w: number,
+    h: number,
+    beach = false,
+  ) {
+    const raw = document.createElement("canvas");
+    raw.width = w;
+    raw.height = h;
+    const r = raw.getContext("2d")!;
+    r.fillStyle = "white";
+    for (const c of map)
+      if (predicate(c)) r.fillRect(c.x * 64, c.y * 64, 64, 64);
+    const soft = document.createElement("canvas");
+    soft.width = w;
+    soft.height = h;
+    const s = soft.getContext("2d")!;
+    s.filter = beach ? "blur(18px)" : "blur(10px)";
+    s.drawImage(raw, 0, 0);
+    const image = s.getImageData(0, 0, w, h);
+    for (let i = 3; i < image.data.length; i += 4)
+      image.data[i] = Math.max(
+        0,
+        Math.min(
+          255,
+          ((image.data[i] - (beach ? 40 : 72)) * 255) / (beach ? 180 : 110),
+        ),
+      );
+    s.putImageData(image, 0, 0);
+    return soft;
+  }
+  layer(_style: TerrainStyle, _factions: readonly Faction[]) {
+    if (!this.atlas.complete || !this.atlas.naturalWidth) return null;
+    if (this.cache) return this.cache;
     const raw = document.createElement("canvas");
     raw.width = W * TILE * 2;
     raw.height = H * TILE * 2;
@@ -121,148 +135,110 @@ export class TerrainRenderer {
     ctx.scale(2, 2);
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = "high";
+    ctx.fillStyle = this.pattern(ctx, 0);
+    ctx.fillRect(0, 0, W * TILE, H * TILE);
+    // Small accents vary by sector, while ground texture and coast masks cross tile edges.
+    for (const c of map)
+      if (c.terrain === "grass" && decorationIndex(c.x, c.y) > 3)
+        this.stamp(
+          ctx,
+          [1, 13, 15, 24][decorationIndex(c.x, c.y) % 4],
+          c.x * 32,
+          c.y * 32,
+        );
+    const waterMask = this.mask(
+        (c) => c.terrain === "water",
+        raw.width,
+        raw.height,
+      ),
+      beachMask = this.mask(
+        (c) =>
+          c.terrain === "water" || c.terrain === "sand" || c.prop?.sector === 1,
+        raw.width,
+        raw.height,
+        true,
+      );
+    for (const [index, mask] of [
+      [3, beachMask],
+      [4, waterMask],
+    ] as const) {
+      const painted = document.createElement("canvas");
+      painted.width = raw.width;
+      painted.height = raw.height;
+      const p = painted.getContext("2d")!;
+      p.scale(2, 2);
+      p.fillStyle = this.pattern(p, index);
+      p.fillRect(0, 0, W * TILE, H * TILE);
+      p.setTransform(1, 0, 0, 1, 0, 0);
+      p.globalCompositeOperation = "destination-in";
+      p.drawImage(mask, 0, 0);
+      ctx.drawImage(painted, 0, 0, W * TILE, H * TILE);
+    }
+    // A continuous foam line follows the actual water-mask contour, including corners.
+    const foam = document.createElement("canvas");
+    foam.width = raw.width;
+    foam.height = raw.height;
+    const f = foam.getContext("2d")!,
+      pixels = waterMask
+        .getContext("2d")!
+        .getImageData(0, 0, raw.width, raw.height);
+    for (let i = 0; i < pixels.data.length; i += 4) {
+      const a = pixels.data[i + 3] / 255;
+      pixels.data[i] = 222;
+      pixels.data[i + 1] = 230;
+      pixels.data[i + 2] = 202;
+      pixels.data[i + 3] = Math.sin(a * Math.PI) * 170;
+    }
+    f.putImageData(pixels, 0, 0);
+    ctx.drawImage(foam, 0, 0, W * TILE, H * TILE);
+    // Paths are textured strokes along the authored cell centres, with rounded junctions.
+    for (const route of roadRoutes) {
+      ctx.beginPath();
+      ctx.moveTo((route[0][0] + 0.5) * 32, (route[0][1] + 0.5) * 32);
+      for (let i = 1; i < route.length; i++)
+        ctx.lineTo((route[i][0] + 0.5) * 32, (route[i][1] + 0.5) * 32);
+      ctx.lineJoin = ctx.lineCap = "round";
+      ctx.lineWidth = 13;
+      ctx.strokeStyle = "#73704466";
+      ctx.stroke();
+      ctx.lineWidth = 9;
+      ctx.strokeStyle = this.pattern(ctx, 2);
+      ctx.stroke();
+    }
     for (const c of map) {
       const x = c.x * 32,
         y = c.y * 32;
-      if (style === "continuous" && grounds.has(c.terrain)) {
-        // One world-space texture per material; cell clipping preserves the exact footprint.
-        // Mirrored copies join exactly: one material field in world coordinates,
-        // rather than restarting a texture at every logical cell.
-        const material = c.terrain === "grass" ? "grass" : String(tileIndex(c));
-        let field = this.continuousTextures.get(material);
-        if (!field) {
-          const source = c.terrain === "grass" ? this.grass : this.atlas,
-            index = c.terrain === "grass" ? 0 : tileIndex(c),
-            sw = source === this.grass ? 128 : this.atlas.width / 8,
-            sh = source === this.grass ? 128 : this.atlas.height / 4;
-          field = document.createElement("canvas");
-          field.width = field.height = 256;
-          const f = field.getContext("2d")!;
-          for (let by = 0; by < 2; by++)
-            for (let bx = 0; bx < 2; bx++) {
-              f.save();
-              f.translate(bx === 0 ? 0 : 256, by === 0 ? 0 : 256);
-              f.scale(bx === 0 ? 1 : -1, by === 0 ? 1 : -1);
-              f.drawImage(
-                source,
-                (index % 8) * sw,
-                Math.floor(index / 8) * sh,
-                sw,
-                sh,
-                0,
-                0,
-                128,
-                128,
-              );
-              f.restore();
-            }
-          this.continuousTextures.set(material, field);
-        }
-        const pattern = ctx.createPattern(field, "repeat")!;
-        pattern.setTransform(new DOMMatrix().scale(0.75));
-        ctx.fillStyle = pattern;
-        ctx.fillRect(x, y, 32, 32);
-      } else if (c.terrain === "grass")
-        ctx.drawImage(this.patch(c), x, y, 32, 32);
-      else this.tile(ctx, tileIndex(c), x, y);
+      if (c.villagePart) continue;
+      if (c.terrain === "forest")
+        this.stamp(ctx, [5, 21, 30][decorationIndex(c.x, c.y) % 3], x, y);
+      else if (c.terrain === "tree")
+        this.stamp(ctx, decorationIndex(c.x, c.y) % 2 ? 6 : 22, x, y);
+      else if (c.terrain === "rock")
+        this.stamp(ctx, 7, x, y, (c.x + c.y) % 2 === 0);
+      else if (c.terrain === "hill") this.stamp(ctx, 14, x, y);
+      else if (c.prop) this.stamp(ctx, c.prop.sector === 1 ? 8 : 12, x, y);
     }
-    if (style === "blended")
-      for (const c of map) {
-        if (!grounds.has(c.terrain)) continue;
-        const x = c.x * 32,
-          y = c.y * 32;
-        for (const [dx, dy] of [
-          [1, 0],
-          [0, 1],
-        ]) {
-          const n = cell(c.x + dx, c.y + dy);
-          if (!n || !grounds.has(n.terrain)) continue;
-          // Blend two illustrated textures across the shared edge, clipped to walkable ground.
-          const p = this.patch(n);
-          ctx.save();
-          ctx.beginPath();
-          ctx.rect(x, y, 32, 32);
-          ctx.clip();
-          const blend = document.createElement("canvas");
-          blend.width = blend.height = 64;
-          const b = blend.getContext("2d")!;
-          b.drawImage(p, 0, 0, 64, 64);
-          b.globalCompositeOperation = "destination-in";
-          const gradient = b.createLinearGradient(
-            dx ? 48 : 0,
-            dy ? 48 : 0,
-            dx ? 64 : 0,
-            dy ? 64 : 0,
-          );
-          gradient.addColorStop(0, "transparent");
-          gradient.addColorStop(1, "#fff");
-          b.fillStyle = gradient;
-          b.fillRect(0, 0, 64, 64);
-          ctx.drawImage(blend, x, y, 32, 32);
-          ctx.restore();
-        }
-      }
-    // Structural tiles are laid back on top; no blend can soften a wall or its collision.
-    for (const c of map) {
-      const x = c.x * 32,
-        y = c.y * 32;
-      if (c.terrain === "sand" && tileIndex(c) !== 3)
-        this.tile(ctx, tileIndex(c), x, y);
-      else if (c.terrain === "road") {
-        let bits = 0;
-        for (const [dx, dy, b] of [
-          [0, -1, 1],
-          [1, 0, 2],
-          [0, 1, 4],
-          [-1, 0, 8],
-        ])
-          if (
-            ["road", "floor", "ruin", "stairs"].includes(
-              cell(c.x + dx, c.y + dy)?.terrain ?? "",
-            )
-          )
-            bits |= b;
-        const sw = this.roads.width / 4,
-          sh = this.roads.height / 8;
-        ctx.drawImage(
-          this.roads,
-          (bits % 4) * sw,
-          (Math.floor(bits / 4) + (c.base === "sand" ? 4 : 0)) * sh,
-          sw,
-          sh,
-          x,
-          y,
-          32,
-          32,
-        );
-      } else if (c.terrain === "wall") {
-        const v = wallVariant(c);
-        this.tile(ctx, v.tile, x, y, v.rotation);
-      } else if (c.terrain === "stairs")
-        this.tile(ctx, 13, x, y, stairsRotation(c));
-      else if (!grounds.has(c.terrain)) this.tile(ctx, tileIndex(c), x, y);
-      if (c.prop) {
-        const column = factions[c.prop.sector - 1] === "north" ? 0 : 1;
-        ctx.drawImage(
-          this.arrivals,
-          column * 96 + c.prop.dx * 32,
-          (c.prop.sector - 1) * 64 + c.prop.dy * 32,
-          32,
-          32,
-          x,
-          y,
-          32,
-          32,
-        );
-      }
-    }
+    // The nine connected atlas cells form one landmark, still backed by nine exact cells.
+    const sw = this.atlas.width / 8,
+      sh = this.atlas.height / 4;
+    ctx.drawImage(
+      this.atlas,
+      sw,
+      sh,
+      sw * 3,
+      sh * 3,
+      village.x * 32,
+      village.y * 32,
+      96,
+      96,
+    );
     const shaded = document.createElement("canvas");
     shaded.width = raw.width;
     shaded.height = raw.height;
     const dark = shaded.getContext("2d")!;
-    dark.filter = "saturate(.77) brightness(.82)";
+    dark.filter = "saturate(.85) brightness(.9)";
     dark.drawImage(raw, 0, 0);
-    this.cache.set(signature, shaded);
+    this.cache = shaded;
     return shaded;
   }
 }

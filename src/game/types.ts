@@ -16,7 +16,9 @@ export type Terrain =
   | "wagon"
   | "stairs"
   | "altar"
-  | "arrival";
+  | "arrival"
+  | "hill"
+  | "village";
 export type Cell = {
   x: number;
   y: number;
@@ -28,6 +30,7 @@ export type Cell = {
   tile: number;
   base: "grass" | "sand";
   stairFacing?: "north" | "east" | "south" | "west";
+  villagePart?: { dx: number; dy: number };
   prop?: { sector: 1 | 2; dx: number; dy: number };
   interactive?: string;
 };

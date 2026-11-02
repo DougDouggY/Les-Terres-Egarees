@@ -64,7 +64,7 @@ for (const f of [
               ? (targets.sort(
                   (a, b) => E.distance(a, ghost) - E.distance(b, ghost),
                 )[0] ?? { x: 16, y: 10 })
-              : { x: 16, y: 10 };
+              : { x: u.owner === 1 ? 14 : 18, y: 11 };
             const score =
               (target ? 100 + 30 - target.hp : 0) -
               E.distance(c, objective) -

@@ -130,7 +130,7 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
           ? (targets.sort(
               (a: any, b: any) => E.distance(a, ghost) - E.distance(b, ghost),
             )[0] ?? { x: 16, y: 10 })
-          : { x: 16, y: 10 };
+          : { x: u.owner === 1 ? 14 : 18, y: 11 };
         const score =
           (target ? 130 - target.hp : 0) - E.distance(c, goal) - p.cost * 0.01;
         if (score > best.score) best = { k, score, target: target?.id };

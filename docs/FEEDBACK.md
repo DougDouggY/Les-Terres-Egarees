@@ -71,3 +71,15 @@ La carte est assombrie dans les trois rendus. Le monastère comprend un vestibul
 une chapelle et un réfectoire, avec portes et brèches. Les escaliers s’orientent
 selon le côté de l’entrée. La révision 3 conserve la progression des anciennes
 sauvegardes et recalcule la visibilité après migration.
+
+## Échelle régionale — révision 4
+
+Les trois essais précédents sont remplacés par une carte régionale inspirée
+des conventions spatiales des cartes Fire Emblem, avec un atlas original.
+Village détruit compact (3 × 3), huit cases de bâtiments bloquantes et entrée
+unique au milieu sud. Drakkar détruit au nord-ouest et convoi détruit au sud-est :
+une case chacun, indépendamment des factions choisies. Mer limitée à la baie
+nord-ouest, plages et chemins raccordés, massifs et bois représentés en miniature.
+Une seule génération d’atlas ; cinématiques inchangées. Migration des anciennes
+sauvegardes : déplacement des unités uniquement si le nouveau décor les bloque.
+Les commandes d’inspection de brume et de grille restent disponibles.

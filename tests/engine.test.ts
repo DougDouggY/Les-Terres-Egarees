@@ -89,7 +89,7 @@ test("visibilité indépendante, mémoire et mur opaque", () => {
   assert.ok(s.players[0].visible.includes(E.key(5, 5)));
   assert.ok(!s.players[1].visible.includes(E.key(5, 5)));
   assert.ok(!E.seen(s, 1, s.units[2]));
-  assert.equal(E.los({ x: 16, y: 5 }, { x: 16, y: 7 }), false);
+  assert.equal(E.los({ x: 16, y: 7 }, { x: 16, y: 9 }), false);
   const old = [...s.players[0].visible];
   s.units[0].x = 13;
   s.units[0].y = 9;
@@ -225,7 +225,7 @@ test("zones d’attaque : portées, murs et origines de déplacement", () => {
       assert.ok(attack.has(E.key(v.x, v.y)));
   }
   assert.equal(
-    E.los({ x: 15, y: 5 }, { x: 17, y: 7 }),
+    E.los({ x: 14, y: 7 }, { x: 16, y: 9 }),
     false,
     "pas de tir en diagonale à travers un angle opaque",
   );
@@ -234,6 +234,7 @@ test("atlas : dimensions alignées et variantes de tuiles valides", async () => 
   const { readFile } = await import("node:fs/promises");
   for (const [name, width, height] of [
     ["tiles", 1024, 512],
+    ["regional-tiles", 1024, 512],
     ["grass-variants", 1024, 128],
     ["attacks", 1024, 640],
     ["arrivals", 192, 128],
@@ -315,35 +316,22 @@ test("visibilité cohérente d’un décor à plusieurs cases sans révéler au-
   }
 });
 
-test("enceinte : quatre portes doubles praticables et angles cohérents", () => {
-  for (const [x, y] of [
-    [12, 9],
-    [12, 10],
-    [22, 9],
-    [22, 10],
-    [17, 6],
-    [18, 6],
-    [17, 14],
-    [18, 14],
-  ])
-    assert.ok(E.cell(x, y)?.walk);
-  for (const [x, y] of [
-    [12, 6],
-    [22, 6],
-    [12, 14],
-    [22, 14],
-  ]) {
-    const c = E.cell(x, y)!;
-    assert.equal(c.walk, false);
-    assert.equal(E.wallVariant(c).tile, 25);
-  }
+test("village régional : seule entrée au milieu sud", () => {
+  const v = E.village;
+  for (let dy = 0; dy < 3; dy++)
+    for (let dx = 0; dx < 3; dx++)
+      assert.equal(E.cell(v.x + dx, v.y + dy)!.walk, dx === 1 && dy === 2);
+  assert.ok(E.cell(v.entry.x, v.entry.y + 1)!.walk);
+  for (const f of E.arrivalFootprints) assert.equal(f.w * f.h, 1);
+  for (const c of E.map.filter((c) => c.terrain === "water"))
+    assert.ok(c.x <= 5 && c.y <= 4);
 });
 test("ancienne sauvegarde : repositionnement limité aux murs ajoutés, sans perdre la progression", () => {
   const s = fresh();
   delete s.mapRevision;
   const u = s.units[0];
-  u.x = 12;
-  u.y = 8;
+  u.x = 15;
+  u.y = 9;
   u.hp = 22;
   u.xp = 80;
   u.potions = 1;
@@ -353,7 +341,7 @@ test("ancienne sauvegarde : repositionnement limité aux murs ajoutés, sans per
   E.validate(loaded);
   assert.notDeepEqual(
     { x: loaded.units[0].x, y: loaded.units[0].y },
-    { x: 12, y: 8 },
+    { x: 15, y: 9 },
   );
   assert.equal(loaded.units[0].hp, 22);
   assert.equal(loaded.units[0].xp, 80);
@@ -388,37 +376,6 @@ test("traverser un allié, jamais finir sur lui ; ennemis et autres fronts reste
   assert.ok(E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
   friend.owner = 0;
   assert.ok(!E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
-});
-
-test("monastère : trois pièces, brèches praticables et escaliers tournés vers les accès", () => {
-  assert.equal(E.monasteryRooms.length, 3);
-  for (const r of E.monasteryRooms) {
-    assert.ok(r.w >= 3 && r.h >= 3);
-    assert.ok(
-      E.map.some(
-        (c) =>
-          c.x >= r.x &&
-          c.x < r.x + r.w &&
-          c.y >= r.y &&
-          c.y < r.y + r.h &&
-          c.walk,
-      ),
-    );
-  }
-  for (const [x, y] of [
-    [14, 6],
-    [12, 12],
-    [22, 12],
-    [20, 14],
-  ])
-    assert.equal(E.cell(x, y)?.terrain, "ruin");
-  for (const [x, y, rotation] of [
-    [12, 9, Math.PI / 2],
-    [22, 9, -Math.PI / 2],
-    [17, 6, Math.PI],
-    [17, 14, 0],
-  ])
-    assert.equal(E.stairsRotation(E.cell(x, y)!), rotation);
 });
 
 test("variantes décoratives : distribution stable et suffisamment diverse", async () => {

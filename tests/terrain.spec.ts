@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-test("trois rendus : inspection sans brume, images différentes et aucune mutation de campagne", async ({
+test("carte régionale : inspection sans brume et aucune mutation de campagne", async ({
   page,
 }) => {
   const errors: string[] = [];
@@ -24,7 +24,7 @@ test("trois rendus : inspection sans brume, images différentes et aucune mutati
     page.getByText("INSPECTION SANS BRUME · VISION LOGIQUE CONSERVÉE"),
   ).toBeVisible();
   const images: string[] = [];
-  for (const style of ["blended", "continuous", "varied"]) {
+  for (const style of ["regional"]) {
     await page.getByLabel("Version du terrain").selectOption(style);
     await page.waitForTimeout(250);
     await page.screenshot({
@@ -41,7 +41,7 @@ test("trois rendus : inspection sans brume, images différentes et aucune mutati
       }),
     );
   }
-  expect(new Set(images).size).toBe(3);
+  expect(new Set(images).size).toBe(1);
   await page
     .getByRole("button", { name: "Grille masquée", exact: true })
     .click();

@@ -61,3 +61,11 @@ reprise de sauvegarde. Le premier parcours intégral avait atteint la limite de
 180 s en rendu logiciel ; après suppression du filtre global redondant et réduction
 des rafraîchissements inutiles au repos, le parcours est passé en environ 2 min 15 s.
 Le test intégral dispose d'un délai de 240 s pour les machines sans accélération.
+
+## Carte régionale (révision 4)
+
+- 27 tests moteur/simulations passent ; victoire des quatre combinaisons de factions en 42 à 53 activations.
+- Parcours Chromium complet : introductions, combat, rencontre, combat commun, victoire, camp, sauvegarde et reprise (41 tours).
+- Inspection sans brume et grille sans mutation de campagne ; sélection avec brume animée et ennemis visibles ; passage à travers un allié : vérifiés dans Chromium.
+- Après adoucissement des textures, les quatre tests de rendu/brume/déplacement repassent. Capture : `artifacts/terrain-regional.png`.
+- Compilation TypeScript/Vite avec la base GitHub Pages validée.

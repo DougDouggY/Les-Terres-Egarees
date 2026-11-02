@@ -20,7 +20,7 @@ let state: Campaign | null = null,
   observer = false,
   fogEnabled = true,
   showGrid = false,
-  terrainStyle: TerrainStyle = "blended",
+  terrainStyle: TerrainStyle = "regional",
   panel = "army1",
   speed = Number(localStorage.getItem("lte-speed") || 1),
   sound = localStorage.getItem("lte-sound") !== "off";
@@ -31,9 +31,11 @@ const tiles = new Image(),
   sprites = new Image(),
   roads = new Image(),
   attacks = new Image(),
+  regional = new Image(),
   arrivals = new Image(),
   grass = new Image();
 grass.src = assetBase + "assets/grass-variants.png?v=1";
+regional.src = assetBase + "assets/regional-tiles.png?v=1";
 arrivals.src = assetBase + "assets/arrivals.png";
 attacks.src = assetBase + "assets/attacks.png";
 roads.src = assetBase + "assets/roads.png?v=terrain-lab-1";
@@ -380,7 +382,7 @@ function battleUI() {
   const u = E.current(s),
     sel = s.units.find((u) => u.id === selected),
     own = u?.owner === s.active;
-  app.innerHTML = `<main class="battle-screen"><header class="battle-header"><a class="mini-brand" data-action="pause">${mark}<span>LES TERRES ÉGARÉES</span></a><div class="mission-name"><span>CHAPITRE I</span><strong>Les rivages de l’oubli</strong></div><div class="perspectives">${[1, 2].map((p) => button(`EXPÉDITION ${p}`, `perspective-${p}`, s.active === p ? "active" : "")).join("")}</div><button class="icon-button" data-action="observer" aria-label="Observation côte à côte" title="Observer les deux perspectives">◫</button>${button("☰", "pause", "icon-button")}</header><div class="battle-layout"><aside class="mission-sidebar"><div class="objective"><span class="eyebrow">${s.merged ? "ALLIANCE DES SURVIVANTS" : "DEUX DESTINS DANS LA BRUME"}</span><h2>${s.merged ? "Repoussez les morts-vivants" : s.events.includes("horde") ? "Atteignez le sanctuaire" : "Explorez les environs"}</h2><p>${s.merged ? "Éliminez les derniers maudits et protégez vos chefs." : "Ralliez les ruines. Au moins un chef doit survivre."}</p><div class="round">ROUND <b>${E.front(s).round.toString().padStart(2, "0")}</b><span>${s.merged ? "INITIATIVE COMMUNE" : `FRONT ${s.active}`}</span></div></div><div class="section-label">ORDRE D’INITIATIVE <span>↓</span></div><div class="initiative">${E.front(
+  app.innerHTML = `<main class="battle-screen"><header class="battle-header"><a class="mini-brand" data-action="pause">${mark}<span>LES TERRES ÉGARÉES</span></a><div class="mission-name"><span>CHAPITRE I</span><strong>Les rivages de l’oubli</strong></div><div class="perspectives">${[1, 2].map((p) => button(`EXPÉDITION ${p}`, `perspective-${p}`, s.active === p ? "active" : "")).join("")}</div><button class="icon-button" data-action="observer" aria-label="Observation côte à côte" title="Observer les deux perspectives">◫</button>${button("☰", "pause", "icon-button")}</header><div class="battle-layout"><aside class="mission-sidebar"><div class="objective"><span class="eyebrow">${s.merged ? "ALLIANCE DES SURVIVANTS" : "DEUX DESTINS DANS LA BRUME"}</span><h2>${s.merged ? "Repoussez les morts-vivants" : s.events.includes("horde") ? "Atteignez le village" : "Explorez les environs"}</h2><p>${s.merged ? "Éliminez les derniers maudits et protégez vos chefs." : "Ralliez les ruines. Au moins un chef doit survivre."}</p><div class="round">ROUND <b>${E.front(s).round.toString().padStart(2, "0")}</b><span>${s.merged ? "INITIATIVE COMMUNE" : `FRONT ${s.active}`}</span></div></div><div class="section-label">ORDRE D’INITIATIVE <span>↓</span></div><div class="initiative">${E.front(
     s,
   )
     .queue.slice(E.front(s).index)
@@ -399,7 +401,7 @@ function battleUI() {
     .map((t) => `<p>${esc(t)}</p>`)
     .join(
       "",
-    )}</div></aside><section class="map-section"><div class="map-heading"><span><i class="player-dot p${s.active}"></i> ${factionName(s.factions[s.active - 1])}</span><span>LE SANCTUAIRE DES VEILLEURS</span></div><div class="visual-lab"><span>ATELIER VISUEL · TEST</span><label>Terrain <select id="terrain-style" aria-label="Version du terrain">${Object.entries(
+    )}</div></aside><section class="map-section"><div class="map-heading"><span><i class="player-dot p${s.active}"></i> ${factionName(s.factions[s.active - 1])}</span><span>LE VILLAGE DÉTRUIT DES VEILLEURS</span></div><div class="visual-lab"><span>ATELIER VISUEL · TEST</span><label>Terrain <select id="terrain-style" aria-label="Version du terrain">${Object.entries(
     terrainStyles,
   )
     .map(
@@ -462,12 +464,14 @@ const terrainNames: Record<E.Terrain, string> = {
   rock: "Rochers",
   wall: "Mur de pierre",
   ruin: "Ruines",
-  floor: "Dalles du monastère",
+  floor: "Entrée sud du village",
   debris: "Débris",
   wagon: "Chariot renversé",
   stairs: "Escaliers",
   altar: "Ancien autel",
-  arrival: "Débris infranchissables",
+  arrival: "Épave / convoi détruit",
+  hill: "Collines",
+  village: "Village détruit · bâtiments infranchissables",
 };
 function canvasCoords(x: number, y: number, w: number, h: number, p: 1 | 2) {
   const c = state!.players[p - 1].camera,
@@ -521,7 +525,7 @@ let moveAnim: {
     done: () => void;
   } | null = null;
 const mist = new Mist(E.W, E.H);
-const terrain = new TerrainRenderer(tiles, roads, grass, arrivals);
+const terrain = new TerrainRenderer(regional);
 let reachSignature = "",
   reachCache = new Map<number, { cost: number; steps: number[] }>();
 function movementField(s: Campaign, u: Unit) {
@@ -631,7 +635,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     ctx.ellipse(x + 16, y + 24, 11, 4, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalAlpha = 1;
-    drawSprite(ctx, u, x - 6, y - 10, 44, frame);
+    drawSprite(ctx, u, x, y - 2, 32, frame);
     ctx.fillStyle = "#14201c";
     ctx.fillRect(x + 3, y + 29, 26, 3);
     ctx.fillStyle = u.owner === 0 ? "#c87e6a" : "#8ebe99";
@@ -654,7 +658,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     ctx.fillStyle = "#e4dbb8";
     ctx.shadowColor = "#10251a";
     ctx.shadowBlur = 5;
-    ctx.fillText("SANCTUAIRE DES VEILLEURS", 17 * 32 + 16, 6 * 32 - 6);
+    ctx.fillText("VILLAGE DÉTRUIT DES VEILLEURS", 16 * 32 + 16, 8 * 32 - 6);
     ctx.shadowBlur = 0;
   }
   if (hover !== null && (!fogEnabled || visible.has(hover))) {
