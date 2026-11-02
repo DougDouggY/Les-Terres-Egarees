@@ -1,1 +1,56 @@
+LES TERRES ÉGARÉES
+=================
 
+Tactical RPG narratif en français, navigateur PC, TypeScript et Canvas 2D.
+Aucun compte, service externe ou serveur multijoueur.
+
+LANCEMENT
+---------
+Node.js 22.12+ (validé avec Node 24.19).
+
+    npm ci
+    npm run dev
+
+Ouvrir l'adresse indiquée par Vite dans un navigateur PC.
+
+    npm test           # Règles, carte et quatre simulations complètes
+    npm run build      # TypeScript + production dans dist/
+    npm run preview    # Serveur de la compilation de production
+    npm run test:e2e   # Parcours interactif Chromium
+    node tests/ui-smoke.mjs # Quatre configurations UI (serveur dev requis)
+
+Le test navigateur emploie /usr/bin/chromium ; adapter executablePath dans
+playwright.config.ts sur une autre machine. Il démarre Vite si nécessaire.
+
+COMMENT JOUER
+-------------
+Choisir indépendamment l'origine des deux expéditions et suivre les deux
+introductions. L'unité en tête de la liste d'initiative est l'unité active.
+Cliquer cette unité, puis une case bleue pour se déplacer. Cliquer un ennemi
+à portée pour consulter la prévision et confirmer le combat. Une potion ou
+l'attente termine également l'activation. Annuler restaure un déplacement
+provisoire. Une action confirmée ne peut plus être annulée.
+
+Tab : changer d'expédition. Flèches : déplacer sa caméra. Échap : annuler
+ou ouvrir le menu. Espace : avancer une cinématique. Le bouton à deux panneaux
+active l'observation des deux champs de vision ; il ne modifie pas la visibilité.
+
+Explorer vers les ruines, survivre à l'orage, rejoindre l'autre groupe puis
+vaincre les derniers squelettes. Chaque expédition conserve la propriété de
+ses personnages après l'alliance. La mort des deux chefs provoque la défaite.
+
+Les sauvegardes sont locales au navigateur. Les actions critiques ne sont pas
+sauvegardées en cours. Continuer restaure la dernière activation stable ou le
+camp. Options règle les effets sonores et la vitesse des animations.
+
+DOCUMENTATION
+-------------
+docs/ART.md : direction artistique et références.
+docs/ARCHITECTURE.md : état de campagne, règles et séparation du rendu.
+docs/DELIVERY.md : validation réelle, ressources et limites de cette version.
+artifacts/ : captures d'inspection réalisées dans Chromium.
+
+PUBLICATION GITHUB PAGES
+-----------------------
+Le workflow .github/workflows/pages.yml publie le jeu après un push sur main.
+Voir docs/DEPLOYMENT.md pour les réglages GitHub et le chemin de compilation.
