@@ -28,3 +28,27 @@ Les deux requêtes ont été refusées par le proxy réseau de l’environnement
 La refonte exacte de la carte du monde et l’alignement des règles sur ces exemples
 restent à faire après accès aux références. Les formules de combat actuelles ont
 été conservées ; aucune formule supposée de ces jeux n’a été inventée.
+
+## Correctif après test de sélection
+
+La couche de déplacement accédait à une variable de case avant sa déclaration
+lorsqu’une destination potentielle était hors de vue. L’exception interrompait
+le dessin avant la brume et les personnages. Le test navigateur reproduit ce
+défaut avant correction et vérifie ensuite la texture de brume ainsi que le
+dessin continu des ennemis visibles pendant la sélection.
+
+Les alliés sont maintenant traversables : même armée, ou deux expéditions après
+leur alliance. Une destination occupée reste interdite. Les ennemis restent
+bloquants. Les règles de contrôle et les coûts de terrain sont conservés.
+
+Le style cartoon demeure une reprise des ressources graphiques, distincte du
+correctif de rendu. Aucune nouvelle image créée pour ces corrections.
+
+## Choix graphique confirmé ensuite
+
+L’utilisateur a choisi de refaire uniquement le tileset. Une seule nouvelle
+planche a été générée : terrain cartoon peint, contours souples, pierres et
+végétation simplifiées. Les 32 rôles de tuiles restent identiques. Les cellules
+sont conservées en 128×128 pixels pour 32 pixels logiques, et les routes sont
+réassemblées à la même résolution. Aucun nouveau sprite ni plan de cinématique.
+Les URL de terrain sont versionnées pour éviter de garder l’ancien atlas en cache.

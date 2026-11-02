@@ -30,8 +30,8 @@ const tiles = new Image(),
   arrivals = new Image();
 arrivals.src = assetBase + "assets/arrivals.png";
 attacks.src = assetBase + "assets/attacks.png";
-roads.src = assetBase + "assets/roads.png";
-tiles.src = assetBase + "assets/tiles.png";
+roads.src = assetBase + "assets/roads.png?v=cartoon-1";
+tiles.src = assetBase + "assets/tiles.png?v=cartoon-1";
 sprites.src = assetBase + "assets/sprites.png";
 const esc = (s: string) =>
   s.replace(
@@ -574,10 +574,11 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
             bits |= bit;
         ctx.drawImage(
           roads,
-          (bits % 4) * 32,
-          (Math.floor(bits / 4) + (c.base === "sand" ? 4 : 0)) * 32,
-          32,
-          32,
+          (bits % 4) * (roads.width / 4),
+          (Math.floor(bits / 4) + (c.base === "sand" ? 4 : 0)) *
+            (roads.height / 8),
+          roads.width / 4,
+          roads.height / 8,
           x,
           y,
           32,
@@ -637,16 +638,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ? new Map([[E.key(sel.x, sel.y), { cost: 0, steps: [] }]])
       : movementField(s, sel);
     for (const [k] of reach) {
-      if (
-        !visible.has(k) &&
-        ![-1, 0, 1].some((dy) =>
-          [-1, 0, 1].some((dx) => {
-            const n = E.cell(c.x + dx, c.y + dy);
-            return n && visible.has(E.key(n.x, n.y));
-          }),
-        )
-      )
-        continue;
+      if (!visible.has(k)) continue;
       const c = E.map[k];
       ctx.fillStyle = "#4bade34a";
       ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);

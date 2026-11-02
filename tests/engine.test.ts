@@ -49,7 +49,16 @@ test("déplacement : terrain, occupation, coût et chemin affiché", () => {
           prev = E.map[p.steps[i - 1]];
         assert.equal(E.distance(c, prev), 1);
         assert.ok(c.walk);
-        assert.equal(E.at(s, c.x, c.y), undefined);
+        const occupant = E.at(s, c.x, c.y);
+        assert.ok(
+          !occupant || E.allied(s, u, occupant),
+          "un chemin ne traverse que des alliés",
+        );
+        if (i === p.steps.length - 1)
+          assert.ok(
+            !occupant || occupant.id === u.id,
+            "pas d’arrêt sur une unité",
+          );
         sum += c.cost;
       }
       assert.equal(sum, p.cost);
@@ -224,11 +233,11 @@ test("zones d’attaque : portées, murs et origines de déplacement", () => {
 test("atlas : dimensions alignées et variantes de tuiles valides", async () => {
   const { readFile } = await import("node:fs/promises");
   for (const [name, width, height] of [
-    ["tiles", 256, 128],
+    ["tiles", 1024, 512],
     ["attacks", 1024, 640],
     ["arrivals", 192, 128],
     ["sprites", 1024, 640],
-    ["roads", 128, 256],
+    ["roads", 512, 1024],
   ] as const) {
     const png = await readFile(
       new URL(`../public/assets/${name}.png`, import.meta.url),
@@ -353,4 +362,29 @@ test("ancienne sauvegarde : repositionnement limité aux murs ajoutés, sans per
   invalid.units[0].x = 0;
   invalid.units[0].y = 0;
   assert.throws(() => E.decode(JSON.stringify(invalid)));
+});
+
+test("traverser un allié, jamais finir sur lui ; ennemis et autres fronts restent bloquants", () => {
+  const s = fresh(),
+    u = s.units[1],
+    friend = s.units[0];
+  Object.assign(u, { x: 6, y: 5 });
+  Object.assign(friend, { x: 7, y: 5 });
+  const route = E.path(s, u, 8, 5)!;
+  assert.ok(route);
+  assert.equal(route.cost, 2);
+  assert.ok(route.steps.includes(E.key(7, 5)));
+  assert.equal(E.path(s, u, 7, 5), null);
+  assert.equal(E.reachable(s, u).has(E.key(7, 5)), false);
+  assert.ok(E.reachable(s, u).has(E.key(8, 5)));
+  E.move(s, u, 8, 5);
+  assert.equal(friend.x, 7);
+  E.validate(s);
+  Object.assign(u, { x: 6, y: 5 });
+  friend.owner = 2;
+  assert.ok(!E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
+  s.merged = true;
+  assert.ok(E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
+  friend.owner = 0;
+  assert.ok(!E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
 });

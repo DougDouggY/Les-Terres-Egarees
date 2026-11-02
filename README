@@ -26,7 +26,8 @@ COMMENT JOUER
 -------------
 Choisir indépendamment l'origine des deux expéditions et suivre les deux
 introductions. L'unité en tête de la liste d'initiative est l'unité active.
-Cliquer cette unité, puis une case bleue pour se déplacer. Cliquer un ennemi
+Cliquer cette unité, puis une case bleue pour se déplacer. Il est possible de
+traverser ses alliés, mais la case d’arrivée doit être libre. Cliquer un ennemi
 à portée pour consulter la prévision et confirmer le combat. Une potion ou
 l'attente termine également l'activation. Annuler restaure un déplacement
 provisoire. Une action confirmée ne peut plus être annulée.

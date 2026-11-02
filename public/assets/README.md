@@ -6,7 +6,7 @@ pour le moteur. Aucune ressource Fire Emblem n'est incluse.
 - hero.png : illustration originale de l'accueil.
 - scene-0.png à scene-31.png : plans narratifs indépendants et variantes de rencontre.
 - portrait-0.png à portrait-7.png : Eirik, Astrid, Ysilde, Gaspard, Bryn, Solveig, Maël, Alix.
-- tiles.png : atlas 8×4, cases logiques 32×32.
+- tiles.png : nouvel atlas cartoon 8×4, cellules natives 128×128 pour des cases logiques 32×32.
 - roads.png : atlas 4×8 de raccords, bitmask N=1 E=2 S=4 O=8 ; première moitié prairie,
   seconde moitié sable. Assemblé à partir des textures originales, pas de nouveau décor procédural.
 - sprites.png : atlas 8×5, cellules 128×128, transparence alpha. Lignes : guerrier
@@ -22,3 +22,8 @@ pour le moteur. Aucune ressource Fire Emblem n'est incluse.
 Les planches sources sont conservées dans /workspace/generated_images dans
 l'environnement de création. Les fichiers de jeu préparés ici sont autonomes ;
 ils n'ont pas besoin de ce répertoire ni d'une API de génération au lancement.
+
+Le tileset cartoon a été créé après accord explicite de l’utilisateur, en une
+seule génération. Source haute résolution : artifacts/tiles-cartoon-source.png.
+roads.png reprend les textures de ce nouvel atlas en cellules 128×128. Les
+cinématiques, portraits et sprites ne sont pas remplacés par cette passe.

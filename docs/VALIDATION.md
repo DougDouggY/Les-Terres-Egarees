@@ -32,3 +32,12 @@ du nouveau sanctuaire et de la brume. Aucune génération d'images effectuée.
 
 Les références externes fournies sont bloquées par le réseau : comparaison
 exacte des styles et des formules reportée, voir FEEDBACK.md.
+
+## Régression sélection et traversée des alliés
+
+26 tests de règles réussis, incluant les quatre simulations complètes.
+Test de sélection reproduit en échec avec « Cannot access c before initialization »,
+puis réussi après correction : brume texturée maintenue et ennemis visibles
+toujours dessinés. Trois tests navigateur ciblés : brume continue, sélection
+réelle, déplacement réel à travers un allié avec destination finale libre.
+Compilation GitHub Pages validée.

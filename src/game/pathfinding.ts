@@ -1,6 +1,6 @@
 import type { Campaign, Unit } from "./types";
 import { cell, map, key, W, H, distance } from "./map";
-import { at } from "./queries";
+import { at, allied } from "./queries";
 import { los } from "./vision";
 export function path(
   s: Campaign,
@@ -36,9 +36,13 @@ export function path(
       [-1, 0],
     ]) {
       const n = cell(c.x + dx, c.y + dy);
+      const occupant = n ? at(s, n.x, n.y) : undefined;
       if (
         !n?.walk ||
-        (!ignoreUnits && at(s, n.x, n.y) && at(s, n.x, n.y)?.id !== u.id)
+        (!ignoreUnits &&
+          occupant &&
+          occupant.id !== u.id &&
+          !allied(s, u, occupant))
       )
         continue;
       const nk = key(n.x, n.y),
