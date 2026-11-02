@@ -1,4 +1,5 @@
 import type { Campaign } from "./types";
+import { visibility } from "./vision";
 import {
   cell,
   key,
@@ -26,7 +27,8 @@ export function decode(raw: string): Campaign {
     !Array.isArray(s.fronts)
   )
     throw Error("Sauvegarde incompatible");
-  if ((s.mapRevision ?? 1) < MAP_REVISION) {
+  const updatedMap = (s.mapRevision ?? 1) < MAP_REVISION;
+  if (updatedMap) {
     const occupied = new Set<number>(
       s.units.filter((u: any) => u.hp > 0).map((u: any) => key(u.x, u.y)),
     );
@@ -54,6 +56,7 @@ export function decode(raw: string): Campaign {
     s.mapRevision = MAP_REVISION;
   }
   validate(s);
+  if (updatedMap) visibility(s);
   return s;
 }
 export function validate(s: Campaign) {

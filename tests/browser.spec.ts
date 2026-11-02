@@ -3,6 +3,8 @@ import type { Campaign } from "../src/engine";
 test("parcours navigateur : deux introductions, tactique, annulation, combat, alliance, victoire, camp et reprise", async ({
   page,
 }) => {
+  // The full two-front mission also runs on software-rendered Chromium.
+  test.setTimeout(240000);
   const errors: string[] = [];
   page.on("pageerror", (e) => {
     errors.push(e.message);

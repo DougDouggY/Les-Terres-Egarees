@@ -41,3 +41,23 @@ puis réussi après correction : brume texturée maintenue et ennemis visibles
 toujours dessinés. Trois tests navigateur ciblés : brume continue, sélection
 réelle, déplacement réel à travers un allié avec destination finale libre.
 Compilation GitHub Pages validée.
+
+## Atelier visuel et monastère — révision 3
+
+Les rendus fondu, continu et varié sont réellement différents dans les tests
+pixel et restent basés sur la même carte logique. Le mode sans brume et la grille
+ont été activés/désactivés dans Chromium ; la campagne sérialisée reste identique.
+Les captures `artifacts/terrain-blended.png`, `terrain-continuous.png` et
+`terrain-varied.png` permettent de comparer la carte entière.
+
+Les tests couvrent aussi les huit variantes d’herbe, leur distribution stable,
+les trois pièces du monastère, ses portes/brèches et les quatre orientations des
+escaliers. Les anciennes sauvegardes sont migrées sans perte de progression et
+la visibilité est recalculée selon les nouveaux murs.
+
+Bilan de cette passe : 28 tests de règles réussis, quatre contrôles navigateur
+ciblés réussis et parcours complet de la mission réussi jusqu'au camp puis à la
+reprise de sauvegarde. Le premier parcours intégral avait atteint la limite de
+180 s en rendu logiciel ; après suppression du filtre global redondant et réduction
+des rafraîchissements inutiles au repos, le parcours est passé en environ 2 min 15 s.
+Le test intégral dispose d'un délai de 240 s pour les machines sans accélération.

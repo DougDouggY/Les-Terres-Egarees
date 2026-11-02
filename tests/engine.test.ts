@@ -234,6 +234,7 @@ test("atlas : dimensions alignées et variantes de tuiles valides", async () => 
   const { readFile } = await import("node:fs/promises");
   for (const [name, width, height] of [
     ["tiles", 1024, 512],
+    ["grass-variants", 1024, 128],
     ["attacks", 1024, 640],
     ["arrivals", 192, 128],
     ["sprites", 1024, 640],
@@ -314,7 +315,7 @@ test("visibilité cohérente d’un décor à plusieurs cases sans révéler au-
   }
 });
 
-test("enceinte : quatre portes doubles praticables, mur continu et angles cohérents", () => {
+test("enceinte : quatre portes doubles praticables et angles cohérents", () => {
   for (const [x, y] of [
     [12, 9],
     [12, 10],
@@ -387,4 +388,45 @@ test("traverser un allié, jamais finir sur lui ; ennemis et autres fronts reste
   assert.ok(E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
   friend.owner = 0;
   assert.ok(!E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
+});
+
+test("monastère : trois pièces, brèches praticables et escaliers tournés vers les accès", () => {
+  assert.equal(E.monasteryRooms.length, 3);
+  for (const r of E.monasteryRooms) {
+    assert.ok(r.w >= 3 && r.h >= 3);
+    assert.ok(
+      E.map.some(
+        (c) =>
+          c.x >= r.x &&
+          c.x < r.x + r.w &&
+          c.y >= r.y &&
+          c.y < r.y + r.h &&
+          c.walk,
+      ),
+    );
+  }
+  for (const [x, y] of [
+    [14, 6],
+    [12, 12],
+    [22, 12],
+    [20, 14],
+  ])
+    assert.equal(E.cell(x, y)?.terrain, "ruin");
+  for (const [x, y, rotation] of [
+    [12, 9, Math.PI / 2],
+    [22, 9, -Math.PI / 2],
+    [17, 6, Math.PI],
+    [17, 14, 0],
+  ])
+    assert.equal(E.stairsRotation(E.cell(x, y)!), rotation);
+});
+
+test("variantes décoratives : distribution stable et suffisamment diverse", async () => {
+  const { decorationIndex } = await import("../src/terrain");
+  const a = E.map.map((c) => decorationIndex(c.x, c.y)),
+    b = E.map.map((c) => decorationIndex(c.x, c.y));
+  assert.deepEqual(a, b);
+  assert.ok(new Set(a).size >= 6);
+  assert.ok(a.includes(0));
+  assert.ok(a.every((v) => v >= 0 && v < 8));
 });

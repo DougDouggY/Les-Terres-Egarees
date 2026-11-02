@@ -52,3 +52,22 @@ végétation simplifiées. Les 32 rôles de tuiles restent identiques. Les cellu
 sont conservées en 128×128 pixels pour 32 pixels logiques, et les routes sont
 réassemblées à la même résolution. Aucun nouveau sprite ni plan de cinématique.
 Les URL de terrain sont versionnées pour éviter de garder l’ancien atlas en cache.
+
+## Atelier de comparaison du terrain
+
+Trois rendus sélectionnables dans la même partie : tuiles fondues par raccords
+progressifs, textures continues en coordonnées monde mais découpées selon les
+cases logiques, et tuiles variées avec huit compositions d’herbe (dont nue).
+Les variantes sont distribuées de manière pseudo-aléatoire fixe : elles ne
+changent pas en déplaçant la caméra ou en sélectionnant une unité, et n’utilisent
+pas la graine des combats. Aucune génération d’images IA supplémentaire.
+
+Le bouton « Retirer la brume (test) » permet l’inspection de toute la carte.
+Il ne révèle aucune case dans la sauvegarde, ne déclenche pas la rencontre et
+ne change pas le propriétaire des unités. Le bouton « Grille » affiche les
+limites exactes des cases. Ces commandes sont des outils temporaires de comparaison.
+
+La carte est assombrie dans les trois rendus. Le monastère comprend un vestibule,
+une chapelle et un réfectoire, avec portes et brèches. Les escaliers s’orientent
+selon le côté de l’entrée. La révision 3 conserve la progression des anciennes
+sauvegardes et recalcule la visibilité après migration.

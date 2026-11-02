@@ -8,6 +8,8 @@ assert im.height//4==size, 'Atlas cells must be square'
 def tile(index):
  return im.crop((index%8*size,index//8*size,(index%8+1)*size,(index//8+1)*size))
 grass,sand,stone=tile(0),tile(3),tile(2)
+variants=root/'public/assets/grass-variants.png'
+if variants.exists():grass=Image.open(variants).convert('RGB').crop((0,0,size,size))
 out=Image.new('RGB',(size*4,size*8))
 a,b,mid=round(size*7/32),round(size*25/32)-1,size//2
 for ground,base in enumerate([grass,sand]):

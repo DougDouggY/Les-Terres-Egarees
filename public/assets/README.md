@@ -27,3 +27,10 @@ Le tileset cartoon a été créé après accord explicite de l’utilisateur, en
 seule génération. Source haute résolution : artifacts/tiles-cartoon-source.png.
 roads.png reprend les textures de ce nouvel atlas en cellules 128×128. Les
 cinématiques, portraits et sprites ne sont pas remplacés par cette passe.
+
+`grass-variants.png` : huit compositions préparées à partir de l’herbe existante
+(une variante nue, des touffes isolées et des groupes). Chaque cellule est en
+128×128 ; les bordures communes évitent les coutures. Préparation reproductible
+avec `python3 scripts/prepare-grass.py`, puis `python3 scripts/prepare-roads.py`.
+Les trois rendus et leurs raccords sont assemblés côté client depuis ces mêmes
+ressources ; aucune nouvelle planche IA n’a été générée pour l’atelier.

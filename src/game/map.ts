@@ -97,7 +97,7 @@ set(21, 13, "rock");
 set(22, 7, "forest");
 set(10, 9, "forest");
 // Authored courtyard: four double-width gates, broken outer walls and inner baffles.
-export const MAP_REVISION = 2;
+export const MAP_REVISION = 3;
 export const refurbishedWalls = new Set<number>();
 const wallSegments = [
   [12, 6, 16, 6],
@@ -131,6 +131,70 @@ for (const [x, y] of [
   [18, 14],
 ])
   set(x, y, "stairs");
+// A roofless monastery: entrance hall, chapel and refectory, with authored breaches.
+export const monasteryRooms = [
+  { name: "Vestibule", x: 13, y: 7, w: 3, h: 3 },
+  { name: "Chapelle", x: 17, y: 7, w: 5, h: 3 },
+  { name: "Réfectoire", x: 13, y: 11, w: 9, h: 3 },
+];
+const beforeRenovation = new Set(
+  map.filter((c) => c.walk).map((c) => c.y * W + c.x),
+);
+for (let y = 6; y <= 14; y++) for (let x = 12; x <= 22; x++) set(x, y, "floor");
+const masonry = [
+  [12, 6, 13, 6],
+  [15, 6, 16, 6],
+  [19, 6, 22, 6],
+  [12, 7, 12, 8],
+  [12, 11, 12, 13],
+  [22, 7, 22, 8],
+  [22, 11, 22, 11],
+  [22, 13, 22, 13],
+  [12, 14, 16, 14],
+  [19, 14, 19, 14],
+  [21, 14, 22, 14],
+  [16, 7, 16, 8],
+  [13, 10, 13, 10],
+  [15, 10, 15, 10],
+  [19, 10, 19, 10],
+  [18, 10, 18, 10],
+  [21, 10, 21, 10],
+];
+for (const [x1, y1, x2, y2] of masonry)
+  for (let y = y1; y <= y2; y++)
+    for (let x = x1; x <= x2; x++) set(x, y, "wall");
+for (const [x, y] of [
+  [14, 6],
+  [12, 12],
+  [22, 12],
+  [20, 14],
+  [16, 9],
+  [14, 10],
+  [20, 10],
+])
+  set(x, y, "ruin");
+set(17, 10, "altar");
+for (const [x, y, facing] of [
+  [12, 9, "east"],
+  [12, 10, "east"],
+  [22, 9, "west"],
+  [22, 10, "west"],
+  [17, 6, "south"],
+  [18, 6, "south"],
+  [17, 14, "north"],
+  [18, 14, "north"],
+] as const) {
+  set(x, y, "stairs");
+  map[y * W + x].stairFacing = facing;
+}
+for (const c of map)
+  if (!c.walk && beforeRenovation.has(c.y * W + c.x))
+    refurbishedWalls.add(c.y * W + c.x);
+export function stairsRotation(c: Cell) {
+  return { north: 0, east: Math.PI / 2, south: Math.PI, west: -Math.PI / 2 }[
+    c.stairFacing ?? "north"
+  ];
+}
 // Multi-cell arrival props: one explicit 3×2 collision/occlusion footprint per sector.
 export const arrivalFootprints = [
   { sector: 1 as const, x: 3, y: 2, w: 3, h: 2 },

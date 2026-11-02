@@ -55,3 +55,14 @@ PUBLICATION GITHUB PAGES
 -----------------------
 Le workflow .github/workflows/pages.yml publie le jeu après un push sur main.
 Voir docs/DEPLOYMENT.md pour les réglages GitHub et le chemin de compilation.
+
+COMPARER LES RENDUS (TEMPORAIRE)
+-------------------------------
+Au-dessus de la carte, « Atelier visuel » permet de sélectionner :
+1. Tuiles fondues : raccords progressifs entre textures.
+2. Sol continu : textures en coordonnées monde, limitées par les terrains de chaque case.
+3. Tuiles variées : herbe nue, une ou plusieurs touffes, distribution stable.
+
+« Retirer la brume (test) » affiche la carte entière sans modifier l’exploration
+réelle. « Rétablir la brume » revient à la visibilité de l’expédition.
+« Grille » montre les limites des cases pour vérifier les alignements.

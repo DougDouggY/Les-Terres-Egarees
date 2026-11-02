@@ -27,6 +27,7 @@ export type Cell = {
   opaque: boolean;
   tile: number;
   base: "grass" | "sand";
+  stairFacing?: "north" | "east" | "south" | "west";
   prop?: { sector: 1 | 2; dx: number; dy: number };
   interactive?: string;
 };

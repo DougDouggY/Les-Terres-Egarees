@@ -1,3 +1,4 @@
+import { TerrainRenderer, terrainStyles, type TerrainStyle } from "./terrain";
 import { Mist } from "./fog";
 import "@fontsource/cormorant-garamond/latin-500.css";
 import "@fontsource/cormorant-garamond/latin-600.css";
@@ -17,6 +18,9 @@ let state: Campaign | null = null,
   busy = false,
   hover: number | null = null,
   observer = false,
+  fogEnabled = true,
+  showGrid = false,
+  terrainStyle: TerrainStyle = "blended",
   panel = "army1",
   speed = Number(localStorage.getItem("lte-speed") || 1),
   sound = localStorage.getItem("lte-sound") !== "off";
@@ -27,10 +31,12 @@ const tiles = new Image(),
   sprites = new Image(),
   roads = new Image(),
   attacks = new Image(),
-  arrivals = new Image();
+  arrivals = new Image(),
+  grass = new Image();
+grass.src = assetBase + "assets/grass-variants.png?v=1";
 arrivals.src = assetBase + "assets/arrivals.png";
 attacks.src = assetBase + "assets/attacks.png";
-roads.src = assetBase + "assets/roads.png?v=cartoon-1";
+roads.src = assetBase + "assets/roads.png?v=terrain-lab-1";
 tiles.src = assetBase + "assets/tiles.png?v=cartoon-1";
 sprites.src = assetBase + "assets/sprites.png";
 const esc = (s: string) =>
@@ -393,8 +399,20 @@ function battleUI() {
     .map((t) => `<p>${esc(t)}</p>`)
     .join(
       "",
-    )}</div></aside><section class="map-section"><div class="map-heading"><span><i class="player-dot p${s.active}"></i> ${factionName(s.factions[s.active - 1])}</span><span>LE SANCTUAIRE DES VEILLEURS</span></div><div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Cliquez une unité puis une case bleue pour déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}<div class="map-vignette"></div><div class="map-compass">N<br>✦</div><div class="map-status">${s.merged ? "VISIBILITÉ PARTAGÉE" : "BRUME DE GUERRE · VUE INDÉPENDANTE"}</div></div><div class="map-toolbar"><span><i class="legend blue"></i> DÉPLACEMENT <i class="legend red"></i> ATTAQUE <i class="legend grey"></i> BRUME HORS DE VUE</span><span id="terrain-info">Survolez une case pour inspecter le terrain</span></div><div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u && u.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : (u?.name ?? "La brume s’éclaircit")}</strong><small>${own ? "Sélectionnez votre unité, déplacez-la puis choisissez une action." : u?.owner === 0 ? "Les morts-vivants avancent…" : "Changez de perspective pour jouer cette activation."}</small></div>${own ? button("Attendre <span>→</span>", "wait", "primary", busy) : u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></section><aside class="unit-sidebar">${sel && E.seen(s, s.active, sel) ? unitCard(sel) : `<div class="empty-unit">${mark}<span class="eyebrow">DANS LA BRUME</span><h2>Chaque pas<br>compte.</h2><p>Sélectionnez une unité pour consulter ses forces, son équipement et ses possibilités d’action.</p><div class="rule-note">L’initiative détermine l’ordre.<br>L’agilité permet une double frappe dès 4 points d’écart.</div></div>`}${sel && own && sel.id === u?.id ? `<div class="action-menu">${button("Attaquer", "attack-mode", "primary", busy)}${button(`Objets · Potion (${sel.potions})`, "heal", "", busy || !sel.potions || sel.hp === sel.maxHp)}${button("Attendre", "wait", "", busy)}${button("Annuler", "cancel", "", busy)}</div>` : ""}<div class="controls"><span>TAB</span> Changer d’expédition<br><span>ÉCHAP</span> Annuler / Menu<br><span>↑ ↓ ← →</span> Déplacer la caméra</div></aside></div><footer class="battle-footer"><span>LA BRUME CACHE BIEN PLUS QUE LE CHEMIN.</span><span>${button("Sauvegarder", "save", "text-button", busy || !!origin)} <i>◆</i> ${button("Règles du combat", "rules", "text-button")}</span></footer></main>`;
+    )}</div></aside><section class="map-section"><div class="map-heading"><span><i class="player-dot p${s.active}"></i> ${factionName(s.factions[s.active - 1])}</span><span>LE SANCTUAIRE DES VEILLEURS</span></div><div class="visual-lab"><span>ATELIER VISUEL · TEST</span><label>Terrain <select id="terrain-style" aria-label="Version du terrain">${Object.entries(
+    terrainStyles,
+  )
+    .map(
+      ([id, label]) =>
+        `<option value="${id}" ${terrainStyle === id ? "selected" : ""}>${label}</option>`,
+    )
+    .join(
+      "",
+    )}</select></label><button data-action="toggle-fog" aria-pressed="${!fogEnabled}">${fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume"}</button><button data-action="toggle-grid" aria-pressed="${showGrid}">Grille ${showGrid ? "active" : "masquée"}</button></div><div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Cliquez une unité puis une case bleue pour déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}<div class="map-vignette"></div><div class="map-compass">N<br>✦</div><div class="map-status">${!fogEnabled ? "INSPECTION SANS BRUME · VISION LOGIQUE CONSERVÉE" : s.merged ? "VISIBILITÉ PARTAGÉE" : "BRUME DE GUERRE · VUE INDÉPENDANTE"}</div></div><div class="map-toolbar"><span><i class="legend blue"></i> DÉPLACEMENT <i class="legend red"></i> ATTAQUE <i class="legend grey"></i> BRUME HORS DE VUE</span><span id="terrain-info">Survolez une case pour inspecter le terrain</span></div><div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u && u.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : (u?.name ?? "La brume s’éclaircit")}</strong><small>${own ? "Sélectionnez votre unité, déplacez-la puis choisissez une action." : u?.owner === 0 ? "Les morts-vivants avancent…" : "Changez de perspective pour jouer cette activation."}</small></div>${own ? button("Attendre <span>→</span>", "wait", "primary", busy) : u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></section><aside class="unit-sidebar">${sel && E.seen(s, s.active, sel) ? unitCard(sel) : `<div class="empty-unit">${mark}<span class="eyebrow">DANS LA BRUME</span><h2>Chaque pas<br>compte.</h2><p>Sélectionnez une unité pour consulter ses forces, son équipement et ses possibilités d’action.</p><div class="rule-note">L’initiative détermine l’ordre.<br>L’agilité permet une double frappe dès 4 points d’écart.</div></div>`}${sel && own && sel.id === u?.id ? `<div class="action-menu">${button("Attaquer", "attack-mode", "primary", busy)}${button(`Objets · Potion (${sel.potions})`, "heal", "", busy || !sel.potions || sel.hp === sel.maxHp)}${button("Attendre", "wait", "", busy)}${button("Annuler", "cancel", "", busy)}</div>` : ""}<div class="controls"><span>TAB</span> Changer d’expédition<br><span>ÉCHAP</span> Annuler / Menu<br><span>↑ ↓ ← →</span> Déplacer la caméra</div></aside></div><footer class="battle-footer"><span>LA BRUME CACHE BIEN PLUS QUE LE CHEMIN.</span><span>${button("Sauvegarder", "save", "text-button", busy || !!origin)} <i>◆</i> ${button("Règles du combat", "rules", "text-button")}</span></footer></main>`;
   bindCanvas();
+  document.querySelector("#terrain-style")?.addEventListener("change", (e) => {
+    terrainStyle = (e.target as HTMLSelectElement).value as TerrainStyle;
+  });
   if (u?.owner === 0 && !busy) void enemyTurn();
 }
 function bindCanvas() {
@@ -425,7 +443,8 @@ function bindCanvas() {
     if (
       info &&
       c &&
-      state!.players[state!.active - 1].explored.includes(E.key(c.x, c.y))
+      (!fogEnabled ||
+        state!.players[state!.active - 1].explored.includes(E.key(c.x, c.y)))
     ) {
       const t = E.cell(c.x, c.y)!;
       info.textContent = `${terrainNames[t.terrain]} · ${t.walk ? `Coût ${t.cost} · Défense +${t.defense}` : "Infranchissable"}`;
@@ -502,6 +521,7 @@ let moveAnim: {
     done: () => void;
   } | null = null;
 const mist = new Mist(E.W, E.H);
+const terrain = new TerrainRenderer(tiles, roads, grass, arrivals);
 let reachSignature = "",
   reachCache = new Map<number, { cost: number; steps: number[] }>();
 function movementField(s: Campaign, u: Unit) {
@@ -540,96 +560,14 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   ctx.fillRect(0, 0, 960, 640);
   ctx.save();
   ctx.translate(-cam.x * 32, -cam.y * 32);
-  for (const c of E.map) {
-    const k = E.key(c.x, c.y),
-      x = c.x * 32,
-      y = c.y * 32;
-    if (
-      !visible.has(k) &&
-      ![-1, 0, 1].some((dy) =>
-        [-1, 0, 1].some((dx) => {
-          const n = E.cell(c.x + dx, c.y + dy);
-          return n && visible.has(E.key(n.x, n.y));
-        }),
-      )
-    )
-      continue;
-    if (tiles.complete && tiles.naturalWidth) {
-      const i = E.tileIndex(c),
-        tw = tiles.width / 8,
-        th = tiles.height / 4;
-      if (c.terrain === "road" && roads.complete && roads.naturalWidth) {
-        let bits = 0;
-        for (const [dx, dy, bit] of [
-          [0, -1, 1],
-          [1, 0, 2],
-          [0, 1, 4],
-          [-1, 0, 8],
-        ])
-          if (
-            ["road", "floor", "ruin", "stairs"].includes(
-              E.cell(c.x + dx, c.y + dy)?.terrain ?? "",
-            )
-          )
-            bits |= bit;
-        ctx.drawImage(
-          roads,
-          (bits % 4) * (roads.width / 4),
-          (Math.floor(bits / 4) + (c.base === "sand" ? 4 : 0)) *
-            (roads.height / 8),
-          roads.width / 4,
-          roads.height / 8,
-          x,
-          y,
-          32,
-          32,
-        );
-      } else if (c.terrain === "wall") {
-        const variant = E.wallVariant(c);
-        ctx.save();
-        ctx.translate(x + 16, y + 16);
-        ctx.rotate(variant.rotation);
-        ctx.drawImage(
-          tiles,
-          (variant.tile % 8) * tw,
-          Math.floor(variant.tile / 8) * th,
-          tw,
-          th,
-          -16,
-          -16,
-          32,
-          32,
-        );
-        ctx.restore();
-      } else
-        ctx.drawImage(
-          tiles,
-          (i % 8) * tw,
-          Math.floor(i / 8) * th,
-          tw,
-          th,
-          x,
-          y,
-          32,
-          32,
-        );
-    }
-    if (c.prop && arrivals.complete && arrivals.naturalWidth) {
-      const column = s.factions[c.prop.sector - 1] === "north" ? 0 : 1;
-      ctx.drawImage(
-        arrivals,
-        column * 96 + c.prop.dx * 32,
-        (c.prop.sector - 1) * 64 + c.prop.dy * 32,
-        32,
-        32,
-        x,
-        y,
-        32,
-        32,
-      );
-    }
-    ctx.strokeStyle = "#cad4be09";
-    ctx.strokeRect(x, y, 32, 32);
+  const surface = terrain.layer(terrainStyle, s.factions);
+  if (surface) ctx.drawImage(surface, 0, 0, 960, 640);
+  if (showGrid) {
+    ctx.strokeStyle = "#e4d9bb35";
+    ctx.lineWidth = 0.5;
+    for (const c of E.map)
+      if (!fogEnabled || visible.has(E.key(c.x, c.y)))
+        ctx.strokeRect(c.x * 32, c.y * 32, 32, 32);
   }
   const sel = s.units.find((u) => u.id === selected),
     cur = E.current(s);
@@ -668,7 +606,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     }
   }
   for (const u of E.alive(s).sort((a, b) => a.y - b.y)) {
-    if (!E.seen(s, p, u)) continue;
+    if (fogEnabled && !E.seen(s, p, u)) continue;
     let x = u.x * 32,
       y = u.y * 32,
       frame = Math.floor(time / 600) % 2 === 0 ? 0 : 1;
@@ -709,8 +647,8 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ctx.strokeRect(x - 1, y - 1, 34, 34);
     }
   }
-  mist.draw(ctx, visible, p, time);
-  if (visible.has(E.key(16, 10))) {
+  if (fogEnabled) mist.draw(ctx, visible, p, time);
+  if (!fogEnabled || visible.has(E.key(16, 10))) {
     ctx.font = "7px Georgia";
     ctx.textAlign = "center";
     ctx.fillStyle = "#e4dbb8";
@@ -719,7 +657,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     ctx.fillText("SANCTUAIRE DES VEILLEURS", 17 * 32 + 16, 6 * 32 - 6);
     ctx.shadowBlur = 0;
   }
-  if (hover !== null && visible.has(hover)) {
+  if (hover !== null && (!fogEnabled || visible.has(hover))) {
     const c = E.map[hover];
     ctx.strokeStyle = "#f0ead190";
     ctx.lineWidth = 1;
@@ -730,7 +668,10 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
 let lastMapFrame = 0;
 function animation(time: number) {
   requestAnimationFrame(animation);
-  if (screen === "battle" && time - lastMapFrame >= 1000 / 30) {
+  if (
+    screen === "battle" &&
+    time - lastMapFrame >= 1000 / (moveAnim ? 30 : 15)
+  ) {
     lastMapFrame = time;
     const a = document.querySelector<HTMLCanvasElement>("#map"),
       b = document.querySelector<HTMLCanvasElement>("#map2");
@@ -1098,7 +1039,13 @@ app.addEventListener("click", async (e) => {
   const el = (e.target as HTMLElement).closest<HTMLElement>("[data-action]");
   if (!el || el.hasAttribute("disabled")) return;
   const action = el.dataset.action!;
-  if (action === "close-reward") {
+  if (action === "toggle-fog") {
+    fogEnabled = !fogEnabled;
+    battleUI();
+  } else if (action === "toggle-grid") {
+    showGrid = !showGrid;
+    battleUI();
+  } else if (action === "close-reward") {
     document.querySelector(".rewards")?.remove();
     const done = pendingReward;
     pendingReward = null;
@@ -1127,6 +1074,7 @@ app.addEventListener("click", async (e) => {
   } else if (action === "begin") {
     state = E.createCampaign(factions);
     mist.reset();
+    terrain.reset();
     selected = null;
     origin = null;
     moved = false;

@@ -2023,3 +2023,44 @@ h2 {
     animation: none;
   }
 }
+
+.visual-lab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 0 15px;
+  font-size: 9px;
+  color: #a4b59f;
+}
+.visual-lab > span {
+  font-size: 7px;
+  letter-spacing: 0.12em;
+  color: #b5a47d;
+}
+.visual-lab label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+}
+.visual-lab select {
+  background: #1b2e29;
+  border: 1px solid #8d9d7144;
+  color: #d7d8bd;
+  padding: 7px;
+  font: inherit;
+}
+.visual-lab button {
+  padding: 8px 10px;
+  font-size: 9px;
+}
+.visual-lab button[aria-pressed="true"] {
+  color: #eed19b;
+  border-color: #b3a371;
+  background: #a68b4a20;
+}
+/* Terrain palette is baked once; avoid filtering the whole animated canvas again. */
+.canvas-wrap canvas {
+  filter: none;
+}
