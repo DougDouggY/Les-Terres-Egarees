@@ -214,7 +214,7 @@ export class TerrainRenderer {
       else if (c.terrain === "hill") this.stamp(ctx, 14, x, y);
       else if (c.prop) this.stamp(ctx, c.prop.sector === 1 ? 8 : 12, x, y);
     }
-    paintWoods(ctx);
+    paintWoods(ctx, this.atlas);
     // The nine connected atlas cells form one landmark, still backed by nine exact cells.
     const sw = this.atlas.width / 8,
       sh = this.atlas.height / 4;

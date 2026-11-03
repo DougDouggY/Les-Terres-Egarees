@@ -10,135 +10,87 @@ export function woodNeighbors(c: Cell) {
     [-1, 0],
   ].map(([dx, dy]) => isWood(cell(c.x + dx, c.y + dy)));
 }
-const seed = (x: number, y: number, n: number) => {
-  const v = Math.sin(x * 127.1 + y * 311.7 + n * 73.3) * 43758.5453;
-  return v - Math.floor(v);
-};
-function tree(
+/** Original painted atlas canopies, blended across shared edges instead of square mats. */
+export function paintWoods(
   ctx: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  size: number,
-  variant: number,
+  atlas: HTMLImageElement,
 ) {
-  ctx.save();
-  ctx.translate(x, y);
-  ctx.fillStyle = "#172b2560";
-  ctx.beginPath();
-  ctx.ellipse(1, 1, size * 0.38, size * 0.12, 0, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.fillStyle = "#51422d";
-  ctx.fillRect(-size * 0.055, -size * 0.35, size * 0.11, size * 0.45);
-  for (let level = 0; level < 3; level++) {
-    const top = -size + level * size * 0.24,
-      half = size * (0.19 + level * 0.09),
-      bottom = top + size * 0.49;
-    ctx.beginPath();
-    ctx.moveTo(0, top);
-    ctx.bezierCurveTo(
-      -half * 0.4,
-      top + size * 0.2,
-      -half * 0.7,
-      bottom - size * 0.06,
-      -half,
-      bottom,
-    );
-    ctx.quadraticCurveTo(-half * 0.3, bottom + size * 0.08, 0, bottom);
-    ctx.quadraticCurveTo(half * 0.45, bottom + size * 0.09, half, bottom);
-    ctx.bezierCurveTo(
-      half * 0.7,
-      bottom - size * 0.06,
-      half * 0.4,
-      top + size * 0.2,
+  const cache = new Map<number, HTMLCanvasElement>();
+  const canopy = (index: number) => {
+    let tile = cache.get(index);
+    if (tile) return tile;
+    tile = document.createElement("canvas");
+    tile.width = tile.height = 128;
+    const t = tile.getContext("2d")!;
+    t.drawImage(
+      atlas,
+      ((index % 8) * atlas.width) / 8,
+      (Math.floor(index / 8) * atlas.height) / 4,
+      atlas.width / 8,
+      atlas.height / 4,
       0,
-      top,
+      0,
+      128,
+      128,
     );
-    const g = ctx.createLinearGradient(-half, 0, half, 0);
-    g.addColorStop(0, variant > 0.5 ? "#70815a" : "#647850");
-    g.addColorStop(0.48, "#3e5c3d");
-    g.addColorStop(1, "#233d31");
-    ctx.fillStyle = g;
-    ctx.fill();
-    ctx.strokeStyle = "#91a27355";
-    ctx.lineWidth = 0.35;
-    ctx.beginPath();
-    ctx.moveTo(-half * 0.7, bottom - 0.3);
-    ctx.lineTo(-half * 0.18, top + size * 0.15);
-    ctx.stroke();
-  }
-  ctx.restore();
-}
-export function paintWoods(ctx: CanvasRenderingContext2D) {
-  // A grass margin surrounds irregular clusters; only shared edges receive bridges.
+    t.globalCompositeOperation = "destination-in";
+    t.save();
+    t.translate(64, 65);
+    t.scale(1, 0.94);
+    const mask = t.createRadialGradient(0, 0, 30, 0, 0, 62);
+    mask.addColorStop(0, "white");
+    mask.addColorStop(0.55, "white");
+    mask.addColorStop(1, "#ffffff00");
+    t.fillStyle = mask;
+    t.beginPath();
+    t.arc(0, 0, 62, 0, Math.PI * 2);
+    t.fill();
+    t.restore();
+    cache.set(index, tile);
+    return tile;
+  };
+  const patches: { x: number; y: number; size: number; index: number }[] = [];
   for (const c of map.filter(isWood)) {
-    const x = c.x * 32 + 16,
-      y = c.y * 32 + 16,
-      neighbors = woodNeighbors(c);
-    ctx.strokeStyle = "#34482c55";
-    ctx.lineWidth = 19;
-    ctx.lineCap = "round";
-    for (const i of [1, 2])
-      if (neighbors[i]) {
-        ctx.beginPath();
-        ctx.moveTo(x, y);
-        ctx.lineTo(x + (i === 1 ? 32 : 0), y + (i === 2 ? 32 : 0));
-        ctx.stroke();
-      }
-    const g = ctx.createRadialGradient(x, y, 3, x, y, 15);
-    g.addColorStop(0, "#344b2f80");
-    g.addColorStop(1, "#344b2f00");
-    ctx.fillStyle = g;
-    ctx.fillRect(x - 16, y - 16, 32, 32);
-  }
-  const trees: { x: number; y: number; size: number; variant: number }[] = [];
-  for (const c of map.filter(isWood)) {
-    const dense = c.terrain === "tree",
-      radius = dense ? 11 : 9;
-    const placed: { x: number; y: number }[] = [];
-    const count = dense ? 7 : 4;
-    for (let attempt = 0; attempt < 60 && placed.length < count; attempt++) {
-      const angle = seed(c.x, c.y, attempt * 4 + 10) * Math.PI * 2;
-      const r = Math.sqrt(seed(c.x, c.y, attempt * 4 + 11)) * radius;
-      const x =
-        c.x * 32 + 16 + Math.cos(angle) * r + (seed(c.x, c.y, 210) - 0.5) * 3;
-      const y = c.y * 32 + 21 + Math.sin(angle) * r * 0.8;
-      if (placed.some((p) => Math.hypot(x - p.x, y - p.y) < 5)) continue;
-      placed.push({ x, y });
-      trees.push({
-        x,
-        y,
-        size: 8 + seed(c.x, c.y, attempt * 4 + 12) * 5,
-        variant: seed(c.x, c.y, attempt * 4 + 13),
-      });
-    }
+    const dense = c.terrain === "tree";
+    const index = dense
+      ? (c.x + c.y) % 2
+        ? 6
+        : 22
+      : [5, 21, 30][(c.x * 7 + c.y) % 3];
+    patches.push({
+      x: c.x * 32 + 16,
+      y: c.y * 32 + 16,
+      size: dense ? 32 : 30,
+      index,
+    });
     const n = woodNeighbors(c);
     if (n[1])
-      for (const dy of [-3, 4])
-        trees.push({
-          x: (c.x + 1) * 32 + (seed(c.x, c.y, 70 + dy) - 0.5) * 3,
-          y: c.y * 32 + 20 + dy + (seed(c.x, c.y, 80 + dy) - 0.5) * 4,
-          size: 10 + seed(c.x, c.y, 60) * 2,
-          variant: 0.7,
-        });
+      patches.push({ x: (c.x + 1) * 32, y: c.y * 32 + 16, size: 24, index });
     if (n[2])
-      for (const dx of [-4, 4])
-        trees.push({
-          x: c.x * 32 + 16 + dx + (seed(c.x, c.y, 90 + dx) - 0.5) * 4,
-          y: (c.y + 1) * 32 + 2 + (seed(c.x, c.y, 100 + dx) - 0.5) * 4,
-          size: 10 + seed(c.x, c.y, 61) * 2,
-          variant: 0.3,
-        });
+      patches.push({ x: c.x * 32 + 16, y: (c.y + 1) * 32, size: 24, index });
+    // Fill four-way joins without extending into a grass cell at concave corners.
+    if (n[1] && n[2] && isWood(cell(c.x + 1, c.y + 1)))
+      patches.push({ x: (c.x + 1) * 32, y: (c.y + 1) * 32, size: 24, index });
   }
-  trees
+  patches
     .sort((a, b) => a.y - b.y)
-    .forEach((t) => tree(ctx, t.x, t.y, t.size, t.variant));
+    .forEach((p) =>
+      ctx.drawImage(
+        canopy(p.index),
+        p.x - p.size / 2,
+        p.y - p.size / 2,
+        p.size,
+        p.size,
+      ),
+    );
 }
 export function paintMountain(ctx: CanvasRenderingContext2D, c: Cell) {
   const variant = (c.x * 7 + c.y * 13) % 3,
     x = c.x * 32,
     y = c.y * 32;
   ctx.save();
-  ctx.translate(x, y);
+  ctx.translate(x, y + 7);
+  ctx.scale(1, 0.75);
   const peak = (cx: number, top: number, half: number, base: number) => {
     ctx.beginPath();
     ctx.moveTo(cx - half, base);

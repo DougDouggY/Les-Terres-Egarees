@@ -72,9 +72,10 @@ CAMÉRA ET INFORMATIONS
 ----------------------
 Maintenir le clic gauche puis glisser déplace la carte. Les flèches fonctionnent
 également ; « Recentrer » retrouve l’unité active. Chaque expédition conserve sa
-caméra. La vue est rapprochée (×1,65), avec environ 18 × 12 cases à l’écran.
+caméra. La carte occupe toute la fenêtre : environ 18 colonnes sont visibles,
+avec un nombre de lignes adapté au format de l’écran et des cases toujours carrées.
 
 Survoler une case affiche son terrain et ses effets en bas à gauche. Survoler une
 unité affiche son nom et ses PV. Un clic ouvre sa fiche flottante dans la carte ;
 la croix ferme la fiche sans désélectionner. Survoler ou focaliser une statistique
-affiche son explication. Les commandes d’action restent sous la carte.
+affiche son explication. Les commandes d’action sont superposées en bas à droite de la carte.

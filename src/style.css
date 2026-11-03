@@ -2244,18 +2244,6 @@ h2 {
     display: none;
   }
 }
-.compact-battle .canvas-wrap {
-  width: min(100%, calc((100svh - 305px) * 1.5));
-  margin: 8px auto 0;
-}
-.compact-battle .canvas-wrap.observing {
-  width: 100%;
-}
-@media (max-width: 700px) {
-  .compact-battle .canvas-wrap {
-    width: 100%;
-  }
-}
 
 .map-status:empty {
   display: none;
@@ -2269,4 +2257,226 @@ h2 {
 .unit-window .stats > div[data-tooltip]:nth-child(3n + 2):focus::after {
   left: 50%;
   transform: translateX(-50%);
+}
+
+/* Battle occupies the viewport. Controls float above the map instead of sizing it. */
+.compact-battle {
+  position: relative;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
+}
+.compact-battle .battle-layout,
+.compact-battle .map-section {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+}
+.compact-battle .canvas-wrap,
+.compact-battle .canvas-wrap.observing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+}
+.compact-battle .canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  object-fit: fill;
+}
+.compact-battle .canvas-wrap.observing canvas {
+  width: 50%;
+  height: 100%;
+}
+.compact-battle .battle-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  min-height: 0;
+  padding: 6px 16px;
+  z-index: 6;
+  background: linear-gradient(#0e201df5, #0e201dd9);
+  border: 0;
+  gap: 18px;
+}
+.compact-battle .mini-brand {
+  font-size: 9px;
+}
+.compact-battle .mini-brand .crest {
+  width: 29px;
+  height: 34px;
+  font-size: 24px;
+}
+.compact-battle .mission-name {
+  padding-left: 16px;
+}
+.compact-battle .mission-name strong {
+  font-size: 19px;
+}
+.compact-battle .mission-name span {
+  font-size: 7px;
+}
+.compact-battle .perspectives button {
+  padding: 9px 13px;
+  font-size: 9px;
+}
+.compact-battle .map-heading {
+  position: absolute;
+  top: 64px;
+  left: 12px;
+  right: 12px;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+.compact-battle .map-heading > span {
+  padding: 8px 10px;
+  background: #10231edb;
+  border-radius: 3px;
+}
+.compact-battle .map-tools {
+  margin-left: auto;
+  pointer-events: auto;
+}
+.compact-battle .map-tools button {
+  background: #10231ee8;
+}
+.compact-battle .activation-bar {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  max-width: 65%;
+  min-height: 0;
+  margin: 0;
+  padding: 10px 14px;
+  z-index: 6;
+  background: #10231ef0;
+  border: 1px solid #b49d6255;
+  border-radius: 3px;
+  gap: 18px;
+}
+.compact-battle .activation-bar strong {
+  font-size: 24px;
+}
+.compact-battle .activation-bar small {
+  display: none;
+}
+.compact-battle .activation-bar button {
+  padding: 10px 15px;
+}
+.compact-battle .battle-footer {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 6;
+  padding: 7px 10px;
+  min-height: 0;
+  background: #10231ee8;
+  border: 0;
+}
+.compact-battle .battle-footer > span:first-child {
+  display: none;
+}
+.compact-battle .map-tooltip {
+  bottom: 82px;
+}
+.compact-battle .map-status {
+  bottom: 50px;
+  left: 12px;
+  font-size: 8px;
+}
+.compact-battle .map-compass {
+  top: 114px;
+  right: 18px;
+}
+.compact-battle .unit-window {
+  top: 110px;
+  right: 12px;
+  max-height: calc(100% - 220px);
+}
+@media (max-width: 1000px) {
+  .compact-battle .map-heading > span {
+    display: none;
+  }
+  .compact-battle .mini-brand > span:not(.crest) {
+    display: none;
+  }
+  .compact-battle .mission-name {
+    border: 0;
+    padding-left: 0;
+  }
+}
+@media (max-width: 700px) {
+  .compact-battle .battle-header {
+    padding: 5px 8px;
+    gap: 8px;
+  }
+  .compact-battle .mission-name {
+    display: none;
+  }
+  .compact-battle .perspectives {
+    margin-left: auto;
+  }
+  .compact-battle .activation-bar {
+    left: 8px;
+    right: 8px;
+    bottom: 50px;
+    max-width: none;
+    padding: 8px;
+    gap: 8px;
+    justify-content: space-between;
+  }
+  .compact-battle .activation-bar strong {
+    font-size: 20px;
+  }
+  .compact-battle .turn-actions {
+    gap: 4px;
+  }
+  .compact-battle .activation-bar button {
+    padding: 7px;
+    font-size: 10px;
+  }
+  .compact-battle .battle-footer {
+    left: 8px;
+    bottom: 8px;
+  }
+  .compact-battle .map-tooltip {
+    left: 8px;
+    bottom: 145px;
+  }
+  .compact-battle .map-status {
+    bottom: 128px;
+  }
+  .compact-battle .unit-window {
+    top: 104px;
+    max-height: calc(100% - 260px);
+  }
+}
+
+.compact-battle .battle-footer {
+  height: auto;
+}
+.compact-battle .battle-footer > span:last-child {
+  display: flex;
+  gap: 6px;
+}
+.compact-battle .battle-footer .text-button {
+  font-size: 10px;
+  padding: 5px;
+}
+.compact-battle .map-status {
+  top: 104px;
+  bottom: auto;
+  max-width: calc(100% - 24px);
 }

@@ -15,8 +15,8 @@ export async function mapPoint(page: Page, x: number, y: number) {
     let key = "";
     if (x + 0.5 < camera.x + 0.2) key = "ArrowLeft";
     else if (x + 0.5 > camera.x + camera.w - 0.2) key = "ArrowRight";
-    else if (y + 0.5 < camera.y + 0.2) key = "ArrowUp";
-    else if (y + 0.5 > camera.y + camera.h - 0.2) key = "ArrowDown";
+    else if (y + 0.5 < camera.y + 1.3 && camera.y > 0) key = "ArrowUp";
+    else if (y + 0.5 > camera.y + camera.h - 1.4) key = "ArrowDown";
     if (key) {
       await page.keyboard.press(key);
       await page.waitForTimeout(75);

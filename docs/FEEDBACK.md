@@ -97,3 +97,14 @@ Recentrer. Les clics de jeu sont ignorés après un glisser. Interface recentré
 la carte : infobulle terrain/unité en bas à gauche, fiche flottante au clic,
 aide au survol et au clavier pour les statistiques. Entrée sud du village
 praticable et repérée. Les commandes de brume et de grille restent disponibles.
+
+## Carte bord à bord et retour aux arbres peints
+
+Suppression du plafond de largeur calculé depuis la hauteur de fenêtre qui
+réduisait fortement la carte, notamment sur les écrans larges peu hauts. La carte
+remplit le viewport ; en-tête, outils et commandes flottent au-dessus. Le tampon
+Canvas suit les dimensions et la densité de pixels, et les lignes visibles
+s’adaptent au format sans étirer les cases. L’observation conserve deux vues
+côte à côte. Les forêts réutilisent le dessin peint original avec raccords
+latéraux et aux jonctions ; les montagnes sont un quart plus basses.
+Les positions de départ et les sauvegardes ne changent pas.

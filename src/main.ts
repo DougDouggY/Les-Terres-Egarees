@@ -28,7 +28,7 @@ let state: Campaign | null = null,
 let pendingReward: (() => void) | null = null;
 let toastTimer: ReturnType<typeof setTimeout>;
 const zoom = 1.65;
-const viewCols = 30 / zoom,
+let viewCols = 30 / zoom,
   viewRows = 20 / zoom;
 let focusToken = "";
 function clampCamera(p: 1 | 2) {
@@ -627,6 +627,31 @@ function attackField(
 }
 function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   if (!state) return;
+  const bounds = canvas.getBoundingClientRect();
+  if (!bounds.width || !bounds.height) return;
+  const cols = Math.min(30 / zoom, (E.H * bounds.width) / bounds.height),
+    rows = (cols * bounds.height) / bounds.width;
+  if (
+    canvas.id === "map" &&
+    (Math.abs(cols - viewCols) > 0.001 || Math.abs(rows - viewRows) > 0.001)
+  ) {
+    for (const player of state.players) {
+      player.camera.x += (viewCols - cols) / 2;
+      player.camera.y += (viewRows - rows) / 2;
+    }
+    viewCols = cols;
+    viewRows = rows;
+    clampCamera(1);
+    clampCamera(2);
+  }
+  const ratio = Math.min(2, window.devicePixelRatio || 1);
+  const width = Math.round(bounds.width * ratio),
+    height = Math.round(bounds.height * ratio);
+  if (canvas.width !== width || canvas.height !== height) {
+    canvas.width = width;
+    canvas.height = height;
+  }
+  const logicalHeight = (960 * bounds.height) / bounds.width;
   const s = state,
     ctx = canvas.getContext("2d")!,
     visible = new Set(s.players[p - 1].visible),
@@ -636,13 +661,20 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   canvas.dataset.cameraY = String(cam.y);
   canvas.dataset.viewCols = String(viewCols);
   canvas.dataset.viewRows = String(viewRows);
-  ctx.setTransform(2, 0, 0, 2, 0, 0);
+  ctx.setTransform(
+    canvas.width / 960,
+    0,
+    0,
+    canvas.height / logicalHeight,
+    0,
+    0,
+  );
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
   ctx.fillStyle = "#71858a";
-  ctx.fillRect(0, 0, 960, 640);
+  ctx.fillRect(0, 0, 960, logicalHeight);
   ctx.save();
-  ctx.scale(zoom, zoom);
+  ctx.scale(30 / viewCols, 30 / viewCols);
   ctx.translate(-cam.x * 32, -cam.y * 32);
   const surface = terrain.layer(terrainStyle, s.factions);
   if (surface) {

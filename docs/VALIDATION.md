@@ -80,3 +80,13 @@ Le test intégral dispose d'un délai de 240 s pour les machines sans accéléra
 - Parcours Chromium complet réussi en 52 activations : introductions, annulation, combats, rencontre, combat commun, victoire, camp, carte du monde et reprise de sauvegarde (environ 2 min 48 s en rendu logiciel).
 - Le pilote navigateur attend explicitement un tour humain et vérifie le nom de l’unité active ; il supporte les cinématiques qui interrompent un changement de perspective. Les changements de front utilisent le raccourci Tab officiel.
 - Après les derniers ajustements de cadrage et de libellés, les sept tests navigateur ciblés repassent ; compilation de production avec la base GitHub Pages validée.
+
+## Carte sur tout le viewport et forêts peintes raccordées
+
+- 29 tests moteur passent ; aucun changement de carte logique, de départ ou de sauvegarde.
+- Huit scénarios navigateur ciblés passent : brume, sélection, déplacement entre alliés, cadrage, fiche, glisser, village et viewport.
+- La carte occupe au moins 99 % de la largeur et de la hauteur sur 1907 × 882, 1280 × 600, 1024 × 450 et 390 × 844. Cases carrées et tampon Canvas au bon rapport ; aucune barre de défilement de page.
+- Deux vues d’observation : chacune occupe une demi-largeur et toute la hauteur, avec des cases carrées.
+- Parcours complet réussi jusqu’au camp et à la reprise (52 activations, environ 2 minutes).
+- Après ajustement des panneaux flottants, les trois scénarios viewport/interaction repassent. Compilation avec la base GitHub Pages validée.
+- Captures : `artifacts/fullscreen-1907.png`, `artifacts/fullscreen-1280.png`, `artifacts/connected-woods.png`.

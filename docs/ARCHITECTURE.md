@@ -28,3 +28,14 @@ Les indices d’exploration deviennent quatre cellules correspondantes dans la
 nouvelle largeur. La visibilité est recalculée et les caméras réinitialisées.
 Toute unité sur un nouvel obstacle rejoint la cellule libre la plus proche.
 PV, XP, inventaires, initiative et progression narrative sont conservés.
+
+
+## Viewport de bataille adaptatif
+
+Le terrain remplit toute la fenêtre sous les commandes superposées. Le rendu
+conserve environ 18 colonnes en paysage et adapte les lignes à la hauteur réelle.
+Le tampon Canvas suit les pixels de l’écran (densité plafonnée à 2), la même
+transformation servant au dessin, au survol et aux déplacements. Lors d’un
+redimensionnement, le centre des caméras est conservé puis borné à la carte.
+Les canopées peintes originales sont masquées et raccordées dans le cache du
+terrain ; elles ne modifient ni les cellules ni la graine de combat.

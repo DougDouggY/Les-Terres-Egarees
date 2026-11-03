@@ -9,3 +9,12 @@ La référence GBA est structurelle : cases carrées, silhouettes lisibles, rout
 L’atlas régional comprend des matériaux de sol et un village cohérent de 3 × 3 cases. Celui-ci est dessiné comme un seul décor, tout en conservant neuf cases logiques et une entrée au milieu sud. Épave et convoi : une case chacun. L’eau, les plages et les chemins raccordent les textures en coordonnées monde.
 
 Les bois sont dessinés en bouquets irréguliers avec une marge d’herbe ; des arbres traversent seulement les bords partagés par deux cases boisées. Les pics montagneux alternent entre trois compositions distinctes, sans raccord obligatoire. Ces nouveaux détails sont dessinés dans le moteur (`src/landscape.ts`) sans génération d’images supplémentaire. Les illustrations de cinématiques restent inchangées.
+
+## Retour aux forêts peintes raccordées
+
+Les arbres coniques procéduraux sont remplacés par les bouquets peints de
+l’atlas régional d’origine. Des masques doux retirent les angles du fond ;
+des bouquets supplémentaires relient les bords partagés et les jonctions
+complètes de quatre cases. Les coins concaves sur la prairie restent libres.
+Les trois compositions de montagnes sont abaissées de 25 %, avec leur base
+au même niveau. Aucune nouvelle image générée.
