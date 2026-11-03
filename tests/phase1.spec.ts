@@ -10,8 +10,8 @@ test("galerie : ressources exactes, lecture, variantes manquantes, comparaison e
     .getByRole("button", { name: "Galerie des sprites", exact: true })
     .click();
   await expect(page.locator("#sprite-canvas")).toBeVisible();
-  await page.locator("#sprite-animation").selectOption("attack");
-  await expect(page.locator("#sprite-frame")).toContainText("8");
+  await page.locator("#sprite-animation").selectOption("move");
+  await expect(page.locator("#sprite-frame")).toContainText("/ 2");
   await page.locator("[data-play]").click();
   const frame = await page.locator("#sprite-frame").textContent();
   await page.waitForTimeout(300);
@@ -32,8 +32,11 @@ test("galerie : ressources exactes, lecture, variantes manquantes, comparaison e
   await page.locator("[data-export]").click();
   expect((await download).suggestedFilename()).toMatch(/json$/);
   await page.locator("#sprite-gender").selectOption("female");
+  await page.locator("#sprite-animation").selectOption("idle");
+  await expect(page.locator("#sprite-canvas")).toBeVisible();
+  await page.locator("#sprite-animation").selectOption("heal");
   await expect(page.locator("[data-main-stage]")).toContainText(
-    "Sprite manquant",
+    "Animation manquante",
   );
   await expect(page.locator("#sprite-canvas")).toHaveCount(0);
   await page.locator('[data-gallery-class="berserker"]').click();
@@ -59,7 +62,7 @@ test("galerie : ressources exactes, lecture, variantes manquantes, comparaison e
   await page
     .getByRole("button", { name: "Galerie des sprites", exact: true })
     .click();
-  await page.locator("#sprite-animation").selectOption("attack");
+  await page.locator("#sprite-animation").selectOption("move");
   await expect(page.locator("#sprite-status")).toHaveValue("À corriger");
   await expect(page.locator("#sprite-comment")).toHaveValue(
     "Vérifier la silhouette",

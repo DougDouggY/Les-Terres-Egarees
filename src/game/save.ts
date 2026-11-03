@@ -1,3 +1,4 @@
+import { normalizeTeamColors } from "./team-colors";
 import {
   hydrateClass,
   discoverUnit,
@@ -25,6 +26,7 @@ export function encode(s: Campaign) {
 }
 export function decode(raw: string): Campaign {
   const s = JSON.parse(raw);
+  s.teamColors = normalizeTeamColors(s.teamColors);
   if (
     s.version !== 1 ||
     !Array.isArray(s.units) ||

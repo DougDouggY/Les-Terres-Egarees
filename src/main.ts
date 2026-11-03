@@ -1,3 +1,6 @@
+import { resolveClip } from "./sprites/catalog";
+import { prototypeTools } from "./development";
+import { readTeamPreferences, writeTeamPreferences } from "./team-preferences";
 import { unitSpriteProfile, drawResourceFrame } from "./sprites/resources";
 import { TerrainRenderer, type TerrainStyle } from "./terrain";
 import { Mist } from "./fog";
@@ -110,14 +113,39 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${import.meta.env.DEV ? `<div class="dev-entry"><small>DÉVELOPPEMENT</small>${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
 }
 function options() {
   const modal = document.createElement("div");
   modal.className = "modal-back";
-  modal.innerHTML = `<section class="modal"><span class="eyebrow">VOTRE AVENTURE</span><h2>Options</h2><label>Vitesse des combats<select id="speed"><option value="1">Cinématique</option><option value="2">Rapide ×2</option><option value="5">Express ×5</option></select></label><label>Effets sonores<input id="sound" type="checkbox" ${sound ? "checked" : ""}></label><p>Effets sonores des combats et de l’orage.</p>${button("Enregistrer", "close-options", "primary")}</section>`;
+  modal.innerHTML = `<section class="modal"><span class="eyebrow">VOTRE AVENTURE</span><h2>Options</h2><label>Vitesse des combats<select id="speed"><option value="1">Cinématique</option><option value="2">Rapide ×2</option><option value="5">Express ×5</option></select></label><label>Effets sonores<input id="sound" type="checkbox" ${sound ? "checked" : ""}></label><p>Effets sonores des combats et de l’orage.</p>${button("Couleurs des équipes", "team-colors")}${button("Enregistrer", "close-options", "primary")}</section>`;
   app.append(modal);
   (document.querySelector("#speed") as HTMLSelectElement).value = String(speed);
+}
+function teamColorsModal() {
+  const colors = state?.teamColors ?? readTeamPreferences();
+  const modal = document.createElement("div");
+  modal.className = "modal-back team-colors-modal";
+  modal.innerHTML = `<section class="modal"><h2>Couleurs des équipes</h2><p>Indépendantes des factions. Les deux joueurs doivent choisir des couleurs distinctes.</p>${(
+    [
+      ["player1", "Joueur 1"],
+      ["player2", "Joueur 2"],
+      ["enemies", "Ennemis"],
+    ] as const
+  )
+    .map(
+      ([key, label]) =>
+        `<label>${label}<select id="team-${key}">${Object.entries(E.teamPalette)
+          .map(
+            ([id, value]) =>
+              `<option value="${id}" ${colors[key] === id ? "selected" : ""}>${value.name}</option>`,
+          )
+          .join("")}</select></label>`,
+    )
+    .join(
+      "",
+    )}<p id="team-color-error" role="alert"></p>${button("Appliquer", "apply-team-colors", "primary")}${button("Fermer", "close-modal")}</section>`;
+  app.append(modal);
 }
 function configure() {
   screen = "config";
@@ -137,7 +165,7 @@ function configure() {
     )
     .join(
       "",
-    )}</div><div class="config-bottom"><p>Carte et déplacements conservés · initiative individuelle · brouillard indépendant</p>${button("Déployer les expéditions", "begin", "primary")}</div></main>`;
+    )}</div><div class="config-bottom">${button("Couleurs des équipes", "team-colors")}<p>Carte et déplacements conservés · initiative individuelle · brouillard indépendant</p>${button("Déployer les expéditions", "begin", "primary")}</div></main>`;
   for (const i of [1, 2]) {
     (app.querySelector(`#hero-name-${i}`) as HTMLInputElement).oninput = (
       e,
@@ -551,15 +579,17 @@ function drawSprite(
     !drawResourceFrame(
       ctx,
       unitSpriteProfile(u),
-      animation,
+      resolveClip(unitSpriteProfile(u), animation) ? animation : "idle",
       frame,
       -size / 2,
       -size * 0.72,
       size,
       size * 1.15,
+      true,
+      E.colorForOwner(state?.teamColors, u.owner),
     )
   ) {
-    ctx.fillStyle = u.owner === 0 ? "#77443a" : "#294b42";
+    ctx.fillStyle = "#294b42";
     ctx.beginPath();
     ctx.arc(0, 0, size * 0.29, 0, Math.PI * 2);
     ctx.fill();
@@ -757,7 +787,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ctx.moveTo(b.x * 32 + 25, b.y * 32 + 28);
       ctx.lineTo(b.x * 32 + 25, b.y * 32 + 3);
       ctx.stroke();
-      ctx.fillStyle = b.owner === 1 ? "#77c2b6" : "#e1b262";
+      ctx.fillStyle = `rgb(${E.teamPalette[E.colorForOwner(s.teamColors, b.owner)].rgb.join(",")})`;
       ctx.beginPath();
       ctx.moveTo(b.x * 32 + 25, b.y * 32 + 3);
       ctx.lineTo(b.x * 32 + 12, b.y * 32 + 9);
@@ -783,13 +813,6 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       y = (a.y + (b.y - a.y) * (f - i)) * 32;
       frame = Math.floor(time / 130) % 2;
     }
-    ctx.fillStyle =
-      u.owner === 1 ? "#66bfbe" : u.owner === 2 ? "#d8b577" : "#c56059";
-    ctx.globalAlpha = 0.8;
-    ctx.beginPath();
-    ctx.ellipse(x + 16, y + 24, 11, 4, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.globalAlpha = 1;
     drawSprite(
       ctx,
       u,
@@ -803,7 +826,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     );
     ctx.fillStyle = "#14201c";
     ctx.fillRect(x + 3, y + 29, 26, 3);
-    ctx.fillStyle = u.owner === 0 ? "#c87e6a" : "#8ebe99";
+    ctx.fillStyle = "#8ebe99";
     ctx.fillRect(x + 3, y + 29, (26 * u.hp) / u.maxHp, 3);
     if (u.id === cur?.id) {
       ctx.strokeStyle = "#ecd5a0";
@@ -1279,7 +1302,7 @@ function defeat() {
 function pause() {
   const modal = document.createElement("div");
   modal.className = "modal-back";
-  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Menu principal", "title")}</div></section>`;
+  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div></section>`;
   app.append(modal);
 }
 app.addEventListener("click", async (e) => {
@@ -1287,7 +1310,7 @@ app.addEventListener("click", async (e) => {
   if (!el || el.hasAttribute("disabled")) return;
   const action = el.dataset.action!;
   if (
-    import.meta.env.DEV &&
+    prototypeTools &&
     (action === "dev-sprites" || action === "dev-systems")
   ) {
     developerCleanup?.();
@@ -1297,6 +1320,29 @@ app.addEventListener("click", async (e) => {
       action === "dev-sprites"
         ? tools.openGallery(app, title)
         : tools.openSystems(app, title);
+  } else if (action === "team-colors") {
+    teamColorsModal();
+  } else if (action === "apply-team-colors") {
+    const colors = Object.fromEntries(
+      ["player1", "player2", "enemies"].map((key) => [
+        key,
+        (document.querySelector("#team-" + key) as HTMLSelectElement).value,
+      ]),
+    ) as E.TeamColors;
+    try {
+      const target = state ?? {};
+      E.setTeamColors(target, colors);
+      writeTeamPreferences(colors);
+      document.querySelector(".team-colors-modal")?.remove();
+      if (state && screen === "battle") {
+        battleUI();
+        save(true);
+      }
+    } catch (error) {
+      document.querySelector("#team-color-error")!.textContent = (
+        error as Error
+      ).message;
+    }
   } else if (action === "equipment" || action === "unit-sheet") {
     const u = E.current(state!);
     if (!u || u.owner !== state!.active || busy) return;
@@ -1409,6 +1455,7 @@ app.addEventListener("click", async (e) => {
   } else if (action === "begin") {
     try {
       state = E.createCampaign(factions, heroDrafts);
+      E.setTeamColors(state, readTeamPreferences());
     } catch (error) {
       toast((error as Error).message);
       return;

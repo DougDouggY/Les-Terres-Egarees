@@ -6,7 +6,7 @@ test("parcours navigateur : création, tactique, annulation, combat, alliance, b
   page,
 }) => {
   // The full two-front mission also runs on software-rendered Chromium.
-  test.setTimeout(360000);
+  test.setTimeout(600000);
   const errors: string[] = [];
   page.on("pageerror", (e) => {
     errors.push(e.message);

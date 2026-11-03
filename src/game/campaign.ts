@@ -1,3 +1,4 @@
+import { defaultTeamColors } from "./team-colors";
 import { discoverUnit, type HeroConfig, baseClasses, classes } from "./classes";
 import { makeClassUnit } from "./units";
 import { finishActivationSkills } from "./skills";
@@ -95,6 +96,7 @@ export function createCampaign(
   });
   const s: Campaign = {
     version: 1,
+    teamColors: { ...defaultTeamColors },
     mapRevision: MAP_REVISION,
     factions,
     units,

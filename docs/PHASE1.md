@@ -1,6 +1,8 @@
 # Phase 1 — classes, interface et galerie
 
-La carte tactique validée est conservée : terrain, décors, dimensions, raccords, caméra et brouillard. Les empreintes de ses cinq fichiers sources et graphiques sont enregistrées dans `baselines/validated-map.json` et vérifiées par les tests. Aucun tileset ni sprite n’a été généré pour cette phase.
+**Mise à jour du prototype :** les deux outils sont maintenant accessibles en ligne pour les tests, et un échantillon recolorable de deux classes est intégré. Voir [SPRITE-COLORS.md](SPRITE-COLORS.md) pour les couleurs, les limites actuelles et l’exclusion des outils de la version finale.
+
+La carte tactique validée est conservée : terrain, décors, dimensions, raccords, caméra et brouillard. Les empreintes de ses cinq fichiers sources et graphiques sont enregistrées dans `baselines/validated-map.json` et vérifiées par les tests. Aucun tileset n’a été régénéré. Les sprites d’essai ajoutés ultérieurement sont décrits dans le document des couleurs.
 
 La boucle actuelle passe de la création des deux héros au combat existant, puis à un bilan sauvegardable. L’ancien camp permanent est retiré des menus et de la boucle. Ses ressources, données et code sont conservés pour une utilisation ultérieure ; les anciennes sauvegardes de camp ouvrent le bilan sans perdre leur contenu. Aucun campement temporaire, chapitre ou personnage définitif nouveau n’est ajouté.
 
@@ -20,7 +22,7 @@ npm ci
 npm run dev
 ```
 
-Le menu principal de ce serveur de développement propose **Classes et systèmes** et **Galerie des sprites**. Ces interfaces sont supprimées à la compilation de production, y compris leur code et leurs styles. Elles ne sont pas accessibles sur GitHub Pages, même avec un paramètre d’URL. `npm run check:public` vérifie cette exclusion après le build.
+Le menu principal de ce serveur de développement propose **Classes et systèmes** et **Galerie des sprites**. Ces interfaces sont supprimées à la compilation de production, y compris leur code et leurs styles. Le prototype GitHub Pages les active désormais explicitement avec le mode prototype ; la compilation finale standard les exclut toujours. `npm run check:public` vérifie cette exclusion après le build.
 
 La galerie propose classes et promotions, variantes, états, animations, lecture, arrêt, reprise, image par image, zoom net et comparaison de quatre sélections. Les annotations sont conservées dans le navigateur par variante et animation, avec statut « À corriger », commentaire et export JSON. Elles ne sont pas partagées automatiquement entre appareils.
 
@@ -30,7 +32,7 @@ Le jeu et la galerie partagent `src/sprites/resources.ts` et le même registre. 
 
 Ajouter une description `*.sprite.json` dans `src/assets/tactical/`, en suivant `legacy.sprite.json`. Chaque profil indique `classId`, `gender`, `equipment`, `state` et ses clips avec `source`, `columns`, `rows`, `row`, `frames`, `fps`. Un clip peut explicitement réutiliser un autre clip du même profil. Des fichiers supplémentaires peuvent compléter les clips d’un profil existant, mais les doublons sont signalés. Les images déposées dans ce dossier sont référencées par `tactical/nom.png` (ou WebP) et découvertes automatiquement par Vite.
 
-Les planches existantes fournissent actuellement quatre profils humains : Pillard homme, Chasseur femme, Homme d’armes femme et Arbalétrier homme ; le squelette existant est non sexué. Les autres combinaisons sont marquées manquantes. Une riposte qui réutilise l’attaque est annoncée explicitement. La galerie ne remplace jamais une ressource manquante par une autre classe, un autre sexe ou un visuel inventé. Sur le terrain, un simple repère d’unité permet de jouer une classe sans ressource, sans prétendre représenter son futur sprite.
+Les planches existantes fournissent actuellement quatre profils humains : Pillard homme, Chasseur femme, Homme d’armes femme et Arbalétrier homme ; le squelette existant est non sexué. L’échantillon recolorable ajoute depuis les deux sexes du Pillard et de l’Homme d’armes ; les autres combinaisons non fournies sont marquées manquantes. Une riposte qui réutilise l’attaque est annoncée explicitement. La galerie ne remplace jamais une ressource manquante par une autre classe, un autre sexe ou un visuel inventé. Sur le terrain, un simple repère d’unité permet de jouer une classe sans ressource, sans prétendre représenter son futur sprite.
 
 ## Décisions encore ouvertes
 

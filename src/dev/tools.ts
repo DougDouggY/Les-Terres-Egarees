@@ -1,3 +1,11 @@
+import {
+  teamPalette,
+  colorForOwner,
+  setTeamColors,
+  type TeamColor,
+  type TeamColors,
+} from "../game/team-colors";
+import { readTeamPreferences, writeTeamPreferences } from "../team-preferences";
 import "./tools.css";
 import {
   classes,
@@ -72,6 +80,7 @@ export function openSystems(app: HTMLElement, onBack: () => void) {
   return () => {};
 }
 type Selection = {
+  color: TeamColor;
   classId: string;
   gender: string;
   equipment: string;
@@ -81,19 +90,23 @@ type Selection = {
 type Review = { status: string; comment: string };
 export function openGallery(app: HTMLElement, onBack: () => void) {
   let selection: Selection = {
+      color: readTeamPreferences().player1,
       classId: "raider",
       gender: "male",
       equipment: "axe-shield",
       state: "default",
       animation: "idle",
     },
-    zoom = 3,
+    zoom = 1,
     playing = true,
     started = performance.now(),
     paused = 0,
     frame = 0,
     raf = 0,
     compared: Selection[] = [];
+  let teamColors = readTeamPreferences(),
+    faction = "all",
+    stage = "all";
   let reviews: Record<string, Review> = {};
   try {
     reviews = JSON.parse(localStorage.getItem("lte-sprite-reviews-v1") ?? "{}");
@@ -120,6 +133,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
     const c = classes[id],
       p = spriteCatalog.profiles.find((p) => p.classId === id);
     selection = {
+      color: selection.color,
       classId: id,
       gender: p?.gender ?? "male",
       equipment: p?.equipment ?? weaponCatalog[c.starter[0]].visual,
@@ -156,16 +170,124 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
           ...Object.keys(p?.clips ?? {}),
         ]),
       ];
-    app.innerHTML = `<main class="dev-screen sprite-gallery"><header class="dev-top"><div><span class="dev-badge">DÉVELOPPEMENT UNIQUEMENT</span><h1>Galerie des sprites</h1></div><button data-gallery-back>Retour au menu</button></header><p>Ressources tactiques réellement utilisées par le jeu, mutualisées par classe, sexe, équipement et état. Aucun visuel de remplacement n’est créé pour un élément manquant.</p>${spriteCatalog.errors.length ? `<div class="dev-note">${spriteCatalog.errors.map(esc).join("<br>")}</div>` : ""}<div class="dev-layout"><aside class="dev-classes">${Object.values(
+    app.innerHTML = `<main class="dev-screen sprite-gallery"><header class="dev-top"><div><span class="dev-badge">DÉVELOPPEMENT UNIQUEMENT</span><h1>Galerie des sprites</h1></div><button data-gallery-back>Retour au menu</button></header><p>Ressources tactiques réellement utilisées par le jeu, mutualisées par classe, sexe, équipement et état. Aucun visuel de remplacement n’est créé pour un élément manquant.</p><div class="dev-controls"><label>Faction<select id="gallery-faction">${[
+      ["all", "Toutes"],
+      ["north", "Vikings"],
+      ["knight", "Chevaliers"],
+      ["enemy", "Monstres"],
+    ]
+      .map(
+        ([id, label]) =>
+          `<option value="${id}" ${faction === id ? "selected" : ""}>${label}</option>`,
+      )
+      .join(
+        "",
+      )}</select></label><label>Classe / promotion<select id="gallery-stage">${[
+      ["all", "Toutes"],
+      ["base", "Classes de base"],
+      ["advanced", "Promotions"],
+      ["recruit", "Recrues"],
+      ["enemy", "Monstres"],
+    ]
+      .map(
+        ([id, label]) =>
+          `<option value="${id}" ${stage === id ? "selected" : ""}>${label}</option>`,
+      )
+      .join(
+        "",
+      )}</select></label><label>Couleur de l’aperçu<select id="sprite-color">${Object.entries(
+      teamPalette,
+    )
+      .map(
+        ([id, color]) =>
+          `<option value="${id}" ${selection.color === id ? "selected" : ""}>${color.name}</option>`,
+      )
+      .join(
+        "",
+      )}</select></label><button data-three-teams>Comparer J1 / J2 / ennemis</button></div><details class="dev-note"><summary>Préférences des couleurs de test</summary><div class="dev-controls">${(
+      [
+        ["player1", "Joueur 1"],
+        ["player2", "Joueur 2"],
+        ["enemies", "Ennemis"],
+      ] as const
+    )
+      .map(
+        ([key, label]) =>
+          `<label>${label}<select data-team-color="${key}">${Object.entries(
+            teamPalette,
+          )
+            .map(
+              ([id, color]) =>
+                `<option value="${id}" ${teamColors[key] === id ? "selected" : ""}>${color.name}</option>`,
+            )
+            .join("")}</select></label>`,
+      )
+      .join(
+        "",
+      )}</div><p id="gallery-color-error" role="alert"></p><p>Choix mémorisés pour les nouvelles parties. Dans une partie en cours, utilisez Options → Couleurs des équipes.</p></details><p class="dev-note">${clip?.recolor === "magenta" ? "Échantillon recolorable : seuls tissus, cape et panneau peint du bouclier changent." : "Ressource historique : masque de recoloration non préparé pour cette animation. Les couleurs de test ne modifient pas son image."}</p>${spriteCatalog.errors.length ? `<div class="dev-note">${spriteCatalog.errors.map(esc).join("<br>")}</div>` : ""}<div class="dev-layout"><aside class="dev-classes">${Object.values(
       classes,
     )
+      .filter(
+        (x) =>
+          (faction === "all" || x.faction === faction) &&
+          (stage === "all" || x.stage === stage),
+      )
       .map(
         (x) =>
           `<button data-gallery-class="${x.id}" class="${x.id === c.id ? "active" : ""}">${x.name}<small>${x.faction === "north" ? "Vikings" : x.faction === "knight" ? "Chevaliers" : "Ressource ennemie existante"} · ${x.stage === "advanced" ? "Promotion" : x.stage === "recruit" ? "Recrue" : x.stage === "base" ? "Classe de base" : "Ennemi"} · ${spriteCatalog.profiles.some((p) => p.classId === x.id) ? "ressource présente" : "sprite manquant"}</small>${Object.keys(reviews).some((k) => k.startsWith(x.id + ":") && reviews[k].status === "À corriger") ? "<small>⚑ À corriger</small>" : ""}</button>`,
       )
       .join(
         "",
-      )}<p>Chaman : deux promotions à définir, sans sprite ni caractéristiques inventés.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${resolveClip(p, id) ? "disponible" : "manquante"}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><div class="sprite-preview"><div class="sprite-stage" data-main-stage>${clip ? `<canvas id="sprite-canvas" width="${128 * zoom}" height="${128 * zoom}"></canvas>` : `<div class="sprite-missing"><strong>${p ? "Animation manquante" : "Sprite manquant"}</strong><p>${esc(c.name)} · ${esc(selection.gender)} · ${esc(selection.equipment)} · ${esc(selection.state)}<br>Aucune ressource substituée.</p></div>`}</div><div class="sprite-details"><div class="dev-controls"><button data-play ${clip ? "" : "disabled"}>${playing ? "Arrêter" : "Lancer"}</button><button data-replay ${clip ? "" : "disabled"}>Rejouer</button><button data-prev ${clip ? "" : "disabled"}>Image précédente</button><button data-next ${clip ? "" : "disabled"}>Image suivante</button></div><p id="sprite-frame">${clip ? `${clip.frames.length} image(s) · ${clip.fps} i/s` : "Aucune animation à lire"}</p><div class="resource-path">${clip ? `${esc(clip.source)} · ligne ${clip.row} · cellules ${clip.columns} × ${clip.rows}` : "Ressource non enregistrée"}</div>${p && "reuse" in (p.clips[selection.animation] ?? {}) ? "<p>Cette séquence réutilise l’animation d’attaque, comme le jeu.</p>" : ""}<button data-pin>Ajouter à la comparaison (${compared.length}/4)</button><div class="sprite-review"><label>Statut<select id="sprite-status">${["À examiner", "Validé", "À corriger"].map((v) => `<option ${r.status === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>Commentaire<textarea id="sprite-comment" maxlength="2000">${esc(r.comment)}</textarea></label></div><p>Suivi enregistré dans ce navigateur pour cette variante et cette animation.</p><button data-export>Exporter les signalements JSON</button></div></div><div class="sprite-compare">${compared.map((s, i) => `<article><h3>${classes[s.classId].name}</h3><p>${s.gender} · ${s.state} · ${animationNames[s.animation] ?? s.animation}</p><div class="sprite-stage">${resolveClip(getProfile(s), s.animation) ? `<canvas data-compare="${i}" width="256" height="256"></canvas>` : '<div class="sprite-missing">Ressource manquante</div>'}</div><button data-remove="${i}">Retirer</button></article>`).join("")}</div><p>${Object.keys(looseSpriteFiles).length} fichier(s) d’image dans le dossier extensible. Les planches historiques sont référencées par leur description partagée ; les nouveaux fichiers .sprite.json sont découverts automatiquement.</p></section></div></main>`;
+      )}<p>Chaman : deux promotions à définir, sans sprite ni caractéristiques inventés.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${resolveClip(p, id) ? "disponible" : "manquante"}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><div class="sprite-preview"><div class="sprite-stage" data-main-stage>${clip ? `<canvas id="sprite-canvas" width="${128 * zoom}" height="${128 * zoom}"></canvas>` : `<div class="sprite-missing"><strong>${p ? "Animation manquante" : "Sprite manquant"}</strong><p>${esc(c.name)} · ${esc(selection.gender)} · ${esc(selection.equipment)} · ${esc(selection.state)}<br>Aucune ressource substituée.</p></div>`}</div><div class="sprite-details"><div class="dev-controls"><button data-play ${clip ? "" : "disabled"}>${playing ? "Arrêter" : "Lancer"}</button><button data-replay ${clip ? "" : "disabled"}>Rejouer</button><button data-prev ${clip ? "" : "disabled"}>Image précédente</button><button data-next ${clip ? "" : "disabled"}>Image suivante</button></div><p id="sprite-frame">${clip ? `${clip.frames.length} image(s) · ${clip.fps} i/s` : "Aucune animation à lire"}</p><div class="resource-path">${clip ? `${esc(clip.source)} · ligne ${clip.row} · cellules ${clip.columns} × ${clip.rows}` : "Ressource non enregistrée"}</div>${p && "reuse" in (p.clips[selection.animation] ?? {}) ? "<p>Cette séquence réutilise l’animation d’attaque, comme le jeu.</p>" : ""}<button data-pin>Ajouter à la comparaison (${compared.length}/4)</button><div class="sprite-review"><label>Statut<select id="sprite-status">${["À examiner", "Validé", "À corriger"].map((v) => `<option ${r.status === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>Commentaire<textarea id="sprite-comment" maxlength="2000">${esc(r.comment)}</textarea></label></div><p>Suivi enregistré dans ce navigateur pour cette variante et cette animation.</p><button data-export>Exporter les signalements JSON</button></div></div><div class="sprite-compare">${compared.map((s, i) => `<article><h3>${classes[s.classId].name}</h3><p>${s.gender} · ${teamPalette[s.color].name} · ${s.state} · ${animationNames[s.animation] ?? s.animation}</p><div class="sprite-stage">${resolveClip(getProfile(s), s.animation) ? `<canvas data-compare="${i}" width="256" height="256"></canvas>` : '<div class="sprite-missing">Ressource manquante</div>'}</div><button data-remove="${i}">Retirer</button></article>`).join("")}</div><p>${Object.keys(looseSpriteFiles).length} fichier(s) d’image dans le dossier extensible. Les planches historiques sont référencées par leur description partagée ; les nouveaux fichiers .sprite.json sont découverts automatiquement.</p></section></div></main>`;
+    (app.querySelector("#sprite-color") as HTMLSelectElement).onchange = (
+      e,
+    ) => {
+      selection.color = (e.target as HTMLSelectElement).value as TeamColor;
+      render();
+    };
+    (app.querySelector("#gallery-faction") as HTMLSelectElement).onchange = (
+      e,
+    ) => {
+      faction = (e.target as HTMLSelectElement).value;
+      render();
+    };
+    (app.querySelector("#gallery-stage") as HTMLSelectElement).onchange = (
+      e,
+    ) => {
+      stage = (e.target as HTMLSelectElement).value;
+      render();
+    };
+    (app.querySelector("[data-three-teams]") as HTMLButtonElement).onclick =
+      () => {
+        compared = [
+          teamColors.player1,
+          teamColors.player2,
+          teamColors.enemies,
+        ].map((color) => ({ ...selection, color }));
+        render();
+      };
+    app
+      .querySelectorAll<HTMLSelectElement>("[data-team-color]")
+      .forEach((select) => {
+        select.onchange = () => {
+          try {
+            const next = {
+              ...teamColors,
+              [select.dataset.teamColor!]: select.value,
+            } as TeamColors;
+            setTeamColors({}, next);
+            teamColors = next;
+            writeTeamPreferences(next);
+            render();
+          } catch (error) {
+            app.querySelector("#gallery-color-error")!.textContent = (
+              error as Error
+            ).message;
+            select.value =
+              teamColors[select.dataset.teamColor as keyof TeamColors];
+          }
+        };
+      });
     app.querySelector("[data-gallery-back]")!.addEventListener("click", onBack);
     app.querySelectorAll<HTMLElement>("[data-gallery-class]").forEach(
       (b) =>
@@ -252,8 +374,12 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
     const canvas = app.querySelector<HTMLCanvasElement>("#sprite-canvas");
     if (canvas && clip) {
       const image = spriteImage(clip.source),
-        w = image.naturalWidth ? image.naturalWidth / clip.columns : 128,
-        h = image.naturalHeight ? image.naturalHeight / clip.rows : 128;
+        w = image.naturalWidth
+          ? Math.round(image.naturalWidth / clip.columns)
+          : 128,
+        h = image.naturalHeight
+          ? Math.round(image.naturalHeight / clip.rows)
+          : 128;
       if (canvas.width !== w * zoom || canvas.height !== h * zoom) {
         canvas.width = w * zoom;
         canvas.height = h * zoom;
@@ -277,6 +403,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
           canvas.width,
           canvas.height,
           true,
+          selection.color,
         );
       const info = app.querySelector("#sprite-frame");
       if (info)
@@ -299,6 +426,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
           256,
           256,
           true,
+          s.color,
         );
       }
     }

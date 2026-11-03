@@ -1,4 +1,5 @@
 export type Clip = {
+  recolor?: "magenta";
   source: string;
   columns: number;
   rows: number;
@@ -37,7 +38,7 @@ export function buildSpriteCatalog(inputs: unknown[]) {
   const profiles = new Map<string, SpriteProfile>(),
     errors: string[] = [];
   for (const input of inputs) {
-    const data = input as { profiles?: SpriteProfile[] };
+    const data = input as { profiles?: SpriteProfile[]; override?: boolean };
     if (!Array.isArray(data?.profiles)) {
       errors.push("Description de sprites sans liste profiles");
       continue;
@@ -83,6 +84,7 @@ export function buildSpriteCatalog(inputs: unknown[]) {
           continue;
         }
         if (
+          !data.override &&
           merged.clips[name] &&
           JSON.stringify(merged.clips[name]) !== JSON.stringify(clip)
         ) {

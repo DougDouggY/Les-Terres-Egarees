@@ -111,7 +111,16 @@ et données sont conservées. Aucun campement temporaire n’est encore dévelop
 
 Avec npm run dev, le menu propose Classes et systèmes et Galerie des sprites :
 ressources réelles partagées avec le jeu, animations, zoom net, comparaison,
-variantes manquantes et commentaires exportables. Ces outils sont exclus du
-build public GitHub Pages. Vérifier cette exclusion avec npm run check:public.
+variantes manquantes et commentaires exportables. Le prototype en ligne les active avec npm run build:prototype. Le build final
+standard (npm run build) les exclut ; npm run check:public vérifie cette exclusion.
 
 Documentation et décisions ouvertes : docs/PHASE1.md.
+
+COULEURS DES ÉQUIPES
+-------------------
+Neuf couleurs réglables pour J1, J2 et ennemis. Options → Couleurs des équipes.
+Le Pillard et l’Homme d’armes disposent d’un échantillon homme/femme recolorable
+au repos, en déplacement et avec des poses de combat ; les ressources historiques
+restent conservées.
+Documentation du masque de matière, de la galerie et des compilations :
+docs/SPRITE-COLORS.md.

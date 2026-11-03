@@ -15,3 +15,5 @@ export * from "./game/save";
 export * from "./game/classes";
 export * from "./game/equipment";
 export * from "./game/skills";
+
+export * from "./game/team-colors";

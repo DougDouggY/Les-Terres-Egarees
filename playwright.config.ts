@@ -8,6 +8,7 @@ export default defineConfig({
     "interaction.spec.ts",
     "viewport.spec.ts",
     "phase1.spec.ts",
+    "team-colors.spec.ts",
   ],
   timeout: 180000,
   use: {
@@ -27,6 +28,12 @@ export default defineConfig({
     {
       command: "npm run preview -- --port 4173 --base=/Les-Terres-Egarees/",
       url: "http://127.0.0.1:4173/Les-Terres-Egarees/",
+      reuseExistingServer: true,
+    },
+    {
+      command:
+        "npm run preview -- --outDir dist-prototype --port 4174 --base=/Les-Terres-Egarees/",
+      url: "http://127.0.0.1:4174/Les-Terres-Egarees/",
       reuseExistingServer: true,
     },
   ],

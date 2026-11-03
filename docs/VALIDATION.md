@@ -116,3 +116,12 @@ Le test intégral dispose d'un délai de 240 s pour les machines sans accéléra
 - Compilation TypeScript/Vite avec la base GitHub Pages et contrôle d’exclusion des outils privés réussis. Captures : `artifacts/sprite-gallery.png`, `artifacts/phase1-summary.png`.
 - L’ancien camp permanent, ses ressources et ses anciennes validations restent archivés ; la boucle active utilise un bilan. Aucun campement temporaire ni nouvel élément narratif n’est développé. Réglages provisoires et décisions ouvertes : [PHASE1.md](PHASE1.md).
 - Vérification manuelle automatisée supplémentaire des quatre combinaisons du créateur : origines, Tab, observation, caméras et sauvegarde passent sans erreur JavaScript ni réponse HTTP en échec.
+
+## Galerie du prototype et couleurs dynamiques
+
+- 49 tests moteur réussis : neuf couleurs, indépendance des factions, joueurs distincts, ennemis libres, sauvegarde et migration, masquage sélectif et registre partagé. Le contrôle SHA-256 de la carte reste intact.
+- 17 scénarios navigateur ciblés réussis ensemble, dont galerie sur la compilation du prototype, neuf rendus distincts, comparaison des équipes, persistance des préférences, conservation exacte des pixels naturels et de l’alpha, cache réutilisé et exclusion des outils de la compilation finale.
+- Le parcours complet a repassé isolément en trois minutes : 57 activations, mouvements, annulation, affrontements, rencontre, victoire et reprise du bilan. Son délai est adapté à Chromium logiciel ; aucune règle de combat n’est accélérée pour le test.
+- Deux compilations vérifiées : `npm run build` exclut les outils, `npm run build:prototype` les expose volontairement pour le prototype GitHub Pages.
+- Échantillon livré : Pillard et Homme d’armes, homme et femme, repos et marche à deux images, poses d’attaque/dégâts/mort et riposte réutilisée explicitement. Les poses d’anticipation aux marges insuffisantes ne sont pas utilisées. Les anciennes ressources restent conservées et les masques ou animations non préparés sont annoncés dans la galerie.
+- Capture : `artifacts/team-color-gallery.png`. Aucun changement de terrain, de décor, de dimensions, de grille ou de logique de déplacement de la carte validée.

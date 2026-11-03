@@ -8,9 +8,11 @@
     "build": "tsc --noEmit && vite build",
     "test": "node --import tsx --test tests/*.test.ts",
     "preview": "vite preview --host 0.0.0.0",
-    "test:e2e": "npm run build -- --base=/Les-Terres-Egarees/ && playwright test",
+    "test:e2e": "npm run build -- --base=/Les-Terres-Egarees/ && npm run build:prototype -- --base=/Les-Terres-Egarees/ --outDir dist-prototype && playwright test",
     "format": "prettier --write src tests docs playwright.config.ts package.json tsconfig.json index.html",
-    "check:public": "node scripts/check-public.mjs"
+    "check:public": "node scripts/check-public.mjs",
+    "build:prototype": "tsc --noEmit && vite build --mode prototype",
+    "check:prototype": "node scripts/check-public.mjs --prototype"
   },
   "devDependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",

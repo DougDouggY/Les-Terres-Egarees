@@ -1,3 +1,5 @@
+import { recoloredImage } from "./recolor";
+import type { TeamColor } from "../game/team-colors";
 import type { Unit } from "../game/types";
 import { unitClass, activeWeapon, visualState, classes } from "../game/classes";
 import {
@@ -53,22 +55,28 @@ export function drawResourceFrame(
   width: number,
   height: number,
   pixelArt = false,
+  color?: TeamColor,
 ) {
   const c = resolveClip(p, animation);
   if (!c) return false;
   const img = spriteImage(c.source);
   if (!img.complete || !img.naturalWidth) return false;
   const sw = img.naturalWidth / c.columns,
-    sh = img.naturalHeight / c.rows;
+    sh = img.naturalHeight / c.rows,
+    column =
+      c.frames[((index % c.frames.length) + c.frames.length) % c.frames.length],
+    left = Math.round(column * sw),
+    top = Math.round(c.row * sh),
+    source =
+      color && c.recolor === "magenta" ? recoloredImage(img, color) : img;
   ctx.save();
   ctx.imageSmoothingEnabled = !pixelArt;
   ctx.drawImage(
-    img,
-    c.frames[((index % c.frames.length) + c.frames.length) % c.frames.length] *
-      sw,
-    c.row * sh,
-    sw,
-    sh,
+    source,
+    left,
+    top,
+    Math.round((column + 1) * sw) - left,
+    Math.round((c.row + 1) * sh) - top,
     x,
     y,
     width,

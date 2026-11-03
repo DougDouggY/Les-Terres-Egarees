@@ -83,6 +83,7 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  teamColors?: import("./team-colors").TeamColors;
   discoveries?: {
     weaknesses?: string[];
     classes: string[];

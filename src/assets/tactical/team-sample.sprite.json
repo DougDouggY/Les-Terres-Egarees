@@ -1,0 +1,277 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "raider",
+      "gender": "male",
+      "equipment": "axe-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        },
+        "move": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta"
+        },
+        "attack": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            2
+          ],
+          "fps": 3,
+          "recolor": "magenta"
+        },
+        "death": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            3
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "female",
+      "equipment": "axe-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        },
+        "move": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta"
+        },
+        "attack": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            2
+          ],
+          "fps": 3,
+          "recolor": "magenta"
+        },
+        "death": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            3
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        }
+      }
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        },
+        "move": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta"
+        },
+        "attack": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            2
+          ],
+          "fps": 3,
+          "recolor": "magenta"
+        },
+        "death": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            3
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        }
+      }
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        },
+        "move": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta"
+        },
+        "attack": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            2
+          ],
+          "fps": 3,
+          "recolor": "magenta"
+        },
+        "death": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            3
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        }
+      }
+    }
+  ]
+}
