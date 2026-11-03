@@ -90,3 +90,11 @@ Le test intégral dispose d'un délai de 240 s pour les machines sans accéléra
 - Parcours complet réussi jusqu’au camp et à la reprise (52 activations, environ 2 minutes).
 - Après ajustement des panneaux flottants, les trois scénarios viewport/interaction repassent. Compilation avec la base GitHub Pages validée.
 - Captures : `artifacts/fullscreen-1907.png`, `artifacts/fullscreen-1280.png`, `artifacts/connected-woods.png`.
+
+## Lisières et convoi sur la route — révision 6
+
+- 31 tests moteur passent, dont connexité de toutes les cases praticables, présence du convoi sur la route, densité boisée autour des ruines et du convoi, contours variables et migration des sauvegardes de révision 5 sans doublement de coordonnées.
+- Les quatre compositions de factions gagnent les simulations en 82 à 87 activations, avec quatre survivants.
+- Huit contrôles navigateur de brume, sélection, déplacement, survol, village et inspection des nouveaux secteurs passent. Après nettoyage du fond du convoi, les deux inspections de terrain repassent.
+- Compilation GitHub Pages validée. Captures : `artifacts/wooded-ruins.png` et `artifacts/forest-convoy.png`.
+- Parcours navigateur complet réussi en 68 activations : introductions, déplacements, combats, rencontre, combat commun, victoire, camp et reprise de sauvegarde.

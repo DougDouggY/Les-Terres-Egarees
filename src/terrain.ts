@@ -55,7 +55,17 @@ export class TerrainRenderer {
       for (let py = 0; py < 128; py++)
         for (let px = 0; px < 128; px++) {
           const edge = Math.min(px, py, 127 - px, 127 - py) / 14;
-          pixels.data[(py * 128 + px) * 4 + 3] *= Math.min(1, edge);
+          const i = (py * 128 + px) * 4;
+          pixels.data[i + 3] *= Math.min(1, edge);
+          // Remove the wagon's grassy matte so the forest road remains visible
+          // beneath the original wooden wreck and its canvas covering.
+          if (index === 12) {
+            const greenExcess = pixels.data[i + 1] - pixels.data[i];
+            pixels.data[i + 3] *= Math.max(
+              0,
+              Math.min(1, (3 - greenExcess) / 7),
+            );
+          }
         }
       t.putImageData(pixels, 0, 0);
       this.stamps.set(index, tile);

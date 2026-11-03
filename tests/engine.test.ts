@@ -449,3 +449,62 @@ test("raccords des bois : voisins réciproques et absence de pont vers la prairi
     if (!isWood(E.cell(c.x, c.y + 1))) assert.equal(n[2], false);
   }
 });
+
+test("convoi sur la route, massifs irréguliers et sous-bois autour des ruines", () => {
+  const convoy = E.arrivalFootprints[1];
+  const routeCells = new Set<number>();
+  for (const route of E.roadRoutes)
+    for (let i = 1; i < route.length; i++) {
+      let [x, y] = route[i - 1];
+      const [tx, ty] = route[i];
+      routeCells.add(E.key(x, y));
+      while (x !== tx || y !== ty) {
+        x += Math.sign(tx - x);
+        y += Math.sign(ty - y);
+        routeCells.add(E.key(x, y));
+      }
+    }
+  assert.ok(routeCells.has(E.key(convoy.x, convoy.y)));
+  assert.equal(E.cell(convoy.x, convoy.y - 1)!.terrain, "road");
+  assert.equal(E.cell(convoy.x, convoy.y + 1)!.terrain, "road");
+  const wooded = (x: number, y: number, r: number) =>
+    E.map.filter(
+      (c) =>
+        Math.abs(c.x - x) + Math.abs(c.y - y) <= r &&
+        ["forest", "tree"].includes(c.terrain),
+    );
+  assert.ok(wooded(E.village.x, E.village.y, 10).length >= 70);
+  assert.ok(wooded(convoy.x, convoy.y, 7).length >= 45);
+  assert.ok(wooded(convoy.x, convoy.y, 7).some((c) => c.walk));
+  const spans = Array.from({ length: 7 }, (_, i) =>
+    E.map
+      .filter(
+        (c) =>
+          c.y === 15 + i &&
+          c.x >= 10 &&
+          c.x <= 19 &&
+          ["forest", "tree"].includes(c.terrain),
+      )
+      .map((c) => c.x),
+  );
+  assert.ok(new Set(spans.map((xs) => `${xs[0]}:${xs.at(-1)}`)).size >= 4);
+});
+
+test("sauvegarde de la carte précédente : nouvelle forêt, coordonnées et progression conservées", () => {
+  const s = fresh();
+  s.mapRevision = 5;
+  const u = s.units[0];
+  Object.assign(u, { x: 35, y: 13, hp: 21, xp: 72 });
+  assert.equal(E.cell(u.x, u.y)!.walk, false);
+  const other = { x: s.units[2].x, y: s.units[2].y };
+  const loaded = E.decode(JSON.stringify(s));
+  E.validate(loaded);
+  assert.equal(loaded.mapRevision, E.MAP_REVISION);
+  assert.notDeepEqual(
+    { x: loaded.units[0].x, y: loaded.units[0].y },
+    { x: 35, y: 13 },
+  );
+  assert.equal(loaded.units[0].hp, 21);
+  assert.equal(loaded.units[0].xp, 72);
+  assert.deepEqual({ x: loaded.units[2].x, y: loaded.units[2].y }, other);
+});

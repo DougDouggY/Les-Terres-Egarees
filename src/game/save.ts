@@ -69,7 +69,7 @@ export function decode(raw: string): Campaign {
     if (relocated)
       for (const p of s.players)
         p.journal.push(
-          "La carte a été agrandie : les unités concernées ont été replacées au plus près, sans perte de PV ni de progression.",
+          "Le terrain a été réaménagé : les unités concernées ont été replacées au plus près, sans perte de PV ni de progression.",
         );
     s.mapRevision = MAP_REVISION;
   }

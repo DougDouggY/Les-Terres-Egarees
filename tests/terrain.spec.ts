@@ -43,3 +43,31 @@ test("carte régionale : inspection sans brume et aucune mutation de campagne", 
   );
   expect(errors).toEqual([]);
 });
+
+test("inspection des nouvelles lisières aux ruines et du convoi sur sa route", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (e) => errors.push(e.message));
+  await page.goto("/");
+  await page.evaluate(async () => {
+    const E = await import("/src/engine.ts" as string),
+      s = E.createCampaign(["north", "knight"]);
+    s.phase = "battle";
+    s.scene = null;
+    Object.assign(s.units[1], { x: 31, y: 20 });
+    E.visibility(s);
+    localStorage.setItem("lte-save", E.encode(s));
+  });
+  await page.reload();
+  await page.getByRole("button", { name: /Continuer/ }).click();
+  await page
+    .getByRole("button", { name: "Retirer la brume (test)", exact: true })
+    .click();
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: "artifacts/wooded-ruins.png" });
+  await page.keyboard.press("Tab");
+  await page.waitForTimeout(300);
+  await page.screenshot({ path: "artifacts/forest-convoy.png" });
+  expect(errors).toEqual([]);
+});

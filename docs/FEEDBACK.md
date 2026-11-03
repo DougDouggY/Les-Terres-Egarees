@@ -108,3 +108,17 @@ s’adaptent au format sans étirer les cases. L’observation conserve deux vue
 côte à côte. Les forêts réutilisent le dessin peint original avec raccords
 latéraux et aux jonctions ; les montagnes sont un quart plus basses.
 Les positions de départ et les sauvegardes ne changent pas.
+
+## Massifs irréguliers et route du convoi — révision 6
+
+Le tileset approuvé, le zoom et le plein écran sont conservés. Les anciens
+blocs de bois dessinés en carrés de 2 × 2 cases sont remplacés par des contours
+asymétriques définis case par case. Les forêts denses ont des lisières de
+sous-bois praticables ; des massifs supplémentaires bordent les ruines et
+encadrent le secteur du convoi. Les clairières de départ restent reliées.
+
+La route traverse désormais la case du convoi détruit (50, 34) et rejoint le
+bord est de la carte. Le fond herbeux du décor du chariot est retiré au rendu
+pour laisser apparaître le chemin sous les débris. L’atlas lui-même reste intact.
+La progression des sauvegardes est conservée ; une unité couverte par une
+nouvelle forêt dense est replacée sur la case libre la plus proche.

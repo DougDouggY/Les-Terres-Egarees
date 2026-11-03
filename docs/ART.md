@@ -18,3 +18,11 @@ des bouquets supplémentaires relient les bords partagés et les jonctions
 complètes de quatre cases. Les coins concaves sur la prairie restent libres.
 Les trois compositions de montagnes sont abaissées de 25 %, avec leur base
 au même niveau. Aucune nouvelle image générée.
+
+## Implantation des massifs
+
+Les contours boisés sont maintenant définis en cases individuelles avec des
+largeurs de rangée variables, des pointes et des renfoncements. Une lisière
+praticable entoure les noyaux denses. Les mêmes canopées peintes et leurs
+raccords sont conservés. Les ruines et l’embuscade du convoi prennent place
+dans un environnement plus boisé ; aucune ressource graphique supplémentaire.

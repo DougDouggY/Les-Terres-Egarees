@@ -2,7 +2,7 @@ import type { Cell, Terrain } from "./types";
 export const W = 60,
   H = 40,
   TILE = 32,
-  MAP_REVISION = 5;
+  MAP_REVISION = 6;
 const terrains: Record<Terrain, [number, boolean, number, boolean, number]> = {
   grass: [1, true, 0, false, 0],
   earth: [1, true, 0, false, 28],
@@ -86,60 +86,169 @@ for (const [x, y] of [
   [3, 5],
 ])
   set(x, y, "sand");
-// Clusters represent woodlands and mountain ranges, not individual full-size trees.
+// Authored, uneven woodland silhouettes in single cells, with walkable fringes.
+// Each row is [dy, left, right] relative to its centre; no repeated 2 × 2 blocks.
+function woodland(cx: number, cy: number, rows: number[][]) {
+  const occupied = new Set<number>();
+  for (const [dy, left, right] of rows)
+    for (let dx = left; dx <= right; dx++) {
+      const c = cell(cx + dx, cy + dy);
+      if (
+        c?.terrain === "grass" ||
+        c?.terrain === "forest" ||
+        c?.terrain === "tree"
+      ) {
+        occupied.add(key(c.x, c.y));
+        setExact(c.x, c.y, "forest");
+      }
+    }
+  for (const k of occupied) {
+    const c = map[k];
+    const interior = [
+      [0, -1],
+      [1, 0],
+      [0, 1],
+      [-1, 0],
+    ].every(([dx, dy]) => occupied.has(key(c.x + dx, c.y + dy)));
+    if (interior) setExact(c.x, c.y, "tree");
+  }
+}
+woodland(20, 4, [
+  [-3, -1, 1],
+  [-2, -3, 2],
+  [-1, -4, 4],
+  [0, -4, 5],
+  [1, -3, 4],
+  [2, -2, 3],
+  [3, 0, 1],
+]);
+woodland(41, 4, [
+  [-3, 0, 1],
+  [-2, -2, 2],
+  [-1, -3, 3],
+  [0, -3, 4],
+  [1, -2, 3],
+  [2, -2, 1],
+  [3, 0, 1],
+]);
+woodland(15, 18, [
+  [-3, -1, 1],
+  [-2, -3, 2],
+  [-1, -4, 4],
+  [0, -3, 4],
+  [1, -4, 3],
+  [2, -2, 3],
+  [3, -2, 1],
+]);
+woodland(10, 25, [
+  [-3, 0, 1],
+  [-2, -1, 2],
+  [-1, -3, 2],
+  [0, -3, 3],
+  [1, -2, 2],
+  [2, -1, 1],
+  [3, 0, 1],
+]);
+woodland(24, 29, [
+  [-3, -1, 0],
+  [-2, -2, 2],
+  [-1, -4, 3],
+  [0, -4, 4],
+  [1, -3, 3],
+  [2, -1, 3],
+  [3, 0, 1],
+]);
+// The ruined settlement sits inside a woodland belt, with its southern road open.
+woodland(26, 13, [
+  [-3, -1, 0],
+  [-2, -2, 2],
+  [-1, -3, 3],
+  [0, -3, 2],
+  [1, -4, 1],
+  [2, -3, 1],
+  [3, -1, 0],
+]);
+woodland(36, 14, [
+  [-4, 0, 1],
+  [-3, -1, 2],
+  [-2, -3, 3],
+  [-1, -3, 4],
+  [0, -2, 4],
+  [1, -1, 3],
+  [2, 0, 2],
+  [3, 0, 1],
+]);
+woodland(28, 24, [
+  [-3, -1, 1],
+  [-2, -2, 2],
+  [-1, -3, 2],
+  [0, -4, 3],
+  [1, -3, 2],
+  [2, -2, 1],
+  [3, 0, 1],
+]);
+woodland(36, 23, [
+  [-3, -1, 1],
+  [-2, -3, 2],
+  [-1, -3, 3],
+  [0, -2, 4],
+  [1, -3, 3],
+  [2, -1, 3],
+  [3, 0, 1],
+]);
+// The ambushed convoy follows a forest road rather than standing in a meadow.
+woodland(45, 34, [
+  [-4, -1, 1],
+  [-3, -2, 2],
+  [-2, -3, 3],
+  [-1, -4, 3],
+  [0, -3, 4],
+  [1, -2, 3],
+  [2, -2, 2],
+  [3, 0, 1],
+]);
+woodland(54, 34, [
+  [-4, 0, 1],
+  [-3, -1, 2],
+  [-2, -3, 3],
+  [-1, -3, 4],
+  [0, -2, 4],
+  [1, -3, 3],
+  [2, -3, 2],
+  [3, -2, 2],
+  [4, 0, 1],
+]);
+// Keep starting clearings and the sides of the wreck traversable.
 for (const [x, y] of [
-  [9, 1],
-  [10, 1],
-  [9, 2],
-  [10, 2],
-  [11, 2],
-  [20, 1],
-  [21, 1],
-  [20, 2],
-  [7, 8],
-  [8, 8],
-  [7, 9],
-  [8, 9],
-  [6, 10],
-  [7, 10],
-  [11, 14],
-  [12, 14],
-  [11, 15],
-  [12, 15],
-  [22, 16],
-  [22, 17],
-  [23, 17],
-  [24, 18],
-  [4, 12],
-  [5, 12],
-  [4, 13],
-])
-  set(x, y, "tree");
-for (const [x, y] of [
-  [8, 1],
-  [11, 1],
-  [8, 2],
-  [11, 3],
-  [19, 1],
-  [21, 2],
-  [19, 3],
-  [6, 8],
-  [9, 8],
-  [6, 9],
-  [8, 10],
-  [10, 14],
-  [13, 14],
-  [10, 15],
-  [13, 15],
-  [21, 16],
-  [23, 16],
-  [23, 18],
-  [5, 11],
-  [5, 13],
-  [6, 13],
-  [18, 16],
-])
-  set(x, y, "forest");
+  [10, 10],
+  [11, 11],
+  [52, 32],
+  [53, 33],
+  [16, 10],
+  [48, 28],
+  [28, 20],
+  [37, 20],
+  [12, 9],
+  [54, 36],
+  [49, 33],
+  [49, 34],
+  [49, 35],
+  [51, 33],
+  [51, 34],
+  [51, 35],
+]) {
+  if (["forest", "tree"].includes(cell(x, y)!.terrain))
+    setExact(x, y, "forest");
+}
+// Clear linked paths out of the southern starting glade and reinforcement grove.
+for (let y = 31; y <= 34; y++)
+  for (let x = 51; x <= 54; x++) {
+    if (["forest", "tree"].includes(cell(x, y)!.terrain))
+      setExact(x, y, "forest");
+  }
+for (let x = 51; x <= 54; x++)
+  if (["forest", "tree"].includes(cell(x, 36)!.terrain))
+    setExact(x, 36, "forest");
 for (const [y, minX] of [
   [0, 24],
   [1, 25],
@@ -163,6 +272,10 @@ for (const [x, y] of [
 // Authored routes bend through the landscape; painting follows these exact cells.
 export const roadRoutes: number[][][] = [
   [
+    [52, 32],
+    [50, 32],
+  ],
+  [
     [10, 10],
     [20, 10],
     [20, 16],
@@ -172,7 +285,9 @@ export const roadRoutes: number[][][] = [
     [31, 18],
   ],
   [
-    [52, 32],
+    [59, 36],
+    [50, 36],
+    [50, 32],
     [46, 32],
     [46, 26],
     [39, 26],
