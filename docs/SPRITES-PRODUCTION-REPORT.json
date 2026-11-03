@@ -1,0 +1,2976 @@
+{
+  "totals": {
+    "functional": 291,
+    "provisional": 35,
+    "missing": 61
+  },
+  "classes": [
+    {
+      "id": "north_warrior",
+      "name": "Guerrier du Nord",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "axe",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "berserker",
+      "name": "Berserker",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "dual-axes",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "ironbreaker",
+      "name": "Brise-fer",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "great-axe",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "provisional",
+              "note": "Cycle de marche incomplet : poses de préparation, à retravailler."
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 5,
+        "provisional": 1,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "raider",
+      "name": "Pillard",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "axe-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "provisional",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "",
+          "gender": "female",
+          "equipment": "axe-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 10,
+        "provisional": 10,
+        "missing": 4
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "huscarl",
+      "name": "Huscarl",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "axe-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "provisional",
+              "note": "Poses défensives présentes ; véritable levée du bouclier et impact à retravailler."
+            },
+            {
+              "id": "intercept",
+              "status": "provisional",
+              "note": "Défense réutilisée ; transition d’interception à compléter."
+            }
+          ]
+        },
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "provisional",
+              "note": "Poses défensives présentes ; véritable levée du bouclier et impact à retravailler."
+            },
+            {
+              "id": "intercept",
+              "status": "provisional",
+              "note": "Défense réutilisée ; transition d’interception à compléter."
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 12,
+        "provisional": 4,
+        "missing": 2
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "clan_healer",
+      "name": "Guérisseur du clan",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "axe-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 14,
+        "provisional": 0,
+        "missing": 4
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "nordic_blade",
+      "name": "Lame nordique",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "sword",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "drengr",
+      "name": "Drengr",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "dual-swords",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "honor_guard",
+      "name": "Garde d’honneur",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "provisional",
+              "note": "Poses défensives présentes ; véritable levée du bouclier et impact à retravailler."
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 1,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "hunter",
+      "name": "Chasseur",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "female",
+          "equipment": "bow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "provisional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 1,
+        "missing": 0
+      },
+      "variants": {
+        "male": false,
+        "female": true
+      }
+    },
+    {
+      "id": "master_hunter",
+      "name": "Grand chasseur",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "female",
+          "equipment": "bow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": false,
+        "female": true
+      }
+    },
+    {
+      "id": "tracker",
+      "name": "Traqueur",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "bow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "axe",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 12,
+        "provisional": 0,
+        "missing": 2
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "shaman",
+      "name": "Chaman",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "healing",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 5,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "man_at_arms",
+      "name": "Homme d’armes",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "female",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "provisional",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 4,
+        "provisional": 10,
+        "missing": 2
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "guard_knight",
+      "name": "Chevalier de la garde",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "provisional",
+              "note": "Poses défensives présentes ; véritable levée du bouclier et impact à retravailler."
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 1,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "cavalry",
+      "name": "Cavalier",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "charge",
+              "status": "provisional",
+              "note": "Galop réutilisé ; transition de charge spécifique à compléter."
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 1,
+        "missing": 2
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "spearman",
+      "name": "Lancier",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "lance",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "royal_guard",
+      "name": "Garde royal",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "lance-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "provisional",
+              "note": "Poses défensives présentes ; véritable levée du bouclier et impact à retravailler."
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 1,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "mounted_spearman",
+      "name": "Lancier monté",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "lance",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "charge",
+              "status": "provisional",
+              "note": "Galop réutilisé ; transition de charge spécifique à compléter."
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 1,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "standard_bearer",
+      "name": "Porte-étendard",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "banner",
+          "state": "carried",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "banner",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "sword",
+          "state": "planted",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 11,
+        "provisional": 0,
+        "missing": 4
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "crossbowman",
+      "name": "Arbalétrier",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "crossbow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "provisional",
+              "note": ""
+            },
+            {
+              "id": "reload",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 1,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "ranger",
+      "name": "Rôdeur",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "crossbow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "reload",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "sword",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 12,
+        "provisional": 0,
+        "missing": 3
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "pavise_crossbowman",
+      "name": "Arbalétrier à pavois",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "crossbow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "reload",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "fortify",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "crossbow",
+          "state": "fortified",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "reload",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 11,
+        "provisional": 0,
+        "missing": 5
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "swordsman",
+      "name": "Épéiste",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "sword",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "duelist",
+      "name": "Duelliste",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "dual-swords",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "executioner",
+      "name": "Exécuteur",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "great-sword",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "provisional",
+              "note": "Cycle de marche incomplet : poses de préparation, à retravailler."
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 5,
+        "provisional": 1,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sorcerer",
+      "name": "Sorcier",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "spell",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "Même ressource de classe, livre et bâton conservés pendant les soins.",
+          "gender": "male",
+          "equipment": "healing",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 12,
+        "provisional": 0,
+        "missing": 2
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "necromancer",
+      "name": "Nécromancien",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "spell",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "summon",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "Même ressource de classe, livre et bâton conservés pendant les soins.",
+          "gender": "male",
+          "equipment": "healing",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "summon",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 14,
+        "provisional": 0,
+        "missing": 2
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "archmage",
+      "name": "Archimage",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "spell",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "area",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "Même ressource de classe, livre et bâton conservés pendant les soins.",
+          "gender": "male",
+          "equipment": "healing",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "area",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 14,
+        "provisional": 0,
+        "missing": 2
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "young_viking",
+      "name": "Jeune Viking",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "Référence de recrue à valider : petit bouclier d’entraînement illustré ; aucun équipement de partie n’est modifié.",
+          "gender": "male",
+          "equipment": "training-axe",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "squire",
+      "name": "Écuyer",
+      "faction": "knight",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "male",
+          "equipment": "training-sword",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "provisional",
+              "note": "Pose finale agenouillée : chute au sol à compléter."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 5,
+        "provisional": 1,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "skeleton",
+      "name": "Squelette épéiste",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "rusty-sword",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "provisional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 1,
+        "missing": 0
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_axe",
+      "name": "Squelette hacheur",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "axe",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_spear",
+      "name": "Squelette lancier",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "lance",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_archer",
+      "name": "Archer décharné",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "bow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_crossbow",
+      "name": "Arbalétrier décharné",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "crossbow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "reload",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 2
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_guard",
+      "name": "Garde en armure",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 2
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_rider",
+      "name": "Cavalier spectral",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "lance",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_necromancer",
+      "name": "Nécromancien ennemi",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "",
+          "gender": "any",
+          "equipment": "spell",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": "Recul puis retour à la pose de repos."
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": "Recul puis chute au sol, deux poses."
+            },
+            {
+              "id": "evade",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "summon",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 7,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,4478 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "cavalry",
+      "equipment": "sword-shield",
+      "state": "default",
+      "gender": "any",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "charge": {
+          "reuse": "move",
+          "status": "provisional",
+          "note": "Galop r\u00e9utilis\u00e9 ; transition de charge sp\u00e9cifique \u00e0 compl\u00e9ter."
+        }
+      }
+    },
+    {
+      "classId": "mounted_spearman",
+      "equipment": "lance",
+      "state": "default",
+      "gender": "any",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "charge": {
+          "reuse": "move",
+          "status": "provisional",
+          "note": "Galop r\u00e9utilis\u00e9 ; transition de charge sp\u00e9cifique \u00e0 compl\u00e9ter."
+        }
+      }
+    },
+    {
+      "classId": "sans_rider",
+      "equipment": "lance",
+      "state": "default",
+      "gender": "any",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot1-mounts.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "standard_bearer",
+      "equipment": "banner",
+      "state": "carried",
+      "gender": "male",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "banner": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "standard_bearer",
+      "equipment": "sword",
+      "state": "planted",
+      "gender": "male",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "pavise_crossbowman",
+      "equipment": "crossbow",
+      "state": "default",
+      "gender": "male",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "fortify": {
+          "source": "tactical/lot1-states.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "pavise_crossbowman",
+      "equipment": "crossbow",
+      "state": "fortified",
+      "gender": "male",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "reload": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "ironbreaker",
+      "equipment": "great-axe",
+      "state": "default",
+      "gender": "male",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            2
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Cycle de marche incomplet : poses de pr\u00e9paration, \u00e0 retravailler."
+        },
+        "attack": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "executioner",
+      "equipment": "great-sword",
+      "state": "default",
+      "gender": "any",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            2
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Cycle de marche incomplet : poses de pr\u00e9paration, \u00e0 retravailler."
+        },
+        "attack": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot1-heavy.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "berserker",
+      "equipment": "dual-axes",
+      "state": "default",
+      "gender": "male",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "drengr",
+      "equipment": "dual-swords",
+      "state": "default",
+      "gender": "male",
+      "lot": 1,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot1-dual.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "north_warrior",
+      "equipment": "axe",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "nordic_blade",
+      "equipment": "sword",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "hunter",
+      "equipment": "bow",
+      "state": "default",
+      "gender": "female",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "spearman",
+      "equipment": "lance",
+      "state": "default",
+      "gender": "any",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "equipment": "crossbow",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "swordsman",
+      "equipment": "sword",
+      "state": "default",
+      "gender": "any",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "shaman",
+      "equipment": "healing",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "heal": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "equipment": "spell",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "heal": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "equipment": "sword-shield",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "skeleton",
+      "equipment": "rusty-sword",
+      "state": "default",
+      "gender": "any",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "sans_axe",
+      "equipment": "axe",
+      "state": "default",
+      "gender": "any",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "sans_spear",
+      "equipment": "lance",
+      "state": "default",
+      "gender": "any",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-melee.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "sans_archer",
+      "equipment": "bow",
+      "state": "default",
+      "gender": "any",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "sans_crossbow",
+      "equipment": "crossbow",
+      "state": "default",
+      "gender": "any",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "sans_guard",
+      "equipment": "sword-shield",
+      "state": "default",
+      "gender": "any",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-ranged.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "sans_necromancer",
+      "equipment": "spell",
+      "state": "default",
+      "gender": "any",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "summon": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "necromancer",
+      "equipment": "spell",
+      "state": "default",
+      "gender": "male",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "summon": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/lot4-defense.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "archmage",
+      "equipment": "spell",
+      "state": "default",
+      "gender": "male",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "area": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "huscarl",
+      "equipment": "axe-shield",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "block": {
+          "source": "tactical/lot4-defense.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Poses d\u00e9fensives pr\u00e9sentes ; v\u00e9ritable lev\u00e9e du bouclier et impact \u00e0 retravailler."
+        },
+        "intercept": {
+          "reuse": "block",
+          "status": "provisional",
+          "note": "D\u00e9fense r\u00e9utilis\u00e9e ; transition d\u2019interception \u00e0 compl\u00e9ter."
+        }
+      }
+    },
+    {
+      "classId": "clan_healer",
+      "equipment": "axe-shield",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "heal": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "honor_guard",
+      "equipment": "sword-shield",
+      "state": "default",
+      "gender": "any",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "block": {
+          "source": "tactical/lot4-defense.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Poses d\u00e9fensives pr\u00e9sentes ; v\u00e9ritable lev\u00e9e du bouclier et impact \u00e0 retravailler."
+        }
+      }
+    },
+    {
+      "classId": "master_hunter",
+      "equipment": "bow",
+      "state": "default",
+      "gender": "female",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "tracker",
+      "equipment": "bow",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "ranger",
+      "equipment": "crossbow",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-hunters.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "guard_knight",
+      "equipment": "sword-shield",
+      "state": "default",
+      "gender": "any",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "block": {
+          "source": "tactical/lot4-defense.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Poses d\u00e9fensives pr\u00e9sentes ; v\u00e9ritable lev\u00e9e du bouclier et impact \u00e0 retravailler."
+        }
+      }
+    },
+    {
+      "classId": "royal_guard",
+      "equipment": "lance-shield",
+      "state": "default",
+      "gender": "any",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "block": {
+          "source": "tactical/lot4-defense.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Poses d\u00e9fensives pr\u00e9sentes ; v\u00e9ritable lev\u00e9e du bouclier et impact \u00e0 retravailler."
+        }
+      }
+    },
+    {
+      "classId": "duelist",
+      "equipment": "dual-swords",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "young_viking",
+      "equipment": "training-axe",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      },
+      "note": "R\u00e9f\u00e9rence de recrue \u00e0 valider : petit bouclier d\u2019entra\u00eenement illustr\u00e9 ; aucun \u00e9quipement de partie n\u2019est modifi\u00e9."
+    },
+    {
+      "classId": "squire",
+      "equipment": "training-sword",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "provisional",
+          "loop": false,
+          "note": "Pose finale agenouill\u00e9e : chute au sol \u00e0 compl\u00e9ter."
+        }
+      }
+    },
+    {
+      "classId": "clan_healer",
+      "equipment": "sword-shield",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-recruits.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "heal": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "tracker",
+      "equipment": "axe",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "ranger",
+      "equipment": "sword",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "huscarl",
+      "equipment": "sword-shield",
+      "state": "default",
+      "gender": "male",
+      "lot": 4,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot4-equipment.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "block": {
+          "source": "tactical/lot4-defense.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Poses d\u00e9fensives pr\u00e9sentes ; v\u00e9ritable lev\u00e9e du bouclier et impact \u00e0 retravailler."
+        },
+        "intercept": {
+          "reuse": "block",
+          "status": "provisional",
+          "note": "D\u00e9fense r\u00e9utilis\u00e9e ; transition d\u2019interception \u00e0 compl\u00e9ter."
+        }
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "equipment": "healing",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "heal": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      },
+      "note": "M\u00eame ressource de classe, livre et b\u00e2ton conserv\u00e9s pendant les soins."
+    },
+    {
+      "classId": "necromancer",
+      "equipment": "healing",
+      "state": "default",
+      "gender": "male",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "summon": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/lot4-defense.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      },
+      "note": "M\u00eame ressource de classe, livre et b\u00e2ton conserv\u00e9s pendant les soins."
+    },
+    {
+      "classId": "archmage",
+      "equipment": "healing",
+      "state": "default",
+      "gender": "male",
+      "lot": 3,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour \u00e0 la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot3-mages.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "area": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      },
+      "note": "M\u00eame ressource de classe, livre et b\u00e2ton conserv\u00e9s pendant les soins."
+    }
+  ]
+}

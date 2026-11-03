@@ -125,3 +125,13 @@ Le test intégral dispose d'un délai de 240 s pour les machines sans accéléra
 - Deux compilations vérifiées : `npm run build` exclut les outils, `npm run build:prototype` les expose volontairement pour le prototype GitHub Pages.
 - Échantillon livré : Pillard et Homme d’armes, homme et femme, repos et marche à deux images, poses d’attaque/dégâts/mort et riposte réutilisée explicitement. Les poses d’anticipation aux marges insuffisantes ne sont pas utilisées. Les anciennes ressources restent conservées et les masques ou animations non préparés sont annoncés dans la galerie.
 - Capture : `artifacts/team-color-gallery.png`. Aucun changement de terrain, de décor, de dimensions, de grille ou de logique de déplacement de la carte validée.
+
+## Production visuelle des quatre lots — sans gameplay
+
+- 39 références et 51 profils d’apparence : 10 classes de base, 19 promotions définies, 2 recrues, 8 Sans-Repos. Les deux promotions du Chaman restent non définies.
+- 17 nouveaux atlas de production, transparence vérifiée, matières magenta recolorables et anciennes ressources conservées. Deux fonds/matériaux incorrects ont été corrigés avant intégration.
+- Statuts calculés par profil : 291 séquences fonctionnelles, 35 provisoires, 61 animations attendues absentes. Bilan détaillé et notes : `SPRITES-PRODUCTION-REPORT.md` et son JSON.
+- Quatre contrôles de bibliothèque passent : empreintes de la carte et des sources de règles/unités/équipements, cohérence des atlas, restriction du rose en partie et couverture de toutes les références. Aucune campagne ni simulation créée.
+- Quatre scénarios navigateur strictement visuels passent : lots complexes et états, visite des 39 références, neuf couleurs sur les différentes catégories, animation de chute à deux poses avec maintien final, distinction des préférences de galerie et de partie.
+- La galerie inspecte un extrait du rendu exact de la carte validée. Aucun combat n’est démarré, aucune sauvegarde de partie n’est créée. La publication exécute seulement les contrôles visuels et la compilation.
+- Les mécaniques, unités, positions, statistiques, équipements et décors restent inchangés. Seules les règles de couleur demandées évoluent : ennemis rose vif par défaut, joueurs sans rose et distincts ; liberté complète de couleurs dans la galerie.

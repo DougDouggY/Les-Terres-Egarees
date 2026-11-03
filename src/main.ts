@@ -136,6 +136,7 @@ function teamColorsModal() {
     .map(
       ([key, label]) =>
         `<label>${label}<select id="team-${key}">${Object.entries(E.teamPalette)
+          .filter(([id]) => key === "enemies" || id !== "pink")
           .map(
             ([id, value]) =>
               `<option value="${id}" ${colors[key] === id ? "selected" : ""}>${value.name}</option>`,
@@ -1331,7 +1332,7 @@ app.addEventListener("click", async (e) => {
     ) as E.TeamColors;
     try {
       const target = state ?? {};
-      E.setTeamColors(target, colors);
+      E.setPlayableTeamColors(target, colors);
       writeTeamPreferences(colors);
       document.querySelector(".team-colors-modal")?.remove();
       if (state && screen === "battle") {
@@ -1455,7 +1456,7 @@ app.addEventListener("click", async (e) => {
   } else if (action === "begin") {
     try {
       state = E.createCampaign(factions, heroDrafts);
-      E.setTeamColors(state, readTeamPreferences());
+      E.setPlayableTeamColors(state, readTeamPreferences());
     } catch (error) {
       toast((error as Error).message);
       return;

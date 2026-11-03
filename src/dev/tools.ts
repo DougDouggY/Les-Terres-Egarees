@@ -1,3 +1,6 @@
+import { requiredAnimations } from "../sprites/requirements";
+import { TerrainRenderer } from "../terrain";
+import { visualClasses } from "../sprites/visual-classes";
 import {
   teamPalette,
   colorForOwner,
@@ -5,7 +8,10 @@ import {
   type TeamColor,
   type TeamColors,
 } from "../game/team-colors";
-import { readTeamPreferences, writeTeamPreferences } from "../team-preferences";
+import {
+  readGalleryTeamPreferences as readTeamPreferences,
+  writeGalleryTeamPreferences as writeTeamPreferences,
+} from "../team-preferences";
 import "./tools.css";
 import {
   classes,
@@ -27,6 +33,8 @@ import {
   animationNames,
   findProfile,
   resolveClip,
+  animationStatus,
+  statusNames,
   type SpriteProfile,
 } from "../sprites/catalog";
 const esc = (s: string) =>
@@ -89,6 +97,17 @@ type Selection = {
 };
 type Review = { status: string; comment: string };
 export function openGallery(app: HTMLElement, onBack: () => void) {
+  const classes = visualClasses;
+  const terrainImage = new Image();
+  terrainImage.src = import.meta.env.BASE_URL + "assets/regional-tiles.png";
+  const terrain = new TerrainRenderer(terrainImage);
+  let previewTerrain = "road";
+  const previewLocations: Record<string, [number, number]> = {
+    road: [31, 20],
+    forest: [17, 17],
+    coast: [5, 5],
+    convoy: [50, 34],
+  };
   let selection: Selection = {
       color: readTeamPreferences().player1,
       classId: "raider",
@@ -136,7 +155,11 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       color: selection.color,
       classId: id,
       gender: p?.gender ?? "male",
-      equipment: p?.equipment ?? weaponCatalog[c.starter[0]].visual,
+      equipment:
+        p?.equipment ??
+        c.equipment?.[0] ??
+        weaponCatalog[c.starter[0]]?.visual ??
+        "",
       state: p?.state ?? c.visualStates[0],
       animation: "idle",
     };
@@ -158,18 +181,18 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       ],
       equipment = [
         ...new Set([
+          ...(c.equipment ?? []),
           ...c.starter.map((w) => weaponCatalog[w].visual),
           ...spriteCatalog.profiles
             .filter((p) => p.classId === c.id)
             .map((p) => p.equipment),
         ]),
       ],
-      animations = [
-        ...new Set([
-          ...Object.keys(animationNames),
-          ...Object.keys(p?.clips ?? {}),
-        ]),
-      ];
+      animations = requiredAnimations(
+        c,
+        selection,
+        Object.keys(p?.clips ?? {}),
+      );
     app.innerHTML = `<main class="dev-screen sprite-gallery"><header class="dev-top"><div><span class="dev-badge">DÉVELOPPEMENT UNIQUEMENT</span><h1>Galerie des sprites</h1></div><button data-gallery-back>Retour au menu</button></header><p>Ressources tactiques réellement utilisées par le jeu, mutualisées par classe, sexe, équipement et état. Aucun visuel de remplacement n’est créé pour un élément manquant.</p><div class="dev-controls"><label>Faction<select id="gallery-faction">${[
       ["all", "Toutes"],
       ["north", "Vikings"],
@@ -204,7 +227,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       )
       .join(
         "",
-      )}</select></label><button data-three-teams>Comparer J1 / J2 / ennemis</button></div><details class="dev-note"><summary>Préférences des couleurs de test</summary><div class="dev-controls">${(
+      )}</select></label><button data-three-teams>Comparer J1 / J2 / ennemis</button></div><details class="dev-note"><summary>Préférences des couleurs de galerie</summary><div class="dev-controls">${(
       [
         ["player1", "Joueur 1"],
         ["player2", "Joueur 2"],
@@ -224,7 +247,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       )
       .join(
         "",
-      )}</div><p id="gallery-color-error" role="alert"></p><p>Choix mémorisés pour les nouvelles parties. Dans une partie en cours, utilisez Options → Couleurs des équipes.</p></details><p class="dev-note">${clip?.recolor === "magenta" ? "Échantillon recolorable : seuls tissus, cape et panneau peint du bouclier changent." : "Ressource historique : masque de recoloration non préparé pour cette animation. Les couleurs de test ne modifient pas son image."}</p>${spriteCatalog.errors.length ? `<div class="dev-note">${spriteCatalog.errors.map(esc).join("<br>")}</div>` : ""}<div class="dev-layout"><aside class="dev-classes">${Object.values(
+      )}</div><p id="gallery-color-error" role="alert"></p><p>Préférences d’aperçu indépendantes de la partie. Le rose est permis ici pour tous. En partie : Options → Couleurs des équipes.</p></details><p class="dev-note">${clip?.recolor === "magenta" ? "Recoloration sélective : seuls les matériaux d’équipe prévus changent." : "Ressource historique : masque de recoloration non préparé pour cette animation. Les couleurs de test ne modifient pas son image."}</p>${spriteCatalog.errors.length ? `<div class="dev-note">${spriteCatalog.errors.map(esc).join("<br>")}</div>` : ""}<div class="dev-layout"><aside class="dev-classes">${Object.values(
       classes,
     )
       .filter(
@@ -234,11 +257,62 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       )
       .map(
         (x) =>
-          `<button data-gallery-class="${x.id}" class="${x.id === c.id ? "active" : ""}">${x.name}<small>${x.faction === "north" ? "Vikings" : x.faction === "knight" ? "Chevaliers" : "Ressource ennemie existante"} · ${x.stage === "advanced" ? "Promotion" : x.stage === "recruit" ? "Recrue" : x.stage === "base" ? "Classe de base" : "Ennemi"} · ${spriteCatalog.profiles.some((p) => p.classId === x.id) ? "ressource présente" : "sprite manquant"}</small>${Object.keys(reviews).some((k) => k.startsWith(x.id + ":") && reviews[k].status === "À corriger") ? "<small>⚑ À corriger</small>" : ""}</button>`,
+          `<button data-gallery-class="${x.id}" class="${x.id === c.id ? "active" : ""}">${x.name}<small>${x.faction === "north" ? "Vikings" : x.faction === "knight" ? "Chevaliers" : "Sans-Repos"} · ${x.stage === "advanced" ? "Promotion" : x.stage === "recruit" ? "Recrue" : x.stage === "base" ? "Classe de base" : "Ennemi"} · ${spriteCatalog.profiles.some((p) => p.classId === x.id) ? "ressource présente" : "sprite manquant"}</small>${Object.keys(reviews).some((k) => k.startsWith(x.id + ":") && reviews[k].status === "À corriger") ? "<small>⚑ À corriger</small>" : ""}</button>`,
       )
       .join(
         "",
-      )}<p>Chaman : deux promotions à définir, sans sprite ni caractéristiques inventés.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${resolveClip(p, id) ? "disponible" : "manquante"}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><div class="sprite-preview"><div class="sprite-stage" data-main-stage>${clip ? `<canvas id="sprite-canvas" width="${128 * zoom}" height="${128 * zoom}"></canvas>` : `<div class="sprite-missing"><strong>${p ? "Animation manquante" : "Sprite manquant"}</strong><p>${esc(c.name)} · ${esc(selection.gender)} · ${esc(selection.equipment)} · ${esc(selection.state)}<br>Aucune ressource substituée.</p></div>`}</div><div class="sprite-details"><div class="dev-controls"><button data-play ${clip ? "" : "disabled"}>${playing ? "Arrêter" : "Lancer"}</button><button data-replay ${clip ? "" : "disabled"}>Rejouer</button><button data-prev ${clip ? "" : "disabled"}>Image précédente</button><button data-next ${clip ? "" : "disabled"}>Image suivante</button></div><p id="sprite-frame">${clip ? `${clip.frames.length} image(s) · ${clip.fps} i/s` : "Aucune animation à lire"}</p><div class="resource-path">${clip ? `${esc(clip.source)} · ligne ${clip.row} · cellules ${clip.columns} × ${clip.rows}` : "Ressource non enregistrée"}</div>${p && "reuse" in (p.clips[selection.animation] ?? {}) ? "<p>Cette séquence réutilise l’animation d’attaque, comme le jeu.</p>" : ""}<button data-pin>Ajouter à la comparaison (${compared.length}/4)</button><div class="sprite-review"><label>Statut<select id="sprite-status">${["À examiner", "Validé", "À corriger"].map((v) => `<option ${r.status === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>Commentaire<textarea id="sprite-comment" maxlength="2000">${esc(r.comment)}</textarea></label></div><p>Suivi enregistré dans ce navigateur pour cette variante et cette animation.</p><button data-export>Exporter les signalements JSON</button></div></div><div class="sprite-compare">${compared.map((s, i) => `<article><h3>${classes[s.classId].name}</h3><p>${s.gender} · ${teamPalette[s.color].name} · ${s.state} · ${animationNames[s.animation] ?? s.animation}</p><div class="sprite-stage">${resolveClip(getProfile(s), s.animation) ? `<canvas data-compare="${i}" width="256" height="256"></canvas>` : '<div class="sprite-missing">Ressource manquante</div>'}</div><button data-remove="${i}">Retirer</button></article>`).join("")}</div><p>${Object.keys(looseSpriteFiles).length} fichier(s) d’image dans le dossier extensible. Les planches historiques sont référencées par leur description partagée ; les nouveaux fichiers .sprite.json sont découverts automatiquement.</p></section></div></main>`;
+      )}<p>Chaman : deux promotions à définir, sans sprite ni caractéristiques inventés.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${statusNames[animationStatus(p, id)]}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><p class="dev-note"><strong>${statusNames[animationStatus(p, selection.animation)]}</strong> · ${clip?.note ?? (clip && clip.frames.length === 1 ? "Pose statique : ce n’est pas une animation complète." : clip?.status === "provisional" ? "Séquence provisoire à retravailler." : !clip ? "Aucune ressource enregistrée." : "Séquence de poses distinctes.")} ${p?.note ?? ""}</p><div class="dev-controls"><button data-export-library>Bilan des sprites et animations (JSON)</button><label>Terrain d’inspection<select id="preview-terrain">${[
+      ["road", "Route près des ruines"],
+      ["forest", "Forêt"],
+      ["coast", "Côte"],
+      ["convoy", "Route du convoi"],
+    ]
+      .map(
+        ([id, name]) =>
+          `<option value="${id}" ${previewTerrain === id ? "selected" : ""}>${name}</option>`,
+      )
+      .join(
+        "",
+      )}</select></label></div><div class="visual-map-preview"><canvas id="visual-map" width="280" height="280" aria-label="Aperçu visuel sur la carte validée, sans partie ni combat"></canvas><p>Échelle tactique · une case de 40 px<br>Lecture visuelle uniquement : aucune unité déployée, aucune partie lancée.</p></div><div class="sprite-preview"><div class="sprite-stage" data-main-stage>${clip ? `<canvas id="sprite-canvas" width="${128 * zoom}" height="${128 * zoom}"></canvas>` : `<div class="sprite-missing"><strong>${p ? "Animation manquante" : "Sprite manquant"}</strong><p>${esc(c.name)} · ${esc(selection.gender)} · ${esc(selection.equipment)} · ${esc(selection.state)}<br>Aucune ressource substituée.</p></div>`}</div><div class="sprite-details"><div class="dev-controls"><button data-play ${clip ? "" : "disabled"}>${playing ? "Arrêter" : "Lancer"}</button><button data-replay ${clip ? "" : "disabled"}>Rejouer</button><button data-prev ${clip ? "" : "disabled"}>Image précédente</button><button data-next ${clip ? "" : "disabled"}>Image suivante</button></div><p id="sprite-frame">${clip ? `${clip.frames.length} image(s) · ${clip.fps} i/s` : "Aucune animation à lire"}</p><div class="resource-path">${clip ? `${esc(clip.source)} · ligne ${clip.row} · cellules ${clip.columns} × ${clip.rows}` : "Ressource non enregistrée"}</div>${p && "reuse" in (p.clips[selection.animation] ?? {}) ? "<p>Cette séquence réutilise explicitement une autre animation du même profil.</p>" : ""}<button data-pin>Ajouter à la comparaison (${compared.length}/4)</button><div class="sprite-review"><label>Statut<select id="sprite-status">${["À examiner", "Validé", "À corriger"].map((v) => `<option ${r.status === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>Commentaire<textarea id="sprite-comment" maxlength="2000">${esc(r.comment)}</textarea></label></div><p>Suivi enregistré dans ce navigateur pour cette variante et cette animation.</p><button data-export>Exporter les signalements JSON</button></div></div><div class="sprite-compare">${compared.map((s, i) => `<article><h3>${classes[s.classId].name}</h3><p>${s.gender} · ${teamPalette[s.color].name} · ${s.state} · ${animationNames[s.animation] ?? s.animation}</p><div class="sprite-stage">${resolveClip(getProfile(s), s.animation) ? `<canvas data-compare="${i}" width="256" height="256"></canvas>` : '<div class="sprite-missing">Ressource manquante</div>'}</div><button data-remove="${i}">Retirer</button></article>`).join("")}</div><p>${Object.keys(looseSpriteFiles).length} fichier(s) d’image dans le dossier extensible. Les planches historiques sont référencées par leur description partagée ; les nouveaux fichiers .sprite.json sont découverts automatiquement.</p></section></div></main>`;
+    (app.querySelector("#preview-terrain") as HTMLSelectElement).onchange = (
+      e,
+    ) => {
+      previewTerrain = (e.target as HTMLSelectElement).value;
+    };
+    (app.querySelector("[data-export-library]") as HTMLButtonElement).onclick =
+      () => {
+        const rows = Object.values(classes).map((c) => ({
+          id: c.id,
+          classe: c.name,
+          faction: c.faction,
+          profils: spriteCatalog.profiles
+            .filter((p) => p.classId === c.id)
+            .map((p) => ({
+              sexe: p.gender,
+              equipement: p.equipment,
+              etat: p.state,
+              lot: p.lot,
+              animations: Object.fromEntries(
+                requiredAnimations(c, p, Object.keys(p.clips)).map((id) => [
+                  id,
+                  {
+                    statut: statusNames[animationStatus(p, id)],
+                    note: resolveClip(p, id)?.note ?? "",
+                  },
+                ]),
+              ),
+            })),
+        }));
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(
+          new Blob([JSON.stringify(rows, null, 2)], {
+            type: "application/json",
+          }),
+        );
+        a.download = "bilan-bibliotheque-sprites.json";
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 0);
+      };
     (app.querySelector("#sprite-color") as HTMLSelectElement).onchange = (
       e,
     ) => {
@@ -306,7 +380,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
         selection[field] = (e.target as HTMLSelectElement).value;
         if (field === "state" && selection.classId === "standard_bearer")
           selection.equipment =
-            selection.state === "planted" ? "sword" : "lance";
+            selection.state === "planted" ? "sword" : "banner";
         started = performance.now();
         paused = frame = 0;
         render();
@@ -317,7 +391,12 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
     };
     (app.querySelector("[data-play]") as HTMLButtonElement).onclick = () => {
       if (playing) paused = performance.now() - started;
-      else started = performance.now() - paused;
+      else {
+        if (clip?.loop === false && frame >= clip.frames.length - 1) {
+          paused = frame = 0;
+        }
+        started = performance.now() - paused;
+      }
       playing = !playing;
       render();
     };
@@ -369,8 +448,16 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
   function tick(now: number) {
     const p = getProfile(),
       clip = resolveClip(p, selection.animation);
-    if (playing && clip)
+    if (playing && clip) {
       frame = Math.floor(((now - started) / 1000) * clip.fps);
+      if (clip.loop === false && frame >= clip.frames.length) {
+        frame = clip.frames.length - 1;
+        paused = (frame / clip.fps) * 1000;
+        playing = false;
+        const play = app.querySelector("[data-play]");
+        if (play) play.textContent = "Lancer";
+      }
+    }
     const canvas = app.querySelector<HTMLCanvasElement>("#sprite-canvas");
     if (canvas && clip) {
       const image = spriteImage(clip.source),
@@ -407,7 +494,48 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
         );
       const info = app.querySelector("#sprite-frame");
       if (info)
-        info.textContent = `Image ${(frame % clip.frames.length) + 1} / ${clip.frames.length} · ${clip.fps} i/s · ${playing ? "lecture" : "arrêt"}`;
+        info.textContent = `Image ${(clip.loop === false ? Math.min(frame, clip.frames.length - 1) : frame % clip.frames.length) + 1} / ${clip.frames.length} · ${clip.fps} i/s · ${playing ? "lecture" : "arrêt"}`;
+    }
+    const mapCanvas = app.querySelector<HTMLCanvasElement>("#visual-map");
+    if (mapCanvas && terrainImage.complete && terrainImage.naturalWidth) {
+      const surface = terrain.layer("regional", ["north", "knight"]);
+      if (surface) {
+        const ctx = mapCanvas.getContext("2d")!,
+          [x, y] = previewLocations[previewTerrain];
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(
+          surface,
+          (x - 3) * 64,
+          (y - 3) * 64,
+          448,
+          448,
+          0,
+          0,
+          280,
+          280,
+        );
+        ctx.strokeStyle = "#e4d9bb33";
+        for (let i = 0; i <= 7; i++) {
+          ctx.beginPath();
+          ctx.moveTo(i * 40, 0);
+          ctx.lineTo(i * 40, 280);
+          ctx.moveTo(0, i * 40);
+          ctx.lineTo(280, i * 40);
+          ctx.stroke();
+        }
+        drawResourceFrame(
+          ctx,
+          p,
+          selection.animation,
+          frame,
+          120,
+          114,
+          40,
+          46,
+          true,
+          selection.color,
+        );
+      }
     }
     for (const s of compared) {
       const i = compared.indexOf(s),

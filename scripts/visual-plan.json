@@ -1,0 +1,379 @@
+[
+  {
+    "name": "lot1-mounts",
+    "rows": 6,
+    "units": [
+      [
+        "cavalry",
+        "sword-shield",
+        "default",
+        "any"
+      ],
+      [
+        "mounted_spearman",
+        "lance",
+        "default",
+        "any"
+      ],
+      [
+        "sans_rider",
+        "lance",
+        "default",
+        "any"
+      ]
+    ],
+    "lot": 1
+  },
+  {
+    "name": "lot1-states",
+    "rows": 6,
+    "units": [
+      [
+        "standard_bearer",
+        "banner",
+        "carried",
+        "male",
+        "banner"
+      ],
+      [
+        "standard_bearer",
+        "sword",
+        "planted",
+        "male"
+      ],
+      [
+        "pavise_crossbowman",
+        "crossbow",
+        "default",
+        "male",
+        "fortify"
+      ]
+    ],
+    "lot": 1
+  },
+  {
+    "name": "lot1-heavy",
+    "rows": 6,
+    "units": [
+      [
+        "pavise_crossbowman",
+        "crossbow",
+        "fortified",
+        "male",
+        "reload"
+      ],
+      [
+        "ironbreaker",
+        "great-axe",
+        "default",
+        "male",
+        "heavy"
+      ],
+      [
+        "executioner",
+        "great-sword",
+        "default",
+        "any",
+        "heavy"
+      ]
+    ],
+    "lot": 1
+  },
+  {
+    "name": "lot1-dual",
+    "rows": 4,
+    "units": [
+      [
+        "berserker",
+        "dual-axes",
+        "default",
+        "male"
+      ],
+      [
+        "drengr",
+        "dual-swords",
+        "default",
+        "male"
+      ]
+    ],
+    "lot": 1
+  },
+  {
+    "name": "lot2-north",
+    "rows": 6,
+    "units": [
+      [
+        "north_warrior",
+        "axe",
+        "default",
+        "male"
+      ],
+      [
+        "nordic_blade",
+        "sword",
+        "default",
+        "male"
+      ],
+      [
+        "hunter",
+        "bow",
+        "default",
+        "female"
+      ]
+    ],
+    "lot": 2
+  },
+  {
+    "name": "lot2-knights",
+    "rows": 6,
+    "units": [
+      [
+        "spearman",
+        "lance",
+        "default",
+        "any"
+      ],
+      [
+        "crossbowman",
+        "crossbow",
+        "default",
+        "male"
+      ],
+      [
+        "swordsman",
+        "sword",
+        "default",
+        "any"
+      ]
+    ],
+    "lot": 2
+  },
+  {
+    "name": "lot2-magic",
+    "rows": 6,
+    "units": [
+      [
+        "shaman",
+        "healing",
+        "default",
+        "male",
+        "healer"
+      ],
+      [
+        "sorcerer",
+        "spell",
+        "default",
+        "male"
+      ],
+      [
+        "raider",
+        "sword-shield",
+        "default",
+        "male"
+      ]
+    ],
+    "lot": 2
+  },
+  {
+    "name": "lot3-melee",
+    "rows": 6,
+    "units": [
+      [
+        "skeleton",
+        "rusty-sword",
+        "default",
+        "any"
+      ],
+      [
+        "sans_axe",
+        "axe",
+        "default",
+        "any"
+      ],
+      [
+        "sans_spear",
+        "lance",
+        "default",
+        "any"
+      ]
+    ],
+    "lot": 3
+  },
+  {
+    "name": "lot3-ranged",
+    "rows": 6,
+    "units": [
+      [
+        "sans_archer",
+        "bow",
+        "default",
+        "any"
+      ],
+      [
+        "sans_crossbow",
+        "crossbow",
+        "default",
+        "any"
+      ],
+      [
+        "sans_guard",
+        "sword-shield",
+        "default",
+        "any"
+      ]
+    ],
+    "lot": 3
+  },
+  {
+    "name": "lot3-mages",
+    "rows": 6,
+    "units": [
+      [
+        "sans_necromancer",
+        "spell",
+        "default",
+        "any"
+      ],
+      [
+        "necromancer",
+        "spell",
+        "default",
+        "male"
+      ],
+      [
+        "archmage",
+        "spell",
+        "default",
+        "male"
+      ]
+    ],
+    "lot": 3
+  },
+  {
+    "name": "lot4-north",
+    "rows": 6,
+    "units": [
+      [
+        "huscarl",
+        "axe-shield",
+        "default",
+        "male"
+      ],
+      [
+        "clan_healer",
+        "axe-shield",
+        "default",
+        "male"
+      ],
+      [
+        "honor_guard",
+        "sword-shield",
+        "default",
+        "any"
+      ]
+    ],
+    "lot": 4
+  },
+  {
+    "name": "lot4-hunters",
+    "rows": 6,
+    "units": [
+      [
+        "master_hunter",
+        "bow",
+        "default",
+        "female"
+      ],
+      [
+        "tracker",
+        "bow",
+        "default",
+        "male"
+      ],
+      [
+        "ranger",
+        "crossbow",
+        "default",
+        "male"
+      ]
+    ],
+    "lot": 4
+  },
+  {
+    "name": "lot4-knights",
+    "rows": 6,
+    "units": [
+      [
+        "guard_knight",
+        "sword-shield",
+        "default",
+        "any"
+      ],
+      [
+        "royal_guard",
+        "lance-shield",
+        "default",
+        "any"
+      ],
+      [
+        "duelist",
+        "dual-swords",
+        "default",
+        "male"
+      ]
+    ],
+    "lot": 4
+  },
+  {
+    "name": "lot4-recruits",
+    "rows": 6,
+    "units": [
+      [
+        "young_viking",
+        "training-axe",
+        "default",
+        "male",
+        "recruit"
+      ],
+      [
+        "squire",
+        "training-sword",
+        "default",
+        "male",
+        "kneel-death"
+      ],
+      [
+        "clan_healer",
+        "sword-shield",
+        "default",
+        "male"
+      ]
+    ],
+    "lot": 4
+  },
+  {
+    "name": "lot4-equipment",
+    "rows": 6,
+    "units": [
+      [
+        "tracker",
+        "axe",
+        "default",
+        "male"
+      ],
+      [
+        "ranger",
+        "sword",
+        "default",
+        "male"
+      ],
+      [
+        "huscarl",
+        "sword-shield",
+        "default",
+        "male"
+      ]
+    ],
+    "lot": 4
+  }
+]

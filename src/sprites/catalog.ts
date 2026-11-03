@@ -1,4 +1,8 @@
 export type Clip = {
+  cells?: { row: number; column: number }[];
+  loop?: boolean;
+  status?: "functional" | "provisional";
+  note?: string;
   recolor?: "magenta";
   source: string;
   columns: number;
@@ -7,8 +11,12 @@ export type Clip = {
   frames: number[];
   fps: number;
 };
-export type ClipDefinition = Clip | { reuse: string };
+export type ClipDefinition =
+  | Clip
+  | { reuse: string; status?: "functional" | "provisional"; note?: string };
 export type SpriteProfile = {
+  lot?: number;
+  note?: string;
   classId: string;
   gender: "male" | "female" | "any";
   equipment: string;
@@ -30,6 +38,8 @@ export const animationNames: Record<string, string> = {
   summon: "Invocation",
   area: "Attaque de zone",
   charge: "Charge",
+  reload: "Rechargement",
+  intercept: "Interception",
 };
 export const profileKey = (
   p: Pick<SpriteProfile, "classId" | "gender" | "equipment" | "state">,
@@ -56,7 +66,7 @@ export function buildSpriteCatalog(inputs: unknown[]) {
       }
       const key = profileKey(p),
         old = profiles.get(key),
-        merged = { ...p, clips: { ...old?.clips } };
+        merged = { ...old, ...p, clips: { ...old?.clips } };
       for (const [name, clip] of Object.entries(p.clips)) {
         if ("reuse" in clip) {
           if (typeof clip.reuse !== "string") {
@@ -78,7 +88,18 @@ export function buildSpriteCatalog(inputs: unknown[]) {
             (f) => !Number.isInteger(f) || f < 0 || f >= clip.columns,
           ) ||
           !Number.isFinite(clip.fps) ||
-          clip.fps <= 0
+          clip.fps <= 0 ||
+          (clip.cells &&
+            (clip.cells.length !== clip.frames.length ||
+              clip.cells.some(
+                (c) =>
+                  !Number.isInteger(c.row) ||
+                  c.row < 0 ||
+                  c.row >= clip.rows ||
+                  !Number.isInteger(c.column) ||
+                  c.column < 0 ||
+                  c.column >= clip.columns,
+              )))
         ) {
           errors.push(`${key} / ${name} : découpage invalide`);
           continue;
@@ -106,7 +127,19 @@ export function resolveClip(
   if (!p || seen.has(id)) return;
   seen.add(id);
   const c = p.clips[id];
-  return c && ("reuse" in c ? resolveClip(p, c.reuse, seen) : c);
+  if (!c) return;
+  if (!("reuse" in c)) return c;
+  const resolved = resolveClip(p, c.reuse, seen);
+  return (
+    resolved &&
+    (c.status || c.note
+      ? {
+          ...resolved,
+          status: c.status ?? resolved.status,
+          note: c.note ?? resolved.note,
+        }
+      : resolved)
+  );
 }
 export function findProfile(
   profiles: SpriteProfile[],
@@ -123,3 +156,23 @@ export function findProfile(
       p.state === state,
   );
 }
+
+export function animationStatus(
+  profile: SpriteProfile | undefined,
+  id: string,
+) {
+  const clip = resolveClip(profile, id);
+  if (!clip) return "missing" as const;
+  const distinct = new Set(
+    clip.cells?.map((c) => `${c.row}:${c.column}`) ??
+      clip.frames.map((c) => `${clip.row}:${c}`),
+  );
+  if (clip.status === "provisional" || distinct.size < 2 || !clip.recolor)
+    return "provisional" as const;
+  return "functional" as const;
+}
+export const statusNames = {
+  functional: "Fonctionnelle",
+  provisional: "Provisoire",
+  missing: "Manquante",
+};

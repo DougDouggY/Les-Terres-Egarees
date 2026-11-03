@@ -12,7 +12,10 @@
     "format": "prettier --write src tests docs playwright.config.ts package.json tsconfig.json index.html",
     "check:public": "node scripts/check-public.mjs",
     "build:prototype": "tsc --noEmit && vite build --mode prototype",
-    "check:prototype": "node scripts/check-public.mjs --prototype"
+    "check:prototype": "node scripts/check-public.mjs --prototype",
+    "test:visual": "node --import tsx --test tests/visual-library.test.ts",
+    "test:visual-ui": "playwright test --config=playwright.visual.config.ts",
+    "report:sprites": "node --import tsx scripts/sprite-report.ts"
   },
   "devDependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",

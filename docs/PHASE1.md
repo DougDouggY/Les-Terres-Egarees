@@ -1,5 +1,7 @@
 # Phase 1 — classes, interface et galerie
 
+**Production visuelle mise à jour :** les lots 1 à 4 couvrent désormais 39 entrées et 51 profils. Voir [le bilan courant](SPRITES-PRODUCTION-REPORT.md) pour les états réels et les manques. Les ennemis ont maintenant le rose vif par défaut ; les joueurs le testent uniquement en galerie. Les contrôles de cette phase ne lancent aucun gameplay.
+
 **Mise à jour du prototype :** les deux outils sont maintenant accessibles en ligne pour les tests, et un échantillon recolorable de deux classes est intégré. Voir [SPRITE-COLORS.md](SPRITE-COLORS.md) pour les couleurs, les limites actuelles et l’exclusion des outils de la version finale.
 
 La carte tactique validée est conservée : terrain, décors, dimensions, raccords, caméra et brouillard. Les empreintes de ses cinq fichiers sources et graphiques sont enregistrées dans `baselines/validated-map.json` et vérifiées par les tests. Aucun tileset n’a été régénéré. Les sprites d’essai ajoutés ultérieurement sont décrits dans le document des couleurs.

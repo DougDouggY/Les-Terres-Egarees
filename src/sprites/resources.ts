@@ -1,3 +1,4 @@
+import { visualClasses } from "./visual-classes";
 import { recoloredImage } from "./recolor";
 import type { TeamColor } from "../game/team-colors";
 import type { Unit } from "../game/types";
@@ -16,10 +17,10 @@ const descriptions = import.meta.glob("../assets/tactical/**/*.sprite.json", {
 });
 export const spriteCatalog = buildSpriteCatalog(Object.values(descriptions));
 for (const p of spriteCatalog.profiles)
-  if (!classes[p.classId])
+  if (!visualClasses[p.classId])
     spriteCatalog.errors.push(`Classe non configurée : ${p.classId}`);
 spriteCatalog.profiles = spriteCatalog.profiles.filter(
-  (p) => !!classes[p.classId],
+  (p) => !!visualClasses[p.classId],
 );
 export const looseSpriteFiles = import.meta.glob(
   "../assets/tactical/**/*.{png,webp}",
@@ -63,10 +64,14 @@ export function drawResourceFrame(
   if (!img.complete || !img.naturalWidth) return false;
   const sw = img.naturalWidth / c.columns,
     sh = img.naturalHeight / c.rows,
-    column =
-      c.frames[((index % c.frames.length) + c.frames.length) % c.frames.length],
+    indexInClip =
+      c.loop === false
+        ? Math.max(0, Math.min(c.frames.length - 1, index))
+        : ((index % c.frames.length) + c.frames.length) % c.frames.length,
+    column = c.cells?.[indexInClip]?.column ?? c.frames[indexInClip],
     left = Math.round(column * sw),
-    top = Math.round(c.row * sh),
+    sourceRow = c.cells?.[indexInClip]?.row ?? c.row,
+    top = Math.round(sourceRow * sh),
     source =
       color && c.recolor === "magenta" ? recoloredImage(img, color) : img;
   ctx.save();
@@ -76,7 +81,7 @@ export function drawResourceFrame(
     left,
     top,
     Math.round((column + 1) * sw) - left,
-    Math.round((c.row + 1) * sh) - top,
+    Math.round((sourceRow + 1) * sh) - top,
     x,
     y,
     width,

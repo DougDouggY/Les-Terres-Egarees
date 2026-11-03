@@ -124,3 +124,20 @@ au repos, en déplacement et avec des poses de combat ; les ressources historiqu
 restent conservées.
 Documentation du masque de matière, de la galerie et des compilations :
 docs/SPRITE-COLORS.md.
+
+PRODUCTION VISUELLE — LOTS 1 À 4
+-------------------------------
+La galerie contient 39 entrées (classes, promotions, recrues et Sans-Repos),
+avec 51 profils d’apparence. Son aperçu statique reprend la carte validée sans
+créer de partie. Les statuts distinguent les séquences fonctionnelles, les poses
+provisoires et les animations absentes.
+
+Bilan détaillé : docs/SPRITES-PRODUCTION-REPORT.md
+Commandes de cette phase visuelle uniquement :
+    npm run test:visual
+    npm run test:visual-ui
+    npm run report:sprites
+    npm run build:prototype
+La publication utilise les contrôles visuels, sans lancer de tests de gameplay.
+Rose vif par défaut pour les ennemis ; rose exclu des choix joueurs en partie.
+La galerie conserve toutes les couleurs pour chaque aperçu.

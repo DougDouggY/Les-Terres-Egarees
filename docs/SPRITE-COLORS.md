@@ -1,5 +1,7 @@
 # Sprites et couleurs d’équipe — prototype de test
 
+**Production visuelle mise à jour :** les lots 1 à 4 couvrent désormais 39 entrées et 51 profils. Voir [le bilan courant](SPRITES-PRODUCTION-REPORT.md) pour les états réels et les manques. Les ennemis ont maintenant le rose vif par défaut ; les joueurs le testent uniquement en galerie. Les contrôles de cette phase ne lancent aucun gameplay.
+
 Le prototype en ligne expose désormais **Galerie des sprites** et **Classes et systèmes** dans son menu principal. Cette exception est volontaire pendant les tests. La version finale peut exclure les deux outils sans changer le jeu : `npm run build` produit cette version ; `npm run build:prototype` active les outils avec `.env.prototype`. La publication GitHub Pages utilise actuellement le second mode.
 
 ## Échantillon intégré
