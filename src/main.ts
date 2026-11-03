@@ -1,4 +1,4 @@
-import { TerrainRenderer, terrainStyles, type TerrainStyle } from "./terrain";
+import { TerrainRenderer, type TerrainStyle } from "./terrain";
 import { Mist } from "./fog";
 import "@fontsource/cormorant-garamond/latin-500.css";
 import "@fontsource/cormorant-garamond/latin-600.css";
@@ -13,6 +13,7 @@ let state: Campaign | null = null,
   screen = "title",
   factions: [Faction, Faction] = ["north", "knight"],
   selected: string | null = null,
+  cardOpen = false,
   origin: { x: number; y: number } | null = null,
   moved = false,
   busy = false,
@@ -26,20 +27,27 @@ let state: Campaign | null = null,
   sound = localStorage.getItem("lte-sound") !== "off";
 let pendingReward: (() => void) | null = null;
 let toastTimer: ReturnType<typeof setTimeout>;
+const zoom = 1.65;
+const viewCols = 30 / zoom,
+  viewRows = 20 / zoom;
+let focusToken = "";
+function clampCamera(p: 1 | 2) {
+  const c = state!.players[p - 1].camera;
+  c.x = Math.max(0, Math.min(E.W - viewCols, c.x));
+  c.y = Math.max(0, Math.min(E.H - viewRows, c.y));
+}
+function focusUnit(u: Unit) {
+  const c = state!.players[state!.active - 1].camera;
+  c.x = u.x + 0.5 - viewCols / 2;
+  c.y = u.y + 0.5 - viewRows / 2;
+  clampCamera(state!.active);
+}
 const assetBase = import.meta.env.BASE_URL;
-const tiles = new Image(),
-  sprites = new Image(),
-  roads = new Image(),
+const sprites = new Image(),
   attacks = new Image(),
-  regional = new Image(),
-  arrivals = new Image(),
-  grass = new Image();
-grass.src = assetBase + "assets/grass-variants.png?v=1";
+  regional = new Image();
 regional.src = assetBase + "assets/regional-tiles.png?v=1";
-arrivals.src = assetBase + "assets/arrivals.png";
 attacks.src = assetBase + "assets/attacks.png";
-roads.src = assetBase + "assets/roads.png?v=terrain-lab-1";
-tiles.src = assetBase + "assets/tiles.png?v=cartoon-1";
 sprites.src = assetBase + "assets/sprites.png";
 const esc = (s: string) =>
   s.replace(
@@ -361,7 +369,7 @@ function unitCard(u: Unit) {
   ]
     .map(
       ([n, v]) =>
-        `<div title="${({ FOR: "Force : augmente les dégâts physiques.", DÉF: "Défense : réduit les dégâts reçus, en plus du couvert.", AGI: "Agilité : réduit la précision adverse ; 4 points d’écart donnent une seconde frappe.", INIT: "Initiative : détermine l’ordre de passage, indépendamment de l’agilité.", PRÉC: "Précision : augmente les chances de toucher.", MVT: "Mouvement : budget de déplacement, selon le coût du terrain." } as Record<string, string>)[String(n)]}"><span>${n}</span><b>${v}</b></div>`,
+        `<div tabindex="0" role="button" aria-label="${n} : ${v}" data-tooltip="${({ FOR: "Force : augmente les dégâts physiques.", DÉF: "Défense : réduit les dégâts reçus, en plus du couvert.", AGI: "Agilité : réduit la précision adverse ; 4 points d’écart donnent une seconde frappe.", INIT: "Initiative : détermine l’ordre de passage, indépendamment de l’agilité.", PRÉC: "Précision : augmente les chances de toucher.", MVT: "Mouvement : budget de déplacement, selon le coût du terrain." } as Record<string, string>)[String(n)]}"><span>${n}</span><b>${v}</b></div>`,
     )
     .join(
       "",
@@ -382,76 +390,143 @@ function battleUI() {
   const u = E.current(s),
     sel = s.units.find((u) => u.id === selected),
     own = u?.owner === s.active;
-  app.innerHTML = `<main class="battle-screen"><header class="battle-header"><a class="mini-brand" data-action="pause">${mark}<span>LES TERRES ÉGARÉES</span></a><div class="mission-name"><span>CHAPITRE I</span><strong>Les rivages de l’oubli</strong></div><div class="perspectives">${[1, 2].map((p) => button(`EXPÉDITION ${p}`, `perspective-${p}`, s.active === p ? "active" : "")).join("")}</div><button class="icon-button" data-action="observer" aria-label="Observation côte à côte" title="Observer les deux perspectives">◫</button>${button("☰", "pause", "icon-button")}</header><div class="battle-layout"><aside class="mission-sidebar"><div class="objective"><span class="eyebrow">${s.merged ? "ALLIANCE DES SURVIVANTS" : "DEUX DESTINS DANS LA BRUME"}</span><h2>${s.merged ? "Repoussez les morts-vivants" : s.events.includes("horde") ? "Atteignez le village" : "Explorez les environs"}</h2><p>${s.merged ? "Éliminez les derniers maudits et protégez vos chefs." : "Ralliez les ruines. Au moins un chef doit survivre."}</p><div class="round">ROUND <b>${E.front(s).round.toString().padStart(2, "0")}</b><span>${s.merged ? "INITIATIVE COMMUNE" : `FRONT ${s.active}`}</span></div></div><div class="section-label">ORDRE D’INITIATIVE <span>↓</span></div><div class="initiative">${E.front(
-    s,
-  )
-    .queue.slice(E.front(s).index)
-    .map((id) => s.units.find((u) => u.id === id)!)
-    .filter((u) => u?.hp > 0)
-    .map(
-      (a, i) =>
-        `<button class="initiative-unit ${i === 0 ? "current" : ""}" data-action="inspect-${a.id}">${a.owner === 0 && !E.seen(s, s.active, a) ? '<div class="unknown-portrait">?</div>' : portrait(a)}<span><strong>${a.owner === 0 && !E.seen(s, s.active, a) ? "Présence inconnue" : a.name}</strong><small>${a.owner === 0 ? "ENNEMI" : `EXPÉDITION ${a.owner}`} · ${a.initiative} INIT</small></span>${i === 0 ? "<b>◂</b>" : ""}</button>`,
-    )
-    .join(
-      "",
-    )}</div><div class="journal"><div class="section-label">JOURNAL DE L’EXPÉDITION</div>${s.players[
-    s.active - 1
-  ].journal
-    .slice(-3)
-    .map((t) => `<p>${esc(t)}</p>`)
-    .join(
-      "",
-    )}</div></aside><section class="map-section"><div class="map-heading"><span><i class="player-dot p${s.active}"></i> ${factionName(s.factions[s.active - 1])}</span><span>LE VILLAGE DÉTRUIT DES VEILLEURS</span></div><div class="visual-lab"><span>ATELIER VISUEL · TEST</span><label>Terrain <select id="terrain-style" aria-label="Version du terrain">${Object.entries(
-    terrainStyles,
-  )
-    .map(
-      ([id, label]) =>
-        `<option value="${id}" ${terrainStyle === id ? "selected" : ""}>${label}</option>`,
-    )
-    .join(
-      "",
-    )}</select></label><button data-action="toggle-fog" aria-pressed="${!fogEnabled}">${fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume"}</button><button data-action="toggle-grid" aria-pressed="${showGrid}">Grille ${showGrid ? "active" : "masquée"}</button></div><div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Cliquez une unité puis une case bleue pour déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}<div class="map-vignette"></div><div class="map-compass">N<br>✦</div><div class="map-status">${!fogEnabled ? "INSPECTION SANS BRUME · VISION LOGIQUE CONSERVÉE" : s.merged ? "VISIBILITÉ PARTAGÉE" : "BRUME DE GUERRE · VUE INDÉPENDANTE"}</div></div><div class="map-toolbar"><span><i class="legend blue"></i> DÉPLACEMENT <i class="legend red"></i> ATTAQUE <i class="legend grey"></i> BRUME HORS DE VUE</span><span id="terrain-info">Survolez une case pour inspecter le terrain</span></div><div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u && u.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : (u?.name ?? "La brume s’éclaircit")}</strong><small>${own ? "Sélectionnez votre unité, déplacez-la puis choisissez une action." : u?.owner === 0 ? "Les morts-vivants avancent…" : "Changez de perspective pour jouer cette activation."}</small></div>${own ? button("Attendre <span>→</span>", "wait", "primary", busy) : u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></section><aside class="unit-sidebar">${sel && E.seen(s, s.active, sel) ? unitCard(sel) : `<div class="empty-unit">${mark}<span class="eyebrow">DANS LA BRUME</span><h2>Chaque pas<br>compte.</h2><p>Sélectionnez une unité pour consulter ses forces, son équipement et ses possibilités d’action.</p><div class="rule-note">L’initiative détermine l’ordre.<br>L’agilité permet une double frappe dès 4 points d’écart.</div></div>`}${sel && own && sel.id === u?.id ? `<div class="action-menu">${button("Attaquer", "attack-mode", "primary", busy)}${button(`Objets · Potion (${sel.potions})`, "heal", "", busy || !sel.potions || sel.hp === sel.maxHp)}${button("Attendre", "wait", "", busy)}${button("Annuler", "cancel", "", busy)}</div>` : ""}<div class="controls"><span>TAB</span> Changer d’expédition<br><span>ÉCHAP</span> Annuler / Menu<br><span>↑ ↓ ← →</span> Déplacer la caméra</div></aside></div><footer class="battle-footer"><span>LA BRUME CACHE BIEN PLUS QUE LE CHEMIN.</span><span>${button("Sauvegarder", "save", "text-button", busy || !!origin)} <i>◆</i> ${button("Règles du combat", "rules", "text-button")}</span></footer></main>`;
+  const token = `${s.active}:${u?.id}:${E.front(s).round}`;
+  if (token !== focusToken) {
+    focusToken = token;
+    const follow =
+      u && E.seen(s, s.active, u)
+        ? u
+        : E.alive(s).find((t) => t.owner === s.active);
+    if (follow) {
+      const c = s.players[s.active - 1].camera;
+      if (
+        follow.x < c.x + 1 ||
+        follow.x > c.x + viewCols - 2 ||
+        follow.y < c.y + 1 ||
+        follow.y > c.y + viewRows - 2
+      )
+        focusUnit(follow);
+    }
+  }
+  clampCamera(s.active);
+  app.innerHTML = `<main class="battle-screen compact-battle"><header class="battle-header"><a class="mini-brand" data-action="pause">${mark}<span>LES TERRES ÉGARÉES</span></a><div class="mission-name"><strong>${s.merged ? "Repoussez les morts-vivants" : "Rejoignez le village des Veilleurs"}</strong><span>ROUND ${E.front(s).round} · ${s.merged ? "ALLIANCE" : `EXPÉDITION ${s.active}`}</span></div><div class="perspectives">${[1, 2].map((p) => button(`EXPÉDITION ${p}`, `perspective-${p}`, s.active === p ? "active" : "")).join("")}</div><button class="icon-button" data-action="observer" aria-label="Observation côte à côte">◫</button>${button("☰", "pause", "icon-button")}</header>
+  <div class="battle-layout"><section class="map-section">
+  <div class="map-heading"><span>${factionName(s.factions[s.active - 1])} · Secteurs ≈ 100 m</span><div class="map-tools">${button("Recentrer", "recenter")}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog")}${button(`Grille ${showGrid ? "active" : "masquée"}`, "toggle-grid")}</div></div>
+  <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
+  <div class="map-compass">N<br>✦</div><div class="map-status">${!fogEnabled ? "INSPECTION SANS BRUME · VISION LOGIQUE CONSERVÉE" : ""}</div>
+  <div id="map-tooltip" class="map-tooltip" hidden></div>
+  ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window" aria-label="Fiche de ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer la fiche">×</button>${unitCard(sel)}</section>` : ""}
+  </div>
+  <div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u?.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : (u?.name ?? "")}</strong><small>Clic : unité / destination · Glisser : déplacer la carte</small></div><div class="turn-actions">${sel && own && sel.id === u?.id ? `${button("Attaquer", "attack-mode", "", busy)}${button(`Potion (${sel.potions})`, "heal", "", busy || !sel.potions || sel.hp === sel.maxHp)}${button("Annuler", "cancel", "", busy)}` : ""}${own ? button("Attendre", "wait", "primary", busy) : u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></div>
+  </section></div><footer class="battle-footer"><span>Glisser · Explorer la carte <i>◆</i> Flèches · Caméra <i>◆</i> Tab · Expédition</span><span>${button("Sauvegarder", "save", "text-button", busy || !!origin)} ${button("Règles du combat", "rules", "text-button")}</span></footer></main>`;
   bindCanvas();
-  document.querySelector("#terrain-style")?.addEventListener("change", (e) => {
-    terrainStyle = (e.target as HTMLSelectElement).value as TerrainStyle;
-  });
+  document
+    .querySelector('[data-action="toggle-grid"]')
+    ?.setAttribute("aria-pressed", String(showGrid));
+  document
+    .querySelector('[data-action="toggle-fog"]')
+    ?.setAttribute("aria-pressed", String(!fogEnabled));
   if (u?.owner === 0 && !busy) void enemyTurn();
 }
+function updateHover(c: { x: number; y: number } | null) {
+  hover = c ? E.key(c.x, c.y) : null;
+  const info = document.querySelector<HTMLElement>("#map-tooltip");
+  if (!info || !state) return;
+  const p = state.active,
+    k = hover;
+  if (k === null || (fogEnabled && !state.players[p - 1].visible.includes(k))) {
+    info.hidden = true;
+    info.innerHTML = "";
+    return;
+  }
+  const t = E.map[k],
+    unit = E.at(state, t.x, t.y);
+  info.hidden = false;
+  if (unit && (!fogEnabled || E.seen(state, p, unit))) {
+    info.innerHTML = `<strong>${esc(unit.name)}</strong><span>${unit.hp} / ${unit.maxHp} PV</span><div class="bar hp"><i style="width:${(100 * unit.hp) / unit.maxHp}%"></i></div>`;
+  } else
+    info.innerHTML = `<strong>${terrainNames[t.terrain]}</strong><span>${t.walk ? `Déplacement ${t.cost} · Défense +${t.defense}` : "Infranchissable"}</span>`;
+}
 function bindCanvas() {
-  const canvas = document.querySelector<HTMLCanvasElement>("#map");
-  if (!canvas) return;
-  canvas.onclick = (e) => {
-    const r = canvas.getBoundingClientRect(),
-      c = canvasCoords(
-        e.clientX - r.left,
-        e.clientY - r.top,
-        r.width,
-        r.height,
-        state!.active,
-      );
-    if (c) void clickCell(c.x, c.y);
-  };
-  canvas.onmousemove = (e) => {
-    const r = canvas.getBoundingClientRect(),
-      c = canvasCoords(
-        e.clientX - r.left,
-        e.clientY - r.top,
-        r.width,
-        r.height,
-        state!.active,
-      );
-    hover = c ? E.key(c.x, c.y) : null;
-    const info = document.querySelector("#terrain-info");
-    if (
-      info &&
-      c &&
-      (!fogEnabled ||
-        state!.players[state!.active - 1].explored.includes(E.key(c.x, c.y)))
-    ) {
-      const t = E.cell(c.x, c.y)!;
-      info.textContent = `${terrainNames[t.terrain]} · ${t.walk ? `Coût ${t.cost} · Défense +${t.defense}` : "Infranchissable"}`;
-    }
-  };
+  for (const [id, p] of [
+    ["map", state!.active],
+    ["map2", 3 - state!.active],
+  ] as const) {
+    const canvas = document.querySelector<HTMLCanvasElement>(`#${id}`);
+    if (!canvas) continue;
+    let drag: {
+      id: number;
+      x: number;
+      y: number;
+      cx: number;
+      cy: number;
+      moved: boolean;
+    } | null = null;
+    canvas.onpointerdown = (e) => {
+      if (e.button !== 0) return;
+      const c = state!.players[p - 1].camera;
+      drag = {
+        id: e.pointerId,
+        x: e.clientX,
+        y: e.clientY,
+        cx: c.x,
+        cy: c.y,
+        moved: false,
+      };
+      canvas.setPointerCapture(e.pointerId);
+    };
+    canvas.onpointermove = (e) => {
+      const r = canvas.getBoundingClientRect();
+      if (drag) {
+        const dx = e.clientX - drag.x,
+          dy = e.clientY - drag.y;
+        if (Math.hypot(dx, dy) > 5) drag.moved = true;
+        if (drag.moved) {
+          const c = state!.players[p - 1].camera;
+          c.x = drag.cx - (dx / r.width) * viewCols;
+          c.y = drag.cy - (dy / r.height) * viewRows;
+          clampCamera(p as 1 | 2);
+          canvas.classList.add("dragging");
+          updateHover(null);
+          return;
+        }
+      }
+      if (id === "map")
+        updateHover(
+          canvasCoords(
+            e.clientX - r.left,
+            e.clientY - r.top,
+            r.width,
+            r.height,
+            p as 1 | 2,
+          ),
+        );
+    };
+    canvas.onpointerup = (e) => {
+      const was = drag;
+      drag = null;
+      canvas.classList.remove("dragging");
+      if (canvas.hasPointerCapture(e.pointerId))
+        canvas.releasePointerCapture(e.pointerId);
+      if (!was || was.moved || id !== "map") return;
+      const r = canvas.getBoundingClientRect(),
+        c = canvasCoords(
+          e.clientX - r.left,
+          e.clientY - r.top,
+          r.width,
+          r.height,
+          p as 1 | 2,
+        );
+      if (c) void clickCell(c.x, c.y);
+    };
+    canvas.onpointercancel = () => {
+      drag = null;
+      canvas.classList.remove("dragging");
+    };
+    canvas.onpointerleave = () => {
+      if (!drag) updateHover(null);
+    };
+  }
 }
 const terrainNames: Record<E.Terrain, string> = {
   grass: "Prairie",
@@ -475,8 +550,8 @@ const terrainNames: Record<E.Terrain, string> = {
 };
 function canvasCoords(x: number, y: number, w: number, h: number, p: 1 | 2) {
   const c = state!.players[p - 1].camera,
-    xx = Math.floor((x / w) * E.W + c.x),
-    yy = Math.floor((y / h) * E.H + c.y);
+    xx = Math.floor((x / w) * viewCols + c.x),
+    yy = Math.floor((y / h) * viewRows + c.y);
   return E.cell(xx, yy) ? { x: xx, y: yy } : null;
 }
 function drawSprite(
@@ -557,15 +632,26 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     visible = new Set(s.players[p - 1].visible),
     explored = new Set(s.players[p - 1].explored),
     cam = s.players[p - 1].camera;
+  canvas.dataset.cameraX = String(cam.x);
+  canvas.dataset.cameraY = String(cam.y);
+  canvas.dataset.viewCols = String(viewCols);
+  canvas.dataset.viewRows = String(viewRows);
   ctx.setTransform(2, 0, 0, 2, 0, 0);
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
   ctx.fillStyle = "#71858a";
   ctx.fillRect(0, 0, 960, 640);
   ctx.save();
+  ctx.scale(zoom, zoom);
   ctx.translate(-cam.x * 32, -cam.y * 32);
   const surface = terrain.layer(terrainStyle, s.factions);
-  if (surface) ctx.drawImage(surface, 0, 0, 960, 640);
+  if (surface) {
+    const x = cam.x * 32,
+      y = cam.y * 32,
+      w = Math.min(viewCols * 32, E.W * 32 - x),
+      h = Math.min(viewRows * 32, E.H * 32 - y);
+    ctx.drawImage(surface, x * 2, y * 2, w * 2, h * 2, x, y, w, h);
+  }
   if (showGrid) {
     ctx.strokeStyle = "#e4d9bb35";
     ctx.lineWidth = 0.5;
@@ -651,15 +737,38 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ctx.strokeRect(x - 1, y - 1, 34, 34);
     }
   }
-  if (fogEnabled) mist.draw(ctx, visible, p, time);
-  if (!fogEnabled || visible.has(E.key(16, 10))) {
+  if (fogEnabled)
+    mist.draw(ctx, visible, p, time, {
+      x: cam.x * 32,
+      y: cam.y * 32,
+      width: viewCols * 32 + 1,
+      height: viewRows * 32 + 1,
+    });
+  if (!fogEnabled || visible.has(E.key(E.village.entry.x, E.village.entry.y))) {
     ctx.font = "7px Georgia";
     ctx.textAlign = "center";
     ctx.fillStyle = "#e4dbb8";
     ctx.shadowColor = "#10251a";
     ctx.shadowBlur = 5;
-    ctx.fillText("VILLAGE DÉTRUIT DES VEILLEURS", 16 * 32 + 16, 8 * 32 - 6);
+    ctx.fillText(
+      "VILLAGE DÉTRUIT DES VEILLEURS",
+      E.village.entry.x * 32 + 16,
+      E.village.y * 32 - 6,
+    );
     ctx.shadowBlur = 0;
+  }
+  if (!fogEnabled || visible.has(E.key(E.village.entry.x, E.village.entry.y))) {
+    const x = E.village.entry.x * 32,
+      y = E.village.entry.y * 32;
+    ctx.strokeStyle = "#dec48c";
+    ctx.lineWidth = 1.1;
+    ctx.strokeRect(x + 3, y + 3, 26, 26);
+    ctx.fillStyle = "#ead5a2";
+    ctx.beginPath();
+    ctx.moveTo(x + 12, y + 28);
+    ctx.lineTo(x + 16, y + 24);
+    ctx.lineTo(x + 20, y + 28);
+    ctx.fill();
   }
   if (hover !== null && (!fogEnabled || visible.has(hover))) {
     const c = E.map[hover];
@@ -719,6 +828,7 @@ async function clickCell(x: number, y: number) {
       return;
     }
     selected = target.id;
+    cardOpen = true;
     battleUI();
     return;
   }
@@ -1089,6 +1199,16 @@ app.addEventListener("click", async (e) => {
     cancel();
     state!.active = Number(action.split("-")[1]) as 1 | 2;
     battleUI();
+  } else if (action === "close-unit") {
+    cardOpen = false;
+    battleUI();
+  } else if (action === "recenter") {
+    const u = E.current(state!);
+    if (u && E.seen(state!, state!.active, u)) focusUnit(u);
+    else {
+      const friend = E.alive(state!).find((t) => t.owner === state!.active);
+      if (friend) focusUnit(friend);
+    }
   } else if (action === "observer") {
     observer = !observer;
     battleUI();
@@ -1110,6 +1230,7 @@ app.addEventListener("click", async (e) => {
     const u = E.current(state!);
     if (u?.owner === state!.active) {
       selected = u.id;
+      cardOpen = true;
       battleUI();
       toast(
         "Cliquez un ennemi dans les cases rouges pour prévisualiser l’attaque.",
@@ -1126,6 +1247,7 @@ app.addEventListener("click", async (e) => {
     const u = state!.units.find((u) => u.id === action.replace("inspect-", ""));
     if (u && E.seen(state!, state!.active, u)) {
       selected = u.id;
+      cardOpen = true;
       battleUI();
     }
   } else if (action === "close-modal") el.closest(".modal-back")?.remove();
@@ -1181,10 +1303,12 @@ window.addEventListener("keydown", (e) => {
   if (screen === "battle" && e.key.startsWith("Arrow")) {
     e.preventDefault();
     const c = state!.players[state!.active - 1].camera;
-    if (e.key === "ArrowLeft") c.x = Math.max(-3, c.x - 1);
-    if (e.key === "ArrowRight") c.x = Math.min(3, c.x + 1);
-    if (e.key === "ArrowUp") c.y = Math.max(-2, c.y - 1);
-    if (e.key === "ArrowDown") c.y = Math.min(2, c.y + 1);
+    if (e.key === "ArrowLeft") c.x = c.x - 1;
+    if (e.key === "ArrowRight") c.x = c.x + 1;
+    if (e.key === "ArrowUp") c.y = c.y - 1;
+    if (e.key === "ArrowDown") c.y = c.y + 1;
+    clampCamera(state!.active);
+    updateHover(null);
   }
 });
 window.addEventListener("beforeunload", () => save(true));

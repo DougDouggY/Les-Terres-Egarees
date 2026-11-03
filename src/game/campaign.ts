@@ -12,8 +12,8 @@ export function createCampaign(factions: [Faction, Faction]): Campaign {
   const units: Unit[] = [];
   for (const owner of [1, 2] as const) {
     const north = factions[owner - 1] === "north";
-    const x = owner === 1 ? 5 : 26,
-      y = owner === 1 ? 5 : 16;
+    const x = owner === 1 ? 10 : 52,
+      y = owner === 1 ? 10 : 32;
     units.push(
       makeUnit(
         `p${owner}a`,
@@ -49,10 +49,10 @@ export function createCampaign(factions: [Faction, Faction]): Campaign {
     );
   }
   units.push(
-    makeUnit("e1", 0, 1, "skeleton", "Guetteur noyé", 11, 5),
-    makeUnit("e2", 0, 2, "skeleton", "Porte-lame déchu", 24, 14),
-    makeUnit("e3", 0, 1, "skeleton", "Veilleur des ruines", 14, 10),
-    makeUnit("e4", 0, 2, "skeleton", "Gardien sans nom", 19, 11),
+    makeUnit("e1", 0, 1, "skeleton", "Guetteur noyé", 16, 10),
+    makeUnit("e2", 0, 2, "skeleton", "Porte-lame déchu", 48, 28),
+    makeUnit("e3", 0, 1, "skeleton", "Veilleur des ruines", 28, 20),
+    makeUnit("e4", 0, 2, "skeleton", "Gardien sans nom", 37, 20),
   );
   const p = (): Perspective => ({
     camera: { x: 0, y: 0 },
@@ -124,14 +124,14 @@ export function merge(s: Campaign) {
   // A finite final defence guarantees a real common battle, even if both fronts
   // have already cleared every roaming enemy before discovering one another.
   const candidates = [
-    { x: 14, y: 12 },
-    { x: 20, y: 10 },
-    { x: 20, y: 12 },
-    { x: 16, y: 13 },
+    { x: 28, y: 21 },
+    { x: 34, y: 18 },
+    { x: 35, y: 21 },
+    { x: 31, y: 22 },
     ...map
       .filter((c) => c.walk)
       .sort(
-        (a, b) => distance(a, { x: 17, y: 10 }) - distance(b, { x: 17, y: 10 }),
+        (a, b) => distance(a, { x: 31, y: 19 }) - distance(b, { x: 31, y: 19 }),
       ),
   ];
   for (const i of [0, 1] as const) {
@@ -190,8 +190,8 @@ export function advance(s: Campaign) {
   }
   if (r >= 3 && event(s, "horde")) {
     for (const [id, fr, x, y] of [
-      ["e5", 1, 6, 4],
-      ["e6", 2, 27, 18],
+      ["e5", 1, 12, 9],
+      ["e6", 2, 54, 36],
     ] as const) {
       if (!at(s, x, y))
         s.units.push(

@@ -69,3 +69,14 @@ Le test intégral dispose d'un délai de 240 s pour les machines sans accéléra
 - Inspection sans brume et grille sans mutation de campagne ; sélection avec brume animée et ennemis visibles ; passage à travers un allié : vérifiés dans Chromium.
 - Après adoucissement des textures, les quatre tests de rendu/brume/déplacement repassent. Capture : `artifacts/terrain-regional.png`.
 - Compilation TypeScript/Vite avec la base GitHub Pages validée.
+
+## Carte agrandie et interface contextuelle (révision 5)
+
+- 29 tests moteur/simulations passent. Les quatre combinaisons de factions terminent la mission en 68 à 83 activations, avec quatre survivants.
+- La connexité de toutes les cases praticables est vérifiée par un parcours complet du graphe ; les chemins pondérés et le passage entre alliés conservent leurs tests dédiés.
+- Chromium : brume animée, sélection avec ennemis visibles, passage entre alliés, rendu de brume identique après cadrage, glisser sans déplacement d’unité, caméras indépendantes, survol terrain/PV, fiche et aide de statistique, entrée sud du village et inspection sans mutation de campagne validés.
+- Captures : `artifacts/connected-woods.png`, `artifacts/unit-window.png`, `artifacts/terrain-regional.png`.
+- Terrain et brume sont dessinés uniquement dans le cadre de caméra ; le cache du terrain et les masques de visibilité conservent les coordonnées monde.
+- Parcours Chromium complet réussi en 52 activations : introductions, annulation, combats, rencontre, combat commun, victoire, camp, carte du monde et reprise de sauvegarde (environ 2 min 48 s en rendu logiciel).
+- Le pilote navigateur attend explicitement un tour humain et vérifie le nom de l’unité active ; il supporte les cinématiques qui interrompent un changement de perspective. Les changements de front utilisent le raccourci Tab officiel.
+- Après les derniers ajustements de cadrage et de libellés, les sept tests navigateur ciblés repassent ; compilation de production avec la base GitHub Pages validée.

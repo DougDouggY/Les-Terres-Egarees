@@ -1,3 +1,4 @@
+import { clickMap } from "./map-helpers";
 import { test, expect } from "@playwright/test";
 test("brume continue : animation, raccords, perspectives et retour hors de vue", async ({
   page,
@@ -91,11 +92,7 @@ test("sélection réelle : la brume continue de bouger et les ennemis visibles r
   await page.waitForTimeout(350);
   const before = await page.evaluate(() => (window as any).enemyDraws);
   expect(before).toBeGreaterThan(0);
-  const box = (await canvas.boundingBox())!;
-  await page.mouse.click(
-    box.x + (6.5 / 30) * box.width,
-    box.y + (6.5 / 20) * box.height,
-  );
+  await clickMap(page, 11, 11);
   await page.waitForTimeout(450);
   expect(errors).toEqual([]);
   const after = await page.evaluate(() => (window as any).enemyDraws);
@@ -140,23 +137,16 @@ test("déplacement réel à travers un allié sans superposition finale", async 
     const s = E.createCampaign(["north", "knight"]);
     s.phase = "battle";
     s.scene = null;
-    Object.assign(s.units[1], { x: 6, y: 5 });
-    Object.assign(s.units[0], { x: 7, y: 5 });
+    Object.assign(s.units[1], { x: 12, y: 10 });
+    Object.assign(s.units[0], { x: 13, y: 10 });
     E.visibility(s);
     localStorage.setItem("lte-save", E.encode(s));
     localStorage.setItem("lte-speed", "5");
   });
   await page.reload();
   await page.getByRole("button", { name: /Continuer/ }).click();
-  const click = async (x: number, y: number) => {
-    const r = (await page.locator("#map").boundingBox())!;
-    await page.mouse.click(
-      r.x + ((x + 0.5) / 30) * r.width,
-      r.y + ((y + 0.5) / 20) * r.height,
-    );
-  };
-  await click(6, 5);
-  await click(8, 5);
+  await clickMap(page, 12, 10);
+  await clickMap(page, 14, 10);
   await expect(
     page.getByRole("button", { name: "Annuler", exact: true }),
   ).toBeEnabled();
@@ -164,7 +154,44 @@ test("déplacement réel à travers un allié sans superposition finale", async 
   const units = await page.evaluate(
     () => JSON.parse(localStorage.getItem("lte-save")!).units,
   );
-  expect(units.find((u: any) => u.id === "p1b")).toMatchObject({ x: 8, y: 5 });
-  expect(units.find((u: any) => u.id === "p1a")).toMatchObject({ x: 7, y: 5 });
+  expect(units.find((u: any) => u.id === "p1b")).toMatchObject({
+    x: 14,
+    y: 10,
+  });
+  expect(units.find((u: any) => u.id === "p1a")).toMatchObject({
+    x: 13,
+    y: 10,
+  });
   expect(errors).toEqual([]);
+});
+
+test("brume cadrée : même texture et même visibilité après déplacement de caméra", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const delta = await page.evaluate(async () => {
+    const { Mist } = await import("/src/fog.ts" as string),
+      fog = new Mist(12, 8);
+    const full = document.createElement("canvas");
+    full.width = 384;
+    full.height = 256;
+    const part = document.createElement("canvas");
+    part.width = 384;
+    part.height = 256;
+    const visible = new Set([26, 27, 38, 39]);
+    fog.draw(full.getContext("2d")!, visible, 1, 10000);
+    fog.draw(part.getContext("2d")!, visible, 1, 10000, {
+      x: 64,
+      y: 32,
+      width: 192,
+      height: 160,
+    });
+    const a = full.getContext("2d")!.getImageData(65, 33, 180, 148).data,
+      b = part.getContext("2d")!.getImageData(65, 33, 180, 148).data;
+    let delta = 0;
+    for (let i = 0; i < a.length; i++)
+      delta = Math.max(delta, Math.abs(a[i] - b[i]));
+    return delta;
+  });
+  expect(delta).toBeLessThanOrEqual(2);
 });

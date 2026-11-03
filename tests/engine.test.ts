@@ -14,7 +14,7 @@ for (const a of ["north", "knight"] as const)
       E.validate(s);
       assert.equal(s.units.filter((u) => u.owner !== 0).length, 4);
       for (const u of s.units.filter((u) => u.owner !== 0)) {
-        const p = E.path(s, u, 16, 10, true);
+        const p = E.path(s, u, E.village.entry.x, E.village.entry.y, true);
         assert.ok(p, `${u.name} doit rejoindre le sanctuaire`);
         for (const k of p.steps) assert.equal(E.map[k].walk, true);
       }
@@ -23,7 +23,7 @@ for (const a of ["north", "knight"] as const)
       assert.equal(clone.factions[0], a);
     });
   }
-test("carte : 600 cellules régulières, correspondance terrain/visuel et connexité", () => {
+test("carte : 2400 cellules régulières, correspondance terrain/visuel et connexité", () => {
   assert.equal(E.map.length, E.W * E.H);
   for (const [i, c] of E.map.entries()) {
     assert.equal(c.x, i % E.W);
@@ -33,8 +33,27 @@ test("carte : 600 cellules régulières, correspondance terrain/visuel et connex
   }
   const s = fresh(),
     u = s.units[0];
+  // One independent flood fill checks every walkable sector, without running
+  // thousands of full weighted searches on the enlarged map.
+  const visited = new Set([E.key(u.x, u.y)]),
+    queue = [E.key(u.x, u.y)];
+  for (let head = 0; head < queue.length; head++) {
+    const c = E.map[queue[head]];
+    for (const [dx, dy] of [
+      [0, -1],
+      [1, 0],
+      [0, 1],
+      [-1, 0],
+    ]) {
+      const n = E.cell(c.x + dx, c.y + dy);
+      if (n?.walk && !visited.has(E.key(n.x, n.y))) {
+        visited.add(E.key(n.x, n.y));
+        queue.push(E.key(n.x, n.y));
+      }
+    }
+  }
   for (const c of E.map.filter((c) => c.walk))
-    assert.ok(E.path(s, u, c.x, c.y, true), `case inaccessible ${c.x},${c.y}`);
+    assert.ok(visited.has(E.key(c.x, c.y)), `case inaccessible ${c.x},${c.y}`);
 });
 test("déplacement : terrain, occupation, coût et chemin affiché", () => {
   const s = fresh();
@@ -86,10 +105,10 @@ test("validation rejette obstacles, hors-grille, superposition et doublons", () 
 });
 test("visibilité indépendante, mémoire et mur opaque", () => {
   const s = fresh();
-  assert.ok(s.players[0].visible.includes(E.key(5, 5)));
-  assert.ok(!s.players[1].visible.includes(E.key(5, 5)));
+  assert.ok(s.players[0].visible.includes(E.key(10, 10)));
+  assert.ok(!s.players[1].visible.includes(E.key(10, 10)));
   assert.ok(!E.seen(s, 1, s.units[2]));
-  assert.equal(E.los({ x: 16, y: 7 }, { x: 16, y: 9 }), false);
+  assert.equal(E.los({ x: 31, y: 15 }, { x: 31, y: 17 }), false);
   const old = [...s.players[0].visible];
   s.units[0].x = 13;
   s.units[0].y = 9;
@@ -98,10 +117,10 @@ test("visibilité indépendante, mémoire et mur opaque", () => {
 });
 test("rencontre fondée sur la vue puis fusion unique et nouveau round", () => {
   const s = fresh();
-  s.units[0].x = 14;
-  s.units[0].y = 12;
-  s.units[2].x = 18;
-  s.units[2].y = 12;
+  s.units[0].x = 28;
+  s.units[0].y = 21;
+  s.units[2].x = 32;
+  s.units[2].y = 21;
   s.fronts[0].index = 1;
   assert.ok(E.encounter(s));
   assert.equal(s.scene, "meeting");
@@ -113,7 +132,7 @@ test("rencontre fondée sur la vue puis fusion unique et nouveau round", () => {
   assert.deepEqual(s.players[0].visible, s.players[1].visible);
   assert.deepEqual(s.players[0].explored, s.players[1].explored);
   assert.ok(
-    s.players[0].explored.includes(E.key(26, 16)),
+    s.players[0].explored.includes(E.key(52, 32)),
     "les découvertes historiques de l’autre expédition doivent être partagées",
   );
   const old = JSON.stringify(s.common);
@@ -225,7 +244,7 @@ test("zones d’attaque : portées, murs et origines de déplacement", () => {
       assert.ok(attack.has(E.key(v.x, v.y)));
   }
   assert.equal(
-    E.los({ x: 14, y: 7 }, { x: 16, y: 9 }),
+    E.los({ x: 29, y: 15 }, { x: 31, y: 17 }),
     false,
     "pas de tir en diagonale à travers un angle opaque",
   );
@@ -263,11 +282,11 @@ test("annulation restaurée, perspective sans transfert de propriété et RNG re
   const s = fresh(),
     u = s.units[1],
     start = { x: u.x, y: u.y };
-  E.move(s, u, 7, 6);
+  E.move(s, u, 12, 11);
   Object.assign(u, start);
   E.visibility(s);
-  assert.equal(u.x, 6);
-  assert.equal(u.y, 6);
+  assert.equal(u.x, 11);
+  assert.equal(u.y, 11);
   const snapshots = s.players.map((p) => JSON.stringify(p));
   s.active = 2;
   assert.equal(u.owner, 1);
@@ -301,6 +320,9 @@ test("empreinte des décors : collisions et visibilité de toutes les cases occu
 
 test("visibilité cohérente d’un décor à plusieurs cases sans révéler au-delà du rayon", () => {
   const s = fresh();
+  Object.assign(s.units[0], { x: 7, y: 7 });
+  Object.assign(s.units[2], { x: 51, y: 34 });
+  E.visibility(s);
   for (const owner of [1, 2] as const) {
     const visible = s.players[owner - 1].visible;
     const f = E.arrivalFootprints[owner - 1];
@@ -324,11 +346,28 @@ test("village régional : seule entrée au milieu sud", () => {
   assert.ok(E.cell(v.entry.x, v.entry.y + 1)!.walk);
   for (const f of E.arrivalFootprints) assert.equal(f.w * f.h, 1);
   for (const c of E.map.filter((c) => c.terrain === "water"))
-    assert.ok(c.x <= 5 && c.y <= 4);
+    assert.ok(c.x <= 11 && c.y <= 9);
 });
 test("ancienne sauvegarde : repositionnement limité aux murs ajoutés, sans perdre la progression", () => {
   const s = fresh();
-  delete s.mapRevision;
+  s.mapRevision = 4;
+  const legacyPositions = [
+    [5, 5],
+    [6, 6],
+    [26, 16],
+    [27, 17],
+    [11, 5],
+    [24, 14],
+    [14, 10],
+    [19, 11],
+  ];
+  s.units.forEach((u, i) => {
+    [u.x, u.y] = legacyPositions[i];
+  });
+  s.players.forEach((p) => {
+    p.explored = [155];
+    p.visible = [155];
+  });
   const u = s.units[0];
   u.x = 15;
   u.y = 9;
@@ -339,9 +378,11 @@ test("ancienne sauvegarde : repositionnement limité aux murs ajoutés, sans per
   const loaded = E.decode(JSON.stringify(s));
   assert.equal(loaded.mapRevision, E.MAP_REVISION);
   E.validate(loaded);
+  assert.ok(loaded.players[0].explored.includes(E.key(10, 10)));
+  assert.equal(loaded.units[2].x, 52);
   assert.notDeepEqual(
     { x: loaded.units[0].x, y: loaded.units[0].y },
-    { x: 15, y: 9 },
+    { x: 30, y: 18 },
   );
   assert.equal(loaded.units[0].hp, 22);
   assert.equal(loaded.units[0].xp, 80);
@@ -357,25 +398,25 @@ test("traverser un allié, jamais finir sur lui ; ennemis et autres fronts reste
   const s = fresh(),
     u = s.units[1],
     friend = s.units[0];
-  Object.assign(u, { x: 6, y: 5 });
-  Object.assign(friend, { x: 7, y: 5 });
-  const route = E.path(s, u, 8, 5)!;
+  Object.assign(u, { x: 12, y: 10 });
+  Object.assign(friend, { x: 13, y: 10 });
+  const route = E.path(s, u, 14, 10)!;
   assert.ok(route);
   assert.equal(route.cost, 2);
-  assert.ok(route.steps.includes(E.key(7, 5)));
-  assert.equal(E.path(s, u, 7, 5), null);
-  assert.equal(E.reachable(s, u).has(E.key(7, 5)), false);
-  assert.ok(E.reachable(s, u).has(E.key(8, 5)));
-  E.move(s, u, 8, 5);
-  assert.equal(friend.x, 7);
+  assert.ok(route.steps.includes(E.key(13, 10)));
+  assert.equal(E.path(s, u, 13, 10), null);
+  assert.equal(E.reachable(s, u).has(E.key(13, 10)), false);
+  assert.ok(E.reachable(s, u).has(E.key(14, 10)));
+  E.move(s, u, 14, 10);
+  assert.equal(friend.x, 13);
   E.validate(s);
-  Object.assign(u, { x: 6, y: 5 });
+  Object.assign(u, { x: 12, y: 10 });
   friend.owner = 2;
-  assert.ok(!E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
+  assert.ok(!E.path(s, u, 14, 10)!.steps.includes(E.key(13, 10)));
   s.merged = true;
-  assert.ok(E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
+  assert.ok(E.path(s, u, 14, 10)!.steps.includes(E.key(13, 10)));
   friend.owner = 0;
-  assert.ok(!E.path(s, u, 8, 5)!.steps.includes(E.key(7, 5)));
+  assert.ok(!E.path(s, u, 14, 10)!.steps.includes(E.key(13, 10)));
 });
 
 test("variantes décoratives : distribution stable et suffisamment diverse", async () => {
@@ -386,4 +427,25 @@ test("variantes décoratives : distribution stable et suffisamment diverse", asy
   assert.ok(new Set(a).size >= 6);
   assert.ok(a.includes(0));
   assert.ok(a.every((v) => v >= 0 && v < 8));
+});
+
+test("approche du village allongée et entrée accessible depuis le sud", () => {
+  const s = fresh();
+  for (const u of s.units.filter((u) => u.leader)) {
+    const p = E.path(s, u, E.village.entry.x, E.village.entry.y, true)!;
+    assert.ok(p.cost >= 28);
+  }
+  const u = s.units[1];
+  Object.assign(u, { x: 31, y: 20 });
+  E.move(s, u, 31, 18);
+  assert.equal(E.cell(u.x, u.y)!.terrain, "floor");
+  E.validate(s);
+});
+test("raccords des bois : voisins réciproques et absence de pont vers la prairie", async () => {
+  const { woodNeighbors, isWood } = await import("../src/landscape");
+  for (const c of E.map.filter(isWood)) {
+    const n = woodNeighbors(c);
+    if (n[1]) assert.equal(woodNeighbors(E.cell(c.x + 1, c.y)!)[3], true);
+    if (!isWood(E.cell(c.x, c.y + 1))) assert.equal(n[2], false);
+  }
 });

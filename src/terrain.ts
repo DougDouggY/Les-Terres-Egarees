@@ -1,3 +1,4 @@
+import { paintWoods, paintMountain } from "./landscape";
 import { map, W, H, TILE, tileIndex, village, roadRoutes } from "./game/map";
 import type { Faction } from "./game/types";
 export type TerrainStyle = "regional";
@@ -209,15 +210,11 @@ export class TerrainRenderer {
       const x = c.x * 32,
         y = c.y * 32;
       if (c.villagePart) continue;
-      if (c.terrain === "forest")
-        this.stamp(ctx, [5, 21, 30][decorationIndex(c.x, c.y) % 3], x, y);
-      else if (c.terrain === "tree")
-        this.stamp(ctx, decorationIndex(c.x, c.y) % 2 ? 6 : 22, x, y);
-      else if (c.terrain === "rock")
-        this.stamp(ctx, 7, x, y, (c.x + c.y) % 2 === 0);
+      if (c.terrain === "rock") paintMountain(ctx, c);
       else if (c.terrain === "hill") this.stamp(ctx, 14, x, y);
       else if (c.prop) this.stamp(ctx, c.prop.sector === 1 ? 8 : 12, x, y);
     }
+    paintWoods(ctx);
     // The nine connected atlas cells form one landmark, still backed by nine exact cells.
     const sw = this.atlas.width / 8,
       sh = this.atlas.height / 4;

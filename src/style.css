@@ -2064,3 +2064,209 @@ h2 {
 .canvas-wrap canvas {
   filter: none;
 }
+
+/* The map is the play area; information appears only where it is needed. */
+.compact-battle .battle-layout {
+  display: block;
+  min-height: 0;
+}
+.compact-battle .map-section {
+  padding: 12px 24px 0;
+  display: block;
+}
+.compact-battle .canvas-wrap {
+  position: relative;
+  margin: 8px 0 0;
+  overflow: hidden;
+}
+.compact-battle .canvas-wrap canvas {
+  width: 100%;
+  min-width: 0;
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+.compact-battle .canvas-wrap canvas.dragging {
+  cursor: grabbing;
+}
+.compact-battle .canvas-wrap.observing {
+  display: flex;
+}
+.compact-battle .canvas-wrap.observing canvas {
+  width: 50%;
+}
+.compact-battle .map-heading {
+  min-height: 35px;
+  gap: 12px;
+}
+.map-tools,
+.turn-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.map-tools button {
+  font-size: 10px;
+  padding: 7px 10px;
+  background: #172b25;
+  border: 1px solid var(--line);
+}
+.compact-battle .activation-bar {
+  margin: 0;
+  padding: 12px 4px;
+  gap: 16px;
+}
+.compact-battle .activation-bar small {
+  font-size: 10px;
+}
+.compact-battle .battle-footer {
+  padding: 10px 24px;
+}
+.map-tooltip {
+  position: absolute;
+  left: 18px;
+  bottom: 18px;
+  width: 210px;
+  padding: 12px 15px;
+  background: #10231ff2;
+  border: 1px solid #a8986570;
+  box-shadow: 0 4px 18px #0006;
+  pointer-events: none;
+  z-index: 3;
+}
+.map-tooltip[hidden] {
+  display: none;
+}
+.map-tooltip strong {
+  display: block;
+  color: #e8d9b3;
+  font:
+    22px "Cormorant Garamond",
+    serif;
+}
+.map-tooltip span {
+  display: block;
+  font-size: 11px;
+  margin: 4px 0;
+}
+.map-tooltip .bar {
+  height: 5px;
+  margin-top: 9px;
+}
+.unit-window {
+  position: absolute;
+  right: 18px;
+  top: 18px;
+  width: 265px;
+  max-height: calc(100% - 36px);
+  overflow: auto;
+  padding: 22px;
+  background: #11251ff5;
+  border: 1px solid #baa36b80;
+  box-shadow: 0 12px 35px #0008;
+  z-index: 4;
+}
+.unit-window .portrait.large {
+  width: 70px;
+  height: 78px;
+  margin: 0 auto 10px;
+}
+.unit-window .unit-identity h2 {
+  font-size: 31px;
+  margin: 5px 0;
+}
+.unit-window .unit-identity {
+  margin-bottom: 16px;
+}
+.unit-window .stats {
+  margin: 14px 0;
+}
+.close-unit {
+  position: absolute;
+  top: 5px;
+  right: 8px;
+  font-size: 25px;
+  padding: 1px 7px;
+  border: 0;
+  background: transparent;
+}
+.stats > div[data-tooltip] {
+  position: relative;
+  cursor: help;
+}
+.stats > div[data-tooltip]:hover::after,
+.stats > div[data-tooltip]:focus::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 0;
+  width: 190px;
+  padding: 10px;
+  background: #081813;
+  border: 1px solid #a79a6b;
+  color: #eee5ce;
+  font-size: 11px;
+  line-height: 1.6;
+  z-index: 8;
+  box-shadow: 0 3px 12px #0008;
+}
+@media (max-width: 700px) {
+  .compact-battle .map-section {
+    padding: 6px;
+  }
+  .compact-battle .map-heading {
+    flex-wrap: wrap;
+  }
+  .map-tools {
+    gap: 4px;
+  }
+  .map-tools button {
+    font-size: 8px;
+    padding: 5px;
+  }
+  .unit-window {
+    right: 7px;
+    top: 7px;
+    width: 220px;
+    padding: 15px;
+  }
+  .map-tooltip {
+    left: 7px;
+    bottom: 7px;
+    width: 165px;
+    padding: 8px;
+  }
+  .compact-battle .activation-bar {
+    flex-wrap: wrap;
+  }
+  .compact-battle .battle-footer > span:first-child {
+    display: none;
+  }
+}
+.compact-battle .canvas-wrap {
+  width: min(100%, calc((100svh - 305px) * 1.5));
+  margin: 8px auto 0;
+}
+.compact-battle .canvas-wrap.observing {
+  width: 100%;
+}
+@media (max-width: 700px) {
+  .compact-battle .canvas-wrap {
+    width: 100%;
+  }
+}
+
+.map-status:empty {
+  display: none;
+}
+.unit-window .stats > div[data-tooltip]:nth-child(3n):hover::after,
+.unit-window .stats > div[data-tooltip]:nth-child(3n):focus::after {
+  left: auto;
+  right: 0;
+}
+.unit-window .stats > div[data-tooltip]:nth-child(3n + 2):hover::after,
+.unit-window .stats > div[data-tooltip]:nth-child(3n + 2):focus::after {
+  left: 50%;
+  transform: translateX(-50%);
+}

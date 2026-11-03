@@ -27,6 +27,24 @@ export function decode(raw: string): Campaign {
     !Array.isArray(s.fronts)
   )
     throw Error("Sauvegarde incompatible");
+  // Convert positions and exploration indices before applying revision-5 collisions.
+  if ((s.mapRevision ?? 1) < 5) {
+    for (const u of s.units) {
+      u.x *= 2;
+      u.y *= 2;
+    }
+    for (const p of s.players) {
+      const expand = (indices: number[]) =>
+        indices.flatMap((k) => {
+          const x = (k % 30) * 2,
+            y = Math.floor(k / 30) * 2;
+          return [key(x, y), key(x + 1, y), key(x, y + 1), key(x + 1, y + 1)];
+        });
+      p.explored = expand(p.explored);
+      p.visible = [];
+      p.camera = { x: 0, y: 0 };
+    }
+  }
   const updatedMap = (s.mapRevision ?? 1) < MAP_REVISION;
   if (updatedMap) {
     const occupied = new Set<number>(
@@ -51,7 +69,7 @@ export function decode(raw: string): Campaign {
     if (relocated)
       for (const p of s.players)
         p.journal.push(
-          "Le sanctuaire a été réaménagé : les unités concernées ont été replacées au plus près, sans perte de PV ni de progression.",
+          "La carte a été agrandie : les unités concernées ont été replacées au plus près, sans perte de PV ni de progression.",
         );
     s.mapRevision = MAP_REVISION;
   }

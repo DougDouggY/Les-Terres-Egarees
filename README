@@ -58,7 +58,8 @@ Voir docs/DEPLOYMENT.md pour les réglages GitHub et le chemin de compilation.
 
 CARTE RÉGIONALE ET INSPECTION
 ----------------------------
-La carte adopte une échelle régionale : un secteur représente environ 100 m.
+La carte de 60 × 40 cases adopte une échelle régionale : un secteur représente environ 100 m.
+Les distances d’approche sont environ doublées ; les décors gardent leur empreinte.
 Le village détruit occupe 3 × 3 cases, avec une seule entrée au milieu sud.
 La mer reste dans le coin nord-ouest ; drakkar et convoi détruits occupent
 chacun une case. Les côtes et chemins suivent les cases avec des raccords adoucis.
@@ -66,3 +67,14 @@ chacun une case. Les côtes et chemins suivent les cases avec des raccords adouc
 « Retirer la brume (test) » affiche la carte entière sans modifier l’exploration
 réelle. « Rétablir la brume » revient à la visibilité de l’expédition.
 « Grille » montre les limites des cases pour vérifier les alignements.
+
+CAMÉRA ET INFORMATIONS
+----------------------
+Maintenir le clic gauche puis glisser déplace la carte. Les flèches fonctionnent
+également ; « Recentrer » retrouve l’unité active. Chaque expédition conserve sa
+caméra. La vue est rapprochée (×1,65), avec environ 18 × 12 cases à l’écran.
+
+Survoler une case affiche son terrain et ses effets en bas à gauche. Survoler une
+unité affiche son nom et ses PV. Un clic ouvre sa fiche flottante dans la carte ;
+la croix ferme la fiche sans désélectionner. Survoler ou focaliser une statistique
+affiche son explication. Les commandes d’action restent sous la carte.

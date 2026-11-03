@@ -83,3 +83,17 @@ nord-ouest, plages et chemins raccordés, massifs et bois représentés en minia
 Une seule génération d’atlas ; cinématiques inchangées. Migration des anciennes
 sauvegardes : déplacement des unités uniquement si le nouveau décor les bloque.
 Les commandes d’inspection de brume et de grille restent disponibles.
+
+## Bois raccordés, carte agrandie et interface contextuelle — révision 5
+
+Carte 60 × 40, approches allongées sans agrandir le village ni les épaves.
+Forêts dessinées en bouquets irréguliers bordés d’herbe ; arbres supplémentaires
+uniquement sur les jonctions de cases boisées. Trois compositions de montagnes,
+un pic principal et zéro, un ou deux petits pics devant. Eau et sable conservés.
+Ces changements sont dessinés dans le moteur, sans génération d’images.
+
+Caméra ×1,65, glisser au clic gauche avec capture du pointeur, flèches et bouton
+Recentrer. Les clics de jeu sont ignorés après un glisser. Interface recentrée sur
+la carte : infobulle terrain/unité en bas à gauche, fiche flottante au clic,
+aide au survol et au clavier pour les statistiques. Entrée sud du village
+praticable et repérée. Les commandes de brume et de grille restent disponibles.

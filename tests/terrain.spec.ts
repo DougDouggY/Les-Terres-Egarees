@@ -23,25 +23,11 @@ test("carte régionale : inspection sans brume et aucune mutation de campagne", 
   await expect(
     page.getByText("INSPECTION SANS BRUME · VISION LOGIQUE CONSERVÉE"),
   ).toBeVisible();
-  const images: string[] = [];
-  for (const style of ["regional"]) {
-    await page.getByLabel("Version du terrain").selectOption(style);
-    await page.waitForTimeout(250);
-    await page.screenshot({
-      path: `artifacts/terrain-${style}.png`,
-      fullPage: true,
-    });
-    images.push(
-      await page.locator("#map").evaluate((c: HTMLCanvasElement) => {
-        const x = c.getContext("2d")!,
-          p = x.getImageData(18 * 64, 4 * 64, 64, 64);
-        let hash = 0;
-        for (const v of p.data) hash = (Math.imul(hash, 31) + v) | 0;
-        return String(hash);
-      }),
-    );
-  }
-  expect(new Set(images).size).toBe(1);
+  await page.waitForTimeout(400);
+  await page.screenshot({
+    path: "artifacts/terrain-regional.png",
+    fullPage: true,
+  });
   await page
     .getByRole("button", { name: "Grille masquée", exact: true })
     .click();

@@ -63,8 +63,8 @@ for (const f of [
             const objective = s.merged
               ? (targets.sort(
                   (a, b) => E.distance(a, ghost) - E.distance(b, ghost),
-                )[0] ?? { x: 16, y: 10 })
-              : { x: u.owner === 1 ? 14 : 18, y: 11 };
+                )[0] ?? { x: 31, y: 20 })
+              : { x: u.owner === 1 ? 29 : 33, y: 20 };
             const score =
               (target ? 100 + 30 - target.hp : 0) -
               E.distance(c, objective) -

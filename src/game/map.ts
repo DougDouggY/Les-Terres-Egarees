@@ -1,8 +1,8 @@
 import type { Cell, Terrain } from "./types";
-export const W = 30,
-  H = 20,
+export const W = 60,
+  H = 40,
   TILE = 32,
-  MAP_REVISION = 4;
+  MAP_REVISION = 5;
 const terrains: Record<Terrain, [number, boolean, number, boolean, number]> = {
   grass: [1, true, 0, false, 0],
   earth: [1, true, 0, false, 28],
@@ -41,12 +41,25 @@ export const distance = (
   a: { x: number; y: number },
   b: { x: number; y: number },
 ) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
-function set(x: number, y: number, t: Terrain) {
+function setExact(x: number, y: number, t: Terrain) {
   const c = cell(x, y);
   if (!c) throw Error("Terrain hors carte");
   const [cost, walk, defense, opaque, tile] = terrains[t];
   Object.assign(c, { terrain: t, cost, walk, defense, opaque, tile });
 }
+// The earlier 30 × 20 layout is expanded in world cells; landmarks remain compact.
+function set(x: number, y: number, t: Terrain) {
+  for (let dy = 0; dy < 2; dy++)
+    for (let dx = 0; dx < 2; dx++) setExact(x * 2 + dx, y * 2 + dy, t);
+}
+export const village = {
+  x: 30,
+  y: 16,
+  w: 3,
+  h: 3,
+  entry: { x: 31, y: 18 },
+  name: "Village détruit des Veilleurs",
+};
 // A small, authored bay in the north-west; there is no sea along the other edges.
 for (const [y, maxX] of [
   [0, 5],
@@ -63,7 +76,7 @@ for (const c of map) {
       [-1, 0, 1].some((dx) => cell(c.x + dx, c.y + dy)?.terrain === "water"),
     )
   )
-    set(c.x, c.y, "sand");
+    setExact(c.x, c.y, "sand");
 }
 for (const [x, y] of [
   [3, 3],
@@ -137,7 +150,7 @@ for (const [y, minX] of [
   [6, 27],
   [7, 28],
 ])
-  for (let x = minX; x < W; x++) set(x, y, "rock");
+  for (let x = minX; x < W / 2; x++) set(x, y, "rock");
 set(8, 6, "rock");
 for (const [x, y] of [
   [23, 1],
@@ -150,84 +163,64 @@ for (const [x, y] of [
 // Authored routes bend through the landscape; painting follows these exact cells.
 export const roadRoutes: number[][][] = [
   [
-    [5, 5],
-    [10, 5],
-    [10, 8],
-    [13, 8],
-    [13, 11],
-    [16, 11],
-    [16, 10],
+    [10, 10],
+    [20, 10],
+    [20, 16],
+    [27, 16],
+    [27, 20],
+    [31, 20],
+    [31, 18],
   ],
   [
-    [26, 16],
-    [23, 16],
-    [23, 13],
-    [20, 13],
-    [20, 11],
-    [16, 11],
+    [52, 32],
+    [46, 32],
+    [46, 26],
+    [39, 26],
+    [39, 20],
+    [31, 20],
   ],
   [
-    [10, 5],
-    [14, 5],
-    [14, 7],
+    [20, 10],
+    [27, 10],
+    [27, 14],
   ],
 ];
 for (const route of roadRoutes)
   for (let i = 1; i < route.length; i++) {
     let [x, y] = route[i - 1];
     const [tx, ty] = route[i];
-    set(x, y, "road");
+    setExact(x, y, "road");
     while (x !== tx || y !== ty) {
       x += Math.sign(tx - x);
       y += Math.sign(ty - y);
-      set(x, y, "road");
+      setExact(x, y, "road");
     }
   }
-export const village = {
-  x: 15,
-  y: 8,
-  w: 3,
-  h: 3,
-  entry: { x: 16, y: 10 },
-  name: "Village détruit des Veilleurs",
-};
 for (let dy = 0; dy < 3; dy++)
   for (let dx = 0; dx < 3; dx++) {
     const x = village.x + dx,
       y = village.y + dy;
-    set(x, y, dx === 1 && dy === 2 ? "floor" : "village");
+    setExact(x, y, dx === 1 && dy === 2 ? "floor" : "village");
     cell(x, y)!.villagePart = { dx, dy };
     cell(x, y)!.tile = (dy + 1) * 8 + dx + 1;
   }
 cell(village.entry.x, village.entry.y)!.interactive =
   village.name + " · entrée sud";
 export const arrivalFootprints = [
-  { sector: 1 as const, x: 3, y: 3, w: 1, h: 1 },
-  { sector: 2 as const, x: 25, y: 17, w: 1, h: 1 },
+  { sector: 1 as const, x: 6, y: 6, w: 1, h: 1 },
+  { sector: 2 as const, x: 50, y: 34, w: 1, h: 1 },
 ];
 for (const f of arrivalFootprints) {
-  set(f.x, f.y, "arrival");
+  setExact(f.x, f.y, "arrival");
   const c = cell(f.x, f.y)!;
   c.prop = { sector: f.sector, dx: 0, dy: 0 };
   c.tile = f.sector === 1 ? 8 : 12;
 }
 for (const c of map)
   c.base = c.terrain === "sand" || c.prop?.sector === 1 ? "sand" : "grass";
-const legacyWalk =
-  "000000000000000000000000000000000111111100111111001111110011001000111100111111001111110011011000111111111111111111111111011111111100111111111100111111011111111111111111111100111111011111110111001001100001111111011111110011011101111101001111011111110011011101111101001111011111111111111111111111111111011111111111101010001011111111011111001101011111111101111111011111001101111111111111111111011111111111011111111101111111011111100111000001101000111111011111100111111111111100111111011111111111111111111111111111011111111001111111111111000111011111111001111111111111000111011111111111111111111111111111";
-const legacyChanged = new Set<number>([
-  192, 193, 194, 195, 200, 201, 202, 222, 252, 342, 372, 402, 232, 262, 352,
-  382, 412, 432, 433, 434, 435, 436, 439, 440, 441, 340, 370, 254, 284, 350,
-  380, 313, 315, 318, 319, 321,
-]);
+// Legacy saves are relocated only when their scaled position is now blocked.
 export const refurbishedWalls = new Set(
-  map
-    .filter(
-      (c) =>
-        !c.walk &&
-        (legacyWalk[key(c.x, c.y)] === "1" || legacyChanged.has(key(c.x, c.y))),
-    )
-    .map((c) => key(c.x, c.y)),
+  map.filter((c) => !c.walk).map((c) => key(c.x, c.y)),
 );
 export function tileIndex(c: Cell) {
   return c.tile;

@@ -88,6 +88,7 @@ export class Mist {
     visible: ReadonlySet<number>,
     perspective: number,
     time: number,
+    viewport?: { x: number; y: number; width: number; height: number },
   ) {
     const signature = [...visible].join(",");
     let layer = this.layers.get(perspective);
@@ -100,6 +101,14 @@ export class Mist {
       layer.mask = this.mask(visible);
       layer.signature = signature;
       layer.changed = time;
+    }
+    const ox = viewport?.x ?? 0,
+      oy = viewport?.y ?? 0;
+    const width = Math.ceil(viewport?.width ?? this.cols * this.tile),
+      height = Math.ceil(viewport?.height ?? this.rows * this.tile);
+    if (this.cloud.width !== width || this.cloud.height !== height) {
+      this.cloud.width = this.blend.width = width;
+      this.cloud.height = this.blend.height = height;
     }
     const c = this.cloud.getContext("2d")!,
       w = this.cloud.width,
@@ -117,30 +126,32 @@ export class Mist {
         dy = (time * rate * 0.31) % size;
       c.globalAlpha = alpha;
       const pattern = c.createPattern(this.texture, "repeat")!;
-      pattern.setTransform(new DOMMatrix().translate(dx, dy).scale(size / 128));
+      pattern.setTransform(
+        new DOMMatrix().translate(dx - ox, dy - oy).scale(size / 128),
+      );
       c.fillStyle = pattern;
       c.fillRect(0, 0, w, h);
     }
     c.globalAlpha = 1;
     const t = Math.min(1, Math.max(0, (time - layer.changed) / 550));
     c.globalCompositeOperation = "destination-in";
-    if (t === 1) c.drawImage(layer.mask, -32, -32);
+    if (t === 1) c.drawImage(layer.mask, -32 - ox, -32 - oy);
     else {
       const mix = this.blend;
       const m = mix.getContext("2d")!;
       m.clearRect(0, 0, w, h);
       m.globalCompositeOperation = "source-over";
       m.globalAlpha = 1 - t;
-      m.drawImage(layer.previous, -32, -32);
+      m.drawImage(layer.previous, -32 - ox, -32 - oy);
       m.globalCompositeOperation = "lighter";
       m.globalAlpha = t;
-      m.drawImage(layer.mask, -32, -32);
+      m.drawImage(layer.mask, -32 - ox, -32 - oy);
       c.drawImage(mix, 0, 0);
     }
     c.globalCompositeOperation = "source-over";
     ctx.save();
     ctx.imageSmoothingEnabled = true;
-    ctx.drawImage(this.cloud, 0, 0);
+    ctx.drawImage(this.cloud, ox, oy);
     ctx.restore();
   }
 }

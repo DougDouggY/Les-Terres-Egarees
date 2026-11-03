@@ -1,10 +1,12 @@
+import { clickMap } from "./map-helpers";
 import { test, expect } from "@playwright/test";
 import type { Campaign } from "../src/engine";
+test.use({ actionTimeout: 10000 });
 test("parcours navigateur : deux introductions, tactique, annulation, combat, alliance, victoire, camp et reprise", async ({
   page,
 }) => {
   // The full two-front mission also runs on software-rendered Chromium.
-  test.setTimeout(240000);
+  test.setTimeout(360000);
   const errors: string[] = [];
   page.on("pageerror", (e) => {
     errors.push(e.message);
@@ -19,15 +21,26 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
     await page.getByRole("button", { name: /Suite|Poursuivre/ }).click();
   await expect(page.locator("#map")).toBeVisible();
   async function clickCell(x: number, y: number) {
-    const r = await page.locator("#map").boundingBox();
-    await page.mouse.click(
-      r!.x + ((x + 0.5) / 30) * r!.width,
-      r!.y + ((y + 0.5) / 20) * r!.height,
+    await clickMap(page, x, y);
+  }
+  // Keyboard perspective changes remain available while battle markup is rebuilt.
+  async function switchPerspective(p: number) {
+    if (await page.locator(".cinematic,.rewards,.camp-screen").count())
+      return false;
+    const active = await page.locator(".perspectives .active").textContent();
+    if (active === `EXPÉDITION ${p}`) return true;
+    await page.keyboard.press("Tab");
+    await page.waitForTimeout(100);
+    if (await page.locator(".cinematic,.rewards,.camp-screen").count())
+      return false;
+    return (
+      (await page.locator(".perspectives .active").textContent()) ===
+      `EXPÉDITION ${p}`
     );
   }
   // Verify actual provisional movement and rollback through the interface.
-  await clickCell(6, 6);
-  await clickCell(7, 6);
+  await clickCell(11, 11);
+  await clickCell(12, 11);
   await expect(
     page.getByRole("button", { name: "Annuler", exact: true }),
   ).toBeEnabled();
@@ -36,7 +49,7 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
   let s = (await page.evaluate(() =>
     JSON.parse(localStorage.getItem("lte-save")!),
   )) as Campaign;
-  expect(s.units.find((u) => u.id === "p1b")!.x).toBe(6);
+  expect(s.units.find((u) => u.id === "p1b")!.x).toBe(11);
   await page.keyboard.press("Tab");
   await expect(page.locator(".perspectives .active")).toHaveText(
     "EXPÉDITION 2",
@@ -49,6 +62,7 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
     meetingSeen = false,
     rotate: number | null = null;
   for (; turns < 100; turns++) {
+    if (turns % 5 === 0) console.log("Parcours : activation", turns);
     if (await page.locator(".camp-screen").count()) break;
     if (await page.locator(".cinematic").count()) {
       if (
@@ -60,15 +74,19 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
       await page.getByRole("button", { name: /Suite|Poursuivre/ }).click();
       continue;
     }
-    await page.waitForFunction(() => {
-      const label =
-        document.querySelector(".activation-bar .eyebrow")?.textContent || "";
-      return (
-        document.querySelector(".camp-screen,.cinematic,.rewards") ||
-        label === "À VOUS DE JOUER" ||
-        label.startsWith("EXPÉDITION ")
-      );
-    });
+    await page.waitForFunction(
+      () => {
+        const label =
+          document.querySelector(".activation-bar .eyebrow")?.textContent || "";
+        return (
+          document.querySelector(".camp-screen,.cinematic,.rewards") ||
+          label === "À VOUS DE JOUER" ||
+          label.startsWith("EXPÉDITION ")
+        );
+      },
+      undefined,
+      { timeout: 20000 },
+    );
     if (await page.locator(".rewards").count()) {
       await page.getByRole("button", { name: "Reprendre la bataille" }).click();
       turns--;
@@ -82,10 +100,10 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
       const merged = await page.evaluate(
         () => JSON.parse(localStorage.getItem("lte-save")!).merged,
       );
-      if (!merged)
-        await page
-          .getByRole("button", { name: `EXPÉDITION ${rotate}`, exact: true })
-          .click();
+      if (!merged && !(await switchPerspective(rotate))) {
+        turns--;
+        continue;
+      }
       rotate = null;
     }
     if (
@@ -129,13 +147,14 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
         const goal = s.merged
           ? (targets.sort(
               (a: any, b: any) => E.distance(a, ghost) - E.distance(b, ghost),
-            )[0] ?? { x: 16, y: 10 })
-          : { x: u.owner === 1 ? 14 : 18, y: 11 };
+            )[0] ?? { x: 31, y: 20 })
+          : { x: u.owner === 1 ? 29 : 33, y: 20 };
         const score =
           (target ? 130 - target.hp : 0) - E.distance(c, goal) - p.cost * 0.01;
         if (score > best.score) best = { k, score, target: target?.id };
       }
       return {
+        unitName: u.name,
         unit: { x: u.x, y: u.y },
         dest: E.map[best.k],
         target: best.target,
@@ -143,9 +162,7 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
       };
     }, active);
     if ("switch" in plan) {
-      await page
-        .getByRole("button", { name: `EXPÉDITION ${plan.switch}`, exact: true })
-        .click();
+      await switchPerspective(plan.switch!);
       turns--;
       continue;
     }
@@ -154,9 +171,12 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
       turns--;
       continue;
     }
+    await expect(page.locator(".activation-bar strong")).toHaveText(
+      plan.unitName!,
+    );
     await clickCell(plan.unit!.x, plan.unit!.y);
     if (plan.heal) {
-      await page.getByRole("button", { name: /Objets/ }).click();
+      await page.getByRole("button", { name: /Potion/ }).click();
     } else {
       if (plan.dest!.x !== plan.unit!.x || plan.dest!.y !== plan.unit!.y) {
         await clickCell(plan.dest!.x, plan.dest!.y);
