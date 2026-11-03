@@ -26,6 +26,7 @@ jobs:
       - run: npm ci --no-audit --no-fund
       - run: npm test
       - run: npm run build -- --base=/Les-Terres-Egarees/
+      - run: npm run check:public
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

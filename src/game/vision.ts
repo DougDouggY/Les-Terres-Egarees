@@ -1,3 +1,4 @@
+import { discoverUnit } from "./classes";
 import type { Campaign, Unit } from "./types";
 import { cell, map, key, distance, arrivalFootprints } from "./map";
 import { alive } from "./queries";
@@ -65,6 +66,9 @@ export function visibility(s: Campaign) {
       p.explored = [...remembered];
     });
   }
+  for (const u of alive(s))
+    if (s.players.some((p) => p.visible.includes(key(u.x, u.y))))
+      discoverUnit(s, u, u.owner !== 0);
   s.players.forEach(
     (p) => (p.explored = [...new Set([...p.explored, ...p.visible])]),
   );

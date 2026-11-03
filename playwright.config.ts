@@ -7,7 +7,7 @@ export default defineConfig({
     "terrain.spec.ts",
     "interaction.spec.ts",
     "viewport.spec.ts",
-    "camp.spec.ts",
+    "phase1.spec.ts",
   ],
   timeout: 180000,
   use: {
@@ -18,10 +18,17 @@ export default defineConfig({
       args: ["--no-sandbox", "--disable-dev-shm-usage"],
     },
   },
-  webServer: {
-    command: "npm run dev -- --port 5173",
-    url: "http://127.0.0.1:5173",
-    reuseExistingServer: true,
-  },
+  webServer: [
+    {
+      command: "npm run dev -- --port 5173",
+      url: "http://127.0.0.1:5173",
+      reuseExistingServer: true,
+    },
+    {
+      command: "npm run preview -- --port 4173 --base=/Les-Terres-Egarees/",
+      url: "http://127.0.0.1:4173/Les-Terres-Egarees/",
+      reuseExistingServer: true,
+    },
+  ],
   reporter: "list",
 });

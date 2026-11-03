@@ -1,3 +1,4 @@
+import { hydrateClass, assignClass, classes, validateRecruit } from "./classes";
 import type { Unit, Kind } from "./types";
 export const names: Record<Kind, string> = {
   shield: "Guerrier au bouclier",
@@ -13,6 +14,13 @@ export const weapons: Record<Kind, string> = {
   crossbow: "Arbalète",
   skeleton: "Lame rouillée",
 };
+const legacyClass: Record<Kind, string> = {
+  shield: "raider",
+  bow: "hunter",
+  sword: "man_at_arms",
+  crossbow: "crossbowman",
+  skeleton: "skeleton",
+};
 export function makeUnit(
   id: string,
   owner: 0 | 1 | 2,
@@ -23,30 +31,61 @@ export function makeUnit(
   y: number,
   leader = false,
 ): Unit {
-  const ranged = kind === "bow" || kind === "crossbow",
-    enemy = owner === 0;
-  return {
+  const u = makeClassUnit(
     id,
     owner,
     front,
-    kind,
+    legacyClass[kind],
     name,
     x,
     y,
-    hp: enemy ? 19 : ranged ? 25 : 36,
-    maxHp: enemy ? 19 : ranged ? 25 : 36,
-    strength: enemy ? 8 : ranged ? 11 : 13,
-    agility: kind === "bow" ? 11 : kind === "skeleton" ? 5 : 7,
-    initiative: kind === "bow" ? 15 : kind === "crossbow" ? 12 : enemy ? 7 : 10,
-    defense: enemy ? 3 : ranged ? 3 : 7,
-    accuracy: ranged ? 90 : enemy ? 78 : 94,
-    move: ranged ? 5 : 4,
-    vision: 6,
-    minRange: ranged ? 2 : 1,
-    range: ranged ? 3 : 1,
+    kind === "bow" || kind === "sword" ? "female" : "male",
+  );
+  u.leader = leader;
+  return u;
+}
+export function makeClassUnit(
+  id: string,
+  owner: 0 | 1 | 2,
+  front: 1 | 2,
+  classId: string,
+  name: string,
+  x: number,
+  y: number,
+  gender: "male" | "female" = "male",
+  recruitChoices?: [string, string],
+): Unit {
+  const c = classes[classId];
+  if (!c) throw Error("Classe inconnue");
+  const v = c.stats;
+  const u: Unit = {
+    id,
+    owner,
+    front,
+    kind: "shield",
+    name,
+    x,
+    y,
+    hp: v.hp,
+    maxHp: v.hp,
+    strength: v.strength,
+    agility: v.agility,
+    initiative: v.initiative,
+    defense: v.defense,
+    accuracy: v.accuracy,
+    move: v.move,
+    vision: v.vision,
+    minRange: 1,
+    range: 1,
     xp: 0,
     level: 1,
     potions: 2,
-    leader,
+    leader: false,
+    gender,
   };
+  if (recruitChoices) u.recruitChoices = recruitChoices;
+  assignClass(u, classId);
+  hydrateClass(u);
+  validateRecruit(u);
+  return u;
 }

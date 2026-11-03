@@ -2,7 +2,7 @@ import { clickMap } from "./map-helpers";
 import { test, expect } from "@playwright/test";
 import type { Campaign } from "../src/engine";
 test.use({ actionTimeout: 10000 });
-test("parcours navigateur : deux introductions, tactique, annulation, combat, alliance, victoire, camp et reprise", async ({
+test("parcours navigateur : création, tactique, annulation, combat, alliance, bilan et reprise", async ({
   page,
 }) => {
   // The full two-front mission also runs on software-rendered Chromium.
@@ -16,22 +16,20 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
   await page.evaluate(() => localStorage.setItem("lte-speed", "5"));
   await page.reload();
   await page.getByRole("button", { name: /Nouvelle aventure/ }).click();
-  await page.getByRole("button", { name: /Prendre la route/ }).click();
-  for (let i = 0; i < 12; i++)
-    await page.getByRole("button", { name: /Suite|Poursuivre/ }).click();
+  await page.getByRole("button", { name: /Déployer les expéditions/ }).click();
   await expect(page.locator("#map")).toBeVisible();
   async function clickCell(x: number, y: number) {
     await clickMap(page, x, y);
   }
   // Keyboard perspective changes remain available while battle markup is rebuilt.
   async function switchPerspective(p: number) {
-    if (await page.locator(".cinematic,.rewards,.camp-screen").count())
+    if (await page.locator(".phase-event,.rewards,.summary-screen").count())
       return false;
     const active = await page.locator(".perspectives .active").textContent();
     if (active === `EXPÉDITION ${p}`) return true;
     await page.keyboard.press("Tab");
     await page.waitForTimeout(100);
-    if (await page.locator(".cinematic,.rewards,.camp-screen").count())
+    if (await page.locator(".phase-event,.rewards,.summary-screen").count())
       return false;
     return (
       (await page.locator(".perspectives .active").textContent()) ===
@@ -63,15 +61,10 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
     rotate: number | null = null;
   for (; turns < 100; turns++) {
     if (turns % 5 === 0) console.log("Parcours : activation", turns);
-    if (await page.locator(".camp-screen").count()) break;
-    if (await page.locator(".cinematic").count()) {
-      if (
-        await page
-          .getByText("Attendez… Des hommes vivants ?", { exact: true })
-          .count()
-      )
-        meetingSeen = true;
-      await page.getByRole("button", { name: /Suite|Poursuivre/ }).click();
+    if (await page.locator(".summary-screen").count()) break;
+    if (await page.locator(".phase-event").count()) {
+      meetingSeen = true;
+      await page.getByRole("button", { name: "Unir les fronts" }).click();
       continue;
     }
     await page.waitForFunction(
@@ -79,7 +72,7 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
         const label =
           document.querySelector(".activation-bar .eyebrow")?.textContent || "";
         return (
-          document.querySelector(".camp-screen,.cinematic,.rewards") ||
+          document.querySelector(".summary-screen,.phase-event,.rewards") ||
           label === "À VOUS DE JOUER" ||
           label.startsWith("EXPÉDITION ")
         );
@@ -92,7 +85,7 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
       turns--;
       continue;
     }
-    if (await page.locator(".cinematic,.camp-screen").count()) {
+    if (await page.locator(".phase-event,.summary-screen").count()) {
       turns--;
       continue;
     }
@@ -128,6 +121,8 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
       let u = E.current(s);
       if (u.owner !== 0 && u.owner !== active) return { switch: u.owner };
       if (u.owner === 0) return { enemy: true };
+      if (E.activeWeapon(u).reload && u.crossbowLoaded === false)
+        E.reloadWeapon(s, u);
       const reachable = E.reachable(s, u);
       let best = {
         k: E.key(u.x, u.y),
@@ -158,7 +153,7 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
         unit: { x: u.x, y: u.y },
         dest: E.map[best.k],
         target: best.target,
-        heal: u.hp <= 12 && u.potions > 0,
+        reload: E.activeWeapon(u).reload,
       };
     }, active);
     if ("switch" in plan) {
@@ -175,14 +170,18 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
       plan.unitName!,
     );
     await clickCell(plan.unit!.x, plan.unit!.y);
-    if (plan.heal) {
-      await page.getByRole("button", { name: /Potion/ }).click();
-    } else {
+    if (
+      await page.getByRole("button", { name: "Recharger", exact: true }).count()
+    )
+      await page
+        .getByRole("button", { name: "Recharger", exact: true })
+        .click();
+    {
       if (plan.dest!.x !== plan.unit!.x || plan.dest!.y !== plan.unit!.y) {
         await clickCell(plan.dest!.x, plan.dest!.y);
         await page.waitForTimeout(450);
       }
-      if (await page.locator(".cinematic").count()) {
+      if (await page.locator(".phase-event").count()) {
         turns--;
         continue;
       }
@@ -224,20 +223,18 @@ test("parcours navigateur : deux introductions, tactique, annulation, combat, al
     rotate = 3 - active;
     await page.waitForTimeout(180);
   }
-  await expect(page.locator(".camp-screen")).toBeVisible();
+  await expect(page.locator(".summary-screen")).toBeVisible();
   expect(combatSeen).toBe(true);
   expect(commonCombatSeen).toBe(true);
   expect(meetingSeen).toBe(true);
-  await page.getByRole("button", { name: "Personnages", exact: true }).click();
-  await expect(page.locator(".comparison tbody tr")).toHaveCount(4);
-  await page.screenshot({ path: "artifacts/camp.png", fullPage: true });
-  await page.getByRole("button", { name: "Carte du monde" }).click();
-  await expect(page.locator(".world-map")).toBeVisible();
-  await page.screenshot({ path: "artifacts/world.png", fullPage: true });
+  await page.screenshot({
+    path: "artifacts/phase1-summary.png",
+    fullPage: true,
+  });
   await page.getByRole("button", { name: "Sauvegarder", exact: true }).click();
   await page.getByRole("button", { name: "Menu principal" }).click();
   await page.getByRole("button", { name: /Continuer/ }).click();
-  await expect(page.locator(".camp-screen")).toBeVisible();
+  await expect(page.locator(".summary-screen")).toBeVisible();
   expect(errors).toEqual([]);
   console.log({ turns, combatSeen, meetingSeen, commonCombatSeen });
 });

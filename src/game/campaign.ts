@@ -1,4 +1,6 @@
-import { createCampProgress } from "./camp";
+import { discoverUnit, type HeroConfig, baseClasses, classes } from "./classes";
+import { makeClassUnit } from "./units";
+import { finishActivationSkills } from "./skills";
 import type { Campaign, Unit, Perspective, Faction } from "./types";
 import { key, cell, map, distance, MAP_REVISION, village } from "./map";
 import { makeUnit } from "./units";
@@ -9,7 +11,10 @@ const order = (units: Unit[]) =>
     .filter((u) => u.hp > 0)
     .sort((a, b) => b.initiative - a.initiative || a.id.localeCompare(b.id))
     .map((u) => u.id);
-export function createCampaign(factions: [Faction, Faction]): Campaign {
+export function createCampaign(
+  factions: [Faction, Faction],
+  heroes?: [HeroConfig, HeroConfig],
+): Campaign {
   const units: Unit[] = [];
   for (const owner of [1, 2] as const) {
     const north = factions[owner - 1] === "north";
@@ -55,6 +60,32 @@ export function createCampaign(factions: [Faction, Faction]): Campaign {
     makeUnit("e3", 0, 1, "skeleton", "Veilleur des ruines", 28, 20),
     makeUnit("e4", 0, 2, "skeleton", "Gardien sans nom", 37, 20),
   );
+  if (heroes)
+    for (const owner of [1, 2] as const) {
+      const h = heroes[owner - 1];
+      if (
+        h.faction !== factions[owner - 1] ||
+        classes[h.classId]?.faction !== h.faction ||
+        classes[h.classId]?.stage !== "base" ||
+        !h.name.trim() ||
+        h.name.trim().length > 32
+      )
+        throw Error("Héros invalide");
+      const index = units.findIndex((u) => u.owner === owner && u.leader),
+        old = units[index];
+      const hero = makeClassUnit(
+        old.id,
+        owner,
+        owner,
+        h.classId,
+        h.name.trim(),
+        old.x,
+        old.y,
+        h.gender,
+      );
+      hero.leader = true;
+      units[index] = hero;
+    }
   const p = (): Perspective => ({
     camera: { x: 0, y: 0 },
     explored: [],
@@ -63,7 +94,6 @@ export function createCampaign(factions: [Faction, Faction]): Campaign {
     intro: 0,
   });
   const s: Campaign = {
-    camp: createCampProgress(),
     version: 1,
     mapRevision: MAP_REVISION,
     factions,
@@ -76,9 +106,9 @@ export function createCampaign(factions: [Faction, Faction]): Campaign {
     common: { round: 1, queue: [], index: 0 },
     merged: false,
     events: [],
-    scene: "intro1",
+    scene: null,
     scenePage: 0,
-    phase: "intro",
+    phase: "battle",
     active: 1,
     seed: 92481,
     inventory: [
@@ -88,6 +118,7 @@ export function createCampaign(factions: [Faction, Faction]): Campaign {
     world: ["sanctuary", "coast", "ruins"],
     history: [],
   };
+  for (const u of units.filter((u) => u.owner !== 0)) discoverUnit(s, u, true);
   visibility(s);
   return s;
 }
@@ -170,6 +201,7 @@ export function merge(s: Campaign) {
   );
 }
 export function advance(s: Campaign) {
+  finishActivationSkills(s);
   const f = front(s);
   do {
     f.index++;
@@ -186,8 +218,6 @@ export function advance(s: Campaign) {
     ? Math.max(...s.fronts.map((f) => f.round))
     : Math.max(...s.fronts.map((f) => f.round));
   if (r >= 2 && event(s, "storm")) {
-    s.scene = "storm";
-    s.scenePage = 0;
     log(s, "L’orage revient. La terre se souvient.");
   }
   if (r >= 3 && event(s, "horde")) {
@@ -201,18 +231,20 @@ export function advance(s: Campaign) {
         );
     }
     log(s, "La horde approche. Atteignez le sanctuaire !");
-    s.scene = "horde";
-    s.scenePage = 0;
   }
+  const next = current(s);
+  if (next) next.movedDistance = 0;
   checkEnd(s);
 }
 export function checkEnd(s: Campaign) {
   if (!alive(s).some((u) => u.owner !== 0 && u.leader)) {
+    for (const u of s.units) if (u.summonedBy) u.hp = 0;
     s.phase = "defeat";
     s.scene = null;
     return;
   }
   if (s.merged && !alive(s).some((u) => u.owner === 0) && event(s, "victory")) {
+    for (const u of s.units) if (u.summonedBy) u.hp = 0;
     s.scene = "ending";
     s.scenePage = 0;
     log(s, "Le sanctuaire est à vous. Pour cette nuit.");

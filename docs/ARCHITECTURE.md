@@ -59,3 +59,7 @@ Le raccourci de test près des ruines suit la fin narrative normale, conserve
 les PV et XP des survivants et marque explicitement son usage dans l’historique.
 Le terrain passe en révision 7 : forêt dense praticable (coût 3, couvert 3),
 avec opacité conservée. Le sous-bois reste à 2 / 2.
+
+## Évolution Phase 1
+
+La boucle active et les données de classes sont décrites dans [PHASE1.md](PHASE1.md). Les descriptions historiques du camp permanent ci-dessus sont archivées : le jeu actuel termine le combat par un bilan, sans campement temporaire. La carte validée reste inchangée.

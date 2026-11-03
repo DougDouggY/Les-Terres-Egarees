@@ -12,4 +12,6 @@ export * from "./game/movement";
 export * from "./game/inventory";
 export * from "./game/save";
 
-export * from "./game/camp";
+export * from "./game/classes";
+export * from "./game/equipment";
+export * from "./game/skills";

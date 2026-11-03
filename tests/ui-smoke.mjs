@@ -21,9 +21,9 @@ try {
       await page.getByRole("button", { name: /Nouvelle aventure/ }).click();
       await page.locator(`[data-action="faction-1-${first}"]`).click();
       await page.locator(`[data-action="faction-2-${second}"]`).click();
-      await page.getByRole("button", { name: /Prendre la route/ }).click();
-      for (let i = 0; i < 12; i++)
-        await page.getByRole("button", { name: /Suite|Poursuivre/ }).click();
+      await page
+        .getByRole("button", { name: /Déployer les expéditions/ })
+        .click();
       await page.keyboard.press("Tab");
       assert.equal(
         await page.locator(".perspectives .active").innerText(),
@@ -33,7 +33,9 @@ try {
         .getByRole("button", { name: "Observation côte à côte" })
         .click();
       assert.equal(await page.locator("#map2").count(), 1);
-      await page.keyboard.press("ArrowRight");
+      await page.waitForTimeout(150);
+      const cameras = await page.locator("#map").getAttribute("data-camera-x");
+      await page.keyboard.press("ArrowLeft");
       await page
         .getByRole("button", { name: "Sauvegarder", exact: true })
         .click();
@@ -41,13 +43,11 @@ try {
         JSON.parse(localStorage.getItem("lte-save")),
       );
       assert.deepEqual(state.factions, [first, second]);
-      assert.equal(state.units[0].kind, first === "north" ? "shield" : "sword");
-      assert.equal(
-        state.units[2].kind,
-        second === "north" ? "shield" : "sword",
+      assert.ok(state.units[0].classId);
+      assert.ok(state.units[2].classId);
+      assert.ok(
+        Math.abs(state.players[1].camera.x - Number(cameras) + 1) < 0.1,
       );
-      assert.equal(state.players[0].camera.x, 0);
-      assert.equal(state.players[1].camera.x, 1);
       assert.notDeepEqual(state.players[0].visible, state.players[1].visible);
       await page.keyboard.press("Tab");
       await page

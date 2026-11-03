@@ -1,5 +1,9 @@
 # État de livraison
 
+**État actuel : Phase 1.** Voir [PHASE1.md](PHASE1.md) pour la boucle active, les classes et la galerie privée. La carte validée mesure 60 × 40 cases. Le camp permanent et les introductions décrits dans l’historique ci-dessous sont conservés en archive, retirés de la boucle actuelle. La fin du test ouvre un bilan sauvegardable. Aucun campement temporaire ni nouvelle ressource visuelle n’est créé.
+
+## Historique du prototype initial
+
 ## Fonctionnalités réellement implémentées
 
 Menu illustré, options et reprise, choix indépendant des factions, introductions

@@ -1,4 +1,9 @@
-import { ensureCamp } from "./camp";
+import {
+  hydrateClass,
+  discoverUnit,
+  revealPromotionOptions,
+  validateRecruit,
+} from "./classes";
 import type { Campaign } from "./types";
 import { visibility } from "./vision";
 import {
@@ -74,7 +79,17 @@ export function decode(raw: string): Campaign {
         );
     s.mapRevision = MAP_REVISION;
   }
-  ensureCamp(s);
+  for (const u of s.units) {
+    hydrateClass(u);
+    validateRecruit(u);
+    if (u.owner !== 0) {
+      discoverUnit(s, u, true);
+      revealPromotionOptions(s, u);
+    }
+  }
+  if (s.phase === "camp") s.phase = "summary";
+  if (s.phase === "intro") s.phase = "battle";
+  if (s.scene && s.scene !== "meeting" && s.scene !== "ending") s.scene = null;
   validate(s);
   if (updatedMap) visibility(s);
   return s;

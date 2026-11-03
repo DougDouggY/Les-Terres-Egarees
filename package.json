@@ -8,8 +8,9 @@
     "build": "tsc --noEmit && vite build",
     "test": "node --import tsx --test tests/*.test.ts",
     "preview": "vite preview --host 0.0.0.0",
-    "test:e2e": "playwright test",
-    "format": "prettier --write src tests docs playwright.config.ts package.json tsconfig.json index.html"
+    "test:e2e": "npm run build -- --base=/Les-Terres-Egarees/ && playwright test",
+    "format": "prettier --write src tests docs playwright.config.ts package.json tsconfig.json index.html",
+    "check:public": "node scripts/check-public.mjs"
   },
   "devDependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",

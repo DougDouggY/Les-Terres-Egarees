@@ -36,6 +36,21 @@ export type Cell = {
   interactive?: string;
 };
 export type Unit = {
+  classId?: string;
+  gender?: import("../data/classes").Gender;
+  portraitAsset?: string;
+  carriedWeapons?: string[];
+  activeWeaponId?: string;
+  recruitChoices?: [string, string];
+  crossbowLoaded?: boolean;
+  bandages?: number;
+  bannerPlanted?: boolean;
+  bannerUsed?: boolean;
+  fortified?: boolean;
+  movedDistance?: number;
+  summonedBy?: string;
+  summonTurns?: number;
+  summonedAt?: number;
   id: string;
   owner: 0 | 1 | 2;
   front: 1 | 2;
@@ -68,6 +83,15 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  discoveries?: {
+    weaknesses?: string[];
+    classes: string[];
+    weapons: import("../data/classes").WeaponCategory[];
+    skills: import("../data/classes").SkillId[];
+  };
+  banners?: { owner: 1 | 2; x: number; y: number }[];
+  activationSerial?: number;
+  summonSerial?: number;
   camp?: CampProgress;
   mapRevision?: number;
   version: 1;
@@ -80,7 +104,7 @@ export type Campaign = {
   events: string[];
   scene: string | null;
   scenePage: number;
-  phase: "intro" | "battle" | "camp" | "defeat";
+  phase: "intro" | "battle" | "camp" | "summary" | "defeat";
   active: 1 | 2;
   seed: number;
   inventory: { name: string; count: number }[];

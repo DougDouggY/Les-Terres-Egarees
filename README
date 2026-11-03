@@ -24,8 +24,7 @@ playwright.config.ts sur une autre machine. Il démarre Vite si nécessaire.
 
 COMMENT JOUER
 -------------
-Choisir indépendamment l'origine des deux expéditions et suivre les deux
-introductions. L'unité en tête de la liste d'initiative est l'unité active.
+Choisir indépendamment la faction, le nom, le sexe et la classe des deux héros. L'unité en tête de la liste d'initiative est l'unité active.
 Cliquer cette unité, puis une case bleue pour se déplacer. Il est possible de
 traverser ses alliés, mais la case d’arrivée doit être libre. Cliquer un ennemi
 à portée pour consulter la prévision et confirmer le combat. Une potion ou
@@ -42,7 +41,7 @@ ses personnages après l'alliance. La mort des deux chefs provoque la défaite.
 
 Les sauvegardes sont locales au navigateur. Les actions critiques ne sont pas
 sauvegardées en cours. Continuer restaure la dernière activation stable ou le
-camp. Options règle les effets sonores et la vitesse des animations.
+bilan. Options règle les effets sonores et la vitesse des animations.
 
 DOCUMENTATION
 -------------
@@ -103,3 +102,16 @@ ses services sont débloqués au retour. Les ressources, les blessures, les
 réparations et les choix en cours sont sauvegardés. Une sortie terminée ne se
 rejoue pas. Cette première version comprend six sorties narratives ; de
 nouvelles cartes de combat et l’évolution des classes viendront ensuite.
+
+PHASE 1 — CLASSES ET OUTILS DE DÉVELOPPEMENT
+------------------------------------------
+La carte validée est préservée. Les classes, promotions et équipements sont
+configurables. L’ancien camp permanent est retiré de la boucle ; ses ressources
+et données sont conservées. Aucun campement temporaire n’est encore développé.
+
+Avec npm run dev, le menu propose Classes et systèmes et Galerie des sprites :
+ressources réelles partagées avec le jeu, animations, zoom net, comparaison,
+variantes manquantes et commentaires exportables. Ces outils sont exclus du
+build public GitHub Pages. Vérifier cette exclusion avec npm run check:public.
+
+Documentation et décisions ouvertes : docs/PHASE1.md.

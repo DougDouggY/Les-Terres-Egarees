@@ -1,3 +1,5 @@
+import { hasSkill } from "./classes";
+import { offensiveReady } from "./combat";
 import type { Campaign, Unit } from "./types";
 import { cell, map, key, W, H, distance } from "./map";
 import { at, allied } from "./queries";
@@ -46,7 +48,11 @@ export function path(
       )
         continue;
       const nk = key(n.x, n.y),
-        cost = dist.get(k)! + n.cost;
+        cost =
+          dist.get(k)! +
+          (hasSkill(u, "forest_move") && ["forest", "tree"].includes(n.terrain)
+            ? 1
+            : n.cost);
       if (cost < (dist.get(nk) ?? Infinity)) {
         dist.set(nk, cost);
         prev.set(nk, k);
@@ -72,6 +78,7 @@ export function attackCells(
   origins: Iterable<number> = [key(u.x, u.y)],
 ): Set<number> {
   const result = new Set<number>();
+  if (!offensiveReady(u)) return result;
   for (const origin of origins) {
     const from = map[origin];
     if (!from) continue;

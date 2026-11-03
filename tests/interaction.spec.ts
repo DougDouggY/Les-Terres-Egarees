@@ -20,6 +20,7 @@ test("caméra glissée, survol, fiche et aide des statistiques", async ({
   await expect(page.locator("#map-tooltip")).toContainText("Astrid");
   await expect(page.locator("#map-tooltip .hp")).toBeVisible();
   await clickMap(page, 11, 11);
+  await page.getByRole("button", { name: "Fiche", exact: true }).click();
   const card = page.getByRole("region", { name: "Fiche de Astrid" });
   await expect(card).toBeVisible();
   const stat = card.locator("[data-tooltip]").filter({ hasText: "FOR" });

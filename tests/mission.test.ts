@@ -41,6 +41,8 @@ for (const f of [
         if (u.owner !== s.active) {
           s.active = u.owner;
         }
+        if (E.activeWeapon(u).reload && u.crossbowLoaded === false)
+          E.reloadWeapon(s, u);
         if (u.hp <= 12 && u.potions) {
           E.heal(s, u);
         } else {

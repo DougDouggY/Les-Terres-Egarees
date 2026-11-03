@@ -106,3 +106,13 @@ Le test intégral dispose d'un délai de 240 s pour les machines sans accéléra
 - Les six sorties et les trois restaurations complètes sont simulées dans les tests du moteur. L’affûtage ne peut être appliqué qu’une fois et aucune sortie terminée n’est rejouable.
 - Déplacements, brume, fiches, lisières, convoi, viewport et observation côte à côte restent validés. Compilation de production avec la base GitHub Pages validée.
 - Captures : `artifacts/camp-ruined.png` et `artifacts/camp-first-repair.png`. Le plan illustre les étapes de restauration ; les sorties de cette première version sont narratives.
+
+## Phase 1 — classes, interface et galerie privée
+
+- 46 tests moteur réussis, dont intégrité SHA-256 de la carte et de ses ressources validées ; aucun changement à ses cinq fichiers protégés.
+- Quatre compositions de factions gagnent les simulations de mission (83 à 92 activations, quatre survivants).
+- 13 scénarios navigateur réussis, dont mission complète jusqu’au bilan sauvegardé et repris (57 activations), brume, déplacement à travers les alliés, entrée du village, caméra et écrans de différentes tailles.
+- Cinq contrôles ciblés supplémentaires réussis sur la version finale de l’interface : galerie réelle, ressources absentes, animations et signalements, création/catalogue, exclusion publique, équipement/riposte et cases adjacentes, caractères HTML dans les noms. Trois recouvrent les contrôles de la suite complète.
+- Compilation TypeScript/Vite avec la base GitHub Pages et contrôle d’exclusion des outils privés réussis. Captures : `artifacts/sprite-gallery.png`, `artifacts/phase1-summary.png`.
+- L’ancien camp permanent, ses ressources et ses anciennes validations restent archivés ; la boucle active utilise un bilan. Aucun campement temporaire ni nouvel élément narratif n’est développé. Réglages provisoires et décisions ouvertes : [PHASE1.md](PHASE1.md).
+- Vérification manuelle automatisée supplémentaire des quatre combinaisons du créateur : origines, Tab, observation, caméras et sauvegarde passent sans erreur JavaScript ni réponse HTTP en échec.

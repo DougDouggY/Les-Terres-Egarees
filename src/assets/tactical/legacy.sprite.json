@@ -1,0 +1,424 @@
+{
+  "profiles": [
+    {
+      "classId": "raider",
+      "gender": "male",
+      "equipment": "axe-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2
+        },
+        "move": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 7
+        },
+        "attack": {
+          "source": "assets/attacks.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 8
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            6
+          ],
+          "fps": 1
+        },
+        "death": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            7
+          ],
+          "fps": 1
+        },
+        "evade": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            5
+          ],
+          "fps": 1
+        },
+        "block": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            5
+          ],
+          "fps": 1
+        }
+      }
+    },
+    {
+      "classId": "hunter",
+      "gender": "female",
+      "equipment": "bow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2
+        },
+        "move": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 7
+        },
+        "attack": {
+          "source": "assets/attacks.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 8
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 1,
+          "frames": [
+            6
+          ],
+          "fps": 1
+        },
+        "death": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 1,
+          "frames": [
+            7
+          ],
+          "fps": 1
+        },
+        "evade": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 1,
+          "frames": [
+            5
+          ],
+          "fps": 1
+        }
+      }
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2
+        },
+        "move": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 2,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 7
+        },
+        "attack": {
+          "source": "assets/attacks.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 8
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 2,
+          "frames": [
+            6
+          ],
+          "fps": 1
+        },
+        "death": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 2,
+          "frames": [
+            7
+          ],
+          "fps": 1
+        },
+        "evade": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 2,
+          "frames": [
+            5
+          ],
+          "fps": 1
+        },
+        "block": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 2,
+          "frames": [
+            5
+          ],
+          "fps": 1
+        }
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2
+        },
+        "move": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 3,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 7
+        },
+        "attack": {
+          "source": "assets/attacks.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 8
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 3,
+          "frames": [
+            6
+          ],
+          "fps": 1
+        },
+        "death": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 3,
+          "frames": [
+            7
+          ],
+          "fps": 1
+        },
+        "evade": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 3,
+          "frames": [
+            5
+          ],
+          "fps": 1
+        }
+      }
+    },
+    {
+      "classId": "skeleton",
+      "gender": "any",
+      "equipment": "rusty-sword",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2
+        },
+        "move": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 4,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 7
+        },
+        "attack": {
+          "source": "assets/attacks.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 8
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 4,
+          "frames": [
+            6
+          ],
+          "fps": 1
+        },
+        "death": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 4,
+          "frames": [
+            7
+          ],
+          "fps": 1
+        },
+        "evade": {
+          "source": "assets/sprites.png",
+          "columns": 8,
+          "rows": 5,
+          "row": 4,
+          "frames": [
+            5
+          ],
+          "fps": 1
+        }
+      }
+    }
+  ]
+}

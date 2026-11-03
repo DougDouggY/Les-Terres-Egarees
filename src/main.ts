@@ -1,3 +1,4 @@
+import { unitSpriteProfile, drawResourceFrame } from "./sprites/resources";
 import { TerrainRenderer, type TerrainStyle } from "./terrain";
 import { Mist } from "./fog";
 import "@fontsource/cormorant-garamond/latin-500.css";
@@ -14,7 +15,12 @@ let state: Campaign | null = null,
   factions: [Faction, Faction] = ["north", "knight"],
   selected: string | null = null,
   cardOpen = false,
-  origin: { x: number; y: number } | null = null,
+  origin: {
+    x: number;
+    y: number;
+    fortified?: boolean;
+    movedDistance?: number;
+  } | null = null,
   moved = false,
   busy = false,
   hover: number | null = null,
@@ -22,9 +28,16 @@ let state: Campaign | null = null,
   fogEnabled = true,
   showGrid = false,
   terrainStyle: TerrainStyle = "regional",
-  panel = "camp",
+  panel = "summary",
   speed = Number(localStorage.getItem("lte-speed") || 1),
   sound = localStorage.getItem("lte-sound") !== "off";
+let heroDrafts: [E.HeroConfig, E.HeroConfig] = [
+  { faction: "north", name: "Eirik", gender: "male", classId: "raider" },
+  { faction: "knight", name: "Maël", gender: "male", classId: "man_at_arms" },
+];
+let aim: "heal" | "summon" | "area" | null = null;
+let isPanning = false;
+let developerCleanup: (() => void) | null = null;
 let pendingReward: (() => void) | null = null;
 let toastTimer: ReturnType<typeof setTimeout>;
 const zoom = 1.65;
@@ -43,12 +56,8 @@ function focusUnit(u: Unit) {
   clampCamera(state!.active);
 }
 const assetBase = import.meta.env.BASE_URL;
-const sprites = new Image(),
-  attacks = new Image(),
-  regional = new Image();
+const regional = new Image();
 regional.src = assetBase + "assets/regional-tiles.png?v=1";
-attacks.src = assetBase + "assets/attacks.png";
-sprites.src = assetBase + "assets/sprites.png";
 const esc = (s: string) =>
   s.replace(
     /[&<>"']/g,
@@ -97,9 +106,11 @@ function audio(type = "hit") {
   } catch {}
 }
 function title() {
+  developerCleanup?.();
+  developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${import.meta.env.DEV ? `<div class="dev-entry"><small>DÉVELOPPEMENT</small>${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
 }
 function options() {
   const modal = document.createElement("div");
@@ -110,257 +121,75 @@ function options() {
 }
 function configure() {
   screen = "config";
-  app.innerHTML = `<main class="config-screen"><div class="config-bg"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>LES RIVAGES DE L’OUBLI</small></span>${button("← Retour", "title", "back")}</header><section class="config-heading"><span class="eyebrow">DEUX EXPÉDITIONS · UNE SEULE AVENTURE</span><h1>Choisissez vos origines.</h1><p>Vous guiderez les deux groupes. Leurs destins se rejoindront dans la brume.</p></section><div class="faction-grid">${[1, 2].map((p) => `<section class="faction-card"><div class="faction-image" style="background-image:url('${assetBase}assets/scene-${factions[p - 1] === "north" ? (p === 1 ? 4 : 20) : p === 1 ? 6 : 25}.png')"></div><div class="faction-content"><span class="eyebrow">EXPÉDITION ${p} <span class="player-dot p${p}"></span></span><h2>${factions[p - 1] === "north" ? (p === 1 ? "Les Enfants du fjord" : "Les Voiles de cendre") : p === 1 ? "La Compagnie d’ambre" : "Les Lames de l’aube"}</h2><p>${factions[p - 1] === "north" ? "La mer vous a tout pris. Votre courage vous appartient encore." : "Vous cherchiez une fortune. La brume vous a offert un autre destin."}</p><div class="segmented">${button("Vikings", `faction-${p}-north`, factions[p - 1] === "north" ? "chosen" : "")}${button("Chevaliers", `faction-${p}-knight`, factions[p - 1] === "knight" ? "chosen" : "")}</div><div class="unit-pair">${factions[p - 1] === "north" ? "Hache & bouclier <span>·</span> Arc de frêne" : "Épée & écu <span>·</span> Arbalète"}</div></div></section>`).join("")}</div><div class="config-bottom"><p>Chaque expédition possède son chef, ses unités et son champ de vision.<br><span>Changez de perspective à tout moment avec la touche Tab.</span></p>${button("Prendre la route <span>→</span>", "begin", "primary")}</div></main>`;
-}
-type Shot = { image: number; speaker: string; text: string };
-function shots(): Shot[] {
-  const s = state!,
-    scene = s.scene!,
-    p = scene === "intro2" ? 2 : 1,
-    f = s.factions[p - 1],
-    leader = s.units.find((u) => u.owner === p && u.leader)!.name;
-  const variant = p === 2 ? "Une autre bannière, un autre équipage. " : "";
-  if (scene === "intro2")
-    return f === "north"
-      ? [
-          {
-            image: 16,
-            speaker: leader,
-            text: "Au nord, une autre bannière avait quitté le fjord. Bryn et Solveig cherchaient une terre où recommencer.",
-          },
-          {
-            image: 17,
-            speaker: "LE DÉPART",
-            text: "Ils chargèrent les dernières réserves et confièrent leur destin à la mer.",
-          },
-          {
-            image: 18,
-            speaker: "LA TRAVERSÉE",
-            text: "La nuit emporta les étoiles. Devant eux, la mer devint un mur.",
-          },
-          {
-            image: 19,
-            speaker: "LE NAUFRAGE",
-            text: "Le ciel se déchira. Le rivage surgit dans la foudre, puis le bois se brisa.",
-          },
-          {
-            image: 20,
-            speaker: leader,
-            text: "Rassemblez ce qui peut encore servir. Nous ne mourrons pas sur cette plage.",
-          },
-          {
-            image: 21,
-            speaker: leader,
-            text: "Un monastère, au-delà de la brume. Il nous faut un abri.",
-          },
-        ]
-      : [
-          {
-            image: 22,
-            speaker: leader,
-            text: "Maël et Alix avaient accepté un dernier contrat : intercepter un convoi et disparaître avant l’aube.",
-          },
-          {
-            image: 23,
-            speaker: "L’EMBUSCADE",
-            text: "Une route, quelques chariots, une cargaison sans escorte digne de ce nom. Tout semblait simple.",
-          },
-          {
-            image: 24,
-            speaker: "LA TEMPÊTE",
-            text: "Sous les arbres, l’orage transforma les sentiers en torrents. La compagnie perdit son chemin.",
-          },
-          {
-            image: 25,
-            speaker: leader,
-            text: "Cette route… Nous ne sommes pas passés ici hier. Où sommes-nous ?",
-          },
-          {
-            image: 26,
-            speaker: leader,
-            text: "Le convoi. Mais ils sont tous morts… Qui a pu faire cela ?",
-          },
-          {
-            image: 27,
-            speaker: leader,
-            text: "Derrière le chariot ! Ce mort se relève. Aux armes !",
-          },
-        ];
-  if (scene.startsWith("intro"))
-    return f === "north"
-      ? [
-          {
-            image: p === 1 ? 1 : 4,
-            speaker: `EXPÉDITION ${p} · ${leader}`,
-            text:
-              variant +
-              "Au-delà des mers connues, les hommes du Nord cherchaient de nouvelles terres, des richesses et la gloire.",
-          },
-          {
-            image: 2,
-            speaker: "LE DÉPART",
-            text: "Une nouvelle expédition prit la mer, guidée par les étoiles et la promesse de terres lointaines.",
-          },
-          {
-            image: 3,
-            speaker: "LA TRAVERSÉE",
-            text: "La mer se souleva. Au loin, aucune côte. Au-dessus, plus une étoile.",
-          },
-          {
-            image: 11,
-            speaker: "LA TEMPÊTE",
-            text: "Mais cette nuit-là, même les étoiles semblèrent abandonner les hommes.",
-          },
-          {
-            image: 4,
-            speaker: "LE NAUFRAGE",
-            text: "À l’aube, seuls les débris et quelques survivants atteignirent une plage inconnue.",
-          },
-          {
-            image: 5,
-            speaker: leader,
-            text: "Un monastère… S’il reste des vivres là-dedans, on pourra tenir quelques jours.",
-          },
-        ]
-      : [
-          {
-            image: p === 1 ? 6 : 7,
-            speaker: `EXPÉDITION ${p} · ${leader}`,
-            text:
-              variant +
-              "Dans un royaume déchiré par les guerres, certaines compagnies ne servaient plus de couronne. Seulement celui qui payait le mieux.",
-          },
-          {
-            image: 7,
-            speaker: "LE CONTRAT",
-            text: "Un convoi chargé d’or devait traverser la forêt. Une embuscade simple. Un dernier contrat.",
-          },
-          {
-            image: 8,
-            speaker: "LA NUIT",
-            text: "Sous les arbres, la tempête les surprit. Le tonnerre étouffa jusqu’au bruit de leurs pas.",
-          },
-          {
-            image: 5,
-            speaker: "LE MATIN",
-            text: "Au matin, la route était méconnaissable. Une brume épaisse avait avalé le monde.",
-          },
-          {
-            image: 9,
-            speaker: leader,
-            text: "Personne ne nous a devancés. Alors qui les a tués ?",
-          },
-          {
-            image: 10,
-            speaker: leader,
-            text: "Ce cadavre… Il bouge. Aux armes !",
-          },
-        ];
-  if (scene === "storm")
-    return [
-      {
-        image: 11,
-        speaker: "LE RETOUR DE L’ORAGE",
-        text:
-          s.factions[s.active - 1] === "north"
-            ? "Encore ces éclairs… Ce n’est pas une tempête ordinaire."
-            : "Ce tonnerre… C’est le même que cette nuit.",
-      },
-    ];
-  if (scene === "horde")
-    return [
-      {
-        image: 11,
-        speaker: "NOUVEL OBJECTIF · ATTEINDRE LE SANCTUAIRE",
-        text: "Des silhouettes apparaissent sur les chemins extérieurs. Au centre, des cris humains percent la brume. Il faut avancer.",
-      },
-    ];
-  if (scene === "meeting")
-    return [
-      "Attendez… Des hommes vivants ?",
-      "Qui êtes-vous ? Et que faites-vous ici ?",
-      "Nous cherchons à quitter cet endroit.",
-      "Alors nous cherchons la même chose.",
-      "On discutera après. Pour l’instant, il faut survivre !",
-      "Très bien. Vos hommes sur le flanc gauche, les miens sur le droit !",
-    ].map((text, i) => ({
-      image:
-        s.factions[0] === "north"
-          ? s.factions[1] === "north"
-            ? 28
-            : 31
-          : s.factions[1] === "north"
-            ? 30
-            : 29,
-      speaker: s.units.find(
-        (u) => u.owner === (i % 2 === 0 ? 1 : 2) && u.leader,
-      )!.name,
-      text,
-    }));
-  return [
-    {
-      image: 13,
-      speaker: "LE REPLI",
-      text: "Au loin, d’autres silhouettes approchent. Les survivants gagnent le sanctuaire et barricadent les accès.",
-    },
-    {
-      image: 14,
-      speaker: "LES TERRES ÉGARÉES",
-      text: "Deux expéditions. Deux histoires. Un même piège.",
-    },
-  ];
+  app.innerHTML = `<main class="config-screen phase1-creator"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>CRÉATEUR DE HÉROS · PROTOTYPE</small></span>${button("← Retour", "title", "back")}</header><section class="config-heading"><h1>Créez vos deux héros.</h1><p>Chaque expédition choisit sa faction et sa classe indépendamment.</p></section><div class="faction-grid">${heroDrafts
+    .map(
+      (h, i) =>
+        `<section class="faction-card hero-form"><span class="eyebrow">EXPÉDITION ${i + 1}</span><div class="segmented">${button("Vikings", `faction-${i + 1}-north`, h.faction === "north" ? "chosen" : "")}${button("Chevaliers", `faction-${i + 1}-knight`, h.faction === "knight" ? "chosen" : "")}</div><div class="portrait-placeholder" aria-label="Emplacement du futur portrait">◇<small>PORTRAIT À CRÉER</small></div><label>Nom du héros — expédition ${i + 1}<input id="hero-name-${i + 1}" maxlength="32" value="${esc(h.name)}" required></label><label>Sexe — expédition ${i + 1}<select id="hero-gender-${i + 1}"><option value="male" ${h.gender === "male" ? "selected" : ""}>Homme</option><option value="female" ${h.gender === "female" ? "selected" : ""}>Femme</option></select></label><label>Classe de base — expédition ${i + 1}<select id="hero-class-${i + 1}">${E.baseClasses(
+          h.faction,
+        )
+          .map(
+            (c) =>
+              `<option value="${c.id}" ${c.id === h.classId ? "selected" : ""}>${c.name}</option>`,
+          )
+          .join(
+            "",
+          )}</select></label><p>${E.classes[h.classId].role}</p><small>Les portraits et les sprites manquants seront créés ultérieurement.</small></section>`,
+    )
+    .join(
+      "",
+    )}</div><div class="config-bottom"><p>Carte et déplacements conservés · initiative individuelle · brouillard indépendant</p>${button("Déployer les expéditions", "begin", "primary")}</div></main>`;
+  for (const i of [1, 2]) {
+    (app.querySelector(`#hero-name-${i}`) as HTMLInputElement).oninput = (
+      e,
+    ) => {
+      heroDrafts[i - 1].name = (e.target as HTMLInputElement).value;
+    };
+    (app.querySelector(`#hero-gender-${i}`) as HTMLSelectElement).onchange = (
+      e,
+    ) => {
+      heroDrafts[i - 1].gender = (e.target as HTMLSelectElement)
+        .value as E.Gender;
+    };
+    (app.querySelector(`#hero-class-${i}`) as HTMLSelectElement).onchange = (
+      e,
+    ) => {
+      heroDrafts[i - 1].classId = (e.target as HTMLSelectElement).value;
+      configure();
+    };
+  }
 }
 function cinematic() {
-  screen = "cinematic";
-  const s = state!,
-    list = shots(),
-    shot = list[s.scenePage];
-  app.innerHTML = `<main class="cinematic"><div class="cinema-image" style="background-image:url('${assetBase}assets/scene-${shot.image}.png')"></div><header><span class="eyebrow">${s.scene?.startsWith("intro") ? `PROLOGUE · EXPÉDITION ${s.scene === "intro2" ? 2 : 1}` : "LES RIVAGES DE L’OUBLI"}</span><span>${String(s.scenePage + 1).padStart(2, "0")} <i>/ ${String(list.length).padStart(2, "0")}</i></span></header><section class="dialogue"><span class="eyebrow">${esc(shot.speaker)}</span><p>${esc(shot.text)}</p><div class="dialogue-bottom"><span>${list.map((_, i) => `<i class="${i === s.scenePage ? "on" : ""}"></i>`).join("")}</span>${button(s.scenePage === list.length - 1 ? "Poursuivre →" : "Suite →", "next-scene", "primary")}</div></section><span class="cinema-key">ESPACE POUR CONTINUER</span></main>`;
-  if (s.scene === "storm") audio("storm");
+  const s = state!;
+  aim = null;
+  if (s.scene === "meeting") {
+    screen = "transition";
+    app.innerHTML = `<main class="phase-event"><span class="eyebrow">RENCONTRE DES EXPÉDITIONS</span><h1>Les deux fronts se rejoignent.</h1><p>Les champs de vision sont partagés. Un nouvel ordre d’initiative commun commence.</p>${button("Unir les fronts", "next-scene", "primary")}</main>`;
+  } else if (s.scene === "ending") {
+    s.scene = null;
+    s.phase = "summary";
+    summary();
+    save(true);
+  } else {
+    s.scene = null;
+    s.phase = "battle";
+    battleUI();
+  }
 }
 function nextScene() {
   if (!state) return;
-  const s = state;
-  if (++s.scenePage < shots().length) {
-    cinematic();
-    return;
-  }
-  const scene = s.scene;
-  s.scene = null;
-  s.scenePage = 0;
-  if (scene === "intro1") {
-    s.players[0].intro = 6;
-    s.scene = "intro2";
-    cinematic();
-    return;
-  }
-  if (scene === "intro2") {
-    s.players[1].intro = 6;
-    s.phase = "battle";
-    selected = E.current(s)?.id ?? null;
-  }
-  if (scene === "meeting") E.merge(s);
-  if (scene === "ending") {
-    s.phase = "camp";
-    panel = "camp";
-    s.inventory[1].count = s.units.filter(
-      (u) => u.owner === 0 && u.hp === 0,
-    ).length;
-    camp();
+  if (state.scene === "meeting") {
+    E.merge(state);
+    state.scene = null;
+    selected = null;
+    battleUI();
     save(true);
-    return;
-  }
-  battleUI();
-  save(true);
+  } else cinematic();
 }
 function portrait(u: Unit, large = false) {
-  const pi = kindRow(u.kind) + (u.owner === 2 ? 4 : 0);
-  return `<div class="portrait ${large ? "large" : ""} kind-${u.kind}">${u.owner === 0 ? `<div class="sprite-portrait" style="--row:4"></div>` : `<img src="${assetBase}assets/portrait-${pi}.png" alt="Portrait de ${u.name}">`}<span class="portrait-frame"></span></div>`;
+  return `<div class="portrait ${large ? "large" : ""}">${u.portraitAsset ? `<img src="${assetBase + esc(u.portraitAsset)}" alt="Portrait de ${esc(u.name)}">` : `<div class="portrait-placeholder" aria-label="Portrait à créer"><b>${esc(u.name.slice(0, 1))}</b><small>À CRÉER</small></div>`}</div>`;
 }
-const kindRow = (k: Kind) =>
-  ["shield", "bow", "sword", "crossbow", "skeleton"].indexOf(k);
 function unitCard(u: Unit) {
-  return `${portrait(u, true)}<div class="unit-identity"><span class="eyebrow">${u.owner === 0 ? "LES MAUDITS" : `EXPÉDITION ${u.owner}`}${u.leader ? " · CHEF" : ""}</span><h2>${u.name}</h2><span>${E.names[u.kind]} · Nv. ${u.level}</span></div><div class="hp-heading"><span>POINTS DE VIE</span><b>${u.hp}<small> / ${u.maxHp}</small></b></div><div class="bar hp"><i style="width:${(u.hp / u.maxHp) * 100}%"></i></div><div class="stats">${[
+  return `${portrait(u, true)}<div class="unit-identity"><span class="eyebrow">${u.owner === 0 ? "LES MAUDITS" : `EXPÉDITION ${u.owner}`}${u.leader ? " · CHEF" : ""}</span><h2>${esc(u.name)}</h2><span>${E.className(u)} · Nv. ${u.level}</span></div><div class="hp-heading"><span>POINTS DE VIE</span><b>${u.hp}<small> / ${u.maxHp}</small></b></div><div class="bar hp"><i style="width:${(u.hp / u.maxHp) * 100}%"></i></div><div class="stats">${[
     ["FOR", u.strength],
     ["DÉF", u.defense],
     ["AGI", u.agility],
@@ -374,11 +203,154 @@ function unitCard(u: Unit) {
     )
     .join(
       "",
-    )}</div><div class="equipment"><span>ARME ÉQUIPÉE</span><strong>${E.weapons[u.kind]}</strong><small>Portée ${u.minRange}–${u.range} cases</small></div><div class="xp-label"><span>EXPÉRIENCE</span><b>${u.xp} / 100</b></div><div class="bar xp"><i style="width:${u.xp}%"></i></div>`;
+    )}</div><div class="equipment"><span>ARME ÉQUIPÉE</span><strong>${E.weaponName(u)}</strong><small>Portée ${u.minRange}–${u.range} cases${E.activeWeapon(u).reload ? (u.crossbowLoaded === false ? " · À recharger" : " · Chargée") : ""}</small><small>${E.unitClass(
+    u,
+  )
+    .skills.filter(
+      (id) => u.owner !== 0 || E.discoveries(state!).skills.includes(id),
+    )
+    .map((id) => E.skillNames[id])
+    .join(
+      " · ",
+    )}</small></div><div class="xp-label"><span>EXPÉRIENCE</span><b>${u.xp} / 100</b></div><div class="bar xp"><i style="width:${u.xp}%"></i></div>`;
+}
+function equipmentModal(u: Unit) {
+  const modal = document.createElement("div");
+  modal.className = "modal-back equipment-modal";
+  modal.innerHTML = `<section class="modal"><h2>Objet / Équipement</h2><p>${esc(u.name)} · Arme active : ${E.weaponName(u)}</p><div class="equipment-list">${(
+    u.carriedWeapons ?? []
+  )
+    .map((id) => {
+      const w = E.weaponCatalog[id];
+      return button(
+        `${w.name}<small>Portée ${w.min}–${w.max}${id === u.activeWeaponId ? " · ÉQUIPÉE" : ""}</small>`,
+        `equip-${id}`,
+        "",
+        !E.compatibleWeapon(u, id) || id === u.activeWeaponId,
+      );
+    })
+    .join(
+      "",
+    )}</div>${u.potions > 0 && u.hp < u.maxHp ? button(`Utiliser une potion (${u.potions})`, "heal", "primary") : ""}${button("Fermer", "close-modal")}</section>`;
+  app.append(modal);
+}
+function promotionMarkup(u: Unit) {
+  const options = E.promotionOptions(u);
+  return options.length
+    ? `<div class="promotion-choice"><h3>Choisir une évolution</h3>${options.map((id) => button(E.classes[id].name, `promote-${u.id}:${id}`)).join("")}</div>`
+    : "";
+}
+function contextActions(u: Unit) {
+  const s = state!,
+    targets = E.alive(s).filter((t) => E.seen(s, s.active, t));
+  let html = "";
+  if (targets.some((t) => E.canAttack(u, t)))
+    html += button("Attaquer", "attack-mode");
+  html += button("Objet / Équipement", "equipment");
+  if (targets.some((t) => E.canHealTarget(s, u, t)))
+    html += button("Soigner", "skill-heal");
+  if (E.hasSkill(u, "banner") && !u.bannerUsed)
+    html += button("Planter la bannière", "skill-banner");
+  if (E.hasSkill(u, "fortify") && !u.fortified)
+    html += button("Se fortifier", "skill-fortify");
+  if (E.activeWeapon(u).reload && u.crossbowLoaded === false)
+    html += button("Recharger", "skill-reload");
+  if (E.summonCells(s, u).length) html += button("Invoquer", "skill-summon");
+  if (
+    E.hasSkill(u, "area") &&
+    E.map.some((c) => E.distance(u, c) <= u.range && E.canCastAreaAt(s, u, c))
+  )
+    html += button("Attaque de zone", "skill-area");
+  html +=
+    button("Fiche", "unit-sheet") +
+    button("Attendre", "wait") +
+    button("Annuler", "cancel");
+  return `<div id="unit-actions" class="unit-actions" role="menu" aria-label="Actions de ${esc(u.name)}"><strong>${esc(u.name)}</strong>${html}</div>`;
+}
+let pointerPosition = { x: 0, y: 0 };
+function positionContextMenu() {
+  const menu = document.querySelector<HTMLElement>("#unit-actions"),
+    canvas = document.querySelector<HTMLCanvasElement>("#map"),
+    s = state;
+  if (!menu || !canvas || !s) return;
+  const u = E.current(s);
+  if (!u) return;
+  menu.hidden = isPanning || !!aim;
+  if (menu.hidden) return;
+  const r = canvas.getBoundingClientRect(),
+    c = s.players[s.active - 1].camera,
+    tile = r.width / viewCols,
+    x = r.x + (u.x + 0.5 - c.x) * tile,
+    y = r.y + ((u.y + 0.5 - c.y) * r.height) / viewRows,
+    w = menu.offsetWidth,
+    h = menu.offsetHeight;
+  const candidates = [
+    { side: "right", x: x + tile * 2, y: y - h / 2 },
+    { side: "left", x: x - tile * 2 - w, y: y - h / 2 },
+    { side: "above", x: x - w / 2, y: y - tile * 2 - h },
+    { side: "below", x: x - w / 2, y: y + tile * 2 },
+    {
+      side: "lower-right",
+      x: x + tile * 2,
+      y: y + tile * Math.max(3, u.move - 1),
+    },
+    {
+      side: "upper-right",
+      x: x + tile * 2,
+      y: y - tile * Math.max(3, u.move - 1) - h,
+    },
+    {
+      side: "lower-left",
+      x: x - tile * 2 - w,
+      y: y + tile * Math.max(3, u.move - 1),
+    },
+    {
+      side: "upper-left",
+      x: x - tile * 2 - w,
+      y: y - tile * Math.max(3, u.move - 1) - h,
+    },
+  ];
+  const clickable = [
+    ...(!moved ? [...movementField(s, u).keys()].map((k) => E.map[k]) : []),
+    ...E.alive(s).filter((t) => E.seen(s, s.active, t) && E.canAttack(u, t)),
+  ].map((cell) => ({
+    x: r.x + (cell.x + 0.5 - c.x) * tile,
+    y: r.y + (cell.y + 0.5 - c.y) * tile,
+  }));
+  const ranked = candidates
+    .map((p) => ({
+      ...p,
+      score:
+        clickable.filter(
+          (cell) =>
+            cell.x >= p.x - tile * 0.4 &&
+            cell.x <= p.x + w + tile * 0.4 &&
+            cell.y >= p.y - tile * 0.4 &&
+            cell.y <= p.y + h + tile * 0.4,
+        ).length *
+          200 +
+        (p.x < 8 || p.x + w > innerWidth - 8 ? 10000 : 0) +
+        (p.y < 105 || p.y + h > innerHeight - 55 ? 10000 : 0) +
+        (pointerPosition.x >= p.x &&
+        pointerPosition.x <= p.x + w &&
+        pointerPosition.y >= p.y &&
+        pointerPosition.y <= p.y + h
+          ? 1000
+          : 0),
+    }))
+    .sort((a, b) => a.score - b.score);
+  const p = ranked[0];
+  menu.style.left = Math.max(8, Math.min(innerWidth - w - 8, p.x)) + "px";
+  menu.style.top = Math.max(105, Math.min(innerHeight - h - 55, p.y)) + "px";
+  menu.dataset.side = p.side;
 }
 function battleUI() {
   if (!state) return;
   const s = state;
+  if (s.phase === "summary") {
+    summary();
+    return;
+  }
   if (s.scene) {
     cinematic();
     return;
@@ -416,11 +388,12 @@ function battleUI() {
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div class="map-compass">N<br>✦</div><div class="map-status">${!fogEnabled ? "INSPECTION SANS BRUME · VISION LOGIQUE CONSERVÉE" : ""}</div>
   <div id="map-tooltip" class="map-tooltip" hidden></div>
-  ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window" aria-label="Fiche de ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer la fiche">×</button>${unitCard(sel)}</section>` : ""}
-  </div>
-  <div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u?.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : (u?.name ?? "")}</strong><small>Clic : unité / destination · Glisser : déplacer la carte</small></div><div class="turn-actions">${sel && own && sel.id === u?.id ? `${button("Attaquer", "attack-mode", "", busy)}${button(`Potion (${sel.potions})`, "heal", "", busy || !sel.potions || sel.hp === sel.maxHp)}${button("Annuler", "cancel", "", busy)}` : ""}${own ? button("Attendre", "wait", "primary", busy) : u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></div>
+  ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window" aria-label="Fiche de ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer la fiche">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
+  ${sel && own && sel.id === u?.id && !busy ? contextActions(u) : ""}</div>
+  <div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u?.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : esc(u?.name ?? "")}</strong><small>Clic : unité / destination · Glisser : déplacer la carte</small></div><div class="turn-actions">${!own && u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></div>
   </section></div><footer class="battle-footer"><span>Glisser · Explorer la carte <i>◆</i> Flèches · Caméra <i>◆</i> Tab · Expédition</span><span>${button("Sauvegarder", "save", "text-button", busy || !!origin)} ${button("Règles du combat", "rules", "text-button")}</span></footer></main>`;
   bindCanvas();
+  positionContextMenu();
   document
     .querySelector('[data-action="toggle-grid"]')
     ?.setAttribute("aria-pressed", String(showGrid));
@@ -444,7 +417,7 @@ function updateHover(c: { x: number; y: number } | null) {
     unit = E.at(state, t.x, t.y);
   info.hidden = false;
   if (unit && (!fogEnabled || E.seen(state, p, unit))) {
-    info.innerHTML = `<strong>${esc(unit.name)}</strong><span>${unit.hp} / ${unit.maxHp} PV</span><div class="bar hp"><i style="width:${(100 * unit.hp) / unit.maxHp}%"></i></div>`;
+    info.innerHTML = `<strong>${esc(unit.name)}</strong><small>${E.className(unit)}</small><span>${unit.hp} / ${unit.maxHp} PV</span><div class="bar hp"><i style="width:${(100 * unit.hp) / unit.maxHp}%"></i></div>`;
   } else
     info.innerHTML = `<strong>${terrainNames[t.terrain]}</strong><span>${t.walk ? `Déplacement ${t.cost} · Défense +${t.defense}` : "Infranchissable"}</span>`;
 }
@@ -477,6 +450,7 @@ function bindCanvas() {
       canvas.setPointerCapture(e.pointerId);
     };
     canvas.onpointermove = (e) => {
+      pointerPosition = { x: e.clientX, y: e.clientY };
       const r = canvas.getBoundingClientRect();
       if (drag) {
         const dx = e.clientX - drag.x,
@@ -487,6 +461,7 @@ function bindCanvas() {
           c.x = drag.cx - (dx / r.width) * viewCols;
           c.y = drag.cy - (dy / r.height) * viewRows;
           clampCamera(p as 1 | 2);
+          isPanning = true;
           canvas.classList.add("dragging");
           updateHover(null);
           return;
@@ -504,8 +479,10 @@ function bindCanvas() {
         );
     };
     canvas.onpointerup = (e) => {
+      isPanning = false;
       const was = drag;
       drag = null;
+      isPanning = false;
       canvas.classList.remove("dragging");
       if (canvas.hasPointerCapture(e.pointerId))
         canvas.releasePointerCapture(e.pointerId);
@@ -522,6 +499,7 @@ function bindCanvas() {
     };
     canvas.onpointercancel = () => {
       drag = null;
+      isPanning = false;
       canvas.classList.remove("dragging");
     };
     canvas.onpointerleave = () => {
@@ -564,27 +542,35 @@ function drawSprite(
   frame = 0,
   flip = false,
   attack = false,
+  animation = attack ? "attack" : "idle",
 ) {
-  const sheet = attack ? attacks : sprites;
-  if (!sheet.complete || !sheet.naturalWidth) return;
-  const sw = sheet.width / 8,
-    sh = sheet.height / 5;
   ctx.save();
-  ctx.imageSmoothingEnabled = true;
-  ctx.imageSmoothingQuality = "high";
   ctx.translate(x + size / 2, y + size / 2);
   if (flip) ctx.scale(-1, 1);
-  ctx.drawImage(
-    sheet,
-    frame * sw,
-    kindRow(u.kind) * sh,
-    sw,
-    sh,
-    -size / 2,
-    -size * 0.72,
-    size,
-    size * 1.15,
-  );
+  if (
+    !drawResourceFrame(
+      ctx,
+      unitSpriteProfile(u),
+      animation,
+      frame,
+      -size / 2,
+      -size * 0.72,
+      size,
+      size * 1.15,
+    )
+  ) {
+    ctx.fillStyle = u.owner === 0 ? "#77443a" : "#294b42";
+    ctx.beginPath();
+    ctx.arc(0, 0, size * 0.29, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#d1bf88";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = "#f2e7ca";
+    ctx.font = `bold ${Math.max(9, size * 0.17)}px sans-serif`;
+    ctx.textAlign = "center";
+    ctx.fillText(u.name.slice(0, 1), 0, size * 0.05);
+  }
   ctx.restore();
 }
 let moveAnim: {
@@ -606,7 +592,10 @@ let reachSignature = "",
   reachCache = new Map<number, { cost: number; steps: number[] }>();
 function movementField(s: Campaign, u: Unit) {
   const signature =
-    s.units.map((t) => `${t.id}:${t.x},${t.y},${t.hp}`).join("|") + u.id;
+    s.units.map((t) => `${t.id}:${t.x},${t.y},${t.hp}`).join("|") +
+    u.id +
+    u.classId +
+    u.move;
   if (signature !== reachSignature) {
     reachSignature = signature;
     reachCache = E.reachable(s, u);
@@ -619,7 +608,17 @@ function attackField(
   u: Unit,
   reach: Map<number, { cost: number; steps: number[] }>,
 ) {
-  const signature = reachSignature + u.id + u.x + "," + u.y + ":" + moved;
+  const signature =
+    reachSignature +
+    u.id +
+    u.x +
+    "," +
+    u.y +
+    ":" +
+    moved +
+    u.activeWeaponId +
+    u.crossbowLoaded +
+    u.range;
   if (signature !== attackSignature) {
     attackSignature = signature;
     attackCache = E.attackCells(u, reach.keys());
@@ -728,6 +727,43 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ctx.stroke();
     }
   }
+  if (aim && sel && sel.owner === p) {
+    const cells =
+      aim === "heal"
+        ? E.alive(s).filter((t) => E.canHealTarget(s, sel, t))
+        : aim === "summon"
+          ? E.summonCells(s, sel)
+          : hover !== null && E.canCastAreaAt(s, sel, E.map[hover])
+            ? E.map.filter(
+                (c) => E.distance(c, E.map[hover!]) <= E.tuning.area.radius,
+              )
+            : [];
+    for (const c of cells)
+      if (visible.has(E.key(c.x, c.y))) {
+        ctx.fillStyle =
+          aim === "heal"
+            ? "#6bb57e66"
+            : aim === "summon"
+              ? "#e2c26766"
+              : "#d67a7166";
+        ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
+      }
+  }
+  for (const b of s.banners ?? [])
+    if (!fogEnabled || visible.has(E.key(b.x, b.y))) {
+      ctx.strokeStyle = "#cab677";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(b.x * 32 + 25, b.y * 32 + 28);
+      ctx.lineTo(b.x * 32 + 25, b.y * 32 + 3);
+      ctx.stroke();
+      ctx.fillStyle = b.owner === 1 ? "#77c2b6" : "#e1b262";
+      ctx.beginPath();
+      ctx.moveTo(b.x * 32 + 25, b.y * 32 + 3);
+      ctx.lineTo(b.x * 32 + 12, b.y * 32 + 9);
+      ctx.lineTo(b.x * 32 + 25, b.y * 32 + 14);
+      ctx.fill();
+    }
   for (const u of E.alive(s).sort((a, b) => a.y - b.y)) {
     if (fogEnabled && !E.seen(s, p, u)) continue;
     let x = u.x * 32,
@@ -745,7 +781,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
         b = E.map[moveAnim.steps[Math.min(i + 1, moveAnim.steps.length - 1)]];
       x = (a.x + (b.x - a.x) * (f - i)) * 32;
       y = (a.y + (b.y - a.y) * (f - i)) * 32;
-      frame = 1 + (Math.floor(time / 130) % 2);
+      frame = Math.floor(time / 130) % 2;
     }
     ctx.fillStyle =
       u.owner === 1 ? "#66bfbe" : u.owner === 2 ? "#d8b577" : "#c56059";
@@ -754,7 +790,17 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     ctx.ellipse(x + 16, y + 24, 11, 4, 0, 0, Math.PI * 2);
     ctx.fill();
     ctx.globalAlpha = 1;
-    drawSprite(ctx, u, x, y - 2, 32, frame);
+    drawSprite(
+      ctx,
+      u,
+      x,
+      y - 2,
+      32,
+      frame,
+      false,
+      false,
+      moveAnim?.id === u.id ? "move" : "idle",
+    );
     ctx.fillStyle = "#14201c";
     ctx.fillRect(x + 3, y + 29, 26, 3);
     ctx.fillStyle = u.owner === 0 ? "#c87e6a" : "#8ebe99";
@@ -808,7 +854,10 @@ function animation(time: number) {
     lastMapFrame = time;
     const a = document.querySelector<HTMLCanvasElement>("#map"),
       b = document.querySelector<HTMLCanvasElement>("#map2");
-    if (a) renderMap(a, state!.active, time);
+    if (a) {
+      renderMap(a, state!.active, time);
+      positionContextMenu();
+    }
     if (b) renderMap(b, (3 - state!.active) as 1 | 2, time);
   }
   if (combatAnim) renderCombat(time);
@@ -837,6 +886,34 @@ async function clickCell(x: number, y: number) {
   const s = state,
     u = E.current(s),
     target = E.at(s, x, y);
+
+  if (u && u.owner === s.active && aim) {
+    try {
+      if (aim === "heal" && target) {
+        E.healTarget(s, u, target);
+        aim = null;
+        finishTurn();
+        return;
+      }
+      if (aim === "summon") {
+        E.summon(s, u, x, y);
+        aim = null;
+        finishTurn();
+        return;
+      }
+      if (aim === "area" && E.canCastAreaAt(s, u, { x, y })) {
+        const m = document.createElement("div");
+        m.className = "modal-back";
+        m.innerHTML = `<section class="modal forecast"><h2>Attaque de zone</h2><p>Zone de ${E.tuning.area.radius} case autour de la cible. Les alliés sont épargnés.</p>${button("Engager le combat", `confirm-area-${x}-${y}`, "primary")}${button("Annuler", "close-modal")}</section>`;
+        app.append(m);
+        return;
+      }
+    } catch (error) {
+      toast(error instanceof Error ? error.message : "Action impossible");
+      return;
+    }
+    return;
+  }
   if (target && E.seen(s, s.active, target)) {
     if (
       selected === u?.id &&
@@ -848,7 +925,8 @@ async function clickCell(x: number, y: number) {
       return;
     }
     selected = target.id;
-    cardOpen = true;
+    aim = null;
+    cardOpen = !(target.id === u?.id && u.owner === s.active);
     battleUI();
     return;
   }
@@ -860,7 +938,12 @@ async function clickCell(x: number, y: number) {
       p.cost <= u.move &&
       s.players[s.active - 1].visible.includes(E.key(x, y))
     ) {
-      origin = { x: u.x, y: u.y };
+      origin = {
+        x: u.x,
+        y: u.y,
+        fortified: u.fortified,
+        movedDistance: u.movedDistance,
+      };
       await animateMove(u, x, y);
       moved = true;
       if (E.encounter(s)) {
@@ -874,6 +957,7 @@ async function clickCell(x: number, y: number) {
 }
 function cancel() {
   if (busy) return;
+  aim = null;
   if (origin && state) {
     const u = E.current(state)!;
     Object.assign(u, origin);
@@ -887,6 +971,7 @@ function cancel() {
 }
 function finishTurn() {
   if (!state || busy) return;
+  aim = null;
   origin = null;
   moved = false;
   selected = null;
@@ -895,21 +980,23 @@ function finishTurn() {
   if (!state.scene) save(true);
 }
 function preview(a: Unit, b: Unit) {
-  const p = E.forecast(a, b),
-    q = E.forecast(b, a);
+  const p = E.forecast(a, b, state!),
+    q = E.forecast(b, a, state!);
   const modal = document.createElement("div");
   modal.className = "modal-back";
-  modal.innerHTML = `<section class="modal forecast"><span class="eyebrow">PRÉVISION DE COMBAT</span><h2>${a.name} <i>contre</i> ${b.name}</h2><div class="forecast-units"><div>${portrait(a, true)}<strong>${E.weapons[a.kind]}</strong><b>${p.damage} ${p.strikes === 2 ? "× 2" : ""}</b><span>DÉGÂTS · ${p.hit}% PRÉCISION</span><small>${p.crit}% CRITIQUE</small></div><span class="versus">VS</span><div>${portrait(b, true)}<strong>${E.weapons[b.kind]}</strong><b>${p.counter ? q.damage : "—"}</b><span>${p.counter ? `${q.hit}% PRÉCISION` : "HORS DE PORTÉE"}</span><small>${p.counter ? "CONTRE-ATTAQUE POSSIBLE" : "AUCUNE CONTRE-ATTAQUE"}</small></div></div><p>Le couvert réduit les dégâts. Une différence d’agilité de 4 permet deux frappes.</p><div class="modal-actions">${button("Annuler", "close-modal")}${button("Engager le combat", "confirm-attack-" + b.id, "primary")}</div></section>`;
+  modal.innerHTML = `<section class="modal forecast"><span class="eyebrow">PRÉVISION DE COMBAT</span><h2>${esc(a.name)} <i>contre</i> ${esc(b.name)}</h2><div class="forecast-units"><div>${portrait(a, true)}<strong>${E.weaponName(a)}</strong><b>${p.damage} ${p.strikes > 1 ? `× ${p.strikes}` : ""}</b><span>DÉGÂTS · ${p.hit}% PRÉCISION</span><small>${p.crit}% CRITIQUE</small></div><span class="versus">VS</span><div>${portrait(b, true)}<strong>${E.weaponName(b)}</strong><b>${p.counter ? `${q.damage}${q.strikes > 1 ? ` × ${q.strikes}` : ""}` : "—"}</b><span>${p.counter ? `${q.hit}% PRÉCISION` : "HORS DE PORTÉE"}</span><small>${p.counter ? "CONTRE-ATTAQUE POSSIBLE" : "AUCUNE CONTRE-ATTAQUE"}</small></div></div><p>Le couvert réduit les dégâts. Une différence d’agilité de 4 permet deux frappes.</p><div class="modal-actions">${button("Annuler", "close-modal")}${button("Engager le combat", "confirm-attack-" + b.id, "primary")}</div></section>`;
   app.append(modal);
 }
-async function fight(a: Unit, b: Unit) {
+async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   if (busy) return;
   busy = true;
   origin = null;
   moved = false;
-  const result = E.resolve(state!, a, b);
+  const result = area
+    ? E.resolveArea(state!, a, area)
+    : E.resolve(state!, a, b);
   screen = "combat";
-  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><div class="combat-names"><section><span>${E.weapons[a.kind]}</span><h2>${a.name}</h2><div class="bar hp"><i id="hp-${a.id}" style="width:${(a.hp / a.maxHp) * 100}%"></i></div><b id="value-${a.id}">${a.hp} / ${a.maxHp}</b></section><span class="crossed">×</span><section><span>${E.weapons[b.kind]}</span><h2>${b.name}</h2><div class="bar hp"><i id="hp-${b.id}" style="width:${(b.hp / b.maxHp) * 100}%"></i></div><b id="value-${b.id}">${b.hp} / ${b.maxHp}</b></section></div><canvas id="combat" width="1200" height="600"></canvas><div id="combat-result" aria-live="polite"></div><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
+  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><div class="combat-names"><section><span>${E.weaponName(a)}</span><h2>${esc(a.name)}</h2><div class="bar hp"><i id="hp-${a.id}" style="width:${(a.hp / a.maxHp) * 100}%"></i></div><b id="value-${a.id}">${a.hp} / ${a.maxHp}</b></section><span class="crossed">×</span><section><span>${E.weaponName(b)}</span><h2>${esc(b.name)}</h2><div class="bar hp"><i id="hp-${b.id}" style="width:${(b.hp / b.maxHp) * 100}%"></i></div><b id="value-${b.id}">${b.hp} / ${b.maxHp}</b></section></div><canvas id="combat" width="1200" height="600"></canvas><div id="combat-result" aria-live="polite"></div><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
   await new Promise<void>((done) => {
     combatAnim = {
       battle: result,
@@ -940,7 +1027,7 @@ function rewards(result: Battle): Promise<void> {
     modal.innerHTML = `<section class="modal"><span class="eyebrow">APRÈS L’AFFRONTEMENT</span><h2>Chaque épreuve vous façonne.</h2>${result.xp
       .map((e) => {
         const u = state!.units.find((u) => u.id === e.id)!;
-        return `<div class="reward-unit">${portrait(u)}<div><strong>${u.name} <span>+${e.amount} EXP</span></strong><div class="bar xp"><i data-progress="${u.xp}" style="width:${e.before}%"></i></div><small>${u.xp} / 100 EXP · Niveau ${u.level}</small>${e.level ? `<div class="level-up"><span class="eyebrow">NIVEAU ${u.level}</span><b>PV +3 &nbsp; Force +1 &nbsp; Défense +1</b></div>` : ""}</div></div>`;
+        return `<div class="reward-unit">${portrait(u)}<div><strong>${esc(u.name)} <span>+${e.amount} EXP</span></strong><div class="bar xp"><i data-progress="${u.xp}" style="width:${e.before}%"></i></div><small>${u.xp} / 100 EXP · Niveau ${u.level}</small>${e.level ? `<div class="level-up"><span class="eyebrow">NIVEAU ${u.level}</span><b>PV +3 &nbsp; Force +1 &nbsp; Défense +1</b></div>` : ""}</div></div>`;
       })
       .join(
         "",
@@ -972,9 +1059,18 @@ function renderCombat(time: number) {
   }
   const attacker = s.units.find((u) => u.id === strike.attacker)!,
     defender = s.units.find((u) => u.id === strike.defender)!,
-    left = s.units.find((u) => u.id === anim.battle.strikes[0].attacker)!,
-    right = s.units.find((u) => u.id === anim.battle.strikes[0].defender)!,
+    first = s.units.find((u) => u.id === anim.battle.strikes[0].attacker)!,
+    left = (attacker.owner === 0) === (first.owner === 0) ? attacker : defender,
+    right = left === attacker ? defender : attacker,
     t = (time - anim.start) * speed;
+  const names = document.querySelector(".combat-names");
+  if (names && !names.querySelector("#hp-" + left.id))
+    names.innerHTML = [left, right]
+      .map(
+        (u) =>
+          `<section><span>${E.weaponName(u)}</span><h2>${esc(u.name)}</h2><div class="bar hp"><i id="hp-${u.id}" style="width:${(u.hp / u.maxHp) * 100}%"></i></div><b id="value-${u.id}">${u.hp} / ${u.maxHp}</b></section>`,
+      )
+      .join('<span class="crossed">×</span>');
   const ranged = attacker.range > 1,
     attLeft = attacker.id === left.id;
   const walking = t < 0 || (!ranged && (t < 240 || (t > 900 && t < 1300)));
@@ -1006,42 +1102,46 @@ function renderCombat(time: number) {
           ? 610
           : Math.max(0, 1 - (t - 900) / 400) * 610;
   const entry = Math.max(0, Math.min(1, (t + 400) / 400));
-  ctx.globalAlpha =
-    left.hp === 0 && t > 800 ? Math.max(0, 1 - (t - 800) / 650) : 1;
-  drawSprite(
-    ctx,
-    left,
-    t < 0 ? -100 + 220 * entry : attLeft ? 120 + travel : 120,
-    195,
-    210,
-    left.hp === 0 && t > 800
-      ? 7
-      : t < 0
-        ? 1 + (Math.floor(time / 85) % 2)
-        : attLeft
+  for (const [unit, x, flip, isAttacker] of [
+    [
+      left,
+      t < 0 ? -100 + 220 * entry : attLeft ? 120 + travel : 120,
+      false,
+      attLeft,
+    ],
+    [
+      right,
+      t < 0 ? 1200 - 335 * entry : !attLeft ? 865 - travel : 865,
+      true,
+      !attLeft,
+    ],
+  ] as const) {
+    const animName =
+      unit.hp === 0 && t > 800
+        ? "death"
+        : t < 0 || (isAttacker && walking)
+          ? "move"
+          : isAttacker
+            ? strike.counter
+              ? "counter"
+              : "attack"
+            : t >= 500 && t < 800
+              ? strike.hit
+                ? strike.blocked
+                  ? "block"
+                  : "damage"
+                : "evade"
+              : "idle";
+    const index =
+      animName === "move"
+        ? Math.floor(time / 130) % 2
+        : animName === "attack" || animName === "counter"
           ? af
-          : df,
-    false,
-    t >= 0 && attLeft && !walking && left.hp > 0,
-  );
-  ctx.globalAlpha =
-    right.hp === 0 && t > 800 ? Math.max(0, 1 - (t - 800) / 650) : 1;
-  drawSprite(
-    ctx,
-    right,
-    t < 0 ? 1200 - 335 * entry : !attLeft ? 865 - travel : 865,
-    195,
-    210,
-    right.hp === 0 && t > 800
-      ? 7
-      : t < 0
-        ? 1 + (Math.floor(time / 85) % 2)
-        : attLeft
-          ? df
-          : af,
-    true,
-    t >= 0 && !attLeft && !walking && right.hp > 0,
-  );
+          : 0;
+    ctx.globalAlpha =
+      unit.hp === 0 && t > 800 ? Math.max(0, 1 - (t - 800) / 650) : 1;
+    drawSprite(ctx, unit, x, 195, 210, index, flip, false, animName);
+  }
   ctx.globalAlpha = 1;
   if (ranged && t > 520 && t < 620) {
     const progress = (t - 520) / 100;
@@ -1064,7 +1164,7 @@ function renderCombat(time: number) {
     if (value) value.textContent = `${defender.hp} / ${defender.maxHp}`;
     const r = document.querySelector("#combat-result");
     if (r)
-      r.innerHTML = `<span class="${strike.critical ? "critical" : ""}">${strike.hit ? (strike.critical ? "CRITIQUE · " : "") + (strike.blocked ? "PARADE · " : "") + "−" + strike.damage : "ESQUIVE"}</span>`;
+      r.innerHTML = `<span class="${strike.critical ? "critical" : ""}">${strike.hit ? (strike.critical ? "CRITIQUE · " : "") + (strike.interceptedFor ? "INTERCEPTION · " : "") + (strike.blocked ? "PARADE · " : "") + "−" + strike.damage : "ESQUIVE"}</span>`;
   }
   if (t >= 620 && t < 800 && strike.hit) {
     ctx.strokeStyle = strike.critical ? "#ffe091" : "#f3e9c5";
@@ -1121,85 +1221,56 @@ function resume() {
   try {
     state = E.decode(localStorage.getItem("lte-save") || "");
     selected = null;
+    aim = null;
     origin = null;
     moved = false;
-    if (state.phase === "camp") {
-      panel = E.ensureCamp(state).active ? "missions" : "camp";
-      camp();
-    } else battleUI();
+    if (state.phase === "summary" || state.phase === "camp") summary();
+    else battleUI();
   } catch {
     toast("Cette sauvegarde est absente ou incompatible.");
   }
 }
-function camp() {
-  screen = "camp";
+function summary() {
+  screen = "summary";
   const s = state!;
-  const progress = E.ensureCamp(s),
-    restored = Object.values(progress.levels).reduce((a, b) => a + b, 0);
-  app.innerHTML = `<main class="camp-screen"><div class="camp-bg"></div><header class="brand">${mark}<span>LE SANCTUAIRE<small>LE CAMP DES SURVIVANTS</small></span><span class="edition">CHAPITRE I · MISSION ACCOMPLIE</span></header><section class="camp-heading"><span class="eyebrow">UNE TRÊVE DANS LA BRUME</span><h1>${restored ? "Le camp prend vie." : "Un refuge à rebâtir."}</h1><p>Vos sorties dessinent l’avenir du refuge. ${restored} / 6 étapes de restauration.</p></section><div class="camp-layout"><nav class="camp-nav">${[
-    ["camp", "Le refuge"],
-    ["missions", "Sorties & travaux"],
-    ["army1", "Armée 1"],
-    ["army2", "Armée 2"],
-    ["characters", "Personnages"],
-    ["inventory", "Inventaire"],
-    ["world", "Carte du monde"],
-  ]
-    .map(([id, label]) =>
-      button(label, "camp-" + id, panel === id ? "active" : ""),
+  s.phase = "summary";
+  app.innerHTML = `<main class="summary-screen"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>PROTOTYPE · BILAN TACTIQUE</small></span></header><section><h1>Fin du test tactique</h1><p>Les unités et leur progression sont conservées. Enregistrez ce bilan ou retournez au menu.</p><div class="summary-units">${s.units
+    .filter((u) => u.owner !== 0 && !u.summonedBy)
+    .map(
+      (u) =>
+        `<article>${portrait(u)}<h2>${esc(u.name)}</h2><p>${E.className(u)} · Nv. ${u.level} · ${u.hp} / ${u.maxHp} PV</p>${promotionMarkup(u)}</article>`,
     )
     .join(
       "",
-    )}${button("Sauvegarder", "save")}${button("Menu principal", "title")}</nav><section class="camp-panel">${campPanel()}</section></div></main>`;
+    )}</div>${button("Sauvegarder", "save", "primary")}${button("Menu principal", "title")}</section></main>`;
 }
-function campPanel() {
-  const s = state!;
-  if (panel === "camp" || panel === "missions")
-    return campRestoration(panel === "missions");
-  if (panel === "world")
-    return `<span class="eyebrow">L’ATLAS DES TERRES ÉGARÉES</span><h2>Au-delà de la brume</h2><div class="world-map"><img src="${assetBase}assets/scene-15.png" alt="Carte peinte de la côte et des montagnes, largement couverte de brume"><div class="world-fog"></div>${button("⚑ Sanctuaire", "place-sanctuary", "place known")}${button("Côte des naufragés", "place-coast", "place coast")}${button("Ruines des Veilleurs", "place-ruins", "place ruins")}${button("?", "place-unknown", "place unknown")}${button("?", "place-unknown", "place unknown unknown2")}${button("?", "place-unknown", "place unknown unknown3")}</div><p>Le sanctuaire est votre seul refuge. Les routes lointaines sont encore inconnues.</p><div class="camp-resources">${E.campMissions
-      .filter((m) => E.ensureCamp(s).completed.includes(m.id))
-      .map((m) => `<span>${esc(m.place)} · reconnu</span>`)
-      .join("")}</div>`;
-  if (panel === "inventory")
-    return `<span class="eyebrow">LES RÉSERVES COMMUNES</span><h2>Inventaire</h2>${s.inventory.map((i) => `<div class="inventory-row"><span>${i.name}</span><b>× ${i.count}</b></div>`).join("")}<p>Chaque survivant conserve ses potions et son équipement personnel. Les vivres alimentent l’infirmerie ; les plantes servent aux potions et les ferrures à la forge.</p>`;
-  const owner = panel === "army2" ? 2 : 1,
-    units =
-      panel === "characters"
-        ? s.units.filter((u) => u.owner !== 0)
-        : s.units.filter((u) => u.owner === owner);
-  return `<span class="eyebrow">${panel === "characters" ? "LES DEUX EXPÉDITIONS" : factionName(s.factions[owner - 1])}</span><h2>${panel === "characters" ? "Les visages de l’alliance" : `Expédition ${owner}`}</h2><div class="camp-units">${units.map((u) => `<button class="camp-unit ${u.hp === 0 ? "fallen" : ""}" data-action="sheet-${u.id}">${portrait(u, true)}<span><strong>${u.name}</strong><small>${E.names[u.kind]} · Nv. ${u.level}</small><b>${u.hp === 0 ? "Tombé au combat" : `${u.hp} / ${u.maxHp} PV`}</b><span class="bar xp"><i style="width:${u.xp}%"></i></span><small>${u.xp} EXP · Expédition ${u.owner}</small></span></button>`).join("")}</div><p>Sélectionnez un personnage pour consulter sa fiche. Les niveaux, blessures et équipements sont conservés.</p>${panel === "characters" ? `<table class="comparison"><thead><tr><th>Personnage</th><th>FOR</th><th>DÉF</th><th>AGI</th><th>INIT</th></tr></thead><tbody>${units.map((u) => `<tr><td>${u.name}</td><td>${u.strength}</td><td>${u.defense}</td><td>${u.agility}</td><td>${u.initiative}</td></tr>`).join("")}</tbody></table>` : ""}`;
-}
-function campRestoration(missions = false) {
+function playerKnowledge() {
   const s = state!,
-    c = E.ensureCamp(s),
-    ids = Object.keys(E.buildings) as E.BuildingId[];
-  if (c.active) {
-    const m = E.campMissions.find((m) => m.id === c.active!.id)!;
-    return `<div class="camp-expedition"><span class="eyebrow">SORTIE NARRATIVE · ${esc(m.place)}</span><h2>${esc(m.name)}</h2><div class="mission-purpose">Restauration : ${E.buildings[m.building].name} · étape ${m.tier}/2</div><p>${esc(c.active.step === 0 ? m.brief : c.active.step === 1 ? m.scene : c.active.result!)}</p>${c.active.step === 0 ? button("Explorer les lieux", "explore-expedition", "primary") : c.active.step === 1 ? `<div class="expedition-choices">${m.choices.map((o) => button(`<strong>${esc(o.label)}</strong><small>${esc(o.detail)}</small>`, `resolve-expedition-${o.id}`)).join("")}</div>` : button("Retourner au camp", "return-expedition", "primary")}</div>`;
-  }
-  const available = E.availableCampMissions(s);
-  const board = `<div class="camp-missions">${available.map((m) => `<article class="camp-mission"><span class="eyebrow">${E.buildings[m.building].name} · ÉTAPE ${m.tier}/2</span><h3>${esc(m.name)}</h3><p>${esc(m.brief)}</p><div class="mission-repair">Débloque : ${esc(E.buildings[m.building].stages[m.tier])}</div>${button("Choisir cette sortie", `start-expedition-${m.id}`, "primary")}</article>`).join("")}</div>`;
-  if (missions)
-    return `<span class="eyebrow">CHOISIR CE QUE LE CAMP DEVIENT</span><h2>Sorties & travaux</h2><p>Chaque sortie narrative remet en état un bâtiment précis. Les ressources et les blessures dépendent de vos décisions. Une sortie terminée ne peut pas être rejouée.</p>${board || '<div class="camp-complete">Le refuge est restauré. Les prochains chapitres pourront ouvrir de nouvelles régions et de nouveaux travaux.</div>'}`;
-  const positions = {
-    infirmary: [140, 165],
-    workshop: [480, 170],
-    palisade: [310, 70],
-  } as const;
-  const site = `<svg class="camp-site" viewBox="0 0 640 320" role="img" aria-label="Plan du camp, bâtiments en ruine puis restaurés"><ellipse cx="320" cy="185" rx="290" ry="122" fill="#314635"/><text x="20" y="28" fill="#cfba83" font-size="10" letter-spacing="2">PLAN DU REFUGE</text><path d="M280 75 C180 65 90 100 70 180 S140 285 285 280 M355 280 C500 285 575 245 575 180 S470 65 360 75" fill="none" stroke="${c.levels.palisade === 2 ? "#b4aa82" : c.levels.palisade === 1 ? "#8e7956" : "#616b55"}" stroke-width="${5 + c.levels.palisade * 2}" stroke-dasharray="${c.levels.palisade === 2 ? "none" : c.levels.palisade === 1 ? "44 8" : "14 20"}"/><path d="M85 250 Q320 140 555 250 M320 285 L320 75" stroke="#827956" stroke-width="20" fill="none"/><ellipse cx="320" cy="220" rx="24" ry="12" fill="#152b21"/><path d="M310 220 Q300 200 319 186 Q316 203 328 198 Q341 212 325 222Z" fill="#c39754"/>${ids
-    .map((id) => {
-      const [x, y] = positions[id],
-        level = c.levels[id];
-      return `<g transform="translate(${x} ${y})" class="site-building level-${level}"><path d="M-55 35 V-26 L-10 -48 L45 -22 V35Z" fill="${level === 2 ? "#a09772" : level === 1 ? "#777d5d" : "#535e4e"}" stroke="#c3b58a" stroke-width="2"/><path d="M-64 -20 L-10 -58 L54 -16 L-10 -34Z" fill="${level === 2 ? "#776247" : "#354b3b"}" opacity="${level === 0 ? 0.3 : level === 1 ? 0.65 : 1}"/><path d="M-8 35 V3 H12 V35" fill="#20382b"/>${level < 2 ? '<path d="M-45 28 L-28 9 L-35 -15 M25 32 L18 15 L30 -8" stroke="#22382a" stroke-width="7" fill="none"/>' : ""}<text x="-8" y="61" text-anchor="middle" fill="#eadbb5" font-size="15">${E.buildings[id].name}</text><text x="-8" y="79" text-anchor="middle" fill="#abb696" font-size="10">${level}/2</text></g>`;
-    })
-    .join("")}</svg>`;
-  return `<span class="eyebrow">LE VILLAGE DES SURVIVANTS</span><h2>Un camp façonné par vos choix</h2><p>Les murs sont encore éventrés. Choisissez les sorties qui reconstruiront d’abord les soins, l’artisanat ou la protection du refuge.</p>${site}<div class="camp-buildings">${ids.map((id) => `<article class="camp-building level-${c.levels[id]}"><span class="eyebrow">${E.buildings[id].name} · ${c.levels[id]}/2</span><h3>${E.buildings[id].stages[c.levels[id]]}</h3><p>${E.buildings[id].benefits[c.levels[id]]}</p></article>`).join("")}</div><div class="camp-services">${button("Se reposer · 1 vivre", "refuge-rest", "", c.levels.infirmary < 1 || E.campStock(s, "Vivres récupérés") < 1 || !s.units.some((u) => u.owner !== 0 && u.hp > 0 && u.hp < u.maxHp))}${button("Préparer des potions · 1 plante", "refuge-potions", "", c.levels.workshop < 1 || E.campStock(s, "Plantes médicinales") < 1 || !s.units.some((u) => u.owner !== 0 && u.hp > 0 && u.potions < 3))}${button(c.weaponsImproved ? "Armes affûtées" : "Affûter les armes · 2 ferrures", "refuge-weapons", "", c.levels.workshop < 2 || c.weaponsImproved || E.campStock(s, "Ferrures récupérées") < 2)}</div><div class="camp-resources">${s.inventory
-    .filter((i) => i.count > 0)
-    .map((i) => `<span>${esc(i.name)} <b>${i.count}</b></span>`)
-    .join(
-      "",
-    )}</div><h2>Prochaine sortie</h2>${board || "<p>Les trois bâtiments sont restaurés.</p>"}`;
+    d = E.discoveries(s);
+  return `<div class="knowledge"><h3>Connaissances découvertes</h3><p>Classes : ${
+    d.classes
+      .map((id) => E.classes[id]?.name)
+      .filter(Boolean)
+      .join(" · ") || "Aucune"
+  }</p><p>Faiblesses observées : ${
+    (d.weaknesses ?? [])
+      .map((value) => {
+        const [weapon, id] = value.split(":");
+        return `${E.classes[id]?.name ?? id} face à ${E.categoryNames[weapon as keyof typeof E.categoryNames]}`;
+      })
+      .join(" · ") || "Aucune"
+  }</p><p>Capacités connues : ${d.skills.map((id) => E.skillNames[id]).join(" · ") || "Aucune capacité particulière observée"}</p>${E.weaponTriangles
+    .map((r) =>
+      r
+        .map((cat, i) => [cat, r[(i + 1) % r.length]])
+        .filter((pair) => pair.every((cat) => d.weapons.includes(cat)))
+        .map(
+          (pair) =>
+            `<p>${pair.map((cat) => E.categoryNames[cat]).join(" > ")}</p>`,
+        )
+        .join(""),
+    )
+    .join("")}</div>`;
 }
 function defeat() {
   screen = "defeat";
@@ -1215,7 +1286,85 @@ app.addEventListener("click", async (e) => {
   const el = (e.target as HTMLElement).closest<HTMLElement>("[data-action]");
   if (!el || el.hasAttribute("disabled")) return;
   const action = el.dataset.action!;
-  if (action === "finish-battle-test") {
+  if (
+    import.meta.env.DEV &&
+    (action === "dev-sprites" || action === "dev-systems")
+  ) {
+    developerCleanup?.();
+    screen = "developer";
+    const tools = await import("./dev/tools");
+    developerCleanup =
+      action === "dev-sprites"
+        ? tools.openGallery(app, title)
+        : tools.openSystems(app, title);
+  } else if (action === "equipment" || action === "unit-sheet") {
+    const u = E.current(state!);
+    if (!u || u.owner !== state!.active || busy) return;
+    if (action === "equipment") equipmentModal(u);
+    else {
+      cardOpen = true;
+      selected = u.id;
+      battleUI();
+    }
+  } else if (action.startsWith("equip-")) {
+    try {
+      E.equipWeapon(state!, E.current(state!)!, action.slice(6));
+      aim = null;
+      battleUI();
+      save(true);
+    } catch (error) {
+      toast((error as Error).message);
+    }
+  } else if (action.startsWith("promote-")) {
+    try {
+      const [unitId, classId] = action.slice(8).split(":");
+      const u = state!.units.find((u) => u.id === unitId);
+      if (
+        u &&
+        (state!.phase === "summary" ||
+          (E.current(state!)?.id === u.id && u.owner === state!.active))
+      )
+        E.promote(state!, u, classId);
+      if (state!.phase === "summary") summary();
+      else battleUI();
+      save(true);
+    } catch (error) {
+      toast((error as Error).message);
+    }
+  } else if (action.startsWith("skill-")) {
+    const u = E.current(state!);
+    if (!u || busy || u.owner !== state!.active) return;
+    try {
+      if (action === "skill-heal") {
+        aim = "heal";
+        toast("Choisissez une unité blessée à portée.");
+      } else if (action === "skill-summon") {
+        aim = "summon";
+        toast("Choisissez une case adjacente libre.");
+      } else if (action === "skill-area") {
+        aim = "area";
+        toast("Choisissez le centre de la zone.");
+      } else if (action === "skill-reload") {
+        E.reloadWeapon(state!, u);
+        battleUI();
+      } else {
+        if (action === "skill-banner") E.plantBanner(state!, u);
+        else E.fortify(state!, u);
+        finishTurn();
+      }
+    } catch (error) {
+      toast((error as Error).message);
+    }
+  } else if (action.startsWith("confirm-area-")) {
+    const [x, y] = action.slice(13).split("-").map(Number),
+      u = E.current(state!)!,
+      target = E.alive(state!).find(
+        (t) => t.owner === 0 && E.distance(t, { x, y }) <= E.tuning.area.radius,
+      )!;
+    document.querySelector(".modal-back")?.remove();
+    aim = null;
+    await fight(u, target, { x, y });
+  } else if (action === "finish-battle-test") {
     if (busy || !state || !E.canFinishBattleForTest(state)) return;
     origin = null;
     moved = false;
@@ -1223,34 +1372,6 @@ app.addEventListener("click", async (e) => {
     cardOpen = false;
     E.finishBattleForTest(state);
     cinematic();
-  } else if (
-    action.startsWith("start-expedition-") ||
-    action.startsWith("resolve-expedition-") ||
-    [
-      "explore-expedition",
-      "return-expedition",
-      "refuge-rest",
-      "refuge-potions",
-      "refuge-weapons",
-    ].includes(action)
-  ) {
-    if (!state || state.phase !== "camp") return;
-    try {
-      if (action.startsWith("start-expedition-"))
-        E.beginCampMission(state, action.slice(17));
-      else if (action.startsWith("resolve-expedition-"))
-        E.resolveCampMission(state, action.slice(19));
-      else if (action === "explore-expedition") E.exploreCampMission(state);
-      else if (action === "return-expedition") E.returnToCamp(state);
-      else if (action === "refuge-rest") E.restAtCamp(state);
-      else if (action === "refuge-potions") E.prepareCampPotions(state);
-      else E.improveCampWeapons(state);
-      panel = E.ensureCamp(state).active ? "missions" : "camp";
-      camp();
-      save(true);
-    } catch (error) {
-      toast(error instanceof Error ? error.message : "Action indisponible");
-    }
   } else if (action === "toggle-fog") {
     fogEnabled = !fogEnabled;
     battleUI();
@@ -1282,15 +1403,24 @@ app.addEventListener("click", async (e) => {
   } else if (action.startsWith("faction-")) {
     const [, p, f] = action.split("-");
     factions[Number(p) - 1] = f as Faction;
+    heroDrafts[Number(p) - 1].faction = f as Faction;
+    heroDrafts[Number(p) - 1].classId = E.baseClasses(f as Faction)[0].id;
     configure();
   } else if (action === "begin") {
-    state = E.createCampaign(factions);
+    try {
+      state = E.createCampaign(factions, heroDrafts);
+    } catch (error) {
+      toast((error as Error).message);
+      return;
+    }
     mist.reset();
     terrain.reset();
     selected = null;
+    aim = null;
     origin = null;
     moved = false;
-    cinematic();
+    battleUI();
+    save(true);
   } else if (action === "next-scene") nextScene();
   else if (action.startsWith("perspective-")) {
     if (busy) return;
@@ -1328,7 +1458,7 @@ app.addEventListener("click", async (e) => {
     const u = E.current(state!);
     if (u?.owner === state!.active) {
       selected = u.id;
-      cardOpen = true;
+      cardOpen = false;
       battleUI();
       toast(
         "Cliquez un ennemi dans les cases rouges pour prévisualiser l’attaque.",
@@ -1354,32 +1484,19 @@ app.addEventListener("click", async (e) => {
   else if (action === "rules") {
     const modal = document.createElement("div");
     modal.className = "modal-back";
-    modal.innerHTML = `<section class="modal"><span class="eyebrow">LES LOIS DE CES TERRES</span><h2>Règles du combat</h2><p>Une activation par unité et par round, par initiative décroissante. En cas d’égalité : identifiant stable.</p><p>Dégâts = Force − Défense − couvert (minimum 1). Précision = précision de l’attaquant − 2 × agilité adverse, entre 25 et 98 %. Critique : moitié de l’agilité, minimum 2 %, dégâts ×3.</p><p>Un écart d’agilité de 4 permet une seconde frappe. Une contre-attaque exige une cible vivante, la bonne portée et une ligne de vue libre.</p><p>Les deux chefs morts entraînent la défaite. Après la rencontre, les champs de vision sont partagés et un nouveau round complet commence.</p>${button("Compris", "close-modal", "primary")}</section>`;
+    modal.innerHTML = `<section class="modal"><span class="eyebrow">LES LOIS DE CES TERRES</span><h2>Règles du combat</h2><p>Une activation par unité et par round, par initiative décroissante. En cas d’égalité : identifiant stable.</p><p>Dégâts = Force − Défense − couvert (minimum 1). Précision = précision de l’attaquant − 2 × agilité adverse, entre 25 et 98 %. Critique : moitié de l’agilité, minimum 2 %, dégâts ×3.</p><p>Un écart d’agilité de 4 permet une seconde frappe. Une contre-attaque exige une cible vivante, la bonne portée et une ligne de vue libre.</p><p>Les deux chefs morts entraînent la défaite. Après la rencontre, les champs de vision sont partagés et un nouveau round complet commence.</p>${playerKnowledge()}${button("Compris", "close-modal", "primary")}</section>`;
     app.append(modal);
-  } else if (action.startsWith("camp-")) {
-    panel = action.slice(5);
-    camp();
   } else if (action.startsWith("sheet-")) {
     const u = state!.units.find((u) => u.id === action.slice(6))!;
     const m = document.createElement("div");
     m.className = "modal-back";
     m.innerHTML = `<section class="modal sheet">${unitCard(u)}${button("Fermer", "close-modal", "primary")}</section>`;
     app.append(m);
-  } else if (action.startsWith("place-")) {
-    toast(
-      action === "place-unknown"
-        ? "Une région encore inconnue. La suite de l’aventure reste à découvrir."
-        : action === "place-sanctuary"
-          ? "Sanctuaire des Veilleurs · Votre camp actuel."
-          : action === "place-coast"
-            ? "Côte des naufragés · Le rivage de votre arrivée."
-            : "Ruines des Veilleurs · La première bataille de votre alliance.",
-    );
   }
 });
 window.addEventListener("keydown", (e) => {
   if ((e.target as HTMLElement)?.matches("input,select,textarea")) return;
-  if (e.code === "Space" && screen === "cinematic") {
+  if (e.code === "Space" && screen === "transition") {
     e.preventDefault();
     nextScene();
   }

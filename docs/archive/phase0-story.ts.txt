@@ -1,0 +1,241 @@
+type Shot = { image: number; speaker: string; text: string };
+function shots(): Shot[] {
+  const s = state!,
+    scene = s.scene!,
+    p = scene === "intro2" ? 2 : 1,
+    f = s.factions[p - 1],
+    leader = s.units.find((u) => u.owner === p && u.leader)!.name;
+  const variant = p === 2 ? "Une autre bannière, un autre équipage. " : "";
+  if (scene === "intro2")
+    return f === "north"
+      ? [
+          {
+            image: 16,
+            speaker: leader,
+            text: "Au nord, une autre bannière avait quitté le fjord. Bryn et Solveig cherchaient une terre où recommencer.",
+          },
+          {
+            image: 17,
+            speaker: "LE DÉPART",
+            text: "Ils chargèrent les dernières réserves et confièrent leur destin à la mer.",
+          },
+          {
+            image: 18,
+            speaker: "LA TRAVERSÉE",
+            text: "La nuit emporta les étoiles. Devant eux, la mer devint un mur.",
+          },
+          {
+            image: 19,
+            speaker: "LE NAUFRAGE",
+            text: "Le ciel se déchira. Le rivage surgit dans la foudre, puis le bois se brisa.",
+          },
+          {
+            image: 20,
+            speaker: leader,
+            text: "Rassemblez ce qui peut encore servir. Nous ne mourrons pas sur cette plage.",
+          },
+          {
+            image: 21,
+            speaker: leader,
+            text: "Un monastère, au-delà de la brume. Il nous faut un abri.",
+          },
+        ]
+      : [
+          {
+            image: 22,
+            speaker: leader,
+            text: "Maël et Alix avaient accepté un dernier contrat : intercepter un convoi et disparaître avant l’aube.",
+          },
+          {
+            image: 23,
+            speaker: "L’EMBUSCADE",
+            text: "Une route, quelques chariots, une cargaison sans escorte digne de ce nom. Tout semblait simple.",
+          },
+          {
+            image: 24,
+            speaker: "LA TEMPÊTE",
+            text: "Sous les arbres, l’orage transforma les sentiers en torrents. La compagnie perdit son chemin.",
+          },
+          {
+            image: 25,
+            speaker: leader,
+            text: "Cette route… Nous ne sommes pas passés ici hier. Où sommes-nous ?",
+          },
+          {
+            image: 26,
+            speaker: leader,
+            text: "Le convoi. Mais ils sont tous morts… Qui a pu faire cela ?",
+          },
+          {
+            image: 27,
+            speaker: leader,
+            text: "Derrière le chariot ! Ce mort se relève. Aux armes !",
+          },
+        ];
+  if (scene.startsWith("intro"))
+    return f === "north"
+      ? [
+          {
+            image: p === 1 ? 1 : 4,
+            speaker: `EXPÉDITION ${p} · ${leader}`,
+            text:
+              variant +
+              "Au-delà des mers connues, les hommes du Nord cherchaient de nouvelles terres, des richesses et la gloire.",
+          },
+          {
+            image: 2,
+            speaker: "LE DÉPART",
+            text: "Une nouvelle expédition prit la mer, guidée par les étoiles et la promesse de terres lointaines.",
+          },
+          {
+            image: 3,
+            speaker: "LA TRAVERSÉE",
+            text: "La mer se souleva. Au loin, aucune côte. Au-dessus, plus une étoile.",
+          },
+          {
+            image: 11,
+            speaker: "LA TEMPÊTE",
+            text: "Mais cette nuit-là, même les étoiles semblèrent abandonner les hommes.",
+          },
+          {
+            image: 4,
+            speaker: "LE NAUFRAGE",
+            text: "À l’aube, seuls les débris et quelques survivants atteignirent une plage inconnue.",
+          },
+          {
+            image: 5,
+            speaker: leader,
+            text: "Un monastère… S’il reste des vivres là-dedans, on pourra tenir quelques jours.",
+          },
+        ]
+      : [
+          {
+            image: p === 1 ? 6 : 7,
+            speaker: `EXPÉDITION ${p} · ${leader}`,
+            text:
+              variant +
+              "Dans un royaume déchiré par les guerres, certaines compagnies ne servaient plus de couronne. Seulement celui qui payait le mieux.",
+          },
+          {
+            image: 7,
+            speaker: "LE CONTRAT",
+            text: "Un convoi chargé d’or devait traverser la forêt. Une embuscade simple. Un dernier contrat.",
+          },
+          {
+            image: 8,
+            speaker: "LA NUIT",
+            text: "Sous les arbres, la tempête les surprit. Le tonnerre étouffa jusqu’au bruit de leurs pas.",
+          },
+          {
+            image: 5,
+            speaker: "LE MATIN",
+            text: "Au matin, la route était méconnaissable. Une brume épaisse avait avalé le monde.",
+          },
+          {
+            image: 9,
+            speaker: leader,
+            text: "Personne ne nous a devancés. Alors qui les a tués ?",
+          },
+          {
+            image: 10,
+            speaker: leader,
+            text: "Ce cadavre… Il bouge. Aux armes !",
+          },
+        ];
+  if (scene === "storm")
+    return [
+      {
+        image: 11,
+        speaker: "LE RETOUR DE L’ORAGE",
+        text:
+          s.factions[s.active - 1] === "north"
+            ? "Encore ces éclairs… Ce n’est pas une tempête ordinaire."
+            : "Ce tonnerre… C’est le même que cette nuit.",
+      },
+    ];
+  if (scene === "horde")
+    return [
+      {
+        image: 11,
+        speaker: "NOUVEL OBJECTIF · ATTEINDRE LE SANCTUAIRE",
+        text: "Des silhouettes apparaissent sur les chemins extérieurs. Au centre, des cris humains percent la brume. Il faut avancer.",
+      },
+    ];
+  if (scene === "meeting")
+    return [
+      "Attendez… Des hommes vivants ?",
+      "Qui êtes-vous ? Et que faites-vous ici ?",
+      "Nous cherchons à quitter cet endroit.",
+      "Alors nous cherchons la même chose.",
+      "On discutera après. Pour l’instant, il faut survivre !",
+      "Très bien. Vos hommes sur le flanc gauche, les miens sur le droit !",
+    ].map((text, i) => ({
+      image:
+        s.factions[0] === "north"
+          ? s.factions[1] === "north"
+            ? 28
+            : 31
+          : s.factions[1] === "north"
+            ? 30
+            : 29,
+      speaker: s.units.find(
+        (u) => u.owner === (i % 2 === 0 ? 1 : 2) && u.leader,
+      )!.name,
+      text,
+    }));
+  return [
+    {
+      image: 13,
+      speaker: "LE REPLI",
+      text: "Au loin, d’autres silhouettes approchent. Les survivants gagnent le sanctuaire et barricadent les accès.",
+    },
+    {
+      image: 14,
+      speaker: "LES TERRES ÉGARÉES",
+      text: "Deux expéditions. Deux histoires. Un même piège.",
+    },
+  ];
+}
+function cinematic() {
+  screen = "cinematic";
+  const s = state!,
+    list = shots(),
+    shot = list[s.scenePage];
+  app.innerHTML = `<main class="cinematic"><div class="cinema-image" style="background-image:url('${assetBase}assets/scene-${shot.image}.png')"></div><header><span class="eyebrow">${s.scene?.startsWith("intro") ? `PROLOGUE · EXPÉDITION ${s.scene === "intro2" ? 2 : 1}` : "LES RIVAGES DE L’OUBLI"}</span><span>${String(s.scenePage + 1).padStart(2, "0")} <i>/ ${String(list.length).padStart(2, "0")}</i></span></header><section class="dialogue"><span class="eyebrow">${esc(shot.speaker)}</span><p>${esc(shot.text)}</p><div class="dialogue-bottom"><span>${list.map((_, i) => `<i class="${i === s.scenePage ? "on" : ""}"></i>`).join("")}</span>${button(s.scenePage === list.length - 1 ? "Poursuivre →" : "Suite →", "next-scene", "primary")}</div></section><span class="cinema-key">ESPACE POUR CONTINUER</span></main>`;
+  if (s.scene === "storm") audio("storm");
+}
+function nextScene() {
+  if (!state) return;
+  const s = state;
+  if (++s.scenePage < shots().length) {
+    cinematic();
+    return;
+  }
+  const scene = s.scene;
+  s.scene = null;
+  s.scenePage = 0;
+  if (scene === "intro1") {
+    s.players[0].intro = 6;
+    s.scene = "intro2";
+    cinematic();
+    return;
+  }
+  if (scene === "intro2") {
+    s.players[1].intro = 6;
+    s.phase = "battle";
+    selected = E.current(s)?.id ?? null;
+  }
+  if (scene === "meeting") E.merge(s);
+  if (scene === "ending") {
+    s.phase = "camp";
+    panel = "camp";
+    s.inventory[1].count = s.units.filter(
+      (u) => u.owner === 0 && u.hp === 0,
+    ).length;
+    camp();
+    save(true);
+    return;
+  }
+  battleUI();
+  save(true);
+}
