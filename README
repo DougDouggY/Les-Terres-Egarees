@@ -79,3 +79,27 @@ Survoler une case affiche son terrain et ses effets en bas à gauche. Survoler u
 unité affiche son nom et ses PV. Un clic ouvre sa fiche flottante dans la carte ;
 la croix ferme la fiche sans désélectionner. Survoler ou focaliser une statistique
 affiche son explication. Les commandes d’action sont superposées en bas à droite de la carte.
+
+FORÊT ET ACCÈS RAPIDE AU CAMP (TEST)
+-----------------------------------
+La forêt dense est traversable : déplacement 3, défense +3. Le sous-bois garde
+un coût de 2 et une défense +2. Les arbres continuent de masquer la vue.
+Le nom du village n’est plus dessiné au-dessus des ruines.
+À trois cases au plus des abords des ruines, « Terminer le combat (test) »
+clôture la bataille et montre la fin narrative puis le camp. Aucun XP de combat
+n’est ajouté par ce raccourci temporaire.
+
+PREMIÈRE BOUCLE DE RESTAURATION DU CAMP
+--------------------------------------
+« Le refuge » montre l’état de l’infirmerie, de l’atelier et de l’enceinte.
+Chaque bâtiment a deux étapes, obtenues en terminant ses sorties narratives :
+- Vallon et dispensaire : abri de soins puis infirmerie complète.
+- Convoi et forge : potions puis affûtage des armes.
+- Bûcherons et carrière : réduction des blessures puis bonus de vivres.
+
+Choisissez une sortie dans « Sorties & travaux », explorez les lieux, puis
+choisissez les fournitures à récupérer. La restauration correspondante et
+ses services sont débloqués au retour. Les ressources, les blessures, les
+réparations et les choix en cours sont sauvegardés. Une sortie terminée ne se
+rejoue pas. Cette première version comprend six sorties narratives ; de
+nouvelles cartes de combat et l’évolution des classes viendront ensuite.

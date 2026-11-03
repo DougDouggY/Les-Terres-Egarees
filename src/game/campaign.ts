@@ -1,5 +1,6 @@
+import { createCampProgress } from "./camp";
 import type { Campaign, Unit, Perspective, Faction } from "./types";
-import { key, cell, map, distance, MAP_REVISION } from "./map";
+import { key, cell, map, distance, MAP_REVISION, village } from "./map";
 import { makeUnit } from "./units";
 import { alive, at } from "./queries";
 import { visibility } from "./vision";
@@ -62,6 +63,7 @@ export function createCampaign(factions: [Faction, Faction]): Campaign {
     intro: 0,
   });
   const s: Campaign = {
+    camp: createCampProgress(),
     version: 1,
     mapRevision: MAP_REVISION,
     factions,
@@ -215,4 +217,28 @@ export function checkEnd(s: Campaign) {
     s.scenePage = 0;
     log(s, "Le sanctuaire est à vous. Pour cette nuit.");
   }
+}
+
+/** Temporary review shortcut: only an expedition physically near the village can use it. */
+export function canFinishBattleForTest(s: Campaign) {
+  return (
+    s.phase === "battle" &&
+    !s.scene &&
+    alive(s).some(
+      (u) =>
+        u.owner !== 0 &&
+        Math.max(village.x - u.x, 0, u.x - (village.x + village.w - 1)) +
+          Math.max(village.y - u.y, 0, u.y - (village.y + village.h - 1)) <=
+          3,
+    )
+  );
+}
+export function finishBattleForTest(s: Campaign) {
+  if (!canFinishBattleForTest(s))
+    throw Error("Rejoignez les abords des ruines pour utiliser ce raccourci");
+  if (!s.merged) merge(s);
+  for (const u of s.units) if (u.owner === 0) u.hp = 0;
+  event(s, "battle-finished-test");
+  log(s, "Raccourci de test : la bataille est terminée pour visiter le camp.");
+  checkEnd(s);
 }

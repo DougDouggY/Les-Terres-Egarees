@@ -270,9 +270,7 @@ test("atlas : dimensions alignées et variantes de tuiles valides", async () => 
     const index = E.tileIndex(c);
     assert.ok(Number.isInteger(index) && index >= 0 && index < 32);
     if (
-      ["water", "tree", "rock", "wall", "wagon", "altar", "arrival"].includes(
-        c.terrain,
-      )
+      ["water", "rock", "wall", "wagon", "altar", "arrival"].includes(c.terrain)
     )
       assert.equal(c.walk, false);
   }
@@ -495,12 +493,12 @@ test("sauvegarde de la carte précédente : nouvelle forêt, coordonnées et pro
   s.mapRevision = 5;
   const u = s.units[0];
   Object.assign(u, { x: 35, y: 13, hp: 21, xp: 72 });
-  assert.equal(E.cell(u.x, u.y)!.walk, false);
+  assert.equal(E.cell(u.x, u.y)!.walk, true);
   const other = { x: s.units[2].x, y: s.units[2].y };
   const loaded = E.decode(JSON.stringify(s));
   E.validate(loaded);
   assert.equal(loaded.mapRevision, E.MAP_REVISION);
-  assert.notDeepEqual(
+  assert.deepEqual(
     { x: loaded.units[0].x, y: loaded.units[0].y },
     { x: 35, y: 13 },
   );

@@ -122,3 +122,17 @@ bord est de la carte. Le fond herbeux du décor du chariot est retiré au rendu
 pour laisser apparaître le chemin sous les débris. L’atlas lui-même reste intact.
 La progression des sauvegardes est conservée ; une unité couverte par une
 nouvelle forêt dense est replacée sur la case libre la plus proche.
+
+## Forêt praticable et première restauration du camp
+
+Forêt dense : déplacement 3 et défense +3, avec disparition de la mention
+« infranchissable ». Retrait du nom dessiné au-dessus des ruines. Bouton de test
+réservé aux survivants proches du village pour passer à la fin du combat.
+
+Première boucle jouable du camp : trois bâtiments, deux étapes chacun, six
+sorties narratives avec décisions de récupération, ressources et blessures.
+Les missions choisies déterminent directement les bâtiments réparés et les
+services débloqués : soins, potions, affûtage et sécurité des sorties. Le plan du
+refuge évolue visuellement ; les lieux reconnus apparaissent dans l’atlas.
+La progression et une sortie en cours survivent au rechargement. Aucun travail
+sur les classes ni aucune génération d’images de cinématiques.

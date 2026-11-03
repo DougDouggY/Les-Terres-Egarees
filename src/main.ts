@@ -22,7 +22,7 @@ let state: Campaign | null = null,
   fogEnabled = true,
   showGrid = false,
   terrainStyle: TerrainStyle = "regional",
-  panel = "army1",
+  panel = "camp",
   speed = Number(localStorage.getItem("lte-speed") || 1),
   sound = localStorage.getItem("lte-sound") !== "off";
 let pendingReward: (() => void) | null = null;
@@ -342,6 +342,7 @@ function nextScene() {
   if (scene === "meeting") E.merge(s);
   if (scene === "ending") {
     s.phase = "camp";
+    panel = "camp";
     s.inventory[1].count = s.units.filter(
       (u) => u.owner === 0 && u.hp === 0,
     ).length;
@@ -411,7 +412,7 @@ function battleUI() {
   clampCamera(s.active);
   app.innerHTML = `<main class="battle-screen compact-battle"><header class="battle-header"><a class="mini-brand" data-action="pause">${mark}<span>LES TERRES ÉGARÉES</span></a><div class="mission-name"><strong>${s.merged ? "Repoussez les morts-vivants" : "Rejoignez le village des Veilleurs"}</strong><span>ROUND ${E.front(s).round} · ${s.merged ? "ALLIANCE" : `EXPÉDITION ${s.active}`}</span></div><div class="perspectives">${[1, 2].map((p) => button(`EXPÉDITION ${p}`, `perspective-${p}`, s.active === p ? "active" : "")).join("")}</div><button class="icon-button" data-action="observer" aria-label="Observation côte à côte">◫</button>${button("☰", "pause", "icon-button")}</header>
   <div class="battle-layout"><section class="map-section">
-  <div class="map-heading"><span>${factionName(s.factions[s.active - 1])} · Secteurs ≈ 100 m</span><div class="map-tools">${button("Recentrer", "recenter")}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog")}${button(`Grille ${showGrid ? "active" : "masquée"}`, "toggle-grid")}</div></div>
+  <div class="map-heading"><span>${factionName(s.factions[s.active - 1])} · Secteurs ≈ 100 m</span><div class="map-tools">${E.canFinishBattleForTest(s) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}${button("Recentrer", "recenter")}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog")}${button(`Grille ${showGrid ? "active" : "masquée"}`, "toggle-grid")}</div></div>
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div class="map-compass">N<br>✦</div><div class="map-status">${!fogEnabled ? "INSPECTION SANS BRUME · VISION LOGIQUE CONSERVÉE" : ""}</div>
   <div id="map-tooltip" class="map-tooltip" hidden></div>
@@ -777,19 +778,6 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       height: viewRows * 32 + 1,
     });
   if (!fogEnabled || visible.has(E.key(E.village.entry.x, E.village.entry.y))) {
-    ctx.font = "7px Georgia";
-    ctx.textAlign = "center";
-    ctx.fillStyle = "#e4dbb8";
-    ctx.shadowColor = "#10251a";
-    ctx.shadowBlur = 5;
-    ctx.fillText(
-      "VILLAGE DÉTRUIT DES VEILLEURS",
-      E.village.entry.x * 32 + 16,
-      E.village.y * 32 - 6,
-    );
-    ctx.shadowBlur = 0;
-  }
-  if (!fogEnabled || visible.has(E.key(E.village.entry.x, E.village.entry.y))) {
     const x = E.village.entry.x * 32,
       y = E.village.entry.y * 32;
     ctx.strokeStyle = "#dec48c";
@@ -1135,8 +1123,10 @@ function resume() {
     selected = null;
     origin = null;
     moved = false;
-    if (state.phase === "camp") camp();
-    else battleUI();
+    if (state.phase === "camp") {
+      panel = E.ensureCamp(state).active ? "missions" : "camp";
+      camp();
+    } else battleUI();
   } catch {
     toast("Cette sauvegarde est absente ou incompatible.");
   }
@@ -1144,7 +1134,11 @@ function resume() {
 function camp() {
   screen = "camp";
   const s = state!;
-  app.innerHTML = `<main class="camp-screen"><div class="camp-bg"></div><header class="brand">${mark}<span>LE SANCTUAIRE<small>LE CAMP DES SURVIVANTS</small></span><span class="edition">CHAPITRE I · MISSION ACCOMPLIE</span></header><section class="camp-heading"><span class="eyebrow">UNE TRÊVE DANS LA BRUME</span><h1>Enfin, un feu.</h1><p>Le monde a disparu. Vos histoires continuent.</p></section><div class="camp-layout"><nav class="camp-nav">${[
+  const progress = E.ensureCamp(s),
+    restored = Object.values(progress.levels).reduce((a, b) => a + b, 0);
+  app.innerHTML = `<main class="camp-screen"><div class="camp-bg"></div><header class="brand">${mark}<span>LE SANCTUAIRE<small>LE CAMP DES SURVIVANTS</small></span><span class="edition">CHAPITRE I · MISSION ACCOMPLIE</span></header><section class="camp-heading"><span class="eyebrow">UNE TRÊVE DANS LA BRUME</span><h1>${restored ? "Le camp prend vie." : "Un refuge à rebâtir."}</h1><p>Vos sorties dessinent l’avenir du refuge. ${restored} / 6 étapes de restauration.</p></section><div class="camp-layout"><nav class="camp-nav">${[
+    ["camp", "Le refuge"],
+    ["missions", "Sorties & travaux"],
     ["army1", "Armée 1"],
     ["army2", "Armée 2"],
     ["characters", "Personnages"],
@@ -1160,16 +1154,52 @@ function camp() {
 }
 function campPanel() {
   const s = state!;
+  if (panel === "camp" || panel === "missions")
+    return campRestoration(panel === "missions");
   if (panel === "world")
-    return `<span class="eyebrow">L’ATLAS DES TERRES ÉGARÉES</span><h2>Au-delà de la brume</h2><div class="world-map"><img src="${assetBase}assets/scene-15.png" alt="Carte peinte de la côte et des montagnes, largement couverte de brume"><div class="world-fog"></div>${button("⚑ Sanctuaire", "place-sanctuary", "place known")}${button("Côte des naufragés", "place-coast", "place coast")}${button("Ruines des Veilleurs", "place-ruins", "place ruins")}${button("?", "place-unknown", "place unknown")}${button("?", "place-unknown", "place unknown unknown2")}${button("?", "place-unknown", "place unknown unknown3")}</div><p>Le sanctuaire est votre seul refuge. Les routes lointaines sont encore inconnues.</p>`;
+    return `<span class="eyebrow">L’ATLAS DES TERRES ÉGARÉES</span><h2>Au-delà de la brume</h2><div class="world-map"><img src="${assetBase}assets/scene-15.png" alt="Carte peinte de la côte et des montagnes, largement couverte de brume"><div class="world-fog"></div>${button("⚑ Sanctuaire", "place-sanctuary", "place known")}${button("Côte des naufragés", "place-coast", "place coast")}${button("Ruines des Veilleurs", "place-ruins", "place ruins")}${button("?", "place-unknown", "place unknown")}${button("?", "place-unknown", "place unknown unknown2")}${button("?", "place-unknown", "place unknown unknown3")}</div><p>Le sanctuaire est votre seul refuge. Les routes lointaines sont encore inconnues.</p><div class="camp-resources">${E.campMissions
+      .filter((m) => E.ensureCamp(s).completed.includes(m.id))
+      .map((m) => `<span>${esc(m.place)} · reconnu</span>`)
+      .join("")}</div>`;
   if (panel === "inventory")
-    return `<span class="eyebrow">LES RÉSERVES COMMUNES</span><h2>Inventaire</h2>${s.inventory.map((i) => `<div class="inventory-row"><span>${i.name}</span><b>× ${i.count}</b></div>`).join("")}<p>Chaque survivant conserve ses potions et son équipement personnel. Les ressources du camp serviront aux prochains chapitres.</p>`;
+    return `<span class="eyebrow">LES RÉSERVES COMMUNES</span><h2>Inventaire</h2>${s.inventory.map((i) => `<div class="inventory-row"><span>${i.name}</span><b>× ${i.count}</b></div>`).join("")}<p>Chaque survivant conserve ses potions et son équipement personnel. Les vivres alimentent l’infirmerie ; les plantes servent aux potions et les ferrures à la forge.</p>`;
   const owner = panel === "army2" ? 2 : 1,
     units =
       panel === "characters"
         ? s.units.filter((u) => u.owner !== 0)
         : s.units.filter((u) => u.owner === owner);
   return `<span class="eyebrow">${panel === "characters" ? "LES DEUX EXPÉDITIONS" : factionName(s.factions[owner - 1])}</span><h2>${panel === "characters" ? "Les visages de l’alliance" : `Expédition ${owner}`}</h2><div class="camp-units">${units.map((u) => `<button class="camp-unit ${u.hp === 0 ? "fallen" : ""}" data-action="sheet-${u.id}">${portrait(u, true)}<span><strong>${u.name}</strong><small>${E.names[u.kind]} · Nv. ${u.level}</small><b>${u.hp === 0 ? "Tombé au combat" : `${u.hp} / ${u.maxHp} PV`}</b><span class="bar xp"><i style="width:${u.xp}%"></i></span><small>${u.xp} EXP · Expédition ${u.owner}</small></span></button>`).join("")}</div><p>Sélectionnez un personnage pour consulter sa fiche. Les niveaux, blessures et équipements sont conservés.</p>${panel === "characters" ? `<table class="comparison"><thead><tr><th>Personnage</th><th>FOR</th><th>DÉF</th><th>AGI</th><th>INIT</th></tr></thead><tbody>${units.map((u) => `<tr><td>${u.name}</td><td>${u.strength}</td><td>${u.defense}</td><td>${u.agility}</td><td>${u.initiative}</td></tr>`).join("")}</tbody></table>` : ""}`;
+}
+function campRestoration(missions = false) {
+  const s = state!,
+    c = E.ensureCamp(s),
+    ids = Object.keys(E.buildings) as E.BuildingId[];
+  if (c.active) {
+    const m = E.campMissions.find((m) => m.id === c.active!.id)!;
+    return `<div class="camp-expedition"><span class="eyebrow">SORTIE NARRATIVE · ${esc(m.place)}</span><h2>${esc(m.name)}</h2><div class="mission-purpose">Restauration : ${E.buildings[m.building].name} · étape ${m.tier}/2</div><p>${esc(c.active.step === 0 ? m.brief : c.active.step === 1 ? m.scene : c.active.result!)}</p>${c.active.step === 0 ? button("Explorer les lieux", "explore-expedition", "primary") : c.active.step === 1 ? `<div class="expedition-choices">${m.choices.map((o) => button(`<strong>${esc(o.label)}</strong><small>${esc(o.detail)}</small>`, `resolve-expedition-${o.id}`)).join("")}</div>` : button("Retourner au camp", "return-expedition", "primary")}</div>`;
+  }
+  const available = E.availableCampMissions(s);
+  const board = `<div class="camp-missions">${available.map((m) => `<article class="camp-mission"><span class="eyebrow">${E.buildings[m.building].name} · ÉTAPE ${m.tier}/2</span><h3>${esc(m.name)}</h3><p>${esc(m.brief)}</p><div class="mission-repair">Débloque : ${esc(E.buildings[m.building].stages[m.tier])}</div>${button("Choisir cette sortie", `start-expedition-${m.id}`, "primary")}</article>`).join("")}</div>`;
+  if (missions)
+    return `<span class="eyebrow">CHOISIR CE QUE LE CAMP DEVIENT</span><h2>Sorties & travaux</h2><p>Chaque sortie narrative remet en état un bâtiment précis. Les ressources et les blessures dépendent de vos décisions. Une sortie terminée ne peut pas être rejouée.</p>${board || '<div class="camp-complete">Le refuge est restauré. Les prochains chapitres pourront ouvrir de nouvelles régions et de nouveaux travaux.</div>'}`;
+  const positions = {
+    infirmary: [140, 165],
+    workshop: [480, 170],
+    palisade: [310, 70],
+  } as const;
+  const site = `<svg class="camp-site" viewBox="0 0 640 320" role="img" aria-label="Plan du camp, bâtiments en ruine puis restaurés"><ellipse cx="320" cy="185" rx="290" ry="122" fill="#314635"/><text x="20" y="28" fill="#cfba83" font-size="10" letter-spacing="2">PLAN DU REFUGE</text><path d="M280 75 C180 65 90 100 70 180 S140 285 285 280 M355 280 C500 285 575 245 575 180 S470 65 360 75" fill="none" stroke="${c.levels.palisade === 2 ? "#b4aa82" : c.levels.palisade === 1 ? "#8e7956" : "#616b55"}" stroke-width="${5 + c.levels.palisade * 2}" stroke-dasharray="${c.levels.palisade === 2 ? "none" : c.levels.palisade === 1 ? "44 8" : "14 20"}"/><path d="M85 250 Q320 140 555 250 M320 285 L320 75" stroke="#827956" stroke-width="20" fill="none"/><ellipse cx="320" cy="220" rx="24" ry="12" fill="#152b21"/><path d="M310 220 Q300 200 319 186 Q316 203 328 198 Q341 212 325 222Z" fill="#c39754"/>${ids
+    .map((id) => {
+      const [x, y] = positions[id],
+        level = c.levels[id];
+      return `<g transform="translate(${x} ${y})" class="site-building level-${level}"><path d="M-55 35 V-26 L-10 -48 L45 -22 V35Z" fill="${level === 2 ? "#a09772" : level === 1 ? "#777d5d" : "#535e4e"}" stroke="#c3b58a" stroke-width="2"/><path d="M-64 -20 L-10 -58 L54 -16 L-10 -34Z" fill="${level === 2 ? "#776247" : "#354b3b"}" opacity="${level === 0 ? 0.3 : level === 1 ? 0.65 : 1}"/><path d="M-8 35 V3 H12 V35" fill="#20382b"/>${level < 2 ? '<path d="M-45 28 L-28 9 L-35 -15 M25 32 L18 15 L30 -8" stroke="#22382a" stroke-width="7" fill="none"/>' : ""}<text x="-8" y="61" text-anchor="middle" fill="#eadbb5" font-size="15">${E.buildings[id].name}</text><text x="-8" y="79" text-anchor="middle" fill="#abb696" font-size="10">${level}/2</text></g>`;
+    })
+    .join("")}</svg>`;
+  return `<span class="eyebrow">LE VILLAGE DES SURVIVANTS</span><h2>Un camp façonné par vos choix</h2><p>Les murs sont encore éventrés. Choisissez les sorties qui reconstruiront d’abord les soins, l’artisanat ou la protection du refuge.</p>${site}<div class="camp-buildings">${ids.map((id) => `<article class="camp-building level-${c.levels[id]}"><span class="eyebrow">${E.buildings[id].name} · ${c.levels[id]}/2</span><h3>${E.buildings[id].stages[c.levels[id]]}</h3><p>${E.buildings[id].benefits[c.levels[id]]}</p></article>`).join("")}</div><div class="camp-services">${button("Se reposer · 1 vivre", "refuge-rest", "", c.levels.infirmary < 1 || E.campStock(s, "Vivres récupérés") < 1 || !s.units.some((u) => u.owner !== 0 && u.hp > 0 && u.hp < u.maxHp))}${button("Préparer des potions · 1 plante", "refuge-potions", "", c.levels.workshop < 1 || E.campStock(s, "Plantes médicinales") < 1 || !s.units.some((u) => u.owner !== 0 && u.hp > 0 && u.potions < 3))}${button(c.weaponsImproved ? "Armes affûtées" : "Affûter les armes · 2 ferrures", "refuge-weapons", "", c.levels.workshop < 2 || c.weaponsImproved || E.campStock(s, "Ferrures récupérées") < 2)}</div><div class="camp-resources">${s.inventory
+    .filter((i) => i.count > 0)
+    .map((i) => `<span>${esc(i.name)} <b>${i.count}</b></span>`)
+    .join(
+      "",
+    )}</div><h2>Prochaine sortie</h2>${board || "<p>Les trois bâtiments sont restaurés.</p>"}`;
 }
 function defeat() {
   screen = "defeat";
@@ -1185,7 +1215,43 @@ app.addEventListener("click", async (e) => {
   const el = (e.target as HTMLElement).closest<HTMLElement>("[data-action]");
   if (!el || el.hasAttribute("disabled")) return;
   const action = el.dataset.action!;
-  if (action === "toggle-fog") {
+  if (action === "finish-battle-test") {
+    if (busy || !state || !E.canFinishBattleForTest(state)) return;
+    origin = null;
+    moved = false;
+    selected = null;
+    cardOpen = false;
+    E.finishBattleForTest(state);
+    cinematic();
+  } else if (
+    action.startsWith("start-expedition-") ||
+    action.startsWith("resolve-expedition-") ||
+    [
+      "explore-expedition",
+      "return-expedition",
+      "refuge-rest",
+      "refuge-potions",
+      "refuge-weapons",
+    ].includes(action)
+  ) {
+    if (!state || state.phase !== "camp") return;
+    try {
+      if (action.startsWith("start-expedition-"))
+        E.beginCampMission(state, action.slice(17));
+      else if (action.startsWith("resolve-expedition-"))
+        E.resolveCampMission(state, action.slice(19));
+      else if (action === "explore-expedition") E.exploreCampMission(state);
+      else if (action === "return-expedition") E.returnToCamp(state);
+      else if (action === "refuge-rest") E.restAtCamp(state);
+      else if (action === "refuge-potions") E.prepareCampPotions(state);
+      else E.improveCampWeapons(state);
+      panel = E.ensureCamp(state).active ? "missions" : "camp";
+      camp();
+      save(true);
+    } catch (error) {
+      toast(error instanceof Error ? error.message : "Action indisponible");
+    }
+  } else if (action === "toggle-fog") {
     fogEnabled = !fogEnabled;
     battleUI();
   } else if (action === "toggle-grid") {

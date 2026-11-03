@@ -2,7 +2,7 @@ import type { Cell, Terrain } from "./types";
 export const W = 60,
   H = 40,
   TILE = 32,
-  MAP_REVISION = 6;
+  MAP_REVISION = 7;
 const terrains: Record<Terrain, [number, boolean, number, boolean, number]> = {
   grass: [1, true, 0, false, 0],
   earth: [1, true, 0, false, 28],
@@ -10,7 +10,7 @@ const terrains: Record<Terrain, [number, boolean, number, boolean, number]> = {
   sand: [2, true, 0, false, 3],
   water: [99, false, 0, false, 4],
   forest: [2, true, 2, false, 5],
-  tree: [99, false, 0, true, 6],
+  tree: [3, true, 3, true, 6],
   rock: [99, false, 0, true, 7],
   wall: [99, false, 0, true, 9],
   ruin: [2, true, 2, false, 23],

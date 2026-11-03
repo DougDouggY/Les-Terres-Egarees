@@ -7,6 +7,7 @@ export default defineConfig({
     "terrain.spec.ts",
     "interaction.spec.ts",
     "viewport.spec.ts",
+    "camp.spec.ts",
   ],
   timeout: 180000,
   use: {

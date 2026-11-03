@@ -98,3 +98,11 @@ Le test intégral dispose d'un délai de 240 s pour les machines sans accéléra
 - Huit contrôles navigateur de brume, sélection, déplacement, survol, village et inspection des nouveaux secteurs passent. Après nettoyage du fond du convoi, les deux inspections de terrain repassent.
 - Compilation GitHub Pages validée. Captures : `artifacts/wooded-ruins.png` et `artifacts/forest-convoy.png`.
 - Parcours navigateur complet réussi en 68 activations : introductions, déplacements, combats, rencontre, combat commun, victoire, camp et reprise de sauvegarde.
+
+## Forêt praticable, raccourci de test et première boucle du camp
+
+- 37 tests moteur passent : forêt dense coût 3 / défense 3, raccourci refusé loin des ruines, fin narrative près du village sans XP artificielle, progression spécifique à chaque bâtiment, déblocages, consommations, absence de double récompense, risques réduits et compatibilité des anciennes sauvegardes.
+- 12 scénarios Chromium passent. Le parcours normal rejoint le camp en 68 activations. Le raccourci rejoint aussi le camp ; une sortie reprise après rechargement restaure l’infirmerie puis le repos soigne réellement les survivants.
+- Les six sorties et les trois restaurations complètes sont simulées dans les tests du moteur. L’affûtage ne peut être appliqué qu’une fois et aucune sortie terminée n’est rejouable.
+- Déplacements, brume, fiches, lisières, convoi, viewport et observation côte à côte restent validés. Compilation de production avec la base GitHub Pages validée.
+- Captures : `artifacts/camp-ruined.png` et `artifacts/camp-first-repair.png`. Le plan illustre les étapes de restauration ; les sorties de cette première version sont narratives.

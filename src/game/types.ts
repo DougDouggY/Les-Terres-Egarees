@@ -1,3 +1,4 @@
+import type { CampProgress } from "./camp";
 export type Faction = "north" | "knight";
 export type Kind = "shield" | "bow" | "sword" | "crossbow" | "skeleton";
 export type Terrain =
@@ -67,6 +68,7 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  camp?: CampProgress;
   mapRevision?: number;
   version: 1;
   factions: [Faction, Faction];

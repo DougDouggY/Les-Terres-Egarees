@@ -39,3 +39,23 @@ transformation servant au dessin, au survol et aux déplacements. Lors d’un
 redimensionnement, le centre des caméras est conservé puis borné à la carte.
 Les canopées peintes originales sont masquées et raccordées dans le cache du
 terrain ; elles ne modifient ni les cellules ni la graine de combat.
+
+## Camp évolutif et sorties narratives
+
+`src/game/camp.ts` définit trois bâtiments à deux niveaux et six sorties à choix.
+Chaque sortie correspond à une réparation précise ; le niveau suivant exige la
+réparation précédente du même bâtiment. Les étapes briefing/choix/résultat sont
+sérialisées dans `Campaign.camp`, avec la liste des sorties terminées et le
+verrou de l’affûtage. Les anciennes sauvegardes reçoivent un camp en ruine.
+
+Les choix attribuent des ressources et éventuellement une blessure non létale à
+l’éclaireur le plus agile. L’enceinte réduit ces blessures et peut ajouter un
+vivre. Les soins, les potions et l’affûtage consomment leurs ressources et
+modifient réellement les survivants ; aucun mort n’est ressuscité. Les sorties
+sont narratives dans cette version, sans nouvelle carte de bataille ni système
+de classes supplémentaire.
+
+Le raccourci de test près des ruines suit la fin narrative normale, conserve
+les PV et XP des survivants et marque explicitement son usage dans l’historique.
+Le terrain passe en révision 7 : forêt dense praticable (coût 3, couvert 3),
+avec opacité conservée. Le sous-bois reste à 2 / 2.

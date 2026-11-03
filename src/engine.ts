@@ -11,3 +11,5 @@ export * from "./game/ai";
 export * from "./game/movement";
 export * from "./game/inventory";
 export * from "./game/save";
+
+export * from "./game/camp";

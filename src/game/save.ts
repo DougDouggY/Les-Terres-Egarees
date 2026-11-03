@@ -1,3 +1,4 @@
+import { ensureCamp } from "./camp";
 import type { Campaign } from "./types";
 import { visibility } from "./vision";
 import {
@@ -73,6 +74,7 @@ export function decode(raw: string): Campaign {
         );
     s.mapRevision = MAP_REVISION;
   }
+  ensureCamp(s);
   validate(s);
   if (updatedMap) visibility(s);
   return s;

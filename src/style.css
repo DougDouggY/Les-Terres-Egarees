@@ -2480,3 +2480,132 @@ h2 {
   bottom: auto;
   max-width: calc(100% - 24px);
 }
+
+.camp-site {
+  width: 100%;
+  max-height: 330px;
+  background: radial-gradient(ellipse, #62704a44, transparent 70%);
+  border: 1px solid var(--line);
+  margin: 15px 0;
+}
+.camp-buildings,
+.camp-missions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 20px 0;
+}
+.camp-building,
+.camp-mission {
+  padding: 18px;
+  background: #10231edb;
+  border: 1px solid #b8aa7150;
+}
+.camp-building h3,
+.camp-mission h3 {
+  font: 27px var(--serif);
+  color: #e1cf9e;
+  margin: 9px 0;
+}
+.camp-building p,
+.camp-mission p {
+  font-size: 12px;
+  line-height: 1.8;
+}
+.camp-building.level-0 {
+  border-style: dashed;
+}
+.camp-building.level-2 {
+  border-color: #99b17d;
+  background: #243a29e6;
+}
+.camp-services,
+.camp-resources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 15px 0;
+}
+.camp-services button {
+  padding: 12px;
+  font-size: 11px;
+  background: #183027;
+  border: 1px solid var(--line);
+}
+.camp-resources span {
+  padding: 8px;
+  background: #081c17b3;
+  font-size: 10px;
+}
+.camp-resources b {
+  color: #d9c289;
+  margin-left: 8px;
+}
+.camp-mission {
+  display: flex;
+  flex-direction: column;
+}
+.camp-mission p {
+  flex: 1;
+}
+.camp-mission button {
+  width: 100%;
+  font-size: 11px;
+  padding: 12px;
+  margin-top: 15px;
+}
+.mission-repair,
+.mission-purpose {
+  font-size: 11px;
+  color: #b7c8a7;
+  border-top: 1px solid var(--line);
+  padding-top: 10px;
+}
+.camp-expedition {
+  max-width: 760px;
+  margin: 20px auto;
+  padding: 30px;
+  background: #10241ee8;
+  border: 1px solid #b8aa7150;
+}
+.camp-expedition > p {
+  font: 24px/1.7 var(--serif);
+  margin: 30px 0;
+  color: #ded5bd;
+}
+.expedition-choices {
+  display: grid;
+  gap: 15px;
+}
+.expedition-choices button {
+  padding: 20px;
+  background: #1b3126;
+  border: 1px solid #b8aa7160;
+  text-align: left;
+}
+.expedition-choices strong,
+.expedition-choices small {
+  display: block;
+}
+.expedition-choices strong {
+  font: 23px var(--serif);
+}
+.expedition-choices small {
+  font-size: 11px;
+  margin-top: 9px;
+  color: #b0bea0;
+}
+.camp-complete {
+  padding: 28px;
+  border: 1px solid #99b17d;
+  background: #243a29e6;
+}
+@media (max-width: 1000px) {
+  .camp-buildings,
+  .camp-missions {
+    grid-template-columns: 1fr;
+  }
+  .camp-expedition {
+    padding: 18px;
+  }
+}
