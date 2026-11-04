@@ -22,3 +22,5 @@ export * from "./game/progression";
 export * from "./game/recruitment";
 export * from "./data/companions";
 export {rules,baseBalance,promotionBonuses} from "./data/balance";
+
+export * from "./game/initiative";

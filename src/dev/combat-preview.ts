@@ -1,3 +1,4 @@
+import { resourceScale } from "../sprites/geometry";
 import { combatHud } from "../ui/combat-hud";
 import "../ui/combat-hud.css";
 import "./tools.css";
@@ -54,10 +55,7 @@ export function openCombatPreview(app: HTMLElement, onBack: () => void) {
       f = layout.frames.find((f) => f.row === row && f.column === column)!;
     return (
       (f.x + f.width - f.anchorX) *
-      Math.min(
-        size / (layout.width / c.columns),
-        size / (layout.height / c.rows),
-      )
+      resourceScale(profile(side), c, size, size, "world")
     );
   }
   function geometry(): TrialGeometry {
@@ -169,6 +167,7 @@ export function openCombatPreview(app: HTMLElement, onBack: () => void) {
       size,
       true,
       side === 0 ? "blue" : "pink",
+      "world",
     );
     ctx.restore();
   }

@@ -168,3 +168,22 @@ test("planches complémentaires : séquences complètes et seconde main explicit
     ),
   );
 });
+
+test("taille anatomique commune : les planches d’attaque et de repos ne redimensionnent plus le corps", async () => {
+  const { profileMetrics, resourceScale } =
+    await import("../src/sprites/geometry");
+  const { profiles } = await library();
+  for (const p of profiles) {
+    const m = profileMetrics(p);
+    const sizes: number[] = [];
+    for (const name of Object.keys(p.clips)) {
+      const c = resolveClip(p, name)!;
+      const reference = m.references.get(c.source);
+      if (!reference) continue;
+      sizes.push(resourceScale(p, c, 180, 207, "world") * reference);
+    }
+    assert.ok(sizes.length, p.classId);
+    assert.ok(Math.max(...sizes) - Math.min(...sizes) < 0.01, p.classId);
+    assert.ok(Math.abs(sizes[0] - 133.2) < 0.01, p.classId);
+  }
+});

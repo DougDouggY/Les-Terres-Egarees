@@ -1,7 +1,12 @@
+import { resourceScale } from "./geometry";
 import atlasLayouts from "../assets/tactical/atlas-layout.json";
 import { visualClasses } from "./visual-classes";
 import { recoloredImage } from "./recolor";
-import type { TeamColor } from "../game/team-colors";
+import {
+  colorForOwner,
+  type TeamColor,
+  type TeamColors,
+} from "../game/team-colors";
 import type { Unit } from "../game/types";
 import { unitClass, activeWeapon, visualState, classes } from "../game/classes";
 import {
@@ -76,6 +81,7 @@ export function drawResourceFrame(
   height: number,
   pixelArt = false,
   color?: TeamColor,
+  scaleMode: "fit" | "world" = "fit",
 ) {
   const c = resolveClip(p, animation);
   if (!c) return false;
@@ -110,6 +116,7 @@ export function drawResourceFrame(
           height: number;
           ground: number;
           anchorX: number;
+          bodyGround?: number;
         }[];
       }
     >
@@ -118,12 +125,12 @@ export function drawResourceFrame(
     (f) => f.row === sourceRow && f.column === column,
   );
   if (rect) {
-    const scale = Math.min(
-      width / (c.frameSize?.width ?? sw),
-      height / (c.frameSize?.height ?? sh),
-    );
+    const scale = resourceScale(p!, c, width, height, scaleMode, indexInClip);
     const dx = x + width / 2 + (rect.x - rect.anchorX) * scale,
-      dy = y + height * 0.96 - rect.height * scale;
+      dy =
+        y +
+        height * (scaleMode === "world" ? 0.96 : 0.9) +
+        (rect.y - (rect.bodyGround ?? rect.y + rect.height)) * scale;
     ctx.drawImage(
       source,
       rect.x,
@@ -158,4 +165,47 @@ export function resourceStatus(
   if (!c) return "missing";
   const img = spriteImage(c.source);
   return img.complete ? (img.naturalWidth ? "ready" : "broken") : "loading";
+}
+
+/** Decode and recolor before starting a one-shot timeline, so first use cannot skip poses. */
+export async function warmSprites(
+  units: Unit[],
+  colors: TeamColors | undefined,
+  animations: string[],
+) {
+  const requests = units.map((unit) => ({
+    unit,
+    profile: unitSpriteProfile(unit),
+  }));
+  const sources = new Set<string>();
+  for (const { profile } of requests)
+    for (const name of animations) {
+      const c = resolveClip(profile, name);
+      if (c) sources.add(c.source);
+    }
+  await Promise.all(
+    Array.from(sources).map((source) =>
+      spriteImage(source)
+        .decode()
+        .catch(() => {}),
+    ),
+  );
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = 64;
+  const ctx = canvas.getContext("2d")!;
+  for (const { unit, profile } of requests)
+    for (const name of animations)
+      drawResourceFrame(
+        ctx,
+        profile,
+        name,
+        0,
+        0,
+        0,
+        64,
+        64,
+        true,
+        colorForOwner(colors, unit.owner),
+        "world",
+      );
 }

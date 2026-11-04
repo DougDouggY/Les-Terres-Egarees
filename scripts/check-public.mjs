@@ -8,6 +8,8 @@ for (const file of files.filter((f) => /\.(js|css)$/.test(f))) {
   const text = await readFile(directory + "/assets/" + file, "utf8");
   for (const forbidden of [
     "Galerie des sprites",
+    "Tests de combat",
+    "INITIATIVE · SANS MISSION",
     "Atelier de test",
     "Essai des combats",
     "VALIDATION VISUELLE",

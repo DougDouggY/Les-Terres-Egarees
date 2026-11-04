@@ -86,6 +86,27 @@ for source,(columns,rows) in sources.items():
    isolated.append(dict(row=row,column=col,x=xs.start,y=ys.start,width=xs.stop-xs.start,height=ys.stop-ys.start,ground=ys.stop,anchorX=(col+.5)*width/columns,ambiguous=False,sourceDefect=False))
   if len(isolated)!=columns*rows or len({(f['row'],f['column']) for f in isolated})!=columns*rows:raise ValueError('Trial atlas components must isolate exactly 32 figures')
   frames=isolated
+ # Anatomical anchor: estimate the torso from the dense lower silhouette,
+ # then use its longest vertical band. Isolated staff/spear tips are excluded.
+ for frame in frames:
+  x,y,w,h=frame['x'],frame['y'],frame['width'],frame['height']
+  low=im[y+round(h*.72):y+h,x:x+w,3]>32
+  _,xx=np.where(low)
+  center=x+float(np.median(xx)) if len(xx) else frame['anchorX']
+  half=max(6,width/columns*.23)
+  left=max(x,round(center-half));right=min(x+w,round(center+half))
+  band=im[y:y+h,left:right,3]
+  dense=(band>32).sum(1)>=max(3,(right-left)*.12)
+  segments=[];start=None
+  for yy,filled in enumerate(dense):
+   if filled and start is None:start=yy
+   if not filled and start is not None:segments.append((start,yy));start=None
+  if start is not None:segments.append((start,h))
+  top,bottom=max(segments,key=lambda pair:pair[1]-pair[0]) if segments else (0,h)
+  feet=np.where((band>32).sum(1)>=3)[0]
+  ground=int(feet[-1])+1 if len(feet) else bottom
+  frame['bodyHeight']=int(max(1,ground-top))
+  frame['bodyGround']=int(y+ground)
  result[source]=dict(width=width,height=height,columns=columns,rows=rows,frames=frames,corrected=corrected)
 (root/'src/assets/tactical/atlas-layout.json').write_text(json.dumps(result,indent=2)+'\n')
 (root/'docs/SPRITE-AUDIT.json').write_text(json.dumps(dict(sources=len(result),correctedFrames=sum(v['corrected'] for v in result.values()),issues=issues),indent=2)+'\n')

@@ -244,3 +244,10 @@ test("ordre réel : une arme alterne avec la riposte ; deux armes restent ensemb
     assert.ok(verified);
   }
 });
+
+test("atelier : les recrues ont deux choix de fixture et respectent leur plafond de niveau", () => {
+  const s = createSandbox();
+  const u = trainingUnit(s, "young_viking", 20, 1);
+  assert.equal(u.recruitChoices?.length, 2);
+  assert.equal(u.level, E.classes.young_viking.maxLevel);
+});

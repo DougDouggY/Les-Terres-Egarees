@@ -340,3 +340,27 @@
 .recolor-tuning input {
   max-width: 120px;
 }
+.test-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 18px;
+  margin-top: 25px;
+}
+.test-cards article {
+  padding: 20px;
+  border: 1px solid #9c8e6055;
+  background: #1f352b;
+}
+.initiative-demo {
+  position: relative;
+  height: 100px;
+  width: 100%;
+  margin: 20px 0;
+}
+.initiative-demo.compact-battle .initiative-strip {
+  top: 0;
+}
+#initiative-board {
+  max-width: 100%;
+  background: #142923;
+}

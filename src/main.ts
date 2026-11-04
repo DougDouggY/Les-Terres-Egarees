@@ -1,3 +1,10 @@
+import {
+  attackEffect,
+  drawSpell,
+  drawHealing,
+  preloadEffects,
+} from "./ui/combat-effects";
+import { initiativeMarkup, bindInitiative } from "./ui/initiative-strip";
 import { combatHud } from "./ui/combat-hud";
 import "./ui/combat-hud.css";
 import { combatPose, linkedStrikes } from "./ui/combat-timeline";
@@ -8,7 +15,7 @@ import {
   unitSpriteProfile,
   unitVisualNote,
   drawResourceFrame,
-  spriteImage,
+  warmSprites,
 } from "./sprites/resources";
 import { TerrainRenderer, type TerrainStyle } from "./terrain";
 import { Mist } from "./fog";
@@ -50,6 +57,7 @@ let companionDrafts: [string[], string[]] = [[], []];
 let aim: "heal" | "summon" | "area" | "buff" | null = null;
 let isPanning = false;
 let developerCleanup: (() => void) | null = null;
+let developerRequest = 0;
 let pendingReward: (() => void) | null = null;
 let toastTimer: ReturnType<typeof setTimeout>;
 const zoom = 1.65;
@@ -118,11 +126,14 @@ function audio(type = "hit") {
   } catch {}
 }
 function title() {
+  developerRequest++;
+  initiativeCleanup?.();
+  initiativeCleanup = undefined;
   developerCleanup?.();
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}${button("Atelier de test", "dev-workshop", "quiet")}${button("Essai des combats", "dev-combat-preview", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}${button("Atelier de test", "dev-workshop", "quiet")}${button("Essai des combats", "dev-combat-preview", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
 }
 function options() {
   const modal = document.createElement("div");
@@ -221,11 +232,13 @@ function configure() {
   }
 }
 function cinematic() {
+  initiativeCleanup?.();
+  initiativeCleanup = undefined;
   const s = state!;
   aim = null;
   if (s.scene === "meeting") {
     screen = "transition";
-    app.innerHTML = `<main class="phase-event"><span class="eyebrow">RENCONTRE DES EXPÉDITIONS</span><h1>Les deux fronts se rejoignent.</h1><p>Les champs de vision sont partagés. Un nouvel ordre d’initiative commun commence.</p>${button("Unir les fronts", "next-scene", "primary")}</main>`;
+    app.innerHTML = `<main class="phase-event"><span class="eyebrow">RENCONTRE DES EXPÉDITIONS</span><h1>Les deux fronts se rejoignent.</h1><p>Les champs de vision sont partagés. L’ordre d’initiative se poursuit sans recommencer le cycle.</p>${button("Unir les fronts", "next-scene", "primary")}</main>`;
   } else if (s.scene === "ending") {
     s.scene = null;
     s.phase = "summary";
@@ -242,8 +255,18 @@ function nextScene() {
   if (state.scene === "meeting") {
     E.merge(state);
     state.scene = null;
-    selected = null;
-    battleUI();
+    selected =
+      E.current(state)?.owner === state.active ? E.current(state)!.id : null;
+    moved = state.committedMove === E.current(state)?.id;
+    if (state.encounterContinuation) {
+      const pending = state.encounterContinuation;
+      delete state.encounterContinuation;
+      const actor = E.current(state),
+        target = state.units.find((u) => u.id === pending.targetId);
+      if (actor?.id === pending.actorId && target && E.canAttack(actor, target))
+        void fight(actor, target);
+      else finishTurn();
+    } else battleUI();
     save(true);
   } else cinematic();
 }
@@ -342,17 +365,7 @@ function positionContextMenu() {
   const menu = document.querySelector<HTMLElement>("#unit-actions");
   if (menu) menu.hidden = isPanning || !!aim || !!tacticalAction;
 }
-function initiativeMarkup(s: Campaign) {
-  const f = E.front(s);
-  return `<nav class="initiative-strip" aria-label="Ordre d’initiative">${f.queue
-    .map((id, i) => {
-      const u = s.units.find((u) => u.id === id);
-      if (!u || u.hp <= 0) return "";
-      const known = E.seen(s, s.active, u);
-      return `<button ${known ? `data-action="focus-${u.id}"` : "disabled"} class="${i === f.index ? "current" : ""}" title="${known ? esc(u.name) : "Présence dans la brume"}">${known ? `<canvas data-initiative="${u.id}" width="64" height="64"></canvas><small>${esc(E.classes[u.classId!]?.faction ?? "enemy")}</small>` : "?"}</button>`;
-    })
-    .join("")}</nav>`;
-}
+let initiativeCleanup: (() => void) | undefined;
 function battleUI() {
   if (!state) return;
   const s = state;
@@ -371,7 +384,8 @@ function battleUI() {
   screen = "battle";
   const u = E.current(s),
     sel = s.units.find((u) => u.id === selected),
-    own = u?.owner === s.active;
+    own = u?.owner === s.active,
+    actorKnown = !!u && E.seen(s, s.active, u);
   const token = `${s.active}:${u?.id}:${E.front(s).round}`;
   if (token !== focusToken) {
     focusToken = token;
@@ -391,6 +405,7 @@ function battleUI() {
     }
   }
   clampCamera(s.active);
+  initiativeCleanup?.();
   app.innerHTML = `<main class="battle-screen compact-battle"><header class="battle-header"><a class="mini-brand" data-action="pause">${mark}<span>LES TERRES ÉGARÉES</span></a><div class="mission-name"><strong>${s.merged ? "Repoussez les morts-vivants" : "Rejoignez le village des Veilleurs"}</strong><span>ROUND ${E.front(s).round} · ${s.merged ? "ALLIANCE" : `EXPÉDITION ${s.active}`}</span></div><div class="perspectives">${[1, 2].map((p) => button(`EXPÉDITION ${p}`, `perspective-${p}`, s.active === p ? "active" : "")).join("")}</div><button class="icon-button" data-action="observer" aria-label="Observation côte à côte">◫</button>${button("☰", "pause", "icon-button")}</header>
   ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
   <div class="map-heading"><div class="map-tools">${E.canFinishBattleForTest(s) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}${button("Recentrer", "recenter")}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog")}</div></div>
@@ -399,8 +414,9 @@ function battleUI() {
   <div id="map-tooltip" class="map-tooltip" hidden></div>
   ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window" aria-label="Fiche de ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer la fiche">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
   </div>${sel && own && sel.id === u?.id && moved && !busy ? contextActions(u) : ""}
-  <div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u?.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : esc(u?.name ?? "")}</strong><small>Clic : unité / destination · Glisser : déplacer la carte</small></div><div class="turn-actions">${!own && u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></div>
+  <div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : !actorKnown ? "PRÉSENCE DANS LA BRUME" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${!actorKnown ? "Une présence dans la brume" : esc(u?.name ?? "")}</strong><small>Clic : unité / destination · Glisser : déplacer la carte</small></div><div class="turn-actions">${actorKnown && !own && u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></div>
   </section></div><footer class="battle-footer"><span>Glisser · Explorer la carte <i>◆</i> Flèches · Caméra <i>◆</i> Tab · Expédition</span></footer></main>`;
+  initiativeCleanup = bindInitiative(app, s);
   bindCanvas();
   positionContextMenu();
   document
@@ -568,6 +584,7 @@ function drawSprite(
       size * 1.15,
       true,
       E.colorForOwner(state?.teamColors, u.owner),
+      "world",
     )
   ) {
     ctx.fillStyle = "#e8d4ad";
@@ -596,9 +613,14 @@ let tacticalAction: {
   animation: string;
   start: number;
   fps: number;
+  target?: { x: number; y: number };
 } | null = null;
 /** Presentation of an already validated action; never advances initiative itself. */
-async function playTacticalAction(sprite: Unit, animation: string) {
+async function playTacticalAction(
+  sprite: Unit,
+  animation: string,
+  target?: Unit,
+) {
   const clip = resolveClip(unitSpriteProfile(sprite), animation);
   if (!clip) return;
   const previousBusy = busy;
@@ -614,7 +636,13 @@ async function playTacticalAction(sprite: Unit, animation: string) {
     // Keep the actor in guard while its atlas loads; loading must not consume
     // the animation's only playback, or leave a committed action interactive.
     try {
-      await spriteImage(clip.source).decode();
+      await Promise.all([
+        warmSprites([sprite, ...(target ? [target] : [])], state?.teamColors, [
+          "idle",
+          animation,
+        ]),
+        preloadEffects(),
+      ]);
     } catch {
       return;
     }
@@ -623,11 +651,15 @@ async function playTacticalAction(sprite: Unit, animation: string) {
       animation,
       start: performance.now(),
       fps: clip.fps * speed,
+      target: target && { x: target.x, y: target.y },
     };
     await new Promise((resolve) =>
       setTimeout(
         resolve,
-        (clip.frames.length / Math.max(1, clip.fps * speed)) * 1000,
+        Math.max(
+          (clip.frames.length / Math.max(1, clip.fps * speed)) * 1000,
+          animation === "heal" ? 1100 / speed : 0,
+        ),
       ),
     );
   } finally {
@@ -832,7 +864,12 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       frame = Math.floor(time / 130) % 2;
     }
     const action = tacticalAction?.sprite.id === u.id ? tacticalAction : null;
-    if (action) frame = Math.floor(((time - action.start) * action.fps) / 1000);
+    if (action)
+      frame = Math.min(
+        (resolveClip(unitSpriteProfile(action.sprite), action.animation)?.frames
+          .length ?? 1) - 1,
+        Math.floor(((time - action.start) * action.fps) / 1000),
+      );
     drawSprite(
       ctx,
       action?.sprite ?? u,
@@ -875,6 +912,21 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     ctx.lineTo(x + 20, y + 28);
     ctx.fill();
   }
+  if (
+    tacticalAction?.animation === "heal" &&
+    tacticalAction.target &&
+    (!fogEnabled ||
+      visible.has(E.key(tacticalAction.target.x, tacticalAction.target.y)))
+  ) {
+    const target = tacticalAction.target;
+    drawHealing(
+      ctx,
+      (time - tacticalAction.start) * speed,
+      (target.x + 0.5) * 32,
+      (target.y + 1) * 32,
+      60,
+    );
+  }
   if (hover !== null && (!fogEnabled || visible.has(hover))) {
     const c = E.map[hover];
     ctx.strokeStyle = "#f0ead190";
@@ -899,17 +951,6 @@ function animation(time: number) {
     }
     if (b) renderMap(b, (3 - state!.active) as 1 | 2, time);
   }
-  if (screen === "battle" && state)
-    document
-      .querySelectorAll<HTMLCanvasElement>("[data-initiative]")
-      .forEach((c) => {
-        const u = state!.units.find((u) => u.id === c.dataset.initiative);
-        if (u) {
-          const ctx = c.getContext("2d")!;
-          ctx.clearRect(0, 0, 64, 64);
-          drawSprite(ctx, u, 0, 0, 64, Math.floor(time / 500) % 2);
-        }
-      });
   if (combatAnim) renderCombat(time);
 }
 requestAnimationFrame(animation);
@@ -951,7 +992,7 @@ async function clickCell(x: number, y: number) {
         const sprite = structuredClone(u);
         E.healTarget(s, u, target);
         aim = null;
-        await playTacticalAction(sprite, "heal");
+        await playTacticalAction(sprite, "heal", target);
         finishTurn();
         return;
       }
@@ -1012,6 +1053,7 @@ async function clickCell(x: number, y: number) {
     const p = E.path(s, u, x, y);
     if (
       !moved &&
+      s.committedMove !== u.id &&
       p &&
       p.cost <= u.move &&
       s.players[s.active - 1].visible.includes(E.key(x, y))
@@ -1026,8 +1068,8 @@ async function clickCell(x: number, y: number) {
       moved = true;
       if (E.encounter(s)) {
         origin = null;
-        moved = false;
-        selected = null;
+        s.committedMove = u.id;
+        selected = u.id;
         cinematic();
       } else battleUI();
     } else toast("Cette case n’est pas accessible pendant cette activation.");
@@ -1042,7 +1084,7 @@ function cancel() {
     E.visibility(state);
   }
   origin = null;
-  moved = false;
+  moved = !!state && state.committedMove === E.current(state)?.id;
   selected = state
     ? E.current(state)?.owner === state.active
       ? E.current(state)!.id
@@ -1096,6 +1138,31 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   const result = area
     ? E.resolveArea(state!, a, area)
     : E.resolve(state!, a, b);
+  if (!E.seen(state!, state!.active, a) || !E.seen(state!, state!.active, b)) {
+    for (const strike of result.strikes) E.applyStrike(state!, strike);
+    E.applyXp(state!, result);
+    E.visibility(state!);
+    busy = false;
+    finishTurn();
+    return;
+  }
+  initiativeCleanup?.();
+  initiativeCleanup = undefined;
+  await warmSprites([a, b], state?.teamColors, [
+    "idle",
+    "move",
+    "attack",
+    "counter",
+    "attack_offhand",
+    "block",
+    "damage",
+    "death",
+    "evade",
+    "combat_idle",
+    "combat_move",
+    "combat_damage",
+  ]);
+  if (attackEffect(a) || attackEffect(b)) await preloadEffects();
   screen = "combat";
   app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="background-image:url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="1200" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
   await new Promise<void>((done) => {
@@ -1275,7 +1342,16 @@ function renderCombat(time: number) {
     drawSprite(ctx, unit, x, 271, 180, index, flip, false, displayName);
   }
   ctx.globalAlpha = 1;
-  if (ranged && t > impact - 100 && t < impact) {
+  const magic = attackEffect(attacker);
+  if (magic)
+    drawSpell(
+      ctx,
+      magic,
+      t - impact,
+      { x: attLeft ? 310 : 865, y: 335 },
+      { x: attLeft ? 900 : 270, y: 335 },
+    );
+  if (!magic && ranged && t > impact - 100 && t < impact) {
     const progress = (t - impact + 100) / 100;
     ctx.fillStyle = "#e8d8ae";
     const x = attLeft ? 310 + progress * 560 : 865 - progress * 560;
@@ -1330,6 +1406,7 @@ async function enemyTurn() {
   const plan = E.ai(s, u);
   await animateMove(u, plan.x, plan.y);
   if (E.encounter(s)) {
+    s.encounterContinuation = { actorId: u.id, targetId: plan.target };
     cinematic();
     return;
   }
@@ -1355,7 +1432,7 @@ function resume() {
     selected = null;
     aim = null;
     origin = null;
-    moved = false;
+    moved = state.committedMove === E.current(state)?.id;
     if (state.phase === "summary" || state.phase === "camp") summary();
     else battleUI();
   } catch {
@@ -1363,6 +1440,8 @@ function resume() {
   }
 }
 function summary() {
+  initiativeCleanup?.();
+  initiativeCleanup = undefined;
   screen = "summary";
   const s = state!;
   s.phase = "summary";
@@ -1405,8 +1484,10 @@ function playerKnowledge() {
     .join("")}</div>`;
 }
 function defeat() {
+  initiativeCleanup?.();
+  initiativeCleanup = undefined;
   screen = "defeat";
-  app.innerHTML = `<main class="defeat"><span class="eyebrow">LA BRUME A REPRIS SES DROITS</span><h1>Le dernier feu<br>s’est éteint.</h1><p>Les deux chefs sont tombés. Vos expéditions n’ont plus de guide.</p>${button("Reprendre la sauvegarde", "continue", "primary", !localStorage.getItem("lte-save"))}${button("Nouvelle aventure", "new")}</main>`;
+  app.innerHTML = `<main class="defeat"><span class="eyebrow">LA BRUME A REPRIS SES DROITS</span><h1>Le dernier feu<br>s’est éteint.</h1><p>Une expédition a été anéantie. La partie est terminée.</p>${button("Reprendre la sauvegarde", "continue", "primary", !localStorage.getItem("lte-save"))}${button("Nouvelle aventure", "new")}</main>`;
 }
 function pause() {
   const modal = document.createElement("div");
@@ -1423,22 +1504,51 @@ app.addEventListener("click", async (e) => {
     prototypeTools &&
     (action === "dev-sprites" ||
       action === "dev-systems" ||
-      action === "dev-workshop" ||
+      action.startsWith("dev-workshop") ||
+      action === "dev-tests" ||
+      action === "dev-initiative" ||
       action === "dev-combat-preview")
   ) {
+    const request = ++developerRequest;
     developerCleanup?.();
+    developerCleanup = null;
     screen = "developer";
+    app.innerHTML = `<main class="dev-screen"><p role="status">Chargement du test…</p>${button("Menu principal", "title")}</main>`;
+    if (action === "dev-tests") {
+      const hub = await import("./dev/test-hub");
+      if (request !== developerRequest) return;
+      developerCleanup = hub.openTestHub(app, title);
+      return;
+    }
+    if (action === "dev-initiative") {
+      const view = await import("./dev/initiative-preview");
+      if (request !== developerRequest) return;
+      developerCleanup = view.openInitiativePreview(app, () => {
+        void import("./dev/test-hub").then((h) => {
+          developerCleanup?.();
+          developerCleanup = h.openTestHub(app, title);
+        });
+      });
+      return;
+    }
     if (action === "dev-combat-preview") {
       const preview = await import("./dev/combat-preview");
+      if (request !== developerRequest) return;
       developerCleanup = preview.openCombatPreview(app, title);
       return;
     }
-    if (action === "dev-workshop") {
+    if (action.startsWith("dev-workshop")) {
       const workshop = await import("./dev/workshop");
-      developerCleanup = workshop.openWorkshop(app, title);
+      if (request !== developerRequest) return;
+      developerCleanup = workshop.openWorkshop(
+        app,
+        title,
+        action.slice("dev-workshop-".length),
+      );
       return;
     }
     const tools = await import("./dev/tools");
+    if (request !== developerRequest) return;
     developerCleanup =
       action === "dev-sprites"
         ? tools.openGallery(app, title)
@@ -1687,7 +1797,7 @@ app.addEventListener("click", async (e) => {
   else if (action === "rules") {
     const modal = document.createElement("div");
     modal.className = "modal-back";
-    modal.innerHTML = `<section class="modal"><span class="eyebrow">LES LOIS DE CES TERRES</span><h2>Règles du combat</h2><p>Une activation par unité et par round, par initiative décroissante. En cas d’égalité : identifiant stable.</p><p>Dégâts = Force − Défense − couvert (minimum 1). Précision = précision de l’attaquant − 2 × agilité adverse, entre 25 et 98 %. Critique : moitié de l’agilité, minimum 2 %, dégâts ×3.</p><p>Un écart d’agilité de 4 permet une seconde frappe. Une contre-attaque exige une cible vivante, la bonne portée et une ligne de vue libre.</p><p>Les deux chefs morts entraînent la défaite. Après la rencontre, les champs de vision sont partagés et un nouveau round complet commence.</p>${playerKnowledge()}${button("Compris", "close-modal", "primary")}</section>`;
+    modal.innerHTML = `<section class="modal"><span class="eyebrow">LES LOIS DE CES TERRES</span><h2>Règles du combat</h2><p>Une activation par unité et par round, par initiative décroissante. En cas d’égalité : identifiant stable.</p><p>Dégâts = Force − Défense − couvert (minimum 1). Précision = précision de l’attaquant − 2 × agilité adverse, entre 25 et 98 %. Critique : moitié de l’agilité, minimum 2 %, dégâts ×3.</p><p>Un écart d’agilité de 4 permet une seconde frappe. Une contre-attaque exige une cible vivante, la bonne portée et une ligne de vue libre.</p><p>Après la rencontre, les champs de vision sont partagés ; le cycle d’initiative en cours continue.</p>${playerKnowledge()}${button("Compris", "close-modal", "primary")}</section>`;
     app.append(modal);
   } else if (action.startsWith("sheet-")) {
     const u = state!.units.find((u) => u.id === action.slice(6))!;

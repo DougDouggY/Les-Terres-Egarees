@@ -2,6 +2,8 @@ import type { Campaign, Unit } from "./types";
 import { path } from "./pathfinding";
 import { visibility } from "./vision";
 export function move(s: Campaign, u: Unit, x: number, y: number) {
+  if (s.committedMove === u.id)
+    throw Error("Le déplacement de cette activation est déjà engagé.");
   const p = path(s, u, x, y);
   if (!p || p.cost > u.move) throw Error("Déplacement impossible");
   if (u.x !== x || u.y !== y) {

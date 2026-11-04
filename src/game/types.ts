@@ -103,6 +103,10 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  initiativeVersion?: 2;
+  committedMove?: string;
+  encounterContinuation?: { actorId: string; targetId?: string };
+  previousInitiative?: Front;
   sandbox?: boolean;
   sandboxFlat?: boolean;
   recruitmentClaims?: Record<string, 1 | 2>;

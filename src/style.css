@@ -3046,3 +3046,106 @@ h2 {
 .combat-screen .duel-hp i {
   transition: width 0.18s;
 }
+
+/* Initiative is an overlay: its empty area leaves the tactical map visible. */
+.compact-battle .initiative-strip {
+  position: absolute;
+  z-index: 12;
+  top: 88px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(620px, 78vw);
+  height: 78px;
+  max-height: none;
+  padding: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+.initiative-strip .initiative-window {
+  flex: 1;
+  min-width: 0;
+  height: 78px;
+  overflow: hidden;
+  position: relative;
+  pointer-events: auto;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 8%,
+    #000 92%,
+    transparent
+  );
+}
+.initiative-strip .initiative-track {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: max-content;
+  height: 78px;
+  will-change: transform;
+  transition: transform 0.2s ease-out;
+}
+.initiative-strip .initiative-entry {
+  width: 64px;
+  flex: 0 0 64px;
+  height: 72px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  color: #ead9b2;
+  font-size: 30px;
+  display: grid;
+  place-items: center;
+}
+.initiative-strip .initiative-entry canvas {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  transition: transform 0.15s;
+  image-rendering: pixelated;
+}
+.initiative-strip .initiative-entry:hover canvas {
+  transform: scale(1.06);
+}
+.initiative-strip .initiative-entry.current {
+  border: 0;
+  box-shadow: inset 0 -2px #e4c787;
+  background: #13232038;
+}
+.initiative-strip .initiative-arrow {
+  flex: 0 0 26px;
+  width: 26px;
+  height: 46px;
+  background: #10201c55;
+  border: 0;
+  pointer-events: auto;
+  font-size: 26px;
+  padding: 0;
+}
+.initiative-strip .initiative-arrow:disabled {
+  opacity: 0.25;
+}
+.initiative-strip .initiative-cycle {
+  flex: 0 0 8px;
+  height: 36px;
+  border-left: 2px solid #cdbd86aa;
+  border-right: 2px solid #cdbd86aa;
+  margin: 0 7px;
+}
+@media (max-width: 700px) {
+  .compact-battle .initiative-strip {
+    top: 72px;
+    width: 95vw;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .initiative-strip .initiative-track,
+  .initiative-strip canvas {
+    transition: none;
+  }
+}

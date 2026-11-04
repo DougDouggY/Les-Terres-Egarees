@@ -1,3 +1,4 @@
+import { insertInitiative } from "./initiative";
 import { rules } from "../data/balance";
 import type { Campaign, Unit } from "./types";
 import { applyXp } from "./combat";
@@ -125,8 +126,7 @@ export function summon(s: Campaign, u: Unit, x: number, y: number) {
   summoned.summonTurns = tuning.summon.turns;
   summoned.summonedAt = s.activationSerial ?? 0;
   s.units.push(summoned);
-  const f = s.merged ? s.common : s.fronts[u.front - 1];
-  f.queue.push(summoned.id);
+  insertInitiative(s, [summoned.id]);
   observeSkill(s, u, "summon");
   discoverUnit(s, summoned, true);
   visibility(s);

@@ -24,20 +24,35 @@ Les attaques validées de l’Homme d’armes et du Pillard masculins restent su
 
 Restent : dessins spécifiques de critiques, esquives et variantes indiquées manquantes, certaines séquences provisoires et contrôles artistiques des pointes proches des bords. Consulter `SPRITES-PRODUCTION-REPORT.json` et `SPRITE-AUDIT.json` pour le détail exact. **L’étape 1 n’est pas annoncée terminée.**
 
-## Étapes suivantes — à réaliser dans l’ordre demandé
+## État des étapes après le retour sur l’initiative
 
 2. Prévision de combat compacte et symétrique, calculs inchangés.
 3. Interface tactique : objectif discret, pause/options, sélection par coins, zones utiles et menu contextuel.
-4. Initiative globale dès le départ, cinématique sans remise à zéro, barre centrée et navigation finie.
-5. Brouillard par perspective : une case « ? » par acteur inconnu, aucune fuite de données.
+4. Réalisé : initiative globale dès le départ, cinématique sans remise à zéro, barre transparente centrée et navigation finie.
+5. Réalisé pour la barre et les scènes : une case « ? » par acteur inconnu, sans nom/classe/faction/position dans les attributs ; scènes contenant une unité inconnue non affichées. Vision indépendante avant rencontre, partage après rencontre conservé.
 6. Hors combat puis tirage unique en fin de chapitre : 95 % mort définitive, 5 % survie ; indisponibilité pendant le chapitre suivant, résultat immédiatement persisté. Dialogue de pertes configurable.
 7. Non-régression et publication de la version validée.
 
-La règle de défaite convenue ci-dessus doit être implémentée avec l’étape 6 ; le moteur actuel n’a pas encore été modifié pour cette phase.
+La règle de défaite convenue est implémentée : toute une expédition perdue arrête la partie, la chute du seul héros ne suffit pas. Le tirage 95 % / 5 %, le repos et la persistance des morts restent à réaliser.
 
 ## Vérifications de cette livraison visuelle
 
-- 28 tests Node réussis : catalogue réel, images protégées, recoloration et systèmes indépendants.
-- 13 tests Chromium réussis : galerie, neuf palettes, comparaison synchronisée, zoom net, lecture des poses et cadrage de toutes les séquences complémentaires.
+- 37 tests Node réussis : catalogue réel, images protégées, recoloration et systèmes indépendants.
+- 19 tests Chromium réussis : galerie, neuf palettes, comparaison synchronisée, zoom net, lecture des poses et cadrage de toutes les séquences complémentaires.
 - Compilations publique et prototype ; contrôle de l’absence des outils de développement dans le build public.
 - Aucun lancement de la première mission pendant ces vérifications.
+
+## Livraison initiative, tests et magie
+
+Priorité actualisée explicitement par l’utilisateur : travailler sur la barre d’initiative, faciliter les tests de combat, corriger les variations de taille et ajouter des effets magiques.
+
+- Une file commune réelle aux deux expéditions et aux ennemis, égalités déterministes, une activation par cycle. Reprise conservatrice des anciennes sauvegardes en gardant l’acteur courant et les tours déjà dépensés.
+- Rencontre sans remise à zéro ; déplacement déjà engagé conservé dans la sauvegarde et protégé dans le moteur. L’ennemi reprend son action après la scène sans effectuer un second déplacement.
+- Barre statique sans étiquette de faction ni nom sous les sprites, centrage, léger zoom au survol, flèches bornées, doubles séparateurs de cycles. Les cases inconnues ne contiennent aucune identité dans leur DOM.
+- Menu principal → **Tests de combat** : échange réel toutes classes, deux armes, arc/arbalète, soins alliés, feu, éclairs, initiative et accès aux outils existants.
+- Atelier : changements de classe immédiats, armes sélectionnables, PV et munitions restaurés pour rejouer un échange, cible de soin affichée et réutilisée sans dupliquer les unités, ralenti et pause. Les recrues de test ont des choix de classes fictifs limités au sandbox et respectent leur plafond de niveau.
+- Échelle du corps et ancrage des pieds calculés indépendamment des dimensions de la planche et des pointes d’armes. Taille stable entre repos, approche, attaque, recul, défense et soin. Transition d’échelle progressive pendant la transformation.
+- Un atlas partagé de 18 effets : six poses de soin vert/doré, six de feu et six d’éclairs. Ces mêmes ressources sont utilisées par les tests et le jeu. La magie offensive des Chevaliers utilise le feu ; celle des Vikings utilise les éclairs. Les arcs/arbalètes gardent leurs flèches.
+- Préchargement et préparation des recolorations avant les séquences jouées une seule fois ; la copie de carte de l’atelier n’est plus repeinte à 60 images/s.
+
+Carte, décors, dimensions, composition et placements initiaux, calculs de dégâts/précision, critiques et ordre des frappes conservés. Aucun lancement du premier combat de campagne dans les vérifications ; les nouveaux tests utilisent des fixtures indépendantes.

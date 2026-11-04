@@ -116,8 +116,8 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       ctx.strokeStyle = "#e7d297aa";
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(x, y + h * 0.96);
-      ctx.lineTo(x + w, y + h * 0.96);
+      ctx.moveTo(x, y + h * 0.9);
+      ctx.lineTo(x + w, y + h * 0.9);
       ctx.stroke();
     }
     return r;
@@ -508,13 +508,8 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
     }
     const canvas = app.querySelector<HTMLCanvasElement>("#sprite-canvas");
     if (canvas && clip) {
-      const image = spriteImage(clip.source),
-        w = image.naturalWidth
-          ? Math.round(image.naturalWidth / clip.columns)
-          : 128,
-        h = image.naturalHeight
-          ? Math.round(image.naturalHeight / clip.rows)
-          : 128;
+      const w = 128,
+        h = 128;
       if (canvas.width !== w * zoom || canvas.height !== h * zoom) {
         canvas.width = w * zoom;
         canvas.height = h * zoom;

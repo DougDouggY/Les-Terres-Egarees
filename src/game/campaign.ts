@@ -16,11 +16,13 @@ import { key, cell, map, distance, MAP_REVISION, village } from "./map";
 import { makeUnit } from "./units";
 import { alive, at } from "./queries";
 import { visibility } from "./vision";
-const order = (units: Unit[]) =>
-  units
-    .filter((u) => u.hp > 0)
-    .sort((a, b) => b.initiative - a.initiative || a.id.localeCompare(b.id))
-    .map((u) => u.id);
+import {
+  initiativeOrder as order,
+  globalInitiative,
+  stepInitiative,
+  insertInitiative,
+  followInitiative,
+} from "./initiative";
 export function createCampaign(
   factions: [Faction, Faction],
   heroes?: [HeroConfig, HeroConfig],
@@ -118,7 +120,8 @@ export function createCampaign(
       { round: 1, queue: order(units.filter((u) => u.front === 1)), index: 0 },
       { round: 1, queue: order(units.filter((u) => u.front === 2)), index: 0 },
     ],
-    common: { round: 1, queue: [], index: 0 },
+    common: { round: 1, queue: order(units), index: 0 },
+    initiativeVersion: 2,
     merged: false,
     events: [],
     scene: null,
@@ -135,10 +138,10 @@ export function createCampaign(
   };
   for (const u of units.filter((u) => u.owner !== 0)) discoverUnit(s, u, true);
   visibility(s);
+  followInitiative(s);
   return s;
 }
-export const front = (s: Campaign) =>
-  s.merged ? s.common : s.fronts[s.active - 1];
+export const front = globalInitiative;
 export const current = (s: Campaign) =>
   s.units.find((u) => u.id === front(s).queue[front(s).index]);
 export function log(s: Campaign, msg: string, owner?: 1 | 2) {
@@ -168,6 +171,7 @@ export function encounter(s: Campaign) {
 }
 export function merge(s: Campaign) {
   if (s.merged) return;
+  globalInitiative(s);
   s.merged = true;
   // A finite final defence guarantees a real common battle, even if both fronts
   // have already cleared every roaming enemy before discovering one another.
@@ -207,31 +211,22 @@ export function merge(s: Campaign) {
   }
   event(s, "sanctuary-guards");
   log(s, "Deux sentinelles émergent des ruines. Tenez les deux flancs !");
-  s.common = { round: 1, index: 0, queue: order(alive(s)) };
+  insertInitiative(
+    s,
+    s.units.filter((u) => u.id.startsWith("sanctuary-")).map((u) => u.id),
+  );
   event(s, "meeting");
   visibility(s);
   log(
     s,
-    "Les champs de vision sont partagés. Un nouveau round commun commence.",
+    "Les champs de vision sont partagés. L’ordre d’initiative se poursuit.",
   );
 }
 export function advance(s: Campaign) {
+  delete s.committedMove;
   finishActivationSkills(s);
-  const f = front(s);
-  do {
-    f.index++;
-  } while (
-    f.index < f.queue.length &&
-    !s.units.find((u) => u.id === f.queue[f.index] && u.hp > 0)
-  );
-  if (f.index >= f.queue.length) {
-    f.round++;
-    f.index = 0;
-    f.queue = order(alive(s).filter((u) => s.merged || u.front === s.active));
-  }
-  const r = s.merged
-    ? Math.max(...s.fronts.map((f) => f.round))
-    : Math.max(...s.fronts.map((f) => f.round));
+  stepInitiative(s);
+  const r = front(s).round;
   if (r >= 2 && event(s, "storm")) {
     log(s, "L’orage revient. La terre se souvient.");
   }
@@ -253,6 +248,7 @@ export function advance(s: Campaign) {
           ),
         );
     }
+    insertInitiative(s, ["e5", "e6"], false);
     log(s, "La horde approche. Atteignez le sanctuaire !");
   }
   const next = current(s);
@@ -260,7 +256,12 @@ export function advance(s: Campaign) {
   checkEnd(s);
 }
 export function checkEnd(s: Campaign) {
-  if (!alive(s).some((u) => u.owner !== 0 && u.leader)) {
+  if (
+    !s.sandbox &&
+    ([1, 2] as const).some(
+      (owner) => !alive(s).some((u) => u.owner === owner && !u.summonedBy),
+    )
+  ) {
     for (const u of s.units) if (u.summonedBy) u.hp = 0;
     s.phase = "defeat";
     s.scene = null;

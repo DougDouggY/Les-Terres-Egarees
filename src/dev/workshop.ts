@@ -1,3 +1,10 @@
+import {
+  attackEffect,
+  drawSpell,
+  drawArrow,
+  drawHealing,
+  preloadEffects,
+} from "../ui/combat-effects";
 import "./tools.css";
 import * as E from "../engine";
 import {
@@ -11,6 +18,7 @@ import {
 } from "../game/sandbox";
 import {
   drawResourceFrame,
+  warmSprites,
   unitSpriteProfile,
   unitVisualNote,
 } from "../sprites/resources";
@@ -31,7 +39,11 @@ const esc = (s: string) =>
         c
       ]!,
   );
-export function openWorkshop(app: HTMLElement, onBack: () => void) {
+export function openWorkshop(
+  app: HTMLElement,
+  onBack: () => void,
+  preset = "",
+) {
   let s = createSandbox(),
     left = "man_at_arms",
     right = "raider",
@@ -40,6 +52,7 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
     seed = 12345,
     animation = "idle",
     playing = true,
+    playbackSpeed = 1,
     flip = false,
     started = performance.now(),
     result: E.Battle | undefined,
@@ -49,12 +62,75 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
     output =
       "Aucune campagne chargée. Les paramètres ci-dessous concernent seulement cet atelier.",
     selected = "";
+  const presetClasses: Record<string, string> = {
+    heal: "shaman",
+    fire: "sorcerer",
+    lightning: "volva",
+    dual: "duelist",
+    ranged: "crossbowman",
+  };
+  if (presetClasses[preset]) left = presetClasses[preset];
+  let support:
+    | {
+        sprite: E.Unit;
+        target?: E.Unit;
+        animation: string;
+        start: number;
+        beforeHp?: number;
+      }
+    | undefined;
+  let supportTargetId: string | undefined;
+  let disposed = false,
+    revision = 0,
+    loading = false;
+  const actors = () =>
+    support?.target ? [s.units[0], support.target] : s.units.slice(0, 2);
+  const prepare = async () => {
+    status("Chargement des sprites…");
+    app
+      .querySelectorAll<HTMLButtonElement>("[data-duel],[data-skill]")
+      .forEach((b) => (b.disabled = true));
+    await Promise.all([
+      warmSprites(
+        [...actors(), ...(support ? [support.sprite] : [])],
+        s.teamColors,
+        support
+          ? ["idle", support.animation]
+          : [
+              "idle",
+              "move",
+              "attack",
+              "counter",
+              "attack_offhand",
+              "critical",
+              "block",
+              "damage",
+              "death",
+              "evade",
+              "combat_idle",
+              "combat_move",
+              "combat_damage",
+            ],
+      ),
+      preloadEffects(),
+    ]);
+    if (!disposed)
+      app
+        .querySelectorAll<HTMLButtonElement>("[data-duel],[data-skill]")
+        .forEach((b) => (b.disabled = false));
+  };
   const mapCopy = copyValidatedMap(),
     terrainImage = new Image();
   terrainImage.src = import.meta.env.BASE_URL + "assets/regional-tiles.png";
   const terrain = new TerrainRenderer(terrainImage);
   let raf = 0;
   function reset() {
+    revision++;
+    support = undefined;
+    supportTargetId = undefined;
+    loading = false;
+    animation = "idle";
+    started = performance.now();
     s = createSandbox(seed);
     const a = trainingUnit(s, left, level, promotedLevel),
       b = trainingUnit(s, right, level, promotedLevel, 0);
@@ -67,7 +143,6 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
   }
   const options = (id: string) =>
     Object.values(E.classes)
-      .filter((c) => c.stage !== "recruit")
       .map(
         (c) =>
           `<option value="${c.id}" ${c.id === id ? "selected" : ""}>${c.name}</option>`,
@@ -83,8 +158,8 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
       )
       .join(
         "",
-      )}</select></label><button data-play>${playing ? "Arrêter" : "Lancer"}</button><button data-replay>Rejouer</button><label><input id="lab-flip" type="checkbox" ${flip ? "checked" : ""}>Orientation inversée</label></div><div class="lab-panels">${s.units
-      .slice(0, 2)
+      )}</select></label><label>Vitesse<select id="lab-speed">${[0.25, 0.5, 1].map((v) => `<option value="${v}" ${v === playbackSpeed ? "selected" : ""}>×${v}</option>`).join("")}</select></label><button data-play>${playing ? "Arrêter" : "Lancer"}</button><button data-replay>Rejouer</button><label><input id="lab-flip" type="checkbox" ${flip ? "checked" : ""}>Orientation inversée</label></div><div class="lab-panels">${s.units
+      .filter((u) => actors().includes(u))
       .map((u) => {
         const p = E.forecast(
           u,
@@ -92,7 +167,7 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
           s,
           { counter: u.owner === 0 },
         );
-        return `<section style="border-color:rgb(${E.teamPalette[E.colorForOwner(s.teamColors, u.owner)].rgb})"><h2>${esc(u.name)}</h2><p>${E.weaponName(u)} · ${E.powerLabel(u)} ${u.strength} · DÉF ${u.defense} · AGI ${E.effectiveAgility(u)} · INIT ${u.initiative}</p><b>PRÉCISION ${p.hit}% · DÉGÂTS ${p.damage}</b><div class="bar hp"><i data-lab-hp="${u.id}" style="width:${(u.hp / u.maxHp) * 100}%"></i></div><span data-lab-value="${u.id}">${u.hp} / ${u.maxHp} PV</span><p>${esc(unitVisualNote(u))}</p></section>`;
+        return `<section style="border-color:rgb(${E.teamPalette[E.colorForOwner(s.teamColors, u.owner)].rgb})"><h2>${esc(u.name)}</h2><label>Arme<select data-lab-weapon="${u.id}">${(u.carriedWeapons ?? []).map((id) => `<option value="${id}" ${id === u.activeWeaponId ? "selected" : ""}>${E.weaponCatalog[id].name}</option>`).join("")}</select></label><p>${E.weaponName(u)} · ${E.powerLabel(u)} ${u.strength} · DÉF ${u.defense} · AGI ${E.effectiveAgility(u)} · INIT ${u.initiative}</p><b>PRÉCISION ${p.hit}% · DÉGÂTS ${p.damage}</b><div class="bar hp"><i data-lab-hp="${u.id}" style="width:${(u.hp / u.maxHp) * 100}%"></i></div><span data-lab-value="${u.id}">${u.hp} / ${u.maxHp} PV</span><p>${esc(unitVisualNote(u))}</p></section>`;
       })
       .join(
         "",
@@ -111,15 +186,61 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
         seed = Number(
           (app.querySelector("#lab-seed") as HTMLInputElement).value,
         );
+        reset();
       };
     app.querySelector<HTMLElement>("[data-reset]")!.onclick = reset;
-    app.querySelector<HTMLElement>("[data-duel]")!.onclick = () => {
+    app.querySelectorAll<HTMLSelectElement>("[data-lab-weapon]").forEach(
+      (b) =>
+        (b.onchange = () => {
+          const u = s.units.find((u) => u.id === b.dataset.labWeapon)!;
+          u.activeWeaponId = b.value;
+          E.syncWeapon(u);
+          support = undefined;
+          result = undefined;
+          render();
+        }),
+    );
+    app.querySelector<HTMLElement>("[data-duel]")!.onclick = async () => {
+      if (loading) return;
+      revision++;
+      support = undefined;
+      result = undefined;
+      animation = "idle";
+      s.seed = seed;
+      if (supportTargetId) {
+        s.units = s.units.filter((u) => u.id !== supportTargetId);
+        s.common.queue = s.common.queue.filter((id) => id !== supportTargetId);
+        supportTargetId = undefined;
+      }
+      s.units.slice(0, 2).forEach((u) => {
+        u.hp = u.maxHp;
+        if (E.activeWeapon(u).reload) u.crossbowLoaded = true;
+      });
+      s.common.index = s.common.queue.indexOf(s.units[0].id);
+      s.active = 1;
+      render();
+      const a = s.units[0],
+        b = s.units[1];
+      b.x = a.x + Math.max(1, a.minRange);
+      b.y = a.y;
+      if (E.activeWeapon(a).category === "healing") {
+        status(
+          "Arme de soins : choisissez « Soins d’un allié blessé » ou équipez une arme offensive.",
+        );
+        return;
+      }
+      const token = revision;
+      loading = true;
+      await prepare();
+      if (disposed || token !== revision) return;
+      loading = false;
       try {
         result = E.resolve(s, s.units[0], s.units[1]);
         index = 0;
         applied = false;
         started = performance.now();
         playing = true;
+        app.querySelector("[data-play]")!.textContent = "Arrêter";
         output = JSON.stringify(result.strikes, null, 2);
         (app.querySelector("#lab-output") as HTMLElement).textContent = output;
       } catch (e) {
@@ -129,7 +250,16 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
     app.querySelector<HTMLSelectElement>("#lab-animation")!.onchange = (e) => {
       animation = (e.target as HTMLSelectElement).value;
       result = undefined;
+      support = undefined;
       started = performance.now();
+    };
+    app.querySelector<HTMLSelectElement>("#lab-speed")!.onchange = (e) => {
+      const next = Number((e.target as HTMLSelectElement).value),
+        now = performance.now();
+      started = now - ((now - started) * playbackSpeed) / next;
+      if (support && Number.isFinite(support.start))
+        support.start = now - ((now - support.start) * playbackSpeed) / next;
+      playbackSpeed = next;
     };
     app.querySelector<HTMLElement>("[data-play]")!.onclick = () => {
       playing = !playing;
@@ -140,7 +270,9 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
     app.querySelector<HTMLElement>("[data-replay]")!.onclick = () => {
       result = undefined;
       started = performance.now();
+      if (support) support.start = started;
       playing = true;
+      app.querySelector("[data-play]")!.textContent = "Arrêter";
     };
     app.querySelector<HTMLInputElement>("#lab-flip")!.onchange = (e) =>
       (flip = (e.target as HTMLInputElement).checked);
@@ -176,9 +308,13 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
     );
     app.querySelectorAll<HTMLElement>("[data-skill]").forEach(
       (b) =>
-        (b.onclick = () => {
+        (b.onclick = async () => {
+          if (loading) return;
           try {
             const u = s.units[0];
+            const snapshot = structuredClone(u);
+            let effectTarget: E.Unit | undefined, beforeHp: number | undefined;
+            result = undefined;
             s.common.index = s.common.queue.indexOf(u.id);
             s.active = 1;
             const action = b.dataset.skill;
@@ -208,6 +344,10 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
               animation = "charge";
             } else if (action === "next") {
               finishTrainingActivation(s);
+              support = undefined;
+              animation = "idle";
+              render();
+              return;
             } else {
               if (
                 action === "heal" &&
@@ -215,15 +355,23 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
                 !E.hasSkill(u, "bandage")
               )
                 throw Error("Cette classe ne soigne pas");
-              const t = trainingUnit(s, "man_at_arms", 1, 1, 1);
+              const t =
+                s.units.find((u) => u.id === supportTargetId) ??
+                trainingUnit(s, "man_at_arms", 1, 1, 1);
+              supportTargetId = t.id;
+              t.name = "Allié blessé";
+              effectTarget = t;
               t.x = u.x;
               t.y = u.y + 1;
               t.hp = Math.max(1, t.maxHp - 16);
+              beforeHp = t.hp;
               if (action === "heal") {
                 const w = u.carriedWeapons?.find(
                   (id) => E.weaponCatalog[id].category === "healing",
                 );
                 if (w) E.equipWeapon(s, u, w);
+                snapshot.activeWeaponId = u.activeWeaponId;
+                E.syncWeapon(snapshot);
                 E.healTarget(s, u, t);
                 animation = "heal";
               } else {
@@ -231,8 +379,28 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
                 animation = "buff";
               }
             }
-            started = performance.now();
+            support = {
+              sprite: snapshot,
+              target: effectTarget,
+              animation,
+              start: Infinity,
+              beforeHp,
+            };
+            const token = revision;
+            loading = true;
             render();
+            await prepare();
+            if (disposed || token !== revision) return;
+            loading = false;
+            started = performance.now();
+            support.start = started;
+            playing = true;
+            app.querySelector("[data-play]")!.textContent = "Arrêter";
+            status(
+              effectTarget
+                ? `Soin allié : ${beforeHp} → ${effectTarget.hp} PV.`
+                : "Animation de capacité.",
+            );
           } catch (e) {
             status((e as Error).message);
           }
@@ -268,10 +436,15 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
     const el = app.querySelector("#lab-status");
     if (el) el.textContent = t;
   }
+  let lastMapCanvas: HTMLCanvasElement | null = null,
+    lastMapFrame = -Infinity;
   let pausedTime = 0,
     last = performance.now();
   function tick(now: number) {
-    if (!playing) started += now - last;
+    if (!playing) {
+      started += now - last;
+      if (support) support.start += now - last;
+    }
     last = now;
     const canvas = app.querySelector<HTMLCanvasElement>("#lab-battle");
     if (canvas) {
@@ -294,7 +467,7 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
           strikeAnimation(unitSpriteProfile(attacker), hit),
         );
         pose = combatPose(
-          now - started,
+          (now - started) * playbackSpeed,
           c?.frames.length ?? 1,
           c?.fps ?? 8,
           attacker.range > 1,
@@ -305,7 +478,7 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
             linkedAfter: linkedStrikes(hit, result?.strikes[index + 1]),
           },
         );
-        if (now - started >= pose.impact && !applied) {
+        if ((now - started) * playbackSpeed >= pose.impact && !applied) {
           E.applyStrike(s, hit);
           applied = true;
           const bar = app.querySelector<HTMLElement>(
@@ -319,14 +492,27 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
             `${hit.critical ? "CRITIQUE · " : ""}${hit.blocked ? "PARADE · " : ""}${hit.hit ? "-" + hit.damage + " PV" : "ESQUIVE"}${hit.counter ? " · RIPOSTE" : ""}`,
           );
         }
-        if (now - started > pose.total) {
+        if ((now - started) * playbackSpeed > pose.total) {
           index++;
           started = now;
           applied = false;
         }
       }
-      for (const [i, u] of s.units.slice(0, 2).entries()) {
-        const p = unitSpriteProfile(u),
+      for (const [i, u] of actors().entries()) {
+        const supportClip =
+          support &&
+          resolveClip(unitSpriteProfile(support.sprite), support.animation);
+        const supportDuration = support
+          ? Math.max(
+              1100,
+              ((supportClip?.frames.length ?? 1) / (supportClip?.fps ?? 8)) *
+                1000,
+            )
+          : 0;
+        const supporting =
+          !!support && (now - support.start) * playbackSpeed < supportDuration;
+        const visual = supporting && i === 0 ? support!.sprite : u;
+        const p = unitSpriteProfile(visual),
           isAtt = attacker?.id === u.id;
         let action = hit
           ? isAtt
@@ -340,7 +526,13 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
                     : "damage"
                   : "evade"
               : "idle"
-          : animation;
+          : u.hp <= 0
+            ? "death"
+            : support
+              ? supporting && i === 0
+                ? support.animation
+                : "idle"
+              : animation;
         if (hit && isAtt && ["attack", "counter"].includes(action))
           action = strikeAnimation(p, hit);
         const c = resolveClip(p, action),
@@ -348,11 +540,22 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
             ? isAtt
               ? pose!.index
               : Math.floor(
-                  (Math.max(0, now - started - (pose?.impact ?? 0)) *
+                  (Math.max(
+                    0,
+                    (now - started) * playbackSpeed - (pose?.impact ?? 0),
+                  ) *
                     (c?.fps ?? 8)) /
                     1000,
                 )
-            : Math.floor(((now - started) * (c?.fps ?? 8)) / 1000);
+            : Math.max(
+                0,
+                Math.floor(
+                  ((now - (support?.start ?? started)) *
+                    playbackSpeed *
+                    (c?.fps ?? 8)) /
+                    1000,
+                ),
+              );
         let x = i === 0 ? 160 : 800;
         if (isAtt) x += (i === 0 ? 1 : -1) * (pose?.travel ?? 0) * 420;
         ctx.save();
@@ -365,13 +568,16 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
           ctx,
           p,
           c ? action : "idle",
-          f,
+          ["idle", "move", "combat_idle", "combat_move"].includes(action)
+            ? f
+            : Math.min((c?.frames.length ?? 1) - 1, f),
           x,
           210,
           220,
           220,
           true,
           E.colorForOwner(s.teamColors, u.owner),
+          "world",
         );
         ctx.restore();
         if (!hit) {
@@ -385,31 +591,98 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
         }
       }
     }
-    const m = app.querySelector<HTMLCanvasElement>("#lab-map"),
-      surface = terrain.layer("regional", s.factions);
-    if (m && surface) {
-      const ctx = m.getContext("2d")!;
-      ctx.imageSmoothingEnabled = false;
-      ctx.drawImage(surface, 0, 0, m.width, m.height);
-      for (const u of s.units.filter((u) => u.hp > 0))
-        drawResourceFrame(
-          ctx,
-          unitSpriteProfile(u),
-          "idle",
-          Math.floor(now / 500) % 2,
-          u.x * 32,
-          u.y * 32,
-          32,
-          32,
-          true,
-          E.colorForOwner(s.teamColors, u.owner),
+    const fxCanvas = app.querySelector<HTMLCanvasElement>("#lab-battle");
+    if (fxCanvas) {
+      const ctx = fxCanvas.getContext("2d")!;
+      const hit = result?.strikes[index],
+        a = hit && s.units.find((u) => u.id === hit.attacker);
+      const kind = a && attackEffect(a);
+      fxCanvas.dataset.elapsed = String((now - started) * playbackSpeed);
+      fxCanvas.dataset.effect =
+        kind ?? (support?.animation === "heal" ? "heal" : "none");
+      if (
+        hit &&
+        a &&
+        (kind || ["bow", "crossbow"].includes(E.activeWeapon(a).category))
+      ) {
+        const c = resolveClip(
+          unitSpriteProfile(a),
+          strikeAnimation(unitSpriteProfile(a), hit),
         );
+        const timing = combatPose(
+          (now - started) * playbackSpeed,
+          c?.frames.length ?? 1,
+          c?.fps ?? 8,
+          a.range > 1,
+          hit.counter,
+          c?.impactFrame,
+        );
+        fxCanvas.dataset.impact = String(timing.impact);
+        const forward = a.id === s.units[0].id;
+        const from = { x: forward ? 330 : 840, y: 325 },
+          to = { x: forward ? 890 : 270, y: 325 },
+          elapsed = (now - started) * playbackSpeed - timing.impact;
+        if (kind) drawSpell(ctx, kind, elapsed, from, to, 120);
+        else drawArrow(ctx, elapsed, from, to);
+      }
+      if (support?.animation === "heal" && support.target) {
+        const t = (now - support.start) * playbackSpeed;
+        drawHealing(ctx, t, 910, 420, 220);
+        const hp = Math.round(
+          (support.beforeHp ?? support.target.hp) +
+            (support.target.hp - (support.beforeHp ?? support.target.hp)) *
+              Math.max(0, Math.min(1, (t - 350) / 350)),
+        );
+        const bar = app.querySelector<HTMLElement>(
+          `[data-lab-hp="${support.target.id}"]`,
+        );
+        if (bar) bar.style.width = `${(hp / support.target.maxHp) * 100}%`;
+        const value = app.querySelector(
+          `[data-lab-value="${support.target.id}"]`,
+        );
+        if (value) value.textContent = `${hp} / ${support.target.maxHp} PV`;
+      }
+    }
+    const m = app.querySelector<HTMLCanvasElement>("#lab-map");
+    if (m && (m !== lastMapCanvas || now - lastMapFrame >= 500)) {
+      const surface = terrain.layer("regional", s.factions);
+      if (surface) {
+        lastMapCanvas = m;
+        lastMapFrame = now;
+        const ctx = m.getContext("2d")!;
+        ctx.imageSmoothingEnabled = false;
+        ctx.drawImage(surface, 0, 0, m.width, m.height);
+        for (const u of s.units.filter((u) => u.hp > 0))
+          drawResourceFrame(
+            ctx,
+            unitSpriteProfile(u),
+            "idle",
+            Math.floor(now / 500) % 2,
+            u.x * 32,
+            u.y * 32,
+            32,
+            32,
+            true,
+            E.colorForOwner(s.teamColors, u.owner),
+          );
+      }
     }
     raf = requestAnimationFrame(tick);
   }
   reset();
+  if (["heal", "fire", "lightning", "dual", "ranged"].includes(preset))
+    queueMicrotask(() => {
+      if (disposed) return;
+      app
+        .querySelector<HTMLButtonElement>(
+          preset === "heal" ? '[data-skill="heal"]' : "[data-duel]",
+        )
+        ?.click();
+    });
   raf = requestAnimationFrame(tick);
   return () => {
+    disposed = true;
+    revision++;
     cancelAnimationFrame(raf);
     terrain.reset();
   };

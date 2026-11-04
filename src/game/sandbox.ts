@@ -17,6 +17,7 @@ export function createSandbox(seed = 92481): Campaign {
   });
   return {
     version: 1,
+    initiativeVersion: 2,
     sandbox: true,
     sandboxFlat: true,
     factions: ["north", "knight"],
@@ -57,6 +58,13 @@ export function trainingUnit(
       c.name,
       30 + s.units.length,
       20,
+      "male",
+      c.stage === "recruit"
+        ? (Object.values(classes)
+            .filter((x) => x.stage === "base" && x.faction === c.faction)
+            .slice(0, 2)
+            .map((x) => x.id) as [string, string])
+        : undefined,
     );
   s.units.push(u);
   if (base !== classId && c.stage === "advanced") {
@@ -64,7 +72,8 @@ export function trainingUnit(
     promote(s, u, classId);
     while (u.level < promotedLevel) gainLevel(s, u);
   } else {
-    while (u.level < level) gainLevel(s, u);
+    while (u.level < Math.min(level, classes[u.classId!].maxLevel))
+      gainLevel(s, u);
   }
   u.owner = owner;
   u.hp = u.maxHp;
