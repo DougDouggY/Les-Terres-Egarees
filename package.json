@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc --noEmit && vite build",
-    "test": "node --import tsx --test tests/*.test.ts",
+    "test": "npm run test:visual && npm run test:systems",
     "preview": "vite preview --host 0.0.0.0",
     "test:e2e": "npm run build -- --base=/Les-Terres-Egarees/ && npm run build:prototype -- --base=/Les-Terres-Egarees/ --outDir dist-prototype && playwright test",
     "format": "prettier --write src tests docs playwright.config.ts package.json tsconfig.json index.html",
@@ -15,7 +15,8 @@
     "check:prototype": "node scripts/check-public.mjs --prototype",
     "test:visual": "node --import tsx --test tests/visual-library.test.ts",
     "test:visual-ui": "playwright test --config=playwright.visual.config.ts",
-    "report:sprites": "node --import tsx scripts/sprite-report.ts"
+    "report:sprites": "node --import tsx scripts/sprite-report.ts",
+    "test:systems": "node --import tsx --test tests/systems-independent.test.ts"
   },
   "devDependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",

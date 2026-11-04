@@ -1,0 +1,13 @@
+{
+  "sources": 22,
+  "correctedFrames": 33,
+  "issues": [
+    {
+      "source": "tactical/team-sample-combat.png",
+      "column": 0,
+      "problem": "S\u00e9paration ambigu\u00eb des figures",
+      "expected": 4,
+      "detected": 3
+    }
+  ]
+}

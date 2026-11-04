@@ -17,3 +17,8 @@ export * from "./game/equipment";
 export * from "./game/skills";
 
 export * from "./game/team-colors";
+
+export * from "./game/progression";
+export * from "./game/recruitment";
+export * from "./data/companions";
+export {rules,baseBalance,promotionBonuses} from "./data/balance";

@@ -24,7 +24,7 @@ jobs:
           node-version: "24"
           cache: npm
       - run: npm ci --no-audit --no-fund
-      - run: npm run test:visual
+      - run: npm test
       - run: npm run build:prototype -- --base=/Les-Terres-Egarees/
       - run: npm run check:prototype
       - uses: actions/upload-pages-artifact@v3

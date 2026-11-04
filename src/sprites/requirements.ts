@@ -10,7 +10,7 @@ export function requiredAnimations(
     ...(p.state === "fortified" ? [] : ["move"]),
     ...(c.offensive === false || p.equipment === "healing"
       ? []
-      : ["attack", "counter"]),
+      : ["attack", "counter", "critical"]),
     "damage",
     "death",
     "evade",
@@ -30,6 +30,8 @@ export function requiredAnimations(
     names.push(
       ...((
         {
+          transform: ["transform"],
+          buff: ["buff"],
           heal: ["heal"],
           bandage: ["heal"],
           summon: ["summon"],

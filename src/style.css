@@ -2866,3 +2866,150 @@ h2 {
     width: 155px;
   }
 }
+/* The action dock occupies layout space; it never follows or covers a destination. */
+.compact-battle .unit-actions {
+  position: static !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+  max-height: 24vh;
+  overflow: auto;
+  padding: 8px 16px;
+  background: #10231f;
+  border: 1px solid #bda77b55;
+  box-shadow: none;
+  transform: none;
+}
+.compact-battle .unit-actions[hidden] {
+  display: none !important;
+}
+.unit-actions button {
+  width: auto !important;
+  min-width: 100px;
+  padding: 8px 12px !important;
+}
+.unit-actions strong {
+  margin-right: 12px;
+}
+.initiative-strip {
+  display: flex;
+  flex-shrink: 0;
+  gap: 5px;
+  overflow-x: auto;
+  max-height: 76px;
+  padding: 3px 16px;
+  background: #10201e;
+}
+.initiative-strip button {
+  flex: 0 0 64px;
+  padding: 0;
+  height: 67px;
+  border: 1px solid #ffffff20;
+  position: relative;
+}
+.initiative-strip canvas {
+  width: 52px;
+  height: 52px;
+  image-rendering: pixelated;
+  transition: transform 0.15s;
+}
+.initiative-strip button:hover canvas {
+  transform: scale(1.12);
+}
+.initiative-strip .current {
+  border: 2px solid #e4c787;
+  background: #bca77333;
+}
+.initiative-strip small {
+  display: block;
+  font-size: 8px;
+  line-height: 8px;
+}
+.combat-names section {
+  border: 1px solid var(--team-color, #bfa87b);
+  background: #091614dd;
+  padding: 10px 20px;
+  border-top: 4px solid var(--team-color, #bfa87b);
+}
+.combat-names .combat-stat {
+  display: inline-block;
+  margin: 5px 10px 0 0;
+  font:
+    12px Manrope,
+    sans-serif;
+  color: #edddba;
+}
+.combat-names .bar i {
+  transition: width 0.25s ease;
+}
+.combat-screen.critical-flash canvas {
+  filter: brightness(1.6);
+  transform: translateX(4px);
+}
+.title-actions {
+  position: relative;
+  z-index: 3;
+}
+.dev-entry {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.dev-entry small {
+  flex-basis: 100%;
+}
+/* Header, initiative and action dock reserve their own space around the full-size map. */
+.compact-battle {
+  display: flex;
+  flex-direction: column;
+}
+.compact-battle .battle-header {
+  position: relative;
+  flex: 0 0 56px;
+}
+.compact-battle .initiative-strip {
+  position: relative;
+  z-index: 6;
+}
+.compact-battle .battle-layout {
+  position: relative;
+  inset: auto;
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  width: 100%;
+}
+.compact-battle .map-section {
+  position: relative;
+  inset: auto;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+.compact-battle .canvas-wrap,
+.compact-battle .canvas-wrap.observing {
+  position: relative;
+  inset: auto;
+  flex: 1;
+  height: auto;
+  min-height: 0;
+}
+.compact-battle .map-heading {
+  top: 8px;
+}
+.compact-battle .map-compass {
+  top: 68px;
+}
+.compact-battle .battle-footer {
+  display: none;
+}
+.compact-battle .map-section:has(.unit-actions) .activation-bar {
+  display: none;
+}
+.title-copy {
+  z-index: 3;
+}

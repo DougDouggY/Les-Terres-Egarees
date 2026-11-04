@@ -1,8 +1,9 @@
 {
   "totals": {
-    "functional": 291,
-    "provisional": 35,
-    "missing": 61
+    "functional": 252,
+    "reused": 47,
+    "provisional": 27,
+    "missing": 108
   },
   "classes": [
     {
@@ -33,7 +34,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -55,9 +61,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -92,7 +99,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -114,9 +126,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -151,7 +164,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -173,9 +191,10 @@
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 4,
+        "reused": 1,
         "provisional": 1,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -205,12 +224,17 @@
             },
             {
               "id": "attack",
-              "status": "provisional",
-              "note": ""
+              "status": "functional",
+              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
             },
             {
               "id": "counter",
-              "status": "provisional",
+              "status": "reused",
+              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -253,12 +277,17 @@
             },
             {
               "id": "attack",
-              "status": "provisional",
-              "note": ""
+              "status": "functional",
+              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
             },
             {
               "id": "counter",
-              "status": "provisional",
+              "status": "reused",
+              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -306,7 +335,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -333,9 +367,10 @@
         }
       ],
       "counts": {
-        "functional": 10,
-        "provisional": 10,
-        "missing": 4
+        "functional": 11,
+        "reused": 3,
+        "provisional": 6,
+        "missing": 7
       },
       "variants": {
         "male": true,
@@ -370,7 +405,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -423,7 +463,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -455,9 +500,10 @@
         }
       ],
       "counts": {
-        "functional": 12,
+        "functional": 10,
+        "reused": 2,
         "provisional": 4,
-        "missing": 2
+        "missing": 4
       },
       "variants": {
         "male": true,
@@ -492,7 +538,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -545,7 +596,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -577,9 +633,10 @@
         }
       ],
       "counts": {
-        "functional": 14,
+        "functional": 12,
+        "reused": 2,
         "provisional": 0,
-        "missing": 4
+        "missing": 6
       },
       "variants": {
         "male": true,
@@ -614,7 +671,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -636,9 +698,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -673,7 +736,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -695,9 +763,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -732,7 +801,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -759,9 +833,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 1,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -796,7 +871,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -818,9 +898,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 1,
-        "missing": 0
+        "missing": 1
       },
       "variants": {
         "male": false,
@@ -855,7 +936,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -877,9 +963,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": false,
@@ -914,7 +1001,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -957,7 +1049,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -979,9 +1076,10 @@
         }
       ],
       "counts": {
-        "functional": 12,
+        "functional": 10,
+        "reused": 2,
         "provisional": 0,
-        "missing": 2
+        "missing": 4
       },
       "variants": {
         "male": true,
@@ -1034,6 +1132,7 @@
       ],
       "counts": {
         "functional": 5,
+        "reused": 0,
         "provisional": 0,
         "missing": 1
       },
@@ -1065,12 +1164,17 @@
             },
             {
               "id": "attack",
-              "status": "provisional",
-              "note": ""
+              "status": "functional",
+              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
             },
             {
               "id": "counter",
-              "status": "provisional",
+              "status": "reused",
+              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1113,12 +1217,17 @@
             },
             {
               "id": "attack",
-              "status": "provisional",
-              "note": ""
+              "status": "functional",
+              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
             },
             {
               "id": "counter",
-              "status": "provisional",
+              "status": "reused",
+              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1145,9 +1254,10 @@
         }
       ],
       "counts": {
-        "functional": 4,
-        "provisional": 10,
-        "missing": 2
+        "functional": 6,
+        "reused": 2,
+        "provisional": 6,
+        "missing": 4
       },
       "variants": {
         "male": true,
@@ -1182,7 +1292,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1209,9 +1324,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 1,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -1246,7 +1362,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1278,9 +1399,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 1,
-        "missing": 2
+        "missing": 3
       },
       "variants": {
         "male": true,
@@ -1315,7 +1437,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1337,9 +1464,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -1374,7 +1502,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1401,9 +1534,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 1,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -1438,7 +1572,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1465,9 +1604,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 1,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -1502,7 +1642,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1550,7 +1695,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1572,9 +1722,10 @@
         }
       ],
       "counts": {
-        "functional": 11,
+        "functional": 9,
+        "reused": 2,
         "provisional": 0,
-        "missing": 4
+        "missing": 6
       },
       "variants": {
         "male": true,
@@ -1609,7 +1760,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1636,9 +1792,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 1,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -1673,7 +1830,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1721,7 +1883,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1743,9 +1910,10 @@
         }
       ],
       "counts": {
-        "functional": 12,
+        "functional": 10,
+        "reused": 2,
         "provisional": 0,
-        "missing": 3
+        "missing": 5
       },
       "variants": {
         "male": true,
@@ -1780,7 +1948,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1828,7 +2001,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1855,9 +2033,10 @@
         }
       ],
       "counts": {
-        "functional": 11,
+        "functional": 9,
+        "reused": 2,
         "provisional": 0,
-        "missing": 5
+        "missing": 7
       },
       "variants": {
         "male": true,
@@ -1892,7 +2071,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1914,9 +2098,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -1951,7 +2136,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -1973,9 +2163,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2010,7 +2201,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2032,9 +2228,10 @@
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 4,
+        "reused": 1,
         "provisional": 1,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2069,7 +2266,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2134,9 +2336,10 @@
         }
       ],
       "counts": {
-        "functional": 12,
+        "functional": 11,
+        "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 3
       },
       "variants": {
         "male": true,
@@ -2171,7 +2374,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2246,9 +2454,10 @@
         }
       ],
       "counts": {
-        "functional": 14,
+        "functional": 13,
+        "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 3
       },
       "variants": {
         "male": true,
@@ -2283,7 +2492,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2358,9 +2572,10 @@
         }
       ],
       "counts": {
-        "functional": 14,
+        "functional": 13,
+        "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 3
       },
       "variants": {
         "male": true,
@@ -2395,7 +2610,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2417,9 +2637,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2454,7 +2675,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2476,9 +2702,10 @@
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 4,
+        "reused": 1,
         "provisional": 1,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2513,7 +2740,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2535,13 +2767,46 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 1,
-        "missing": 0
+        "missing": 1
       },
       "variants": {
         "male": true,
         "female": true
+      }
+    },
+    {
+      "id": "volva",
+      "name": "Völva",
+      "faction": "north",
+      "profiles": [],
+      "counts": {
+        "functional": 0,
+        "reused": 0,
+        "provisional": 0,
+        "missing": 0
+      },
+      "variants": {
+        "male": false,
+        "female": false
+      }
+    },
+    {
+      "id": "hamrammr",
+      "name": "Hamrammr",
+      "faction": "north",
+      "profiles": [],
+      "counts": {
+        "functional": 0,
+        "reused": 0,
+        "provisional": 0,
+        "missing": 0
+      },
+      "variants": {
+        "male": false,
+        "female": false
       }
     },
     {
@@ -2572,7 +2837,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2594,9 +2864,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2631,7 +2902,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2653,9 +2929,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2690,7 +2967,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2712,9 +2994,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2749,7 +3032,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2776,9 +3064,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 3
       },
       "variants": {
         "male": true,
@@ -2813,7 +3102,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2840,9 +3134,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 3
       },
       "variants": {
         "male": true,
@@ -2877,7 +3172,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2899,9 +3199,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 5,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2936,7 +3237,12 @@
             },
             {
               "id": "counter",
-              "status": "functional",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
+              "status": "missing",
               "note": ""
             },
             {
@@ -2963,9 +3269,10 @@
         }
       ],
       "counts": {
-        "functional": 7,
+        "functional": 6,
+        "reused": 1,
         "provisional": 0,
-        "missing": 1
+        "missing": 2
       },
       "variants": {
         "male": true,

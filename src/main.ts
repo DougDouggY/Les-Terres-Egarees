@@ -1,7 +1,12 @@
+import { combatPose } from "./ui/combat-timeline";
 import { resolveClip } from "./sprites/catalog";
 import { prototypeTools } from "./development";
 import { readTeamPreferences, writeTeamPreferences } from "./team-preferences";
-import { unitSpriteProfile, drawResourceFrame } from "./sprites/resources";
+import {
+  unitSpriteProfile,
+  unitVisualNote,
+  drawResourceFrame,
+} from "./sprites/resources";
 import { TerrainRenderer, type TerrainStyle } from "./terrain";
 import { Mist } from "./fog";
 import "@fontsource/cormorant-garamond/latin-500.css";
@@ -38,7 +43,8 @@ let heroDrafts: [E.HeroConfig, E.HeroConfig] = [
   { faction: "north", name: "Eirik", gender: "male", classId: "raider" },
   { faction: "knight", name: "Maël", gender: "male", classId: "man_at_arms" },
 ];
-let aim: "heal" | "summon" | "area" | null = null;
+let companionDrafts: [string[], string[]] = [[], []];
+let aim: "heal" | "summon" | "area" | "buff" | null = null;
 let isPanning = false;
 let developerCleanup: (() => void) | null = null;
 let pendingReward: (() => void) | null = null;
@@ -113,12 +119,12 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}${button("Atelier de test", "dev-workshop", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
 }
 function options() {
   const modal = document.createElement("div");
   modal.className = "modal-back";
-  modal.innerHTML = `<section class="modal"><span class="eyebrow">VOTRE AVENTURE</span><h2>Options</h2><label>Vitesse des combats<select id="speed"><option value="1">Cinématique</option><option value="2">Rapide ×2</option><option value="5">Express ×5</option></select></label><label>Effets sonores<input id="sound" type="checkbox" ${sound ? "checked" : ""}></label><p>Effets sonores des combats et de l’orage.</p>${button("Couleurs des équipes", "team-colors")}${button("Enregistrer", "close-options", "primary")}</section>`;
+  modal.innerHTML = `<section class="modal"><span class="eyebrow">VOTRE AVENTURE</span><h2>Options</h2><label>Vitesse des combats<select id="speed"><option value="1">Cinématique</option><option value="2">Rapide ×2</option><option value="5">Express ×5</option></select></label><label>Effets sonores<input id="sound" type="checkbox" ${sound ? "checked" : ""}></label><label>Afficher la grille<input id="grid-option" type="checkbox" ${showGrid ? "checked" : ""}></label>${button("Couleurs des équipes", "team-colors")}${button("Enregistrer", "close-options", "primary")}</section>`;
   app.append(modal);
   (document.querySelector("#speed") as HTMLSelectElement).value = String(speed);
 }
@@ -150,10 +156,10 @@ function teamColorsModal() {
 }
 function configure() {
   screen = "config";
-  app.innerHTML = `<main class="config-screen phase1-creator"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>CRÉATEUR DE HÉROS · PROTOTYPE</small></span>${button("← Retour", "title", "back")}</header><section class="config-heading"><h1>Créez vos deux héros.</h1><p>Chaque expédition choisit sa faction et sa classe indépendamment.</p></section><div class="faction-grid">${heroDrafts
+  app.innerHTML = `<main class="config-screen phase1-creator"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>CRÉATEUR DE HÉROS · PROTOTYPE</small></span>${button("← Retour", "title", "back")}</header><section class="config-heading"><h1>Créez vos deux héros.</h1><p>Le joueur 1 choisit sa faction ; le joueur 2 reçoit l’autre. Choisissez ensuite vos compagnons.</p></section><div class="faction-grid">${heroDrafts
     .map(
       (h, i) =>
-        `<section class="faction-card hero-form"><span class="eyebrow">EXPÉDITION ${i + 1}</span><div class="segmented">${button("Vikings", `faction-${i + 1}-north`, h.faction === "north" ? "chosen" : "")}${button("Chevaliers", `faction-${i + 1}-knight`, h.faction === "knight" ? "chosen" : "")}</div><div class="portrait-placeholder" aria-label="Emplacement du futur portrait">◇<small>PORTRAIT À CRÉER</small></div><label>Nom du héros — expédition ${i + 1}<input id="hero-name-${i + 1}" maxlength="32" value="${esc(h.name)}" required></label><label>Sexe — expédition ${i + 1}<select id="hero-gender-${i + 1}"><option value="male" ${h.gender === "male" ? "selected" : ""}>Homme</option><option value="female" ${h.gender === "female" ? "selected" : ""}>Femme</option></select></label><label>Classe de base — expédition ${i + 1}<select id="hero-class-${i + 1}">${E.baseClasses(
+        `<section class="faction-card hero-form"><span class="eyebrow">EXPÉDITION ${i + 1}</span><div class="segmented">${button("Vikings", `faction-${i + 1}-north`, h.faction === "north" ? "chosen" : "")}${button("Chevaliers", `faction-${i + 1}-knight`, h.faction === "knight" ? "chosen" : "")}</div><div class="portrait-placeholder" aria-label="Emplacement du futur portrait">◇<small>PORTRAIT À CRÉER</small></div><label>Nom du héros — expédition ${i + 1}<input id="hero-name-${i + 1}" maxlength="32" value="${esc(h.name)}" required></label><label>Sexe — expédition ${i + 1}<select id="hero-gender-${i + 1}"><option value="male" ${h.gender === "male" ? "selected" : ""}>Homme</option><option value="female" ${h.gender === "female" ? "selected" : ""}>Femme</option></select></label><label>Classe — expédition ${i + 1}<select id="hero-class-${i + 1}">${E.baseClasses(
           h.faction,
         )
           .map(
@@ -162,11 +168,34 @@ function configure() {
           )
           .join(
             "",
-          )}</select></label><p>${E.classes[h.classId].role}</p><small>Les portraits et les sprites manquants seront créés ultérieurement.</small></section>`,
+          )}</select></label><p>${E.classes[h.classId].role}</p>${h.classId === "raider" ? `<label>Arme initiale<select data-starter="${i}"><option value="axe_shield" ${h.weaponId !== "sword_shield" ? "selected" : ""}>Hache et bouclier</option><option value="sword_shield" ${h.weaponId === "sword_shield" ? "selected" : ""}>Épée et bouclier</option></select></label>` : ""}<fieldset><legend>Compagnons · choisir ${E.companionCount(h.faction)}</legend>${E.companionRoster
+          .filter((c) => c.faction === h.faction)
+          .map(
+            (c) =>
+              `<label><input type="checkbox" data-companion="${i}:${c.id}" ${companionDrafts[i].includes(c.id) ? "checked" : ""}>${c.name} · ${E.classes[c.classId].name}</label>`,
+          )
+          .join("")}</fieldset></section>`,
     )
     .join(
       "",
     )}</div><div class="config-bottom">${button("Couleurs des équipes", "team-colors")}<p>Carte et déplacements conservés · initiative individuelle · brouillard indépendant</p>${button("Déployer les expéditions", "begin", "primary")}</div></main>`;
+  app
+    .querySelectorAll<HTMLSelectElement>("[data-starter]")
+    .forEach(
+      (el) =>
+        (el.onchange = () =>
+          (heroDrafts[Number(el.dataset.starter)].weaponId = el.value)),
+    );
+  app.querySelectorAll<HTMLInputElement>("[data-companion]").forEach(
+    (input) =>
+      (input.onchange = () => {
+        const [p, id] = input.dataset.companion!.split(":");
+        const list = companionDrafts[Number(p)];
+        if (input.checked) {
+          if (!list.includes(id)) list.push(id);
+        } else companionDrafts[Number(p)] = list.filter((x) => x !== id);
+      }),
+  );
   for (const i of [1, 2]) {
     (app.querySelector(`#hero-name-${i}`) as HTMLInputElement).oninput = (
       e,
@@ -183,6 +212,7 @@ function configure() {
       e,
     ) => {
       heroDrafts[i - 1].classId = (e.target as HTMLSelectElement).value;
+      delete heroDrafts[i - 1].weaponId;
       configure();
     };
   }
@@ -218,8 +248,8 @@ function portrait(u: Unit, large = false) {
   return `<div class="portrait ${large ? "large" : ""}">${u.portraitAsset ? `<img src="${assetBase + esc(u.portraitAsset)}" alt="Portrait de ${esc(u.name)}">` : `<div class="portrait-placeholder" aria-label="Portrait à créer"><b>${esc(u.name.slice(0, 1))}</b><small>À CRÉER</small></div>`}</div>`;
 }
 function unitCard(u: Unit) {
-  return `${portrait(u, true)}<div class="unit-identity"><span class="eyebrow">${u.owner === 0 ? "LES MAUDITS" : `EXPÉDITION ${u.owner}`}${u.leader ? " · CHEF" : ""}</span><h2>${esc(u.name)}</h2><span>${E.className(u)} · Nv. ${u.level}</span></div><div class="hp-heading"><span>POINTS DE VIE</span><b>${u.hp}<small> / ${u.maxHp}</small></b></div><div class="bar hp"><i style="width:${(u.hp / u.maxHp) * 100}%"></i></div><div class="stats">${[
-    ["FOR", u.strength],
+  return `${portrait(u, true)}<div class="unit-identity"><span class="eyebrow">${u.owner === 0 ? "LES MAUDITS" : `EXPÉDITION ${u.owner}`}${u.leader ? " · CHEF" : ""}</span><h2>${esc(u.name)}</h2><span>${E.className(u)} · Nv. ${u.level}</span><small>${esc(unitVisualNote(u))}</small><span></span></div><div class="hp-heading"><span>POINTS DE VIE</span><b>${u.hp}<small> / ${u.maxHp}</small></b></div><div class="bar hp"><i style="width:${(u.hp / u.maxHp) * 100}%"></i></div><div class="stats">${[
+    [E.powerLabel(u) === "Puissance" ? "PUIS" : "FOR", u.strength],
     ["DÉF", u.defense],
     ["AGI", u.agility],
     ["INIT", u.initiative],
@@ -228,7 +258,7 @@ function unitCard(u: Unit) {
   ]
     .map(
       ([n, v]) =>
-        `<div tabindex="0" role="button" aria-label="${n} : ${v}" data-tooltip="${({ FOR: "Force : augmente les dégâts physiques.", DÉF: "Défense : réduit les dégâts reçus, en plus du couvert.", AGI: "Agilité : réduit la précision adverse ; 4 points d’écart donnent une seconde frappe.", INIT: "Initiative : détermine l’ordre de passage, indépendamment de l’agilité.", PRÉC: "Précision : augmente les chances de toucher.", MVT: "Mouvement : budget de déplacement, selon le coût du terrain." } as Record<string, string>)[String(n)]}"><span>${n}</span><b>${v}</b></div>`,
+        `<div tabindex="0" role="button" aria-label="${n} : ${v}" data-tooltip="${({ FOR: "Force : augmente les dégâts physiques.", PUIS: "Puissance : augmente les dégâts magiques et les soins.", DÉF: "Défense : réduit les dégâts reçus, en plus du couvert.", AGI: "Agilité : réduit la précision adverse ; 4 points d’écart donnent une seconde frappe.", INIT: "Initiative : détermine l’ordre de passage, indépendamment de l’agilité.", PRÉC: "Précision : augmente les chances de toucher.", MVT: "Mouvement : budget de déplacement, selon le coût du terrain." } as Record<string, string>)[String(n)]}"><span>${n}</span><b>${v}</b></div>`,
     )
     .join(
       "",
@@ -246,7 +276,7 @@ function unitCard(u: Unit) {
 function equipmentModal(u: Unit) {
   const modal = document.createElement("div");
   modal.className = "modal-back equipment-modal";
-  modal.innerHTML = `<section class="modal"><h2>Objet / Équipement</h2><p>${esc(u.name)} · Arme active : ${E.weaponName(u)}</p><div class="equipment-list">${(
+  modal.innerHTML = `<section class="modal"><h2>Équipement</h2><p>${esc(u.name)} · Arme active : ${E.weaponName(u)}</p><div class="equipment-list">${(
     u.carriedWeapons ?? []
   )
     .map((id) => {
@@ -275,7 +305,15 @@ function contextActions(u: Unit) {
   let html = "";
   if (targets.some((t) => E.canAttack(u, t)))
     html += button("Attaquer", "attack-mode");
-  html += button("Objet / Équipement", "equipment");
+  html += button("Équipement", "equipment");
+  if (u.classId === "hamrammr")
+    html += button(
+      u.bearForm ? "Reprendre forme humaine" : "Transformer en ours",
+      "skill-transform",
+      "",
+      !u.bearForm && (u.bearCooldown ?? 0) > 0,
+    );
+  if (E.hasSkill(u, "buff")) html += button("Améliorer un allié", "skill-buff");
   if (targets.some((t) => E.canHealTarget(s, u, t)))
     html += button("Soigner", "skill-heal");
   if (E.hasSkill(u, "banner") && !u.bannerUsed)
@@ -298,80 +336,19 @@ function contextActions(u: Unit) {
 }
 let pointerPosition = { x: 0, y: 0 };
 function positionContextMenu() {
-  const menu = document.querySelector<HTMLElement>("#unit-actions"),
-    canvas = document.querySelector<HTMLCanvasElement>("#map"),
-    s = state;
-  if (!menu || !canvas || !s) return;
-  const u = E.current(s);
-  if (!u) return;
-  menu.hidden = isPanning || !!aim;
-  if (menu.hidden) return;
-  const r = canvas.getBoundingClientRect(),
-    c = s.players[s.active - 1].camera,
-    tile = r.width / viewCols,
-    x = r.x + (u.x + 0.5 - c.x) * tile,
-    y = r.y + ((u.y + 0.5 - c.y) * r.height) / viewRows,
-    w = menu.offsetWidth,
-    h = menu.offsetHeight;
-  const candidates = [
-    { side: "right", x: x + tile * 2, y: y - h / 2 },
-    { side: "left", x: x - tile * 2 - w, y: y - h / 2 },
-    { side: "above", x: x - w / 2, y: y - tile * 2 - h },
-    { side: "below", x: x - w / 2, y: y + tile * 2 },
-    {
-      side: "lower-right",
-      x: x + tile * 2,
-      y: y + tile * Math.max(3, u.move - 1),
-    },
-    {
-      side: "upper-right",
-      x: x + tile * 2,
-      y: y - tile * Math.max(3, u.move - 1) - h,
-    },
-    {
-      side: "lower-left",
-      x: x - tile * 2 - w,
-      y: y + tile * Math.max(3, u.move - 1),
-    },
-    {
-      side: "upper-left",
-      x: x - tile * 2 - w,
-      y: y - tile * Math.max(3, u.move - 1) - h,
-    },
-  ];
-  const clickable = [
-    ...(!moved ? [...movementField(s, u).keys()].map((k) => E.map[k]) : []),
-    ...E.alive(s).filter((t) => E.seen(s, s.active, t) && E.canAttack(u, t)),
-  ].map((cell) => ({
-    x: r.x + (cell.x + 0.5 - c.x) * tile,
-    y: r.y + (cell.y + 0.5 - c.y) * tile,
-  }));
-  const ranked = candidates
-    .map((p) => ({
-      ...p,
-      score:
-        clickable.filter(
-          (cell) =>
-            cell.x >= p.x - tile * 0.4 &&
-            cell.x <= p.x + w + tile * 0.4 &&
-            cell.y >= p.y - tile * 0.4 &&
-            cell.y <= p.y + h + tile * 0.4,
-        ).length *
-          200 +
-        (p.x < 8 || p.x + w > innerWidth - 8 ? 10000 : 0) +
-        (p.y < 105 || p.y + h > innerHeight - 55 ? 10000 : 0) +
-        (pointerPosition.x >= p.x &&
-        pointerPosition.x <= p.x + w &&
-        pointerPosition.y >= p.y &&
-        pointerPosition.y <= p.y + h
-          ? 1000
-          : 0),
-    }))
-    .sort((a, b) => a.score - b.score);
-  const p = ranked[0];
-  menu.style.left = Math.max(8, Math.min(innerWidth - w - 8, p.x)) + "px";
-  menu.style.top = Math.max(105, Math.min(innerHeight - h - 55, p.y)) + "px";
-  menu.dataset.side = p.side;
+  const menu = document.querySelector<HTMLElement>("#unit-actions");
+  if (menu) menu.hidden = isPanning || !!aim;
+}
+function initiativeMarkup(s: Campaign) {
+  const f = E.front(s);
+  return `<nav class="initiative-strip" aria-label="Ordre d’initiative">${f.queue
+    .map((id, i) => {
+      const u = s.units.find((u) => u.id === id);
+      if (!u || u.hp <= 0) return "";
+      const known = E.seen(s, s.active, u);
+      return `<button ${known ? `data-action="focus-${u.id}"` : "disabled"} class="${i === f.index ? "current" : ""}" title="${known ? esc(u.name) : "Présence dans la brume"}">${known ? `<canvas data-initiative="${u.id}" width="64" height="64"></canvas><small>${esc(E.classes[u.classId!]?.faction ?? "enemy")}</small>` : "?"}</button>`;
+    })
+    .join("")}</nav>`;
 }
 function battleUI() {
   if (!state) return;
@@ -412,15 +389,15 @@ function battleUI() {
   }
   clampCamera(s.active);
   app.innerHTML = `<main class="battle-screen compact-battle"><header class="battle-header"><a class="mini-brand" data-action="pause">${mark}<span>LES TERRES ÉGARÉES</span></a><div class="mission-name"><strong>${s.merged ? "Repoussez les morts-vivants" : "Rejoignez le village des Veilleurs"}</strong><span>ROUND ${E.front(s).round} · ${s.merged ? "ALLIANCE" : `EXPÉDITION ${s.active}`}</span></div><div class="perspectives">${[1, 2].map((p) => button(`EXPÉDITION ${p}`, `perspective-${p}`, s.active === p ? "active" : "")).join("")}</div><button class="icon-button" data-action="observer" aria-label="Observation côte à côte">◫</button>${button("☰", "pause", "icon-button")}</header>
-  <div class="battle-layout"><section class="map-section">
-  <div class="map-heading"><span>${factionName(s.factions[s.active - 1])} · Secteurs ≈ 100 m</span><div class="map-tools">${E.canFinishBattleForTest(s) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}${button("Recentrer", "recenter")}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog")}${button(`Grille ${showGrid ? "active" : "masquée"}`, "toggle-grid")}</div></div>
+  ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
+  <div class="map-heading"><div class="map-tools">${E.canFinishBattleForTest(s) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}${button("Recentrer", "recenter")}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog")}</div></div>
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div class="map-compass">N<br>✦</div><div class="map-status">${!fogEnabled ? "INSPECTION SANS BRUME · VISION LOGIQUE CONSERVÉE" : ""}</div>
   <div id="map-tooltip" class="map-tooltip" hidden></div>
   ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window" aria-label="Fiche de ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer la fiche">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
-  ${sel && own && sel.id === u?.id && !busy ? contextActions(u) : ""}</div>
+  </div>${sel && own && sel.id === u?.id && moved && !busy ? contextActions(u) : ""}
   <div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${u?.owner === 0 && !E.seen(s, s.active, u) ? "Une présence dans la brume" : esc(u?.name ?? "")}</strong><small>Clic : unité / destination · Glisser : déplacer la carte</small></div><div class="turn-actions">${!own && u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></div>
-  </section></div><footer class="battle-footer"><span>Glisser · Explorer la carte <i>◆</i> Flèches · Caméra <i>◆</i> Tab · Expédition</span><span>${button("Sauvegarder", "save", "text-button", busy || !!origin)} ${button("Règles du combat", "rules", "text-button")}</span></footer></main>`;
+  </section></div><footer class="battle-footer"><span>Glisser · Explorer la carte <i>◆</i> Flèches · Caméra <i>◆</i> Tab · Expédition</span></footer></main>`;
   bindCanvas();
   positionContextMenu();
   document
@@ -590,17 +567,10 @@ function drawSprite(
       E.colorForOwner(state?.teamColors, u.owner),
     )
   ) {
-    ctx.fillStyle = "#294b42";
-    ctx.beginPath();
-    ctx.arc(0, 0, size * 0.29, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = "#d1bf88";
-    ctx.lineWidth = 1;
-    ctx.stroke();
-    ctx.fillStyle = "#f2e7ca";
-    ctx.font = `bold ${Math.max(9, size * 0.17)}px sans-serif`;
+    ctx.fillStyle = "#e8d4ad";
+    ctx.font = `${Math.max(8, size * 0.08)}px sans-serif`;
     ctx.textAlign = "center";
-    ctx.fillText(u.name.slice(0, 1), 0, size * 0.05);
+    ctx.fillText("Sprite indisponible", 0, 0);
   }
   ctx.restore();
 }
@@ -825,10 +795,6 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       false,
       moveAnim?.id === u.id ? "move" : "idle",
     );
-    ctx.fillStyle = "#14201c";
-    ctx.fillRect(x + 3, y + 29, 26, 3);
-    ctx.fillStyle = "#8ebe99";
-    ctx.fillRect(x + 3, y + 29, (26 * u.hp) / u.maxHp, 3);
     if (u.id === cur?.id) {
       ctx.strokeStyle = "#ecd5a0";
       ctx.lineWidth = 1.5;
@@ -884,6 +850,17 @@ function animation(time: number) {
     }
     if (b) renderMap(b, (3 - state!.active) as 1 | 2, time);
   }
+  if (screen === "battle" && state)
+    document
+      .querySelectorAll<HTMLCanvasElement>("[data-initiative]")
+      .forEach((c) => {
+        const u = state!.units.find((u) => u.id === c.dataset.initiative);
+        if (u) {
+          const ctx = c.getContext("2d")!;
+          ctx.clearRect(0, 0, 64, 64);
+          drawSprite(ctx, u, 0, 0, 64, Math.floor(time / 500) % 2);
+        }
+      });
   if (combatAnim) renderCombat(time);
 }
 requestAnimationFrame(animation);
@@ -913,6 +890,12 @@ async function clickCell(x: number, y: number) {
 
   if (u && u.owner === s.active && aim) {
     try {
+      if (aim === "buff" && target) {
+        E.improveAlly(s, u, target);
+        aim = null;
+        finishTurn();
+        return;
+      }
       if (aim === "heal" && target) {
         E.healTarget(s, u, target);
         aim = null;
@@ -946,6 +929,22 @@ async function clickCell(x: number, y: number) {
       E.canAttack(u, target)
     ) {
       preview(u, target);
+      return;
+    }
+    if (
+      target.id === u?.id &&
+      selected === u.id &&
+      u.owner === s.active &&
+      !moved
+    ) {
+      origin = {
+        x: u.x,
+        y: u.y,
+        fortified: u.fortified,
+        movedDistance: u.movedDistance,
+      };
+      moved = true;
+      battleUI();
       return;
     }
     selected = target.id;
@@ -989,7 +988,11 @@ function cancel() {
   }
   origin = null;
   moved = false;
-  selected = null;
+  selected = state
+    ? E.current(state)?.owner === state.active
+      ? E.current(state)!.id
+      : null
+    : null;
   document.querySelector(".modal-back")?.remove();
   if (state?.phase === "battle") battleUI();
 }
@@ -1005,7 +1008,7 @@ function finishTurn() {
 }
 function preview(a: Unit, b: Unit) {
   const p = E.forecast(a, b, state!),
-    q = E.forecast(b, a, state!);
+    q = E.forecast(b, a, state!, { counter: true });
   const modal = document.createElement("div");
   modal.className = "modal-back";
   modal.innerHTML = `<section class="modal forecast"><span class="eyebrow">PRÉVISION DE COMBAT</span><h2>${esc(a.name)} <i>contre</i> ${esc(b.name)}</h2><div class="forecast-units"><div>${portrait(a, true)}<strong>${E.weaponName(a)}</strong><b>${p.damage} ${p.strikes > 1 ? `× ${p.strikes}` : ""}</b><span>DÉGÂTS · ${p.hit}% PRÉCISION</span><small>${p.crit}% CRITIQUE</small></div><span class="versus">VS</span><div>${portrait(b, true)}<strong>${E.weaponName(b)}</strong><b>${p.counter ? `${q.damage}${q.strikes > 1 ? ` × ${q.strikes}` : ""}` : "—"}</b><span>${p.counter ? `${q.hit}% PRÉCISION` : "HORS DE PORTÉE"}</span><small>${p.counter ? "CONTRE-ATTAQUE POSSIBLE" : "AUCUNE CONTRE-ATTAQUE"}</small></div></div><p>Le couvert réduit les dégâts. Une différence d’agilité de 4 permet deux frappes.</p><div class="modal-actions">${button("Annuler", "close-modal")}${button("Engager le combat", "confirm-attack-" + b.id, "primary")}</div></section>`;
@@ -1037,10 +1040,26 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   const levels = result.xp.filter((e) => e.level);
   if (levels.length) {
     const u = state!.units.find((u) => u.id === levels[0].id)!;
-    toast(`${u.name} · Niveau ${u.level} ! PV +3 · Force +1 · Défense +1`);
+    toast(
+      `${u.name} · Niveau ${u.level} ! ${gainText(result.levelGains?.[u.id])}`,
+    );
   }
   E.log(state!, `${a.name} affronte ${b.name}.`);
   finishTurn();
+}
+function gainText(gains?: Record<string, number>) {
+  const labels: Record<string, string> = {
+    maxHp: "PV",
+    strength: "Force / Puissance",
+    defense: "Défense",
+    agility: "Agilité",
+    initiative: "Initiative",
+    parryPoints: "Parade",
+  };
+  return Object.entries(gains ?? {})
+    .filter(([, v]) => v > 0)
+    .map(([k, v]) => `${labels[k] ?? k} +${v}`)
+    .join(" · ");
 }
 function rewards(result: Battle): Promise<void> {
   if (!result.xp.length) return Promise.resolve();
@@ -1051,7 +1070,7 @@ function rewards(result: Battle): Promise<void> {
     modal.innerHTML = `<section class="modal"><span class="eyebrow">APRÈS L’AFFRONTEMENT</span><h2>Chaque épreuve vous façonne.</h2>${result.xp
       .map((e) => {
         const u = state!.units.find((u) => u.id === e.id)!;
-        return `<div class="reward-unit">${portrait(u)}<div><strong>${esc(u.name)} <span>+${e.amount} EXP</span></strong><div class="bar xp"><i data-progress="${u.xp}" style="width:${e.before}%"></i></div><small>${u.xp} / 100 EXP · Niveau ${u.level}</small>${e.level ? `<div class="level-up"><span class="eyebrow">NIVEAU ${u.level}</span><b>PV +3 &nbsp; Force +1 &nbsp; Défense +1</b></div>` : ""}</div></div>`;
+        return `<div class="reward-unit">${portrait(u)}<div><strong>${esc(u.name)} <span>+${e.amount} EXP</span></strong><div class="bar xp"><i data-progress="${u.xp}" style="width:${e.before}%"></i></div><small>${u.xp} / 100 EXP · Niveau ${u.level}</small>${e.level ? `<div class="level-up"><span class="eyebrow">NIVEAU ${u.level}</span><b>${gainText(result.levelGains?.[u.id])}</b></div>` : ""}</div></div>`;
       })
       .join(
         "",
@@ -1095,36 +1114,59 @@ function renderCombat(time: number) {
           `<section><span>${E.weaponName(u)}</span><h2>${esc(u.name)}</h2><div class="bar hp"><i id="hp-${u.id}" style="width:${(u.hp / u.maxHp) * 100}%"></i></div><b id="value-${u.id}">${u.hp} / ${u.maxHp}</b></section>`,
       )
       .join('<span class="crossed">×</span>');
+  for (const unit of [left, right]) {
+    const hp = document.querySelector<HTMLElement>(`#hp-${unit.id}`),
+      section = hp?.closest("section");
+    if (!section) continue;
+    section.style.setProperty(
+      "--team-color",
+      `rgb(${E.teamPalette[E.colorForOwner(s.teamColors, unit.owner)].rgb.join(",")})`,
+    );
+    let stats = section.querySelector(".combat-stat");
+    if (!stats) {
+      stats = document.createElement("div");
+      stats.className = "combat-stat";
+      section.append(stats);
+    }
+    const p =
+      unit === attacker
+        ? (strike.forecast ??
+          E.forecast(attacker, defender, s, { counter: !!strike.counter }))
+        : E.forecast(defender, attacker, s, { counter: true });
+    stats.textContent = `PRÉCISION ${p.hit}% · DÉGÂTS ${p.damage}`;
+  }
+  document
+    .querySelector(".combat-screen")
+    ?.classList.toggle(
+      "critical-flash",
+      strike.critical &&
+        t >= 0 &&
+        anim.applied &&
+        t -
+          combatPose(
+            0,
+            resolveClip(unitSpriteProfile(attacker), "attack")?.frames.length ??
+              1,
+            resolveClip(unitSpriteProfile(attacker), "attack")?.fps ?? 8,
+            attacker.range > 1,
+          ).impact <
+          120,
+    );
   const ranged = attacker.range > 1,
     attLeft = attacker.id === left.id;
-  const walking = t < 0 || (!ranged && (t < 240 || (t > 900 && t < 1300)));
-  const af = walking
-    ? 1 + (Math.floor(time / 85) % 2)
-    : t < 140
-      ? 0
-      : t < 260
-        ? 1
-        : t < 400
-          ? 2
-          : t < 520
-            ? 3
-            : t < 700
-              ? 4
-              : t < 840
-                ? 5
-                : t < 1000
-                  ? 6
-                  : 7;
-  const df =
-    t < 500 ? 0 : t < 800 ? (strike.hit ? (strike.blocked ? 5 : 6) : 5) : 0;
-  const travel =
-    ranged || t < 0
-      ? 0
-      : t < 240
-        ? (t / 240) * 610
-        : t < 900
-          ? 610
-          : Math.max(0, 1 - (t - 900) / 400) * 610;
+  const clip = resolveClip(
+    unitSpriteProfile(attacker),
+    strike.counter ? "counter" : "attack",
+  );
+  const pose = combatPose(
+    t,
+    clip?.frames.length ?? 1,
+    clip?.fps ?? 8,
+    ranged,
+    !!strike.counter,
+  );
+  const impact = pose.impact;
+  const travel = pose.travel * 610;
   const entry = Math.max(0, Math.min(1, (t + 400) / 400));
   for (const [unit, x, flip, isAttacker] of [
     [
@@ -1141,34 +1183,33 @@ function renderCombat(time: number) {
     ],
   ] as const) {
     const animName =
-      unit.hp === 0 && t > 800
+      unit.hp === 0 && t >= impact
         ? "death"
-        : t < 0 || (isAttacker && walking)
-          ? "move"
-          : isAttacker
-            ? strike.counter
-              ? "counter"
-              : "attack"
-            : t >= 500 && t < 800
-              ? strike.hit
-                ? strike.blocked
-                  ? "block"
-                  : "damage"
-                : "evade"
-              : "idle";
-    const index =
-      animName === "move"
-        ? Math.floor(time / 130) % 2
-        : animName === "attack" || animName === "counter"
-          ? af
-          : 0;
+        : isAttacker
+          ? pose.animation
+          : t >= impact && t < impact + 320
+            ? strike.hit
+              ? strike.blocked
+                ? "block"
+                : "damage"
+              : "evade"
+            : "idle";
+    const clip = resolveClip(unitSpriteProfile(unit), animName);
+    const index = isAttacker
+      ? pose.index
+      : Math.min(
+          (clip?.frames.length ?? 1) - 1,
+          Math.floor((Math.max(0, t - impact) * (clip?.fps ?? 8)) / 1000),
+        );
     ctx.globalAlpha =
-      unit.hp === 0 && t > 800 ? Math.max(0, 1 - (t - 800) / 650) : 1;
+      unit.hp === 0 && t > impact + 250
+        ? Math.max(0, 1 - (t - impact - 250) / 650)
+        : 1;
     drawSprite(ctx, unit, x, 195, 210, index, flip, false, animName);
   }
   ctx.globalAlpha = 1;
-  if (ranged && t > 520 && t < 620) {
-    const progress = (t - 520) / 100;
+  if (ranged && t > impact - 100 && t < impact) {
+    const progress = (t - impact + 100) / 100;
     ctx.fillStyle = "#e8d8ae";
     const x = attLeft ? 310 + progress * 560 : 865 - progress * 560;
     ctx.fillRect(x, 280, 38, 3);
@@ -1178,7 +1219,7 @@ function renderCombat(time: number) {
     ctx.lineTo(x + (attLeft ? 28 : 10), 286);
     ctx.fill();
   }
-  if (t >= 620 && !anim.applied) {
+  if (t >= impact && !anim.applied) {
     anim.applied = true;
     E.applyStrike(s, strike);
     audio();
@@ -1190,7 +1231,7 @@ function renderCombat(time: number) {
     if (r)
       r.innerHTML = `<span class="${strike.critical ? "critical" : ""}">${strike.hit ? (strike.critical ? "CRITIQUE · " : "") + (strike.interceptedFor ? "INTERCEPTION · " : "") + (strike.blocked ? "PARADE · " : "") + "−" + strike.damage : "ESQUIVE"}</span>`;
   }
-  if (t >= 620 && t < 800 && strike.hit) {
+  if (t >= impact && t < impact + 180 && strike.hit) {
     ctx.strokeStyle = strike.critical ? "#ffe091" : "#f3e9c5";
     ctx.lineWidth = 4;
     const x = attLeft ? 900 : 270;
@@ -1199,13 +1240,13 @@ function renderCombat(time: number) {
       ctx.beginPath();
       ctx.moveTo(x + Math.cos(angle) * 12, 280 + Math.sin(angle) * 12);
       ctx.lineTo(
-        x + Math.cos(angle) * ((t - 600) / 5),
-        280 + Math.sin(angle) * ((t - 600) / 5),
+        x + Math.cos(angle) * ((t - impact + 20) / 5),
+        280 + Math.sin(angle) * ((t - impact + 20) / 5),
       );
       ctx.stroke();
     }
   }
-  if (t > 1400) {
+  if (t > pose.total) {
     anim.index++;
     anim.start = time;
     anim.applied = false;
@@ -1262,7 +1303,7 @@ function summary() {
     .filter((u) => u.owner !== 0 && !u.summonedBy)
     .map(
       (u) =>
-        `<article>${portrait(u)}<h2>${esc(u.name)}</h2><p>${E.className(u)} · Nv. ${u.level} · ${u.hp} / ${u.maxHp} PV</p>${promotionMarkup(u)}</article>`,
+        `<article>${portrait(u)}<h2>${esc(u.name)}</h2><p>${E.className(u)} · Nv. ${u.level}</span><small>${esc(unitVisualNote(u))}</small><span> · ${u.hp} / ${u.maxHp} PV</p>${promotionMarkup(u)}</article>`,
     )
     .join(
       "",
@@ -1312,15 +1353,38 @@ app.addEventListener("click", async (e) => {
   const action = el.dataset.action!;
   if (
     prototypeTools &&
-    (action === "dev-sprites" || action === "dev-systems")
+    (action === "dev-sprites" ||
+      action === "dev-systems" ||
+      action === "dev-workshop")
   ) {
     developerCleanup?.();
     screen = "developer";
+    if (action === "dev-workshop") {
+      const workshop = await import("./dev/workshop");
+      developerCleanup = workshop.openWorkshop(app, title);
+      return;
+    }
     const tools = await import("./dev/tools");
     developerCleanup =
       action === "dev-sprites"
         ? tools.openGallery(app, title)
         : tools.openSystems(app, title);
+  } else if (action.startsWith("focus-")) {
+    const u = state?.units.find((u) => u.id === action.slice(6));
+    if (u && E.seen(state!, state!.active, u)) focusUnit(u);
+  } else if (action === "skill-transform") {
+    const u = state && E.current(state);
+    if (u) {
+      try {
+        E.transformBear(state!, u);
+        finishTurn();
+      } catch (e) {
+        toast((e as Error).message);
+      }
+    }
+  } else if (action === "skill-buff") {
+    aim = "buff";
+    battleUI();
   } else if (action === "team-colors") {
     teamColorsModal();
   } else if (action === "apply-team-colors") {
@@ -1444,18 +1508,26 @@ app.addEventListener("click", async (e) => {
       (document.querySelector("#speed") as HTMLSelectElement).value,
     );
     sound = (document.querySelector("#sound") as HTMLInputElement).checked;
+    showGrid = (document.querySelector("#grid-option") as HTMLInputElement)
+      .checked;
     localStorage.setItem("lte-speed", String(speed));
     localStorage.setItem("lte-sound", sound ? "on" : "off");
     el.closest(".modal-back")?.remove();
   } else if (action.startsWith("faction-")) {
     const [, p, f] = action.split("-");
-    factions[Number(p) - 1] = f as Faction;
-    heroDrafts[Number(p) - 1].faction = f as Faction;
-    heroDrafts[Number(p) - 1].classId = E.baseClasses(f as Faction)[0].id;
+    const index = Number(p) - 1;
+    factions[index] = f as Faction;
+    factions[1 - index] = f === "north" ? "knight" : "north";
+    factions.forEach((f, i) => {
+      heroDrafts[i].faction = f;
+      heroDrafts[i].classId = E.baseClasses(f)[0].id;
+      delete heroDrafts[i].weaponId;
+    });
+    companionDrafts = [[], []];
     configure();
   } else if (action === "begin") {
     try {
-      state = E.createCampaign(factions, heroDrafts);
+      state = E.createCampaign(factions, heroDrafts, companionDrafts);
       E.setPlayableTeamColors(state, readTeamPreferences());
     } catch (error) {
       toast((error as Error).message);

@@ -4,15 +4,19 @@ import { los } from "./vision";
 import { allied } from "./queries";
 import { log } from "./campaign";
 import {
-  discoveries,
   activeWeapon,
   unitClass,
   hasSkill,
-  tuning,
   weaponTriangles,
   observeSkill,
   revealPromotionOptions,
 } from "./classes";
+import { rules } from "../data/balance";
+import { randomPercent } from "./rng";
+import { hasShield, initializeProgression, gainLevel } from "./progression";
+export function effectiveAgility(u: Unit) {
+  return Math.max(0, u.agility - (activeWeapon(u).agilityPenalty ?? 0));
+}
 export function offensiveReady(u: Unit) {
   const w = activeWeapon(u);
   return w.category !== "healing" && (!w.reload || u.crossbowLoaded !== false);
@@ -39,24 +43,58 @@ export function triangle(a: Unit, b: Unit) {
   }
   return 0;
 }
-function bannerBonus(s: Campaign | undefined, u: Unit) {
+function support(s: Campaign | undefined, u: Unit) {
   if (!s) return { hit: 0, defense: 0 };
-  const active = s.banners?.some(
+  const banner = s.banners?.some(
     (b) =>
-      distance(b, u) <= tuning.banner.radius &&
+      (b.hp ?? rules.banner.hp) > 0 &&
+      distance(b, u) <= rules.banner.radius &&
       u.owner !== 0 &&
       (b.owner === u.owner || s.merged),
   );
-  return active
-    ? { hit: tuning.banner.hit, defense: tuning.banner.defense }
-    : { hit: 0, defense: 0 };
+  const aura = s.units.some(
+    (p) =>
+      p.id !== u.id &&
+      p.hp > 0 &&
+      hasSkill(p, "defense_aura") &&
+      allied(s, p, u) &&
+      distance(p, u) === 1,
+  );
+  return {
+    hit: banner ? rules.banner.hit : 0,
+    defense:
+      (banner ? rules.banner.defense : 0) +
+      (aura ? rules.auraDefense : 0) +
+      (u.buff?.defense ?? 0),
+  };
 }
-export function forecast(a: Unit, b: Unit, s?: Campaign) {
+export function parryChance(a: Unit, b: Unit) {
+  if (
+    !hasShield(b) ||
+    activeWeapon(a).category === "magic" ||
+    activeWeapon(a).category === "healing"
+  )
+    return 0;
+  initializeProgression(b);
+  const ranged = ["bow", "crossbow"].includes(activeWeapon(a).category);
+  if (!ranged && distance(a, b) !== 1) return 0;
+  return Math.min(
+    100,
+    (b.parryPoints ?? 1) *
+      (ranged ? rules.parry.rangedPerPoint : rules.parry.meleePerPoint),
+  );
+}
+export function forecast(
+  a: Unit,
+  b: Unit,
+  s?: Campaign,
+  options: { counter?: boolean; charge?: boolean } = {},
+) {
   const w = activeWeapon(a),
     c = unitClass(b),
     adv = triangle(a, b),
-    supportA = bannerBonus(s, a),
-    supportB = bannerBonus(s, b);
+    sa = support(s, a),
+    sb = support(s, b);
   const effective =
     w.effective === "mounted"
       ? c.mounted
@@ -65,48 +103,59 @@ export function forecast(a: Unit, b: Unit, s?: Campaign) {
         : w.effective === "armored"
           ? c.armored
           : false;
-  const pierce = hasSkill(a, "pierce") ? tuning.pierce : 0,
-    charge =
-      hasSkill(a, "charge") &&
-      (a.movedDistance ?? 0) >= tuning.charge.minimumSteps
-        ? tuning.charge.damage
-        : 0;
-  const shield =
-    b.fortified && hasSkill(b, "fortify") && distance(a, b) > 1
-      ? tuning.paviseDefense
+  const pierce = hasSkill(a, "pierce") ? Math.floor(b.defense / 3) : 0;
+  const charge =
+    !options.counter &&
+    options.charge !== false &&
+    hasSkill(a, "charge") &&
+    (a.movedDistance ?? 0) >= rules.chargeSteps
+      ? rules.chargeDamage
       : 0;
-  const rounds = a.agility - b.agility >= 4 ? 2 : 1;
+  const cover = s?.sandboxFlat ? 0 : (cell(b.x, b.y)?.defense ?? 0);
+  const defense =
+    Math.max(0, b.defense - pierce) +
+    cover +
+    sb.defense +
+    (b.fortified && hasSkill(b, "fortify") ? rules.paviseDefense : 0);
+  const damage = Math.max(
+    rules.minimumDamage,
+    a.strength +
+      w.power +
+      adv * rules.triangle.damage +
+      (effective ? rules.effectiveDamage : 0) +
+      charge -
+      defense,
+  );
+  const hit = Math.max(
+    rules.hitMinimum,
+    Math.min(
+      rules.hitMaximum,
+      a.accuracy +
+        w.accuracy -
+        Math.floor(effectiveAgility(b) / 2) +
+        adv * rules.triangle.hit +
+        sa.hit,
+    ),
+  );
   return {
-    damage: Math.max(
-      1,
-      a.strength +
-        w.power +
-        adv * tuning.triangle.damage +
-        (effective ? tuning.effectiveDamage : 0) +
-        charge -
-        Math.max(0, b.defense - pierce) -
-        (cell(b.x, b.y)?.defense ?? 0) -
-        supportB.defense -
-        shield,
+    damage,
+    hit,
+    crit: Math.min(
+      rules.criticalMaximum,
+      Math.max(rules.criticalMinimum, Math.floor(a.agility / 3)),
     ),
-    hit: Math.max(
-      25,
-      Math.min(
-        98,
-        a.accuracy +
-          w.accuracy -
-          b.agility * 2 +
-          adv * tuning.triangle.hit +
-          supportA.hit,
-      ),
-    ),
-    crit: Math.max(2, Math.floor(a.agility / 2)),
-    strikes: rounds * w.attacks,
+    strikes:
+      (effectiveAgility(a) - effectiveAgility(b) >= rules.doubleThreshold
+        ? 2
+        : 1) * w.attacks,
     counter: canAttack(b, a),
     advantage: adv,
     effective: !!effective,
     pierce,
     charge,
+    parry: parryChance(a, b),
+    effectiveAgility: effectiveAgility(a),
+    defense,
   };
 }
 export type Strike = {
@@ -120,70 +169,97 @@ export type Strike = {
   parried?: boolean;
   interceptedFor?: string;
   counter?: boolean;
+  parryCounter?: boolean;
+  sequence?: number;
+  forecast?: ReturnType<typeof forecast>;
 };
 export type Battle = {
   strikes: Strike[];
   xp: { id: string; amount: number; level: boolean; before: number }[];
+  levelGains?: Record<string, import("./progression").StatGains>;
 };
-function random(s: Campaign) {
-  s.seed = (Math.imul(s.seed, 1664525) + 1013904223) >>> 0;
-  return (s.seed / 4294967296) * 100;
-}
 function resultBuilder(s: Campaign) {
   const result: Battle = { strikes: [], xp: [] },
     hp = new Map(s.units.map((u) => [u.id, u.hp]));
-  function strike(x: Unit, requested: Unit, counter = false) {
-    if ((hp.get(x.id) ?? 0) <= 0 || (hp.get(requested.id) ?? 0) <= 0) return;
-    const protector = s.units
-      .filter(
-        (p) =>
-          p.id !== requested.id &&
-          hasSkill(p, "intercept") &&
-          allied(s, p, requested) &&
-          (hp.get(p.id) ?? 0) > 0 &&
-          distance(p, requested) === 1,
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))[0];
-    const y = protector ?? requested,
-      p = forecast(x, y, s),
-      hit = random(s) < p.hit,
-      parried =
-        hit &&
-        hasSkill(y, "parry") &&
-        distance(x, y) === 1 &&
-        random(s) < tuning.parryChance,
-      critical = hit && !parried && random(s) < p.crit,
-      damage = hit && !parried ? p.damage * (critical ? 3 : 1) : 0;
-    hp.set(y.id, Math.max(0, hp.get(y.id)! - damage));
+  let serial = 0,
+    counterSpent = false;
+  const charged = new Set<string>();
+  function alive(u: Unit) {
+    return (hp.get(u.id) ?? 0) > 0;
+  }
+  function strike(
+    a: Unit,
+    requested: Unit,
+    critical: boolean,
+    counter = false,
+    parryCounter = false,
+    sequence = 0,
+  ) {
+    const protector = s.units.find(
+      (p) =>
+        p.id !== requested.id &&
+        alive(p) &&
+        hasSkill(p, "intercept") &&
+        allied(s, p, requested) &&
+        distance(p, requested) === 1,
+    );
+    const b = protector ?? requested;
+    if (!alive(a) || !alive(b)) return;
+    const p = forecast(a, b, s, { counter, charge: !charged.has(a.id) });
+    charged.add(a.id);
+    const hit = randomPercent(s) < p.hit,
+      parried = hit && randomPercent(s) < p.parry;
+    const damage =
+      hit && !parried
+        ? p.damage * (critical ? rules.criticalMultiplier : 1)
+        : 0;
+    hp.set(b.id, Math.max(0, hp.get(b.id)! - damage));
     result.strikes.push({
-      attacker: x.id,
-      defender: y.id,
+      attacker: a.id,
+      defender: b.id,
       hit,
       critical,
       damage,
-      hpAfter: hp.get(y.id)!,
+      hpAfter: hp.get(b.id)!,
       blocked: parried,
       parried,
-      interceptedFor: protector ? requested.id : undefined,
       counter,
+      parryCounter,
+      sequence,
+      forecast: p,
+      interceptedFor: protector ? requested.id : undefined,
     });
+    if (parried) observeSkill(s, b, "parry");
+    if (p.pierce) observeSkill(s, a, "pierce");
+    if (p.charge) observeSkill(s, a, "charge");
     if (
-      p.effective &&
-      (x.owner !== 0 ||
-        s.players.some((player) => player.visible.includes(y.y * 60 + y.x)))
+      parried &&
+      !counter &&
+      distance(a, b) === 1 &&
+      !counterSpent &&
+      alive(b) &&
+      canAttack(b, a)
     ) {
-      const weakness = `${activeWeapon(x).category}:${unitClass(y).id}`;
-      const known = (discoveries(s).weaknesses ??= []);
-      if (!known.includes(weakness)) known.push(weakness);
+      counterSpent = true;
+      offense(b, a, true, true);
     }
-    if (protector) observeSkill(s, protector, "intercept");
-    if (parried) observeSkill(s, y, "parry");
-    if (hasSkill(x, "dual")) observeSkill(s, x, "dual");
-    if (p.charge) observeSkill(s, x, "charge");
-    if (p.pierce) observeSkill(s, x, "pierce");
   }
-  function bundle(x: Unit, y: Unit, counter = false) {
-    for (let i = 0; i < activeWeapon(x).attacks; i++) strike(x, y, counter);
+  function offense(a: Unit, b: Unit, counter = false, parryCounter = false) {
+    for (
+      let weapon = 0;
+      weapon < activeWeapon(a).attacks && alive(a) && alive(b);
+      weapon++
+    ) {
+      const sequence = serial++,
+        critical = randomPercent(s) < forecast(a, b, s).crit;
+      const count = critical
+        ? 1
+        : effectiveAgility(a) - effectiveAgility(b) >= rules.doubleThreshold
+          ? 2
+          : 1;
+      for (let i = 0; i < count && alive(a) && alive(b); i++)
+        strike(a, b, critical, counter, parryCounter, sequence);
+    }
   }
   function finish() {
     for (const u of s.units)
@@ -193,32 +269,43 @@ function resultBuilder(s: Campaign) {
         result.strikes.some((t) => t.attacker === u.id)
       ) {
         const kills = new Set(
-            result.strikes
-              .filter((t) => t.attacker === u.id && t.hpAfter === 0)
-              .map((t) => t.defender),
-          ).size,
-          amount = kills ? 65 + Math.max(0, kills - 1) * 40 : 25;
+          result.strikes
+            .filter((t) => t.attacker === u.id && t.hpAfter === 0)
+            .map((t) => t.defender),
+        ).size;
+        const amount = kills ? 65 + Math.max(0, kills - 1) * 40 : 25;
         result.xp.push({
           id: u.id,
           amount,
-          level: u.level < unitClass(u).maxLevel && u.xp + amount >= 100,
           before: u.xp,
+          level: u.level < unitClass(u).maxLevel && u.xp + amount >= 100,
         });
       }
     return result;
   }
-  return { result, hp, strike, bundle, finish };
+  return {
+    result,
+    hp,
+    strike,
+    offense,
+    finish,
+    get counterSpent() {
+      return counterSpent;
+    },
+  };
 }
 export function resolve(s: Campaign, a: Unit, b: Unit): Battle {
   if (!canAttack(a, b)) throw Error("Attaque impossible");
   const out = resultBuilder(s),
-    counter = canAttack(b, a);
-  out.bundle(a, b);
-  if (counter) out.bundle(b, a, true);
-  if (a.agility - b.agility >= 4) out.bundle(a, b);
-  else if (counter && b.agility - a.agility >= 4) out.bundle(b, a, true);
+    canCounter = canAttack(b, a);
+  out.offense(a, b);
+  if (canCounter && !out.counterSpent) out.offense(b, a, true);
   if (activeWeapon(a).reload) a.crossbowLoaded = false;
-  if (counter && activeWeapon(b).reload) b.crossbowLoaded = false;
+  if (
+    out.result.strikes.some((t) => t.attacker === b.id) &&
+    activeWeapon(b).reload
+  )
+    b.crossbowLoaded = false;
   return out.finish();
 }
 export function canCastAreaAt(
@@ -237,7 +324,7 @@ export function canCastAreaAt(
       (t) =>
         t.hp > 0 &&
         (t.owner === 0) !== (u.owner === 0) &&
-        distance(t, target) <= tuning.area.radius &&
+        distance(t, target) <= rules.areaRadius &&
         los(target, t),
     )
   );
@@ -253,18 +340,19 @@ export function resolveArea(
     (t) =>
       t.hp > 0 &&
       (t.owner === 0) !== (u.owner === 0) &&
-      distance(t, target) <= tuning.area.radius &&
+      distance(t, target) <= rules.areaRadius &&
       los(target, t),
   ))
-    out.strike(u, t);
+    out.strike(u, t, randomPercent(s) < forecast(u, t, s).crit);
   observeSkill(s, u, "area");
   return out.finish();
 }
 export function applyStrike(s: Campaign, strike: Strike) {
-  const target = s.units.find((u) => u.id === strike.defender);
-  if (target) target.hp = strike.hpAfter;
+  const u = s.units.find((u) => u.id === strike.defender);
+  if (u) u.hp = strike.hpAfter;
 }
 export function applyXp(s: Campaign, b: Battle) {
+  b.levelGains ??= {};
   for (const e of b.xp) {
     const u = s.units.find((u) => u.id === e.id)!;
     if (u.level >= unitClass(u).maxLevel) {
@@ -275,15 +363,15 @@ export function applyXp(s: Campaign, b: Battle) {
     u.xp += e.amount;
     while (u.xp >= 100 && u.level < unitClass(u).maxLevel) {
       u.xp -= 100;
-      u.level++;
-      u.maxHp += 3;
-      u.hp = Math.min(u.maxHp, u.hp + 3);
-      u.strength++;
-      u.defense++;
-      log(
-        s,
-        `${u.name} atteint le niveau ${u.level}. PV +3 · Force +1 · Défense +1`,
+      const gains = gainLevel(s, u);
+      b.levelGains[u.id] = Object.fromEntries(
+        Object.entries(gains).map(([key, value]) => [
+          key,
+          (b.levelGains![u.id]?.[key as keyof typeof gains] ?? 0) +
+            (value ?? 0),
+        ]),
       );
+      log(s, `${u.name} atteint le niveau ${u.level}.`);
     }
     if (u.level >= unitClass(u).maxLevel) u.xp = 0;
     revealPromotionOptions(s, u);

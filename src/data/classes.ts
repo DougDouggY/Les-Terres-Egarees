@@ -1,3 +1,4 @@
+import { baseBalance, promotionBonuses, rules } from "./balance";
 export type Gender = "male" | "female";
 export type WeaponCategory =
   "sword" | "axe" | "lance" | "bow" | "crossbow" | "magic" | "healing";
@@ -14,7 +15,10 @@ export type SkillId =
   | "banner"
   | "fortify"
   | "summon"
-  | "area";
+  | "area"
+  | "transform"
+  | "buff"
+  | "defense_aura";
 export type ClassDefinition = {
   stats: {
     hp: number;
@@ -230,7 +234,7 @@ export const classes: Record<string, ClassDefinition> = Object.fromEntries(
       ["healing_focus"],
       [],
       ["heal"],
-      { pendingPromotions: 2, role: "Magie de soins uniquement" },
+      { role: "Magie de soins uniquement" },
     ),
     c(
       "man_at_arms",
@@ -459,6 +463,9 @@ export const skillNames: Record<SkillId, string> = {
   fortify: "Se fortifier",
   summon: "Invocation temporaire",
   area: "Attaque de zone",
+  transform: "Transformation en ours",
+  buff: "Amélioration",
+  defense_aura: "Aura de défense",
 };
 export const categoryNames: Record<WeaponCategory, string> = {
   sword: "Épée",
@@ -477,15 +484,92 @@ export const weaponTriangles: WeaponCategory[][] = [
 export const tuning = {
   provisional: true,
   healingXp: 25,
-  triangle: { damage: 1, hit: 10 },
-  effectiveDamage: 3,
-  parryChance: 20,
-  pierce: 2,
-  charge: { minimumSteps: 2, damage: 2 },
-  banner: { radius: 5, hit: 5, defense: 1 },
-  paviseDefense: 3,
-  heal: { power: 12, magicRange: 2, bandageRange: 1, bandages: 3 },
-  summon: { limit: 2, turns: 3, template: "skeleton" },
-  area: { radius: 1, friendlyFire: false, counter: false },
+  triangle: rules.triangle,
+  effectiveDamage: rules.effectiveDamage,
+  parry: rules.parry,
+  pierce: "floor(defense/3)",
+  charge: { minimumSteps: rules.chargeSteps, damage: rules.chargeDamage },
+  banner: rules.banner,
+  paviseDefense: rules.paviseDefense,
+  heal: {
+    base: rules.healBase,
+    magicRange: rules.healRange,
+    bandageRange: 1,
+    bandagePower: rules.bandageHeal,
+  },
+  summon: {
+    limit: rules.summons.limit,
+    turns: rules.summons.duration,
+    template: "skeleton",
+  },
+  area: { radius: rules.areaRadius, friendlyFire: false, counter: false },
   reloadConsumesAction: false,
 };
+
+classes.shaman.promotions = ["volva", "hamrammr"];
+delete classes.shaman.pendingPromotions;
+classes.volva = c(
+  "volva",
+  "Völva",
+  "north",
+  ["magic", "healing"],
+  ["spell", "healing_focus"],
+  [],
+  ["heal", "buff"],
+  {
+    stage: "advanced",
+    role: "Magie offensive, soins et améliorations",
+    visualStates: ["default"],
+  },
+);
+classes.hamrammr = c(
+  "hamrammr",
+  "Hamrammr",
+  "north",
+  ["healing", "sword"],
+  ["healing_focus", "claws"],
+  [],
+  ["heal", "transform"],
+  {
+    stage: "advanced",
+    role: "Soins humains et transformation temporaire en ours",
+    visualStates: ["default", "bear"],
+  },
+);
+classes.huscarl.skills = ["parry", "intercept"];
+classes.honor_guard.skills = ["parry", "defense_aura"];
+classes.cavalry.skills = [];
+classes.mounted_spearman.skills = ["charge"];
+for (const [id, data] of Object.entries(baseBalance)) {
+  const [hp, strength, defense, agility, accuracy, move, vision, initiative] =
+    data.stats;
+  classes[id].stats = {
+    hp,
+    strength,
+    defense,
+    agility,
+    accuracy,
+    move,
+    vision,
+    initiative,
+  };
+}
+for (const c of Object.values(classes).filter((c) => c.stage === "advanced")) {
+  const origin = Object.values(classes).find((b) =>
+    b.promotions.includes(c.id),
+  );
+  if (!origin) continue;
+  const b = promotionBonuses[c.id] ?? [];
+  c.stats = {
+    ...origin.stats,
+    hp: origin.stats.hp + (b[0] ?? 0),
+    strength: origin.stats.strength + (b[1] ?? 0),
+    defense: origin.stats.defense + (b[2] ?? 0),
+    agility: origin.stats.agility + (b[3] ?? 0),
+    initiative: origin.stats.initiative + (b[4] ?? 0),
+    accuracy: origin.stats.accuracy + (b[6] ?? 0),
+    move: c.mounted ? 8 : origin.stats.move + (b[7] ?? 0),
+  };
+}
+
+classes.cavalry.role = "Épée et bouclier à cheval · déplacement 8";

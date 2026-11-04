@@ -1,3 +1,4 @@
+import { hasShield } from "./progression";
 import type { Campaign, Unit } from "./types";
 import {
   activeWeapon,
@@ -23,6 +24,7 @@ export function equipWeapon(s: Campaign, u: Unit, id: string) {
     throw Error("Arme incompatible ou non transportée");
   u.activeWeaponId = id;
   syncWeapon(u);
+  if (hasShield(u) && !u.parryPoints) u.parryPoints = 1;
   discoverUnit(s, u, true);
 }
 export function reloadWeapon(s: Campaign, u: Unit) {

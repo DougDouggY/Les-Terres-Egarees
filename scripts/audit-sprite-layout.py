@@ -1,0 +1,42 @@
+"""Read-only raster audit. Writes crop/anchor metadata and a report; never changes images."""
+import json,hashlib
+from pathlib import Path
+import numpy as np
+from PIL import Image
+root=Path(__file__).resolve().parent.parent
+sources={}
+for path in sorted((root/'src/assets/tactical').glob('*.sprite.json')):
+ for profile in json.loads(path.read_text())['profiles']:
+  for clip in profile['clips'].values():
+   if 'source' in clip:sources[clip['source']]=(clip['columns'],clip['rows'])
+result={};issues=[]
+for source,(columns,rows) in sources.items():
+ path=root/('src/assets/'+source if source.startswith('tactical/') else 'public/'+source)
+ im=np.array(Image.open(path).convert('RGBA'));height,width=im.shape[:2];frames=[];corrected=0
+ for col in range(columns):
+  left,right=round(col*width/columns),round((col+1)*width/columns)
+  alpha=im[:,left:right,3];projection=(alpha>32).sum(1);runs=[];start=None
+  for y,count in enumerate(projection):
+   if count>1 and start is None:start=y
+   if count<=1 and start is not None:
+    if y-start>16 and projection[start:y].sum()>200:runs.append([start,y-1])
+    start=None
+  if start is not None:runs.append([start,height-1])
+  valid=len(runs)==rows
+  if not valid:issues.append(dict(source=source,column=col,problem='Séparation ambiguë des figures',expected=rows,detected=len(runs)))
+  for row in range(rows):
+   if valid:
+    low=0 if row==0 else (runs[row-1][1]+runs[row][0])//2
+    high=height if row==rows-1 else (runs[row][1]+runs[row+1][0])//2
+   else:low,high=round(row*height/rows),round((row+1)*height/rows)
+   yy,xx=np.where(alpha[low:high]>16)
+   if not len(xx):continue
+   x0,x1=left+int(xx.min()),left+int(xx.max())+1;y0,y1=low+int(yy.min()),low+int(yy.max())+1
+   if y0<round(row*height/rows) or y1>round((row+1)*height/rows):corrected+=1
+   defect= y0==0 or y1==height or x0==0 or x1==width
+   if defect:issues.append(dict(source=source,column=col,row=row,problem='Contact avec le bord de l’image source : pointe/pied à vérifier, aucun redessin automatique.'))
+   frames.append(dict(row=row,column=col,x=x0,y=y0,width=x1-x0,height=y1-y0,ground=y1,anchorX=(left+right)/2,ambiguous=not valid,sourceDefect=defect))
+ result[source]=dict(width=width,height=height,columns=columns,rows=rows,frames=frames,corrected=corrected)
+(root/'src/assets/tactical/atlas-layout.json').write_text(json.dumps(result,indent=2)+'\n')
+(root/'docs/SPRITE-AUDIT.json').write_text(json.dumps(dict(sources=len(result),correctedFrames=sum(v['corrected'] for v in result.values()),issues=issues),indent=2)+'\n')
+print(json.dumps(dict(sources=len(result),correctedFrames=sum(v['corrected'] for v in result.values()),issues=len(issues))))

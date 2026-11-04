@@ -18,10 +18,10 @@ const registry = buildSpriteCatalog(
   ),
 );
 if (registry.errors.length) throw Error(registry.errors.join("\n"));
-const totals = { functional: 0, provisional: 0, missing: 0 };
+const totals = { functional: 0, reused: 0, provisional: 0, missing: 0 };
 const report = Object.values(visualClasses).map((c) => {
   const profiles = registry.profiles.filter((p) => p.classId === c.id);
-  const counts = { functional: 0, provisional: 0, missing: 0 };
+  const counts = { functional: 0, reused: 0, provisional: 0, missing: 0 };
   const details = profiles.map((p) => ({
     note: p.note ?? "",
     gender: p.gender,
@@ -53,25 +53,26 @@ await writeFile(
 const lines = [
   "# Bilan de production visuelle",
   "",
-  "Cette phase ne modifie ni ne teste le gameplay. Les nouveaux Sans-Repos sont des définitions visuelles sans statistiques ni déploiement.",
+  "Mise à jour : tests indépendants de la campagne ; ressources existantes préservées. Les nouveaux Sans-Repos sont des définitions visuelles sans statistiques ni déploiement.",
   "",
   "Une référence de sprite existe pour " +
     report.filter((c) => c.profiles.length).length +
-    " entrées : 10 classes de base, 19 promotions définies, 2 recrues et 8 Sans-Repos. Les deux promotions du Chaman restent non définies.",
+    " entrées : 10 classes de base, 19 promotions définies, 2 recrues et 8 Sans-Repos. Völva et Hamrammr sont définis ; leurs sprites restent manquants.",
   "",
   "## Statuts réels",
   "",
   "- Fonctionnelle : au moins deux poses distinctes, réellement lues ; séquences courtes, sans promesse d’animation définitive fluide.",
+  "- Réutilisée : alias explicite d’une autre animation, jamais présentée comme une séquence dédiée.",
   "- Provisoire : pose unique, ressource historique, recyclage ou cycle identifié comme imparfait.",
   "- Manquante : aucune séquence adaptée enregistrée.",
   "",
   "Les comptes ci-dessous portent sur les animations attendues de chaque profil (sexe, équipement, état), pas sur des personnages ou des combats. La riposte peut réutiliser explicitement l’attaque.",
   "",
-  "| Classe | Profils | Fonctionnelles | Provisoires | Manquantes | Variantes de sexe non produites |",
-  "| --- | ---: | ---: | ---: | ---: | --- |",
+  "| Classe | Profils | Fonctionnelles | Réutilisées | Provisoires | Manquantes | Variantes de sexe non produites |",
+  "| --- | ---: | ---: | ---: | ---: | ---: | --- |",
   ...report.map(
     (c) =>
-      `| ${c.name} | ${c.profiles.length} | ${c.counts.functional} | ${c.counts.provisional} | ${c.counts.missing} | ${c.faction === "enemy" ? "Référence non sexuée" : [!c.variants.male ? "Homme" : "", !c.variants.female ? "Femme" : ""].filter(Boolean).join(", ") || "Aucune (référence dédiée ou neutre)"} |`,
+      `| ${c.name} | ${c.profiles.length} | ${c.counts.functional} | ${c.counts.reused} | ${c.counts.provisional} | ${c.counts.missing} | ${c.faction === "enemy" ? "Référence non sexuée" : [!c.variants.male ? "Homme" : "", !c.variants.female ? "Femme" : ""].filter(Boolean).join(", ") || "Aucune (référence dédiée ou neutre)"} |`,
   ),
   "",
   "## Points restant à retravailler",
@@ -92,7 +93,7 @@ const lines = [
   "",
   "Couleurs : ennemis rose vif par défaut ; choix joueurs sans rose et distincts. La galerie peut tester toutes les couleurs librement, indépendamment des préférences de partie.",
   "",
-  "Contrôles utilisés : `npm run test:visual`, `npm run test:visual-ui`, compilation TypeScript/Vite. Aucune simulation, aucun lancement du premier combat.",
+  "Contrôles utilisés : `npm run test:visual`, `npm run test:visual-ui`, compilation TypeScript/Vite. Simulations indépendantes via `npm run test:systems` ; aucun lancement du premier combat.",
 ];
 await writeFile("docs/SPRITES-PRODUCTION-REPORT.md", lines.join("\n") + "\n");
 console.log(

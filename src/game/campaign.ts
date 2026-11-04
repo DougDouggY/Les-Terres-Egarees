@@ -1,5 +1,14 @@
+import { companionRoster, validateCompanions } from "../data/companions";
+import { individualize } from "./progression";
 import { defaultTeamColors } from "./team-colors";
-import { discoverUnit, type HeroConfig, baseClasses, classes } from "./classes";
+import {
+  discoverUnit,
+  type HeroConfig,
+  baseClasses,
+  classes,
+  syncWeapon,
+  compatibleWeapon,
+} from "./classes";
 import { makeClassUnit } from "./units";
 import { finishActivationSkills } from "./skills";
 import type { Campaign, Unit, Perspective, Faction } from "./types";
@@ -15,45 +24,72 @@ const order = (units: Unit[]) =>
 export function createCampaign(
   factions: [Faction, Faction],
   heroes?: [HeroConfig, HeroConfig],
+  companions?: [string[], string[]],
 ): Campaign {
+  if (factions[0] === factions[1])
+    throw Error("Les deux joueurs doivent choisir des factions différentes.");
+  if (heroes && !companions)
+    throw Error("La sélection des compagnons est obligatoire.");
   const units: Unit[] = [];
   for (const owner of [1, 2] as const) {
-    const north = factions[owner - 1] === "north";
-    const x = owner === 1 ? 10 : 52,
-      y = owner === 1 ? 10 : 32;
-    units.push(
-      makeUnit(
-        `p${owner}a`,
-        owner,
-        owner,
-        north ? "shield" : "sword",
-        north
-          ? owner === 1
-            ? "Eirik"
-            : "Bryn"
-          : owner === 1
-            ? "Ysilde"
-            : "Maël",
-        x,
-        y,
-        true,
-      ),
-      makeUnit(
-        `p${owner}b`,
-        owner,
-        owner,
-        north ? "bow" : "crossbow",
-        north
-          ? owner === 1
-            ? "Astrid"
-            : "Solveig"
-          : owner === 1
-            ? "Gaspard"
-            : "Alix",
-        x + 1,
-        y + 1,
-      ),
+    const faction = factions[owner - 1],
+      north = faction === "north",
+      x = north ? 10 : 52,
+      y = north ? 10 : 32;
+    const h = heroes?.[owner - 1] ?? {
+      faction,
+      name: north ? "Eirik" : "Maël",
+      gender: "male" as const,
+      classId: north ? "raider" : "man_at_arms",
+    };
+    if (
+      h.faction !== faction ||
+      classes[h.classId]?.faction !== faction ||
+      classes[h.classId]?.stage !== "base" ||
+      !h.name.trim() ||
+      h.name.trim().length > 32
+    )
+      throw Error("Héros invalide");
+    const hero = makeClassUnit(
+      `p${owner}a`,
+      owner,
+      owner,
+      h.classId,
+      h.name.trim(),
+      x,
+      y,
+      h.gender,
     );
+    hero.leader = true;
+    if (h.weaponId) {
+      if (!compatibleWeapon(hero, h.weaponId))
+        throw Error("Arme initiale incompatible");
+      hero.activeWeaponId = h.weaponId;
+      hero.carriedWeapons = Array.from(
+        new Set([...(hero.carriedWeapons ?? []), h.weaponId]),
+      );
+      syncWeapon(hero);
+    }
+    individualize(hero);
+    units.push(hero);
+    const ids =
+      companions?.[owner - 1] ?? (north ? ["astrid", "solveig"] : ["gaspard"]);
+    validateCompanions(faction, ids);
+    ids.forEach((id, i) => {
+      const c = companionRoster.find((c) => c.id === id)!;
+      const unit = makeClassUnit(
+        `p${owner}${i === 0 ? "b" : "c"}`,
+        owner,
+        owner,
+        c.classId,
+        c.name,
+        x + (i === 0 ? 1 : 0),
+        y + 1,
+        c.gender,
+      );
+      individualize(unit);
+      units.push(unit);
+    });
   }
   units.push(
     makeUnit("e1", 0, 1, "skeleton", "Guetteur noyé", 16, 10),
@@ -61,32 +97,9 @@ export function createCampaign(
     makeUnit("e3", 0, 1, "skeleton", "Veilleur des ruines", 28, 20),
     makeUnit("e4", 0, 2, "skeleton", "Gardien sans nom", 37, 20),
   );
-  if (heroes)
-    for (const owner of [1, 2] as const) {
-      const h = heroes[owner - 1];
-      if (
-        h.faction !== factions[owner - 1] ||
-        classes[h.classId]?.faction !== h.faction ||
-        classes[h.classId]?.stage !== "base" ||
-        !h.name.trim() ||
-        h.name.trim().length > 32
-      )
-        throw Error("Héros invalide");
-      const index = units.findIndex((u) => u.owner === owner && u.leader),
-        old = units[index];
-      const hero = makeClassUnit(
-        old.id,
-        owner,
-        owner,
-        h.classId,
-        h.name.trim(),
-        old.x,
-        old.y,
-        h.gender,
-      );
-      hero.leader = true;
-      units[index] = hero;
-    }
+  for (const u of units.filter((u) => u.owner === 0))
+    u.front = (factions.indexOf(u.front === 1 ? "north" : "knight") + 1) as
+      1 | 2;
   const p = (): Perspective => ({
     camera: { x: 0, y: 0 },
     explored: [],
@@ -229,7 +242,15 @@ export function advance(s: Campaign) {
     ] as const) {
       if (!at(s, x, y))
         s.units.push(
-          makeUnit(id, 0, fr, "skeleton", "Égaré de la horde", x, y),
+          makeUnit(
+            id,
+            0,
+            (s.factions.indexOf(fr === 1 ? "north" : "knight") + 1) as 1 | 2,
+            "skeleton",
+            "Égaré de la horde",
+            x,
+            y,
+          ),
         );
     }
     log(s, "La horde approche. Atteignez le sanctuaire !");

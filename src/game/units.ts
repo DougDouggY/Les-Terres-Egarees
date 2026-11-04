@@ -1,3 +1,4 @@
+import { initializeProgression } from "./progression";
 import { hydrateClass, assignClass, classes, validateRecruit } from "./classes";
 import type { Unit, Kind } from "./types";
 export const names: Record<Kind, string> = {
@@ -87,5 +88,6 @@ export function makeClassUnit(
   assignClass(u, classId);
   hydrateClass(u);
   validateRecruit(u);
+  initializeProgression(u);
   return u;
 }

@@ -1,0 +1,269 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-extra-eight.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-extra-eight.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "male",
+      "equipment": "axe-shield",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-extra-eight.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "female",
+      "equipment": "axe-shield",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-extra-eight.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            },
+            {
+              "row": 6,
+              "column": 3
+            },
+            {
+              "row": 7,
+              "column": 0
+            },
+            {
+              "row": 7,
+              "column": 1
+            },
+            {
+              "row": 7,
+              "column": 2
+            },
+            {
+              "row": 7,
+              "column": 3
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    }
+  ]
+}

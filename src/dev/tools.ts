@@ -24,7 +24,7 @@ import {
 import { weaponCatalog } from "../data/weapons";
 import {
   spriteCatalog,
-  drawResourceFrame,
+  drawResourceFrame as drawFrame,
   resourceStatus,
   spriteImage,
   looseSpriteFiles,
@@ -49,7 +49,7 @@ export function openSystems(app: HTMLElement, onBack: () => void) {
   let selected = "raider";
   const render = () => {
     const c = classes[selected];
-    app.innerHTML = `<main class="dev-screen"><header class="dev-top"><div><span class="dev-badge">DÉVELOPPEMENT UNIQUEMENT</span><h1>Classes et systèmes</h1></div><button data-dev-back>Retour au menu</button></header><div class="dev-note">Statistiques et bonus de test, à équilibrer. Les promotions du Chaman ne sont pas définies : aucune capacité ni identité supplémentaire n’est inventée.</div><div class="dev-layout"><aside class="dev-classes">${Object.values(
+    app.innerHTML = `<main class="dev-screen"><header class="dev-top"><div><span class="dev-badge">DÉVELOPPEMENT UNIQUEMENT</span><h1>Classes et systèmes</h1></div><button data-dev-back>Retour au menu</button></header><div class="dev-note">Statistiques et bonus de test, à équilibrer. Les promotions Völva et Hamrammr sont configurées. Leurs ressources manquantes restent signalées.</div><div class="dev-layout"><aside class="dev-classes">${Object.values(
       classes,
     )
       .map(
@@ -97,11 +97,32 @@ type Selection = {
 };
 type Review = { status: string; comment: string };
 export function openGallery(app: HTMLElement, onBack: () => void) {
+  function drawResourceFrame(...args: Parameters<typeof drawFrame>) {
+    const [ctx, , , , x, y, w, h] = args;
+    ctx.save();
+    if (mirrored) {
+      ctx.translate(2 * x + w, 0);
+      ctx.scale(-1, 1);
+    }
+    const r = drawFrame(...args);
+    ctx.restore();
+    if (groundLine) {
+      ctx.strokeStyle = "#e7d297aa";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x, y + h * 0.96);
+      ctx.lineTo(x + w, y + h * 0.96);
+      ctx.stroke();
+    }
+    return r;
+  }
   const classes = visualClasses;
   const terrainImage = new Image();
   terrainImage.src = import.meta.env.BASE_URL + "assets/regional-tiles.png";
   const terrain = new TerrainRenderer(terrainImage);
-  let previewTerrain = "road";
+  let previewTerrain = "road",
+    groundLine = true,
+    mirrored = false;
   const previewLocations: Record<string, [number, number]> = {
     road: [31, 20],
     forest: [17, 17],
@@ -261,7 +282,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       )
       .join(
         "",
-      )}<p>Chaman : deux promotions à définir, sans sprite ni caractéristiques inventés.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${statusNames[animationStatus(p, id)]}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><p class="dev-note"><strong>${statusNames[animationStatus(p, selection.animation)]}</strong> · ${clip?.note ?? (clip && clip.frames.length === 1 ? "Pose statique : ce n’est pas une animation complète." : clip?.status === "provisional" ? "Séquence provisoire à retravailler." : !clip ? "Aucune ressource enregistrée." : "Séquence de poses distinctes.")} ${p?.note ?? ""}</p><div class="dev-controls"><button data-export-library>Bilan des sprites et animations (JSON)</button><label>Terrain d’inspection<select id="preview-terrain">${[
+      )}<p>Völva et Hamrammr : sprites à produire ; aucun ours de remplacement.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${statusNames[animationStatus(p, id)]}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><p class="dev-note"><strong>${statusNames[animationStatus(p, selection.animation)]}</strong> · ${clip?.note ?? (clip && clip.frames.length === 1 ? "Pose statique : ce n’est pas une animation complète." : clip?.status === "provisional" ? "Séquence provisoire à retravailler." : !clip ? "Aucune ressource enregistrée." : "Séquence de poses distinctes.")} ${p?.note ?? ""}</p><div class="dev-controls"><label><input type="checkbox" id="ground-line" ${groundLine ? "checked" : ""}>Ligne de sol commune</label><label><input type="checkbox" id="mirror-sprites" ${mirrored ? "checked" : ""}>Inverser l’orientation</label><button data-export-library>Bilan des sprites et animations (JSON)</button><label>Terrain d’inspection<select id="preview-terrain">${[
       ["road", "Route près des ruines"],
       ["forest", "Forêt"],
       ["coast", "Côte"],
@@ -279,6 +300,10 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
     ) => {
       previewTerrain = (e.target as HTMLSelectElement).value;
     };
+    app.querySelector<HTMLInputElement>("#ground-line")!.onchange = (e) =>
+      (groundLine = (e.target as HTMLInputElement).checked);
+    app.querySelector<HTMLInputElement>("#mirror-sprites")!.onchange = (e) =>
+      (mirrored = (e.target as HTMLInputElement).checked);
     (app.querySelector("[data-export-library]") as HTMLButtonElement).onclick =
       () => {
         const rows = Object.values(classes).map((c) => ({

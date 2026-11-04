@@ -36,6 +36,26 @@ export type Cell = {
   interactive?: string;
 };
 export type Unit = {
+  originClassId?: string;
+  individualVariation?: Record<string, number>;
+  lastLevelGains?: import("./progression").StatGains;
+  parryPoints?: number;
+  parryBonusWon?: boolean;
+  promoted?: boolean;
+  bearForm?: boolean;
+  bearTurns?: number;
+  bearCooldown?: number;
+  bearBase?: {
+    maxHp: number;
+    strength: number;
+    defense: number;
+    agility: number;
+    move: number;
+    weapon: string;
+  };
+  visualFallbackClassId?: string;
+  buff?: { defense: number; turns: number };
+
   classId?: string;
   gender?: import("../data/classes").Gender;
   portraitAsset?: string;
@@ -83,6 +103,10 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  sandbox?: boolean;
+  sandboxFlat?: boolean;
+  recruitmentClaims?: Record<string, 1 | 2>;
+  chapterMode?: "cooperative" | "separate";
   teamColors?: import("./team-colors").TeamColors;
   discoveries?: {
     weaknesses?: string[];
@@ -90,7 +114,13 @@ export type Campaign = {
     weapons: import("../data/classes").WeaponCategory[];
     skills: import("../data/classes").SkillId[];
   };
-  banners?: { owner: 1 | 2; x: number; y: number }[];
+  banners?: {
+    owner: 1 | 2;
+    x: number;
+    y: number;
+    hp?: number;
+    maxHp?: number;
+  }[];
   activationSerial?: number;
   summonSerial?: number;
   camp?: CampProgress;

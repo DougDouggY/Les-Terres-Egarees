@@ -24,6 +24,9 @@ export type SpriteProfile = {
   clips: Record<string, ClipDefinition>;
 };
 export const animationNames: Record<string, string> = {
+  critical: "Critique",
+  transform: "Transformation en ours",
+  buff: "Amélioration",
   idle: "Repos",
   move: "Déplacement",
   attack: "Attaque",
@@ -169,9 +172,12 @@ export function animationStatus(
   );
   if (clip.status === "provisional" || distinct.size < 2 || !clip.recolor)
     return "provisional" as const;
+  if (profile?.clips[id] && "reuse" in profile.clips[id])
+    return "reused" as const;
   return "functional" as const;
 }
 export const statusNames = {
+  reused: "Réutilisée",
   functional: "Fonctionnelle",
   provisional: "Provisoire",
   missing: "Manquante",

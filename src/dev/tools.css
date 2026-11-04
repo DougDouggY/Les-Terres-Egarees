@@ -201,3 +201,37 @@
   image-rendering: pixelated;
   border: 1px solid #92845a;
 }
+.lab-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.lab-panels section {
+  padding: 12px;
+  border: 2px solid;
+}
+.workshop #lab-battle {
+  width: 100%;
+  max-height: 50vh;
+  background: linear-gradient(#183a30, #121e20);
+  image-rendering: pixelated;
+}
+.workshop #lab-map {
+  width: 100%;
+  image-rendering: pixelated;
+}
+.workshop pre {
+  max-height: 280px;
+  overflow: auto;
+}
+.lab-panels .hp {
+  height: 12px;
+  background: #441c24;
+  margin: 8px 0;
+}
+.lab-panels .hp i {
+  display: block;
+  height: 100%;
+  background: #93bf8c;
+  transition: width 0.2s;
+}

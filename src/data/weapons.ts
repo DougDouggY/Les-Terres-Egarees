@@ -1,3 +1,4 @@
+import { weaponBalance } from "./balance";
 import type { WeaponCategory } from "./classes";
 export type WeaponDefinition = {
   id: string;
@@ -6,6 +7,7 @@ export type WeaponDefinition = {
   min: number;
   max: number;
   power: number;
+  agilityPenalty?: number;
   accuracy: number;
   attacks: number;
   rarity: "training" | "common" | "rare" | "legendary";
@@ -61,7 +63,7 @@ export const weaponCatalog: Record<string, WeaponDefinition> =
       }),
       w("spell", "Magie offensive", "magic", "spell", { max: 2 }),
       w("healing_focus", "Magie de soins", "healing", "healing", {
-        min: 0,
+        min: 1,
         max: 2,
       }),
       w("banner_lance", "Bannière portée", "lance", "banner", {
@@ -82,3 +84,38 @@ export const weaponCatalog: Record<string, WeaponDefinition> =
       }),
     ].map((w) => [w.id, w]),
   );
+
+for (const w of Object.values(weaponCatalog)) {
+  if (w.id === "rusty_sword") continue;
+  const values = weaponBalance[w.category];
+  if (values) {
+    w.power = values[0];
+    w.accuracy = values[1];
+    w.agilityPenalty = values[2];
+  }
+  if (w.id === "great_axe") {
+    w.power = 10;
+    w.accuracy = -20;
+    w.agilityPenalty = 4;
+    w.effective = undefined;
+  }
+  if (w.id === "great_sword") {
+    w.power = 9;
+    w.accuracy = -15;
+    w.agilityPenalty = 3;
+  }
+  if (w.rarity === "training") w.power = Math.max(1, w.power - 2);
+}
+weaponCatalog.claws = {
+  id: "claws",
+  name: "Griffes",
+  category: "sword",
+  visual: "claws",
+  min: 1,
+  max: 1,
+  power: 5,
+  accuracy: 5,
+  agilityPenalty: 0,
+  attacks: 1,
+  rarity: "common",
+};

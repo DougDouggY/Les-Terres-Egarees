@@ -1,3 +1,5 @@
+import { promotionBonuses, rules } from "../data/balance";
+import { initializeProgression, hasShield, baseOrigin } from "./progression";
 import type { Campaign, Unit, Kind, Faction } from "./types";
 import {
   classes,
@@ -28,6 +30,7 @@ export type HeroConfig = {
   name: string;
   gender: Gender;
   classId: string;
+  weaponId?: string;
 };
 const legacy: Record<Kind, string> = {
   shield: "raider",
@@ -53,9 +56,11 @@ export const visualState = (u: Unit) =>
     ? u.bannerPlanted
       ? "planted"
       : "carried"
-    : u.fortified
-      ? "fortified"
-      : "default";
+    : u.bearForm
+      ? "bear"
+      : u.fortified
+        ? "fortified"
+        : "default";
 export function syncWeapon(u: Unit) {
   const w = activeWeapon(u);
   u.minRange = w.min;
@@ -67,12 +72,13 @@ export function hydrateClass(u: Unit) {
   u.carriedWeapons ??= [...unitClass(u).starter];
   u.activeWeaponId ??= u.carriedWeapons[0];
   u.crossbowLoaded ??= true;
-  u.bandages ??= tuning.heal.bandages;
+  u.bandages ??= 0; // Stock not consumed in this prototype.
   u.bannerPlanted ??= false;
   u.bannerUsed ??= false;
   u.fortified ??= false;
   u.movedDistance ??= 0;
   syncWeapon(u);
+  initializeProgression(u);
 }
 export function kindForClass(id: string): Kind {
   const c = classes[id];
@@ -137,18 +143,41 @@ export function promote(s: Campaign, u: Unit, id: string) {
     throw Error("Promotion indisponible");
   const c = classes[id];
   if (c.faction !== unitClass(u).faction) throw Error("Promotion incompatible");
+  initializeProgression(u);
+  const wasRecruit = unitClass(u).stage === "recruit";
+  const old = unitClass(u).id,
+    weapon = u.activeWeaponId,
+    parry = u.parryPoints ?? 0;
   assignClass(u, id);
+  if (wasRecruit) u.originClassId = id;
+  u.visualFallbackClassId = old;
   u.level = 1;
   u.xp = 0;
-  u.maxHp += 3;
-  u.hp = Math.min(u.maxHp, u.hp + 3);
-  u.strength += 2;
-  u.defense++;
-  if (c.mounted) u.move += 2;
-  if (hasSkill(u, "forest_move")) {
-    u.vision += 2;
-  }
-  if (hasSkill(u, "long_range")) u.accuracy += 5;
+  u.promoted = true;
+  u.parryBonusWon = false;
+  const b = promotionBonuses[id] ?? [];
+  u.maxHp += b[0] ?? 0;
+  u.hp = Math.min(u.maxHp, u.hp + (b[0] ?? 0));
+  u.strength += b[1] ?? 0;
+  u.defense += b[2] ?? 0;
+  u.agility += b[3] ?? 0;
+  u.initiative += b[4] ?? 0;
+  u.accuracy += b[6] ?? 0;
+  u.move += b[7] ?? 0;
+  if (
+    ["huscarl", "clan_healer"].includes(id) &&
+    weapon &&
+    u.carriedWeapons?.includes(weapon)
+  )
+    u.activeWeaponId = weapon;
+  u.parryPoints = Math.min(
+    ["huscarl", "guard_knight"].includes(id) ? 4 : 2,
+    parry + (b[5] ?? 0),
+  );
+  if (hasShield(u) && !u.parryPoints) u.parryPoints = 1;
+  if (c.mounted) u.move = 8;
+  if (["tracker", "ranger"].includes(id)) u.vision = Math.max(u.vision, 7);
+  syncWeapon(u);
   discoverUnit(s, u, true);
 }
 export function validateRecruit(u: Unit) {
@@ -174,6 +203,19 @@ export function compatibleWeapon(u: Unit, id: string) {
   return (
     !!w &&
     c.weapons.includes(w.category) &&
+    (c.id !== "hamrammr" ||
+      (u.bearForm ? id === "claws" : w.category === "healing")) &&
+    (![
+      "raider",
+      "huscarl",
+      "clan_healer",
+      "honor_guard",
+      "man_at_arms",
+      "guard_knight",
+      "royal_guard",
+    ].includes(c.id) ||
+      w.visual.includes("shield")) &&
+    (!["berserker", "drengr", "duelist"].includes(c.id) || w.attacks === 2) &&
     !(c.stage === "recruit" && ["rare", "legendary"].includes(w.rarity)) &&
     !(
       hasSkill(u, "banner") &&
