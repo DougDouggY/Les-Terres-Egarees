@@ -209,3 +209,38 @@ test("recrutements verrouillés par faction, pas par numéro du joueur", () => {
   assert.throws(() => E.validateCompanions("north", ["astrid"]));
   E.validateCompanions("north", ["astrid", "solveig"]);
 });
+
+test("ordre réel : une arme alterne avec la riposte ; deux armes restent ensemble avant le bonus d’agilité", () => {
+  for (const classId of ["man_at_arms", "berserker"]) {
+    let verified = false;
+    for (let seed = 1; seed < 100 && !verified; seed++) {
+      const { s, a, b } = pair(classId, "man_at_arms");
+      s.seed = seed;
+      a.agility = 20;
+      b.agility = 5;
+      a.parryPoints = b.parryPoints = 0;
+      a.hp = a.maxHp = b.hp = b.maxHp = 1000;
+      const result = E.resolve(s, a, b);
+      if (result.strikes.some((t) => t.critical)) continue;
+      verified = true;
+      assert.deepEqual(
+        result.strikes.map((t) => t.attacker),
+        classId === "berserker"
+          ? [a.id, a.id, b.id, a.id, a.id]
+          : [a.id, b.id, a.id],
+      );
+      const attack = result.strikes.filter((t) => t.attacker === a.id);
+      if (classId === "berserker") {
+        assert.equal(attack[0].group, attack[1].group);
+        assert.equal(attack[2].group, attack[3].group);
+        assert.notEqual(attack[0].group, attack[2].group);
+        assert.deepEqual(
+          attack.map((t) => t.weaponIndex),
+          [0, 1, 0, 1],
+        );
+      }
+      assert.equal(attack.at(-1)?.followUp, true);
+    }
+    assert.ok(verified);
+  }
+});

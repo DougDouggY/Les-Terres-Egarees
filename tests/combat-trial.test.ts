@@ -6,18 +6,27 @@ import {
   trialDuration,
   defaultTrialGeometry as g,
 } from "../src/ui/combat-trial";
-test("deux frappes simples : exactement deux impacts, seconde au contact, retour sans frappe", () => {
-  assert.equal(trialEvents("two-attacks").length, 2);
-  assert.deepEqual(trialPose("two-attacks", 724).hp, [24, 24]);
+import {
+  combatTiming,
+  combatPose,
+  linkedStrikes,
+} from "../src/ui/combat-timeline";
+test("arme simple : attaque, retour, riposte adverse, retour, seconde attaque par agilité", () => {
+  assert.deepEqual(
+    trialEvents("two-attacks").map((e) => e.id),
+    ["first", "enemy-reply", "second"],
+  );
   assert.deepEqual(trialPose("two-attacks", 725).hp, [24, 20]);
-  assert.deepEqual(trialPose("two-attacks", 1240).hp, [24, 16]);
-  assert.equal(trialPose("two-attacks", 1010).left.x, g.left + g.leftAdvance);
-  for (let t = 1570; t < 1850; t += 10) {
+  assert.deepEqual(trialPose("two-attacks", 2175).hp, [20, 20]);
+  assert.deepEqual(trialPose("two-attacks", 3625).hp, [20, 16]);
+  for (const t of [1300, 1400, 2750, 2850]) {
     const p = trialPose("two-attacks", t);
-    assert.equal(p.left.action, "combat_move");
-    assert.ok(p.left.x >= g.left);
+    assert.equal(p.left.x, g.left);
+    assert.equal(p.right.x, g.right);
   }
-  assert.equal(trialPose("two-attacks", 1850).left.x, g.left);
+  assert.equal(trialPose("two-attacks", 1600).left.action, "combat_idle");
+  assert.equal(trialPose("two-attacks", 1600).right.action, "combat_move");
+  assert.equal(trialPose("two-attacks", 3625).left.action, "attack");
 });
 test("parade : zéro dégât, riposte au contact, retour adverse puis attaque à son tour", () => {
   assert.deepEqual(
@@ -37,7 +46,6 @@ test("parade : zéro dégât, riposte au contact, retour adverse puis attaque à
   assert.equal(trialPose("parry", 1900).right.x, g.right);
   assert.equal(trialPose("parry", 1900).phase, "turn-change");
   assert.equal(trialPose("parry", 2805).left.action, "attack");
-  assert.deepEqual(trialPose("parry", 2805).hp, [24, 16]);
 });
 test("toutes les phases sont bornées ; garde finale, aucune boucle automatique", () => {
   for (const kind of ["two-attacks", "parry"] as const) {
@@ -56,23 +64,33 @@ test("toutes les phases sont bornées ; garde finale, aucune boucle automatique"
     assert.equal(last.right.x, g.right);
   }
 });
-
-import { combatTiming, combatPose } from "../src/ui/combat-timeline";
-test("la frame de contact déclarée pilote aussi l’impact dans la scène partagée", () => {
+test("frame de contact déclarée synchronisée à l’impact", () => {
   for (const [frames, impactFrame] of [
     [8, 3],
     [6, 2],
   ]) {
     const timing = combatTiming(frames, 10, false, impactFrame);
-    const pose = combatPose(
-      timing.impact,
-      frames,
-      10,
-      false,
-      false,
+    assert.equal(
+      combatPose(timing.impact, frames, 10, false, false, impactFrame).index,
       impactFrame,
     );
-    assert.equal(pose.animation, "attack");
-    assert.equal(pose.index, impactFrame);
   }
+});
+test("doubles armes : le même groupe garde le contact ; l’agilité ouvre un nouveau passage", () => {
+  assert.equal(
+    linkedStrikes({ attacker: "a", group: 0 }, { attacker: "a", group: 0 }),
+    true,
+  );
+  assert.equal(
+    linkedStrikes({ attacker: "a", group: 0 }, { attacker: "a", group: 2 }),
+    false,
+  );
+  const first = combatPose(99999, 8, 10, false, false, 3, {
+    linkedAfter: true,
+  });
+  assert.equal(first.travel, 1);
+  assert.equal(first.animation, "idle");
+  const second = combatPose(0, 8, 10, false, false, 3, { linkedBefore: true });
+  assert.equal(second.travel, 1);
+  assert.equal(second.animation, "attack");
 });

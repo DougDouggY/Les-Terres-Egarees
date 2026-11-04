@@ -20,7 +20,7 @@ import {
   animationStatus,
   statusNames,
 } from "../sprites/catalog";
-import { combatPose } from "../ui/combat-timeline";
+import { combatPose, linkedStrikes } from "../ui/combat-timeline";
 import { TerrainRenderer } from "../terrain";
 const esc = (s: string) =>
   s.replace(
@@ -299,6 +299,10 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
           attacker.range > 1,
           hit.counter,
           c?.impactFrame,
+          {
+            linkedBefore: linkedStrikes(result?.strikes[index - 1], hit),
+            linkedAfter: linkedStrikes(hit, result?.strikes[index + 1]),
+          },
         );
         if (now - started >= pose.impact && !applied) {
           E.applyStrike(s, hit);

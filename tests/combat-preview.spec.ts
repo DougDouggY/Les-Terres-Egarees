@@ -16,11 +16,11 @@ test("deux boutons : deux frappes et parade/riposte/attaque, rejouables pour les
     await page.locator("#trial-speed").selectOption("2");
     await page.locator('[data-trial="two-attacks"]').click();
     await expect(page.locator("#trial-status")).toHaveText("Essai terminé");
-    await expect(page.locator("#trial-events li")).toHaveCount(2);
-    await expect(page.locator('[data-trial-value="0"]')).toHaveText(
-      "24 / 24 PV",
+    await expect(page.locator("#trial-events li")).toHaveCount(3);
+    await expect(page.locator('[data-combat-value="0"]')).toHaveText(
+      "20 / 24 PV",
     );
-    await expect(page.locator('[data-trial-value="1"]')).toHaveText(
+    await expect(page.locator('[data-combat-value="1"]')).toHaveText(
       "16 / 24 PV",
     );
     await page.locator('[data-trial="parry"]').click();
@@ -117,11 +117,48 @@ test("poses de contact lisibles et écran utilisable sur petit écran", async ({
       () => document.documentElement.scrollWidth <= innerWidth + 1,
     ),
   ).toBe(true);
-  const hud = await page.locator(".trial-hud").boundingBox(),
+  const hud = await page.locator(".duel-panels").boundingBox(),
     canvas = await page.locator("#trial-canvas").boundingBox();
-  expect(hud!.y + hud!.height).toBeLessThanOrEqual(canvas!.y + 1);
+  expect(hud!.y).toBeGreaterThanOrEqual(canvas!.y + canvas!.height - 1);
+
   await page.screenshot({
     path: "artifacts/combat-pair-mobile.png",
     fullPage: true,
   });
+});
+
+test("les nuances roses réelles du contour sont bleues ; peau, cuir et transparence préservés", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Essai des combats", exact: true })
+    .click();
+  await expect(page.locator('[data-trial="two-attacks"]')).toBeEnabled();
+  const pixels = await page.evaluate(async () => {
+    const { spriteImage } = await import("/src/sprites/resources.ts" as string),
+      { recoloredImage } = await import("/src/sprites/recolor.ts" as string);
+    const im = spriteImage("tactical/combat-pair-reference-v2.png");
+    await im.decode();
+    const src = document.createElement("canvas");
+    src.width = im.naturalWidth;
+    src.height = im.naturalHeight;
+    src.getContext("2d")!.drawImage(im, 0, 0);
+    const result = recoloredImage(im, "blue", true);
+    const sample = (canvas: HTMLCanvasElement, x: number, y: number) =>
+      Array.from(canvas.getContext("2d")!.getImageData(x, y, 1, 1).data);
+    return {
+      edgeBefore: sample(src, 87, 110),
+      edgeAfter: sample(result, 87, 110),
+      skinBefore: sample(src, 111, 64),
+      skinAfter: sample(result, 111, 64),
+      leatherBefore: sample(src, 148, 182),
+      leatherAfter: sample(result, 148, 182),
+    };
+  });
+  expect(pixels.edgeAfter[1]).toBeGreaterThan(pixels.edgeAfter[0]);
+  expect(pixels.edgeAfter).not.toEqual(pixels.edgeBefore);
+  expect(pixels.edgeAfter[3]).toEqual(pixels.edgeBefore[3]);
+  expect(pixels.skinAfter).toEqual(pixels.skinBefore);
+  expect(pixels.leatherAfter).toEqual(pixels.leatherBefore);
 });

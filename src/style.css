@@ -3013,3 +3013,36 @@ h2 {
 .title-copy {
   z-index: 3;
 }
+/* Combat uses a compact field frame shared with the review screen. */
+.combat-screen .game-duel {
+  width: min(1200px, 100vw, calc(200dvh - 220px));
+  margin: 8px auto 0;
+  background-size: cover;
+  background-position: center;
+}
+.combat-screen #combat {
+  max-height: none;
+  object-fit: fill;
+  position: relative;
+}
+.combat-screen .combat-hud {
+  display: contents;
+}
+.combat-screen header {
+  padding: 18px 5%;
+  min-height: 0;
+}
+.combat-screen footer {
+  position: relative;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  padding: 14px 5%;
+}
+.combat-screen .duel-stage #combat-result {
+  top: 58%;
+  font-size: 23px;
+}
+.combat-screen .duel-hp i {
+  transition: width 0.18s;
+}

@@ -1,5 +1,6 @@
 export type Clip = {
   impactFrame?: number;
+  recolorEdges?: boolean;
   cells?: { row: number; column: number }[];
   loop?: boolean;
   status?: "functional" | "provisional";

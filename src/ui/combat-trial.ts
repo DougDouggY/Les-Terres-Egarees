@@ -31,7 +31,7 @@ export const defaultTrialGeometry: TrialGeometry = {
   counterAdvance: 0,
 };
 export const trialDuration = (kind: TrialKind) =>
-  kind === "two-attacks" ? 1850 : 3330;
+  kind === "two-attacks" ? 4150 : 3330;
 export function trialEvents(kind: TrialKind): TrialEvent[] {
   return kind === "two-attacks"
     ? [
@@ -40,14 +40,21 @@ export function trialEvents(kind: TrialKind): TrialEvent[] {
           at: 725,
           target: 1,
           damage: 4,
-          label: "Première frappe",
+          label: "Première attaque",
+        },
+        {
+          id: "enemy-reply",
+          at: 2175,
+          target: 0,
+          damage: 4,
+          label: "Riposte adverse",
         },
         {
           id: "second",
-          at: 1240,
+          at: 3625,
           target: 1,
           damage: 4,
-          label: "Deuxième frappe",
+          label: "Seconde attaque : avantage d’agilité",
         },
       ]
     : [
@@ -139,23 +146,31 @@ export function trialPose(
     stage = "Essai terminé";
     phase = "done";
   } else if (kind === "two-attacks") {
-    if (t < 1000) {
-      left = normal(t, g.left, g.leftAdvance, 1, true);
-      stage = "Première frappe";
-      phase = "first-attack";
+    if (t < 1250) {
+      left = normal(t, g.left, g.leftAdvance, 1);
+      stage = "Première attaque, puis retour";
+      phase = t < 975 ? "first-attack" : "first-return";
+    } else if (t < 1450) {
+      stage = "L’adversaire prend sa riposte";
+      phase = "enemy-turn";
+    } else if (t < 2700) {
+      right = normal(t - 1450, g.right, g.rightAdvance, -1);
+      stage = "Riposte adverse, puis retour";
+      phase = t < 2425 ? "enemy-reply" : "enemy-return";
+    } else if (t < 2900) {
+      stage = "Avantage d’agilité : seconde attaque";
+      phase = "agility-turn";
     } else {
-      const q = t - 1000;
-      left = {
-        x: g.left + g.leftAdvance * (1 - clamp((q - 560) / 290)),
-        action: q < 560 ? "attack_again" : "combat_move",
-        frame: q < 560 ? replyFrame(q) : Math.floor(q / 130) % 2,
-      };
-      stage = "Deuxième frappe, au contact";
-      phase = q < 560 ? "second-attack" : "return";
+      left = normal(t - 2900, g.left, g.leftAdvance, 1);
+      stage = "Seconde attaque grâce à l’agilité";
+      phase = t < 3875 ? "second-attack" : "return";
     }
     const last = completed.at(-1);
-    if (last && t - last.at < 230)
-      right = { ...right, action: "combat_damage", frame: 0 };
+    if (last && t - last.at < 230) {
+      if (last.target === 0)
+        left = { ...left, action: "combat_damage", frame: 0 };
+      else right = { ...right, action: "combat_damage", frame: 0 };
+    }
   } else {
     const enemyContact = g.right - g.rightAdvance;
     if (t < 900) {

@@ -1,14 +1,25 @@
+export type CombatMotion = { linkedBefore?: boolean; linkedAfter?: boolean };
+export const linkedStrikes = (
+  a: { attacker: string; group?: number } | undefined,
+  b: { attacker: string; group?: number } | undefined,
+) =>
+  !!a &&
+  !!b &&
+  a.attacker === b.attacker &&
+  a.group !== undefined &&
+  a.group === b.group;
 /** Presentation only. Actions play once; retreat can never select an attack frame. */
 export function combatTiming(
   frames: number,
   fps: number,
   ranged = false,
   impactFrame?: number,
+  motion: CombatMotion = {},
 ) {
-  const approach = ranged ? 0 : 280,
+  const approach = ranged || motion.linkedBefore ? 0 : 280,
     attack = Math.max(600, (frames / Math.max(1, fps)) * 1000),
     recovery = 180,
-    retreat = ranged ? 0 : 360;
+    retreat = ranged || motion.linkedAfter ? 0 : 360;
   return {
     approach,
     attack,
@@ -30,8 +41,9 @@ export function combatPose(
   ranged = false,
   counter = false,
   impactFrame?: number,
+  motion: CombatMotion = {},
 ) {
-  const timing = combatTiming(frames, fps, ranged, impactFrame),
+  const timing = combatTiming(frames, fps, ranged, impactFrame, motion),
     { approach, attack, recovery, retreat } = timing;
   let animation = "idle",
     index = 0,
@@ -57,5 +69,7 @@ export function combatPose(
     index = Math.floor(elapsed / 130) % 2;
     travel = 1 - (elapsed - approach - attack - recovery) / retreat;
   }
+  if (!ranged && motion.linkedAfter && elapsed >= approach + attack + recovery)
+    travel = 1;
   return { ...timing, animation, index, travel };
 }

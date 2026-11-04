@@ -92,7 +92,9 @@ export function drawResourceFrame(
     sourceRow = c.cells?.[indexInClip]?.row ?? c.row,
     top = Math.round(sourceRow * sh),
     source =
-      color && c.recolor === "magenta" ? recoloredImage(img, color) : img;
+      color && c.recolor === "magenta"
+        ? recoloredImage(img, color, c.recolorEdges)
+        : img;
   ctx.save();
   ctx.imageSmoothingEnabled = !pixelArt;
   const layout = (

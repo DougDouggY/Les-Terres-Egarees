@@ -1,42 +1,34 @@
 # Deux combattants — essai à valider
 
-Accès dans le menu du prototype : **Essai des combats**. Le même écran est accessible depuis l’Atelier de test, par « Essai des deux combattants ».
+Menu du prototype : **Essai des combats**. L’Atelier propose également « Essai des deux combattants ».
 
-Seuls l’Homme d’armes et le Pillard masculins ont reçu une nouvelle planche : 16 poses chacun, 32 dessins au total. Les variantes féminines, les autres classes, la carte, les décors, les effectifs et les règles de combat restent conservés. Les anciennes images sont présentes sans retouche.
+## Présentation
+
+L’Homme d’armes et le Pillard utilisent les mêmes dessins que lors de la précédente livraison ; aucune nouvelle génération d’images. Dans l’essai, leur cadre passe de 240 à 160 pixels, soit une réduction d’un tiers. La scène réelle utilise également des combattants plus petits. À la largeur maximale du banc d’essai, le corps affiché reste inférieur à sa hauteur dans l’image source.
+
+L’interface reprend la lecture de la référence fournie : noms dans les cadres supérieurs, armes et précision/dégâts dans le bandeau inférieur, PV et jauges segmentées en bas. Les deux écrans partagent le même composant de présentation, avec les couleurs des équipes. Sur petit écran, le bandeau inférieur occupe sa propre place sous le canevas et ne masque pas les sprites. Les décors existants sont conservés.
+
+## Couleurs
+
+Le masque de la nouvelle paire inclut maintenant les nuances roses adoucies proches de la matière magenta. L’extension est limitée aux pixels voisins du masque, sur cette planche seulement, pour préserver les tons naturels. Les pixels de peau, cuir, métal et les valeurs alpha sont contrôlés. L’image source n’est pas retouchée ; la recoloration reste calculée et mise en cache par palette et mode de masque.
 
 ## Les deux boutons
 
-1. **Deux frappes successives** : approche, préparation, arme levée, frappe diagonale, récupération ; seconde frappe horizontale au contact ; retour en garde puis recul. Une seule arme, aucun système d’armes doubles.
-2. **Parade, riposte et votre tour** : attaque de l’adversaire ; parade au bouclier sans perte de PV ; riposte immédiate au contact ; retour de l’adversaire à sa position ; temps de passage de tour ; approche et attaque de votre personnage, puis retour.
+1. **Seconde attaque par agilité** : attaque simple, retour à sa place, riposte de l’adversaire, retour adverse, seconde approche et attaque grâce à l’agilité, puis retour. L’Homme d’armes et le Pillard n’enchaînent plus deux frappes lors d’une seule approche. Les trois impacts de démonstration donnent 20/24 PV à gauche et 16/24 à droite.
+2. **Parade, riposte et votre tour** : attaque adverse ; parade sans perte de PV ; riposte immédiate au contact ; retour adverse ; passage de tour ; approche et attaque du joueur, puis retour.
 
-Le choix « Votre personnage » inverse les rôles pour vérifier les deux combattants. Ralenti, pause/reprise et relecture sont disponibles. Chaque clic reconstruit l’essai visuel depuis le début ; les animations s’arrêtent en garde finale.
+Le choix « Votre personnage » inverse les rôles. Ralenti, pause et relecture restent disponibles. Il s’agit de scénarios visuels forcés (24 PV et dégâts de démonstration), indépendants de la campagne et de ses sauvegardes. Le premier scénario simule volontairement un avantage d’agilité.
 
-## Poses et lecture
+## Règles partagées avec le jeu
 
-La nouvelle planche contient garde, pas, anticipation, levée, frappe diagonale, suivi, retrait, garde finale, levée de bouclier, blocage, recul du buste, baisse du bouclier, anticipation de riposte, frappe horizontale, récupération et réaction aux dégâts.
+Le résolveur utilise désormais des passages distincts : groupe d’attaques initial, groupe de riposte, puis passage supplémentaire du combattant plus agile. Avec deux armes, le groupe contient une frappe par arme, au contact, puis un retour ; le bonus d’agilité ouvre un nouveau groupe après la riposte adverse. Les métadonnées de groupe permettent au renderer de garder le contact entre les deux armes tout en conservant un retour complet entre les passages d’agilité. La décision de critique reste propre à chaque séquence d’arme ; une séquence critique ne reçoit pas sa seconde frappe normale. Les décès interrompent les frappes suivantes.
 
-Le manifeste partagé enregistre une attaque à huit images, une riposte à six images et une parade à quatre images. La seconde frappe simple réutilise explicitement la variante horizontale de la riposte. Les dégâts utilisent encore une pose unique, marquée provisoire. Aucun sprite d’arme double, de nouvelle classe ou d’autre capacité n’a été généré.
+Aucune nouvelle unité à doubles armes n’est générée pour ces essais. Les autres classes et variantes attendent la validation de la paire.
 
-Les rectangles des 32 dessins sont isolés par leurs composantes alpha pour conserver les pointes d’armes débordant de quelques pixels d’une colonne nominale, sans embarquer le fragment du personnage voisin. Les pieds utilisent une ligne de sol commune. La portée visuelle dépend du dessin de contact de chaque arme. La frame d’impact est aussi déclarée dans le manifeste pour la scène de combat partagée.
+## Préservation et contrôles
 
-Le kit du Dernier Raid sert de référence pour les ancrages, les phases de contact et les enchaînements. Ses images, chiffres de dégâts et règles ne sont pas importés dans le jeu.
+La carte, le terrain, les décors, toutes les images antérieures, les effectifs, les positions et l’équipement de la première mission restent inchangés. Aucun premier combat n’est lancé automatiquement.
 
-## Isolation
+Les vérifications portent sur les empreintes des ressources, l’ordre réel des attaques avec une et deux armes, les critiques/parades/décès, les phases d’approche et retour, la pause, l’affichage mobile et la recoloration de pixels de la planche réelle. Les compilations publique et prototype sont vérifiées ; le banc d’essai reste exclu de la version publique normale.
 
-Cet écran est une démonstration scénarisée : 24 PV initiaux et impacts visuels de 4 PV. Aucun appel au créateur de campagne, au résolveur des combats, à la progression ni aux sauvegardes. Ces résultats servent exclusivement à vérifier les dessins et leur mise en scène. La carte et le fonctionnement des combats réels ne sont pas rééquilibrés.
-
-L’écran est réservé au prototype de test et absent de la compilation publique normale. La génération des autres unités attend la validation de cette paire.
-
-## Vérifications
-
-- Empreintes des ressources antérieures et du terrain validé.
-- Deux impacts pour le premier bouton ; aucun recul entre eux.
-- Parade sans dégât ; riposte au contact ; adversaire rentré avant l’attaque suivante.
-- Aucun clip d’attaque pendant le retour spatial.
-- Fin immobile, pause/reprise, réinitialisation et sortie sans animation résiduelle.
-- Essais pour les deux rôles, écran de petite largeur, aucune sauvegarde ou mission créée.
-- Les frames de contact déclarées sont utilisées pour synchroniser la scène partagée.
-
-Validation effectuée : 8 tests unitaires visuels et 10 tests Chromium réussis ; contrôle ciblé du petit écran réussi après placement des cadres hors de la scène. Compilations publique et prototype vérifiées.
-
-L’audit optionnel des rectangles (`scripts/audit-sprite-layout.py`) utilise Pillow, NumPy et SciPy ; il lit les images sans les modifier. Les métadonnées générées sont versionnées, sans dépendance Python à l’exécution du jeu.
+Validation finale : 25 tests unitaires (visuels et systèmes) et 11 contrôles Chromium réussis. Compilations publique et prototype réussies ; aucune image source modifiée.

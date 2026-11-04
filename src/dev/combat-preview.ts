@@ -1,3 +1,5 @@
+import { combatHud } from "../ui/combat-hud";
+import "../ui/combat-hud.css";
 import "./tools.css";
 import { findProfile, resolveClip } from "../sprites/catalog";
 import {
@@ -17,8 +19,8 @@ const pair = [
   { id: "man_at_arms", name: "Homme d’armes", equipment: "sword-shield" },
   { id: "raider", name: "Pillard", equipment: "axe-shield" },
 ];
-const size = 240,
-  ground = 410;
+const size = 160,
+  ground = 350;
 /** Two buttons, two deterministic review scenes. No campaign, resolver, RNG or saved party. */
 export function openCombatPreview(app: HTMLElement, onBack: () => void) {
   let hero = 0,
@@ -89,7 +91,30 @@ export function openCombatPreview(app: HTMLElement, onBack: () => void) {
   function render() {
     const a = pair[hero],
       b = pair[1 - hero];
-    app.innerHTML = `<main class="dev-screen combat-preview"><header class="dev-top"><div><span class="dev-badge">DEUX COMBATTANTS · VALIDATION VISUELLE</span><h1>Essai des combats</h1></div><button data-preview-back>Retour au menu</button></header><p>Homme d’armes et Pillard : nouvelles poses d’attaque, de parade et de riposte. Les autres classes attendent votre validation.</p><div class="trial-buttons"><button data-trial="two-attacks">1 · Deux frappes successives</button><button data-trial="parry">2 · Parade, riposte et votre tour</button></div><div class="trial-settings"><label>Votre personnage<select id="trial-hero"><option value="0" ${hero === 0 ? "selected" : ""}>Homme d’armes</option><option value="1" ${hero === 1 ? "selected" : ""}>Pillard</option></select></label><label>Vitesse<select id="trial-speed"><option value="0.5" ${speed === 0.5 ? "selected" : ""}>Ralenti ×0,5</option><option value="1" ${speed === 1 ? "selected" : ""}>Normale</option><option value="2" ${speed === 2 ? "selected" : ""}>Rapide ×2</option></select></label><button data-trial-pause disabled>Pause</button></div><section class="trial-scene" aria-label="Essai visuel des deux combattants"><div class="trial-hud"><section class="trial-player"><strong>${a.name}</strong><small>${hero === 0 ? "Épée et bouclier" : "Hache et bouclier"}</small><div class="trial-hp"><i data-trial-hp="0"></i></div><b data-trial-value="0">24 / 24 PV</b></section><section class="trial-enemy"><strong>${b.name}</strong><small>${hero === 0 ? "Hache et bouclier" : "Épée et bouclier"}</small><div class="trial-hp"><i data-trial-hp="1"></i></div><b data-trial-value="1">24 / 24 PV</b></section></div><canvas id="trial-canvas" width="960" height="480" aria-label="Animation de combat avec pieds ancrés"></canvas></section><p id="trial-status" role="status">Chargement des nouvelles poses…</p><ol id="trial-events" aria-label="Impacts de l’essai"></ol><p class="trial-note">Essai visuel scénarisé : PV de démonstration, aucune partie ni sauvegarde modifiée. Deux frappes simples avec la même arme ; aucune arme double. La réaction aux dégâts utilise encore une pose unique.</p></main>`;
+    app.innerHTML = `<main class="dev-screen combat-preview"><header class="dev-top"><div><span class="dev-badge">DEUX COMBATTANTS · VALIDATION VISUELLE</span><h1>Essai des combats</h1></div><button data-preview-back>Retour au menu</button></header><p>Homme d’armes et Pillard : nouvelles poses d’attaque, de parade et de riposte. Les autres classes attendent votre validation.</p><div class="trial-buttons"><button data-trial="two-attacks">1 · Seconde attaque par agilité</button><button data-trial="parry">2 · Parade, riposte et votre tour</button></div><div class="trial-settings"><label>Votre personnage<select id="trial-hero"><option value="0" ${hero === 0 ? "selected" : ""}>Homme d’armes</option><option value="1" ${hero === 1 ? "selected" : ""}>Pillard</option></select></label><label>Vitesse<select id="trial-speed"><option value="0.5" ${speed === 0.5 ? "selected" : ""}>Ralenti ×0,5</option><option value="1" ${speed === 1 ? "selected" : ""}>Normale</option><option value="2" ${speed === 2 ? "selected" : ""}>Rapide ×2</option></select></label><button data-trial-pause disabled>Pause</button></div><section class="trial-scene duel-stage" aria-label="Essai visuel des deux combattants">${combatHud(
+      [
+        {
+          id: "trial-0",
+          name: a.name,
+          weapon: hero === 0 ? "Épée et bouclier" : "Hache et bouclier",
+          hp: 24,
+          maxHp: 24,
+          hit: 100,
+          damage: 4,
+          color: [63, 132, 231],
+        },
+        {
+          id: "trial-1",
+          name: b.name,
+          weapon: hero === 0 ? "Hache et bouclier" : "Épée et bouclier",
+          hp: 24,
+          maxHp: 24,
+          hit: 100,
+          damage: 4,
+          color: [255, 45, 161],
+        },
+      ],
+    )}<canvas id="trial-canvas" width="960" height="480" aria-label="Animation de combat avec pieds ancrés"></canvas></section><p id="trial-status" role="status">Chargement des nouvelles poses…</p><ol id="trial-events" aria-label="Impacts de l’essai"></ol><p class="trial-note">Essai visuel scénarisé : avantage d’agilité simulé et PV de démonstration, aucune partie ni sauvegarde modifiée. Arme simple : attaque, retour, riposte adverse, retour, puis seconde attaque par agilité. Les doubles armes seront validées séparément. La réaction aux dégâts utilise encore une pose unique.</p></main>`;
     app.querySelector<HTMLElement>("[data-preview-back]")!.onclick = onBack;
     app.querySelectorAll<HTMLButtonElement>("[data-trial]").forEach((b) => {
       b.disabled = !ready;
@@ -196,16 +221,16 @@ export function openCombatPreview(app: HTMLElement, onBack: () => void) {
         );
         if (pose.impact) {
           const target = pose.impact.target === 0 ? pose.left : pose.right,
-            x = target.x + (pose.impact.target === 0 ? 60 : -60);
+            x = target.x + (pose.impact.target === 0 ? 42 : -42);
           ctx.strokeStyle = pose.impact.damage === 0 ? "#c5e7ff" : "#ffe19d";
           ctx.lineWidth = 3;
           for (let i = 0; i < 8; i++) {
             const angle = (i * Math.PI) / 4;
             ctx.beginPath();
-            ctx.moveTo(x, ground - 125);
+            ctx.moveTo(x, ground - 85);
             ctx.lineTo(
               x + Math.cos(angle) * 22,
-              ground - 125 + Math.sin(angle) * 22,
+              ground - 85 + Math.sin(angle) * 22,
             );
             ctx.stroke();
           }
@@ -219,9 +244,9 @@ export function openCombatPreview(app: HTMLElement, onBack: () => void) {
         canvas.dataset.elapsed = String(elapsed);
         for (const side of [0, 1] as const) {
           app.querySelector<HTMLElement>(
-            `[data-trial-hp="${side}"]`,
+            `[data-combat-hp="${side}"]`,
           )!.style.width = `${(pose.hp[side] / 24) * 100}%`;
-          app.querySelector(`[data-trial-value="${side}"]`)!.textContent =
+          app.querySelector(`[data-combat-value="${side}"]`)!.textContent =
             `${pose.hp[side]} / 24 PV`;
         }
         app.querySelector("#trial-status")!.textContent = paused

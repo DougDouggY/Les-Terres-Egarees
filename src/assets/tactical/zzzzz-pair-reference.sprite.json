@@ -31,7 +31,8 @@
           "loop": true,
           "recolor": "magenta",
           "status": "functional",
-          "note": "Deux gardes de combat ; pieds ancrés."
+          "note": "Deux gardes de combat ; pieds ancrés.",
+          "recolorEdges": true
         },
         "combat_move": {
           "source": "tactical/combat-pair-reference-v2.png",
@@ -56,7 +57,8 @@
           "loop": true,
           "recolor": "magenta",
           "status": "functional",
-          "note": "Pas d’approche et retour sans rejouer la frappe."
+          "note": "Pas d’approche et retour sans rejouer la frappe.",
+          "recolorEdges": true
         },
         "attack": {
           "source": "tactical/combat-pair-reference-v2.png",
@@ -112,7 +114,8 @@
           "recolor": "magenta",
           "status": "functional",
           "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider.",
-          "impactFrame": 3
+          "impactFrame": 3,
+          "recolorEdges": true
         },
         "counter": {
           "source": "tactical/combat-pair-reference-v2.png",
@@ -158,7 +161,8 @@
           "recolor": "magenta",
           "status": "functional",
           "note": "Riposte dessinée : préparation courte, frappe horizontale et retrait. Aucun recul avant la riposte.",
-          "impactFrame": 2
+          "impactFrame": 2,
+          "recolorEdges": true
         },
         "attack_again": {
           "reuse": "counter",
@@ -197,7 +201,8 @@
           "loop": false,
           "recolor": "magenta",
           "status": "functional",
-          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade."
+          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade.",
+          "recolorEdges": true
         },
         "combat_damage": {
           "source": "tactical/combat-pair-reference-v2.png",
@@ -217,7 +222,8 @@
           "loop": false,
           "recolor": "magenta",
           "status": "provisional",
-          "note": "Réaction dessinée unique ; animation de dégâts encore provisoire."
+          "note": "Réaction dessinée unique ; animation de dégâts encore provisoire.",
+          "recolorEdges": true
         }
       }
     },
@@ -251,7 +257,8 @@
           "loop": true,
           "recolor": "magenta",
           "status": "functional",
-          "note": "Deux gardes de combat ; pieds ancrés."
+          "note": "Deux gardes de combat ; pieds ancrés.",
+          "recolorEdges": true
         },
         "combat_move": {
           "source": "tactical/combat-pair-reference-v2.png",
@@ -276,7 +283,8 @@
           "loop": true,
           "recolor": "magenta",
           "status": "functional",
-          "note": "Pas d’approche et retour sans rejouer la frappe."
+          "note": "Pas d’approche et retour sans rejouer la frappe.",
+          "recolorEdges": true
         },
         "attack": {
           "source": "tactical/combat-pair-reference-v2.png",
@@ -332,7 +340,8 @@
           "recolor": "magenta",
           "status": "functional",
           "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider.",
-          "impactFrame": 3
+          "impactFrame": 3,
+          "recolorEdges": true
         },
         "counter": {
           "source": "tactical/combat-pair-reference-v2.png",
@@ -378,7 +387,8 @@
           "recolor": "magenta",
           "status": "functional",
           "note": "Riposte dessinée : préparation courte, frappe horizontale et retrait. Aucun recul avant la riposte.",
-          "impactFrame": 2
+          "impactFrame": 2,
+          "recolorEdges": true
         },
         "attack_again": {
           "reuse": "counter",
@@ -417,7 +427,8 @@
           "loop": false,
           "recolor": "magenta",
           "status": "functional",
-          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade."
+          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade.",
+          "recolorEdges": true
         },
         "combat_damage": {
           "source": "tactical/combat-pair-reference-v2.png",
@@ -437,7 +448,8 @@
           "loop": false,
           "recolor": "magenta",
           "status": "provisional",
-          "note": "Réaction dessinée unique ; animation de dégâts encore provisoire."
+          "note": "Réaction dessinée unique ; animation de dégâts encore provisoire.",
+          "recolorEdges": true
         }
       }
     }

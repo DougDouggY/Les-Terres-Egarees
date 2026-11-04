@@ -1,4 +1,6 @@
-import { combatPose } from "./ui/combat-timeline";
+import { combatHud } from "./ui/combat-hud";
+import "./ui/combat-hud.css";
+import { combatPose, linkedStrikes } from "./ui/combat-timeline";
 import { resolveClip } from "./sprites/catalog";
 import { prototypeTools } from "./development";
 import { readTeamPreferences, writeTeamPreferences } from "./team-preferences";
@@ -1014,6 +1016,25 @@ function preview(a: Unit, b: Unit) {
   modal.innerHTML = `<section class="modal forecast"><span class="eyebrow">PRÉVISION DE COMBAT</span><h2>${esc(a.name)} <i>contre</i> ${esc(b.name)}</h2><div class="forecast-units"><div>${portrait(a, true)}<strong>${E.weaponName(a)}</strong><b>${p.damage} ${p.strikes > 1 ? `× ${p.strikes}` : ""}</b><span>DÉGÂTS · ${p.hit}% PRÉCISION</span><small>${p.crit}% CRITIQUE</small></div><span class="versus">VS</span><div>${portrait(b, true)}<strong>${E.weaponName(b)}</strong><b>${p.counter ? `${q.damage}${q.strikes > 1 ? ` × ${q.strikes}` : ""}` : "—"}</b><span>${p.counter ? `${q.hit}% PRÉCISION` : "HORS DE PORTÉE"}</span><small>${p.counter ? "CONTRE-ATTAQUE POSSIBLE" : "AUCUNE CONTRE-ATTAQUE"}</small></div></div><p>Le couvert réduit les dégâts. Une différence d’agilité de 4 permet deux frappes.</p><div class="modal-actions">${button("Annuler", "close-modal")}${button("Engager le combat", "confirm-attack-" + b.id, "primary")}</div></section>`;
   app.append(modal);
 }
+function gameCombatHud(left: Unit, right: Unit, battle: Battle) {
+  const panels = [left, right].map((u, i) => {
+    const target = i === 0 ? right : left,
+      actual = battle.strikes.find((t) => t.attacker === u.id)?.forecast,
+      p = actual ?? E.forecast(u, target, state!, { counter: i === 1 }),
+      ready = !!actual || E.canAttack(u, target);
+    return {
+      id: u.id,
+      name: u.name,
+      weapon: E.weaponName(u),
+      hp: u.hp,
+      maxHp: u.maxHp,
+      hit: ready ? p.hit : null,
+      damage: ready ? p.damage : null,
+      color: E.teamPalette[E.colorForOwner(state?.teamColors, u.owner)].rgb,
+    };
+  });
+  return combatHud([panels[0], panels[1]]);
+}
 async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   if (busy) return;
   busy = true;
@@ -1023,7 +1044,7 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
     ? E.resolveArea(state!, a, area)
     : E.resolve(state!, a, b);
   screen = "combat";
-  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><div class="combat-names"><section><span>${E.weaponName(a)}</span><h2>${esc(a.name)}</h2><div class="bar hp"><i id="hp-${a.id}" style="width:${(a.hp / a.maxHp) * 100}%"></i></div><b id="value-${a.id}">${a.hp} / ${a.maxHp}</b></section><span class="crossed">×</span><section><span>${E.weaponName(b)}</span><h2>${esc(b.name)}</h2><div class="bar hp"><i id="hp-${b.id}" style="width:${(b.hp / b.maxHp) * 100}%"></i></div><b id="value-${b.id}">${b.hp} / ${b.maxHp}</b></section></div><canvas id="combat" width="1200" height="600"></canvas><div id="combat-result" aria-live="polite"></div><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
+  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="background-image:url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="1200" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
   await new Promise<void>((done) => {
     combatAnim = {
       battle: result,
@@ -1106,34 +1127,27 @@ function renderCombat(time: number) {
     left = (attacker.owner === 0) === (first.owner === 0) ? attacker : defender,
     right = left === attacker ? defender : attacker,
     t = (time - anim.start) * speed;
-  const names = document.querySelector(".combat-names");
-  if (names && !names.querySelector("#hp-" + left.id))
-    names.innerHTML = [left, right]
-      .map(
-        (u) =>
-          `<section><span>${E.weaponName(u)}</span><h2>${esc(u.name)}</h2><div class="bar hp"><i id="hp-${u.id}" style="width:${(u.hp / u.maxHp) * 100}%"></i></div><b id="value-${u.id}">${u.hp} / ${u.maxHp}</b></section>`,
-      )
-      .join('<span class="crossed">×</span>');
+  const names = document.querySelector(".combat-hud");
+  if (
+    names &&
+    (!names.querySelector("#hp-" + left.id) ||
+      !names.querySelector("#hp-" + right.id))
+  )
+    names.innerHTML = gameCombatHud(left, right, anim.battle);
   for (const unit of [left, right]) {
-    const hp = document.querySelector<HTMLElement>(`#hp-${unit.id}`),
-      section = hp?.closest("section");
-    if (!section) continue;
-    section.style.setProperty(
-      "--team-color",
-      `rgb(${E.teamPalette[E.colorForOwner(s.teamColors, unit.owner)].rgb.join(",")})`,
-    );
-    let stats = section.querySelector(".combat-stat");
-    if (!stats) {
-      stats = document.createElement("div");
-      stats.className = "combat-stat";
-      section.append(stats);
-    }
-    const p =
+    const actual =
       unit === attacker
-        ? (strike.forecast ??
-          E.forecast(attacker, defender, s, { counter: !!strike.counter }))
-        : E.forecast(defender, attacker, s, { counter: true });
-    stats.textContent = `PRÉCISION ${p.hit}% · DÉGÂTS ${p.damage}`;
+        ? strike.forecast
+        : anim.battle.strikes
+            .slice(anim.index + 1)
+            .find((t) => t.attacker === unit.id)?.forecast;
+    const target = unit === attacker ? defender : attacker,
+      p = actual ?? E.forecast(unit, target, s, { counter: unit !== attacker }),
+      ready = !!actual || E.canAttack(unit, target);
+    const hit = names?.querySelector(`#hit-${unit.id}`),
+      damage = names?.querySelector(`#damage-${unit.id}`);
+    if (hit) hit.textContent = ready ? `${p.hit}%` : "—";
+    if (damage) damage.textContent = ready ? String(p.damage) : "—";
   }
   const ranged = attacker.range > 1,
     attLeft = attacker.id === left.id;
@@ -1148,6 +1162,10 @@ function renderCombat(time: number) {
     ranged,
     !!strike.counter,
     clip?.impactFrame,
+    {
+      linkedBefore: linkedStrikes(anim.battle.strikes[anim.index - 1], strike),
+      linkedAfter: linkedStrikes(strike, anim.battle.strikes[anim.index + 1]),
+    },
   );
   const impact = pose.impact;
   document
@@ -1201,18 +1219,18 @@ function renderCombat(time: number) {
       unit.hp === 0 && t > impact + 250
         ? Math.max(0, 1 - (t - impact - 250) / 650)
         : 1;
-    drawSprite(ctx, unit, x, 195, 210, index, flip, false, displayName);
+    drawSprite(ctx, unit, x, 271, 180, index, flip, false, displayName);
   }
   ctx.globalAlpha = 1;
   if (ranged && t > impact - 100 && t < impact) {
     const progress = (t - impact + 100) / 100;
     ctx.fillStyle = "#e8d8ae";
     const x = attLeft ? 310 + progress * 560 : 865 - progress * 560;
-    ctx.fillRect(x, 280, 38, 3);
+    ctx.fillRect(x, 335, 38, 3);
     ctx.beginPath();
-    ctx.moveTo(x + (attLeft ? 38 : 0), 281);
-    ctx.lineTo(x + (attLeft ? 28 : 10), 276);
-    ctx.lineTo(x + (attLeft ? 28 : 10), 286);
+    ctx.moveTo(x + (attLeft ? 38 : 0), 336);
+    ctx.lineTo(x + (attLeft ? 28 : 10), 331);
+    ctx.lineTo(x + (attLeft ? 28 : 10), 341);
     ctx.fill();
   }
   if (t >= impact && !anim.applied) {
@@ -1234,10 +1252,10 @@ function renderCombat(time: number) {
     for (let i = 0; i < 8; i++) {
       const angle = (i * Math.PI) / 4;
       ctx.beginPath();
-      ctx.moveTo(x + Math.cos(angle) * 12, 280 + Math.sin(angle) * 12);
+      ctx.moveTo(x + Math.cos(angle) * 12, 335 + Math.sin(angle) * 12);
       ctx.lineTo(
         x + Math.cos(angle) * ((t - impact + 20) / 5),
-        280 + Math.sin(angle) * ((t - impact + 20) / 5),
+        335 + Math.sin(angle) * ((t - impact + 20) / 5),
       );
       ctx.stroke();
     }

@@ -171,6 +171,9 @@ export type Strike = {
   counter?: boolean;
   parryCounter?: boolean;
   sequence?: number;
+  group?: number;
+  weaponIndex?: number;
+  followUp?: boolean;
   forecast?: ReturnType<typeof forecast>;
 };
 export type Battle = {
@@ -181,8 +184,18 @@ export type Battle = {
 function resultBuilder(s: Campaign) {
   const result: Battle = { strikes: [], xp: [] },
     hp = new Map(s.units.map((u) => [u.id, u.hp]));
+  type Plan = {
+    a: Unit;
+    b: Unit;
+    counter: boolean;
+    parryCounter: boolean;
+    doubles: boolean;
+    sequences: { id: number; weapon: number; critical: boolean }[];
+  };
   let serial = 0,
-    counterSpent = false;
+    groupSerial = 0,
+    counterSpent = false,
+    counterPlan: Plan | undefined;
   const charged = new Set<string>();
   function alive(u: Unit) {
     return (hp.get(u.id) ?? 0) > 0;
@@ -194,6 +207,9 @@ function resultBuilder(s: Campaign) {
     counter = false,
     parryCounter = false,
     sequence = 0,
+    group?: number,
+    weaponIndex?: number,
+    followUp = false,
   ) {
     const protector = s.units.find(
       (p) =>
@@ -226,6 +242,9 @@ function resultBuilder(s: Campaign) {
       counter,
       parryCounter,
       sequence,
+      group,
+      weaponIndex,
+      followUp,
       forecast: p,
       interceptedFor: protector ? requested.id : undefined,
     });
@@ -240,26 +259,56 @@ function resultBuilder(s: Campaign) {
       alive(b) &&
       canAttack(b, a)
     ) {
-      counterSpent = true;
-      offense(b, a, true, true);
+      reply(b, a, true);
     }
   }
-  function offense(a: Unit, b: Unit, counter = false, parryCounter = false) {
-    for (
-      let weapon = 0;
-      weapon < activeWeapon(a).attacks && alive(a) && alive(b);
-      weapon++
-    ) {
-      const sequence = serial++,
-        critical = randomPercent(s) < forecast(a, b, s).crit;
-      const count = critical
-        ? 1
-        : effectiveAgility(a) - effectiveAgility(b) >= rules.doubleThreshold
-          ? 2
-          : 1;
-      for (let i = 0; i < count && alive(a) && alive(b); i++)
-        strike(a, b, critical, counter, parryCounter, sequence);
+  function prepare(
+    a: Unit,
+    b: Unit,
+    counter = false,
+    parryCounter = false,
+  ): Plan {
+    return {
+      a,
+      b,
+      counter,
+      parryCounter,
+      doubles:
+        effectiveAgility(a) - effectiveAgility(b) >= rules.doubleThreshold,
+      sequences: Array.from(
+        { length: activeWeapon(a).attacks },
+        (_, weapon) => ({
+          id: serial++,
+          weapon,
+          critical: randomPercent(s) < forecast(a, b, s).crit,
+        }),
+      ),
+    };
+  }
+  function execute(plan: Plan, followUp = false) {
+    if (followUp && !plan.doubles) return;
+    const group = groupSerial++;
+    for (const seq of plan.sequences) {
+      if (!alive(plan.a) || !alive(plan.b)) break;
+      if (followUp && seq.critical) continue;
+      strike(
+        plan.a,
+        plan.b,
+        seq.critical,
+        plan.counter,
+        plan.parryCounter,
+        seq.id,
+        group,
+        seq.weapon,
+        followUp,
+      );
     }
+  }
+  function reply(a: Unit, b: Unit, parryCounter = false) {
+    if (counterSpent || !alive(a) || !alive(b)) return;
+    counterSpent = true;
+    counterPlan = prepare(a, b, true, parryCounter);
+    execute(counterPlan);
   }
   function finish() {
     for (const u of s.units)
@@ -287,8 +336,13 @@ function resultBuilder(s: Campaign) {
     result,
     hp,
     strike,
-    offense,
+    prepare,
+    execute,
+    reply,
     finish,
+    get counterPlan() {
+      return counterPlan;
+    },
     get counterSpent() {
       return counterSpent;
     },
@@ -298,8 +352,11 @@ export function resolve(s: Campaign, a: Unit, b: Unit): Battle {
   if (!canAttack(a, b)) throw Error("Attaque impossible");
   const out = resultBuilder(s),
     canCounter = canAttack(b, a);
-  out.offense(a, b);
-  if (canCounter && !out.counterSpent) out.offense(b, a, true);
+  const opening = out.prepare(a, b);
+  out.execute(opening);
+  if (canCounter && !out.counterSpent) out.reply(b, a);
+  out.execute(opening, true);
+  if (out.counterPlan) out.execute(out.counterPlan, true);
   if (activeWeapon(a).reload) a.crossbowLoaded = false;
   if (
     out.result.strikes.some((t) => t.attacker === b.id) &&
