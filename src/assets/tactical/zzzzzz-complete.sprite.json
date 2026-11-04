@@ -1,0 +1,6127 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "spearman",
+      "gender": "any",
+      "equipment": "lance",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 5
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 195.0,
+            "height": 205.042
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 195.0,
+            "height": 205.042
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 195.0,
+            "height": 205.042
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 195.0,
+            "height": 205.042
+          }
+        }
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 197.0,
+            "height": 194.625
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197.0,
+            "height": 194.625
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197.0,
+            "height": 194.625
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197.0,
+            "height": 194.625
+          }
+        }
+      }
+    },
+    {
+      "classId": "swordsman",
+      "gender": "any",
+      "equipment": "sword",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 5
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 199.0,
+            "height": 208.167
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199.0,
+            "height": 208.167
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199.0,
+            "height": 208.167
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199.0,
+            "height": 208.167
+          }
+        }
+      }
+    },
+    {
+      "classId": "north_warrior",
+      "gender": "male",
+      "equipment": "axe",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 5
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 236.0,
+            "height": 214.417
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 236.0,
+            "height": 214.417
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 236.0,
+            "height": 214.417
+          }
+        },
+        "death": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 236.0,
+            "height": 214.417
+          }
+        }
+      }
+    },
+    {
+      "classId": "nordic_blade",
+      "gender": "male",
+      "equipment": "sword",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 246.0,
+            "height": 188.375
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 246.0,
+            "height": 188.375
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 246.0,
+            "height": 188.375
+          }
+        },
+        "death": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 246.0,
+            "height": 188.375
+          }
+        }
+      }
+    },
+    {
+      "classId": "hunter",
+      "gender": "female",
+      "equipment": "bow",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 5
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 208.0,
+            "height": 181.083
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 208.0,
+            "height": 181.083
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 208.0,
+            "height": 181.083
+          }
+        },
+        "death": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 208.0,
+            "height": 181.083
+          }
+        }
+      }
+    },
+    {
+      "classId": "huscarl",
+      "gender": "male",
+      "equipment": "axe-shield",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 1,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 230.0,
+            "height": 159.208
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 230.0,
+            "height": 159.208
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 230.0,
+            "height": 159.208
+          }
+        },
+        "death": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 230.0,
+            "height": 159.208
+          }
+        }
+      }
+    },
+    {
+      "classId": "clan_healer",
+      "gender": "male",
+      "equipment": "axe-shield",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 5,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 218.0,
+            "height": 131.083
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 218.0,
+            "height": 131.083
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 6,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 218.0,
+            "height": 131.083
+          }
+        },
+        "death": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 6,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 2
+            },
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "frameSize": {
+            "width": 218.0,
+            "height": 131.083
+          },
+          "note": "D\u00e9coupage \u00e0 v\u00e9rifier : contact avec un bord ou une silhouette/effet voisin. Ressource conserv\u00e9e sans retouche destructive."
+        }
+      }
+    },
+    {
+      "classId": "honor_guard",
+      "gender": "any",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 9,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 9,
+              "column": 1
+            },
+            {
+              "row": 8,
+              "column": 0
+            },
+            {
+              "row": 8,
+              "column": 1
+            },
+            {
+              "row": 8,
+              "column": 2
+            },
+            {
+              "row": 8,
+              "column": 3
+            },
+            {
+              "row": 9,
+              "column": 0
+            },
+            {
+              "row": 9,
+              "column": 1
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 222.0,
+            "height": 127.958
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 9,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 9,
+              "column": 2
+            },
+            {
+              "row": 9,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 222.0,
+            "height": 127.958
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 10,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 10,
+              "column": 0
+            },
+            {
+              "row": 10,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 222.0,
+            "height": 127.958
+          }
+        },
+        "death": {
+          "source": "tactical/complete-north-promotions.png",
+          "columns": 4,
+          "rows": 12,
+          "row": 10,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 10,
+              "column": 2
+            },
+            {
+              "row": 10,
+              "column": 3
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 222.0,
+            "height": 127.958
+          }
+        }
+      }
+    },
+    {
+      "classId": "guard_knight",
+      "gender": "any",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 1,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 212.0,
+            "height": 168.583
+          },
+          "note": "D\u00e9coupage \u00e0 v\u00e9rifier : contact avec un bord ou une silhouette/effet voisin. Ressource conserv\u00e9e sans retouche destructive."
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 212.0,
+            "height": 168.583
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 212.0,
+            "height": 168.583
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 212.0,
+            "height": 168.583
+          }
+        },
+        "block": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "frameSize": {
+            "width": 212.0,
+            "height": 168.583
+          },
+          "note": "D\u00e9coupage \u00e0 v\u00e9rifier : contact avec un bord ou une silhouette/effet voisin. Ressource conserv\u00e9e sans retouche destructive."
+        }
+      }
+    },
+    {
+      "classId": "royal_guard",
+      "gender": "any",
+      "equipment": "lance-shield",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 5,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 250.0,
+            "height": 146.708
+          },
+          "note": "D\u00e9coupage \u00e0 v\u00e9rifier : contact avec un bord ou une silhouette/effet voisin. Ressource conserv\u00e9e sans retouche destructive."
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 250.0,
+            "height": 146.708
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 6,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "frameSize": {
+            "width": 250.0,
+            "height": 146.708
+          },
+          "note": "D\u00e9coupage \u00e0 v\u00e9rifier : contact avec un bord ou une silhouette/effet voisin. Ressource conserv\u00e9e sans retouche destructive."
+        },
+        "death": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 6,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 2
+            },
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 250.0,
+            "height": 146.708
+          }
+        }
+      }
+    },
+    {
+      "classId": "duelist",
+      "gender": "male",
+      "equipment": "dual-swords",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 8,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 8,
+              "column": 1
+            },
+            {
+              "row": 7,
+              "column": 0
+            },
+            {
+              "row": 7,
+              "column": 1
+            },
+            {
+              "row": 7,
+              "column": 2
+            },
+            {
+              "row": 7,
+              "column": 3
+            },
+            {
+              "row": 8,
+              "column": 0
+            },
+            {
+              "row": 8,
+              "column": 1
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 200.0,
+            "height": 147.75
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 8,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 8,
+              "column": 2
+            },
+            {
+              "row": 8,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 200.0,
+            "height": 147.75
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 9,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 9,
+              "column": 0
+            },
+            {
+              "row": 9,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 200.0,
+            "height": 147.75
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 9,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 9,
+              "column": 2
+            },
+            {
+              "row": 9,
+              "column": 3
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 200.0,
+            "height": 147.75
+          }
+        },
+        "attack_offhand": {
+          "source": "tactical/complete-knight-promotions.png",
+          "columns": 4,
+          "rows": 11,
+          "row": 8,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 8,
+              "column": 1
+            },
+            {
+              "row": 10,
+              "column": 0
+            },
+            {
+              "row": 10,
+              "column": 1
+            },
+            {
+              "row": 10,
+              "column": 2
+            },
+            {
+              "row": 10,
+              "column": 3
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2,
+          "frameSize": {
+            "width": 200.0,
+            "height": 147.75
+          }
+        }
+      }
+    },
+    {
+      "classId": "cavalry",
+      "gender": "any",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 5
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 215.0,
+            "height": 215.458
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 215.0,
+            "height": 215.458
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 215.0,
+            "height": 215.458
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 215.0,
+            "height": 215.458
+          }
+        }
+      }
+    },
+    {
+      "classId": "mounted_spearman",
+      "gender": "any",
+      "equipment": "lance",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 227.0,
+            "height": 217.542
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 227.0,
+            "height": 217.542
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 227.0,
+            "height": 217.542
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 227.0,
+            "height": 217.542
+          }
+        }
+      }
+    },
+    {
+      "classId": "sans_rider",
+      "gender": "any",
+      "equipment": "lance",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 5
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 218.0,
+            "height": 215.458
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 218.0,
+            "height": 215.458
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 218.0,
+            "height": 215.458
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot1-mounts.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 218.0,
+            "height": 215.458
+          }
+        }
+      }
+    },
+    {
+      "classId": "pavise_crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "fortified",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 5
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 194.0,
+            "height": 200.875
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 194.0,
+            "height": 200.875
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 194.0,
+            "height": 200.875
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 194.0,
+            "height": 200.875
+          }
+        }
+      }
+    },
+    {
+      "classId": "ironbreaker",
+      "gender": "male",
+      "equipment": "great-axe",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            4,
+            0,
+            1,
+            2,
+            3,
+            4,
+            4
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 4
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 221.0,
+            "height": 222.75
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 221.0,
+            "height": 222.75
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 221.0,
+            "height": 222.75
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 221.0,
+            "height": 222.75
+          }
+        }
+      }
+    },
+    {
+      "classId": "executioner",
+      "gender": "any",
+      "equipment": "great-sword",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            4,
+            0,
+            1,
+            2,
+            3,
+            4,
+            4
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 4
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 227.0,
+            "height": 256.083
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 227.0,
+            "height": 256.083
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 227.0,
+            "height": 256.083
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot1-heavy.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 227.0,
+            "height": 256.083
+          }
+        }
+      }
+    },
+    {
+      "classId": "berserker",
+      "gender": "male",
+      "equipment": "dual-axes",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 1,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 220.0,
+            "height": 219.625
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 220.0,
+            "height": 219.625
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 220.0,
+            "height": 219.625
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 220.0,
+            "height": 219.625
+          }
+        },
+        "attack_offhand": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 1,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2,
+          "frameSize": {
+            "width": 220.0,
+            "height": 219.625
+          }
+        }
+      }
+    },
+    {
+      "classId": "drengr",
+      "gender": "male",
+      "equipment": "dual-swords",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 5,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 210.0,
+            "height": 188.375
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 210.0,
+            "height": 188.375
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 6,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 210.0,
+            "height": 188.375
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 6,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 2
+            },
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 210.0,
+            "height": 188.375
+          }
+        },
+        "attack_offhand": {
+          "source": "tactical/complete-lot1-dual.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 5,
+          "frames": [
+            1,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 7,
+              "column": 0
+            },
+            {
+              "row": 7,
+              "column": 1
+            },
+            {
+              "row": 7,
+              "column": 2
+            },
+            {
+              "row": 7,
+              "column": 3
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2,
+          "frameSize": {
+            "width": 210.0,
+            "height": 188.375
+          }
+        }
+      }
+    },
+    {
+      "classId": "skeleton",
+      "gender": "any",
+      "equipment": "rusty-sword",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 5
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 283.0,
+            "height": 210.25
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 283.0,
+            "height": 210.25
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 283.0,
+            "height": 210.25
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 283.0,
+            "height": 210.25
+          }
+        }
+      }
+    },
+    {
+      "classId": "sans_axe",
+      "gender": "any",
+      "equipment": "axe",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 253.0,
+            "height": 206.083
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 253.0,
+            "height": 206.083
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 253.0,
+            "height": 206.083
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 253.0,
+            "height": 206.083
+          }
+        }
+      }
+    },
+    {
+      "classId": "sans_spear",
+      "gender": "any",
+      "equipment": "lance",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 5
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 279.0,
+            "height": 184.208
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 279.0,
+            "height": 184.208
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 279.0,
+            "height": 184.208
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot3-melee.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 279.0,
+            "height": 184.208
+          }
+        }
+      }
+    },
+    {
+      "classId": "sans_archer",
+      "gender": "any",
+      "equipment": "bow",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 5
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 197.0,
+            "height": 215.458
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197.0,
+            "height": 215.458
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197.0,
+            "height": 215.458
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197.0,
+            "height": 215.458
+          }
+        }
+      }
+    },
+    {
+      "classId": "sans_crossbow",
+      "gender": "any",
+      "equipment": "crossbow",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 189.0,
+            "height": 179.0
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 189.0,
+            "height": 179.0
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 189.0,
+            "height": 179.0
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 189.0,
+            "height": 179.0
+          }
+        }
+      }
+    },
+    {
+      "classId": "sans_guard",
+      "gender": "any",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 5
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 251.0,
+            "height": 211.292
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 251.0,
+            "height": 211.292
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 251.0,
+            "height": 211.292
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot3-ranged.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 251.0,
+            "height": 211.292
+          }
+        }
+      }
+    },
+    {
+      "classId": "sans_necromancer",
+      "gender": "any",
+      "equipment": "spell",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 5
+            },
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 278.0,
+            "height": 175.875
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 278.0,
+            "height": 175.875
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 278.0,
+            "height": 175.875
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 278.0,
+            "height": 175.875
+          }
+        }
+      }
+    },
+    {
+      "classId": "necromancer",
+      "gender": "male",
+      "equipment": "spell",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 238.0,
+            "height": 167.542
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 167.542
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 167.542
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 167.542
+          }
+        }
+      }
+    },
+    {
+      "classId": "archmage",
+      "gender": "male",
+      "equipment": "spell",
+      "state": "default",
+      "note": "Planches compl\u00e9mentaires : anticipation, armement, contact, r\u00e9cup\u00e9ration, d\u00e9g\u00e2ts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 5
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 248.0,
+            "height": 171.708
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "M\u00eame geste complet, d\u00e9clench\u00e9 en riposte ; retour \u00e0 la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 248.0,
+            "height": 171.708
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 248.0,
+            "height": 171.708
+          }
+        },
+        "death": {
+          "source": "tactical/complete-lot3-mages.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 248.0,
+            "height": 171.708
+          }
+        }
+      }
+    },
+    {
+      "classId": "volva",
+      "gender": "male",
+      "equipment": "spell",
+      "state": "default",
+      "note": "Promotion chamanique : silhouette d\u00e9di\u00e9e. Variante f\u00e9minine et transformation interm\u00e9diaire non produites.",
+      "clips": {
+        "idle": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "move": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "attack": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            5,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 5
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2,
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "death": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "heal": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "buff": {
+          "reuse": "heal",
+          "note": "Geste magique partag\u00e9 ; aucun effet de statut suppl\u00e9mentaire dessin\u00e9 dans cette planche."
+        }
+      }
+    },
+    {
+      "classId": "volva",
+      "gender": "male",
+      "equipment": "healing",
+      "state": "default",
+      "note": "Promotion chamanique : silhouette d\u00e9di\u00e9e. Variante f\u00e9minine et transformation interm\u00e9diaire non produites.",
+      "clips": {
+        "idle": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "move": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "damage": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "death": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "heal": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 238.0,
+            "height": 213.375
+          }
+        },
+        "buff": {
+          "reuse": "heal",
+          "note": "Geste magique partag\u00e9 ; aucun effet de statut suppl\u00e9mentaire dessin\u00e9 dans cette planche."
+        }
+      }
+    },
+    {
+      "classId": "hamrammr",
+      "gender": "male",
+      "equipment": "healing",
+      "state": "default",
+      "note": "Promotion chamanique : silhouette d\u00e9di\u00e9e. Variante f\u00e9minine et transformation interm\u00e9diaire non produites.",
+      "clips": {
+        "idle": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 262.0,
+            "height": 204.0
+          }
+        },
+        "move": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 262.0,
+            "height": 204.0
+          }
+        },
+        "damage": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 262.0,
+            "height": 204.0
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 262.0,
+            "height": 204.0
+          }
+        },
+        "death": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 262.0,
+            "height": 204.0
+          }
+        },
+        "heal": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 262.0,
+            "height": 204.0
+          }
+        }
+      }
+    },
+    {
+      "classId": "hamrammr",
+      "gender": "any",
+      "equipment": "claws",
+      "state": "bear",
+      "note": "Promotion chamanique : silhouette d\u00e9di\u00e9e. Variante f\u00e9minine et transformation interm\u00e9diaire non produites.",
+      "clips": {
+        "idle": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            5
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 5
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 244.0,
+            "height": 155.042
+          }
+        },
+        "move": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 244.0,
+            "height": 155.042
+          }
+        },
+        "attack": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            5,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 5
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 5
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2,
+          "frameSize": {
+            "width": 244.0,
+            "height": 155.042
+          }
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 244.0,
+            "height": 155.042
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 244.0,
+            "height": 155.042
+          }
+        },
+        "death": {
+          "source": "tactical/complete-shaman-forms.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 244.0,
+            "height": 155.042
+          }
+        }
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : reload",
+      "clips": {
+        "reload": {
+          "source": "tactical/complete-reload.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 280.0,
+            "height": 252.958
+          }
+        }
+      }
+    },
+    {
+      "classId": "ranger",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : reload",
+      "clips": {
+        "reload": {
+          "source": "tactical/complete-reload.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 266.0,
+            "height": 256.083
+          }
+        }
+      }
+    },
+    {
+      "classId": "pavise_crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : reload",
+      "clips": {
+        "reload": {
+          "source": "tactical/complete-reload.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 278.0,
+            "height": 262.333
+          }
+        }
+      }
+    },
+    {
+      "classId": "sans_crossbow",
+      "gender": "any",
+      "equipment": "crossbow",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : reload",
+      "clips": {
+        "reload": {
+          "source": "tactical/complete-reload.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 272.0,
+            "height": 255.042
+          }
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "female",
+      "equipment": "axe-shield",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : block",
+      "clips": {
+        "block": {
+          "source": "tactical/complete-block.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 244.0,
+            "height": 229.0
+          }
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : block",
+      "clips": {
+        "block": {
+          "source": "tactical/complete-block.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 250.0,
+            "height": 234.208
+          }
+        }
+      }
+    },
+    {
+      "classId": "clan_healer",
+      "gender": "male",
+      "equipment": "axe-shield",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : block",
+      "clips": {
+        "block": {
+          "source": "tactical/complete-block.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 248.0,
+            "height": 235.25
+          }
+        }
+      }
+    },
+    {
+      "classId": "clan_healer",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : block",
+      "clips": {
+        "block": {
+          "source": "tactical/complete-block.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 256.0,
+            "height": 238.375
+          }
+        }
+      }
+    },
+    {
+      "classId": "cavalry",
+      "gender": "any",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : block",
+      "clips": {
+        "block": {
+          "source": "tactical/complete-block.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 258.0,
+            "height": 263.375
+          }
+        }
+      }
+    },
+    {
+      "classId": "sans_guard",
+      "gender": "any",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : block",
+      "clips": {
+        "block": {
+          "source": "tactical/complete-block.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 230.0,
+            "height": 235.25
+          }
+        }
+      }
+    },
+    {
+      "classId": "hamrammr",
+      "gender": "male",
+      "equipment": "healing",
+      "state": "default",
+      "note": "S\u00e9quence sp\u00e9cifique : transform",
+      "clips": {
+        "transform": {
+          "source": "tactical/complete-transform.png",
+          "columns": 6,
+          "rows": 2,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 4
+            },
+            {
+              "row": 0,
+              "column": 5
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 352.0,
+            "height": 351.917
+          }
+        }
+      }
+    },
+    {
+      "classId": "hamrammr",
+      "gender": "any",
+      "equipment": "claws",
+      "state": "bear",
+      "note": "S\u00e9quence sp\u00e9cifique : transform",
+      "clips": {
+        "transform": {
+          "source": "tactical/complete-transform.png",
+          "columns": 6,
+          "rows": 2,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 374.0,
+            "height": 356.083
+          }
+        }
+      }
+    }
+  ]
+}

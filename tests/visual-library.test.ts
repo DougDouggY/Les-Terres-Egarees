@@ -119,3 +119,52 @@ test("couverture visuelle complète, neutre ou sexe explicite ; pose statique ja
         }
     }
 });
+
+test("planches complémentaires : séquences complètes et seconde main explicite, protagonistes validés conservés", async () => {
+  const { strikeAnimation } = await import("../src/sprites/catalog");
+  const { profiles } = await library();
+  for (const id of [
+    "spearman",
+    "crossbowman",
+    "swordsman",
+    "north_warrior",
+    "nordic_blade",
+    "hunter",
+  ]) {
+    const p = profiles.find((p) => p.classId === id)!;
+    const c = resolveClip(p, "attack")!;
+    assert.equal(c.frames.length, 7, id);
+    assert.equal(c.impactFrame, 3, id);
+    assert.equal(c.loop, false, id);
+    for (const animation of ["damage", "evade", "death"])
+      assert.equal(resolveClip(p, animation)!.frames.length, 2, id + animation);
+  }
+  for (const id of ["raider", "man_at_arms"]) {
+    const p = profiles.find((p) => p.classId === id && p.gender === "male")!;
+    assert.equal(
+      resolveClip(p, "attack")!.source,
+      "tactical/combat-pair-reference-v2.png",
+    );
+  }
+  const dual = profiles.find((p) => p.classId === "duelist")!;
+  assert.equal(strikeAnimation(dual, { weaponIndex: 1 }), "attack_offhand");
+  assert.equal(strikeAnimation(dual, { weaponIndex: 0 }), "attack");
+  assert.equal(
+    strikeAnimation(undefined, { weaponIndex: 1, counter: true }),
+    "counter",
+  );
+  for (const p of profiles)
+    for (const id of Object.keys(p.clips)) {
+      const c = resolveClip(p, id)!;
+      if (c.frameSize)
+        assert.ok(c.frameSize.width > 0 && c.frameSize.height > 0);
+    }
+  assert.ok(
+    profiles.some(
+      (p) =>
+        p.classId === "hamrammr" &&
+        p.state === "bear" &&
+        p.equipment === "claws",
+    ),
+  );
+});

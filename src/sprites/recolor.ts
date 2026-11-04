@@ -1,45 +1,145 @@
 import { teamPalette, type TeamColor } from "../game/team-colors";
-/** Only the reserved magenta material IDs are replaced; alpha and natural materials are untouched. */
-export function isTeamPixel(r: number, g: number, b: number) {
+export type RecolorSettings = {
+  hue: number;
+  hueTolerance: number;
+  saturation: number;
+  value: number;
+  edgeHueTolerance: number;
+  edgeSaturation: number;
+  edgeDistance: number;
+};
+export const defaultRecolorSettings: Readonly<RecolorSettings> = {
+  hue: 315,
+  hueTolerance: 35,
+  saturation: 0.4,
+  value: 0.07,
+  edgeHueTolerance: 42,
+  edgeSaturation: 0.12,
+  edgeDistance: 4,
+};
+let currentSettings: RecolorSettings = { ...defaultRecolorSettings };
+export const recolorSettings = () => ({ ...currentSettings });
+export function setRecolorSettings(patch: Partial<RecolorSettings>) {
+  for (const key of Object.keys(
+    defaultRecolorSettings,
+  ) as (keyof RecolorSettings)[]) {
+    const value = patch[key];
+    if (typeof value === "number" && Number.isFinite(value))
+      currentSettings[key] = value;
+  }
+  currentSettings.hue = ((currentSettings.hue % 360) + 360) % 360;
+  for (const key of ["hueTolerance", "edgeHueTolerance"] as const)
+    currentSettings[key] = Math.max(0, Math.min(70, currentSettings[key]));
+  for (const key of ["saturation", "edgeSaturation", "value"] as const)
+    currentSettings[key] = Math.max(0, Math.min(1, currentSettings[key]));
+  currentSettings.edgeDistance = Math.max(
+    0,
+    Math.min(12, Math.floor(currentSettings.edgeDistance)),
+  );
+  return recolorSettings();
+}
+export function rgbToHsv(r: number, g: number, b: number) {
+  r /= 255;
+  g /= 255;
+  b /= 255;
+  const max = Math.max(r, g, b),
+    min = Math.min(r, g, b),
+    delta = max - min;
+  const hue =
+    delta === 0
+      ? 0
+      : max === r
+        ? 60 * (((g - b) / delta) % 6)
+        : max === g
+          ? 60 * ((b - r) / delta + 2)
+          : 60 * ((r - g) / delta + 4);
+  return {
+    h: ((hue % 360) + 360) % 360,
+    s: max === 0 ? 0 : delta / max,
+    v: max,
+  };
+}
+function hsvToRgb(h: number, s: number, v: number) {
+  const c = v * s,
+    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
+    m = v - c;
+  const [r, g, b] =
+    h < 60
+      ? [c, x, 0]
+      : h < 120
+        ? [x, c, 0]
+        : h < 180
+          ? [0, c, x]
+          : h < 240
+            ? [0, x, c]
+            : h < 300
+              ? [x, 0, c]
+              : [c, 0, x];
+  return [r, g, b].map((n) => Math.round((n + m) * 255));
+}
+const hueDistance = (a: number, b: number) =>
+  Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+export function isTeamPixel(
+  r: number,
+  g: number,
+  b: number,
+  settings: RecolorSettings = currentSettings,
+) {
+  const p = rgbToHsv(r, g, b);
   return (
-    r > 35 &&
-    b > 30 &&
-    Math.min(r, b) > g * 1.65 &&
-    Math.abs(r - b) < Math.max(r, b) * 0.52
+    p.v >= settings.value &&
+    p.s >= settings.saturation &&
+    hueDistance(p.h, settings.hue) <= settings.hueTolerance
   );
 }
-/** Soft magenta at cloth/skin boundaries must be connected to the reserved material. */
-export function isTeamEdgePixel(r: number, g: number, b: number) {
-  return r > g * 1.3 && b > g + 12 && b > r * 0.32;
+export function isTeamEdgePixel(
+  r: number,
+  g: number,
+  b: number,
+  settings: RecolorSettings = currentSettings,
+) {
+  const p = rgbToHsv(r, g, b);
+  return (
+    p.v >= settings.value &&
+    p.s >= settings.edgeSaturation &&
+    hueDistance(p.h, settings.hue) <= settings.edgeHueTolerance
+  );
 }
+/** HSV material range plus local low-saturation highlights. Original pixels and alpha remain untouched. */
 export function recolorPixels(
   data: Uint8ClampedArray,
   color: TeamColor,
-  options: { width?: number; softEdges?: boolean } = {},
+  options: {
+    width?: number;
+    softEdges?: boolean;
+    settings?: RecolorSettings;
+  } = {},
 ) {
-  const mask = new Uint8Array(data.length / 4);
+  const settings = options.settings ?? currentSettings,
+    mask = new Uint8Array(data.length / 4);
   for (let i = 0; i < data.length; i += 4)
-    if (data[i + 3] && isTeamPixel(data[i], data[i + 1], data[i + 2]))
+    if (data[i + 3] && isTeamPixel(data[i], data[i + 1], data[i + 2], settings))
       mask[i / 4] = 1;
   const width = options.width ?? 0;
-  if (options.softEdges && width > 0) {
-    const material = mask.slice();
-    const height = mask.length / width;
+  if (options.softEdges !== false && width > 0) {
+    const material = mask.slice(),
+      height = mask.length / width,
+      distance = settings.edgeDistance;
     for (let pixel = 0; pixel < mask.length; pixel++) {
       const i = pixel * 4;
       if (
         mask[pixel] ||
         !data[i + 3] ||
-        !isTeamEdgePixel(data[i], data[i + 1], data[i + 2])
+        !isTeamEdgePixel(data[i], data[i + 1], data[i + 2], settings)
       )
         continue;
       const x = pixel % width,
         y = Math.floor(pixel / width);
       let found = false;
-      for (let dy = -4; dy <= 4 && !found; dy++)
-        for (let dx = -4; dx <= 4; dx++) {
+      for (let dy = -distance; dy <= distance && !found; dy++)
+        for (let dx = -distance; dx <= distance; dx++) {
           if (
-            Math.abs(dx) + Math.abs(dy) > 4 ||
+            Math.abs(dx) + Math.abs(dy) > distance ||
             x + dx < 0 ||
             x + dx >= width ||
             y + dy < 0 ||
@@ -54,37 +154,64 @@ export function recolorPixels(
       if (found) mask[pixel] = 1;
     }
   }
-  const target = teamPalette[color].rgb;
+  const [r, g, b] = teamPalette[color].rgb;
+  const target = rgbToHsv(r, g, b);
   for (let i = 0; i < data.length; i += 4) {
     if (!mask[i / 4]) continue;
-    const shade = Math.max(data[i], data[i + 2]) / 255;
-    for (let channel = 0; channel < 3; channel++)
-      data[i + channel] = Math.round(target[channel] * Math.max(0.18, shade));
+    const source = rgbToHsv(data[i], data[i + 1], data[i + 2]),
+      rgb = hsvToRgb(
+        target.h,
+        target.s * Math.min(1, source.s / 0.75),
+        target.v * source.v,
+      );
+    for (let c = 0; c < 3; c++) data[i + c] = rgb[c];
   }
   return data;
 }
 const cache = new WeakMap<HTMLImageElement, Map<string, HTMLCanvasElement>>();
+// Gallery calibration can produce many palettes of a large atlas. Bound total
+// cached pixel memory across sources, rather than retaining every setting forever.
+const recent = new Map<
+  HTMLCanvasElement,
+  { colors: Map<string, HTMLCanvasElement>; key: string; bytes: number }
+>();
+const cacheLimit = 64 * 1024 * 1024;
+let cachedBytes = 0;
 export function recoloredImage(
   image: HTMLImageElement,
   color: TeamColor,
-  softEdges = false,
+  softEdges = true,
 ) {
   let colors = cache.get(image);
   if (!colors) {
     colors = new Map();
     cache.set(image, colors);
   }
-  const key = `${color}:${softEdges}`;
+  const key = `${color}:${softEdges}:${JSON.stringify(currentSettings)}`;
   let canvas = colors.get(key);
-  if (canvas) return canvas;
+  if (canvas) {
+    const entry = recent.get(canvas)!;
+    recent.delete(canvas);
+    recent.set(canvas, entry);
+    return canvas;
+  }
   canvas = document.createElement("canvas");
   canvas.width = image.naturalWidth;
   canvas.height = image.naturalHeight;
-  const context = canvas.getContext("2d")!;
-  context.drawImage(image, 0, 0);
-  const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+  const ctx = canvas.getContext("2d")!;
+  ctx.drawImage(image, 0, 0);
+  const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
   recolorPixels(pixels.data, color, { width: canvas.width, softEdges });
-  context.putImageData(pixels, 0, 0);
+  ctx.putImageData(pixels, 0, 0);
   colors.set(key, canvas);
+  const bytes = canvas.width * canvas.height * 4;
+  cachedBytes += bytes;
+  recent.set(canvas, { colors, key, bytes });
+  while (cachedBytes > cacheLimit && recent.size > 1) {
+    const [old, entry] = recent.entries().next().value!;
+    recent.delete(old);
+    entry.colors.delete(entry.key);
+    cachedBytes -= entry.bytes;
+  }
   return canvas;
 }

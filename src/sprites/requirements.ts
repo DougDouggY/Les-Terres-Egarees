@@ -19,6 +19,7 @@ export function requiredAnimations(
     names.push("block");
   if (p.equipment === "crossbow") names.push("reload");
   for (const skill of c.skills) {
+    if (p.state === "bear" && skill === "heal") continue;
     if (skill === "banner") {
       if (p.state === "carried") names.push("banner");
       continue;

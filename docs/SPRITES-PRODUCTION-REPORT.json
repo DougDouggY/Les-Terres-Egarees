@@ -1,9 +1,9 @@
 {
   "totals": {
-    "functional": 260,
-    "reused": 47,
-    "provisional": 28,
-    "missing": 107
+    "functional": 325,
+    "reused": 49,
+    "provisional": 31,
+    "missing": 73
   },
   "classes": [
     {
@@ -12,7 +12,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "axe",
           "state": "default",
@@ -35,7 +35,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -45,26 +45,26 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 6,
         "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -77,7 +77,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "dual-axes",
           "state": "default",
@@ -100,7 +100,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -110,26 +110,31 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack_offhand",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 7,
         "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -142,7 +147,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "great-axe",
           "state": "default",
@@ -165,7 +170,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -175,26 +180,26 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 4,
+        "functional": 5,
         "reused": 1,
         "provisional": 1,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -280,7 +285,7 @@
           ]
         },
         {
-          "note": "",
+          "note": "Séquence spécifique : block",
           "gender": "female",
           "equipment": "axe-shield",
           "state": "default",
@@ -327,13 +332,13 @@
             },
             {
               "id": "block",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
         },
         {
-          "note": "",
+          "note": "Séquence spécifique : block",
           "gender": "male",
           "equipment": "sword-shield",
           "state": "default",
@@ -380,17 +385,17 @@
             },
             {
               "id": "block",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 15,
+        "functional": 17,
         "reused": 3,
         "provisional": 6,
-        "missing": 7
+        "missing": 5
       },
       "variants": {
         "male": true,
@@ -403,7 +408,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "axe-shield",
           "state": "default",
@@ -426,7 +431,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -436,16 +441,16 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -520,10 +525,10 @@
         }
       ],
       "counts": {
-        "functional": 10,
+        "functional": 11,
         "reused": 2,
         "provisional": 4,
-        "missing": 4
+        "missing": 3
       },
       "variants": {
         "male": true,
@@ -536,7 +541,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Séquence spécifique : block",
           "gender": "male",
           "equipment": "axe-shield",
           "state": "default",
@@ -559,7 +564,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -569,21 +574,21 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
-              "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "status": "provisional",
+              "note": "Découpage à vérifier : contact avec un bord ou une silhouette/effet voisin. Ressource conservée sans retouche destructive."
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
               "id": "block",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -594,7 +599,7 @@
           ]
         },
         {
-          "note": "",
+          "note": "Séquence spécifique : block",
           "gender": "male",
           "equipment": "sword-shield",
           "state": "default",
@@ -641,7 +646,7 @@
             },
             {
               "id": "block",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -653,10 +658,10 @@
         }
       ],
       "counts": {
-        "functional": 12,
+        "functional": 14,
         "reused": 2,
-        "provisional": 0,
-        "missing": 6
+        "provisional": 1,
+        "missing": 3
       },
       "variants": {
         "male": true,
@@ -669,7 +674,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "sword",
           "state": "default",
@@ -692,7 +697,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -702,26 +707,26 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 6,
         "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -734,7 +739,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "dual-swords",
           "state": "default",
@@ -757,7 +762,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -767,26 +772,31 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack_offhand",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 7,
         "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -799,7 +809,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "any",
           "equipment": "sword-shield",
           "state": "default",
@@ -822,7 +832,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -832,16 +842,16 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -853,10 +863,10 @@
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 6,
         "reused": 1,
         "provisional": 1,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -869,7 +879,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "female",
           "equipment": "bow",
           "state": "default",
@@ -892,7 +902,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -902,25 +912,25 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "provisional",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 6,
         "reused": 1,
-        "provisional": 1,
+        "provisional": 0,
         "missing": 1
       },
       "variants": {
@@ -1310,7 +1320,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "any",
           "equipment": "sword-shield",
           "state": "default",
@@ -1327,13 +1337,13 @@
             },
             {
               "id": "attack",
-              "status": "functional",
-              "note": ""
+              "status": "provisional",
+              "note": "Découpage à vérifier : contact avec un bord ou une silhouette/effet voisin. Ressource conservée sans retouche destructive."
             },
             {
               "id": "counter",
-              "status": "reused",
-              "note": ""
+              "status": "provisional",
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -1343,31 +1353,31 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
               "id": "block",
               "status": "provisional",
-              "note": "Poses défensives présentes ; véritable levée du bouclier et impact à retravailler."
+              "note": "Découpage à vérifier : contact avec un bord ou une silhouette/effet voisin. Ressource conservée sans retouche destructive."
             }
           ]
         }
       ],
       "counts": {
         "functional": 5,
-        "reused": 1,
-        "provisional": 1,
-        "missing": 2
+        "reused": 0,
+        "provisional": 3,
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -1380,7 +1390,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Séquence spécifique : block",
           "gender": "any",
           "equipment": "sword-shield",
           "state": "default",
@@ -1403,7 +1413,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -1413,21 +1423,21 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
               "id": "block",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -1439,10 +1449,10 @@
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 7,
         "reused": 1,
         "provisional": 1,
-        "missing": 3
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -1455,7 +1465,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "any",
           "equipment": "lance",
           "state": "default",
@@ -1478,7 +1488,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -1488,26 +1498,26 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 6,
         "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -1520,7 +1530,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "any",
           "equipment": "lance-shield",
           "state": "default",
@@ -1537,13 +1547,13 @@
             },
             {
               "id": "attack",
-              "status": "functional",
-              "note": ""
+              "status": "provisional",
+              "note": "Découpage à vérifier : contact avec un bord ou une silhouette/effet voisin. Ressource conservée sans retouche destructive."
             },
             {
               "id": "counter",
-              "status": "reused",
-              "note": ""
+              "status": "provisional",
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -1553,17 +1563,17 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
-              "note": ""
+              "status": "provisional",
+              "note": "Découpage à vérifier : contact avec un bord ou une silhouette/effet voisin. Ressource conservée sans retouche destructive."
             },
             {
               "id": "block",
@@ -1574,10 +1584,10 @@
         }
       ],
       "counts": {
-        "functional": 5,
-        "reused": 1,
-        "provisional": 1,
-        "missing": 2
+        "functional": 4,
+        "reused": 0,
+        "provisional": 4,
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -1590,7 +1600,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "any",
           "equipment": "lance",
           "state": "default",
@@ -1613,7 +1623,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -1623,16 +1633,16 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -1644,10 +1654,10 @@
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 6,
         "reused": 1,
         "provisional": 1,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -1778,7 +1788,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Séquence spécifique : reload",
           "gender": "male",
           "equipment": "crossbow",
           "state": "default",
@@ -1801,7 +1811,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -1811,31 +1821,31 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "provisional",
+              "status": "functional",
               "note": ""
             },
             {
               "id": "reload",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 7,
         "reused": 1,
-        "provisional": 1,
-        "missing": 2
+        "provisional": 0,
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -1848,7 +1858,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Séquence spécifique : reload",
           "gender": "male",
           "equipment": "crossbow",
           "state": "default",
@@ -1895,7 +1905,7 @@
             },
             {
               "id": "reload",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
@@ -1950,10 +1960,10 @@
         }
       ],
       "counts": {
-        "functional": 10,
+        "functional": 11,
         "reused": 2,
         "provisional": 0,
-        "missing": 5
+        "missing": 4
       },
       "variants": {
         "male": true,
@@ -1966,7 +1976,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Séquence spécifique : reload",
           "gender": "male",
           "equipment": "crossbow",
           "state": "default",
@@ -2013,7 +2023,7 @@
             },
             {
               "id": "reload",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -2024,7 +2034,7 @@
           ]
         },
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "crossbow",
           "state": "fortified",
@@ -2042,7 +2052,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -2052,16 +2062,16 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -2073,10 +2083,10 @@
         }
       ],
       "counts": {
-        "functional": 9,
+        "functional": 11,
         "reused": 2,
         "provisional": 0,
-        "missing": 7
+        "missing": 5
       },
       "variants": {
         "male": true,
@@ -2089,7 +2099,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "any",
           "equipment": "sword",
           "state": "default",
@@ -2112,7 +2122,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -2122,26 +2132,26 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 6,
         "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -2154,7 +2164,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "dual-swords",
           "state": "default",
@@ -2177,7 +2187,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -2187,26 +2197,31 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack_offhand",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 7,
         "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -2219,7 +2234,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "any",
           "equipment": "great-sword",
           "state": "default",
@@ -2242,7 +2257,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -2252,26 +2267,26 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 4,
+        "functional": 5,
         "reused": 1,
         "provisional": 1,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,
@@ -2392,7 +2407,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "spell",
           "state": "default",
@@ -2415,7 +2430,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -2425,16 +2440,16 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -2494,10 +2509,10 @@
         }
       ],
       "counts": {
-        "functional": 13,
+        "functional": 14,
         "reused": 1,
         "provisional": 0,
-        "missing": 3
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2510,7 +2525,7 @@
       "faction": "knight",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "male",
           "equipment": "spell",
           "state": "default",
@@ -2533,7 +2548,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -2543,16 +2558,16 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "missing",
+              "status": "functional",
               "note": ""
             },
             {
@@ -2612,10 +2627,10 @@
         }
       ],
       "counts": {
-        "functional": 13,
+        "functional": 14,
         "reused": 1,
         "provisional": 0,
-        "missing": 3
+        "missing": 2
       },
       "variants": {
         "male": true,
@@ -2758,7 +2773,7 @@
       "faction": "enemy",
       "profiles": [
         {
-          "note": "",
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
           "gender": "any",
           "equipment": "rusty-sword",
           "state": "default",
@@ -2781,7 +2796,7 @@
             {
               "id": "counter",
               "status": "reused",
-              "note": ""
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
             },
             {
               "id": "critical",
@@ -2791,25 +2806,25 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
-              "status": "provisional",
+              "status": "functional",
               "note": ""
             }
           ]
         }
       ],
       "counts": {
-        "functional": 5,
+        "functional": 6,
         "reused": 1,
-        "provisional": 1,
+        "provisional": 0,
         "missing": 1
       },
       "variants": {
@@ -2821,442 +2836,10 @@
       "id": "volva",
       "name": "Völva",
       "faction": "north",
-      "profiles": [],
-      "counts": {
-        "functional": 0,
-        "reused": 0,
-        "provisional": 0,
-        "missing": 0
-      },
-      "variants": {
-        "male": false,
-        "female": false
-      }
-    },
-    {
-      "id": "hamrammr",
-      "name": "Hamrammr",
-      "faction": "north",
-      "profiles": [],
-      "counts": {
-        "functional": 0,
-        "reused": 0,
-        "provisional": 0,
-        "missing": 0
-      },
-      "variants": {
-        "male": false,
-        "female": false
-      }
-    },
-    {
-      "id": "sans_axe",
-      "name": "Squelette hacheur",
-      "faction": "enemy",
       "profiles": [
         {
-          "note": "",
-          "gender": "any",
-          "equipment": "axe",
-          "state": "default",
-          "animations": [
-            {
-              "id": "idle",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "move",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "attack",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "counter",
-              "status": "reused",
-              "note": ""
-            },
-            {
-              "id": "critical",
-              "status": "missing",
-              "note": ""
-            },
-            {
-              "id": "damage",
-              "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
-            },
-            {
-              "id": "death",
-              "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
-            },
-            {
-              "id": "evade",
-              "status": "missing",
-              "note": ""
-            }
-          ]
-        }
-      ],
-      "counts": {
-        "functional": 5,
-        "reused": 1,
-        "provisional": 0,
-        "missing": 2
-      },
-      "variants": {
-        "male": true,
-        "female": true
-      }
-    },
-    {
-      "id": "sans_spear",
-      "name": "Squelette lancier",
-      "faction": "enemy",
-      "profiles": [
-        {
-          "note": "",
-          "gender": "any",
-          "equipment": "lance",
-          "state": "default",
-          "animations": [
-            {
-              "id": "idle",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "move",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "attack",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "counter",
-              "status": "reused",
-              "note": ""
-            },
-            {
-              "id": "critical",
-              "status": "missing",
-              "note": ""
-            },
-            {
-              "id": "damage",
-              "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
-            },
-            {
-              "id": "death",
-              "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
-            },
-            {
-              "id": "evade",
-              "status": "missing",
-              "note": ""
-            }
-          ]
-        }
-      ],
-      "counts": {
-        "functional": 5,
-        "reused": 1,
-        "provisional": 0,
-        "missing": 2
-      },
-      "variants": {
-        "male": true,
-        "female": true
-      }
-    },
-    {
-      "id": "sans_archer",
-      "name": "Archer décharné",
-      "faction": "enemy",
-      "profiles": [
-        {
-          "note": "",
-          "gender": "any",
-          "equipment": "bow",
-          "state": "default",
-          "animations": [
-            {
-              "id": "idle",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "move",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "attack",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "counter",
-              "status": "reused",
-              "note": ""
-            },
-            {
-              "id": "critical",
-              "status": "missing",
-              "note": ""
-            },
-            {
-              "id": "damage",
-              "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
-            },
-            {
-              "id": "death",
-              "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
-            },
-            {
-              "id": "evade",
-              "status": "missing",
-              "note": ""
-            }
-          ]
-        }
-      ],
-      "counts": {
-        "functional": 5,
-        "reused": 1,
-        "provisional": 0,
-        "missing": 2
-      },
-      "variants": {
-        "male": true,
-        "female": true
-      }
-    },
-    {
-      "id": "sans_crossbow",
-      "name": "Arbalétrier décharné",
-      "faction": "enemy",
-      "profiles": [
-        {
-          "note": "",
-          "gender": "any",
-          "equipment": "crossbow",
-          "state": "default",
-          "animations": [
-            {
-              "id": "idle",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "move",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "attack",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "counter",
-              "status": "reused",
-              "note": ""
-            },
-            {
-              "id": "critical",
-              "status": "missing",
-              "note": ""
-            },
-            {
-              "id": "damage",
-              "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
-            },
-            {
-              "id": "death",
-              "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
-            },
-            {
-              "id": "evade",
-              "status": "missing",
-              "note": ""
-            },
-            {
-              "id": "reload",
-              "status": "missing",
-              "note": ""
-            }
-          ]
-        }
-      ],
-      "counts": {
-        "functional": 5,
-        "reused": 1,
-        "provisional": 0,
-        "missing": 3
-      },
-      "variants": {
-        "male": true,
-        "female": true
-      }
-    },
-    {
-      "id": "sans_guard",
-      "name": "Garde en armure",
-      "faction": "enemy",
-      "profiles": [
-        {
-          "note": "",
-          "gender": "any",
-          "equipment": "sword-shield",
-          "state": "default",
-          "animations": [
-            {
-              "id": "idle",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "move",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "attack",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "counter",
-              "status": "reused",
-              "note": ""
-            },
-            {
-              "id": "critical",
-              "status": "missing",
-              "note": ""
-            },
-            {
-              "id": "damage",
-              "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
-            },
-            {
-              "id": "death",
-              "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
-            },
-            {
-              "id": "evade",
-              "status": "missing",
-              "note": ""
-            },
-            {
-              "id": "block",
-              "status": "missing",
-              "note": ""
-            }
-          ]
-        }
-      ],
-      "counts": {
-        "functional": 5,
-        "reused": 1,
-        "provisional": 0,
-        "missing": 3
-      },
-      "variants": {
-        "male": true,
-        "female": true
-      }
-    },
-    {
-      "id": "sans_rider",
-      "name": "Cavalier spectral",
-      "faction": "enemy",
-      "profiles": [
-        {
-          "note": "",
-          "gender": "any",
-          "equipment": "lance",
-          "state": "default",
-          "animations": [
-            {
-              "id": "idle",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "move",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "attack",
-              "status": "functional",
-              "note": ""
-            },
-            {
-              "id": "counter",
-              "status": "reused",
-              "note": ""
-            },
-            {
-              "id": "critical",
-              "status": "missing",
-              "note": ""
-            },
-            {
-              "id": "damage",
-              "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
-            },
-            {
-              "id": "death",
-              "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
-            },
-            {
-              "id": "evade",
-              "status": "missing",
-              "note": ""
-            }
-          ]
-        }
-      ],
-      "counts": {
-        "functional": 5,
-        "reused": 1,
-        "provisional": 0,
-        "missing": 2
-      },
-      "variants": {
-        "male": true,
-        "female": true
-      }
-    },
-    {
-      "id": "sans_necromancer",
-      "name": "Nécromancien ennemi",
-      "faction": "enemy",
-      "profiles": [
-        {
-          "note": "",
-          "gender": "any",
+          "note": "Promotion chamanique : silhouette dédiée. Variante féminine et transformation intermédiaire non produites.",
+          "gender": "male",
           "equipment": "spell",
           "state": "default",
           "animations": [
@@ -3288,16 +2871,647 @@
             {
               "id": "damage",
               "status": "functional",
-              "note": "Recul puis retour à la pose de repos."
+              "note": ""
             },
             {
               "id": "death",
               "status": "functional",
-              "note": "Recul puis chute au sol, deux poses."
+              "note": ""
             },
             {
               "id": "evade",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "buff",
+              "status": "reused",
+              "note": "Geste magique partagé ; aucun effet de statut supplémentaire dessiné dans cette planche."
+            }
+          ]
+        },
+        {
+          "note": "Promotion chamanique : silhouette dédiée. Variante féminine et transformation intermédiaire non produites.",
+          "gender": "male",
+          "equipment": "healing",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "buff",
+              "status": "reused",
+              "note": "Geste magique partagé ; aucun effet de statut supplémentaire dessiné dans cette planche."
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 13,
+        "reused": 3,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": false
+      }
+    },
+    {
+      "id": "hamrammr",
+      "name": "Hamrammr",
+      "faction": "north",
+      "profiles": [
+        {
+          "note": "Séquence spécifique : transform",
+          "gender": "male",
+          "equipment": "healing",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "heal",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "transform",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        },
+        {
+          "note": "Séquence spécifique : transform",
+          "gender": "any",
+          "equipment": "claws",
+          "state": "bear",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "reused",
+              "note": ""
+            },
+            {
+              "id": "critical",
               "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "transform",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 14,
+        "reused": 1,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_axe",
+      "name": "Squelette hacheur",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
+          "gender": "any",
+          "equipment": "axe",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "reused",
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "reused": 1,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_spear",
+      "name": "Squelette lancier",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
+          "gender": "any",
+          "equipment": "lance",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "reused",
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "reused": 1,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_archer",
+      "name": "Archer décharné",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
+          "gender": "any",
+          "equipment": "bow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "reused",
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "reused": 1,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_crossbow",
+      "name": "Arbalétrier décharné",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "Séquence spécifique : reload",
+          "gender": "any",
+          "equipment": "crossbow",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "reused",
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "reload",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 7,
+        "reused": 1,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_guard",
+      "name": "Garde en armure",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "Séquence spécifique : block",
+          "gender": "any",
+          "equipment": "sword-shield",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "reused",
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "block",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 7,
+        "reused": 1,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_rider",
+      "name": "Cavalier spectral",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
+          "gender": "any",
+          "equipment": "lance",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "reused",
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
+              "note": ""
+            }
+          ]
+        }
+      ],
+      "counts": {
+        "functional": 6,
+        "reused": 1,
+        "provisional": 0,
+        "missing": 1
+      },
+      "variants": {
+        "male": true,
+        "female": true
+      }
+    },
+    {
+      "id": "sans_necromancer",
+      "name": "Nécromancien ennemi",
+      "faction": "enemy",
+      "profiles": [
+        {
+          "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
+          "gender": "any",
+          "equipment": "spell",
+          "state": "default",
+          "animations": [
+            {
+              "id": "idle",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "move",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "attack",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "counter",
+              "status": "reused",
+              "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+            },
+            {
+              "id": "critical",
+              "status": "missing",
+              "note": ""
+            },
+            {
+              "id": "damage",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "death",
+              "status": "functional",
+              "note": ""
+            },
+            {
+              "id": "evade",
+              "status": "functional",
               "note": ""
             },
             {
@@ -3309,10 +3523,10 @@
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 7,
         "reused": 1,
         "provisional": 0,
-        "missing": 2
+        "missing": 1
       },
       "variants": {
         "male": true,

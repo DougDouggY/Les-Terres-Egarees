@@ -1,6 +1,6 @@
 {
-  "sources": 23,
-  "correctedFrames": 33,
+  "sources": 37,
+  "correctedFrames": 170,
   "issues": [
     {
       "source": "tactical/team-sample-combat.png",
@@ -8,6 +8,72 @@
       "problem": "S\u00e9paration ambigu\u00eb des figures",
       "expected": 4,
       "detected": 3
+    },
+    {
+      "source": "tactical/complete-north-promotions.png",
+      "column": 0,
+      "row": 11,
+      "problem": "Contact avec le bord de l\u2019image source : pointe/pied \u00e0 v\u00e9rifier, aucun redessin automatique."
+    },
+    {
+      "source": "tactical/complete-north-promotions.png",
+      "column": 1,
+      "row": 11,
+      "problem": "Contact avec le bord de l\u2019image source : pointe/pied \u00e0 v\u00e9rifier, aucun redessin automatique."
+    },
+    {
+      "source": "tactical/complete-north-promotions.png",
+      "column": 2,
+      "row": 11,
+      "problem": "Contact avec le bord de l\u2019image source : pointe/pied \u00e0 v\u00e9rifier, aucun redessin automatique."
+    },
+    {
+      "source": "tactical/complete-north-promotions.png",
+      "column": 3,
+      "row": 11,
+      "problem": "Contact avec le bord de l\u2019image source : pointe/pied \u00e0 v\u00e9rifier, aucun redessin automatique."
+    },
+    {
+      "source": "tactical/complete-north-promotions.png",
+      "column": 3,
+      "row": 6,
+      "problem": "Deux silhouettes ou effets se touchent : d\u00e9coupage provisoire."
+    },
+    {
+      "source": "tactical/complete-north-promotions.png",
+      "column": 3,
+      "row": 7,
+      "problem": "Deux silhouettes ou effets se touchent : d\u00e9coupage provisoire."
+    },
+    {
+      "source": "tactical/complete-knight-promotions.png",
+      "column": 1,
+      "row": 0,
+      "problem": "Contact avec le bord de l\u2019image source : pointe/pied \u00e0 v\u00e9rifier, aucun redessin automatique."
+    },
+    {
+      "source": "tactical/complete-knight-promotions.png",
+      "column": 1,
+      "row": 3,
+      "problem": "Deux silhouettes ou effets se touchent : d\u00e9coupage provisoire."
+    },
+    {
+      "source": "tactical/complete-knight-promotions.png",
+      "column": 1,
+      "row": 4,
+      "problem": "Deux silhouettes ou effets se touchent : d\u00e9coupage provisoire."
+    },
+    {
+      "source": "tactical/complete-knight-promotions.png",
+      "column": 1,
+      "row": 5,
+      "problem": "Deux silhouettes ou effets se touchent : d\u00e9coupage provisoire."
+    },
+    {
+      "source": "tactical/complete-knight-promotions.png",
+      "column": 1,
+      "row": 6,
+      "problem": "Deux silhouettes ou effets se touchent : d\u00e9coupage provisoire."
     }
   ]
 }

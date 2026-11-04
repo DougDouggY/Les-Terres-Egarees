@@ -69,6 +69,14 @@ test("galerie : huit vraies poses homme/femme et outil de sol ; critiques manqua
   );
   await page.locator("#mirror-sprites").check();
   await page.locator('[data-gallery-class="hamrammr"]').click();
+  await expect(page.locator("#sprite-canvas")).toBeVisible();
+  await page.locator("#sprite-animation").selectOption("transform");
+  await expect(page.locator("#sprite-frame")).toContainText("/ 6");
+  await page.locator("#sprite-state").selectOption("bear");
+  await expect(page.locator("#sprite-equipment")).toHaveValue("claws");
+  await expect(page.locator("#sprite-canvas")).toBeVisible();
+  await page.locator("#sprite-state").selectOption("default");
+  await page.locator("#sprite-gender").selectOption("female");
   await expect(page.locator(".sprite-missing").first()).toContainText(
     "Sprite manquant",
   );

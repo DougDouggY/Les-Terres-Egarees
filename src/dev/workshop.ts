@@ -16,6 +16,7 @@ import {
 } from "../sprites/resources";
 import {
   resolveClip,
+  strikeAnimation,
   animationNames,
   animationStatus,
   statusNames,
@@ -290,7 +291,7 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
         attacker = s.units.find((u) => u.id === hit.attacker)!;
         const c = resolveClip(
           unitSpriteProfile(attacker),
-          hit.counter ? "counter" : "attack",
+          strikeAnimation(unitSpriteProfile(attacker), hit),
         );
         pose = combatPose(
           now - started,
@@ -340,6 +341,8 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
                   : "evade"
               : "idle"
           : animation;
+        if (hit && isAtt && ["attack", "counter"].includes(action))
+          action = strikeAnimation(p, hit);
         const c = resolveClip(p, action),
           f = hit
             ? isAtt

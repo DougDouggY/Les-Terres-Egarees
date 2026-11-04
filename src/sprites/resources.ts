@@ -118,7 +118,10 @@ export function drawResourceFrame(
     (f) => f.row === sourceRow && f.column === column,
   );
   if (rect) {
-    const scale = Math.min(width / sw, height / sh);
+    const scale = Math.min(
+      width / (c.frameSize?.width ?? sw),
+      height / (c.frameSize?.height ?? sh),
+    );
     const dx = x + width / 2 + (rect.x - rect.anchorX) * scale,
       dy = y + height * 0.96 - rect.height * scale;
     ctx.drawImage(

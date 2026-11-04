@@ -1,3 +1,8 @@
+import {
+  defaultRecolorSettings,
+  recolorSettings,
+  setRecolorSettings,
+} from "../sprites/recolor";
 import { requiredAnimations } from "../sprites/requirements";
 import { TerrainRenderer } from "../terrain";
 import { visualClasses } from "../sprites/visual-classes";
@@ -97,6 +102,7 @@ type Selection = {
 };
 type Review = { status: string; comment: string };
 export function openGallery(app: HTMLElement, onBack: () => void) {
+  const initialRecolorSettings = recolorSettings();
   function drawResourceFrame(...args: Parameters<typeof drawFrame>) {
     const [ctx, , , , x, y, w, h] = args;
     ctx.save();
@@ -282,7 +288,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       )
       .join(
         "",
-      )}<p>Völva et Hamrammr : sprites à produire ; aucun ours de remplacement.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${statusNames[animationStatus(p, id)]}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><p class="dev-note"><strong>${statusNames[animationStatus(p, selection.animation)]}</strong> · ${clip?.note ?? (clip && clip.frames.length === 1 ? "Pose statique : ce n’est pas une animation complète." : clip?.status === "provisional" ? "Séquence provisoire à retravailler." : !clip ? "Aucune ressource enregistrée." : "Séquence de poses distinctes.")} ${p?.note ?? ""}</p><div class="dev-controls"><label><input type="checkbox" id="ground-line" ${groundLine ? "checked" : ""}>Ligne de sol commune</label><label><input type="checkbox" id="mirror-sprites" ${mirrored ? "checked" : ""}>Inverser l’orientation</label><button data-export-library>Bilan des sprites et animations (JSON)</button><label>Terrain d’inspection<select id="preview-terrain">${[
+      )}<p>Völva et Hamrammr : références masculines et forme d’ours dédiées ; les variantes manquantes restent vides.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : v === "bear" ? "Ours" : c.id === "hamrammr" ? "Humain" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${statusNames[animationStatus(p, id)]}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><p class="dev-note"><strong>${statusNames[animationStatus(p, selection.animation)]}</strong> · ${clip?.note ?? (clip && clip.frames.length === 1 ? "Pose statique : ce n’est pas une animation complète." : clip?.status === "provisional" ? "Séquence provisoire à retravailler." : !clip ? "Aucune ressource enregistrée." : "Séquence de poses distinctes.")} ${p?.note ?? ""}</p><div class="dev-controls"><label><input type="checkbox" id="ground-line" ${groundLine ? "checked" : ""}>Ligne de sol commune</label><label><input type="checkbox" id="mirror-sprites" ${mirrored ? "checked" : ""}>Inverser l’orientation</label><button data-export-library>Bilan des sprites et animations (JSON)</button><label>Terrain d’inspection<select id="preview-terrain">${[
       ["road", "Route près des ruines"],
       ["forest", "Forêt"],
       ["coast", "Côte"],
@@ -294,7 +300,21 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       )
       .join(
         "",
-      )}</select></label></div><div class="visual-map-preview"><canvas id="visual-map" width="280" height="280" aria-label="Aperçu visuel sur la carte validée, sans partie ni combat"></canvas><p>Échelle tactique · une case de 40 px<br>Lecture visuelle uniquement : aucune unité déployée, aucune partie lancée.</p></div><div class="sprite-preview"><div class="sprite-stage" data-main-stage>${clip ? `<canvas id="sprite-canvas" width="${128 * zoom}" height="${128 * zoom}"></canvas>` : `<div class="sprite-missing"><strong>${p ? "Animation manquante" : "Sprite manquant"}</strong><p>${esc(c.name)} · ${esc(selection.gender)} · ${esc(selection.equipment)} · ${esc(selection.state)}<br>Aucune ressource substituée.</p></div>`}</div><div class="sprite-details"><div class="dev-controls"><button data-play ${clip ? "" : "disabled"}>${playing ? "Arrêter" : "Lancer"}</button><button data-replay ${clip ? "" : "disabled"}>Rejouer</button><button data-prev ${clip ? "" : "disabled"}>Image précédente</button><button data-next ${clip ? "" : "disabled"}>Image suivante</button></div><p id="sprite-frame">${clip ? `${clip.frames.length} image(s) · ${clip.fps} i/s` : "Aucune animation à lire"}</p><div class="resource-path">${clip ? `${esc(clip.source)} · ligne ${clip.row} · cellules ${clip.columns} × ${clip.rows}` : "Ressource non enregistrée"}</div>${p && "reuse" in (p.clips[selection.animation] ?? {}) ? "<p>Cette séquence réutilise explicitement une autre animation du même profil.</p>" : ""}<button data-pin>Ajouter à la comparaison (${compared.length}/4)</button><div class="sprite-review"><label>Statut<select id="sprite-status">${["À examiner", "Validé", "À corriger"].map((v) => `<option ${r.status === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>Commentaire<textarea id="sprite-comment" maxlength="2000">${esc(r.comment)}</textarea></label></div><p>Suivi enregistré dans ce navigateur pour cette variante et cette animation.</p><button data-export>Exporter les signalements JSON</button></div></div><div class="sprite-compare">${compared.map((s, i) => `<article><h3>${classes[s.classId].name}</h3><p>${s.gender} · ${teamPalette[s.color].name} · ${s.state} · ${animationNames[s.animation] ?? s.animation}</p><div class="sprite-stage">${resolveClip(getProfile(s), s.animation) ? `<canvas data-compare="${i}" width="256" height="256"></canvas>` : '<div class="sprite-missing">Ressource manquante</div>'}</div><button data-remove="${i}">Retirer</button></article>`).join("")}</div><p>${Object.keys(looseSpriteFiles).length} fichier(s) d’image dans le dossier extensible. Les planches historiques sont référencées par leur description partagée ; les nouveaux fichiers .sprite.json sont découverts automatiquement.</p></section></div></main>`;
+      )}</select></label></div><div class="visual-map-preview"><canvas id="visual-map" width="280" height="280" aria-label="Aperçu visuel sur la carte validée, sans partie ni combat"></canvas><p>Échelle tactique · une case de 40 px<br>Lecture visuelle uniquement : aucune unité déployée, aucune partie lancée.</p></div><details class="recolor-tuning"><summary>Tolérance de recoloration HSV</summary><div class="dev-controls"><label>Teinte centrale<input id="mask-hue" type="number" min="0" max="359" value="${recolorSettings().hue}"></label><label>Tolérance de teinte (°)<input id="mask-tolerance" type="number" min="0" max="70" value="${recolorSettings().hueTolerance}"></label><label>Saturation minimale (%)<input id="mask-saturation" type="number" min="0" max="100" value="${Math.round(recolorSettings().saturation * 100)}"></label><label>Voisinage des contours (px)<input id="mask-distance" type="number" min="0" max="12" value="${recolorSettings().edgeDistance}"></label><button data-reset-mask>Rétablir la tolérance</button></div><p>Réglages d’aperçu : aucune image source retouchée. L’original et la version recolorée lisent exactement la même pose.</p></details><div class="sprite-preview"><div class="sprite-stage" data-main-stage>${clip ? `<div class="recolor-comparison"><figure><figcaption>Original</figcaption><canvas id="sprite-original" width="${128 * zoom}" height="${128 * zoom}"></canvas></figure><figure><figcaption>Recoloré</figcaption><canvas id="sprite-canvas" width="${128 * zoom}" height="${128 * zoom}"></canvas></figure></div>` : `<div class="sprite-missing"><strong>${p ? "Animation manquante" : "Sprite manquant"}</strong><p>${esc(c.name)} · ${esc(selection.gender)} · ${esc(selection.equipment)} · ${esc(selection.state)}<br>Aucune ressource substituée.</p></div>`}</div><div class="sprite-details"><div class="dev-controls"><button data-play ${clip ? "" : "disabled"}>${playing ? "Arrêter" : "Lancer"}</button><button data-replay ${clip ? "" : "disabled"}>Rejouer</button><button data-prev ${clip ? "" : "disabled"}>Image précédente</button><button data-next ${clip ? "" : "disabled"}>Image suivante</button></div><p id="sprite-frame">${clip ? `${clip.frames.length} image(s) · ${clip.fps} i/s` : "Aucune animation à lire"}</p><div class="resource-path">${clip ? `${esc(clip.source)} · ligne ${clip.row} · cellules ${clip.columns} × ${clip.rows}` : "Ressource non enregistrée"}</div>${p && "reuse" in (p.clips[selection.animation] ?? {}) ? "<p>Cette séquence réutilise explicitement une autre animation du même profil.</p>" : ""}<button data-pin>Ajouter à la comparaison (${compared.length}/4)</button><div class="sprite-review"><label>Statut<select id="sprite-status">${["À examiner", "Validé", "À corriger"].map((v) => `<option ${r.status === v ? "selected" : ""}>${v}</option>`).join("")}</select></label><label>Commentaire<textarea id="sprite-comment" maxlength="2000">${esc(r.comment)}</textarea></label></div><p>Suivi enregistré dans ce navigateur pour cette variante et cette animation.</p><button data-export>Exporter les signalements JSON</button></div></div><div class="sprite-compare">${compared.map((s, i) => `<article><h3>${classes[s.classId].name}</h3><p>${s.gender} · ${teamPalette[s.color].name} · ${s.state} · ${animationNames[s.animation] ?? s.animation}</p><div class="sprite-stage">${resolveClip(getProfile(s), s.animation) ? `<canvas data-compare="${i}" width="256" height="256"></canvas>` : '<div class="sprite-missing">Ressource manquante</div>'}</div><button data-remove="${i}">Retirer</button></article>`).join("")}</div><p>${Object.keys(looseSpriteFiles).length} fichier(s) d’image dans le dossier extensible. Les planches historiques sont référencées par leur description partagée ; les nouveaux fichiers .sprite.json sont découverts automatiquement.</p></section></div></main>`;
+    for (const [id, key, factor] of [
+      ["mask-hue", "hue", 1],
+      ["mask-tolerance", "hueTolerance", 1],
+      ["mask-saturation", "saturation", 0.01],
+      ["mask-distance", "edgeDistance", 1],
+    ] as const)
+      app.querySelector<HTMLInputElement>("#" + id)!.oninput = (e) =>
+        setRecolorSettings({
+          [key]: Number((e.target as HTMLInputElement).value) * factor,
+        });
+    app.querySelector<HTMLElement>("[data-reset-mask]")!.onclick = () => {
+      setRecolorSettings({ ...defaultRecolorSettings });
+      render();
+    };
     (app.querySelector("#preview-terrain") as HTMLSelectElement).onchange = (
       e,
     ) => {
@@ -406,6 +426,9 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
         if (field === "state" && selection.classId === "standard_bearer")
           selection.equipment =
             selection.state === "planted" ? "sword" : "banner";
+        if (field === "state" && selection.classId === "hamrammr")
+          selection.equipment =
+            selection.state === "bear" ? "claws" : "healing";
         started = performance.now();
         paused = frame = 0;
         render();
@@ -517,6 +540,29 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
           true,
           selection.color,
         );
+      const original = app.querySelector<HTMLCanvasElement>("#sprite-original");
+      if (original) {
+        if (
+          original.width !== canvas.width ||
+          original.height !== canvas.height
+        ) {
+          original.width = canvas.width;
+          original.height = canvas.height;
+        }
+        const c = original.getContext("2d")!;
+        c.clearRect(0, 0, original.width, original.height);
+        drawResourceFrame(
+          c,
+          p,
+          selection.animation,
+          frame,
+          0,
+          0,
+          original.width,
+          original.height,
+          true,
+        );
+      }
       const info = app.querySelector("#sprite-frame");
       if (info)
         info.textContent = `Image ${(clip.loop === false ? Math.min(frame, clip.frames.length - 1) : frame % clip.frames.length) + 1} / ${clip.frames.length} · ${clip.fps} i/s · ${playing ? "lecture" : "arrêt"}`;
@@ -587,5 +633,8 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
   }
   render();
   raf = requestAnimationFrame(tick);
-  return () => cancelAnimationFrame(raf);
+  return () => {
+    cancelAnimationFrame(raf);
+    setRecolorSettings(initialRecolorSettings);
+  };
 }

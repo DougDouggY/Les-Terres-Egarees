@@ -1,4 +1,5 @@
 export type Clip = {
+  frameSize?: { width: number; height: number };
   impactFrame?: number;
   recolorEdges?: boolean;
   cells?: { row: number; column: number }[];
@@ -26,6 +27,7 @@ export type SpriteProfile = {
   clips: Record<string, ClipDefinition>;
 };
 export const animationNames: Record<string, string> = {
+  attack_offhand: "Frappe de la seconde arme",
   combat_idle: "Garde de combat (nouvelle planche)",
   combat_move: "Pas de combat (nouvelle planche)",
   combat_damage: "Réaction de combat (pose provisoire)",
@@ -50,6 +52,16 @@ export const animationNames: Record<string, string> = {
   reload: "Rechargement",
   intercept: "Interception",
 };
+/** Choose drawing only; weapon counts, strike groups and combat rules stay unchanged. */
+export function strikeAnimation(
+  p: SpriteProfile | undefined,
+  strike: { weaponIndex?: number; counter?: boolean; critical?: boolean },
+) {
+  if (strike.weaponIndex === 1 && resolveClip(p, "attack_offhand"))
+    return "attack_offhand";
+  if (strike.critical && resolveClip(p, "critical")) return "critical";
+  return strike.counter ? "counter" : "attack";
+}
 export const profileKey = (
   p: Pick<SpriteProfile, "classId" | "gender" | "equipment" | "state">,
 ) => [p.classId, p.gender, p.equipment, p.state].join(":");
@@ -100,6 +112,10 @@ export function buildSpriteCatalog(inputs: unknown[]) {
             (!Number.isInteger(clip.impactFrame) ||
               clip.impactFrame < 0 ||
               clip.impactFrame >= clip.frames.length)) ||
+          (clip.frameSize &&
+            ![clip.frameSize.width, clip.frameSize.height].every(
+              (n) => Number.isFinite(n) && n > 0,
+            )) ||
           !Number.isFinite(clip.fps) ||
           clip.fps <= 0 ||
           (clip.cells &&

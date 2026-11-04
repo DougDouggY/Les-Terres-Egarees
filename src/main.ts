@@ -1,13 +1,14 @@
 import { combatHud } from "./ui/combat-hud";
 import "./ui/combat-hud.css";
 import { combatPose, linkedStrikes } from "./ui/combat-timeline";
-import { resolveClip } from "./sprites/catalog";
+import { resolveClip, strikeAnimation } from "./sprites/catalog";
 import { prototypeTools } from "./development";
 import { readTeamPreferences, writeTeamPreferences } from "./team-preferences";
 import {
   unitSpriteProfile,
   unitVisualNote,
   drawResourceFrame,
+  spriteImage,
 } from "./sprites/resources";
 import { TerrainRenderer, type TerrainStyle } from "./terrain";
 import { Mist } from "./fog";
@@ -339,7 +340,7 @@ function contextActions(u: Unit) {
 let pointerPosition = { x: 0, y: 0 };
 function positionContextMenu() {
   const menu = document.querySelector<HTMLElement>("#unit-actions");
-  if (menu) menu.hidden = isPanning || !!aim;
+  if (menu) menu.hidden = isPanning || !!aim || !!tacticalAction;
 }
 function initiativeMarkup(s: Campaign) {
   const f = E.front(s);
@@ -590,6 +591,50 @@ let moveAnim: {
     done: () => void;
   } | null = null;
 const mist = new Mist(E.W, E.H);
+let tacticalAction: {
+  sprite: Unit;
+  animation: string;
+  start: number;
+  fps: number;
+} | null = null;
+/** Presentation of an already validated action; never advances initiative itself. */
+async function playTacticalAction(sprite: Unit, animation: string) {
+  const clip = resolveClip(unitSpriteProfile(sprite), animation);
+  if (!clip) return;
+  const previousBusy = busy;
+  busy = true;
+  tacticalAction = {
+    sprite,
+    animation: "idle",
+    start: performance.now(),
+    fps: 2,
+  };
+  positionContextMenu();
+  try {
+    // Keep the actor in guard while its atlas loads; loading must not consume
+    // the animation's only playback, or leave a committed action interactive.
+    try {
+      await spriteImage(clip.source).decode();
+    } catch {
+      return;
+    }
+    tacticalAction = {
+      sprite,
+      animation,
+      start: performance.now(),
+      fps: clip.fps * speed,
+    };
+    await new Promise((resolve) =>
+      setTimeout(
+        resolve,
+        (clip.frames.length / Math.max(1, clip.fps * speed)) * 1000,
+      ),
+    );
+  } finally {
+    tacticalAction = null;
+    busy = previousBusy;
+  }
+}
 const terrain = new TerrainRenderer(regional);
 let reachSignature = "",
   reachCache = new Map<number, { cost: number; steps: number[] }>();
@@ -786,16 +831,18 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       y = (a.y + (b.y - a.y) * (f - i)) * 32;
       frame = Math.floor(time / 130) % 2;
     }
+    const action = tacticalAction?.sprite.id === u.id ? tacticalAction : null;
+    if (action) frame = Math.floor(((time - action.start) * action.fps) / 1000);
     drawSprite(
       ctx,
-      u,
+      action?.sprite ?? u,
       x,
       y - 2,
       32,
       frame,
       false,
       false,
-      moveAnim?.id === u.id ? "move" : "idle",
+      action?.animation ?? (moveAnim?.id === u.id ? "move" : "idle"),
     );
     if (u.id === cur?.id) {
       ctx.strokeStyle = "#ecd5a0";
@@ -893,20 +940,26 @@ async function clickCell(x: number, y: number) {
   if (u && u.owner === s.active && aim) {
     try {
       if (aim === "buff" && target) {
+        const sprite = structuredClone(u);
         E.improveAlly(s, u, target);
         aim = null;
+        await playTacticalAction(sprite, "buff");
         finishTurn();
         return;
       }
       if (aim === "heal" && target) {
+        const sprite = structuredClone(u);
         E.healTarget(s, u, target);
         aim = null;
+        await playTacticalAction(sprite, "heal");
         finishTurn();
         return;
       }
       if (aim === "summon") {
+        const sprite = structuredClone(u);
         E.summon(s, u, x, y);
         aim = null;
+        await playTacticalAction(sprite, "summon");
         finishTurn();
         return;
       }
@@ -1151,10 +1204,8 @@ function renderCombat(time: number) {
   }
   const ranged = attacker.range > 1,
     attLeft = attacker.id === left.id;
-  const clip = resolveClip(
-    unitSpriteProfile(attacker),
-    strike.counter ? "counter" : "attack",
-  );
+  const attackAnimation = strikeAnimation(unitSpriteProfile(attacker), strike);
+  const clip = resolveClip(unitSpriteProfile(attacker), attackAnimation);
   const pose = combatPose(
     t,
     clip?.frames.length ?? 1,
@@ -1194,7 +1245,9 @@ function renderCombat(time: number) {
       unit.hp === 0 && t >= impact
         ? "death"
         : isAttacker
-          ? pose.animation
+          ? ["attack", "counter"].includes(pose.animation)
+            ? attackAnimation
+            : pose.animation
           : t >= impact && t < impact + 320
             ? strike.hit
               ? strike.blocked
@@ -1365,6 +1418,7 @@ app.addEventListener("click", async (e) => {
   const el = (e.target as HTMLElement).closest<HTMLElement>("[data-action]");
   if (!el || el.hasAttribute("disabled")) return;
   const action = el.dataset.action!;
+  if (tacticalAction) return;
   if (
     prototypeTools &&
     (action === "dev-sprites" ||
@@ -1396,7 +1450,9 @@ app.addEventListener("click", async (e) => {
     const u = state && E.current(state);
     if (u) {
       try {
+        const sprite = structuredClone(u);
         E.transformBear(state!, u);
+        await playTacticalAction(sprite, "transform");
         finishTurn();
       } catch (e) {
         toast((e as Error).message);
@@ -1476,11 +1532,18 @@ app.addEventListener("click", async (e) => {
         aim = "area";
         toast("Choisissez le centre de la zone.");
       } else if (action === "skill-reload") {
+        const sprite = structuredClone(u);
         E.reloadWeapon(state!, u);
+        await playTacticalAction(sprite, "reload");
         battleUI();
       } else {
+        const sprite = structuredClone(u);
         if (action === "skill-banner") E.plantBanner(state!, u);
         else E.fortify(state!, u);
+        await playTacticalAction(
+          sprite,
+          action === "skill-banner" ? "banner" : "fortify",
+        );
         finishTurn();
       }
     } catch (error) {
@@ -1647,6 +1710,7 @@ window.addEventListener("keydown", (e) => {
     battleUI();
   }
   if (e.key === "Escape") {
+    if (tacticalAction) return;
     if (pendingReward) return;
     if (document.querySelector(".modal-back"))
       document.querySelector(".modal-back:last-child")?.remove();
