@@ -21,7 +21,6 @@ import {
   globalInitiative,
   stepInitiative,
   insertInitiative,
-  followInitiative,
 } from "./initiative";
 export function createCampaign(
   factions: [Faction, Faction],
@@ -138,7 +137,6 @@ export function createCampaign(
   };
   for (const u of units.filter((u) => u.owner !== 0)) discoverUnit(s, u, true);
   visibility(s);
-  followInitiative(s);
   return s;
 }
 export const front = globalInitiative;

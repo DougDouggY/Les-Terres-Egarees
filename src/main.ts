@@ -4,6 +4,7 @@ import {
   drawHealing,
   preloadEffects,
 } from "./ui/combat-effects";
+import { meleeContactDistance } from "./sprites/geometry";
 import { initiativeMarkup, bindInitiative } from "./ui/initiative-strip";
 import { combatHud } from "./ui/combat-hud";
 import "./ui/combat-hud.css";
@@ -133,7 +134,7 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}${button("Atelier de test", "dev-workshop", "quiet")}${button("Essai des combats", "dev-combat-preview", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
 }
 function options() {
   const modal = document.createElement("div");
@@ -360,10 +361,26 @@ function contextActions(u: Unit) {
     button("Annuler", "cancel");
   return `<div id="unit-actions" class="unit-actions" role="menu" aria-label="Actions de ${esc(u.name)}"><strong>${esc(u.name)}</strong>${html}</div>`;
 }
-let pointerPosition = { x: 0, y: 0 };
 function positionContextMenu() {
   const menu = document.querySelector<HTMLElement>("#unit-actions");
-  if (menu) menu.hidden = isPanning || !!aim || !!tacticalAction;
+  if (!menu || !state) return;
+  const u = E.current(state),
+    canvas = document.querySelector<HTMLCanvasElement>("#map");
+  menu.hidden = isPanning || !!aim || !!tacticalAction || !u || !canvas;
+  if (menu.hidden || !u || !canvas) return;
+  const camera = state.players[state.active - 1].camera,
+    r = canvas.getBoundingClientRect(),
+    parent = menu.offsetParent!.getBoundingClientRect(),
+    cellWidth = r.width / viewCols,
+    px = r.left - parent.left + (u.x + 0.5 - camera.x) * cellWidth,
+    py = r.top - parent.top + ((u.y + 0.5 - camera.y) * r.height) / viewRows;
+  const right = px + cellWidth * 0.65,
+    left =
+      right + menu.offsetWidth < r.right - parent.left - 8
+        ? right
+        : px - cellWidth * 0.65 - menu.offsetWidth;
+  menu.style.left = `${Math.max(8, Math.min(parent.width - menu.offsetWidth - 8, left))}px`;
+  menu.style.top = `${Math.max(96, Math.min(parent.height - menu.offsetHeight - 8, py - 24))}px`;
 }
 let initiativeCleanup: (() => void) | undefined;
 function battleUI() {
@@ -384,8 +401,7 @@ function battleUI() {
   screen = "battle";
   const u = E.current(s),
     sel = s.units.find((u) => u.id === selected),
-    own = u?.owner === s.active,
-    actorKnown = !!u && E.seen(s, s.active, u);
+    own = u?.owner === s.active;
   const token = `${s.active}:${u?.id}:${E.front(s).round}`;
   if (token !== focusToken) {
     focusToken = token;
@@ -406,16 +422,14 @@ function battleUI() {
   }
   clampCamera(s.active);
   initiativeCleanup?.();
-  app.innerHTML = `<main class="battle-screen compact-battle"><header class="battle-header"><a class="mini-brand" data-action="pause">${mark}<span>LES TERRES ÉGARÉES</span></a><div class="mission-name"><strong>${s.merged ? "Repoussez les morts-vivants" : "Rejoignez le village des Veilleurs"}</strong><span>ROUND ${E.front(s).round} · ${s.merged ? "ALLIANCE" : `EXPÉDITION ${s.active}`}</span></div><div class="perspectives">${[1, 2].map((p) => button(`EXPÉDITION ${p}`, `perspective-${p}`, s.active === p ? "active" : "")).join("")}</div><button class="icon-button" data-action="observer" aria-label="Observation côte à côte">◫</button>${button("☰", "pause", "icon-button")}</header>
+  app.innerHTML = `<main class="battle-screen compact-battle">
+  <div class="mission-objective">${s.merged ? "Repoussez les morts-vivants" : "Rejoignez le village des Veilleurs"}</div>
   ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
-  <div class="map-heading"><div class="map-tools">${E.canFinishBattleForTest(s) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}${button("Recentrer", "recenter")}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog")}</div></div>
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
-  <div class="map-compass">N<br>✦</div><div class="map-status">${!fogEnabled ? "INSPECTION SANS BRUME · VISION LOGIQUE CONSERVÉE" : ""}</div>
   <div id="map-tooltip" class="map-tooltip" hidden></div>
   ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window" aria-label="Fiche de ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer la fiche">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
-  </div>${sel && own && sel.id === u?.id && moved && !busy ? contextActions(u) : ""}
-  <div class="activation-bar"><div><span class="eyebrow">${busy ? "ACTION EN COURS" : !actorKnown ? "PRÉSENCE DANS LA BRUME" : own ? "À VOUS DE JOUER" : u?.owner === 0 ? "TOUR ENNEMI" : `EXPÉDITION ${u?.owner}`}</span><strong>${!actorKnown ? "Une présence dans la brume" : esc(u?.name ?? "")}</strong><small>Clic : unité / destination · Glisser : déplacer la carte</small></div><div class="turn-actions">${actorKnown && !own && u?.owner !== 0 ? button(`Voir expédition ${u?.owner} →`, `perspective-${u?.owner}`, "primary") : ""}</div></div>
-  </section></div><footer class="battle-footer"><span>Glisser · Explorer la carte <i>◆</i> Flèches · Caméra <i>◆</i> Tab · Expédition</span></footer></main>`;
+  ${sel && own && sel.id === u?.id && moved && !busy ? contextActions(u) : ""}
+  </div></section></div></main>`;
   initiativeCleanup = bindInitiative(app, s);
   bindCanvas();
   positionContextMenu();
@@ -475,7 +489,6 @@ function bindCanvas() {
       canvas.setPointerCapture(e.pointerId);
     };
     canvas.onpointermove = (e) => {
-      pointerPosition = { x: e.clientX, y: e.clientY };
       const r = canvas.getBoundingClientRect();
       if (drag) {
         const dx = e.clientX - drag.x,
@@ -783,7 +796,8 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ctx.fillStyle = "#4bade34a";
       ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
       ctx.strokeStyle = "#72ceee70";
-      ctx.strokeRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
+      if (c.x !== sel.x || c.y !== sel.y)
+        ctx.strokeRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
     }
     for (const k of attackField(sel, reach)) {
       if (!visible.has(k) || reach.has(k)) continue;
@@ -873,23 +887,29 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     drawSprite(
       ctx,
       action?.sprite ?? u,
-      x,
-      y - 2,
-      32,
+      x - 3,
+      y - 7,
+      38,
       frame,
       false,
       false,
       action?.animation ?? (moveAnim?.id === u.id ? "move" : "idle"),
     );
-    if (u.id === cur?.id) {
-      ctx.strokeStyle = "#ecd5a0";
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(x + 1, y + 1, 30, 30);
-    }
-    if (selected === u.id) {
-      ctx.strokeStyle = "#ecddac";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(x - 1, y - 1, 34, 34);
+    if (u.id === cur?.id || selected === u.id) {
+      ctx.strokeStyle = selected === u.id ? "#ecddac99" : "#ecd5a066";
+      ctx.lineWidth = 0.7;
+      for (const [xx, yy, dx, dy] of [
+        [x + 1, y + 1, 1, 1],
+        [x + 31, y + 1, -1, 1],
+        [x + 1, y + 31, 1, -1],
+        [x + 31, y + 31, -1, -1],
+      ]) {
+        ctx.beginPath();
+        ctx.moveTo(xx + dx * 5, yy);
+        ctx.lineTo(xx, yy);
+        ctx.lineTo(xx, yy + dy * 5);
+        ctx.stroke();
+      }
     }
   }
   if (fogEnabled)
@@ -931,7 +951,22 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     const c = E.map[hover];
     ctx.strokeStyle = "#f0ead190";
     ctx.lineWidth = 1;
-    ctx.strokeRect(c.x * 32, c.y * 32, 32, 32);
+    ctx.lineWidth = 0.5;
+    ctx.strokeStyle = "#ecddac66";
+    for (const [dx, dy, sx, sy] of [
+      [1, 1, 1, 1],
+      [31, 1, -1, 1],
+      [1, 31, 1, -1],
+      [31, 31, -1, -1],
+    ]) {
+      const x = c.x * 32 + dx,
+        y = c.y * 32 + dy;
+      ctx.beginPath();
+      ctx.moveTo(x + sx * 4, y);
+      ctx.lineTo(x, y);
+      ctx.lineTo(x, y + sy * 4);
+      ctx.stroke();
+    }
   }
   ctx.restore();
 }
@@ -1108,7 +1143,16 @@ function preview(a: Unit, b: Unit) {
     q = E.forecast(b, a, state!, { counter: true });
   const modal = document.createElement("div");
   modal.className = "modal-back";
-  modal.innerHTML = `<section class="modal forecast"><span class="eyebrow">PRÉVISION DE COMBAT</span><h2>${esc(a.name)} <i>contre</i> ${esc(b.name)}</h2><div class="forecast-units"><div>${portrait(a, true)}<strong>${E.weaponName(a)}</strong><b>${p.damage} ${p.strikes > 1 ? `× ${p.strikes}` : ""}</b><span>DÉGÂTS · ${p.hit}% PRÉCISION</span><small>${p.crit}% CRITIQUE</small></div><span class="versus">VS</span><div>${portrait(b, true)}<strong>${E.weaponName(b)}</strong><b>${p.counter ? `${q.damage}${q.strikes > 1 ? ` × ${q.strikes}` : ""}` : "—"}</b><span>${p.counter ? `${q.hit}% PRÉCISION` : "HORS DE PORTÉE"}</span><small>${p.counter ? "CONTRE-ATTAQUE POSSIBLE" : "AUCUNE CONTRE-ATTAQUE"}</small></div></div><p>Le couvert réduit les dégâts. Une différence d’agilité de 4 permet deux frappes.</p><div class="modal-actions">${button("Annuler", "close-modal")}${button("Engager le combat", "confirm-attack-" + b.id, "primary")}</div></section>`;
+  const forecastPanel = (
+    unit: Unit,
+    damage: number,
+    hit: number,
+    crit: number,
+    strikes: number,
+    enabled: boolean,
+  ) =>
+    `<div class="forecast-side"><strong>${esc(unit.name)}</strong><span class="forecast-weapon">${esc(E.weaponName(unit))}</span><div class="forecast-hp"><b>${unit.hp}</b><span> / ${unit.maxHp} PV</span></div><dl><div><dt>Dégâts</dt><dd>${enabled ? `${damage}${strikes > 1 ? ` × ${strikes}` : ""}` : "—"}</dd></div><div><dt>Précision</dt><dd>${enabled ? `${hit}%` : "—"}</dd></div><div><dt>Critique</dt><dd>${enabled ? `${crit}%` : "—"}</dd></div></dl>${!enabled ? "<small>Hors de portée</small>" : ""}</div>`;
+  modal.innerHTML = `<section class="modal forecast compact-forecast" aria-label="Prévision de combat"><div class="forecast-heading">Prévision de combat</div><div class="forecast-pair">${forecastPanel(a, p.damage, p.hit, p.crit, p.strikes, true)}${forecastPanel(b, q.damage, q.hit, q.crit, q.strikes, p.counter)}</div><div class="modal-actions">${button("Annuler", "close-modal")}${button("Attaquer", "confirm-attack-" + b.id, "primary")}</div></section>`;
   app.append(modal);
 }
 function gameCombatHud(left: Unit, right: Unit, battle: Battle) {
@@ -1208,14 +1252,12 @@ function rewards(result: Battle): Promise<void> {
     pendingReward = done;
     const modal = document.createElement("div");
     modal.className = "modal-back rewards";
-    modal.innerHTML = `<section class="modal"><span class="eyebrow">APRÈS L’AFFRONTEMENT</span><h2>Chaque épreuve vous façonne.</h2>${result.xp
+    modal.innerHTML = `<section class="modal compact-rewards" aria-label="Résultats de l’affrontement"><h2>Résultats</h2>${result.xp
       .map((e) => {
         const u = state!.units.find((u) => u.id === e.id)!;
-        return `<div class="reward-unit">${portrait(u)}<div><strong>${esc(u.name)} <span>+${e.amount} EXP</span></strong><div class="bar xp"><i data-progress="${u.xp}" style="width:${e.before}%"></i></div><small>${u.xp} / 100 EXP · Niveau ${u.level}</small>${e.level ? `<div class="level-up"><span class="eyebrow">NIVEAU ${u.level}</span><b>${gainText(result.levelGains?.[u.id])}</b></div>` : ""}</div></div>`;
+        return `<div class="reward-unit">${u.portraitAsset ? portrait(u) : ""}<div><strong>${esc(u.name)} <span>+${e.amount} EXP</span></strong><div class="bar xp"><i data-progress="${u.xp}" style="width:${e.before}%"></i></div><small>${u.xp} / 100 EXP · Niveau ${u.level}</small>${e.level ? `<div class="level-up"><span class="eyebrow">NIVEAU ${u.level}</span><b>${gainText(result.levelGains?.[u.id])}</b></div>` : ""}</div></div>`;
       })
-      .join(
-        "",
-      )}${button("Reprendre la bataille", "close-reward", "primary")}</section>`;
+      .join("")}${button("Continuer", "close-reward", "primary")}</section>`;
     app.append(modal);
     setTimeout(
       () =>
@@ -1292,7 +1334,12 @@ function renderCombat(time: number) {
       "critical-flash",
       strike.critical && anim.applied && t >= impact && t < impact + 120,
     );
-  const travel = pose.travel * 610;
+  const contact = meleeContactDistance(
+    unitSpriteProfile(attacker),
+    attackAnimation,
+    180,
+  );
+  const travel = pose.travel * Math.max(610, Math.min(630, 745 - contact));
   const entry = Math.max(0, Math.min(1, (t + 400) / 400));
   for (const [unit, x, flip, isAttacker] of [
     [
@@ -1491,8 +1538,9 @@ function defeat() {
 }
 function pause() {
   const modal = document.createElement("div");
-  modal.className = "modal-back";
-  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div></section>`;
+  if (document.querySelector(".pause-menu")) return;
+  modal.className = "modal-back pause-menu";
+  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Expédition ${state!.active}</span>${[1, 2].map((p) => button(`Expédition ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("")}${button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy)}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div></section>`;
   app.append(modal);
 }
 app.addEventListener("click", async (e) => {
@@ -1506,6 +1554,8 @@ app.addEventListener("click", async (e) => {
       action === "dev-systems" ||
       action.startsWith("dev-workshop") ||
       action === "dev-tests" ||
+      action === "dev-arena" ||
+      action === "dev-parries" ||
       action === "dev-initiative" ||
       action === "dev-combat-preview")
   ) {
@@ -1518,6 +1568,21 @@ app.addEventListener("click", async (e) => {
       const hub = await import("./dev/test-hub");
       if (request !== developerRequest) return;
       developerCleanup = hub.openTestHub(app, title);
+      return;
+    }
+    if (action === "dev-arena" || action === "dev-parries") {
+      const view = await import("./dev/combat-arena");
+      if (request !== developerRequest) return;
+      developerCleanup = view.openCombatArena(
+        app,
+        () => {
+          developerCleanup?.();
+          void import("./dev/test-hub").then((h) => {
+            developerCleanup = h.openTestHub(app, title);
+          });
+        },
+        action === "dev-parries" ? "parry" : "arena",
+      );
       return;
     }
     if (action === "dev-initiative") {
@@ -1744,6 +1809,7 @@ app.addEventListener("click", async (e) => {
     cardOpen = false;
     battleUI();
   } else if (action === "recenter") {
+    document.querySelector(".pause-menu")?.remove();
     const u = E.current(state!);
     if (u && E.seen(state!, state!.active, u)) focusUnit(u);
     else {
@@ -1813,23 +1879,31 @@ window.addEventListener("keydown", (e) => {
     e.preventDefault();
     nextScene();
   }
-  if (e.key === "Tab" && screen === "battle" && !busy) {
+  if (
+    e.key === "Tab" &&
+    screen === "battle" &&
+    !busy &&
+    !document.querySelector(".modal-back")
+  ) {
     e.preventDefault();
     cancel();
     state!.active = (3 - state!.active) as 1 | 2;
     battleUI();
   }
   if (e.key === "Escape") {
-    if (tacticalAction) return;
     if (pendingReward) return;
     if (document.querySelector(".modal-back"))
       document.querySelector(".modal-back:last-child")?.remove();
     else if (screen === "battle") {
-      if (selected) cancel();
-      else pause();
+      pause();
     }
+    e.preventDefault();
   }
-  if (screen === "battle" && e.key.startsWith("Arrow")) {
+  if (
+    screen === "battle" &&
+    e.key.startsWith("Arrow") &&
+    !document.querySelector(".modal-back")
+  ) {
     e.preventDefault();
     const c = state!.players[state!.active - 1].camera;
     if (e.key === "ArrowLeft") c.x = c.x - 1;

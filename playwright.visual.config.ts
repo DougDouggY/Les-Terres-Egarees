@@ -3,6 +3,8 @@ export default defineConfig({
   testDir: "./tests",
   testMatch: [
     "visual-library.spec.ts",
+    "tactical-interface.spec.ts",
+    "combat-arena.spec.ts",
     "workshop.spec.ts",
     "initiative-ui.spec.ts",
     "magic-tests.spec.ts",

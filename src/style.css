@@ -3149,3 +3149,238 @@ h2 {
     transition: none;
   }
 }
+
+/* Tactical overlays: the map fills the viewport; controls live in Escape. */
+.compact-battle .mission-objective {
+  position: absolute;
+  top: 12px;
+  left: 14px;
+  z-index: 14;
+  max-width: 30vw;
+  color: #f0e7d1;
+  font-size: 12px;
+  line-height: 1.4;
+  text-shadow: 0 1px 3px #000;
+  pointer-events: none;
+}
+.compact-battle .initiative-strip {
+  top: 7px;
+  background: #33383d66;
+  border-radius: 5px;
+}
+.compact-battle .map-tooltip {
+  left: 8px;
+  bottom: 8px;
+  width: 174px;
+  padding: 7px 9px;
+  background: transparent;
+  border: 1px solid #e2e8da28;
+  box-shadow: none;
+  text-shadow: 0 1px 3px #000;
+}
+.compact-battle .map-tooltip strong {
+  font-size: 15px;
+}
+.compact-battle .map-tooltip small,
+.compact-battle .map-tooltip span {
+  font-size: 10px;
+  margin: 2px 0;
+}
+.compact-battle .map-tooltip .bar {
+  margin-top: 5px;
+  height: 3px;
+}
+.compact-battle .unit-window {
+  top: 96px;
+  border: 0;
+  background: #12241a99;
+  box-shadow: none;
+  background-image:
+    linear-gradient(#e2e8da55, #e2e8da55),
+    linear-gradient(#e2e8da55, #e2e8da55),
+    linear-gradient(#e2e8da55, #e2e8da55),
+    linear-gradient(#e2e8da55, #e2e8da55),
+    linear-gradient(#e2e8da55, #e2e8da55),
+    linear-gradient(#e2e8da55, #e2e8da55),
+    linear-gradient(#e2e8da55, #e2e8da55), linear-gradient(#e2e8da55, #e2e8da55);
+  background-size:
+    12px 1px,
+    1px 12px,
+    12px 1px,
+    1px 12px,
+    12px 1px,
+    1px 12px,
+    12px 1px,
+    1px 12px;
+  background-position:
+    left top,
+    left top,
+    right top,
+    right top,
+    left bottom,
+    left bottom,
+    right bottom,
+    right bottom;
+  background-repeat: no-repeat;
+}
+.compact-battle .unit-actions {
+  position: absolute !important;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 1px;
+  width: 156px;
+  max-height: min(380px, calc(100dvh - 110px));
+  padding: 5px;
+  background: #14231dd9;
+  border: 1px solid #e2e8da33;
+  border-radius: 3px;
+  box-shadow: 0 3px 12px #0003;
+}
+.compact-battle .unit-actions > strong {
+  margin: 2px 5px 4px;
+  font-size: 11px;
+}
+.compact-battle .unit-actions > button {
+  min-width: 0;
+  width: 100% !important;
+  text-align: left;
+  padding: 6px 8px !important;
+  font-size: 11px;
+  border: 0;
+  background: transparent;
+}
+.compact-battle .unit-actions > button:hover {
+  background: #ded4b51a;
+}
+.pause-map-controls {
+  display: grid;
+  gap: 6px;
+  padding: 12px 0;
+  border-block: 1px solid #d5c79d22;
+}
+.pause-map-controls > span {
+  font-size: 11px;
+  color: #c3bea6;
+}
+.pause-menu .modal {
+  max-height: 92dvh;
+  overflow: auto;
+}
+.pause-menu .pause-actions {
+  gap: 6px;
+}
+.pause-menu button {
+  padding: 9px 14px;
+}
+.modal.compact-forecast {
+  width: min(390px, 94vw);
+  padding: 16px;
+}
+.forecast-heading {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #beae86;
+  margin-bottom: 14px;
+}
+.forecast-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.forecast-side {
+  min-width: 0;
+  padding: 0 12px;
+}
+.forecast-side:first-child {
+  border-right: 1px solid #d8cba42b;
+  padding-left: 0;
+}
+.forecast-side:last-child {
+  padding-right: 0;
+}
+.forecast-side > strong {
+  display: block;
+  font-size: 17px;
+}
+.forecast-weapon {
+  display: block;
+  font-size: 10px;
+  color: #b8baa6;
+  margin: 4px 0 12px;
+}
+.forecast-hp {
+  font-size: 11px;
+}
+.forecast-hp b {
+  font-size: 20px;
+  color: #c4d6b5;
+}
+.forecast-side dl {
+  margin: 12px 0;
+}
+.forecast-side dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 11px;
+}
+.forecast-side dd {
+  margin: 0;
+  color: #ede2c8;
+  font-weight: bold;
+}
+.compact-forecast .modal-actions {
+  gap: 8px;
+  margin-top: 14px;
+}
+.compact-forecast button {
+  padding: 9px 14px;
+  font-size: 11px;
+}
+.modal.compact-rewards {
+  width: min(440px, 94vw);
+  padding: 20px;
+}
+.compact-rewards h2 {
+  font-size: 25px;
+  margin: 0 0 14px;
+}
+.compact-rewards .reward-unit {
+  gap: 12px;
+  padding: 10px 0;
+}
+.compact-rewards .reward-unit strong {
+  font-size: 15px;
+}
+.compact-rewards .reward-unit small {
+  font-size: 10px;
+}
+.compact-rewards .reward-unit .portrait {
+  width: 44px;
+  height: 50px;
+}
+.compact-rewards .level-up {
+  padding: 8px;
+  margin-top: 8px;
+}
+.compact-rewards > button {
+  width: 100%;
+  padding: 10px;
+  font-size: 12px;
+  margin-top: 10px;
+}
+@media (max-width: 1250px) {
+  .compact-battle .mission-objective {
+    top: 6px;
+    left: 8px;
+    max-width: 90vw;
+    font-size: 10px;
+  }
+  .compact-battle .initiative-strip {
+    top: 30px;
+    width: min(620px, 96vw);
+  }
+}

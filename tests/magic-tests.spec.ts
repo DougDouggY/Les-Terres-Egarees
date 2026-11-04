@@ -1,19 +1,21 @@
 import { test, expect } from "@playwright/test";
-async function hub(page: any) {
+async function hub(page: any, preset = "") {
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "Tests de combat", exact: true })
-    .click();
+  await page.evaluate(async (preset: string) => {
+    const view = await import(String("/src/dev/workshop.ts"));
+    view.openWorkshop(
+      document.querySelector("#app")!,
+      () => location.reload(),
+      preset,
+    );
+  }, preset);
 }
 test("soin : cible alliée visible, vrais effets et reprises sans dupliquer les unités", async ({
   page,
 }) => {
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
-  await hub(page);
-  await page
-    .getByRole("button", { name: "Ouvrir : Soins alliés", exact: true })
-    .click();
+  await hub(page, "heal");
   await expect(page.locator("#lab-battle")).toBeVisible({ timeout: 15000 });
   await expect(page.locator(".lab-panels")).toContainText("Allié blessé");
   await expect(page.locator("#lab-status")).toContainText("→");
@@ -60,10 +62,7 @@ for (const [name, kind] of [
   ["Éclairs vikings", "lightning"],
 ])
   test(`${name} : sort affiché et échange réel rejouable`, async ({ page }) => {
-    await hub(page);
-    await page
-      .getByRole("button", { name: `Ouvrir : ${name}`, exact: true })
-      .click();
+    await hub(page, kind);
     await expect(page.locator("#lab-output")).toContainText("attacker");
     await expect(page.locator("#lab-battle")).toHaveAttribute(
       "data-effect",
@@ -106,9 +105,6 @@ test("changer de classe applique immédiatement le choix ; les recrues au niveau
   page,
 }) => {
   await hub(page);
-  await page
-    .getByRole("button", { name: "Ouvrir : Toutes les classes", exact: true })
-    .click();
   await page.locator("#lab-left").selectOption("young_viking");
   await page.locator("#lab-level").selectOption("20");
   await expect(page.locator(".lab-panels")).toContainText("Jeune Viking");

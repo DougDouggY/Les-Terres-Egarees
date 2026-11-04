@@ -33,7 +33,7 @@ test("ordre global : les deux propriétaires et les ennemis jouent exactement un
   }
   assert.deepEqual(got, [b.id, e.id, a.id]);
   assert.equal(s.common.round, 2);
-  assert.equal(s.active, 2);
+  assert.equal(s.active, 1);
   assert.equal(s.previousInitiative!.round, 1);
 });
 test("égalité déterministe, arrivées après acteur courant, aucun retour de tours joués", () => {

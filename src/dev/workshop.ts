@@ -1,3 +1,4 @@
+import { meleeContactDistance } from "../sprites/geometry";
 import {
   attackEffect,
   drawSpell,
@@ -557,7 +558,26 @@ export function openWorkshop(
                 ),
               );
         let x = i === 0 ? 160 : 800;
-        if (isAtt) x += (i === 0 ? 1 : -1) * (pose?.travel ?? 0) * 420;
+        const contact =
+          attacker && hit
+            ? meleeContactDistance(
+                unitSpriteProfile(attacker),
+                strikeAnimation(unitSpriteProfile(attacker), hit),
+                220,
+              )
+            : 0;
+        if (isAtt)
+          x +=
+            (i === 0 ? 1 : -1) *
+            (pose?.travel ?? 0) *
+            Math.max(0, 640 - contact);
+        if (hit && pose && isAtt) {
+          canvas.dataset.contactDistance = String(contact);
+          canvas.dataset.actorDistance = String(
+            640 - pose.travel * Math.max(0, 640 - contact),
+          );
+          canvas.dataset.animationPhase = pose.animation;
+        }
         ctx.save();
         if ((i === 1) !== flip) {
           ctx.translate(x + 220, 0);

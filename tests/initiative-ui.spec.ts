@@ -1,12 +1,12 @@
 import { test, expect } from "@playwright/test";
 async function open(page: any) {
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "Tests de combat", exact: true })
-    .click();
-  await page
-    .getByRole("button", { name: "Ouvrir : Barre d’initiative", exact: true })
-    .click();
+  await page.evaluate(async () => {
+    const view = await import(String("/src/dev/initiative-preview.ts"));
+    view.openInitiativePreview(document.querySelector("#app")!, () =>
+      location.reload(),
+    );
+  });
   await expect(page.locator(".initiative-entry.current")).toBeVisible();
 }
 async function centered(page: any) {
@@ -28,7 +28,7 @@ test("initiative transparente, acteur centré, silhouettes statiques et aucun se
     await page
       .locator(".initiative-strip")
       .evaluate((e) => getComputedStyle(e).backgroundColor),
-  ).toBe("rgba(0, 0, 0, 0)");
+  ).toBe("rgba(51, 56, 61, 0.4)");
   const hidden = page.locator(
     '.initiative-entry[aria-label="Présence dans la brume"]',
   );
@@ -73,6 +73,9 @@ test("tour inconnu, perspectives indépendantes, limites de navigation et sépar
   page,
 }) => {
   await open(page);
+  await page
+    .getByRole("button", { name: "Perspective 2", exact: true })
+    .click();
   for (let i = 0; i < 4; i++)
     await page
       .getByRole("button", { name: "Activation suivante", exact: true })

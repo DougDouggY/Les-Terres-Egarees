@@ -5,9 +5,10 @@ test("atelier : huit poses, frappe unique et recul sans rejouer attaque ; aucune
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "Atelier de test", exact: true })
-    .click();
+  await page.evaluate(async () => {
+    const view = await import(String("/src/dev/workshop.ts"));
+    view.openWorkshop(document.querySelector("#app")!, () => location.reload());
+  });
   await expect(page.locator("#lab-battle")).toBeVisible();
   await page.locator("#lab-animation").selectOption("attack");
   await page.waitForTimeout(1000);

@@ -1,4 +1,4 @@
-import { resourceScale } from "../sprites/geometry";
+import { meleeContactDistance } from "../sprites/geometry";
 import { combatHud } from "../ui/combat-hud";
 import "../ui/combat-hud.css";
 import "./tools.css";
@@ -8,7 +8,6 @@ import {
   drawResourceFrame,
   spriteImage,
 } from "../sprites/resources";
-import layouts from "../assets/tactical/atlas-layout.json";
 import {
   trialPose,
   trialDuration,
@@ -46,44 +45,17 @@ export function openCombatPreview(app: HTMLElement, onBack: () => void) {
       "default",
     )!;
   };
-  function front(side: 0 | 1, animation: string, index: number) {
-    const c = resolveClip(profile(side), animation)!;
-    const i = Math.min(index, c.frames.length - 1),
-      row = c.cells?.[i]?.row ?? c.row,
-      column = c.cells?.[i]?.column ?? c.frames[i];
-    const layout = layouts[c.source as keyof typeof layouts],
-      f = layout.frames.find((f) => f.row === row && f.column === column)!;
-    return (
-      (f.x + f.width - f.anchorX) *
-      resourceScale(profile(side), c, size, size, "world")
-    );
-  }
   function geometry(): TrialGeometry {
     const gap = 420,
-      leftAdvance = Math.max(
-        0,
-        Math.min(
-          320,
-          gap - front(0, "attack", 3) - front(1, "combat_idle", 0) + 8,
-        ),
-      ),
-      rightAdvance = Math.max(
-        0,
-        Math.min(320, gap - front(1, "attack", 3) - front(0, "block", 1) + 8),
-      );
+      leftContact = meleeContactDistance(profile(0), "attack", size, 3),
+      rightContact = meleeContactDistance(profile(1), "attack", size, 3),
+      counterContact = meleeContactDistance(profile(0), "counter", size, 2);
     return {
       left: 270,
       right: 690,
-      leftAdvance,
-      rightAdvance,
-      counterAdvance: Math.max(
-        0,
-        gap -
-          rightAdvance -
-          front(0, "counter", 2) -
-          front(1, "combat_idle", 0) +
-          8,
-      ),
+      leftAdvance: gap - leftContact,
+      rightAdvance: gap - rightContact,
+      counterAdvance: rightContact - counterContact,
     };
   }
   function render() {

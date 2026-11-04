@@ -5,9 +5,12 @@ test("deux boutons : deux frappes et parade/riposte/attaque, rejouables pour les
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "Essai des combats", exact: true })
-    .click();
+  await page.evaluate(async () => {
+    const view = await import(String("/src/dev/combat-preview.ts"));
+    view.openCombatPreview(document.querySelector("#app")!, () =>
+      location.reload(),
+    );
+  });
   await expect(page.locator("#trial-canvas")).toBeVisible();
   await expect(page.locator("[data-trial]")).toHaveCount(2);
   await expect(page.locator('[data-trial="two-attacks"]')).toBeEnabled();
@@ -52,9 +55,12 @@ test("pause et sortie : pas de frappe supplémentaire ni d’essai encore actif 
   page,
 }) => {
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "Essai des combats", exact: true })
-    .click();
+  await page.evaluate(async () => {
+    const view = await import(String("/src/dev/combat-preview.ts"));
+    view.openCombatPreview(document.querySelector("#app")!, () =>
+      location.reload(),
+    );
+  });
   await page.locator("#trial-speed").selectOption("0.5");
   await expect(page.locator('[data-trial="parry"]')).toBeEnabled();
   await page.locator('[data-trial="parry"]').click();
@@ -75,9 +81,12 @@ test("pause et sortie : pas de frappe supplémentaire ni d’essai encore actif 
     .getByRole("button", { name: "Retour au menu", exact: true })
     .click();
   await expect(page.locator("#trial-canvas")).toHaveCount(0);
-  await page
-    .getByRole("button", { name: "Essai des combats", exact: true })
-    .click();
+  await page.evaluate(async () => {
+    const view = await import(String("/src/dev/combat-preview.ts"));
+    view.openCombatPreview(document.querySelector("#app")!, () =>
+      location.reload(),
+    );
+  });
   await expect(page.locator('[data-trial="two-attacks"]')).toBeEnabled();
   await expect(page.locator("#trial-events li")).toHaveCount(0);
 });
@@ -86,9 +95,12 @@ test("poses de contact lisibles et écran utilisable sur petit écran", async ({
   page,
 }) => {
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "Essai des combats", exact: true })
-    .click();
+  await page.evaluate(async () => {
+    const view = await import(String("/src/dev/combat-preview.ts"));
+    view.openCombatPreview(document.querySelector("#app")!, () =>
+      location.reload(),
+    );
+  });
   await expect(page.locator('[data-trial="two-attacks"]')).toBeEnabled();
   await page.locator("#trial-speed").selectOption("0.5");
   await page.locator('[data-trial="two-attacks"]').click();
@@ -131,9 +143,12 @@ test("les nuances roses réelles du contour sont bleues ; peau, cuir et transpar
   page,
 }) => {
   await page.goto("/");
-  await page
-    .getByRole("button", { name: "Essai des combats", exact: true })
-    .click();
+  await page.evaluate(async () => {
+    const view = await import(String("/src/dev/combat-preview.ts"));
+    view.openCombatPreview(document.querySelector("#app")!, () =>
+      location.reload(),
+    );
+  });
   await expect(page.locator('[data-trial="two-attacks"]')).toBeEnabled();
   const pixels = await page.evaluate(async () => {
     const { spriteImage } = await import("/src/sprites/resources.ts" as string),

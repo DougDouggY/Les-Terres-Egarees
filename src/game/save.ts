@@ -1,4 +1,4 @@
-import { globalInitiative, followInitiative } from "./initiative";
+import { globalInitiative } from "./initiative";
 import { normalizeTeamColors } from "./team-colors";
 import {
   hydrateClass,
@@ -95,7 +95,6 @@ export function decode(raw: string): Campaign {
   if (s.scene && s.scene !== "meeting" && s.scene !== "ending") s.scene = null;
   validate(s);
   globalInitiative(s);
-  followInitiative(s);
   if (updatedMap) visibility(s);
   return s;
 }

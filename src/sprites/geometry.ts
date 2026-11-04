@@ -145,3 +145,23 @@ export function resourceScale(
         );
   return body / referenceAt(p, c, index, reference);
 }
+
+/** Distance between body anchors at impact. The weapon reaches INTO the target's
+ * near torso, rather than stopping at the end of its shield/weapon silhouette. */
+export function meleeContactDistance(
+  attacker: SpriteProfile | undefined,
+  animation: string,
+  size: number,
+  impactIndex?: number,
+) {
+  if (!attacker) return size * 0.45;
+  const c = resolveClip(attacker, animation);
+  if (!c) return size * 0.45;
+  const index = impactIndex ?? c.impactFrame ?? Math.floor(c.frames.length / 2);
+  const r = resourceRect(c, index);
+  if (!r) return size * 0.45;
+  const reach =
+    (r.x + r.width - r.anchorX) *
+    resourceScale(attacker, c, size, size, "world", index);
+  return Math.max(size * 0.28, Math.min(size * 1.6, reach + size * 0.04));
+}

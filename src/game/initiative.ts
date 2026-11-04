@@ -37,11 +37,6 @@ export function globalInitiative(s: Campaign): Front {
   s.initiativeVersion = 2;
   return s.common;
 }
-export function followInitiative(s: Campaign) {
-  const f = globalInitiative(s),
-    u = s.units.find((u) => u.id === f.queue[f.index]);
-  if (u && u.owner !== 0) s.active = u.owner;
-}
 /** New arrivals are inserted after the current actor, never before spent turns. */
 export function insertInitiative(
   s: Campaign,
@@ -59,7 +54,6 @@ export function insertInitiative(
     ...prefix,
     ...initiativeOrder(s.units.filter((u) => rest.has(u.id))),
   ];
-  if (!preserveCurrent) followInitiative(s);
 }
 export function stepInitiative(s: Campaign) {
   const f = globalInitiative(s);
@@ -75,5 +69,4 @@ export function stepInitiative(s: Campaign) {
     f.index = 0;
     f.queue = initiativeOrder(s.units);
   }
-  followInitiative(s);
 }
