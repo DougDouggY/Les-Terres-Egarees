@@ -119,7 +119,7 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}${button("Atelier de test", "dev-workshop", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}${button("Atelier de test", "dev-workshop", "quiet")}${button("Essai des combats", "dev-combat-preview", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
 }
 function options() {
   const modal = document.createElement("div");
@@ -1135,23 +1135,6 @@ function renderCombat(time: number) {
         : E.forecast(defender, attacker, s, { counter: true });
     stats.textContent = `PRÉCISION ${p.hit}% · DÉGÂTS ${p.damage}`;
   }
-  document
-    .querySelector(".combat-screen")
-    ?.classList.toggle(
-      "critical-flash",
-      strike.critical &&
-        t >= 0 &&
-        anim.applied &&
-        t -
-          combatPose(
-            0,
-            resolveClip(unitSpriteProfile(attacker), "attack")?.frames.length ??
-              1,
-            resolveClip(unitSpriteProfile(attacker), "attack")?.fps ?? 8,
-            attacker.range > 1,
-          ).impact <
-          120,
-    );
   const ranged = attacker.range > 1,
     attLeft = attacker.id === left.id;
   const clip = resolveClip(
@@ -1164,8 +1147,15 @@ function renderCombat(time: number) {
     clip?.fps ?? 8,
     ranged,
     !!strike.counter,
+    clip?.impactFrame,
   );
   const impact = pose.impact;
+  document
+    .querySelector(".combat-screen")
+    ?.classList.toggle(
+      "critical-flash",
+      strike.critical && anim.applied && t >= impact && t < impact + 120,
+    );
   const travel = pose.travel * 610;
   const entry = Math.max(0, Math.min(1, (t + 400) / 400));
   for (const [unit, x, flip, isAttacker] of [
@@ -1194,7 +1184,13 @@ function renderCombat(time: number) {
                 : "damage"
               : "evade"
             : "idle";
-    const clip = resolveClip(unitSpriteProfile(unit), animName);
+    const displayName = resolveClip(
+      unitSpriteProfile(unit),
+      `combat_${animName}`,
+    )
+      ? `combat_${animName}`
+      : animName;
+    const clip = resolveClip(unitSpriteProfile(unit), displayName);
     const index = isAttacker
       ? pose.index
       : Math.min(
@@ -1205,7 +1201,7 @@ function renderCombat(time: number) {
       unit.hp === 0 && t > impact + 250
         ? Math.max(0, 1 - (t - impact - 250) / 650)
         : 1;
-    drawSprite(ctx, unit, x, 195, 210, index, flip, false, animName);
+    drawSprite(ctx, unit, x, 195, 210, index, flip, false, displayName);
   }
   ctx.globalAlpha = 1;
   if (ranged && t > impact - 100 && t < impact) {
@@ -1355,10 +1351,16 @@ app.addEventListener("click", async (e) => {
     prototypeTools &&
     (action === "dev-sprites" ||
       action === "dev-systems" ||
-      action === "dev-workshop")
+      action === "dev-workshop" ||
+      action === "dev-combat-preview")
   ) {
     developerCleanup?.();
     screen = "developer";
+    if (action === "dev-combat-preview") {
+      const preview = await import("./dev/combat-preview");
+      developerCleanup = preview.openCombatPreview(app, title);
+      return;
+    }
     if (action === "dev-workshop") {
       const workshop = await import("./dev/workshop");
       developerCleanup = workshop.openWorkshop(app, title);

@@ -1,5 +1,10 @@
 /** Presentation only. Actions play once; retreat can never select an attack frame. */
-export function combatTiming(frames: number, fps: number, ranged = false) {
+export function combatTiming(
+  frames: number,
+  fps: number,
+  ranged = false,
+  impactFrame?: number,
+) {
   const approach = ranged ? 0 : 280,
     attack = Math.max(600, (frames / Math.max(1, fps)) * 1000),
     recovery = 180,
@@ -9,7 +14,12 @@ export function combatTiming(frames: number, fps: number, ranged = false) {
     attack,
     recovery,
     retreat,
-    impact: approach + attack * 0.5,
+    impact:
+      approach +
+      attack *
+        (impactFrame === undefined
+          ? 0.5
+          : (impactFrame + 0.5) / Math.max(1, frames)),
     total: approach + attack + recovery + retreat + 180,
   };
 }
@@ -19,8 +29,9 @@ export function combatPose(
   fps: number,
   ranged = false,
   counter = false,
+  impactFrame?: number,
 ) {
-  const timing = combatTiming(frames, fps, ranged),
+  const timing = combatTiming(frames, fps, ranged, impactFrame),
     { approach, attack, recovery, retreat } = timing;
   let animation = "idle",
     index = 0,

@@ -1,9 +1,9 @@
 {
   "totals": {
-    "functional": 252,
+    "functional": 260,
     "reused": 47,
-    "provisional": 27,
-    "missing": 108
+    "provisional": 28,
+    "missing": 107
   },
   "classes": [
     {
@@ -207,7 +207,7 @@
       "faction": "north",
       "profiles": [
         {
-          "note": "",
+          "note": "Essai de deux combattants, poses refaites d’après la mise en scène du kit. En attente de validation visuelle.",
           "gender": "male",
           "equipment": "axe-shield",
           "state": "default",
@@ -225,12 +225,12 @@
             {
               "id": "attack",
               "status": "functional",
-              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+              "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider."
             },
             {
               "id": "counter",
-              "status": "reused",
-              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+              "status": "functional",
+              "note": "Riposte dessinée : préparation courte, frappe horizontale et retrait. Aucun recul avant la riposte."
             },
             {
               "id": "critical",
@@ -254,8 +254,28 @@
             },
             {
               "id": "block",
+              "status": "functional",
+              "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade."
+            },
+            {
+              "id": "combat_idle",
+              "status": "functional",
+              "note": "Deux gardes de combat ; pieds ancrés."
+            },
+            {
+              "id": "combat_move",
+              "status": "functional",
+              "note": "Pas d’approche et retour sans rejouer la frappe."
+            },
+            {
+              "id": "attack_again",
+              "status": "reused",
+              "note": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double."
+            },
+            {
+              "id": "combat_damage",
               "status": "provisional",
-              "note": ""
+              "note": "Réaction dessinée unique ; animation de dégâts encore provisoire."
             }
           ]
         },
@@ -367,7 +387,7 @@
         }
       ],
       "counts": {
-        "functional": 11,
+        "functional": 15,
         "reused": 3,
         "provisional": 6,
         "missing": 7
@@ -1200,7 +1220,7 @@
           ]
         },
         {
-          "note": "",
+          "note": "Essai de deux combattants, poses refaites d’après la mise en scène du kit. En attente de validation visuelle.",
           "gender": "male",
           "equipment": "sword-shield",
           "state": "default",
@@ -1218,12 +1238,12 @@
             {
               "id": "attack",
               "status": "functional",
-              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+              "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider."
             },
             {
               "id": "counter",
-              "status": "reused",
-              "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+              "status": "functional",
+              "note": "Riposte dessinée : préparation courte, frappe horizontale et retrait. Aucun recul avant la riposte."
             },
             {
               "id": "critical",
@@ -1247,17 +1267,37 @@
             },
             {
               "id": "block",
-              "status": "missing",
-              "note": ""
+              "status": "functional",
+              "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade."
+            },
+            {
+              "id": "combat_idle",
+              "status": "functional",
+              "note": "Deux gardes de combat ; pieds ancrés."
+            },
+            {
+              "id": "combat_move",
+              "status": "functional",
+              "note": "Pas d’approche et retour sans rejouer la frappe."
+            },
+            {
+              "id": "attack_again",
+              "status": "reused",
+              "note": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double."
+            },
+            {
+              "id": "combat_damage",
+              "status": "provisional",
+              "note": "Réaction dessinée unique ; animation de dégâts encore provisoire."
             }
           ]
         }
       ],
       "counts": {
-        "functional": 6,
+        "functional": 10,
         "reused": 2,
-        "provisional": 6,
-        "missing": 4
+        "provisional": 7,
+        "missing": 3
       },
       "variants": {
         "male": true,

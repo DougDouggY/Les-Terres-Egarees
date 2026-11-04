@@ -1,4 +1,5 @@
 export type Clip = {
+  impactFrame?: number;
   cells?: { row: number; column: number }[];
   loop?: boolean;
   status?: "functional" | "provisional";
@@ -24,6 +25,10 @@ export type SpriteProfile = {
   clips: Record<string, ClipDefinition>;
 };
 export const animationNames: Record<string, string> = {
+  combat_idle: "Garde de combat (nouvelle planche)",
+  combat_move: "Pas de combat (nouvelle planche)",
+  combat_damage: "Réaction de combat (pose provisoire)",
+  attack_again: "Seconde frappe simple (variante)",
   critical: "Critique",
   transform: "Transformation en ours",
   buff: "Amélioration",
@@ -90,6 +95,10 @@ export function buildSpriteCatalog(inputs: unknown[]) {
           clip.frames.some(
             (f) => !Number.isInteger(f) || f < 0 || f >= clip.columns,
           ) ||
+          (clip.impactFrame !== undefined &&
+            (!Number.isInteger(clip.impactFrame) ||
+              clip.impactFrame < 0 ||
+              clip.impactFrame >= clip.frames.length)) ||
           !Number.isFinite(clip.fps) ||
           clip.fps <= 0 ||
           (clip.cells &&

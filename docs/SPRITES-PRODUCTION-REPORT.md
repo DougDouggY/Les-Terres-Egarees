@@ -18,7 +18,7 @@ Les comptes ci-dessous portent sur les animations attendues de chaque profil (se
 | Guerrier du Nord | 1 | 5 | 1 | 0 | 2 | Femme |
 | Berserker | 1 | 5 | 1 | 0 | 2 | Femme |
 | Brise-fer | 1 | 4 | 1 | 1 | 2 | Femme |
-| Pillard | 3 | 11 | 3 | 6 | 7 | Aucune (référence dédiée ou neutre) |
+| Pillard | 3 | 15 | 3 | 6 | 7 | Aucune (référence dédiée ou neutre) |
 | Huscarl | 2 | 10 | 2 | 4 | 4 | Femme |
 | Guérisseur du clan | 2 | 12 | 2 | 0 | 6 | Femme |
 | Lame nordique | 1 | 5 | 1 | 0 | 2 | Femme |
@@ -28,7 +28,7 @@ Les comptes ci-dessous portent sur les animations attendues de chaque profil (se
 | Grand chasseur | 1 | 5 | 1 | 0 | 2 | Homme |
 | Traqueur | 2 | 10 | 2 | 0 | 4 | Femme |
 | Chaman | 1 | 5 | 0 | 0 | 1 | Femme |
-| Homme d’armes | 2 | 6 | 2 | 6 | 4 | Aucune (référence dédiée ou neutre) |
+| Homme d’armes | 2 | 10 | 2 | 7 | 3 | Aucune (référence dédiée ou neutre) |
 | Chevalier de la garde | 1 | 5 | 1 | 1 | 2 | Aucune (référence dédiée ou neutre) |
 | Cavalier | 1 | 5 | 1 | 1 | 3 | Aucune (référence dédiée ou neutre) |
 | Lancier | 1 | 5 | 1 | 0 | 2 | Aucune (référence dédiée ou neutre) |

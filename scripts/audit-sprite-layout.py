@@ -36,6 +36,19 @@ for source,(columns,rows) in sources.items():
    defect= y0==0 or y1==height or x0==0 or x1==width
    if defect:issues.append(dict(source=source,column=col,row=row,problem='Contact avec le bord de l’image source : pointe/pied à vérifier, aucun redessin automatique.'))
    frames.append(dict(row=row,column=col,x=x0,y=y0,width=x1-x0,height=y1-y0,ground=y1,anchorX=(left+right)/2,ambiguous=not valid,sourceDefect=defect))
+ # The trial atlas contains complete figures crossing a nominal column by a few pixels.
+ # Connected alpha components isolate the actual drawing, avoiding both clipped blades
+ # and fragments from the next figure. Existing validated atlases keep their metadata.
+ if source=='tactical/combat-pair-reference-v2.png':
+  from scipy.ndimage import label,find_objects
+  labels,_=label(im[:,:,3]>16);sizes=np.bincount(labels.ravel());boxes=find_objects(labels)
+  isolated=[]
+  for number,box in enumerate(boxes,1):
+   if sizes[number]<1000:continue
+   ys,xs=box;col=int(((xs.start+xs.stop)/2)/width*columns);row=min(rows-1,int((ys.stop-1)/height*rows))
+   isolated.append(dict(row=row,column=col,x=xs.start,y=ys.start,width=xs.stop-xs.start,height=ys.stop-ys.start,ground=ys.stop,anchorX=(col+.5)*width/columns,ambiguous=False,sourceDefect=False))
+  if len(isolated)!=columns*rows or len({(f['row'],f['column']) for f in isolated})!=columns*rows:raise ValueError('Trial atlas components must isolate exactly 32 figures')
+  frames=isolated
  result[source]=dict(width=width,height=height,columns=columns,rows=rows,frames=frames,corrected=corrected)
 (root/'src/assets/tactical/atlas-layout.json').write_text(json.dumps(result,indent=2)+'\n')
 (root/'docs/SPRITE-AUDIT.json').write_text(json.dumps(dict(sources=len(result),correctedFrames=sum(v['corrected'] for v in result.values()),issues=issues),indent=2)+'\n')

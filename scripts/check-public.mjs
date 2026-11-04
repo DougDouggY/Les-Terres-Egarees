@@ -9,6 +9,8 @@ for (const file of files.filter((f) => /\.(js|css)$/.test(f))) {
   for (const forbidden of [
     "Galerie des sprites",
     "Atelier de test",
+    "Essai des combats",
+    "VALIDATION VISUELLE",
     "ATELIER INDÉPENDANT",
     "Classes et systèmes",
     "lte-sprite-reviews-v1",

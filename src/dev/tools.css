@@ -235,3 +235,148 @@
   background: #93bf8c;
   transition: width 0.2s;
 }
+.combat-preview {
+  max-width: 1300px;
+  margin: auto;
+}
+.trial-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 22px 0 12px;
+}
+.trial-buttons button {
+  font-size: 16px;
+  padding: 16px 24px;
+  background: #4c4a2f;
+}
+.trial-settings {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 14px;
+  margin: 12px 0;
+}
+.trial-settings label {
+  display: grid;
+  gap: 5px;
+}
+.trial-settings select {
+  padding: 8px;
+  background: #172e25;
+  color: #ecdfbd;
+}
+.trial-scene {
+  position: relative;
+  border: 1px solid #bda56b77;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.trial-scene canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  image-rendering: pixelated;
+}
+.trial-hud {
+  position: absolute;
+  left: 2%;
+  right: 2%;
+  top: 3%;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.trial-hud section {
+  width: 34%;
+  padding: 10px 14px;
+  background: #0c1918ec;
+  border: 1px solid #4384e7;
+  border-top: 4px solid #4384e7;
+}
+.trial-hud .trial-enemy {
+  text-align: right;
+  border-color: #ff2da1;
+}
+.trial-hud strong {
+  display: block;
+  font: 24px var(--serif);
+}
+.trial-hud small {
+  display: block;
+  font-size: 11px;
+  margin: 4px 0 8px;
+}
+.trial-hud b {
+  font-size: 12px;
+}
+.trial-hp {
+  height: 8px;
+  background: #421f2e;
+  margin-bottom: 5px;
+}
+.trial-hp i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #91b478;
+  transition: width 0.15s;
+}
+#trial-status {
+  font-size: 16px;
+  color: #f1d8a0;
+  min-height: 32px;
+  margin: 14px 0;
+}
+#trial-events {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  min-height: 30px;
+  font-size: 12px;
+}
+.combat-preview button:disabled {
+  opacity: 0.45;
+}
+.trial-note {
+  border-top: 1px solid #bc9f6255;
+  margin-top: 16px;
+  padding-top: 12px;
+}
+@media (max-width: 650px) {
+  .combat-preview {
+    padding: 12px;
+  }
+  .trial-hud section {
+    padding: 5px 8px;
+    width: 40%;
+  }
+  .trial-hud strong {
+    font-size: 17px;
+  }
+  .trial-hud small {
+    font-size: 9px;
+  }
+  .trial-hud b {
+    font-size: 10px;
+  }
+  .trial-buttons button {
+    font-size: 13px;
+    padding: 12px;
+  }
+  .trial-settings {
+    font-size: 11px;
+  }
+}
+@media (max-width: 650px) {
+  .trial-hud {
+    position: static;
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    background: #0c1918;
+  }
+  .trial-hud section {
+    width: 50%;
+  }
+}

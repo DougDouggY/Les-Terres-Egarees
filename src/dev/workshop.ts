@@ -73,7 +73,7 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
       )
       .join("");
   function render() {
-    app.innerHTML = `<main class="dev-screen workshop"><header class="dev-top"><div><span class="dev-badge">ATELIER INDÉPENDANT · AUCUNE MISSION</span><h1>Animations et équilibrage</h1></div><button data-back>Retour au menu</button></header><p class="dev-note">Ressources graphiques partagées avec le jeu. Aucune sauvegarde de campagne n’est lue ou écrite. Les promotions sont construites après 20 niveaux de leur classe d’origine.</p><div class="dev-controls"><label>Unité gauche<select id="lab-left">${options(left)}</select></label><label>Adversaire<select id="lab-right">${options(right)}</select></label><label>Niveau de base<select id="lab-level">${[1, 10, 20].map((n) => `<option ${n === level ? "selected" : ""}>${n}</option>`).join("")}</select></label><label>Niveau promu<select id="lab-promoted">${[1, 10, 20].map((n) => `<option ${n === promotedLevel ? "selected" : ""}>${n}</option>`).join("")}</select></label><label>Graine<input id="lab-seed" type="number" value="${seed}"></label><button data-reset>Reconstruire les unités</button></div><div class="dev-controls"><button data-duel>Jouer l’échange réel</button><label>Action visuelle<select id="lab-animation">${Object.entries(
+    app.innerHTML = `<main class="dev-screen workshop"><header class="dev-top"><div><span class="dev-badge">ATELIER INDÉPENDANT · AUCUNE MISSION</span><h1>Animations et équilibrage</h1></div><div><button data-action="dev-combat-preview">Essai des deux combattants</button><button data-back>Retour au menu</button></div></header><p class="dev-note">Ressources graphiques partagées avec le jeu. Aucune sauvegarde de campagne n’est lue ou écrite. Les promotions sont construites après 20 niveaux de leur classe d’origine.</p><div class="dev-controls"><label>Unité gauche<select id="lab-left">${options(left)}</select></label><label>Adversaire<select id="lab-right">${options(right)}</select></label><label>Niveau de base<select id="lab-level">${[1, 10, 20].map((n) => `<option ${n === level ? "selected" : ""}>${n}</option>`).join("")}</select></label><label>Niveau promu<select id="lab-promoted">${[1, 10, 20].map((n) => `<option ${n === promotedLevel ? "selected" : ""}>${n}</option>`).join("")}</select></label><label>Graine<input id="lab-seed" type="number" value="${seed}"></label><button data-reset>Reconstruire les unités</button></div><div class="dev-controls"><button data-duel>Jouer l’échange réel</button><label>Action visuelle<select id="lab-animation">${Object.entries(
       animationNames,
     )
       .map(
@@ -298,6 +298,7 @@ export function openWorkshop(app: HTMLElement, onBack: () => void) {
           c?.fps ?? 8,
           attacker.range > 1,
           hit.counter,
+          c?.impactFrame,
         );
         if (now - started >= pose.impact && !applied) {
           E.applyStrike(s, hit);

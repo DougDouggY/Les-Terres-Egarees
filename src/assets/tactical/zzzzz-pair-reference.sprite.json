@@ -1,0 +1,445 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Essai de deux combattants, poses refaites d’après la mise en scène du kit. En attente de validation visuelle.",
+      "clips": {
+        "combat_idle": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Deux gardes de combat ; pieds ancrés."
+        },
+        "combat_move": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Pas d’approche et retour sans rejouer la frappe."
+        },
+        "attack": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider.",
+          "impactFrame": 3
+        },
+        "counter": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 1,
+          "frames": [
+            3,
+            0,
+            1,
+            2,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Riposte dessinée : préparation courte, frappe horizontale et retrait. Aucun recul avant la riposte.",
+          "impactFrame": 2
+        },
+        "attack_again": {
+          "reuse": "counter",
+          "note": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double."
+        },
+        "block": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade."
+        },
+        "combat_damage": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 3,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Réaction dessinée unique ; animation de dégâts encore provisoire."
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "male",
+      "equipment": "axe-shield",
+      "state": "default",
+      "note": "Essai de deux combattants, poses refaites d’après la mise en scène du kit. En attente de validation visuelle.",
+      "clips": {
+        "combat_idle": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 4,
+          "frames": [
+            0,
+            3
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Deux gardes de combat ; pieds ancrés."
+        },
+        "combat_move": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Pas d’approche et retour sans rejouer la frappe."
+        },
+        "attack": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 4,
+          "frames": [
+            0,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider.",
+          "impactFrame": 3
+        },
+        "counter": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 5,
+          "frames": [
+            3,
+            0,
+            1,
+            2,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 3
+            },
+            {
+              "row": 7,
+              "column": 0
+            },
+            {
+              "row": 7,
+              "column": 1
+            },
+            {
+              "row": 7,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Riposte dessinée : préparation courte, frappe horizontale et retrait. Aucun recul avant la riposte.",
+          "impactFrame": 2
+        },
+        "attack_again": {
+          "reuse": "counter",
+          "note": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double."
+        },
+        "block": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            },
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade."
+        },
+        "combat_damage": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 7,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 7,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Réaction dessinée unique ; animation de dégâts encore provisoire."
+        }
+      }
+    }
+  ]
+}
