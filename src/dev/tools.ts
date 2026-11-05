@@ -51,6 +51,9 @@ const esc = (s: string) =>
         c
       ]!,
   );
+const isMountedVisual = (id: string) =>
+  !!classes[id]?.mounted || id === "sans_rider";
+
 export function openSystems(app: HTMLElement, onBack: () => void) {
   let selected = "raider";
   const render = () => {
@@ -605,15 +608,16 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
           ctx.lineTo(280, i * 40);
           ctx.stroke();
         }
+        const mapSize = isMountedVisual(p?.classId ?? "") ? 55 : 40;
         drawResourceFrame(
           ctx,
           p,
           selection.animation,
           frame,
-          120,
-          114,
-          40,
-          46,
+          140 - mapSize / 2,
+          134 - mapSize / 2 - 0.384 * (mapSize - 40),
+          mapSize,
+          mapSize * 1.15,
           true,
           selection.color,
         );

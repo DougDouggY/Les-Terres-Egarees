@@ -13,6 +13,7 @@ import { unitClass, activeWeapon, visualState, classes } from "../game/classes";
 import {
   buildSpriteCatalog,
   findProfile,
+  profileKey,
   resolveClip,
   type Clip,
   type SpriteProfile,
@@ -34,6 +35,18 @@ export const looseSpriteFiles = import.meta.glob(
   { eager: true, query: "?url", import: "default" },
 ) as Record<string, string>;
 export function unitSpriteProfile(u: Unit) {
+  // Explicit visual-only enemy skins retain their identity on map and in battle.
+  // A change of equipment/state invalidates a stale binding rather than showing
+  // an old weapon or human form on a transformed actor.
+  const bound =
+    u.combatSkinId &&
+    spriteCatalog.profiles.find((p) => profileKey(p) === u.combatSkinId);
+  if (
+    bound &&
+    bound.equipment === activeWeapon(u).visual &&
+    bound.state === visualState(u)
+  )
+    return bound;
   const exact = findProfile(
     spriteCatalog.profiles,
     unitClass(u).id,
@@ -46,6 +59,7 @@ export function unitSpriteProfile(u: Unit) {
 export function unitVisualNote(u: Unit) {
   const p = unitSpriteProfile(u);
   if (!p) return "Sprite indisponible";
+  if (u.combatSkinId === profileKey(p)) return "";
   return p.classId !== u.classId
     ? `Sprite ${u.bearForm ? "ours" : unitClass(u).name} manquant · aucune substitution de personnage`
     : "";

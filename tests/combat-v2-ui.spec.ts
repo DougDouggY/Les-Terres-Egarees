@@ -222,11 +222,21 @@ test("riposte : vraie réaction à l’impact et pieds immobiles pendant la cour
     const impact = structuredClone(scene.lastFrames);
     scene.draw(c.getContext("2d")!, at + 80);
     const held = structuredClone(scene.lastFrames);
-    return { id: a.id, impact, held };
+    const { resolveClip, damageFrame } = await import(
+      String("/src/sprites/catalog.ts")
+    );
+    return {
+      id: a.id,
+      impact,
+      held,
+      damageIndex: damageFrame(
+        resolveClip(scene.actors[0].skin!.profile, "damage")!,
+      ),
+    };
   });
   const hit = sample.impact.find((f: any) => f.actorId === sample.id)! as any;
   expect(hit.animation).toBe("damage");
-  expect(hit.index).toBe(0); // Première pose blessée du Cavalier, pas son retour en garde.
+  expect(hit.index).toBe(sample.damageIndex); // Pose blessée explicite de cet atlas, pas la garde d’ouverture.
   for (const f of sample.impact as any[])
     expect(
       (sample.held as any[]).find((h) => h.actorId === f.actorId).feetX,

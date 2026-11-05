@@ -178,9 +178,9 @@ test("prévision compacte sans aide superflue, puis résultats lisibles", async 
   await expect(page.locator(".fe-names header")).toHaveCount(2);
   await expect(page.locator(".fe-stat-grid > span")).toHaveText([
     "PV",
-    "Dégâts",
-    "Précision",
-    "Critique",
+    "Dég.",
+    "Préc.",
+    "Crit.",
   ]);
   await page.screenshot({ path: "artifacts/compact-forecast.png" });
   await page.locator('[data-action^="confirm-attack-"]').click();

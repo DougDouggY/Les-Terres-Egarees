@@ -3659,3 +3659,284 @@ h2 {
     max-height: calc(100dvh - 16px);
   }
 }
+/* V5: real wood/parchment art, narrow comparison board, no generic dark veil. */
+.modal.fe-forecast {
+  width: 172px;
+  max-width: calc(100vw - 20px);
+  min-height: 315px;
+  padding: 16px 8px 10px;
+  border: 0;
+  border-radius: 3px;
+  background: #5b3b22 url("./assets/ui/combat-board-v5.png") center/100% 100%;
+  box-shadow: 2px 3px 8px #0008;
+  color: #362610;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 32px);
+}
+.fe-names {
+  gap: 15px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+.fe-forecast .fe-names header {
+  padding: 4px 2px;
+  border-bottom: 1px solid #73532b77;
+  background: rgba(var(--forecast-left), 0.08);
+  text-align: center;
+}
+.fe-forecast .fe-names header + header {
+  background: rgba(var(--forecast-right), 0.08);
+  text-align: center;
+}
+.fe-forecast .fe-names strong {
+  font-size: 11px;
+  color: #37230c;
+  line-height: 1.1;
+}
+.fe-forecast .fe-weapon {
+  font-size: 8px;
+  color: #533c20;
+  line-height: 1.15;
+  margin: 4px 0;
+}
+.fe-stat-grid {
+  grid-template-columns: minmax(0, 1fr) 22px minmax(0, 1fr);
+  flex: 1;
+  align-items: center;
+  padding: 6px 0;
+}
+.fe-stat-grid > b,
+.fe-stat-grid > b:nth-child(3n) {
+  background: none;
+  color: #35230f;
+  font-size: 16px;
+  line-height: 1.1;
+  padding: 6px 0;
+}
+.fe-stat-grid > span {
+  font-size: 6px;
+  color: #422b13;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.fe-stat-grid .forecast-double {
+  font-size: 9px;
+  color: #8c2b1c;
+}
+.fe-forecast .modal-actions {
+  gap: 4px;
+  margin-top: 10px;
+}
+.fe-forecast button {
+  min-width: 0;
+  padding: 6px 5px;
+  font-size: 8px;
+  color: #f4e4bb;
+  background: #49301b;
+  border: 1px solid #b19665;
+}
+.weapon-triangle.advantage {
+  color: #28602b;
+}
+.weapon-triangle.disadvantage {
+  color: #a22b27;
+}
+.modal-back.rewards {
+  background: transparent;
+  backdrop-filter: none;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 16px;
+}
+.modal.compact-rewards {
+  width: 300px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  padding: 18px 14px 14px;
+  background: #55371c url("./assets/ui/combat-board-v5.png") left center/200%
+    100%;
+  border: 1px solid #76512e;
+  color: #33220f;
+  box-shadow: 2px 4px 12px #0008;
+}
+.compact-rewards h2 {
+  font-size: 21px;
+  color: #38260e;
+  margin: 0 0 10px;
+  text-align: center;
+}
+.compact-rewards .reward-unit {
+  display: block;
+  padding: 8px 6px;
+  margin: 4px 0;
+  background: #f2dfb8ee;
+  border: 1px solid #98734255;
+}
+.compact-rewards .reward-unit strong {
+  font-size: 15px;
+  color: #30200e;
+}
+.compact-rewards .reward-unit strong span {
+  font-size: 11px;
+  float: right;
+  color: #5c3b16;
+}
+.compact-rewards .reward-unit small {
+  font-size: 10px;
+  color: #624725;
+}
+.compact-rewards .level-up {
+  font-size: 10px;
+  padding: 3px;
+  color: #6c2e1a;
+}
+.compact-rewards .xp {
+  height: 8px;
+  margin: 6px 0;
+  background: #a38b60;
+}
+.compact-rewards .xp i {
+  background: #5c914a;
+  transition: none;
+}
+.compact-rewards button {
+  font-size: 11px;
+  padding: 7px 12px;
+}
+.compact-rewards.healing-reward {
+  width: 235px;
+}
+.restored-hp {
+  font-size: 12px;
+  text-align: center;
+  color: #345a29;
+}
+.xp-level-flash {
+  outline: 2px solid #d4a83d;
+  box-shadow: 0 0 16px #ffe18c;
+}
+/* Keep all battle information within the viewport; mount scale inside canvas is unchanged. */
+body:has(.combat-screen) {
+  overflow: hidden;
+}
+.combat-screen {
+  height: 100dvh;
+  min-height: 0;
+  display: grid;
+  grid-template-rows: 26px minmax(0, 1fr) 22px;
+  overflow: hidden;
+}
+.combat-screen header,
+.combat-screen footer {
+  padding: 5px 14px;
+  font-size: 9px;
+  line-height: 1;
+  min-height: 0;
+}
+.combat-screen .game-duel {
+  display: flex;
+  flex-direction: column;
+  width: min(1200px, calc(100vw - 24px), calc((100dvh - 180px) * 1.6));
+  height: auto;
+  max-height: calc(100dvh - 58px);
+  margin: auto;
+  aspect-ratio: auto;
+  align-self: center;
+}
+.combat-screen .game-duel #combat {
+  width: 100% !important;
+  height: auto !important;
+  max-height: none;
+  flex-shrink: 0;
+  min-height: 0;
+  aspect-ratio: 960/600;
+}
+.combat-screen .duel-panels {
+  position: relative !important;
+  bottom: auto;
+  flex-shrink: 0;
+  order: 1;
+}
+.combat-screen .duel-metrics {
+  font-size: clamp(10px, 1vw, 14px);
+  gap: 0;
+  padding: 1px 4px;
+}
+.combat-screen .duel-metrics dt {
+  font-size: 8px;
+}
+.combat-screen .duel-weapon {
+  padding: 3px 8px;
+  min-height: 40px;
+}
+.combat-screen .duel-weapon > strong {
+  font-size: clamp(10px, 1.2vw, 17px);
+  white-space: normal;
+}
+.combat-screen .duel-life {
+  padding: 4px 8px;
+  min-height: 28px;
+}
+.combat-screen .duel-life b {
+  font-size: clamp(10px, 1.2vw, 15px);
+}
+.combat-screen .duel-nameplates strong {
+  font-size: clamp(11px, 1.6vw, 22px);
+  padding: 4px 8px;
+}
+@media (max-height: 500px) {
+  .forecast-back {
+    padding-top: 8px;
+  }
+  .modal.fe-forecast {
+    min-height: 290px;
+    max-height: calc(100dvh - 16px);
+  }
+  .combat-screen {
+    grid-template-rows: 18px minmax(0, 1fr) 16px;
+  }
+  .combat-screen .game-duel {
+    width: min(calc(100vw - 12px), calc((100dvh - 180px) * 1.6));
+  }
+}
+.fe-stat-grid > span {
+  font-size: 8px;
+  overflow-wrap: normal;
+  white-space: nowrap;
+}
+.hp-summary {
+  background: #f3dfb9ee;
+  border: 1px solid #916b3c55;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+.hp-summary > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 3px;
+  font-size: 10px;
+  color: #50361b;
+}
+.hp-summary b {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.fe-forecast .fe-stat-grid > span {
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  display: block;
+  overflow: visible;
+  padding: 1px 0;
+  font:
+    700 8px Manrope,
+    sans-serif;
+  color: #f3e1b8;
+  background: #53361de8;
+  border: 1px solid #a2824b66;
+  border-radius: 1px;
+  text-align: center;
+}

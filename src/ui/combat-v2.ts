@@ -14,7 +14,7 @@ import {
   skinForUnit,
   type CombatSkin,
 } from "../sprites/combat-skins";
-import { resolveClip, type Clip } from "../sprites/catalog";
+import { damageFrame, resolveClip, type Clip } from "../sprites/catalog";
 import { profileMetrics, resourceRect } from "../sprites/geometry";
 import anchors from "../assets/tactical/combat-anchors.json";
 import {
@@ -222,7 +222,7 @@ export class CombatSceneV2 {
     // Damage clips commonly start/end in guard. Show the flinch immediately
     // at contact, rather than spending the impact pause on the guard drawing.
     if (name === "damage" && (c?.frames.length ?? 0) > 1)
-      return phase < 0.7 ? (c!.impactFrame ?? 0) : c!.frames.length - 1;
+      return phase < 0.7 ? damageFrame(c!) : c!.frames.length - 1;
     return Math.min(
       (c?.frames.length ?? 1) - 1,
       Math.floor(clamp(phase) * (c?.frames.length ?? 1)),
@@ -379,7 +379,14 @@ export class CombatSceneV2 {
           : this.contact(a.actor, d.actor, hit),
         direction = a.side === 0 ? 1 : -1,
         advance = Math.max(0, 460 - gap);
-      a.x += direction * travel * advance;
+      const keepMotion =
+        ["ironbreaker", "berserker"].includes(a.actor.unit.classId ?? "") ||
+        a.actor.skin?.profile.state === "bear";
+      const approach =
+        !keepMotion && !block.ranged && !block.linked && p < 0.58
+          ? Math.sin((Math.min(1, p / 0.35) * Math.PI) / 2)
+          : travel;
+      a.x += direction * approach * advance;
       Object.assign(a, this.attackPose(a.actor, hit, p, block.linked));
       const retreatAt = block.counterIndex !== undefined ? 0.88 : 0.78;
       if (
@@ -408,7 +415,7 @@ export class CombatSceneV2 {
           direction *
           Math.sin(((p - 0.46) / 0.4) * Math.PI) *
           d.actor.height *
-          0.1;
+          0.28;
       } else if (hit.blocked && p >= 0.48) {
         d.name = "block";
         d.index = this.frame(
@@ -527,6 +534,12 @@ export class CombatSceneV2 {
       if (v) {
         v.name = this.preview.animation;
         v.index = this.frame(v.actor, v.name, elapsed / this.preview.duration);
+        if (v.name === "evade")
+          v.x -=
+            (v.side === 0 ? 1 : -1) *
+            Math.sin(Math.PI * clamp(elapsed / this.preview.duration)) *
+            v.actor.height *
+            0.28;
       }
     }
     // Draw actors after projectile logic so source anchors and body layering remain stable.

@@ -45,15 +45,25 @@ export function insertInitiative(
 ) {
   const f = globalInitiative(s),
     prefix = f.queue.slice(0, f.index + (preserveCurrent ? 1 : 0));
-  const rest = new Set([
-    ...f.queue.slice(f.index + (preserveCurrent ? 1 : 0)),
-    ...ids,
-  ]);
-  for (const id of prefix) rest.delete(id);
-  f.queue = [
-    ...prefix,
-    ...initiativeOrder(s.units.filter((u) => rest.has(u.id))),
-  ];
+  const remaining = f.queue.slice(prefix.length);
+  const known = new Set([...prefix, ...remaining]);
+  const arrivals = initiativeOrder(
+    s.units.filter((u) => ids.includes(u.id) && !known.has(u.id)),
+  );
+  // Preserve every existing relative position, even after a level/stat change.
+  for (const id of arrivals) {
+    const u = s.units.find((u) => u.id === id)!;
+    const at = remaining.findIndex((other) => {
+      const t = s.units.find((u) => u.id === other)!;
+      return (
+        t &&
+        (u.initiative > t.initiative ||
+          (u.initiative === t.initiative && u.id < t.id))
+      );
+    });
+    remaining.splice(at < 0 ? remaining.length : at, 0, id);
+  }
+  f.queue = [...prefix, ...remaining];
 }
 export function stepInitiative(s: Campaign) {
   const f = globalInitiative(s);

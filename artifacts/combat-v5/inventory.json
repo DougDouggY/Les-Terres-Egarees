@@ -1,0 +1,5925 @@
+[
+  {
+    "id": "raider:male:axe-shield:default",
+    "class": "Pillard",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider."
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "death",
+        "frames": 1,
+        "source": "tactical/team-sample-combat.png"
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade."
+      },
+      {
+        "name": "attack_again",
+        "frames": 6,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double."
+      },
+      {
+        "name": "idle",
+        "frames": 2,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Deux gardes de combat ; pieds ancrés."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion1.png",
+        "status": "functional"
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "hunter:female:bow:default",
+    "class": "Chasseur",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-north.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-north.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-north.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion1.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-north.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "man_at_arms:female:sword-shield:default",
+    "class": "Homme d’armes",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "block",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion1.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "crossbowman:male:crossbow:default",
+    "class": "Arbalétrier",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-knights.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-knights.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-knights.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-knights.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-knights.png",
+        "status": "functional"
+      },
+      {
+        "name": "reload",
+        "frames": 4,
+        "source": "tactical/combat-v3-reload.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-knights.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion1.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-knights.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "skeleton:any:rusty-sword:default",
+    "class": "Squelette épéiste",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion1.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "raider:female:axe-shield:default",
+    "class": "Pillard",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-raider-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion1.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 6,
+        "source": "tactical/combat-v4-raider-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "counter",
+        "frames": 6,
+        "source": "tactical/combat-v4-raider-female.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-raider-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v4-raider-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-raider-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/combat-v4-raider-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "attack_again",
+        "frames": 6,
+        "source": "tactical/combat-v4-raider-female.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "man_at_arms:male:sword-shield:default",
+    "class": "Homme d’armes",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider."
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 1,
+        "source": "tactical/team-sample-combat.png",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 1,
+        "source": "tactical/team-sample-combat.png"
+      },
+      {
+        "name": "attack_again",
+        "frames": 6,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double."
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade."
+      },
+      {
+        "name": "idle",
+        "frames": 2,
+        "source": "tactical/combat-pair-reference-v2.png",
+        "status": "functional",
+        "notes": "Deux gardes de combat ; pieds ancrés."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion2.png",
+        "status": "functional"
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "cavalry:any:sword-shield:default",
+    "class": "Cavalier",
+    "gender": "any",
+    "mounted": true,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "block",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "provisional",
+        "notes": "Réaction montée conservée ; levée défensive dédiée encore provisoire."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "mounted_spearman:any:lance:default",
+    "class": "Lancier monté",
+    "gender": "any",
+    "mounted": true,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "charge",
+        "frames": 5,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "sans_rider:any:lance:default",
+    "class": "Cavalier spectral",
+    "gender": "any",
+    "mounted": true,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v3-mounted.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "standard_bearer:male:banner:carried",
+    "class": "Porte-étendard",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-equipment.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-states.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-states.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-states.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-equipment.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-equipment.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion2.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-equipment.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "standard_bearer:male:sword:planted",
+    "class": "Porte-étendard",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-equipment.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-states.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-states.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-states.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-equipment.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-equipment.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion2.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-equipment.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "pavise_crossbowman:male:crossbow:default",
+    "class": "Arbalétrier à pavois",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "reload",
+        "frames": 4,
+        "source": "tactical/combat-v3-reload.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion3.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      },
+      {
+        "name": "fortify",
+        "frames": 4,
+        "source": "tactical/combat-v4-pavise-male.png",
+        "status": "provisional",
+        "notes": "Déploiement du même pavois, barbe brune conservée."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "pavise_crossbowman:male:crossbow:fortified",
+    "class": "Arbalétrier à pavois",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "reload",
+        "frames": 2,
+        "source": "tactical/lot1-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion3.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      },
+      {
+        "name": "fortify",
+        "frames": 4,
+        "source": "tactical/combat-v4-pavise-male.png",
+        "status": "provisional",
+        "notes": "Déploiement du même pavois, barbe brune conservée."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "ironbreaker:male:great-axe:default",
+    "class": "Brise-fer",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion3.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "executioner:any:great-sword:default",
+    "class": "Exécuteur",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot1-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion3.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "berserker:male:dual-axes:default",
+    "class": "Berserker",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot1-dual.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot1-dual.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot1-dual.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_offhand",
+        "frames": 5,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion3.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "drengr:male:dual-swords:default",
+    "class": "Drengr",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot1-dual.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot1-dual.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot1-dual.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_offhand",
+        "frames": 5,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion3.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v3-heavy.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "north_warrior:male:axe:default",
+    "class": "Guerrier du Nord",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 6,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 6,
+        "source": "tactical/complete-north.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-north.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion4.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 6,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "nordic_blade:male:sword:default",
+    "class": "Lame nordique",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-north.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-north.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion4.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "spearman:any:lance:default",
+    "class": "Lancier",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-knights.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-knights.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-knights.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-knights.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-knights.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-knights.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion4.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-knights.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "swordsman:any:sword:default",
+    "class": "Épéiste",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-knights.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-knights.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-knights.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion4.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "shaman:male:healing:default",
+    "class": "Chaman",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion4.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "sorcerer:male:spell:default",
+    "class": "Sorcier",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional",
+        "notes": "Même incantation, effet de soin distinct du projectile offensif."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion4.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "raider:male:sword-shield:default",
+    "class": "Pillard",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "block",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-c.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion5.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "sans_axe:any:axe:default",
+    "class": "Squelette hacheur",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion5.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "sans_spear:any:lance:default",
+    "class": "Squelette lancier",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion5.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-undead.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "sans_archer:any:bow:default",
+    "class": "Archer décharné",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion5.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "sans_crossbow:any:crossbow:default",
+    "class": "Arbalétrier décharné",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "reload",
+        "frames": 4,
+        "source": "tactical/combat-v3-reload.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion5.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "sans_guard:any:sword-shield:default",
+    "class": "Garde en armure",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/complete-block.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion5.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-lot3-ranged.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "sans_necromancer:any:spell:default",
+    "class": "Nécromancien ennemi",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "summon",
+        "frames": 4,
+        "source": "tactical/lot4-actions.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion6.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "necromancer:male:spell:default",
+    "class": "Nécromancien",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "summon",
+        "frames": 4,
+        "source": "tactical/lot4-actions.png",
+        "status": "functional"
+      },
+      {
+        "name": "heal",
+        "frames": 4,
+        "source": "tactical/lot4-defense.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion6.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "archmage:male:spell:default",
+    "class": "Archimage",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "area",
+        "frames": 4,
+        "source": "tactical/lot4-actions.png",
+        "status": "functional"
+      },
+      {
+        "name": "heal",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "notes": "V5 : même incantation et même bâton de cristal que cet Archimage, effet de soin distinct. Ancien bâton différent écarté."
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "provisional",
+        "notes": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion6.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "huscarl:male:axe-shield:default",
+    "class": "Huscarl",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "block",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "V5 : bouclier levé en colonne 4 pour la parade/interception ; colonne 5 réservée au choc de blessure."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "Revue visuelle V5 : choc en colonne 5, récupération en colonne 6 puis garde. La colonne 6 seule ne représente pas une blessure.",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional"
+      },
+      {
+        "name": "intercept",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "V5 : bouclier levé en colonne 4 pour la parade/interception ; colonne 5 réservée au choc de blessure."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion6.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "clan_healer:male:axe-shield:default",
+    "class": "Guérisseur du clan",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "block",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "V5 : bouclier levé en colonne 4 pour la parade/interception ; colonne 5 réservée au choc de blessure."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "Revue visuelle V5 : choc en colonne 5, récupération en colonne 6 puis garde. La colonne 6 seule ne représente pas une blessure.",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion6.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      },
+      {
+        "name": "bandage",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "honor_guard:any:sword-shield:default",
+    "class": "Garde d’honneur",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "block",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "V5 : bouclier levé en colonne 4 pour la parade/interception ; colonne 5 réservée au choc de blessure."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "Revue visuelle V5 : choc en colonne 5, récupération en colonne 6 puis garde. La colonne 6 seule ne représente pas une blessure.",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion6.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "master_hunter:female:bow:default",
+    "class": "Grand chasseur",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion7.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "tracker:male:bow:default",
+    "class": "Traqueur",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion7.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "ranger:male:crossbow:default",
+    "class": "Rôdeur",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "reload",
+        "frames": 4,
+        "source": "tactical/combat-v3-reload.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion7.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-ranged.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "guard_knight:any:sword-shield:default",
+    "class": "Chevalier de la garde",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-reactions.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme.",
+        "damageFrame": 1
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-reactions.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/complete-knight-promotions.png",
+        "status": "provisional",
+        "notes": "Découpage à vérifier : contact avec un bord ou une silhouette/effet voisin. Ressource conservée sans retouche destructive."
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-knight-promotions.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion7.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsa.png",
+        "status": "functional"
+      }
+    ],
+    "issues": [
+      {
+        "animation": "block",
+        "reason": "Découpage ambigu à contrôler : tactical/complete-knight-promotions.png"
+      }
+    ]
+  },
+  {
+    "id": "royal_guard:any:lance-shield:default",
+    "class": "Garde royal",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "block",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "V5 : bouclier levé en colonne 4 pour la parade/interception ; colonne 5 réservée au choc de blessure."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "Revue visuelle V5 : choc en colonne 5, récupération en colonne 6 puis garde. La colonne 6 seule ne représente pas une blessure.",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion7.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-a.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "duelist:male:dual-swords:default",
+    "class": "Duelliste",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "attack",
+        "frames": 6,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 6,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-knight-promotions.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-knight-promotions.png",
+        "status": "functional"
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-knight-promotions.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_offhand",
+        "frames": 5,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion7.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 6,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "young_viking:male:training-axe:default",
+    "class": "Jeune Viking",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v4-motion-young.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-fixes.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "squire:male:training-sword:default",
+    "class": "Écuyer",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-states.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-states.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-states.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion8.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "clan_healer:male:sword-shield:default",
+    "class": "Guérisseur du clan",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "block",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "V5 : bouclier levé en colonne 4 pour la parade/interception ; colonne 5 réservée au choc de blessure."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "Revue visuelle V5 : choc en colonne 5, récupération en colonne 6 puis garde. La colonne 6 seule ne représente pas une blessure.",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion8.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      },
+      {
+        "name": "bandage",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "tracker:male:axe:default",
+    "class": "Traqueur",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 2,
+        "source": "tactical/lot4-equipment.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion8.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 2,
+        "source": "tactical/lot4-equipment.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 2,
+        "source": "tactical/lot4-equipment.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-reactions.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme.",
+        "damageFrame": 1
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-reactions.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "attack_again",
+        "frames": 2,
+        "source": "tactical/lot4-equipment.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      },
+      {
+        "animation": "attack",
+        "reason": "Séquence courte existante, anticipation/récupération détaillées encore manquantes."
+      }
+    ]
+  },
+  {
+    "id": "ranger:male:sword:default",
+    "class": "Rôdeur",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion8.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-reactions.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme.",
+        "damageFrame": 1
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-reactions.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "attack_again",
+        "frames": 8,
+        "source": "tactical/combat-v3-swordsb.png",
+        "status": "functional"
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "huscarl:male:sword-shield:default",
+    "class": "Huscarl",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "block",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "V5 : bouclier levé en colonne 4 pour la parade/interception ; colonne 5 réservée au choc de blessure."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "Revue visuelle V5 : choc en colonne 5, récupération en colonne 6 puis garde. La colonne 6 seule ne représente pas une blessure.",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional"
+      },
+      {
+        "name": "intercept",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "V5 : bouclier levé en colonne 4 pour la parade/interception ; colonne 5 réservée au choc de blessure."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion8.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v2-shields-b.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "sorcerer:male:healing:default",
+    "class": "Sorcier",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v2-support.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion9.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "necromancer:male:healing:default",
+    "class": "Nécromancien",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 2,
+        "source": "tactical/lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion9.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/lot3-mages.png",
+        "status": "functional",
+        "notes": "Recul puis retour à la pose de repos.",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/lot3-mages.png",
+        "status": "functional",
+        "notes": "Recul puis chute au sol, deux poses."
+      },
+      {
+        "name": "summon",
+        "frames": 4,
+        "source": "tactical/lot4-actions.png",
+        "status": "functional"
+      },
+      {
+        "name": "heal",
+        "frames": 4,
+        "source": "tactical/lot4-defense.png",
+        "status": "functional"
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "archmage:male:healing:default",
+    "class": "Archimage",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 2,
+        "source": "tactical/lot3-mages.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion9.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/lot3-mages.png",
+        "status": "functional",
+        "notes": "Recul puis retour à la pose de repos.",
+        "damageFrame": 0
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/lot3-mages.png",
+        "status": "functional",
+        "notes": "Recul puis chute au sol, deux poses."
+      },
+      {
+        "name": "area",
+        "frames": 4,
+        "source": "tactical/lot4-actions.png",
+        "status": "functional"
+      },
+      {
+        "name": "heal",
+        "frames": 7,
+        "source": "tactical/complete-lot3-mages.png",
+        "status": "functional",
+        "notes": "V5 : même incantation et même bâton de cristal que cet Archimage, effet de soin distinct. Ancien bâton différent écarté."
+      }
+    ],
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ]
+  },
+  {
+    "id": "volva:male:spell:default",
+    "class": "Völva",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion9.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "buff",
+        "frames": 5,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional",
+        "notes": "Geste magique partagé ; aucun effet de statut supplémentaire dessiné dans cette planche."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "volva:male:healing:default",
+    "class": "Völva",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion9.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "buff",
+        "frames": 5,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional",
+        "notes": "Geste magique partagé ; aucun effet de statut supplémentaire dessiné dans cette planche."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "hamrammr:male:healing:default",
+    "class": "Hamrammr",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-motion9.png",
+        "status": "functional"
+      },
+      {
+        "name": "damage",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional",
+        "damageFrame": 0
+      },
+      {
+        "name": "evade",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/complete-shaman-forms.png",
+        "status": "functional"
+      },
+      {
+        "name": "transform",
+        "frames": 6,
+        "source": "tactical/complete-transform.png",
+        "status": "functional"
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "hamrammr:any:claws:bear",
+    "class": "Hamrammr",
+    "gender": "any",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v3-bear.png",
+        "status": "functional"
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v3-bear.png",
+        "status": "functional"
+      },
+      {
+        "name": "attack",
+        "frames": 6,
+        "source": "tactical/combat-v3-bear.png",
+        "status": "functional"
+      },
+      {
+        "name": "counter",
+        "frames": 6,
+        "source": "tactical/combat-v3-bear.png",
+        "status": "functional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v3-bear.png",
+        "status": "functional",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v3-bear.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 3,
+        "source": "tactical/combat-v3-bear.png",
+        "status": "functional"
+      },
+      {
+        "name": "transform",
+        "frames": 1,
+        "source": "tactical/combat-v3-bear.png",
+        "status": "provisional",
+        "notes": "Retour humain : garde animale puis vrai skin humain de l’unité ; dessins intermédiaires dédiés manquants."
+      },
+      {
+        "name": "attack_again",
+        "frames": 6,
+        "source": "tactical/combat-v3-bear.png",
+        "status": "functional"
+      }
+    ],
+    "issues": [
+      {
+        "animation": "transform",
+        "reason": "Transition inverse illustrée non finalisée ; ancien humain masculin écarté du skin animal partagé."
+      }
+    ]
+  },
+  {
+    "id": "shaman:female:healing:default",
+    "class": "Chaman",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "sorcerer:female:spell:default",
+    "class": "Sorcier",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "sorcerer:female:healing:default",
+    "class": "Sorcier",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "necromancer:female:spell:default",
+    "class": "Nécromancien",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "summon",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "necromancer:female:healing:default",
+    "class": "Nécromancien",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "summon",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "archmage:female:spell:default",
+    "class": "Archimage",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "area",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Incantation de ce skin, effet de zone calculé par le jeu."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "archmage:female:healing:default",
+    "class": "Archimage",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "area",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Incantation de ce skin, effet de zone calculé par le jeu."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "volva:female:spell:default",
+    "class": "Völva",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "buff",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Incantation de ce skin pour la capacité réelle d’amélioration."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "volva:female:healing:default",
+    "class": "Völva",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "buff",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Incantation de ce skin pour la capacité réelle d’amélioration."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "hamrammr:female:healing:default",
+    "class": "Hamrammr",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "transform",
+        "frames": 5,
+        "source": "tactical/combat-v4-casters.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "north_warrior:female:axe:default",
+    "class": "Guerrier du Nord",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "nordic_blade:female:sword:default",
+    "class": "Lame nordique",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "berserker:female:dual-axes:default",
+    "class": "Berserker",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack_offhand",
+        "frames": 3,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "drengr:female:dual-swords:default",
+    "class": "Drengr",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack_offhand",
+        "frames": 3,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "ironbreaker:female:great-axe:default",
+    "class": "Brise-fer",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "duelist:female:dual-swords:default",
+    "class": "Duelliste",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack_offhand",
+        "frames": 3,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-warriors.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "huscarl:female:axe-shield:default",
+    "class": "Huscarl",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v4-motion-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "huscarl:female:sword-shield:default",
+    "class": "Huscarl",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v4-motion-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "clan_healer:female:axe-shield:default",
+    "class": "Guérisseur du clan",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v4-motion-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "bandage",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "clan_healer:female:sword-shield:default",
+    "class": "Guérisseur du clan",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v4-motion-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "bandage",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "heal",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "raider:female:sword-shield:default",
+    "class": "Pillard",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v4-motion-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "block",
+        "frames": 4,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-shields.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "young_viking:female:training-axe:default",
+    "class": "Jeune Viking",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-young-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "move",
+        "frames": 4,
+        "source": "tactical/combat-v4-motion-young-female.png",
+        "status": "provisional",
+        "notes": "Course adaptée à la même apparence que les poses offensives V4."
+      },
+      {
+        "name": "attack",
+        "frames": 6,
+        "source": "tactical/combat-v4-young-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "counter",
+        "frames": 6,
+        "source": "tactical/combat-v4-young-female.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-young-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 3,
+        "source": "tactical/combat-v4-young-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-young-female.png",
+        "status": "provisional",
+        "notes": "Correction après revue visuelle V4, mêmes vêtements et arme."
+      },
+      {
+        "name": "attack_again",
+        "frames": 6,
+        "source": "tactical/combat-v4-young-female.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "crossbowman:female:crossbow:default",
+    "class": "Arbalétrier",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "reload",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "pavise_crossbowman:female:crossbow:default",
+    "class": "Arbalétrier à pavois",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "reload",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "fortify",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "pavise_crossbowman:female:crossbow:fortified",
+    "class": "Arbalétrier à pavois",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "reload",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "fortify",
+        "frames": 4,
+        "source": "tactical/combat-v4-abilities.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "tracker:female:bow:default",
+    "class": "Traqueur",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "reload",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "tracker:female:axe:default",
+    "class": "Traqueur",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "ranger:female:crossbow:default",
+    "class": "Rôdeur",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "reload",
+        "frames": 3,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-ranged.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "standard_bearer:female:banner:carried",
+    "class": "Porte-étendard",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "banner",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "standard_bearer:female:sword:planted",
+    "class": "Porte-étendard",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "squire:female:training-sword:default",
+    "class": "Écuyer",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "ranger:female:sword:default",
+    "class": "Rôdeur",
+    "gender": "female",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "hunter:male:bow:default",
+    "class": "Chasseur",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "reload",
+        "frames": 3,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  },
+  {
+    "id": "master_hunter:male:bow:default",
+    "class": "Grand chasseur",
+    "gender": "male",
+    "mounted": false,
+    "animations": [
+      {
+        "name": "idle",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "move",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "damage",
+        "frames": 3,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "damageFrame": 1
+      },
+      {
+        "name": "evade",
+        "frames": 1,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      {
+        "name": "death",
+        "frames": 2,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "attack",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "reload",
+        "frames": 3,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      {
+        "name": "counter",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      {
+        "name": "attack_again",
+        "frames": 5,
+        "source": "tactical/combat-v4-mixed.png",
+        "status": "provisional",
+        "notes": "Seconde activation d’agilité : même arme, même skin."
+      }
+    ],
+    "issues": []
+  }
+]

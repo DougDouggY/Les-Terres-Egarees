@@ -1,0 +1,3461 @@
+[
+  {
+    "id": "archmage:male:spell:default",
+    "className": "Archimage",
+    "issues": [],
+    "animations": [
+      {
+        "name": "attack",
+        "source": "tactical/complete-lot3-mages.png",
+        "frames": 7,
+        "drawn": 7
+      },
+      {
+        "name": "counter",
+        "source": "tactical/complete-lot3-mages.png",
+        "frames": 7,
+        "drawn": 7
+      },
+      {
+        "name": "damage",
+        "source": "tactical/complete-lot3-mages.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "death",
+        "source": "tactical/complete-lot3-mages.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "area",
+        "source": "tactical/lot4-actions.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "heal",
+        "source": "tactical/complete-lot3-mages.png",
+        "frames": 7,
+        "drawn": 7
+      },
+      {
+        "name": "evade",
+        "source": "tactical/complete-lot3-mages.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "idle",
+        "source": "tactical/complete-lot3-mages.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion6.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/complete-lot3-mages.png",
+        "frames": 7,
+        "drawn": 7
+      }
+    ],
+    "missing": [
+      "block"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 177.31034482758622,
+            "y": 331.49655172413793,
+            "width": 118.17931034482758,
+            "height": 143.50344827586207,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 177.31034482758622,
+            "y": 331.49655172413793,
+            "width": 118.17931034482758,
+            "height": 143.50344827586207,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 177.31034482758622,
+            "y": 331.49655172413793,
+            "width": 118.17931034482758,
+            "height": 143.50344827586207,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 0,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 177.31034482758622,
+            "y": 331.49655172413793,
+            "width": 118.17931034482758,
+            "height": 143.50344827586207,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 179.1862068965517,
+            "y": 323.99310344827586,
+            "width": 116.30344827586207,
+            "height": 151.00689655172414,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 179.6551724137931,
+            "y": 339,
+            "width": 198.84137931034482,
+            "height": 136,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 179.6551724137931,
+            "y": 339,
+            "width": 198.84137931034482,
+            "height": 136,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 5,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 174.9655172413793,
+            "y": 333.3724137931034,
+            "width": 151.00689655172414,
+            "height": 141.62758620689655,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 177.31034482758622,
+            "y": 331.49655172413793,
+            "width": 118.17931034482758,
+            "height": 143.50344827586207,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 177.31034482758622,
+            "y": 331.49655172413793,
+            "width": 118.17931034482758,
+            "height": 143.50344827586207,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "archmage:male:spell:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/complete-lot3-mages.png",
+            "scale": 0.9379310344827586,
+            "x": 177.31034482758622,
+            "y": 331.49655172413793,
+            "width": 118.17931034482758,
+            "height": 143.50344827586207,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "huscarl:male:axe-shield:default",
+    "className": "Huscarl",
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "block",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "intercept",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion6.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      }
+    ],
+    "missing": [
+      "evade"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8242424242424242,
+            "x": 125.53939393939395,
+            "y": 335.70303030303035,
+            "width": 147.53939393939393,
+            "height": 139.29696969696968,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8242424242424242,
+            "x": 252.29104117226575,
+            "y": 336.5272727272727,
+            "width": 143.4181818181818,
+            "height": 138.47272727272727,
+            "feetX": 380.0486169298415,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8242424242424242,
+            "x": 351.31991929827905,
+            "y": 335.70303030303035,
+            "width": 145.89090909090908,
+            "height": 139.29696969696968,
+            "feetX": 473.30779808615785,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8242424242424242,
+            "x": 424.4955814410037,
+            "y": 335.70303030303035,
+            "width": 147.53939393939393,
+            "height": 139.29696969696968,
+            "feetX": 548.9561875016097,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8242424242424242,
+            "x": 477.94199558013094,
+            "y": 339.8242424242424,
+            "width": 146.71515151515152,
+            "height": 135.1757575757576,
+            "feetX": 606.5238137619491,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 1,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6974358974358974,
+            "x": 518.8933333333333,
+            "y": 328.53846153846155,
+            "width": 159.7128205128205,
+            "height": 147.15897435897435,
+            "feetX": 626.9958974358974,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6974358974358974,
+            "x": 526.5651282051282,
+            "y": 345.2769230769231,
+            "width": 178.54358974358973,
+            "height": 130.4205128205128,
+            "feetX": 626.9958974358974,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6974358974358974,
+            "x": 516.1035897435897,
+            "y": 338.30256410256413,
+            "width": 160.4102564102564,
+            "height": 136.6974358974359,
+            "feetX": 626.9958974358974,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8242424242424242,
+            "x": 285.9254825174825,
+            "y": 339.8242424242424,
+            "width": 146.71515151515152,
+            "height": 135.1757575757576,
+            "feetX": 414.5073006993007,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6974358974358974,
+            "x": 132.83076923076925,
+            "y": 336.9076923076923,
+            "width": 167.3846153846154,
+            "height": 138.78974358974358,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "huscarl:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6974358974358974,
+            "x": 132.83076923076925,
+            "y": 336.9076923076923,
+            "width": 167.3846153846154,
+            "height": 138.78974358974358,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clan_healer:male:axe-shield:default",
+    "className": "Guérisseur du clan",
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "block",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion6.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "bandage",
+        "source": "tactical/combat-v4-abilities.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "heal",
+        "source": "tactical/combat-v4-abilities.png",
+        "frames": 4,
+        "drawn": 4
+      }
+    ],
+    "missing": [
+      "evade"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8095238095238095,
+            "x": 129.38095238095238,
+            "y": 337.3809523809524,
+            "width": 145.71428571428572,
+            "height": 138.42857142857142,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8095238095238095,
+            "x": 263.6461038158956,
+            "y": 336.57142857142856,
+            "width": 129.52380952380952,
+            "height": 138.42857142857142,
+            "feetX": 373.74134191113365,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8095238095238095,
+            "x": 343.47751223151226,
+            "y": 337.3809523809524,
+            "width": 139.23809523809524,
+            "height": 137.61904761904762,
+            "feetX": 462.47751223151226,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8095238095238095,
+            "x": 413.83795536501907,
+            "y": 337.3809523809524,
+            "width": 145.71428571428572,
+            "height": 138.42857142857142,
+            "feetX": 534.4570029840667,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8095238095238095,
+            "x": 470.23263606854607,
+            "y": 338.19047619047615,
+            "width": 144.0952380952381,
+            "height": 136.80952380952382,
+            "feetX": 589.2326360685461,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 1,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6938775510204082,
+            "x": 501.854693877551,
+            "y": 327.2040816326531,
+            "width": 158.20408163265307,
+            "height": 147.79591836734693,
+            "feetX": 608.7118367346939,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6938775510204082,
+            "x": 508.79346938775507,
+            "y": 348.7142857142857,
+            "width": 172.77551020408163,
+            "height": 126.28571428571428,
+            "feetX": 608.7118367346939,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6938775510204082,
+            "x": 501.854693877551,
+            "y": 339,
+            "width": 158.20408163265307,
+            "height": 136,
+            "feetX": 608.7118367346939,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8095238095238095,
+            "x": 287.52880148423003,
+            "y": 338.19047619047615,
+            "width": 144.0952380952381,
+            "height": 136.80952380952382,
+            "feetX": 406.52880148423003,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6938775510204082,
+            "x": 182,
+            "y": 338.3061224489796,
+            "width": 163.0612244897959,
+            "height": 137.3877551020408,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6938775510204082,
+            "x": 182,
+            "y": 338.3061224489796,
+            "width": 163.0612244897959,
+            "height": 137.3877551020408,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "honor_guard:any:sword-shield:default",
+    "className": "Garde d’honneur",
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v3-swordsa.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v3-swordsa.png",
+        "frames": 8,
+        "drawn": 8
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v3-swordsa.png",
+        "frames": 8,
+        "drawn": 8
+      },
+      {
+        "name": "block",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion6.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v3-swordsa.png",
+        "frames": 8,
+        "drawn": 8
+      }
+    ],
+    "missing": [
+      "evade"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8192771084337349,
+            "x": 120.55421686746988,
+            "y": 337.3614457831325,
+            "width": 154.02409638554215,
+            "height": 138.4578313253012,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8192771084337349,
+            "x": 261.9615079919158,
+            "y": 338.18072289156623,
+            "width": 145.83132530120483,
+            "height": 136.81927710843374,
+            "feetX": 386.49162847384355,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8192771084337349,
+            "x": 362.2988693473587,
+            "y": 337.3614457831325,
+            "width": 145.0120481927711,
+            "height": 137.63855421686748,
+            "feetX": 484.37115850398516,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8192771084337349,
+            "x": 434.32162045654377,
+            "y": 337.3614457831325,
+            "width": 154.02409638554215,
+            "height": 138.4578313253012,
+            "feetX": 563.7674035890739,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8192771084337349,
+            "x": 495.5606024503148,
+            "y": 337.3614457831325,
+            "width": 151.56626506024097,
+            "height": 137.63855421686748,
+            "feetX": 624.1871084744112,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v3-swordsa.png",
+            "scale": 1.1147540983606556,
+            "x": 554.263606557377,
+            "y": 307.78688524590166,
+            "width": 138.2295081967213,
+            "height": 167.21311475409834,
+            "feetX": 645.6734426229508,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 4,
+            "source": "tactical/combat-v3-swordsa.png",
+            "scale": 1.1147540983606556,
+            "x": 537.5422950819673,
+            "y": 336.7704918032787,
+            "width": 163.86885245901638,
+            "height": 139.34426229508196,
+            "feetX": 645.6734426229508,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 5,
+            "source": "tactical/combat-v3-swordsa.png",
+            "scale": 1.1147540983606556,
+            "x": 539.7718032786885,
+            "y": 359.0655737704918,
+            "width": 156.0655737704918,
+            "height": 117.04918032786884,
+            "feetX": 645.6734426229508,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion6.png",
+            "scale": 0.8192771084337349,
+            "x": 294.03099621137306,
+            "y": 337.3614457831325,
+            "width": 151.56626506024097,
+            "height": 137.63855421686748,
+            "feetX": 422.65750223546945,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v3-swordsa.png",
+            "scale": 1.1147540983606556,
+            "x": 156.36065573770492,
+            "y": 336.7704918032787,
+            "width": 137.11475409836063,
+            "height": 139.34426229508196,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "honor_guard:any:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v3-swordsa.png",
+            "scale": 1.1147540983606556,
+            "x": 156.36065573770492,
+            "y": 336.7704918032787,
+            "width": 137.11475409836063,
+            "height": 139.34426229508196,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "royal_guard:any:lance-shield:default",
+    "className": "Garde royal",
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "block",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion7.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v2-shields-a.png",
+        "frames": 5,
+        "drawn": 5
+      }
+    ],
+    "missing": [
+      "evade"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion7.png",
+            "scale": 0.8242424242424242,
+            "x": 124.71515151515152,
+            "y": 337.3515151515152,
+            "width": 173.0909090909091,
+            "height": 137.64848484848486,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v3-motion7.png",
+            "scale": 0.8242424242424242,
+            "x": 251.3186118131942,
+            "y": 329.93333333333334,
+            "width": 160.72727272727272,
+            "height": 145.06666666666666,
+            "feetX": 362.59133908592145,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v3-motion7.png",
+            "scale": 0.8242424242424242,
+            "x": 329.58627483704964,
+            "y": 329.93333333333334,
+            "width": 158.25454545454545,
+            "height": 145.06666666666666,
+            "feetX": 443.3317293825042,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion7.png",
+            "scale": 0.8242424242424242,
+            "x": 383.54049140313236,
+            "y": 337.3515151515152,
+            "width": 173.0909090909091,
+            "height": 137.64848484848486,
+            "feetX": 508.8253398879809,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion7.png",
+            "scale": 0.8242424242424242,
+            "x": 430.9077107724072,
+            "y": 337.3515151515152,
+            "width": 174.73939393939395,
+            "height": 137.64848484848486,
+            "feetX": 558.665286529983,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 1,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6634146341463415,
+            "x": 472.89658536585364,
+            "y": 344.30731707317074,
+            "width": 192.39024390243904,
+            "height": 131.35609756097563,
+            "feetX": 576.3892682926829,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6634146341463415,
+            "x": 482.84780487804875,
+            "y": 354.9219512195122,
+            "width": 214.2829268292683,
+            "height": 120.0780487804878,
+            "feetX": 576.3892682926829,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6634146341463415,
+            "x": 517.3453658536586,
+            "y": 322.4146341463414,
+            "width": 133.34634146341463,
+            "height": 152.58536585365854,
+            "feetX": 576.3892682926829,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion7.png",
+            "scale": 0.8242424242424242,
+            "x": 264.6668322246859,
+            "y": 337.3515151515152,
+            "width": 174.73939393939395,
+            "height": 137.64848484848486,
+            "feetX": 392.42440798226164,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6634146341463415,
+            "x": 191.61951219512196,
+            "y": 323.0780487804878,
+            "width": 134.009756097561,
+            "height": 151.9219512195122,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "royal_guard:any:lance-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-a.png",
+            "scale": 0.6634146341463415,
+            "x": 191.61951219512196,
+            "y": 323.0780487804878,
+            "width": 134.009756097561,
+            "height": 151.9219512195122,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "clan_healer:male:sword-shield:default",
+    "className": "Guérisseur du clan",
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "block",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion8.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "bandage",
+        "source": "tactical/combat-v4-abilities.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "heal",
+        "source": "tactical/combat-v4-abilities.png",
+        "frames": 4,
+        "drawn": 4
+      }
+    ],
+    "missing": [
+      "evade"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.8,
+            "x": 120.79999999999998,
+            "y": 338.2,
+            "width": 150.4,
+            "height": 136.8,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.8,
+            "x": 261.03386832475314,
+            "y": 335.79999999999995,
+            "width": 134.4,
+            "height": 139.20000000000002,
+            "feetX": 383.03386832475314,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.8,
+            "x": 362.03380350989084,
+            "y": 335,
+            "width": 128,
+            "height": 140,
+            "feetX": 478.4338035098908,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.8,
+            "x": 426.61869320774963,
+            "y": 338.2,
+            "width": 150.4,
+            "height": 136.8,
+            "feetX": 555.8186932077497,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.8,
+            "x": 483.10777786305323,
+            "y": 336.6,
+            "width": 149.6,
+            "height": 139.20000000000002,
+            "feetX": 614.7077778630533,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 1,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6938775510204082,
+            "x": 526.7110204081632,
+            "y": 322.34693877551024,
+            "width": 159.59183673469389,
+            "height": 152.6530612244898,
+            "feetX": 635.6497959183673,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6938775510204082,
+            "x": 532.955918367347,
+            "y": 349.40816326530614,
+            "width": 177.6326530612245,
+            "height": 125.59183673469387,
+            "feetX": 635.6497959183673,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6938775510204082,
+            "x": 525.3232653061224,
+            "y": 339,
+            "width": 160.28571428571428,
+            "height": 136,
+            "feetX": 635.6497959183673,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.8,
+            "x": 286.683547309833,
+            "y": 336.6,
+            "width": 149.6,
+            "height": 139.20000000000002,
+            "feetX": 418.283547309833,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6938775510204082,
+            "x": 136.89795918367346,
+            "y": 338.3061224489796,
+            "width": 163.75510204081633,
+            "height": 136.69387755102042,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "clan_healer:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6938775510204082,
+            "x": 136.89795918367346,
+            "y": 338.3061224489796,
+            "width": 163.75510204081633,
+            "height": 136.69387755102042,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "huscarl:male:sword-shield:default",
+    "className": "Huscarl",
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "block",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "intercept",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion8.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v2-shields-b.png",
+        "frames": 5,
+        "drawn": 5
+      }
+    ],
+    "missing": [
+      "evade"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.7953216374269005,
+            "x": 123.54385964912281,
+            "y": 336.61403508771934,
+            "width": 151.11111111111111,
+            "height": 138.38596491228068,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.7953216374269005,
+            "x": 265.2827459480414,
+            "y": 334.2280701754386,
+            "width": 128.8421052631579,
+            "height": 141.5672514619883,
+            "feetX": 382.9903482872227,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.7953216374269005,
+            "x": 367.0140455726346,
+            "y": 333.4327485380117,
+            "width": 129.63742690058479,
+            "height": 141.5672514619883,
+            "feetX": 478.35907481240065,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.7953216374269005,
+            "x": 429.2625088517365,
+            "y": 336.61403508771934,
+            "width": 151.11111111111111,
+            "height": 138.38596491228068,
+            "feetX": 555.7186492026137,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.7953216374269005,
+            "x": 492.9042586495578,
+            "y": 338.2046783625731,
+            "width": 143.953216374269,
+            "height": 136.7953216374269,
+            "feetX": 614.5884691758736,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 1,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6868686868686869,
+            "x": 527.6852525252525,
+            "y": 325.9494949494949,
+            "width": 157.2929292929293,
+            "height": 149.05050505050505,
+            "feetX": 635.5236363636363,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6868686868686869,
+            "x": 535.240808080808,
+            "y": 345.86868686868684,
+            "width": 175.15151515151516,
+            "height": 129.13131313131314,
+            "feetX": 635.5236363636363,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6868686868686869,
+            "x": 524.2509090909091,
+            "y": 337.62626262626264,
+            "width": 158.66666666666666,
+            "height": 137.37373737373736,
+            "feetX": 635.5236363636363,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion8.png",
+            "scale": 0.7953216374269005,
+            "x": 296.54428534145273,
+            "y": 338.2046783625731,
+            "width": 143.953216374269,
+            "height": 136.7953216374269,
+            "feetX": 418.2284958677685,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6868686868686869,
+            "x": 133.23232323232324,
+            "y": 336.2525252525253,
+            "width": 164.84848484848484,
+            "height": 138.74747474747474,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "huscarl:male:sword-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-shields-b.png",
+            "scale": 0.6868686868686869,
+            "x": 133.23232323232324,
+            "y": 336.2525252525253,
+            "width": 164.84848484848484,
+            "height": 138.74747474747474,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "archmage:male:healing:default",
+    "className": "Archimage",
+    "issues": [
+      {
+        "animation": "evade",
+        "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+      }
+    ],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/lot3-mages.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion9.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "damage",
+        "source": "tactical/lot3-mages.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "death",
+        "source": "tactical/lot3-mages.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "area",
+        "source": "tactical/lot4-actions.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "heal",
+        "source": "tactical/complete-lot3-mages.png",
+        "frames": 7,
+        "drawn": 7
+      }
+    ],
+    "missing": [
+      "attack",
+      "attack",
+      "attack",
+      "block",
+      "evade"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "archmage:male:healing:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/lot3-mages.png",
+            "scale": 0.6153846153846154,
+            "x": 202,
+            "y": 336.53846153846155,
+            "width": 94.76923076923077,
+            "height": 139.0769230769231,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  }
+]

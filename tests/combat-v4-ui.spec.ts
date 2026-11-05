@@ -103,6 +103,7 @@ for (const cls of ["shaman", "sorcerer"])
     await page.screenshot({
       path: `artifacts/combat-v4/${cls}-female-map-heal.png`,
     });
+    await page.locator('[data-action="close-reward"]').click();
     await expect
       .poll(() =>
         page.evaluate(() => {
@@ -149,9 +150,9 @@ test("V4 prévision : noms longs, triangle réel, colonnes alignées et cadrage 
     );
     await expect(page.locator(".fe-stat-grid>span")).toHaveText([
       "PV",
-      "Dégâts",
-      "Précision",
-      "Critique",
+      "Dég.",
+      "Préc.",
+      "Crit.",
     ]);
     await page.screenshot({
       path: `artifacts/combat-v4/forecast-${size.width}.png`,

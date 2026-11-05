@@ -95,7 +95,7 @@ test("double arme : critique remplace chaque séquence, aucune frappe après dé
     assert.ok(a.hp >= 0 && b.hp >= 0);
   }
 });
-test("parade : riposte immédiate sans chaîne ni seconde riposte ordinaire", () => {
+test("parade : riposte immédiate distincte de la contre-attaque ordinaire, sans chaîne", () => {
   let found = false;
   for (let seed = 1; seed < 1000 && !found; seed++) {
     const { s, a, b } = pair();
@@ -106,10 +106,14 @@ test("parade : riposte immédiate sans chaîne ni seconde riposte ordinaire", ()
     if (i >= 0) {
       found = true;
       assert.equal(r.strikes[i + 1]?.parryCounter, true);
+      const replies = r.strikes.filter((t) => t.attacker === b.id);
       assert.ok(
-        r.strikes
-          .filter((t) => t.attacker === b.id)
-          .every((t) => t.parryCounter),
+        replies.some((t) => t.counter && !t.parryCounter) ||
+          r.strikes.some((t) => t.hpAfter === 0),
+      );
+      assert.ok(
+        replies.filter((t) => t.parryCounter).length <=
+          E.activeWeapon(b).attacks,
       );
     }
   }

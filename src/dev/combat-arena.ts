@@ -144,7 +144,7 @@ export function openCombatArena(
     }
   }
   function render() {
-    app.innerHTML = `<main class="combat-lab-simple ${parry ? "parry-lab" : "map-lab"}"><header class="arena-toolbar"><strong>${parry ? "Tester les parades" : "Arène · chapitre 1"}</strong><label>Classe<select id="arena-class">${candidates.map((c) => `<option value="${c.id}" ${c.id === classId ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label>${classId === "hamrammr" && !parry ? `<button data-bear>${hero().bearForm ? "Forme humaine" : "Forme d’ours"}</button>` : ""}<button data-arena-back>Retour</button></header><section class="arena-field">${!parry ? '<canvas id="arena-map" width="1200" height="760" aria-label="Carte du chapitre 1 · arène indépendante"></canvas>' : ""}<div class="arena-duel" ${!parry && !battle ? "hidden" : ""}><canvas id="arena-duel" width="960" height="600" aria-label="Combat de test"></canvas><div class="arena-hp"><span data-arena-hp="0"></span><span data-arena-hp="1"></span></div></div></section><footer class="arena-controls"><button data-arena-attack>${parry ? "Jouer / Rejouer la parade" : E.activeWeapon(hero()).category === "healing" ? "Tester le soin" : "Attaquer / Rejouer"}</button>${!parry ? "<button data-arena-heal>Soigner mon unité</button>" : ""}<button data-arena-pause disabled>Pause</button><label>Vitesse<select id="arena-speed"><option value="1">Normale</option><option value="0.5">Ralenti</option><option value="0.25">Très lent</option></select></label><span id="arena-status" role="status"></span></footer></main>`;
+    app.innerHTML = `<main class="combat-lab-simple ${parry ? "parry-lab" : "map-lab"}"><header class="arena-toolbar"><strong>${parry ? "Tester les parades" : "Arène · chapitre 1"}</strong><label>Classe<select id="arena-class">${candidates.map((c) => `<option value="${c.id}" ${c.id === classId ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label>${!parry ? `<label>Arme<select id="arena-weapon">${(hero().carriedWeapons ?? []).map((id) => `<option value="${id}" ${id === hero().activeWeaponId ? "selected" : ""}>${esc(E.weaponCatalog[id].name)}</option>`).join("")}</select></label>` : ""}${classId === "hamrammr" && !parry ? `<button data-bear>${hero().bearForm ? "Forme humaine" : "Forme d’ours"}</button>` : ""}<button data-arena-back>Retour</button></header><section class="arena-field">${!parry ? '<canvas id="arena-map" width="1200" height="760" aria-label="Carte du chapitre 1 · arène indépendante"></canvas>' : ""}<div class="arena-duel" ${!parry && !battle ? "hidden" : ""}><canvas id="arena-duel" width="960" height="600" aria-label="Combat de test"></canvas><div class="arena-hp"><span data-arena-hp="0"></span><span data-arena-hp="1"></span></div></div></section><footer class="arena-controls"><button data-arena-attack>${parry ? "Jouer / Rejouer la parade" : E.activeWeapon(hero()).category === "healing" ? "Tester le soin" : "Attaquer / Rejouer"}</button>${!parry ? "<button data-arena-heal>Soigner mon unité</button>" : ""}<button data-arena-pause disabled>Pause</button><label>Vitesse<select id="arena-speed"><option value="1">Normale</option><option value="0.5">Ralenti</option><option value="0.25">Très lent</option></select></label><span id="arena-status" role="status"></span></footer></main>`;
     updateHp();
     controls();
     app.querySelector<HTMLElement>("[data-arena-back]")!.onclick = onBack;
@@ -152,6 +152,14 @@ export function openCombatArena(
       classId = (e.target as HTMLSelectElement).value;
       reset();
     };
+    const weaponSelect = app.querySelector<HTMLSelectElement>("#arena-weapon");
+    if (weaponSelect)
+      weaponSelect.onchange = () => {
+        E.equipWeapon(s, hero(), weaponSelect.value);
+        battle = undefined;
+        render();
+        void prepare();
+      };
     const speedSelect = app.querySelector<HTMLSelectElement>("#arena-speed")!;
     speedSelect.value = String(speed);
     speedSelect.onchange = () => {
@@ -376,15 +384,19 @@ export function openCombatArena(
         ctx.translate((x * 32 + 16) * 2, 0);
         ctx.scale(-1, 1);
       }
+      const size =
+        E.unitClass(u).mounted || unitSpriteProfile(u)?.classId === "sans_rider"
+          ? 52
+          : 38;
       drawResourceFrame(
         ctx,
         unitSpriteProfile(u),
         animation,
         frame,
-        x * 32 - 3,
-        y * 32 - 8,
-        38,
-        44,
+        x * 32 + 16 - size / 2,
+        y * 32 + 12 - size / 2 - 0.384 * (size - 38),
+        size,
+        size * 1.15,
         true,
         E.colorForOwner(s.teamColors, u.owner),
         "world",

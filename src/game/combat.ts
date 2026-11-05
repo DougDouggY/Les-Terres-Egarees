@@ -197,6 +197,7 @@ function resultBuilder(s: Campaign) {
     counterSpent = false,
     counterPlan: Plan | undefined;
   const charged = new Set<string>();
+  const parryReplies = new Set<string>();
   function alive(u: Unit) {
     return (hp.get(u.id) ?? 0) > 0;
   }
@@ -253,13 +254,15 @@ function resultBuilder(s: Campaign) {
     if (p.charge) observeSkill(s, a, "charge");
     if (
       parried &&
-      !counter &&
+      !parryCounter &&
       distance(a, b) === 1 &&
-      !counterSpent &&
+      !parryReplies.has(b.id) &&
       alive(b) &&
       canAttack(b, a)
     ) {
-      reply(b, a, true);
+      parryReplies.add(b.id);
+      // Immediate parry retaliation is independent of the normal defender turn.
+      execute(prepare(b, a, true, true));
     }
   }
   function prepare(

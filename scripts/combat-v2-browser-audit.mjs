@@ -12,7 +12,8 @@ const output = await page.evaluate(
     const { spriteCatalog, drawResourceFrame, spriteImage } =
         await import("/src/sprites/resources.ts"),
       { combatSkin } = await import("/src/sprites/combat-skins.ts"),
-      { resolveClip, profileKey } = await import("/src/sprites/catalog.ts"),
+      { resolveClip, profileKey, damageFrame } =
+        await import("/src/sprites/catalog.ts"),
       { profileMetrics, resourceRect } =
         await import("/src/sprites/geometry.ts"),
       { default: anchors } =
@@ -120,25 +121,28 @@ const output = await page.evaluate(
             item.missing.push(name);
             continue;
           }
-          const frame = ["damage", "evade"].includes(label)
-            ? Math.floor(c.frames.length / 2)
-            : label === "prepare"
-              ? Math.max(
-                  0,
-                  (c.impactFrame ?? Math.floor(c.frames.length / 2)) - 1,
-                )
-              : label === "recover"
-                ? Math.min(
-                    c.frames.length - 1,
-                    (c.impactFrame ?? Math.floor(c.frames.length / 2)) + 1,
-                  )
-                : label === "attack"
-                  ? (c.impactFrame ?? Math.floor(c.frames.length / 2))
-                  : label === "death"
-                    ? c.frames.length - 1
-                    : label === "block"
-                      ? Math.floor(c.frames.length / 2)
-                      : 0;
+          const frame =
+            label === "damage"
+              ? damageFrame(c)
+              : label === "evade"
+                ? Math.floor(c.frames.length / 2)
+                : label === "prepare"
+                  ? Math.max(
+                      0,
+                      (c.impactFrame ?? Math.floor(c.frames.length / 2)) - 1,
+                    )
+                  : label === "recover"
+                    ? Math.min(
+                        c.frames.length - 1,
+                        (c.impactFrame ?? Math.floor(c.frames.length / 2)) + 1,
+                      )
+                    : label === "attack"
+                      ? (c.impactFrame ?? Math.floor(c.frames.length / 2))
+                      : label === "death"
+                        ? c.frames.length - 1
+                        : label === "block"
+                          ? Math.floor(c.frames.length / 2)
+                          : 0;
           const r = resourceRect(c, frame),
             scale = body / (m.references.get(c.source) ?? r.bodyHeight),
             ground = row * height + height - 22;

@@ -1,0 +1,4367 @@
+{
+  "palettes": [
+    {
+      "skin": "archmage:male:spell:default",
+      "counts": [
+        {
+          "color": "blue",
+          "drawn": true,
+          "opaque": 17097
+        },
+        {
+          "color": "red",
+          "drawn": true,
+          "opaque": 17097
+        },
+        {
+          "color": "yellow",
+          "drawn": true,
+          "opaque": 17097
+        },
+        {
+          "color": "green",
+          "drawn": true,
+          "opaque": 17097
+        },
+        {
+          "color": "purple",
+          "drawn": true,
+          "opaque": 17097
+        },
+        {
+          "color": "orange",
+          "drawn": true,
+          "opaque": 17097
+        },
+        {
+          "color": "pink",
+          "drawn": true,
+          "opaque": 17097
+        },
+        {
+          "color": "black",
+          "drawn": true,
+          "opaque": 17097
+        },
+        {
+          "color": "white",
+          "drawn": true,
+          "opaque": 17097
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:axe-shield:default",
+      "counts": [
+        {
+          "color": "blue",
+          "drawn": true,
+          "opaque": 19819
+        },
+        {
+          "color": "red",
+          "drawn": true,
+          "opaque": 19819
+        },
+        {
+          "color": "yellow",
+          "drawn": true,
+          "opaque": 19819
+        },
+        {
+          "color": "green",
+          "drawn": true,
+          "opaque": 19819
+        },
+        {
+          "color": "purple",
+          "drawn": true,
+          "opaque": 19819
+        },
+        {
+          "color": "orange",
+          "drawn": true,
+          "opaque": 19819
+        },
+        {
+          "color": "pink",
+          "drawn": true,
+          "opaque": 19819
+        },
+        {
+          "color": "black",
+          "drawn": true,
+          "opaque": 19819
+        },
+        {
+          "color": "white",
+          "drawn": true,
+          "opaque": 19819
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:axe-shield:default",
+      "counts": [
+        {
+          "color": "blue",
+          "drawn": true,
+          "opaque": 20518
+        },
+        {
+          "color": "red",
+          "drawn": true,
+          "opaque": 20518
+        },
+        {
+          "color": "yellow",
+          "drawn": true,
+          "opaque": 20518
+        },
+        {
+          "color": "green",
+          "drawn": true,
+          "opaque": 20518
+        },
+        {
+          "color": "purple",
+          "drawn": true,
+          "opaque": 20518
+        },
+        {
+          "color": "orange",
+          "drawn": true,
+          "opaque": 20518
+        },
+        {
+          "color": "pink",
+          "drawn": true,
+          "opaque": 20518
+        },
+        {
+          "color": "black",
+          "drawn": true,
+          "opaque": 20518
+        },
+        {
+          "color": "white",
+          "drawn": true,
+          "opaque": 20518
+        }
+      ]
+    },
+    {
+      "skin": "honor_guard:any:sword-shield:default",
+      "counts": [
+        {
+          "color": "blue",
+          "drawn": true,
+          "opaque": 17318
+        },
+        {
+          "color": "red",
+          "drawn": true,
+          "opaque": 17318
+        },
+        {
+          "color": "yellow",
+          "drawn": true,
+          "opaque": 17318
+        },
+        {
+          "color": "green",
+          "drawn": true,
+          "opaque": 17318
+        },
+        {
+          "color": "purple",
+          "drawn": true,
+          "opaque": 17318
+        },
+        {
+          "color": "orange",
+          "drawn": true,
+          "opaque": 17318
+        },
+        {
+          "color": "pink",
+          "drawn": true,
+          "opaque": 17318
+        },
+        {
+          "color": "black",
+          "drawn": true,
+          "opaque": 17318
+        },
+        {
+          "color": "white",
+          "drawn": true,
+          "opaque": 17318
+        }
+      ]
+    },
+    {
+      "skin": "royal_guard:any:lance-shield:default",
+      "counts": [
+        {
+          "color": "blue",
+          "drawn": true,
+          "opaque": 13372
+        },
+        {
+          "color": "red",
+          "drawn": true,
+          "opaque": 13372
+        },
+        {
+          "color": "yellow",
+          "drawn": true,
+          "opaque": 13372
+        },
+        {
+          "color": "green",
+          "drawn": true,
+          "opaque": 13372
+        },
+        {
+          "color": "purple",
+          "drawn": true,
+          "opaque": 13372
+        },
+        {
+          "color": "orange",
+          "drawn": true,
+          "opaque": 13372
+        },
+        {
+          "color": "pink",
+          "drawn": true,
+          "opaque": 13372
+        },
+        {
+          "color": "black",
+          "drawn": true,
+          "opaque": 13372
+        },
+        {
+          "color": "white",
+          "drawn": true,
+          "opaque": 13372
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:sword-shield:default",
+      "counts": [
+        {
+          "color": "blue",
+          "drawn": true,
+          "opaque": 17408
+        },
+        {
+          "color": "red",
+          "drawn": true,
+          "opaque": 17408
+        },
+        {
+          "color": "yellow",
+          "drawn": true,
+          "opaque": 17408
+        },
+        {
+          "color": "green",
+          "drawn": true,
+          "opaque": 17408
+        },
+        {
+          "color": "purple",
+          "drawn": true,
+          "opaque": 17408
+        },
+        {
+          "color": "orange",
+          "drawn": true,
+          "opaque": 17408
+        },
+        {
+          "color": "pink",
+          "drawn": true,
+          "opaque": 17408
+        },
+        {
+          "color": "black",
+          "drawn": true,
+          "opaque": 17408
+        },
+        {
+          "color": "white",
+          "drawn": true,
+          "opaque": 17408
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:sword-shield:default",
+      "counts": [
+        {
+          "color": "blue",
+          "drawn": true,
+          "opaque": 18713
+        },
+        {
+          "color": "red",
+          "drawn": true,
+          "opaque": 18713
+        },
+        {
+          "color": "yellow",
+          "drawn": true,
+          "opaque": 18713
+        },
+        {
+          "color": "green",
+          "drawn": true,
+          "opaque": 18713
+        },
+        {
+          "color": "purple",
+          "drawn": true,
+          "opaque": 18713
+        },
+        {
+          "color": "orange",
+          "drawn": true,
+          "opaque": 18713
+        },
+        {
+          "color": "pink",
+          "drawn": true,
+          "opaque": 18713
+        },
+        {
+          "color": "black",
+          "drawn": true,
+          "opaque": 18713
+        },
+        {
+          "color": "white",
+          "drawn": true,
+          "opaque": 18713
+        }
+      ]
+    },
+    {
+      "skin": "archmage:male:healing:default",
+      "counts": [
+        {
+          "color": "blue",
+          "drawn": true,
+          "opaque": 19493
+        },
+        {
+          "color": "red",
+          "drawn": true,
+          "opaque": 19493
+        },
+        {
+          "color": "yellow",
+          "drawn": true,
+          "opaque": 19493
+        },
+        {
+          "color": "green",
+          "drawn": true,
+          "opaque": 19493
+        },
+        {
+          "color": "purple",
+          "drawn": true,
+          "opaque": 19493
+        },
+        {
+          "color": "orange",
+          "drawn": true,
+          "opaque": 19493
+        },
+        {
+          "color": "pink",
+          "drawn": true,
+          "opaque": 19493
+        },
+        {
+          "color": "black",
+          "drawn": true,
+          "opaque": 19493
+        },
+        {
+          "color": "white",
+          "drawn": true,
+          "opaque": 19493
+        }
+      ]
+    }
+  ],
+  "sequences": [
+    {
+      "skin": "archmage:male:spell:default",
+      "scenario": "hit",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 725,
+          "before": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 179.6551724137931,
+              "y": 339,
+              "width": 198.84137931034482,
+              "height": 136,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 179.6551724137931,
+              "y": 339,
+              "width": 198.84137931034482,
+              "height": 136,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "archmage:male:spell:default",
+      "scenario": "right",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 177.31034482758622,
+              "y": 331.49655172413793,
+              "width": 118.17931034482758,
+              "height": 143.50344827586207,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 187.15862068965518,
+              "y": 328.6827586206897,
+              "width": 131.3103448275862,
+              "height": 146.31724137931033,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "archmage:male:spell:default",
+      "scenario": "double-agility",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 725,
+          "before": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 179.6551724137931,
+              "y": 339,
+              "width": 198.84137931034482,
+              "height": 136,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 179.6551724137931,
+              "y": 339,
+              "width": 198.84137931034482,
+              "height": 136,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2095,
+          "before": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 177.31034482758622,
+              "y": 331.49655172413793,
+              "width": 118.17931034482758,
+              "height": 143.50344827586207,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 187.15862068965518,
+              "y": 328.6827586206897,
+              "width": 131.3103448275862,
+              "height": 146.31724137931033,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 3345,
+          "before": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 3,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 179.6551724137931,
+              "y": 339,
+              "width": 198.84137931034482,
+              "height": 136,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "archmage:male:spell:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 3,
+              "source": "tactical/complete-lot3-mages.png",
+              "scale": 0.9379310344827586,
+              "x": 179.6551724137931,
+              "y": 339,
+              "width": 198.84137931034482,
+              "height": 136,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:axe-shield:default",
+      "scenario": "hit",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 526.5651282051282,
+              "y": 345.2769230769231,
+              "width": 178.54358974358973,
+              "height": 130.4205128205128,
+              "feetX": 626.9958974358974,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 526.5651282051282,
+              "y": 345.2769230769231,
+              "width": 178.54358974358973,
+              "height": 130.4205128205128,
+              "feetX": 626.9958974358974,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:axe-shield:default",
+      "scenario": "right",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 132.83076923076925,
+              "y": 336.9076923076923,
+              "width": 167.3846153846154,
+              "height": 138.78974358974358,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 190.0205128205128,
+              "y": 340.3948717948718,
+              "width": 147.15897435897435,
+              "height": 134.6051282051282,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:axe-shield:default",
+      "scenario": "double-agility",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 526.5651282051282,
+              "y": 345.2769230769231,
+              "width": 178.54358974358973,
+              "height": 130.4205128205128,
+              "feetX": 626.9958974358974,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 526.5651282051282,
+              "y": 345.2769230769231,
+              "width": 178.54358974358973,
+              "height": 130.4205128205128,
+              "feetX": 626.9958974358974,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2215,
+          "before": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 132.83076923076925,
+              "y": 336.9076923076923,
+              "width": 167.3846153846154,
+              "height": 138.78974358974358,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 190.0205128205128,
+              "y": 340.3948717948718,
+              "width": 147.15897435897435,
+              "height": 134.6051282051282,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 3585,
+          "before": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 526.5651282051282,
+              "y": 345.2769230769231,
+              "width": 178.54358974358973,
+              "height": 130.4205128205128,
+              "feetX": 626.9958974358974,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 526.5651282051282,
+              "y": 345.2769230769231,
+              "width": 178.54358974358973,
+              "height": 130.4205128205128,
+              "feetX": 626.9958974358974,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:axe-shield:default",
+      "scenario": "parry",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 1018.9999999999999,
+          "before": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 143.2923076923077,
+              "y": 337.6051282051282,
+              "width": 161.8051282051282,
+              "height": 138.09230769230768,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 274.80307692307696,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 337.36307692307696,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 143.2923076923077,
+              "y": 337.6051282051282,
+              "width": 161.8051282051282,
+              "height": 138.09230769230768,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 274.80307692307696,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 337.36307692307696,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "block"
+        },
+        {
+          "at": 1344.5,
+          "before": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 1,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 146.25641025641028,
+              "y": 328.53846153846155,
+              "width": 159.7128205128205,
+              "height": 147.15897435897435,
+              "feetX": 254.3589743589744,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 5,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 297.92307692307696,
+              "y": 345.12,
+              "width": 124.44000000000001,
+              "height": 129.88,
+              "feetX": 337.36307692307696,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 153.92820512820515,
+              "y": 345.2769230769231,
+              "width": 178.54358974358973,
+              "height": 130.4205128205128,
+              "feetX": 254.3589743589744,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 223.2656986459234,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 337.36307692307696,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2515,
+          "before": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 526.5651282051282,
+              "y": 345.2769230769231,
+              "width": 178.54358974358973,
+              "height": 130.4205128205128,
+              "feetX": 626.9958974358974,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6974358974358974,
+              "x": 526.5651282051282,
+              "y": 345.2769230769231,
+              "width": 178.54358974358973,
+              "height": 130.4205128205128,
+              "feetX": 626.9958974358974,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:axe-shield:default",
+      "scenario": "hit",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 508.79346938775507,
+              "y": 348.7142857142857,
+              "width": 172.77551020408163,
+              "height": 126.28571428571428,
+              "feetX": 608.7118367346939,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 508.79346938775507,
+              "y": 348.7142857142857,
+              "width": 172.77551020408163,
+              "height": 126.28571428571428,
+              "feetX": 608.7118367346939,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:axe-shield:default",
+      "scenario": "right",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 182,
+              "y": 338.3061224489796,
+              "width": 163.0612244897959,
+              "height": 137.3877551020408,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 179.22448979591837,
+              "y": 341.0816326530612,
+              "width": 148.48979591836735,
+              "height": 133.91836734693877,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:axe-shield:default",
+      "scenario": "double-agility",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 508.79346938775507,
+              "y": 348.7142857142857,
+              "width": 172.77551020408163,
+              "height": 126.28571428571428,
+              "feetX": 608.7118367346939,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 508.79346938775507,
+              "y": 348.7142857142857,
+              "width": 172.77551020408163,
+              "height": 126.28571428571428,
+              "feetX": 608.7118367346939,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2215,
+          "before": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 182,
+              "y": 338.3061224489796,
+              "width": 163.0612244897959,
+              "height": 137.3877551020408,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 179.22448979591837,
+              "y": 341.0816326530612,
+              "width": 148.48979591836735,
+              "height": 133.91836734693877,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 3585,
+          "before": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 508.79346938775507,
+              "y": 348.7142857142857,
+              "width": 172.77551020408163,
+              "height": 126.28571428571428,
+              "feetX": 608.7118367346939,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 508.79346938775507,
+              "y": 348.7142857142857,
+              "width": 172.77551020408163,
+              "height": 126.28571428571428,
+              "feetX": 608.7118367346939,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:axe-shield:default",
+      "scenario": "parry",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 1018.9999999999999,
+          "before": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 139.67346938775512,
+              "y": 339.6938775510204,
+              "width": 164.44897959183675,
+              "height": 135.30612244897958,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 274.5575510204082,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 337.1175510204082,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 139.67346938775512,
+              "y": 339.6938775510204,
+              "width": 164.44897959183675,
+              "height": 135.30612244897958,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 274.5575510204082,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 337.1175510204082,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "block"
+        },
+        {
+          "at": 1344.5,
+          "before": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 1,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 143.14285714285714,
+              "y": 327.2040816326531,
+              "width": 158.20408163265307,
+              "height": 147.79591836734693,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 5,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 297.6775510204082,
+              "y": 345.12,
+              "width": 124.44000000000001,
+              "height": 129.88,
+              "feetX": 337.1175510204082,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 150.0816326530612,
+              "y": 348.7142857142857,
+              "width": 172.77551020408163,
+              "height": 126.28571428571428,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 223.02017274325465,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 337.1175510204082,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2515,
+          "before": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 508.79346938775507,
+              "y": 348.7142857142857,
+              "width": 172.77551020408163,
+              "height": 126.28571428571428,
+              "feetX": 608.7118367346939,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:axe-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6938775510204082,
+              "x": 508.79346938775507,
+              "y": 348.7142857142857,
+              "width": 172.77551020408163,
+              "height": 126.28571428571428,
+              "feetX": 608.7118367346939,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "honor_guard:any:sword-shield:default",
+      "scenario": "hit",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 4,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 537.5422950819673,
+              "y": 336.7704918032787,
+              "width": 163.86885245901638,
+              "height": 139.34426229508196,
+              "feetX": 645.6734426229508,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 4,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 537.5422950819673,
+              "y": 336.7704918032787,
+              "width": 163.86885245901638,
+              "height": 139.34426229508196,
+              "feetX": 645.6734426229508,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "honor_guard:any:sword-shield:default",
+      "scenario": "right",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 156.36065573770492,
+              "y": 336.7704918032787,
+              "width": 137.11475409836063,
+              "height": 139.34426229508196,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6732673267326733,
+              "x": 188.73267326732673,
+              "y": 343.039603960396,
+              "width": 140.71287128712873,
+              "height": 131.96039603960398,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "honor_guard:any:sword-shield:default",
+      "scenario": "double-agility",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 4,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 537.5422950819673,
+              "y": 336.7704918032787,
+              "width": 163.86885245901638,
+              "height": 139.34426229508196,
+              "feetX": 645.6734426229508,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 4,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 537.5422950819673,
+              "y": 336.7704918032787,
+              "width": 163.86885245901638,
+              "height": 139.34426229508196,
+              "feetX": 645.6734426229508,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2215,
+          "before": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 156.36065573770492,
+              "y": 336.7704918032787,
+              "width": 137.11475409836063,
+              "height": 139.34426229508196,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6732673267326733,
+              "x": 188.73267326732673,
+              "y": 343.039603960396,
+              "width": 140.71287128712873,
+              "height": 131.96039603960398,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 3585,
+          "before": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 4,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 537.5422950819673,
+              "y": 336.7704918032787,
+              "width": 163.86885245901638,
+              "height": 139.34426229508196,
+              "feetX": 645.6734426229508,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 4,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 537.5422950819673,
+              "y": 336.7704918032787,
+              "width": 163.86885245901638,
+              "height": 139.34426229508196,
+              "feetX": 645.6734426229508,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "honor_guard:any:sword-shield:default",
+      "scenario": "parry",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 1018.9999999999999,
+          "before": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6732673267326733,
+              "x": 182,
+              "y": 336.98019801980195,
+              "width": 158.21782178217822,
+              "height": 138.01980198019803,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 310.1651485148515,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 372.7251485148515,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6732673267326733,
+              "x": 182,
+              "y": 336.98019801980195,
+              "width": 158.21782178217822,
+              "height": 138.01980198019803,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 310.1651485148515,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 372.7251485148515,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "block"
+        },
+        {
+          "at": 1344.5,
+          "before": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 216.98875507222857,
+              "y": 307.78688524590166,
+              "width": 138.2295081967213,
+              "height": 167.21311475409834,
+              "feetX": 308.3985911378023,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 5,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 333.2851485148515,
+              "y": 345.12,
+              "width": 124.44000000000001,
+              "height": 129.88,
+              "feetX": 372.7251485148515,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 4,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 200.26744359681874,
+              "y": 336.7704918032787,
+              "width": 163.86885245901638,
+              "height": 139.34426229508196,
+              "feetX": 308.3985911378023,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 258.627770237698,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 372.7251485148515,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2515,
+          "before": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 4,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 537.5422950819673,
+              "y": 336.7704918032787,
+              "width": 163.86885245901638,
+              "height": 139.34426229508196,
+              "feetX": 645.6734426229508,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "honor_guard:any:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 4,
+              "source": "tactical/combat-v3-swordsa.png",
+              "scale": 1.1147540983606556,
+              "x": 537.5422950819673,
+              "y": 336.7704918032787,
+              "width": 163.86885245901638,
+              "height": 139.34426229508196,
+              "feetX": 645.6734426229508,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "royal_guard:any:lance-shield:default",
+      "scenario": "hit",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 482.84780487804875,
+              "y": 354.9219512195122,
+              "width": 214.2829268292683,
+              "height": 120.0780487804878,
+              "feetX": 576.3892682926829,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 482.84780487804875,
+              "y": 354.9219512195122,
+              "width": 214.2829268292683,
+              "height": 120.0780487804878,
+              "feetX": 576.3892682926829,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "royal_guard:any:lance-shield:default",
+      "scenario": "right",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 191.61951219512196,
+              "y": 323.0780487804878,
+              "width": 134.009756097561,
+              "height": 151.9219512195122,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 194.93658536585366,
+              "y": 321.7512195121951,
+              "width": 122.06829268292684,
+              "height": 153.24878048780488,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "royal_guard:any:lance-shield:default",
+      "scenario": "double-agility",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 482.84780487804875,
+              "y": 354.9219512195122,
+              "width": 214.2829268292683,
+              "height": 120.0780487804878,
+              "feetX": 576.3892682926829,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 482.84780487804875,
+              "y": 354.9219512195122,
+              "width": 214.2829268292683,
+              "height": 120.0780487804878,
+              "feetX": 576.3892682926829,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2215,
+          "before": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 191.61951219512196,
+              "y": 323.0780487804878,
+              "width": 134.009756097561,
+              "height": 151.9219512195122,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 194.93658536585366,
+              "y": 321.7512195121951,
+              "width": 122.06829268292684,
+              "height": 153.24878048780488,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 3585,
+          "before": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 482.84780487804875,
+              "y": 354.9219512195122,
+              "width": 214.2829268292683,
+              "height": 120.0780487804878,
+              "feetX": 576.3892682926829,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 482.84780487804875,
+              "y": 354.9219512195122,
+              "width": 214.2829268292683,
+              "height": 120.0780487804878,
+              "feetX": 576.3892682926829,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "royal_guard:any:lance-shield:default",
+      "scenario": "parry",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 1018.9999999999999,
+          "before": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 190.29268292682926,
+              "y": 317.77073170731705,
+              "width": 138.65365853658537,
+              "height": 157.22926829268295,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 300.98243902439026,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 363.54243902439026,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 190.29268292682926,
+              "y": 317.77073170731705,
+              "width": 138.65365853658537,
+              "height": 157.22926829268295,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 300.98243902439026,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 363.54243902439026,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "block"
+        },
+        {
+          "at": 1344.5,
+          "before": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 1,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 146.50731707317073,
+              "y": 344.30731707317074,
+              "width": 192.39024390243904,
+              "height": 131.35609756097563,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 5,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 324.10243902439026,
+              "y": 345.12,
+              "width": 124.44000000000001,
+              "height": 129.88,
+              "feetX": 363.54243902439026,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 156.45853658536583,
+              "y": 354.9219512195122,
+              "width": 214.2829268292683,
+              "height": 120.0780487804878,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 249.4450607472367,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 363.54243902439026,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2515,
+          "before": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 482.84780487804875,
+              "y": 354.9219512195122,
+              "width": 214.2829268292683,
+              "height": 120.0780487804878,
+              "feetX": 576.3892682926829,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "royal_guard:any:lance-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-a.png",
+              "scale": 0.6634146341463415,
+              "x": 482.84780487804875,
+              "y": 354.9219512195122,
+              "width": 214.2829268292683,
+              "height": 120.0780487804878,
+              "feetX": 576.3892682926829,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:sword-shield:default",
+      "scenario": "hit",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 532.955918367347,
+              "y": 349.40816326530614,
+              "width": 177.6326530612245,
+              "height": 125.59183673469387,
+              "feetX": 635.6497959183673,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 532.955918367347,
+              "y": 349.40816326530614,
+              "width": 177.6326530612245,
+              "height": 125.59183673469387,
+              "feetX": 635.6497959183673,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:sword-shield:default",
+      "scenario": "right",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 136.89795918367346,
+              "y": 338.3061224489796,
+              "width": 163.75510204081633,
+              "height": 136.69387755102042,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 185.46938775510205,
+              "y": 340.38775510204084,
+              "width": 151.9591836734694,
+              "height": 134.6122448979592,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:sword-shield:default",
+      "scenario": "double-agility",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 532.955918367347,
+              "y": 349.40816326530614,
+              "width": 177.6326530612245,
+              "height": 125.59183673469387,
+              "feetX": 635.6497959183673,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 532.955918367347,
+              "y": 349.40816326530614,
+              "width": 177.6326530612245,
+              "height": 125.59183673469387,
+              "feetX": 635.6497959183673,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2215,
+          "before": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 136.89795918367346,
+              "y": 338.3061224489796,
+              "width": 163.75510204081633,
+              "height": 136.69387755102042,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 185.46938775510205,
+              "y": 340.38775510204084,
+              "width": 151.9591836734694,
+              "height": 134.6122448979592,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 3585,
+          "before": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 532.955918367347,
+              "y": 349.40816326530614,
+              "width": 177.6326530612245,
+              "height": 125.59183673469387,
+              "feetX": 635.6497959183673,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 532.955918367347,
+              "y": 349.40816326530614,
+              "width": 177.6326530612245,
+              "height": 125.59183673469387,
+              "feetX": 635.6497959183673,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "clan_healer:male:sword-shield:default",
+      "scenario": "parry",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 1018.9999999999999,
+          "before": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 136.89795918367346,
+              "y": 339.6938775510204,
+              "width": 165.83673469387756,
+              "height": 135.30612244897958,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 272.47591836734694,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 335.03591836734694,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 136.89795918367346,
+              "y": 339.6938775510204,
+              "width": 165.83673469387756,
+              "height": 135.30612244897958,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 272.47591836734694,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 335.03591836734694,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "block"
+        },
+        {
+          "at": 1344.5,
+          "before": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 1,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 151.74693877551022,
+              "y": 322.34693877551024,
+              "width": 159.59183673469389,
+              "height": 152.6530612244898,
+              "feetX": 260.6857142857143,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 5,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 295.59591836734694,
+              "y": 345.12,
+              "width": 124.44000000000001,
+              "height": 129.88,
+              "feetX": 335.03591836734694,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 157.9918367346939,
+              "y": 349.40816326530614,
+              "width": 177.6326530612245,
+              "height": 125.59183673469387,
+              "feetX": 260.6857142857143,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 220.93854009019338,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 335.03591836734694,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2515,
+          "before": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 532.955918367347,
+              "y": 349.40816326530614,
+              "width": 177.6326530612245,
+              "height": 125.59183673469387,
+              "feetX": 635.6497959183673,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "clan_healer:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6938775510204082,
+              "x": 532.955918367347,
+              "y": 349.40816326530614,
+              "width": 177.6326530612245,
+              "height": 125.59183673469387,
+              "feetX": 635.6497959183673,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:sword-shield:default",
+      "scenario": "hit",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 535.240808080808,
+              "y": 345.86868686868684,
+              "width": 175.15151515151516,
+              "height": 129.13131313131314,
+              "feetX": 635.5236363636363,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 535.240808080808,
+              "y": 345.86868686868684,
+              "width": 175.15151515151516,
+              "height": 129.13131313131314,
+              "feetX": 635.5236363636363,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:sword-shield:default",
+      "scenario": "right",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 133.23232323232324,
+              "y": 336.2525252525253,
+              "width": 164.84848484848484,
+              "height": 138.74747474747474,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 187.49494949494948,
+              "y": 343.80808080808083,
+              "width": 149.73737373737373,
+              "height": 131.1919191919192,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:sword-shield:default",
+      "scenario": "double-agility",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 535.240808080808,
+              "y": 345.86868686868684,
+              "width": 175.15151515151516,
+              "height": 129.13131313131314,
+              "feetX": 635.5236363636363,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 535.240808080808,
+              "y": 345.86868686868684,
+              "width": 175.15151515151516,
+              "height": 129.13131313131314,
+              "feetX": 635.5236363636363,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2215,
+          "before": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 133.23232323232324,
+              "y": 336.2525252525253,
+              "width": 164.84848484848484,
+              "height": 138.74747474747474,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 187.49494949494948,
+              "y": 343.80808080808083,
+              "width": 149.73737373737373,
+              "height": 131.1919191919192,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "counter",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 3585,
+          "before": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 535.240808080808,
+              "y": 345.86868686868684,
+              "width": 175.15151515151516,
+              "height": 129.13131313131314,
+              "feetX": 635.5236363636363,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "attack_again",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 535.240808080808,
+              "y": 345.86868686868684,
+              "width": 175.15151515151516,
+              "height": 129.13131313131314,
+              "feetX": 635.5236363636363,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "huscarl:male:sword-shield:default",
+      "scenario": "parry",
+      "events": 3,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 3
+        },
+        {
+          "speed": 0.2,
+          "impacts": 3
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 1018.9999999999999,
+          "before": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 142.16161616161617,
+              "y": 337.62626262626264,
+              "width": 160.04040404040404,
+              "height": 137.37373737373736,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 272.700202020202,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 335.26020202020203,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "block",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 142.16161616161617,
+              "y": 337.62626262626264,
+              "width": 160.04040404040404,
+              "height": 137.37373737373736,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 272.700202020202,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 335.26020202020203,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "block"
+        },
+        {
+          "at": 1344.5,
+          "before": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 1,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 152.9454545454546,
+              "y": 325.9494949494949,
+              "width": 157.2929292929293,
+              "height": 149.05050505050505,
+              "feetX": 260.78383838383843,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 5,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 295.82020202020203,
+              "y": 345.12,
+              "width": 124.44000000000001,
+              "height": 129.88,
+              "feetX": 335.26020202020203,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 160.50101010101014,
+              "y": 345.86868686868684,
+              "width": 175.15151515151516,
+              "height": 129.13131313131314,
+              "feetX": 260.78383838383843,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 221.16282374304848,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 335.26020202020203,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        },
+        {
+          "at": 2515,
+          "before": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 535.240808080808,
+              "y": 345.86868686868684,
+              "width": 175.15151515151516,
+              "height": 129.13131313131314,
+              "feetX": 635.5236363636363,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 668.52,
+              "y": 338.32,
+              "width": 117.64000000000001,
+              "height": 136.68,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "huscarl:male:sword-shield:default",
+              "actorId": "a",
+              "animation": "counter",
+              "index": 2,
+              "source": "tactical/combat-v2-shields-b.png",
+              "scale": 0.6868686868686869,
+              "x": 535.240808080808,
+              "y": 345.86868686868684,
+              "width": 175.15151515151516,
+              "height": 129.13131313131314,
+              "feetX": 635.5236363636363,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/team-sample-combat.png",
+              "scale": 0.5093632958801498,
+              "x": 595.9026217228463,
+              "y": 337.9812734082397,
+              "width": 158.92134831460675,
+              "height": 137.52808988764045,
+              "feetX": 710,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    },
+    {
+      "skin": "archmage:male:healing:default",
+      "scenario": "right",
+      "events": 1,
+      "playback": [
+        {
+          "speed": 1,
+          "impacts": 1
+        },
+        {
+          "speed": 0.2,
+          "impacts": 1
+        }
+      ],
+      "missing": [],
+      "snapshots": [
+        {
+          "at": 845,
+          "before": [
+            {
+              "skinId": "archmage:male:healing:default",
+              "actorId": "a",
+              "animation": "idle",
+              "index": 0,
+              "source": "tactical/lot3-mages.png",
+              "scale": 0.6153846153846154,
+              "x": 202,
+              "y": 336.53846153846155,
+              "width": 94.76923076923077,
+              "height": 139.0769230769231,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "after": [
+            {
+              "skinId": "archmage:male:healing:default",
+              "actorId": "a",
+              "animation": "damage",
+              "index": 0,
+              "source": "tactical/lot3-mages.png",
+              "scale": 0.6153846153846154,
+              "x": 192.76923076923077,
+              "y": 337.15384615384613,
+              "width": 135.3846153846154,
+              "height": 137.84615384615387,
+              "feetX": 250,
+              "feetY": 475
+            },
+            {
+              "skinId": "man_at_arms:male:sword-shield:default",
+              "actorId": "b",
+              "animation": "attack",
+              "index": 3,
+              "source": "tactical/combat-pair-reference-v2.png",
+              "scale": 0.68,
+              "x": 252.51999999999998,
+              "y": 352.6,
+              "width": 137.36,
+              "height": 123.08000000000001,
+              "feetX": 315.08,
+              "feetY": 475
+            }
+          ],
+          "defenderPose": "damage"
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

@@ -210,3 +210,14 @@ export const statusNames = {
   provisional: "Provisoire",
   missing: "Manquante",
 };
+
+/** Guard-wound-guard clips must show their actual central wound at impact. */
+export function damageFrame(c: Clip) {
+  if (c.impactFrame !== undefined) return c.impactFrame;
+  const cell = (i: number) =>
+    c.cells?.[i] ?? { row: c.row, column: c.frames[i] };
+  return c.frames.length > 2 &&
+    JSON.stringify(cell(0)) === JSON.stringify(cell(c.frames.length - 1))
+    ? 1
+    : 0;
+}

@@ -1,3 +1,4 @@
+import { animateHp, animateExperience } from "./ui/value-animation";
 import { combatSkin } from "./sprites/combat-skins";
 import type { SpriteProfile } from "./sprites/catalog";
 import { CombatSceneV2 } from "./ui/combat-v2";
@@ -347,6 +348,15 @@ function contextActions(u: Unit) {
   if (targets.some((t) => E.canAttack(u, t)))
     html += button("Attaquer", "attack-mode");
   html += button("Équipement", "equipment");
+  if (u.classId === "tracker")
+    for (const id of u.carriedWeapons ?? []) {
+      const w = E.weaponCatalog[id];
+      if (w && id !== u.activeWeaponId)
+        html += button(
+          w.category === "axe" ? "Hache · corps à corps" : "Arc · distance",
+          `quick-weapon-${id}`,
+        );
+    }
   if (u.classId === "hamrammr")
     html += button(
       u.bearForm ? "Reprendre forme humaine" : "Transformer en ours",
@@ -671,8 +681,9 @@ let tacticalAction: {
   animation: string;
   start: number;
   fps: number;
+  durationMs?: number;
   restored?: number;
-  target?: { x: number; y: number };
+  target?: { x: number; y: number; hp: number; maxHp: number; before: number };
 } | null = null;
 /** Presentation of an already validated action; never advances initiative itself. */
 async function playTacticalAction(
@@ -680,6 +691,7 @@ async function playTacticalAction(
   animation: string,
   target?: Unit,
   restored?: number,
+  hpBefore?: number,
 ) {
   const profile = combatSkin(unitSpriteProfile(sprite))?.profile;
   if (animation === "heal" && E.hasSkill(sprite, "bandage"))
@@ -713,25 +725,33 @@ async function playTacticalAction(
     } catch {
       return;
     }
+    const durationMs =
+      Math.max(
+        (clip.frames.length / Math.max(1, clip.fps)) * 1000,
+        ["heal", "bandage"].includes(animation)
+          ? 1100
+          : ["banner", "fortify", "transform"].includes(animation)
+            ? 1100
+            : 0,
+      ) / speed;
     tacticalAction = {
       sprite,
       profile,
       visualAnimation,
       animation,
+      durationMs,
       start: performance.now(),
       fps: clip.fps * speed,
-      target: target && { x: target.x, y: target.y },
+      target: target && {
+        x: target.x,
+        y: target.y,
+        hp: target.hp,
+        maxHp: target.maxHp,
+        before: hpBefore ?? target.hp - (restored ?? 0),
+      },
       restored,
     };
-    await new Promise((resolve) =>
-      setTimeout(
-        resolve,
-        Math.max(
-          (clip.frames.length / Math.max(1, clip.fps * speed)) * 1000,
-          ["heal", "bandage"].includes(animation) ? 1100 / speed : 0,
-        ),
-      ),
-    );
+    await new Promise((resolve) => setTimeout(resolve, durationMs));
   } finally {
     tacticalAction = null;
     busy = previousBusy;
@@ -932,7 +952,15 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       }
   }
   for (const b of s.banners ?? [])
-    if (!fogEnabled || visible.has(E.key(b.x, b.y))) {
+    if (
+      (!fogEnabled || visible.has(E.key(b.x, b.y))) &&
+      !(
+        tacticalAction?.animation === "banner" &&
+        tacticalAction.sprite.x === b.x &&
+        tacticalAction.sprite.y === b.y &&
+        time - tacticalAction.start < (tacticalAction.durationMs ?? 1100) * 0.8
+      )
+    ) {
       ctx.strokeStyle = "#cab677";
       ctx.lineWidth = 2;
       ctx.beginPath();
@@ -972,19 +1000,30 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
           ?.frames.length ?? 1) - 1,
         Math.floor(((time - action.start) * action.fps) / 1000),
       );
+    const finalCapability =
+      !!action &&
+      ["banner", "fortify", "transform"].includes(action.animation) &&
+      time - action.start > (action.durationMs ?? 1100) * 0.8;
+    const mounted =
+      E.unitClass(u).mounted || unitSpriteProfile(u)?.classId === "sans_rider";
+    const spriteSize = mounted ? 52 : 38;
     drawSprite(
       ctx,
-      action?.sprite ?? u,
-      x - 3,
-      y - 7,
-      38,
+      finalCapability ? u : (action?.sprite ?? u),
+      x + 16 - spriteSize / 2,
+      y + 12 - spriteSize / 2 - 0.384 * (spriteSize - 38),
+      spriteSize,
       frame,
       false,
       false,
-      action?.visualAnimation ??
-        action?.animation ??
-        (moveAnim?.id === u.id ? "move" : "idle"),
-      action?.profile,
+      finalCapability
+        ? "idle"
+        : (action?.visualAnimation ??
+            action?.animation ??
+            (moveAnim?.id === u.id ? "move" : "idle")),
+      finalCapability
+        ? combatSkin(unitSpriteProfile(u))?.profile
+        : action?.profile,
     );
     if (u.id === cur?.id || selected === u.id) {
       ctx.strokeStyle = selected === u.id ? "#ecddac99" : "#ecd5a066";
@@ -1068,6 +1107,27 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
         60,
       );
     if (tacticalAction.restored) {
+      const p = Math.max(
+          0,
+          Math.min(1, ((time - tacticalAction.start) * speed) / 900),
+        ),
+        v = target.before + (target.hp - target.before) * (p * p * (3 - 2 * p));
+      ctx.fillStyle = "#203324";
+      ctx.fillRect(target.x * 32 - 5, target.y * 32 - 6, 42, 4);
+      ctx.fillStyle = "#a8dda0";
+      ctx.fillRect(
+        target.x * 32 - 5,
+        target.y * 32 - 6,
+        (42 * v) / target.maxHp,
+        4,
+      );
+      ctx.font = "6px Manrope";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        `${Math.round(v)}/${target.maxHp}`,
+        target.x * 32 + 16,
+        target.y * 32 - 8,
+      );
       ctx.fillStyle = "#b6f4bd";
       ctx.font = "bold 12px Manrope";
       ctx.textAlign = "center";
@@ -1165,9 +1225,32 @@ async function clickCell(x: number, y: number) {
       }
       if (aim === "heal" && target) {
         const sprite = structuredClone(u);
+        const oldTargetHp = target.hp;
         const restored = E.healTarget(s, u, target);
         aim = null;
-        await playTacticalAction(sprite, "heal", target, restored);
+        await playTacticalAction(sprite, "heal", target, restored, oldTargetHp);
+        const amount =
+          sprite.level < E.unitClass(u).maxLevel ? E.tuning.healingXp : 0;
+        const healResult: Battle = {
+          strikes: [],
+          xp: [
+            {
+              id: u.id,
+              amount,
+              before: sprite.xp,
+              level: u.level > sprite.level,
+            },
+          ],
+          levelGains:
+            u.level > sprite.level ? { [u.id]: u.lastLevelGains ?? {} } : {},
+        };
+        await rewards(
+          healResult,
+          new Map([
+            [u.id, { hp: sprite.hp, xp: sprite.xp, level: sprite.level }],
+          ]),
+          { restored, target: target.name },
+        );
         finishTurn();
         return;
       }
@@ -1295,7 +1378,7 @@ function preview(a: Unit, b: Unit) {
     `<b>${v}${double > 1 ? `<small class="forecast-double">×${double}</small>` : ""}</b>`;
   const weapon = (u: Unit, advantage: number) =>
     `<span class="fe-weapon">${esc(E.weaponName(u))}${advantage ? `<i class="weapon-triangle ${advantage > 0 ? "advantage" : "disadvantage"}" aria-label="${advantage > 0 ? "Avantage" : "Désavantage"} d’arme">${advantage > 0 ? "▲" : "▼"}</i>` : ""}</span>`;
-  modal.innerHTML = `<section class="modal forecast compact-forecast fe-forecast" aria-label="Prévision de combat" style="--forecast-left:${color(a)};--forecast-right:${color(b)}"><div class="fe-names"><header><strong>${esc(a.name)}</strong>${weapon(a, p.advantage)}</header><header><strong>${esc(b.name)}</strong>${weapon(b, q.advantage)}</header></div><div class="fe-stat-grid">${value(`${a.hp}/${a.maxHp}`)}<span>PV</span>${value(`${b.hp}/${b.maxHp}`)}${value(p.damage, p.strikes)}<span>Dégâts</span>${value(p.counter ? q.damage : "—", p.counter ? q.strikes : 1)}${value(`${p.hit}%`)}<span>Précision</span>${value(p.counter ? `${q.hit}%` : "—")}${value(`${p.crit}%`)}<span>Critique</span>${value(p.counter ? `${q.crit}%` : "—")}</div><div class="modal-actions">${button("Annuler", "close-modal")}${button("Attaquer", "confirm-attack-" + b.id, "primary")}</div></section>`;
+  modal.innerHTML = `<section class="modal forecast compact-forecast fe-forecast" aria-label="Prévision de combat" style="--forecast-left:${color(a)};--forecast-right:${color(b)}"><div class="fe-names"><header><strong>${esc(a.name)}</strong>${weapon(a, p.advantage)}</header><header><strong>${esc(b.name)}</strong>${weapon(b, q.advantage)}</header></div><div class="fe-stat-grid">${value(`${a.hp}/${a.maxHp}`)}<span>PV</span>${value(`${b.hp}/${b.maxHp}`)}${value(p.damage, p.strikes)}<span title="Dégâts">Dég.</span>${value(p.counter ? q.damage : "—", p.counter ? q.strikes : 1)}${value(`${p.hit}%`)}<span title="Précision">Préc.</span>${value(p.counter ? `${q.hit}%` : "—")}${value(`${p.crit}%`)}<span title="Critique">Crit.</span>${value(p.counter ? `${q.crit}%` : "—")}</div><div class="modal-actions">${button("Annuler", "close-modal")}${button("Attaquer", "confirm-attack-" + b.id, "primary")}</div></section>`;
   app.append(modal);
 }
 function gameCombatHud(left: Unit, right: Unit, battle: Battle) {
@@ -1312,6 +1395,7 @@ function gameCombatHud(left: Unit, right: Unit, battle: Battle) {
       maxHp: u.maxHp,
       hit: ready ? p.hit : null,
       damage: ready ? p.damage : null,
+      crit: ready ? p.crit : null,
       color: E.teamPalette[E.colorForOwner(state?.teamColors, u.owner)].rgb,
     };
   });
@@ -1322,6 +1406,9 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   busy = true;
   origin = null;
   moved = false;
+  const beforeUnits = new Map(
+    state!.units.map((u) => [u.id, { hp: u.hp, xp: u.xp, level: u.level }]),
+  );
   const result = area
     ? E.resolveArea(state!, a, area)
     : E.resolve(state!, a, b);
@@ -1372,7 +1459,7 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   });
   E.applyXp(state!, result);
   E.visibility(state!);
-  await rewards(result);
+  await rewards(result, beforeUnits);
   busy = false;
   const levels = result.xp.filter((e) => e.level);
   if (levels.length) {
@@ -1398,28 +1485,64 @@ function gainText(gains?: Record<string, number>) {
     .map(([k, v]) => `${labels[k] ?? k} +${v}`)
     .join(" · ");
 }
-function rewards(result: Battle): Promise<void> {
-  if (!result.xp.length) return Promise.resolve();
+function rewards(
+  result: Battle,
+  before = new Map<string, { hp: number; xp: number; level: number }>(),
+  healing?: { restored: number; target: string },
+): Promise<void> {
+  if (!result.xp.length && !result.strikes.length && !healing)
+    return Promise.resolve();
   return new Promise((done) => {
     pendingReward = done;
     const modal = document.createElement("div");
     modal.className = "modal-back rewards";
-    modal.innerHTML = `<section class="modal compact-rewards" aria-label="Résultats de l’affrontement"><h2>Résultats</h2>${result.xp
+    const hpSummary = healing
+      ? ""
+      : `<div class="hp-summary">${Array.from(
+          new Set(result.strikes.flatMap((t) => [t.attacker, t.defender])),
+        )
+          .map((id) => {
+            const u = state!.units.find((u) => u.id === id)!,
+              old = before.get(id)?.hp ?? u.hp;
+            return `<div><b>${esc(u.name)}</b><span>${old} → ${u.hp} PV (${u.hp - old > 0 ? "+" : ""}${u.hp - old})</span></div>`;
+          })
+          .join("")}</div>`;
+    modal.innerHTML = `<section class="modal compact-rewards v5-wood ${healing ? "healing-reward" : ""}" aria-label="${healing ? "Résultats du soin" : "Résultats de l’affrontement"}"><h2>${healing ? "Soins" : "Après l’affrontement"}</h2>${healing ? `<p class="restored-hp">${esc(healing.target)} · +${healing.restored} PV</p>` : ""}${hpSummary}${result.xp
       .map((e) => {
-        const u = state!.units.find((u) => u.id === e.id)!;
-        return `<div class="reward-unit">${u.portraitAsset ? portrait(u) : ""}<div><strong>${esc(u.name)} <span>+${e.amount} EXP</span></strong><div class="bar xp"><i data-progress="${u.xp}" style="width:${e.before}%"></i></div><small>${u.xp} / 100 EXP · Niveau ${u.level}</small>${e.level ? `<div class="level-up"><span class="eyebrow">NIVEAU ${u.level}</span><b>${gainText(result.levelGains?.[u.id])}</b></div>` : ""}</div></div>`;
+        const u = state!.units.find((u) => u.id === e.id)!,
+          old = before.get(e.id) ?? {
+            hp: u.hp,
+            xp: e.before,
+            level: u.level - (e.level ? 1 : 0),
+          };
+        const delta = u.hp - old.hp;
+        return `<div class="reward-unit" data-reward-id="${u.id}"><div><strong>${esc(u.name)} <span>+${e.amount} EXP</span></strong>${!healing ? `<small>${delta > 0 ? "+" : ""}${delta} PV · ${u.hp}/${u.maxHp}</small>` : ""}<div class="bar xp"><i style="width:${e.before}%"></i></div><small><span data-xp-value>${e.before} / 100 EXP</span> · <span data-xp-level>Niveau ${old.level}</span></small>${u.level > old.level ? `<div class="level-up"><b>${gainText(result.levelGains?.[u.id])}</b></div>` : ""}</div></div>`;
       })
-      .join("")}${button("Continuer", "close-reward", "primary")}</section>`;
+      .join(
+        "",
+      )}${button("Continuer", "close-reward", "primary", true)}</section>`;
     app.append(modal);
-    setTimeout(
-      () =>
-        modal
-          .querySelectorAll<HTMLElement>("[data-progress]")
-          .forEach((el) => (el.style.width = el.dataset.progress + "%")),
-      120,
-    );
+    Promise.all(
+      result.xp.map((e) => {
+        const u = state!.units.find((u) => u.id === e.id)!,
+          old = before.get(e.id);
+        return animateExperience(
+          modal.querySelector<HTMLElement>(`[data-reward-id="${u.id}"]`)!,
+          {
+            before: e.before,
+            after: u.xp,
+            levelBefore: old?.level ?? u.level - (e.level ? 1 : 0),
+            levelAfter: u.level,
+          },
+        );
+      }),
+    ).then(() => {
+      const b = modal.querySelector<HTMLButtonElement>("button");
+      if (b) b.disabled = false;
+    });
   });
 }
+
 function renderCombat(time: number) {
   const anim = combatAnim!,
     canvas = document.querySelector<HTMLCanvasElement>("#combat");
@@ -1431,6 +1554,7 @@ function renderCombat(time: number) {
     Math.max(0, (time - anim.start) * speed),
     (index) => {
       const strike = anim.battle.strikes[index];
+      const oldHp = state!.units.find((u) => u.id === strike.defender)!.hp;
       E.applyStrike(state!, strike);
       audio();
       const attacker = state!.units.find((u) => u.id === strike.attacker)!,
@@ -1440,7 +1564,14 @@ function renderCombat(time: number) {
       const left = side === 0 ? attacker : defender,
         right = side === 0 ? defender : attacker;
       const hud = document.querySelector(".combat-hud");
-      if (hud) hud.innerHTML = gameCombatHud(left, right, anim.battle);
+      if (hud) {
+        if (
+          !hud.querySelector(`#value-${CSS.escape(defender.id)}`) ||
+          !hud.querySelector(`#value-${CSS.escape(attacker.id)}`)
+        )
+          hud.innerHTML = gameCombatHud(left, right, anim.battle);
+        animateHp(hud, defender.id, oldHp, defender.hp, defender.maxHp, 650);
+      }
       const r = document.querySelector("#combat-result");
       if (r)
         r.textContent = strike.hit
@@ -1455,7 +1586,7 @@ function renderCombat(time: number) {
           ...anim.scene.missing,
         ]);
       combatAnim = null;
-      anim.done();
+      setTimeout(anim.done, 300);
     },
   );
 }
@@ -1651,6 +1782,15 @@ app.addEventListener("click", async (e) => {
   } else if (action.startsWith("focus-")) {
     const u = state?.units.find((u) => u.id === action.slice(6));
     if (u && E.seen(state!, state!.active, u)) focusUnit(u);
+  } else if (action.startsWith("quick-weapon-")) {
+    const u = state && E.current(state);
+    if (u)
+      try {
+        E.equipWeapon(state!, u, action.slice(13));
+        battleUI();
+      } catch (error) {
+        toast((error as Error).message);
+      }
   } else if (action === "skill-transform") {
     const u = state && E.current(state);
     if (u) {

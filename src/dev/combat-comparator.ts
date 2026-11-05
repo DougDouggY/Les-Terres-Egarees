@@ -78,6 +78,7 @@ export function comparatorStrikes(
         parryCounter: true,
         hit: scenario !== "counter-miss",
       }),
+      strike(a, b, { counter: true }),
     ];
   if (scenario === "no-counter") return [strike(b, a, { blocked: true })];
   if (scenario === "intercept") return [strike(b, a, { blocked: true })];
@@ -312,7 +313,7 @@ export function openCombatComparator(app: HTMLElement, onBack: () => void) {
             .map((p) => p.equipment),
         ),
       ];
-    app.innerHTML = `<main class="combat-lab-simple comparator-v2"><header class="arena-toolbar"><strong>Comparateur de combats · V4</strong><label>Classe<select id="compare-class">${choices.map((c) => `<option value="${c.id}" ${c.id === classId ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label><label>Arme<select id="compare-weapon">${weapons.map((w) => `<option ${w === equipment ? "selected" : ""}>${esc(w)}</option>`).join("")}</select></label><label>Skin<select id="compare-skin">${profiles()
+    app.innerHTML = `<main class="combat-lab-simple comparator-v2"><header class="arena-toolbar"><strong>Comparateur de combats · V5</strong><label>Classe<select id="compare-class">${choices.map((c) => `<option value="${c.id}" ${c.id === classId ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label><label>Arme<select id="compare-weapon">${weapons.map((w) => `<option ${w === equipment ? "selected" : ""}>${esc(w)}</option>`).join("")}</select></label><label>Skin<select id="compare-skin">${profiles()
       .map(
         (p) =>
           `<option value="${profileKey(p)}" ${profileKey(p) === skinId ? "selected" : ""}>${p.gender} · ${p.state}</option>`,
