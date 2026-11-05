@@ -318,7 +318,8 @@ function resultBuilder(s: Campaign) {
       if (
         u.owner !== 0 &&
         !u.summonedBy &&
-        result.strikes.some((t) => t.attacker === u.id)
+        (hp.get(u.id) ?? u.hp) > 0 &&
+        result.strikes.some((t) => t.attacker === u.id || t.defender === u.id)
       ) {
         const kills = new Set(
           result.strikes

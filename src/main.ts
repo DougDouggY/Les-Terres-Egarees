@@ -1377,7 +1377,7 @@ function preview(a: Unit, b: Unit) {
   const value = (v: string | number, double = 1) =>
     `<b>${v}${double > 1 ? `<small class="forecast-double">×${double}</small>` : ""}</b>`;
   const weapon = (u: Unit, advantage: number) =>
-    `<span class="fe-weapon">${esc(E.weaponName(u))}${advantage ? `<i class="weapon-triangle ${advantage > 0 ? "advantage" : "disadvantage"}" aria-label="${advantage > 0 ? "Avantage" : "Désavantage"} d’arme">${advantage > 0 ? "▲" : "▼"}</i>` : ""}</span>`;
+    `<span class="fe-weapon">${esc(E.weaponName(u))}${advantage ? `<i class="weapon-triangle ${advantage > 0 ? "advantage" : "disadvantage"}" aria-label="${advantage > 0 ? "Avantage" : "Désavantage"} d’arme">${advantage > 0 ? "↑" : "↓"}</i>` : ""}</span>`;
   modal.innerHTML = `<section class="modal forecast compact-forecast fe-forecast" aria-label="Prévision de combat" style="--forecast-left:${color(a)};--forecast-right:${color(b)}"><div class="fe-names"><header><strong>${esc(a.name)}</strong>${weapon(a, p.advantage)}</header><header><strong>${esc(b.name)}</strong>${weapon(b, q.advantage)}</header></div><div class="fe-stat-grid">${value(`${a.hp}/${a.maxHp}`)}<span>PV</span>${value(`${b.hp}/${b.maxHp}`)}${value(p.damage, p.strikes)}<span title="Dégâts">Dég.</span>${value(p.counter ? q.damage : "—", p.counter ? q.strikes : 1)}${value(`${p.hit}%`)}<span title="Précision">Préc.</span>${value(p.counter ? `${q.hit}%` : "—")}${value(`${p.crit}%`)}<span title="Critique">Crit.</span>${value(p.counter ? `${q.crit}%` : "—")}</div><div class="modal-actions">${button("Annuler", "close-modal")}${button("Attaquer", "confirm-attack-" + b.id, "primary")}</div></section>`;
   app.append(modal);
 }
@@ -1425,6 +1425,8 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
     for (const strike of result.strikes) E.applyStrike(state!, strike);
     E.applyXp(state!, result);
     E.visibility(state!);
+    // Even an unseen attacker can award XP to the allied unit that defended.
+    if (result.xp.length) await rewards(result, beforeUnits);
     busy = false;
     finishTurn();
     return;
@@ -1447,8 +1449,10 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
     state!.teamColors,
   );
   await scene.prepare();
+  scene.groundedStage = true;
   screen = "combat";
-  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="background-image:url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="960" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
+  document.querySelector(".toast")?.remove();
+  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="--battle-art:url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="960" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
   await new Promise<void>((done) => {
     combatAnim = {
       battle: result,
@@ -1459,15 +1463,12 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   });
   E.applyXp(state!, result);
   E.visibility(state!);
+  // The entire cinematic (including the final HP tween) has ended.
+  screen = "rewards";
+  app.innerHTML =
+    '<main class="aftermath-screen" aria-label="Fin de l’affrontement"></main>';
   await rewards(result, beforeUnits);
   busy = false;
-  const levels = result.xp.filter((e) => e.level);
-  if (levels.length) {
-    const u = state!.units.find((u) => u.id === levels[0].id)!;
-    toast(
-      `${u.name} · Niveau ${u.level} ! ${gainText(result.levelGains?.[u.id])}`,
-    );
-  }
   E.log(state!, `${a.name} affronte ${b.name}.`);
   finishTurn();
 }
@@ -1485,62 +1486,64 @@ function gainText(gains?: Record<string, number>) {
     .map(([k, v]) => `${labels[k] ?? k} +${v}`)
     .join(" · ");
 }
-function rewards(
+async function rewards(
   result: Battle,
   before = new Map<string, { hp: number; xp: number; level: number }>(),
   healing?: { restored: number; target: string },
 ): Promise<void> {
-  if (!result.xp.length && !result.strikes.length && !healing)
-    return Promise.resolve();
-  return new Promise((done) => {
-    pendingReward = done;
-    const modal = document.createElement("div");
-    modal.className = "modal-back rewards";
-    const hpSummary = healing
-      ? ""
-      : `<div class="hp-summary">${Array.from(
-          new Set(result.strikes.flatMap((t) => [t.attacker, t.defender])),
-        )
-          .map((id) => {
-            const u = state!.units.find((u) => u.id === id)!,
-              old = before.get(id)?.hp ?? u.hp;
-            return `<div><b>${esc(u.name)}</b><span>${old} → ${u.hp} PV (${u.hp - old > 0 ? "+" : ""}${u.hp - old})</span></div>`;
-          })
-          .join("")}</div>`;
-    modal.innerHTML = `<section class="modal compact-rewards v5-wood ${healing ? "healing-reward" : ""}" aria-label="${healing ? "Résultats du soin" : "Résultats de l’affrontement"}"><h2>${healing ? "Soins" : "Après l’affrontement"}</h2>${healing ? `<p class="restored-hp">${esc(healing.target)} · +${healing.restored} PV</p>` : ""}${hpSummary}${result.xp
+  if (!result.xp.length && !healing) return;
+  const show = (html: string, label: string, animate = false) =>
+    new Promise<void>((done) => {
+      pendingReward = done;
+      const modal = document.createElement("div");
+      modal.className = "modal-back rewards";
+      modal.innerHTML = `<section class="modal compact-rewards v5-wood ${healing ? "healing-reward" : ""}" aria-label="${label}">${html}${button("Continuer", "close-reward", "primary", animate)}</section>`;
+      app.append(modal);
+      if (animate)
+        Promise.all(
+          result.xp.map((e) => {
+            const u = state!.units.find((u) => u.id === e.id)!;
+            return animateExperience(
+              modal.querySelector<HTMLElement>(`[data-reward-id="${u.id}"]`)!,
+              {
+                before: e.before,
+                after: u.xp,
+                levelBefore:
+                  before.get(u.id)?.level ?? u.level - (e.level ? 1 : 0),
+                levelAfter: u.level,
+              },
+            );
+          }),
+        ).then(() => {
+          const b = modal.querySelector<HTMLButtonElement>("button");
+          if (b) b.disabled = false;
+        });
+    });
+  await show(
+    `<h2>${healing ? "Soins" : "Expérience gagnée"}</h2>${healing ? `<p class="restored-hp">${esc(healing.target)} · +${healing.restored} PV</p>` : ""}${result.xp
       .map((e) => {
         const u = state!.units.find((u) => u.id === e.id)!,
-          old = before.get(e.id) ?? {
-            hp: u.hp,
-            xp: e.before,
-            level: u.level - (e.level ? 1 : 0),
-          };
-        const delta = u.hp - old.hp;
-        return `<div class="reward-unit" data-reward-id="${u.id}"><div><strong>${esc(u.name)} <span>+${e.amount} EXP</span></strong>${!healing ? `<small>${delta > 0 ? "+" : ""}${delta} PV · ${u.hp}/${u.maxHp}</small>` : ""}<div class="bar xp"><i style="width:${e.before}%"></i></div><small><span data-xp-value>${e.before} / 100 EXP</span> · <span data-xp-level>Niveau ${old.level}</span></small>${u.level > old.level ? `<div class="level-up"><b>${gainText(result.levelGains?.[u.id])}</b></div>` : ""}</div></div>`;
+          level = before.get(u.id)?.level ?? u.level - (e.level ? 1 : 0);
+        return `<div class="reward-unit" data-reward-id="${u.id}"><strong>${esc(u.name)} <span>+${e.amount} EXP</span></strong><div class="bar xp"><i style="width:${e.before}%"></i></div><small><span data-xp-value>${e.before} / 100 EXP</span> · <span data-xp-level>Niveau ${level}</span></small></div>`;
       })
-      .join(
-        "",
-      )}${button("Continuer", "close-reward", "primary", true)}</section>`;
-    app.append(modal);
-    Promise.all(
-      result.xp.map((e) => {
-        const u = state!.units.find((u) => u.id === e.id)!,
-          old = before.get(e.id);
-        return animateExperience(
-          modal.querySelector<HTMLElement>(`[data-reward-id="${u.id}"]`)!,
-          {
-            before: e.before,
-            after: u.xp,
-            levelBefore: old?.level ?? u.level - (e.level ? 1 : 0),
-            levelAfter: u.level,
-          },
-        );
-      }),
-    ).then(() => {
-      const b = modal.querySelector<HTMLButtonElement>("button");
-      if (b) b.disabled = false;
-    });
+      .join("")}`,
+    healing ? "Résultats du soin" : "Résultats de l’affrontement",
+    true,
+  );
+  const levels = result.xp.filter((e) => {
+    const u = state!.units.find((u) => u.id === e.id)!;
+    return (before.get(u.id)?.level ?? u.level - (e.level ? 1 : 0)) < u.level;
   });
+  if (levels.length)
+    await show(
+      `<h2>Niveau supérieur</h2>${levels
+        .map((e) => {
+          const u = state!.units.find((u) => u.id === e.id)!;
+          return `<div class="level-gains"><strong>${esc(u.name)} · Niveau ${u.level}</strong><p>${gainText(result.levelGains?.[u.id]).replace("Force / Puissance", E.powerLabel(u)) || "Aucun gain de caractéristique."}</p></div>`;
+        })
+        .join("")}`,
+      "Gains de niveau",
+    );
 }
 
 function renderCombat(time: number) {
@@ -1586,7 +1589,7 @@ function renderCombat(time: number) {
           ...anim.scene.missing,
         ]);
       combatAnim = null;
-      setTimeout(anim.done, 300);
+      setTimeout(anim.done, 700);
     },
   );
 }

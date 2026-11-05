@@ -1,0 +1,10 @@
+if (kind === "lightning" && t >= -80 && t < 100)
+    drawEffectFrame(
+      ctx,
+      kind,
+      t < 0 ? 2 : 3,
+      to.x,
+      to.y - 25,
+      size * 1.55,
+      flip,
+    );

@@ -74,6 +74,7 @@ export class CombatSceneV2 {
   private deathAt = new Map<string, number>();
   private colors?: TeamColors;
   previewResult?: { scene: CombatSceneV2; at: number; duration: number };
+  groundedStage = false;
   mirror = false;
   diagnostic = false;
   preview?: {
@@ -542,6 +543,20 @@ export class CombatSceneV2 {
             0.28;
       }
     }
+    if (this.groundedStage)
+      for (const v of placements) {
+        ctx.save();
+        ctx.translate(v.x, ground + 2);
+        ctx.scale(1, 0.18);
+        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, v.actor.height * 0.4);
+        g.addColorStop(0, "#0d1813bb");
+        g.addColorStop(1, "#0d181300");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(0, 0, v.actor.height * 0.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
     // Draw actors after projectile logic so source anchors and body layering remain stable.
     for (const v of placements) {
       if (v.actor.unit.hp <= 0) {

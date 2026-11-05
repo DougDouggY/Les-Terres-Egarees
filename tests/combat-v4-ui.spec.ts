@@ -159,7 +159,7 @@ test("V4 prévision : noms longs, triangle réel, colonnes alignées et cadrage 
     });
   }
   const arrows = await page.locator(".weapon-triangle").allTextContents();
-  expect(arrows).toEqual(["▲", "▼"]);
+  expect(arrows).toEqual(["↑", "↓"]);
 });
 test("V4 comparateur : transformation féminine, bandages et pavois après déplacement accessibles", async ({
   page,

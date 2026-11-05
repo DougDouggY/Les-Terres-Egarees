@@ -8,6 +8,7 @@ export default defineConfig({
     "combat-v2-ui.spec.ts",
     "combat-v4-ui.spec.ts",
     "combat-v5-ui.spec.ts",
+    "combat-v6-ui.spec.ts",
     "workshop.spec.ts",
     "initiative-ui.spec.ts",
     "magic-tests.spec.ts",

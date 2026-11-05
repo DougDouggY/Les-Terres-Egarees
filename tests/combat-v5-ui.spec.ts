@@ -138,6 +138,8 @@ for (const cls of ["shaman", "sorcerer", "clan_healer", "archmage"])
     await expect(page.locator("[data-xp-level]")).toHaveText("Niveau 2");
     await page.screenshot({ path: `artifacts/combat-v5/heal-${cls}.png` });
     await page.locator('[data-action="close-reward"]').click();
+    if (await page.getByRole("heading", { name: "Niveau supérieur" }).count())
+      await page.locator('[data-action="close-reward"]').click();
     const s = await saved(page);
     expect(s.units.find((u: any) => u.id === a.id).level).toBe(2);
     expect(s.units.find((u: any) => u.id === ally.id).hp).toBeGreaterThan(
@@ -198,7 +200,7 @@ test("V5 Aventure : hache du Traqueur adjacente, prévision bois étroite et cin
     });
   }
   await expect(page.locator(".compact-rewards")).toBeVisible();
-  await expect(page.locator(".hp-summary")).toContainText("PV");
+  await expect(page.locator(".compact-rewards")).not.toContainText("PV");
   const samples = await page.evaluate(() => {
     const w = window as any;
     clearInterval(w.hpSampling);
