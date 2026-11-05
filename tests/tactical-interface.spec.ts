@@ -1,9 +1,14 @@
 import type { Campaign, Cell } from "../src/game/types";
 import { test, expect, type Page } from "@playwright/test";
-async function fixture(page: Page, pending = false, foe = false) {
+async function fixture(
+  page: Page,
+  pending = false,
+  foe = false,
+  classId = "man_at_arms",
+) {
   await page.goto("/");
   await page.evaluate(
-    async ({ pending, foe }) => {
+    async ({ pending, foe, classId }) => {
       const { createSandbox, trainingUnit } = await import(
         String("/src/game/sandbox.ts")
       );
@@ -12,7 +17,7 @@ async function fixture(page: Page, pending = false, foe = false) {
       const s: Campaign = createSandbox();
       s.mapRevision = MAP_REVISION;
       s.merged = false;
-      const a = trainingUnit(s, "man_at_arms", 1, 1, 1),
+      const a = trainingUnit(s, classId, 1, 1, 1),
         b = trainingUnit(s, "raider", 1, 1, foe ? 0 : 2);
       const c = (map as Cell[]).find(
         (c) =>
@@ -35,7 +40,7 @@ async function fixture(page: Page, pending = false, foe = false) {
       localStorage.setItem("lte-save", encode(s));
       localStorage.setItem("lte-speed", "5");
     },
-    { pending, foe },
+    { pending, foe, classId },
   );
   await page.reload();
   await page.locator('[data-action="continue"]').click();
@@ -138,7 +143,7 @@ test("actions ancrées près du personnage et info de case légère au coin inf�
     await page
       .locator("#map-tooltip")
       .evaluate((e) => getComputedStyle(e).backgroundColor),
-  ).toBe("rgba(0, 0, 0, 0)");
+  ).toMatch(/^rgba\(37, 61, 44,/);
   await page.screenshot({ path: "artifacts/tactical-actions.png" });
 });
 
@@ -154,9 +159,73 @@ test("prévision compacte sans aide superflue, puis résultats lisibles", async 
   await expect(page.locator(".compact-forecast")).toBeVisible();
   await expect(page.locator(".compact-forecast")).not.toContainText("agilité");
   const r = await page.locator(".compact-forecast").boundingBox();
-  expect(r!.width).toBeLessThan(410);
+  expect(r!.width).toBeLessThan(300);
   await page.screenshot({ path: "artifacts/compact-forecast.png" });
   await page.locator('[data-action^="confirm-attack-"]').click();
   await expect(page.locator(".compact-rewards")).toBeVisible();
   await page.screenshot({ path: "artifacts/compact-results.png" });
+});
+
+test("œil : rétraction totale, retour centré et état conservé à la reprise", async ({
+  page,
+}) => {
+  await fixture(page, true);
+  const eye = page.getByRole("button", {
+    name: "Afficher ou masquer l’initiative",
+    exact: true,
+  });
+  await eye.click();
+  await expect(eye).toHaveAttribute("aria-expanded", "false");
+  await expect(page.locator(".initiative-window")).toBeHidden();
+  await expect(eye).toBeVisible();
+  await page.reload();
+  await page.locator('[data-action="continue"]').click();
+  await expect(page.locator(".initiative-strip")).toHaveClass(/collapsed/);
+  await eye.click();
+  await expect(page.locator(".initiative-window")).toBeVisible();
+  const gap = await page.evaluate(() => {
+    const a = document
+        .querySelector(".initiative-entry.current")!
+        .getBoundingClientRect(),
+      b = document.querySelector(".initiative-window")!.getBoundingClientRect();
+    return Math.abs(a.x + a.width / 2 - b.x - b.width / 2);
+  });
+  expect(gap).toBeLessThan(2);
+});
+test("attaque : menu sans nom, disparition pour cibler et retour par clic droit", async ({
+  page,
+}) => {
+  await fixture(page, false, true);
+  const u = await page.evaluate(
+    () => JSON.parse(localStorage.getItem("lte-save")!).units[0],
+  );
+  await cellClick(page, u.x, u.y);
+  await cellClick(page, u.x, u.y);
+  await expect(page.locator("#unit-actions > strong")).toHaveCount(0);
+  await page.locator('[data-action="attack-mode"]').click();
+  await expect(page.locator("#unit-actions")).toHaveCount(0);
+  await page
+    .locator("#map")
+    .click({ button: "right", position: { x: 30, y: 300 } });
+  await expect(page.locator("#unit-actions")).toBeVisible();
+});
+test("soins : priorité offensive puis sélection explicite du soin", async ({
+  page,
+}) => {
+  await fixture(page, false, true, "sorcerer");
+  const u = await page.evaluate(
+    () => JSON.parse(localStorage.getItem("lte-save")!).units[0],
+  );
+  await cellClick(page, u.x, u.y);
+  await cellClick(page, u.x, u.y);
+  await expect(page.locator('[data-action="attack-mode"]')).toBeVisible();
+  await expect(page.locator('[data-action="skill-heal"]')).toBeVisible();
+  await page.screenshot({ path: "artifacts/combat-v2/offensive-range.png" });
+  await page.locator('[data-action="skill-heal"]').click();
+  await expect(page.locator("#unit-actions")).toBeHidden();
+  await page.screenshot({ path: "artifacts/combat-v2/healing-range.png" });
+  await page
+    .locator("#map")
+    .click({ button: "right", position: { x: 30, y: 300 } });
+  await expect(page.locator("#unit-actions")).toBeVisible();
 });

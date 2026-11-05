@@ -1,0 +1,357 @@
+{
+  "profiles": [
+    {
+      "classId": "cavalry",
+      "gender": "any",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Atlas mont\u00e9 V2 : arme conserv\u00e9e, attaque dirig\u00e9e vers une cible \u00e0 pied, cheval et cavalier \u00e0 \u00e9chelle fixe.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "block": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "impactFrame": 2,
+          "note": "R\u00e9action mont\u00e9e r\u00e9utilis\u00e9e ; lev\u00e9e de bouclier d\u00e9di\u00e9e \u00e0 dessiner."
+        }
+      }
+    },
+    {
+      "classId": "mounted_spearman",
+      "gender": "any",
+      "equipment": "lance",
+      "state": "default",
+      "note": "Atlas mont\u00e9 V2 : arme conserv\u00e9e, attaque dirig\u00e9e vers une cible \u00e0 pied, cheval et cavalier \u00e0 \u00e9chelle fixe.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "charge": {
+          "reuse": "attack",
+          "note": "Geste mont\u00e9 de la m\u00eame lance ; charge d\u00e9termin\u00e9e uniquement par le moteur."
+        }
+      }
+    },
+    {
+      "classId": "sans_rider",
+      "gender": "any",
+      "equipment": "lance",
+      "state": "default",
+      "note": "Atlas mont\u00e9 V2 : arme conserv\u00e9e, attaque dirig\u00e9e vers une cible \u00e0 pied, cheval et cavalier \u00e0 \u00e9chelle fixe.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-mounted.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    }
+  ]
+}

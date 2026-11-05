@@ -1,3 +1,6 @@
+import { combatSkin } from "./sprites/combat-skins";
+import type { SpriteProfile } from "./sprites/catalog";
+import { CombatSceneV2 } from "./ui/combat-v2";
 import {
   attackEffect,
   drawSpell,
@@ -48,13 +51,15 @@ let state: Campaign | null = null,
   showGrid = false,
   terrainStyle: TerrainStyle = "regional",
   panel = "summary",
-  speed = Number(localStorage.getItem("lte-speed") || 1),
+  speed = Number(localStorage.getItem("lte-animation-v2-speed") || 1),
   sound = localStorage.getItem("lte-sound") !== "off";
 let heroDrafts: [E.HeroConfig, E.HeroConfig] = [
   { faction: "north", name: "Eirik", gender: "male", classId: "raider" },
   { faction: "knight", name: "Maël", gender: "male", classId: "man_at_arms" },
 ];
 let companionDrafts: [string[], string[]] = [[], []];
+let targetingAttack = false;
+let previousHealWeapon: string | undefined;
 let aim: "heal" | "summon" | "area" | "buff" | null = null;
 let isPanning = false;
 let developerCleanup: (() => void) | null = null;
@@ -341,7 +346,14 @@ function contextActions(u: Unit) {
       !u.bearForm && (u.bearCooldown ?? 0) > 0,
     );
   if (E.hasSkill(u, "buff")) html += button("Améliorer un allié", "skill-buff");
-  if (targets.some((t) => E.canHealTarget(s, u, t)))
+  if (
+    E.hasSkill(u, "bandage") ||
+    (E.hasSkill(u, "heal") &&
+      !u.bearForm &&
+      u.carriedWeapons?.some(
+        (id) => E.weaponCatalog[id].category === "healing",
+      ))
+  )
     html += button("Soigner", "skill-heal");
   if (E.hasSkill(u, "banner") && !u.bannerUsed)
     html += button("Planter la bannière", "skill-banner");
@@ -359,7 +371,7 @@ function contextActions(u: Unit) {
     button("Fiche", "unit-sheet") +
     button("Attendre", "wait") +
     button("Annuler", "cancel");
-  return `<div id="unit-actions" class="unit-actions" role="menu" aria-label="Actions de ${esc(u.name)}"><strong>${esc(u.name)}</strong>${html}</div>`;
+  return `<div id="unit-actions" class="unit-actions" role="menu" aria-label="Actions de ${esc(u.name)}">${html}</div>`;
 }
 function positionContextMenu() {
   const menu = document.querySelector<HTMLElement>("#unit-actions");
@@ -428,9 +440,9 @@ function battleUI() {
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div id="map-tooltip" class="map-tooltip" hidden></div>
   ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window" aria-label="Fiche de ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer la fiche">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
-  ${sel && own && sel.id === u?.id && moved && !busy ? contextActions(u) : ""}
+  ${sel && own && sel.id === u?.id && moved && !busy && !targetingAttack ? contextActions(u) : ""}
   </div></section></div></main>`;
-  initiativeCleanup = bindInitiative(app, s);
+  initiativeCleanup = bindInitiative(app, s, () => save(true));
   bindCanvas();
   positionContextMenu();
   document
@@ -460,6 +472,37 @@ function updateHover(c: { x: number; y: number } | null) {
   } else
     info.innerHTML = `<strong>${terrainNames[t.terrain]}</strong><span>${t.walk ? `Déplacement ${t.cost} · Défense +${t.defense}` : "Infranchissable"}</span>`;
 }
+function previousAction() {
+  if (busy) return;
+  if (document.querySelector(".forecast-back")) {
+    document.querySelector(".forecast-back")?.remove();
+    return;
+  }
+  if (aim || targetingAttack) {
+    targetingAttack = false;
+    if (state && previousHealWeapon) {
+      const u = E.current(state)!;
+      u.activeWeaponId = previousHealWeapon;
+      E.syncWeapon(u);
+    }
+    previousHealWeapon = undefined;
+    aim = null;
+    battleUI();
+    return;
+  }
+  if (moved) {
+    cancel();
+    return;
+  }
+  selected = null;
+  cardOpen = false;
+  battleUI();
+}
+app.addEventListener("contextmenu", (e) => {
+  if (screen !== "battle") return;
+  e.preventDefault();
+  previousAction();
+});
 function bindCanvas() {
   for (const [id, p] of [
     ["map", state!.active],
@@ -581,15 +624,17 @@ function drawSprite(
   flip = false,
   attack = false,
   animation = attack ? "attack" : "idle",
+  profileOverride?: SpriteProfile,
 ) {
+  const profile = profileOverride ?? unitSpriteProfile(u);
   ctx.save();
   ctx.translate(x + size / 2, y + size / 2);
   if (flip) ctx.scale(-1, 1);
   if (
     !drawResourceFrame(
       ctx,
-      unitSpriteProfile(u),
-      resolveClip(unitSpriteProfile(u), animation) ? animation : "idle",
+      profile,
+      resolveClip(profile, animation) ? animation : "idle",
       frame,
       -size / 2,
       -size * 0.72,
@@ -615,14 +660,15 @@ let moveAnim: {
   } | null = null,
   combatAnim: {
     battle: Battle;
-    index: number;
+    scene: CombatSceneV2;
     start: number;
-    applied: boolean;
     done: () => void;
   } | null = null;
 const mist = new Mist(E.W, E.H);
 let tacticalAction: {
   sprite: Unit;
+  profile?: SpriteProfile;
+  visualAnimation?: string;
   animation: string;
   start: number;
   fps: number;
@@ -634,12 +680,16 @@ async function playTacticalAction(
   animation: string,
   target?: Unit,
 ) {
-  const clip = resolveClip(unitSpriteProfile(sprite), animation);
+  const profile = combatSkin(unitSpriteProfile(sprite))?.profile;
+  const visualAnimation = resolveClip(profile, animation) ? animation : "idle";
+  const clip = resolveClip(profile, visualAnimation);
   if (!clip) return;
   const previousBusy = busy;
   busy = true;
   tacticalAction = {
     sprite,
+    profile,
+    visualAnimation: "idle",
     animation: "idle",
     start: performance.now(),
     fps: 2,
@@ -655,12 +705,15 @@ async function playTacticalAction(
           animation,
         ]),
         preloadEffects(),
+        new CombatSceneV2([sprite], [], state?.teamColors).prepare(),
       ]);
     } catch {
       return;
     }
     tacticalAction = {
       sprite,
+      profile,
+      visualAnimation,
       animation,
       start: performance.now(),
       fps: clip.fps * speed,
@@ -793,13 +846,14 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     for (const [k] of reach) {
       if (!visible.has(k)) continue;
       const c = E.map[k];
+      if (moved) continue;
       ctx.fillStyle = "#4bade34a";
       ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
       ctx.strokeStyle = "#72ceee70";
       if (c.x !== sel.x || c.y !== sel.y)
         ctx.strokeRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
     }
-    for (const k of attackField(sel, reach)) {
+    for (const k of aim === "heal" ? [] : attackField(sel, reach)) {
       if (!visible.has(k) || reach.has(k)) continue;
       const c = E.map[k];
       ctx.fillStyle = "#e6535837";
@@ -819,6 +873,32 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
           : ctx.moveTo(c.x * 32 + 16, c.y * 32 + 16);
       });
       ctx.stroke();
+    }
+  }
+  if (
+    sel &&
+    sel.id === cur?.id &&
+    sel.owner === p &&
+    (aim === "heal" || (!aim && E.activeWeapon(sel).category === "healing"))
+  ) {
+    const magic =
+      E.hasSkill(sel, "heal") &&
+      !sel.bearForm &&
+      E.activeWeapon(sel).category === "healing";
+    if (magic || E.hasSkill(sel, "bandage")) {
+      for (const cell of E.map) {
+        const distance = E.distance(sel, cell);
+        if (
+          !cell.walk ||
+          distance < (magic ? 1 : 0) ||
+          distance > (magic ? E.rules.healRange : 1) ||
+          !visible.has(E.key(cell.x, cell.y)) ||
+          !E.los(sel, cell)
+        )
+          continue;
+        ctx.fillStyle = "#58b97c66";
+        ctx.fillRect(cell.x * 32 + 1, cell.y * 32 + 1, 30, 30);
+      }
     }
   }
   if (aim && sel && sel.owner === p) {
@@ -880,8 +960,8 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     const action = tacticalAction?.sprite.id === u.id ? tacticalAction : null;
     if (action)
       frame = Math.min(
-        (resolveClip(unitSpriteProfile(action.sprite), action.animation)?.frames
-          .length ?? 1) - 1,
+        (resolveClip(action.profile, action.visualAnimation ?? action.animation)
+          ?.frames.length ?? 1) - 1,
         Math.floor(((time - action.start) * action.fps) / 1000),
       );
     drawSprite(
@@ -893,7 +973,10 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       frame,
       false,
       false,
-      action?.animation ?? (moveAnim?.id === u.id ? "move" : "idle"),
+      action?.visualAnimation ??
+        action?.animation ??
+        (moveAnim?.id === u.id ? "move" : "idle"),
+      action?.profile,
     );
     if (u.id === cur?.id || selected === u.id) {
       ctx.strokeStyle = selected === u.id ? "#ecddac99" : "#ecd5a066";
@@ -1112,6 +1195,15 @@ async function clickCell(x: number, y: number) {
 }
 function cancel() {
   if (busy) return;
+  targetingAttack = false;
+  if (state && previousHealWeapon) {
+    const u = E.current(state);
+    if (u && u.owner === state.active) {
+      u.activeWeaponId = previousHealWeapon;
+      E.syncWeapon(u);
+    }
+  }
+  previousHealWeapon = undefined;
   aim = null;
   if (origin && state) {
     const u = E.current(state)!;
@@ -1131,6 +1223,8 @@ function cancel() {
 function finishTurn() {
   if (!state || busy) return;
   aim = null;
+  targetingAttack = false;
+  previousHealWeapon = undefined;
   origin = null;
   moved = false;
   selected = null;
@@ -1143,16 +1237,12 @@ function preview(a: Unit, b: Unit) {
     q = E.forecast(b, a, state!, { counter: true });
   const modal = document.createElement("div");
   modal.className = "modal-back";
-  const forecastPanel = (
-    unit: Unit,
-    damage: number,
-    hit: number,
-    crit: number,
-    strikes: number,
-    enabled: boolean,
-  ) =>
-    `<div class="forecast-side"><strong>${esc(unit.name)}</strong><span class="forecast-weapon">${esc(E.weaponName(unit))}</span><div class="forecast-hp"><b>${unit.hp}</b><span> / ${unit.maxHp} PV</span></div><dl><div><dt>Dégâts</dt><dd>${enabled ? `${damage}${strikes > 1 ? ` × ${strikes}` : ""}` : "—"}</dd></div><div><dt>Précision</dt><dd>${enabled ? `${hit}%` : "—"}</dd></div><div><dt>Critique</dt><dd>${enabled ? `${crit}%` : "—"}</dd></div></dl>${!enabled ? "<small>Hors de portée</small>" : ""}</div>`;
-  modal.innerHTML = `<section class="modal forecast compact-forecast" aria-label="Prévision de combat"><div class="forecast-heading">Prévision de combat</div><div class="forecast-pair">${forecastPanel(a, p.damage, p.hit, p.crit, p.strikes, true)}${forecastPanel(b, q.damage, q.hit, q.crit, q.strikes, p.counter)}</div><div class="modal-actions">${button("Annuler", "close-modal")}${button("Attaquer", "confirm-attack-" + b.id, "primary")}</div></section>`;
+  modal.className = "modal-back forecast-back";
+  const color = (u: Unit) =>
+    E.teamPalette[E.colorForOwner(state!.teamColors, u.owner)].rgb.join(",");
+  const value = (v: string | number, double = 1) =>
+    `<b>${v}${double > 1 ? `<small class="forecast-double">×${double}</small>` : ""}</b>`;
+  modal.innerHTML = `<section class="modal forecast compact-forecast fe-forecast" aria-label="Prévision de combat" style="--forecast-left:${color(a)};--forecast-right:${color(b)}"><header><strong>${esc(a.name)}</strong><span>${esc(E.weaponName(a))}</span></header><div class="fe-stat-grid">${value(`${a.hp}/${a.maxHp}`)}<span>PV</span>${value(`${b.hp}/${b.maxHp}`)}${value(p.damage, p.strikes)}<span>Dégâts</span>${value(p.counter ? q.damage : "—", p.counter ? q.strikes : 1)}${value(`${p.hit}%`)}<span>Précision</span>${value(p.counter ? `${q.hit}%` : "—")}${value(`${p.crit}%`)}<span>Critique</span>${value(p.counter ? `${q.crit}%` : "—")}</div><footer><strong>${esc(b.name)}</strong><span>${esc(E.weaponName(b))}</span></footer><div class="modal-actions">${button("Annuler", "close-modal")}${button("Attaquer", "confirm-attack-" + b.id, "primary")}</div></section>`;
   app.append(modal);
 }
 function gameCombatHud(left: Unit, right: Unit, battle: Battle) {
@@ -1182,7 +1272,16 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   const result = area
     ? E.resolveArea(state!, a, area)
     : E.resolve(state!, a, b);
-  if (!E.seen(state!, state!.active, a) || !E.seen(state!, state!.active, b)) {
+  if (
+    !E.seen(state!, state!.active, a) ||
+    !E.seen(state!, state!.active, b) ||
+    result.strikes.some((t) =>
+      [t.attacker, t.defender].some((id) => {
+        const u = state!.units.find((u) => u.id === id);
+        return !u || !E.seen(state!, state!.active, u);
+      }),
+    )
+  ) {
     for (const strike of result.strikes) E.applyStrike(state!, strike);
     E.applyXp(state!, result);
     E.visibility(state!);
@@ -1192,29 +1291,29 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   }
   initiativeCleanup?.();
   initiativeCleanup = undefined;
-  await warmSprites([a, b], state?.teamColors, [
-    "idle",
-    "move",
-    "attack",
-    "counter",
-    "attack_offhand",
-    "block",
-    "damage",
-    "death",
-    "evade",
-    "combat_idle",
-    "combat_move",
-    "combat_damage",
-  ]);
-  if (attackEffect(a) || attackEffect(b)) await preloadEffects();
+  const participants = [
+    a,
+    b,
+    ...state!.units.filter(
+      (u) =>
+        u.id !== a.id &&
+        u.id !== b.id &&
+        result.strikes.some((t) => t.attacker === u.id || t.defender === u.id),
+    ),
+  ];
+  const scene = new CombatSceneV2(
+    participants,
+    result.strikes,
+    state!.teamColors,
+  );
+  await scene.prepare();
   screen = "combat";
-  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="background-image:url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="1200" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
+  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="background-image:url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="960" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
   await new Promise<void>((done) => {
     combatAnim = {
       battle: result,
-      index: 0,
-      start: performance.now() + 400 / speed,
-      applied: false,
+      scene,
+      start: performance.now() + 350 / speed,
       done,
     };
   });
@@ -1270,178 +1369,44 @@ function rewards(result: Battle): Promise<void> {
 }
 function renderCombat(time: number) {
   const anim = combatAnim!,
-    s = state!,
     canvas = document.querySelector<HTMLCanvasElement>("#combat");
   if (!canvas) return;
   const ctx = canvas.getContext("2d")!;
-  ctx.clearRect(0, 0, 1200, 600);
-  ctx.imageSmoothingEnabled = false;
-  const strike = anim.battle.strikes[anim.index];
-  if (!strike) {
-    const done = anim.done;
-    combatAnim = null;
-    done();
-    return;
-  }
-  const attacker = s.units.find((u) => u.id === strike.attacker)!,
-    defender = s.units.find((u) => u.id === strike.defender)!,
-    first = s.units.find((u) => u.id === anim.battle.strikes[0].attacker)!,
-    left = (attacker.owner === 0) === (first.owner === 0) ? attacker : defender,
-    right = left === attacker ? defender : attacker,
-    t = (time - anim.start) * speed;
-  const names = document.querySelector(".combat-hud");
-  if (
-    names &&
-    (!names.querySelector("#hp-" + left.id) ||
-      !names.querySelector("#hp-" + right.id))
-  )
-    names.innerHTML = gameCombatHud(left, right, anim.battle);
-  for (const unit of [left, right]) {
-    const actual =
-      unit === attacker
-        ? strike.forecast
-        : anim.battle.strikes
-            .slice(anim.index + 1)
-            .find((t) => t.attacker === unit.id)?.forecast;
-    const target = unit === attacker ? defender : attacker,
-      p = actual ?? E.forecast(unit, target, s, { counter: unit !== attacker }),
-      ready = !!actual || E.canAttack(unit, target);
-    const hit = names?.querySelector(`#hit-${unit.id}`),
-      damage = names?.querySelector(`#damage-${unit.id}`);
-    if (hit) hit.textContent = ready ? `${p.hit}%` : "—";
-    if (damage) damage.textContent = ready ? String(p.damage) : "—";
-  }
-  const ranged = attacker.range > 1,
-    attLeft = attacker.id === left.id;
-  const attackAnimation = strikeAnimation(unitSpriteProfile(attacker), strike);
-  const clip = resolveClip(unitSpriteProfile(attacker), attackAnimation);
-  const pose = combatPose(
-    t,
-    clip?.frames.length ?? 1,
-    clip?.fps ?? 8,
-    ranged,
-    !!strike.counter,
-    clip?.impactFrame,
-    {
-      linkedBefore: linkedStrikes(anim.battle.strikes[anim.index - 1], strike),
-      linkedAfter: linkedStrikes(strike, anim.battle.strikes[anim.index + 1]),
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  anim.scene.draw(
+    ctx,
+    Math.max(0, (time - anim.start) * speed),
+    (index) => {
+      const strike = anim.battle.strikes[index];
+      E.applyStrike(state!, strike);
+      audio();
+      const attacker = state!.units.find((u) => u.id === strike.attacker)!,
+        defender = state!.units.find((u) => u.id === strike.defender)!;
+      const side =
+        anim.scene.actors.find((a) => a.unit.id === attacker.id)?.side ?? 0;
+      const left = side === 0 ? attacker : defender,
+        right = side === 0 ? defender : attacker;
+      const hud = document.querySelector(".combat-hud");
+      if (hud) hud.innerHTML = gameCombatHud(left, right, anim.battle);
+      const r = document.querySelector("#combat-result");
+      if (r)
+        r.textContent = strike.hit
+          ? strike.blocked
+            ? "PARADE"
+            : `${strike.critical ? "CRITIQUE · " : ""}−${strike.damage}`
+          : "ESQUIVE";
+    },
+    () => {
+      if (anim.scene.missing.size)
+        console.info("Ressources de combat à compléter", [
+          ...anim.scene.missing,
+        ]);
+      combatAnim = null;
+      anim.done();
     },
   );
-  const impact = pose.impact;
-  document
-    .querySelector(".combat-screen")
-    ?.classList.toggle(
-      "critical-flash",
-      strike.critical && anim.applied && t >= impact && t < impact + 120,
-    );
-  const contact = meleeContactDistance(
-    unitSpriteProfile(attacker),
-    attackAnimation,
-    180,
-  );
-  const travel = pose.travel * Math.max(610, Math.min(630, 745 - contact));
-  const entry = Math.max(0, Math.min(1, (t + 400) / 400));
-  for (const [unit, x, flip, isAttacker] of [
-    [
-      left,
-      t < 0 ? -100 + 220 * entry : attLeft ? 120 + travel : 120,
-      false,
-      attLeft,
-    ],
-    [
-      right,
-      t < 0 ? 1200 - 335 * entry : !attLeft ? 865 - travel : 865,
-      true,
-      !attLeft,
-    ],
-  ] as const) {
-    const animName =
-      unit.hp === 0 && t >= impact
-        ? "death"
-        : isAttacker
-          ? ["attack", "counter"].includes(pose.animation)
-            ? attackAnimation
-            : pose.animation
-          : t >= impact && t < impact + 320
-            ? strike.hit
-              ? strike.blocked
-                ? "block"
-                : "damage"
-              : "evade"
-            : "idle";
-    const displayName = resolveClip(
-      unitSpriteProfile(unit),
-      `combat_${animName}`,
-    )
-      ? `combat_${animName}`
-      : animName;
-    const clip = resolveClip(unitSpriteProfile(unit), displayName);
-    const index = isAttacker
-      ? pose.index
-      : Math.min(
-          (clip?.frames.length ?? 1) - 1,
-          Math.floor((Math.max(0, t - impact) * (clip?.fps ?? 8)) / 1000),
-        );
-    ctx.globalAlpha =
-      unit.hp === 0 && t > impact + 250
-        ? Math.max(0, 1 - (t - impact - 250) / 650)
-        : 1;
-    drawSprite(ctx, unit, x, 271, 180, index, flip, false, displayName);
-  }
-  ctx.globalAlpha = 1;
-  const magic = attackEffect(attacker);
-  if (magic)
-    drawSpell(
-      ctx,
-      magic,
-      t - impact,
-      { x: attLeft ? 310 : 865, y: 335 },
-      { x: attLeft ? 900 : 270, y: 335 },
-    );
-  if (!magic && ranged && t > impact - 100 && t < impact) {
-    const progress = (t - impact + 100) / 100;
-    ctx.fillStyle = "#e8d8ae";
-    const x = attLeft ? 310 + progress * 560 : 865 - progress * 560;
-    ctx.fillRect(x, 335, 38, 3);
-    ctx.beginPath();
-    ctx.moveTo(x + (attLeft ? 38 : 0), 336);
-    ctx.lineTo(x + (attLeft ? 28 : 10), 331);
-    ctx.lineTo(x + (attLeft ? 28 : 10), 341);
-    ctx.fill();
-  }
-  if (t >= impact && !anim.applied) {
-    anim.applied = true;
-    E.applyStrike(s, strike);
-    audio();
-    const hp = document.querySelector<HTMLElement>("#hp-" + defender.id),
-      value = document.querySelector("#value-" + defender.id);
-    if (hp) hp.style.width = `${(defender.hp / defender.maxHp) * 100}%`;
-    if (value) value.textContent = `${defender.hp} / ${defender.maxHp}`;
-    const r = document.querySelector("#combat-result");
-    if (r)
-      r.innerHTML = `<span class="${strike.critical ? "critical" : ""}">${strike.hit ? (strike.critical ? "CRITIQUE · " : "") + (strike.interceptedFor ? "INTERCEPTION · " : "") + (strike.blocked ? "PARADE · " : "") + "−" + strike.damage : "ESQUIVE"}</span>`;
-  }
-  if (t >= impact && t < impact + 180 && strike.hit) {
-    ctx.strokeStyle = strike.critical ? "#ffe091" : "#f3e9c5";
-    ctx.lineWidth = 4;
-    const x = attLeft ? 900 : 270;
-    for (let i = 0; i < 8; i++) {
-      const angle = (i * Math.PI) / 4;
-      ctx.beginPath();
-      ctx.moveTo(x + Math.cos(angle) * 12, 335 + Math.sin(angle) * 12);
-      ctx.lineTo(
-        x + Math.cos(angle) * ((t - impact + 20) / 5),
-        335 + Math.sin(angle) * ((t - impact + 20) / 5),
-      );
-      ctx.stroke();
-    }
-  }
-  if (t > pose.total) {
-    anim.index++;
-    anim.start = time;
-    anim.applied = false;
-  }
 }
+
 async function enemyTurn() {
   if (!state || busy || state.scene) return;
   const s = state,
@@ -1554,6 +1519,7 @@ app.addEventListener("click", async (e) => {
       action === "dev-systems" ||
       action.startsWith("dev-workshop") ||
       action === "dev-tests" ||
+      action === "dev-comparator" ||
       action === "dev-arena" ||
       action === "dev-parries" ||
       action === "dev-initiative" ||
@@ -1568,6 +1534,17 @@ app.addEventListener("click", async (e) => {
       const hub = await import("./dev/test-hub");
       if (request !== developerRequest) return;
       developerCleanup = hub.openTestHub(app, title);
+      return;
+    }
+    if (action === "dev-comparator") {
+      const view = await import("./dev/combat-comparator");
+      if (request !== developerRequest) return;
+      developerCleanup = view.openCombatComparator(app, () => {
+        developerCleanup?.();
+        void import("./dev/test-hub").then((h) => {
+          developerCleanup = h.openTestHub(app, title);
+        });
+      });
       return;
     }
     if (action === "dev-arena" || action === "dev-parries") {
@@ -1698,7 +1675,15 @@ app.addEventListener("click", async (e) => {
     if (!u || busy || u.owner !== state!.active) return;
     try {
       if (action === "skill-heal") {
+        const healingWeapon = u.carriedWeapons?.find(
+          (id) => E.weaponCatalog[id].category === "healing",
+        );
+        if (healingWeapon && E.activeWeapon(u).category !== "healing") {
+          previousHealWeapon = u.activeWeaponId;
+          E.equipWeapon(state!, u, healingWeapon);
+        }
         aim = "heal";
+        battleUI();
         toast("Choisissez une unité blessée à portée.");
       } else if (action === "skill-summon") {
         aim = "summon";
@@ -1769,6 +1754,7 @@ app.addEventListener("click", async (e) => {
     showGrid = (document.querySelector("#grid-option") as HTMLInputElement)
       .checked;
     localStorage.setItem("lte-speed", String(speed));
+    localStorage.setItem("lte-animation-v2-speed", String(speed));
     localStorage.setItem("lte-sound", sound ? "on" : "off");
     el.closest(".modal-back")?.remove();
   } else if (action.startsWith("faction-")) {
@@ -1836,6 +1822,7 @@ app.addEventListener("click", async (e) => {
   } else if (action === "attack-mode") {
     const u = E.current(state!);
     if (u?.owner === state!.active) {
+      targetingAttack = true;
       selected = u.id;
       cardOpen = false;
       battleUI();

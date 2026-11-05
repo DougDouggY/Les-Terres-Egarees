@@ -1,3 +1,4 @@
+import { combatSkin } from "../sprites/combat-skins";
 import {
   defaultRecolorSettings,
   recolorSettings,
@@ -126,6 +127,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
   const terrainImage = new Image();
   terrainImage.src = import.meta.env.BASE_URL + "assets/regional-tiles.png";
   const terrain = new TerrainRenderer(terrainImage);
+  let renderMode = "tactical";
   let previewTerrain = "road",
     groundLine = true,
     mirrored = false;
@@ -157,16 +159,20 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
   try {
     reviews = JSON.parse(localStorage.getItem("lte-sprite-reviews-v1") ?? "{}");
   } catch {}
-  const getProfile = (s = selection) =>
-    findProfile(
+  const getProfile = (s = selection) => {
+    const p = findProfile(
       spriteCatalog.profiles,
       s.classId,
       s.gender,
       s.equipment,
       s.state,
     );
+    return renderMode === "combat" ? combatSkin(p)?.profile : p;
+  };
   const key = (s = selection) =>
-    [s.classId, s.gender, s.equipment, s.state, s.animation].join(":");
+    [renderMode, s.classId, s.gender, s.equipment, s.state, s.animation].join(
+      ":",
+    );
   const saveReview = () => {
     reviews[key()] = {
       status: (app.querySelector("#sprite-status") as HTMLSelectElement).value,
@@ -288,7 +294,7 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
       )
       .join(
         "",
-      )}<p>Völva et Hamrammr : références masculines et forme d’ours dédiées ; les variantes manquantes restent vides.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : v === "bear" ? "Ours" : c.id === "hamrammr" ? "Humain" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${statusNames[animationStatus(p, id)]}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><p class="dev-note"><strong>${statusNames[animationStatus(p, selection.animation)]}</strong> · ${clip?.note ?? (clip && clip.frames.length === 1 ? "Pose statique : ce n’est pas une animation complète." : clip?.status === "provisional" ? "Séquence provisoire à retravailler." : !clip ? "Aucune ressource enregistrée." : "Séquence de poses distinctes.")} ${p?.note ?? ""}</p><div class="dev-controls"><label><input type="checkbox" id="ground-line" ${groundLine ? "checked" : ""}>Ligne de sol commune</label><label><input type="checkbox" id="mirror-sprites" ${mirrored ? "checked" : ""}>Inverser l’orientation</label><button data-export-library>Bilan des sprites et animations (JSON)</button><label>Terrain d’inspection<select id="preview-terrain">${[
+      )}<p>Völva et Hamrammr : références masculines et forme d’ours dédiées ; les variantes manquantes restent vides.</p></aside><section><h1>${c.name}</h1><div class="dev-controls"><label>Ressources<select id="sprite-render-mode"><option value="tactical" ${renderMode === "tactical" ? "selected" : ""}>Sprites tactiques</option><option value="combat" ${renderMode === "combat" ? "selected" : ""}>Skins de combat V2</option></select></label><label>Variante<select id="sprite-gender">${["male", "female", ...(p?.gender === "any" ? ["any"] : [])].map((g) => `<option value="${g}" ${g === selection.gender ? "selected" : ""}>${g === "male" ? "Homme" : g === "female" ? "Femme" : "Non sexué"}</option>`).join("")}</select></label><label>Équipement<select id="sprite-equipment">${equipment.map((e) => `<option value="${e}" ${e === selection.equipment ? "selected" : ""}>${e}</option>`).join("")}</select></label><label>État<select id="sprite-state">${states.map((v) => `<option value="${v}" ${v === selection.state ? "selected" : ""}>${v === "carried" ? "Bannière portée" : v === "planted" ? "Bannière plantée" : v === "fortified" ? "Fortifié" : v === "bear" ? "Ours" : c.id === "hamrammr" ? "Humain" : "Standard"}</option>`).join("")}</select></label><label>Animation<select id="sprite-animation">${animations.map((id) => `<option value="${id}" ${id === selection.animation ? "selected" : ""}>${animationNames[id] ?? id} · ${statusNames[animationStatus(p, id)]}</option>`).join("")}</select></label><label>Zoom net<select id="sprite-zoom">${[1, 2, 3, 4, 5].map((n) => `<option value="${n}" ${zoom === n ? "selected" : ""}>×${n}</option>`).join("")}</select></label></div><p class="dev-note"><strong>${statusNames[animationStatus(p, selection.animation)]}</strong> · ${clip?.note ?? (clip && clip.frames.length === 1 ? "Pose statique : ce n’est pas une animation complète." : clip?.status === "provisional" ? "Séquence provisoire à retravailler." : !clip ? "Aucune ressource enregistrée." : "Séquence de poses distinctes.")} ${p?.note ?? ""}</p><div class="dev-controls"><label><input type="checkbox" id="ground-line" ${groundLine ? "checked" : ""}>Ligne de sol commune</label><label><input type="checkbox" id="mirror-sprites" ${mirrored ? "checked" : ""}>Inverser l’orientation</label><button data-export-library>Bilan des sprites et animations (JSON)</button><label>Terrain d’inspection<select id="preview-terrain">${[
       ["road", "Route près des ruines"],
       ["forest", "Forêt"],
       ["coast", "Côte"],
@@ -433,6 +439,16 @@ export function openGallery(app: HTMLElement, onBack: () => void) {
         paused = frame = 0;
         render();
       };
+    (app.querySelector("#sprite-render-mode") as HTMLSelectElement).onchange = (
+      e,
+    ) => {
+      renderMode = (e.target as HTMLSelectElement).value;
+      if (!resolveClip(getProfile(), selection.animation))
+        selection.animation = "idle";
+      frame = paused = 0;
+      started = performance.now();
+      render();
+    };
     (app.querySelector("#sprite-zoom") as HTMLSelectElement).onchange = (e) => {
       zoom = Number((e.target as HTMLSelectElement).value);
       render();

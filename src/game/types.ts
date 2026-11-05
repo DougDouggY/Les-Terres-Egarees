@@ -36,6 +36,7 @@ export type Cell = {
   interactive?: string;
 };
 export type Unit = {
+  combatSkinId?: string;
   originClassId?: string;
   individualVariation?: Record<string, number>;
   lastLevelGains?: import("./progression").StatGains;
@@ -104,6 +105,7 @@ export type Perspective = {
 };
 export type Campaign = {
   initiativeVersion?: 2;
+  initiativeCollapsed?: boolean;
   committedMove?: string;
   encounterContinuation?: { actorId: string; targetId?: string };
   previousInitiative?: Front;

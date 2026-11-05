@@ -1,0 +1,391 @@
+{
+  "profiles": [
+    {
+      "classId": "shaman",
+      "gender": "male",
+      "equipment": "healing",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        }
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "spell",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "heal": {
+          "reuse": "attack",
+          "note": "M\u00eame incantation, effet de soin distinct du projectile offensif."
+        }
+      }
+    },
+    {
+      "classId": "pavise_crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "reload": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "R\u00e9cup\u00e9ration et recharge courte du m\u00eame arbal\u00e9trier ; d\u00e9tail des mains \u00e0 compl\u00e9ter."
+        }
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "healing",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        }
+      }
+    }
+  ]
+}

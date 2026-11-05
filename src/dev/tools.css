@@ -504,3 +504,76 @@
     padding: 5px;
   }
 }
+.arena-duel {
+  aspect-ratio: 1.6;
+  width: min(960px, 100%, calc((100dvh - 150px) * 1.6));
+}
+@media (max-width: 650px) {
+  .arena-duel {
+    width: min(100%, calc((100dvh - 220px) * 1.6));
+  }
+}
+.compare-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  padding: 6px 12px;
+}
+.compare-controls label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+}
+.compare-controls select {
+  padding: 6px;
+  font-size: 11px;
+}
+#compare-canvas {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  aspect-ratio: 1.6;
+  image-rendering: pixelated;
+}
+#compare-progress {
+  flex: 1;
+  min-width: 90px;
+  max-width: 280px;
+}
+#compare-diagnostic {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: min(370px, 60vw);
+  margin: 0;
+  padding: 10px;
+  background: #14251ded;
+  overflow: auto;
+  font-size: 10px;
+}
+#compare-diagnostic[hidden] {
+  display: none;
+}
+.comparator-v2 .arena-toolbar label {
+  font-size: 10px;
+}
+@media (max-width: 650px) {
+  .comparator-v2 .arena-toolbar label {
+    width: auto;
+    flex: 1 1 120px;
+  }
+  .comparator-v2 .arena-toolbar select {
+    max-width: 130px;
+  }
+  .compare-controls {
+    gap: 5px;
+    padding: 4px 6px;
+  }
+  .compare-controls select {
+    max-width: 180px;
+  }
+}

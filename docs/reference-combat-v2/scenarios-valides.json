@@ -1,0 +1,223 @@
+[
+  {
+    "id": "hit",
+    "name": "Frappe simple",
+    "left": "v2-pillard",
+    "right": "guard-sword",
+    "attacker": "left",
+    "hits": [
+      {
+        "damage": 6,
+        "counter": 0
+      }
+    ]
+  },
+  {
+    "id": "miss",
+    "name": "Raté avec esquive",
+    "left": "v2-pillard",
+    "right": "v2-huscarl",
+    "attacker": "left",
+    "hits": [
+      {
+        "damage": 0,
+        "counter": 0,
+        "missed": true
+      }
+    ]
+  },
+  {
+    "id": "parry",
+    "name": "Parade puis riposte réussie",
+    "left": "v2-pillard",
+    "right": "guard-sword",
+    "attacker": "left",
+    "hits": [
+      {
+        "damage": 0,
+        "counter": 4,
+        "parried": true
+      }
+    ]
+  },
+  {
+    "id": "counter-miss",
+    "name": "Parade puis riposte ratée",
+    "left": "v2-pillard",
+    "right": "guard-sword",
+    "attacker": "left",
+    "hits": [
+      {
+        "damage": 0,
+        "counter": 0,
+        "parried": true,
+        "counterMissed": true
+      }
+    ]
+  },
+  {
+    "id": "no-counter",
+    "name": "Parade sans riposte autorisée",
+    "left": "v2-hirdman",
+    "right": "guard-sword",
+    "attacker": "left",
+    "hits": [
+      {
+        "damage": 0,
+        "counter": 0,
+        "parried": true,
+        "noCounter": true
+      }
+    ]
+  },
+  {
+    "id": "arrow",
+    "name": "Flèche qui touche",
+    "left": "v2-archer",
+    "right": "guard-spear",
+    "attacker": "left",
+    "ranged": true,
+    "hits": [
+      {
+        "damage": 6,
+        "counter": 0
+      }
+    ]
+  },
+  {
+    "id": "intercept",
+    "name": "Flèche interceptée par le bouclier",
+    "left": "v2-archer",
+    "right": "guard-spear",
+    "attacker": "left",
+    "ranged": true,
+    "hits": [
+      {
+        "damage": 0,
+        "counter": 0,
+        "intercepted": true
+      }
+    ]
+  },
+  {
+    "id": "double-agility",
+    "name": "Deux attaques avec une seule arme",
+    "left": "v2-huscarl",
+    "right": "guard-sword",
+    "attacker": "left",
+    "hits": [
+      {
+        "damage": 4,
+        "counter": 0
+      },
+      {
+        "damage": 5,
+        "counter": 0
+      }
+    ]
+  },
+  {
+    "id": "dual-axes",
+    "name": "Deux haches · frappe principale puis secondaire",
+    "left": "v2-berserker",
+    "right": "guard-sword",
+    "attacker": "left",
+    "strictDual": true,
+    "hits": [
+      {
+        "damage": 4,
+        "counter": 0,
+        "comboIndex": 0,
+        "comboNext": true
+      },
+      {
+        "damage": 5,
+        "counter": 0,
+        "comboIndex": 1,
+        "comboNext": false
+      }
+    ]
+  },
+  {
+    "id": "dual-swords",
+    "name": "Deux épées · frappe principale puis secondaire",
+    "left": "v2-dual-swords",
+    "right": "guard-sword",
+    "attacker": "left",
+    "strictDual": true,
+    "hits": [
+      {
+        "damage": 4,
+        "counter": 0,
+        "comboIndex": 0,
+        "comboNext": true
+      },
+      {
+        "damage": 5,
+        "counter": 0,
+        "comboIndex": 1,
+        "comboNext": false
+      }
+    ]
+  },
+  {
+    "id": "four",
+    "name": "Deux armes + avantage · deux blocs de deux frappes",
+    "left": "v2-dual-swords",
+    "right": "guard-sword",
+    "attacker": "left",
+    "strictDual": true,
+    "hits": [
+      {
+        "damage": 3,
+        "counter": 0,
+        "comboIndex": 0,
+        "comboNext": true
+      },
+      {
+        "damage": 3,
+        "counter": 0,
+        "comboIndex": 1,
+        "comboNext": false
+      },
+      {
+        "damage": 3,
+        "counter": 0,
+        "comboIndex": 0,
+        "comboNext": true
+      },
+      {
+        "damage": 3,
+        "counter": 0,
+        "comboIndex": 1,
+        "comboNext": false
+      }
+    ]
+  },
+  {
+    "id": "right",
+    "name": "Attaque depuis le côté droit et miroir",
+    "left": "v2-pillard",
+    "right": "guard-sword",
+    "attacker": "right",
+    "hits": [
+      {
+        "damage": 6,
+        "counter": 0
+      }
+    ]
+  },
+  {
+    "id": "death",
+    "name": "Défaite de la cible",
+    "left": "v2-pillard",
+    "right": "guard-sword",
+    "attacker": "left",
+    "hits": [
+      {
+        "damage": 32,
+        "counter": 0
+      }
+    ]
+  }
+]

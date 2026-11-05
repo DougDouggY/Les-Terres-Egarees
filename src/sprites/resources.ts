@@ -41,21 +41,12 @@ export function unitSpriteProfile(u: Unit) {
     visualState(u),
   );
   if (exact) return exact;
-  // Preserve a real prior-class resource for promotions awaiting art; never claim it depicts a bear.
-  const prior =
-    u.visualFallbackClassId ??
-    (["hamrammr", "volva"].includes(u.classId ?? "") ? "shaman" : undefined);
-  if (prior)
-    return spriteCatalog.profiles.find(
-      (p) =>
-        p.classId === prior && (p.gender === u.gender || p.gender === "any"),
-    );
 }
 export function unitVisualNote(u: Unit) {
   const p = unitSpriteProfile(u);
   if (!p) return "Sprite indisponible";
   return p.classId !== u.classId
-    ? `Sprite ${u.bearForm ? "ours" : unitClass(u).name} manquant · silhouette de classe précédente conservée`
+    ? `Sprite ${u.bearForm ? "ours" : unitClass(u).name} manquant · aucune substitution de personnage`
     : "";
 }
 const images = new Map<string, HTMLImageElement>();
@@ -70,6 +61,41 @@ export function spriteImage(source: string) {
   }
   return img;
 }
+const maskedFrames = new WeakMap<object, Map<string, HTMLCanvasElement>>();
+function extractedFrame(
+  source: CanvasImageSource,
+  rect: { x: number; y: number; width: number; height: number },
+  runs: number[][],
+) {
+  let cache = maskedFrames.get(source as object);
+  if (!cache) {
+    cache = new Map();
+    maskedFrames.set(source as object, cache);
+  }
+  const key = [rect.x, rect.y, rect.width, rect.height].join(":");
+  let canvas = cache.get(key);
+  if (canvas) return canvas;
+  canvas = document.createElement("canvas");
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+  const c = canvas.getContext("2d")!;
+  c.beginPath();
+  for (const [x, y, w] of runs) c.rect(x - rect.x, y - rect.y, w, 1);
+  c.clip();
+  c.drawImage(
+    source,
+    rect.x,
+    rect.y,
+    rect.width,
+    rect.height,
+    0,
+    0,
+    rect.width,
+    rect.height,
+  );
+  cache.set(key, canvas);
+  return canvas;
+}
 export function drawResourceFrame(
   ctx: CanvasRenderingContext2D,
   p: SpriteProfile | undefined,
@@ -82,6 +108,12 @@ export function drawResourceFrame(
   pixelArt = false,
   color?: TeamColor,
   scaleMode: "fit" | "world" = "fit",
+  placement?: {
+    anchorX?: number;
+    ground?: number;
+    scale?: number;
+    maskRuns?: number[][];
+  },
 ) {
   const c = resolveClip(p, animation);
   if (!c) return false;
@@ -125,16 +157,24 @@ export function drawResourceFrame(
     (f) => f.row === sourceRow && f.column === column,
   );
   if (rect) {
-    const scale = resourceScale(p!, c, width, height, scaleMode, indexInClip);
-    const dx = x + width / 2 + (rect.x - rect.anchorX) * scale,
+    const scale =
+      placement?.scale ??
+      resourceScale(p!, c, width, height, scaleMode, indexInClip);
+    const dx =
+        x + width / 2 + (rect.x - (placement?.anchorX ?? rect.anchorX)) * scale,
       dy =
         y +
         height * (scaleMode === "world" ? 0.96 : 0.9) +
-        (rect.y - (rect.bodyGround ?? rect.y + rect.height)) * scale;
+        (rect.y -
+          (placement?.ground ?? rect.bodyGround ?? rect.y + rect.height)) *
+          scale;
+    const masked = placement?.maskRuns?.length
+      ? extractedFrame(source, rect, placement.maskRuns)
+      : undefined;
     ctx.drawImage(
-      source,
-      rect.x,
-      rect.y,
+      masked ?? source,
+      masked ? 0 : rect.x,
+      masked ? 0 : rect.y,
       rect.width,
       rect.height,
       dx,

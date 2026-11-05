@@ -1,0 +1,78 @@
+{
+  "atlasCount": 8,
+  "drawnPoses": 200,
+  "assets": [
+    {
+      "file": "src/assets/tactical/combat-v2-mounted.png",
+      "width": 2048,
+      "height": 768,
+      "transparentFraction": 0.5248,
+      "sha256": "94a42d46d0696d1567e09eee3a059f7f94722d661feedc0c37051b2af7e13120",
+      "columns": 8,
+      "rows": 3
+    },
+    {
+      "file": "src/assets/tactical/combat-v2-ranged.png",
+      "width": 2172,
+      "height": 724,
+      "transparentFraction": 0.5676,
+      "sha256": "fbf9ffd09e63c3f1cb2f337d8832fafc4e903462b7ecfc5bc2d1afee996d407c",
+      "columns": 8,
+      "rows": 3
+    },
+    {
+      "file": "src/assets/tactical/combat-v2-shields-a.png",
+      "width": 2172,
+      "height": 724,
+      "transparentFraction": 0.5311,
+      "sha256": "6a371155fbcc425c64ec01c1ffcaede74ed4cdb226ef75a3e37f9161854fad5c",
+      "columns": 8,
+      "rows": 3
+    },
+    {
+      "file": "src/assets/tactical/combat-v2-shields-b.png",
+      "width": 2172,
+      "height": 724,
+      "transparentFraction": 0.4653,
+      "sha256": "a30bdfa26f3f42cb7b20edfda5796ba607b30fb6fb02897ba63e7b7d0a9f7022",
+      "columns": 8,
+      "rows": 3
+    },
+    {
+      "file": "src/assets/tactical/combat-v2-shields-c.png",
+      "width": 2172,
+      "height": 724,
+      "transparentFraction": 0.6418,
+      "sha256": "b154b12426c0c18dbc47b4bdb0143839109e24ac30a4de6b6eac268275071fb6",
+      "columns": 8,
+      "rows": 3
+    },
+    {
+      "file": "src/assets/tactical/combat-v2-states.png",
+      "width": 1774,
+      "height": 887,
+      "transparentFraction": 0.5978,
+      "sha256": "c8947b3090f4b80fabeac13836d2a6a50cdc8ee1ac8a08bfb3e4857f5b38b7aa",
+      "columns": 8,
+      "rows": 4
+    },
+    {
+      "file": "src/assets/tactical/combat-v2-support.png",
+      "width": 2172,
+      "height": 724,
+      "transparentFraction": 0.5743,
+      "sha256": "d607613a9f2431dc580ab04937368c0851910f02cc566d19bdfd1c320256e3fc",
+      "columns": 8,
+      "rows": 3
+    },
+    {
+      "file": "src/assets/tactical/combat-v2-undead.png",
+      "width": 2048,
+      "height": 768,
+      "transparentFraction": 0.5039,
+      "sha256": "0815e915112edae3e839734fa49e4722dd61e7b7b24dab5cbc65a384ce805e1c",
+      "columns": 8,
+      "rows": 3
+    }
+  ]
+}

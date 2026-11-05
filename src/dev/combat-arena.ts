@@ -1,3 +1,4 @@
+import { CombatSceneV2 } from "../ui/combat-v2";
 import "./tools.css";
 import * as E from "../engine";
 import { createSandbox, trainingUnit } from "../game/sandbox";
@@ -33,6 +34,10 @@ export function openCombatArena(
   mode: "arena" | "parry",
 ) {
   const parry = mode === "parry";
+  let scene: CombatSceneV2 | undefined;
+  let movement:
+    | { steps: number[]; start: number; destination: { x: number; y: number } }
+    | undefined;
   let s = createSandbox(),
     classId = "man_at_arms",
     battle: E.Battle | undefined,
@@ -76,6 +81,8 @@ export function openCombatArena(
     revision++;
     loading = false;
     battle = undefined;
+    movement = undefined;
+    scene = undefined;
     paused = false;
     healing = -Infinity;
     s = createSandbox();
@@ -88,10 +95,10 @@ export function openCombatArena(
         (a, b) =>
           E.distance(a, { x: 29, y: 20 }) - E.distance(b, { x: 29, y: 20 }),
       )
-      .find((c) => E.cell(c.x + 1, c.y)?.walk)!;
+      .find((c) => E.cell(c.x + Math.max(1, a.minRange), c.y)?.walk)!;
     a.x = c.x;
     a.y = c.y;
-    b.x = c.x + 1;
+    b.x = c.x + Math.max(1, a.minRange);
     b.y = c.y;
     b.hp = b.maxHp = parry ? b.maxHp : 10000;
     camera = { x: Math.max(0, a.x - 6), y: Math.max(0, a.y - 4) };
@@ -106,24 +113,8 @@ export function openCombatArena(
     loading = true;
     controls();
     setStatus("Chargement des sprites…");
-    await Promise.all([
-      warmSprites(s.units, s.teamColors, [
-        "idle",
-        "move",
-        "attack",
-        "counter",
-        "attack_offhand",
-        "block",
-        "damage",
-        "death",
-        "heal",
-        "transform",
-        "combat_idle",
-        "combat_move",
-        "combat_damage",
-      ]),
-      preloadEffects(),
-    ]);
+    scene = new CombatSceneV2(s.units, [], s.teamColors);
+    await scene.prepare();
     if (disposed || ticket !== revision) return false;
     loading = false;
     controls();
@@ -141,7 +132,10 @@ export function openCombatArena(
       )
       .forEach(
         (b) =>
-          (b.disabled = loading || (!!battle && index < battle.strikes.length)),
+          (b.disabled =
+            loading ||
+            !!movement ||
+            (b.hasAttribute("data-arena-attack") ? false : !!battle)),
       );
     const b = app.querySelector<HTMLButtonElement>("[data-arena-pause]");
     if (b) {
@@ -150,7 +144,7 @@ export function openCombatArena(
     }
   }
   function render() {
-    app.innerHTML = `<main class="combat-lab-simple ${parry ? "parry-lab" : "map-lab"}"><header class="arena-toolbar"><strong>${parry ? "Tester les parades" : "Arène · chapitre 1"}</strong><label>Classe<select id="arena-class">${candidates.map((c) => `<option value="${c.id}" ${c.id === classId ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label>${classId === "hamrammr" && !parry ? `<button data-bear>${hero().bearForm ? "Forme humaine" : "Forme d’ours"}</button>` : ""}<button data-arena-back>Retour</button></header><section class="arena-field">${!parry ? '<canvas id="arena-map" width="1200" height="760" aria-label="Carte du chapitre 1 · arène indépendante"></canvas>' : ""}<div class="arena-duel" ${!parry && !battle ? "hidden" : ""}><canvas id="arena-duel" width="960" height="480" aria-label="Combat de test"></canvas><div class="arena-hp"><span data-arena-hp="0"></span><span data-arena-hp="1"></span></div></div></section><footer class="arena-controls"><button data-arena-attack>${parry ? "Jouer / Rejouer la parade" : E.activeWeapon(hero()).category === "healing" ? "Tester le soin" : "Attaquer / Rejouer"}</button>${!parry ? "<button data-arena-heal>Soigner mon unité</button>" : ""}<button data-arena-pause disabled>Pause</button><label>Vitesse<select id="arena-speed"><option value="1">Normale</option><option value="0.5">Ralenti</option><option value="0.25">Très lent</option></select></label><span id="arena-status" role="status"></span></footer></main>`;
+    app.innerHTML = `<main class="combat-lab-simple ${parry ? "parry-lab" : "map-lab"}"><header class="arena-toolbar"><strong>${parry ? "Tester les parades" : "Arène · chapitre 1"}</strong><label>Classe<select id="arena-class">${candidates.map((c) => `<option value="${c.id}" ${c.id === classId ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label>${classId === "hamrammr" && !parry ? `<button data-bear>${hero().bearForm ? "Forme humaine" : "Forme d’ours"}</button>` : ""}<button data-arena-back>Retour</button></header><section class="arena-field">${!parry ? '<canvas id="arena-map" width="1200" height="760" aria-label="Carte du chapitre 1 · arène indépendante"></canvas>' : ""}<div class="arena-duel" ${!parry && !battle ? "hidden" : ""}><canvas id="arena-duel" width="960" height="600" aria-label="Combat de test"></canvas><div class="arena-hp"><span data-arena-hp="0"></span><span data-arena-hp="1"></span></div></div></section><footer class="arena-controls"><button data-arena-attack>${parry ? "Jouer / Rejouer la parade" : E.activeWeapon(hero()).category === "healing" ? "Tester le soin" : "Attaquer / Rejouer"}</button>${!parry ? "<button data-arena-heal>Soigner mon unité</button>" : ""}<button data-arena-pause disabled>Pause</button><label>Vitesse<select id="arena-speed"><option value="1">Normale</option><option value="0.5">Ralenti</option><option value="0.25">Très lent</option></select></label><span id="arena-status" role="status"></span></footer></main>`;
     updateHp();
     controls();
     app.querySelector<HTMLElement>("[data-arena-back]")!.onclick = onBack;
@@ -194,6 +188,8 @@ export function openCombatArena(
   function heal() {
     if (loading || (battle && index < battle.strikes.length)) return;
     hero().hp = hero().maxHp;
+    scene = new CombatSceneV2(s.units, [], s.teamColors);
+    void scene.prepare();
     battle = undefined;
     healing = performance.now();
     paused = false;
@@ -203,7 +199,7 @@ export function openCombatArena(
     setStatus("Unité soignée · outil de test.");
   }
   async function attack() {
-    if (loading || (battle && index < battle.strikes.length)) return;
+    if (loading || movement) return;
     battle = undefined;
     if (E.activeWeapon(hero()).category === "healing") {
       heal();
@@ -237,22 +233,10 @@ export function openCombatArena(
         return;
       }
     } else {
-      // Move only the arena's target into the equipped weapon's legal range.
-      const cell = E.map
-        .filter(
-          (c) =>
-            c.walk &&
-            E.distance(a, c) >= a.minRange &&
-            E.distance(a, c) <= a.range &&
-            E.los(a, c),
-        )
-        .sort((c, d) => E.distance(c, b) - E.distance(d, b))[0];
-      if (!cell) {
-        setStatus("Déplacez votre unité vers une zone dégagée.");
+      if (!E.canAttack(a, b)) {
+        setStatus("Cible hors de portée : approchez-vous sur la carte.");
         return;
       }
-      b.x = cell.x;
-      b.y = cell.y;
       if (b.hp <= 0) b.hp = 10000;
       try {
         battle = E.resolve(s, a, b);
@@ -261,6 +245,14 @@ export function openCombatArena(
         return;
       }
     }
+    const ticket = ++revision;
+    loading = true;
+    controls();
+    const nextScene = new CombatSceneV2(s.units, battle.strikes, s.teamColors);
+    await nextScene.prepare();
+    if (disposed || ticket !== revision) return;
+    scene = nextScene;
+    loading = false;
     index = 0;
     applied = false;
     paused = false;
@@ -318,11 +310,19 @@ export function openCombatArena(
         void attack();
         return;
       }
-      if (E.cell(x, y)?.walk) {
-        hero().x = x;
-        hero().y = y;
-        lastMap = -Infinity;
+      if (movement) return;
+      const path = E.path(s, hero(), x, y);
+      if (!path || path.cost > hero().move) {
+        setStatus("Case inaccessible pendant ce déplacement.");
+        return;
       }
+      movement = {
+        steps: path.steps,
+        start: performance.now(),
+        destination: { x, y },
+      };
+      controls();
+      lastMap = -Infinity;
     };
     canvas.onpointercancel = () => {
       drag = undefined;
@@ -331,7 +331,7 @@ export function openCombatArena(
   }
   function drawMap(now: number) {
     const c = app.querySelector<HTMLCanvasElement>("#arena-map");
-    if (!c || now - lastMap < 100) return;
+    if (!c || now - lastMap < (movement ? 25 : 100)) return;
     const layer = terrain.layer("regional", s.factions);
     if (!layer) return;
     lastMap = now;
@@ -345,92 +345,81 @@ export function openCombatArena(
     ctx.translate(-camera.x * 32, -camera.y * 32);
     ctx.drawImage(layer, 0, 0);
     for (const u of s.units) {
+      let x = u.x,
+        y = u.y,
+        animation = "idle",
+        frame = Math.floor(now / 600) % 2,
+        flip = false;
+      if (movement && u.id === hero().id) {
+        const progress = Math.max(0, (now - movement.start) / 180),
+          i = Math.min(movement.steps.length - 1, Math.floor(progress)),
+          a = E.map[movement.steps[i]],
+          b = E.map[movement.steps[Math.min(i + 1, movement.steps.length - 1)]],
+          fraction = Math.min(1, progress - i);
+        x = a.x + (b.x - a.x) * fraction;
+        y = a.y + (b.y - a.y) * fraction;
+        flip = b.x < a.x;
+        animation = "move";
+        frame = Math.floor(now / 130) % 2;
+        if (progress >= movement.steps.length - 1) {
+          try {
+            E.move(s, u, movement.destination.x, movement.destination.y);
+          } catch (e) {
+            setStatus((e as Error).message);
+          }
+          movement = undefined;
+          controls();
+        }
+      }
+      ctx.save();
+      if (flip) {
+        ctx.translate((x * 32 + 16) * 2, 0);
+        ctx.scale(-1, 1);
+      }
       drawResourceFrame(
         ctx,
         unitSpriteProfile(u),
-        "idle",
-        Math.floor(now / 600) % 2,
-        u.x * 32 - 3,
-        u.y * 32 - 8,
+        animation,
+        frame,
+        x * 32 - 3,
+        y * 32 - 8,
         38,
         44,
         true,
         E.colorForOwner(s.teamColors, u.owner),
         "world",
       );
+      ctx.restore();
     }
+    c.dataset.moving = String(!!movement);
+    c.dataset.cameraX = String(camera.x);
+    c.dataset.cameraY = String(camera.y);
+    c.dataset.viewCols = "14";
+    c.dataset.viewRows = String(rows);
     c.dataset.heroX = String(hero().x);
     c.dataset.heroY = String(hero().y);
     c.dataset.unitCount = String(s.units.length);
   }
   function drawDuel(now: number) {
     const canvas = app.querySelector<HTMLCanvasElement>("#arena-duel");
-    if (!canvas) return;
+    if (!canvas || !scene) return;
+    canvas.height = 600;
     const ctx = canvas.getContext("2d")!;
-    ctx.clearRect(0, 0, 960, 480);
+    ctx.clearRect(0, 0, 960, 600);
     ctx.imageSmoothingEnabled = false;
     if (background.complete && background.naturalWidth)
-      ctx.drawImage(background, 0, 0, 960, 480);
+      ctx.drawImage(background, 0, 0, 960, 600);
     else {
       ctx.fillStyle = "#203329";
-      ctx.fillRect(0, 0, 960, 480);
+      ctx.fillRect(0, 0, 960, 600);
     }
-    const hit = battle?.strikes[index],
-      a = hit && s.units.find((u) => u.id === hit.attacker),
-      t = (now - started) * speed,
-      size = 160,
-      homes = [270, 690],
-      xs = [...homes];
-    let pose: ReturnType<typeof combatPose> | undefined,
-      impact = Infinity;
-    if (hit && a) {
-      const profile = unitSpriteProfile(a),
-        action = strikeAnimation(profile, hit),
-        clip = resolveClip(profile, action),
-        ranged = a.range > 1;
-      const instantReply = parry && index === 1;
-      pose = combatPose(
-        t,
-        clip?.frames.length ?? 1,
-        clip?.fps ?? 8,
-        ranged,
-        hit.counter,
-        clip?.impactFrame,
-        {
-          linkedBefore:
-            instantReply || linkedStrikes(battle?.strikes[index - 1], hit),
-          linkedAfter:
-            (parry && index === 0) ||
-            linkedStrikes(hit, battle?.strikes[index + 1]),
-        },
-      );
-      impact = pose.impact;
-      const side = a.id === hero().id ? 0 : 1,
-        contact = meleeContactDistance(profile, action, size);
-      xs[side] += (side === 0 ? 1 : -1) * pose.travel * (420 - contact);
-      if (instantReply) {
-        const incoming = battle!.strikes[0],
-          incomingContact = meleeContactDistance(
-            unitSpriteProfile(enemy()),
-            strikeAnimation(unitSpriteProfile(enemy()), incoming),
-            size,
-          );
-        const returnStart = pose.approach + pose.attack + pose.recovery;
-        const remaining = 1 - Math.max(0, Math.min(1, (t - returnStart) / 360));
-        xs[1] =
-          homes[0] +
-          incomingContact +
-          (420 - incomingContact) * (1 - remaining);
-        xs[0] = homes[0] + (incomingContact - contact) * remaining;
-      }
-      canvas.dataset.contactDistance = String(contact);
-      canvas.dataset.actorDistance = String(Math.abs(xs[1] - xs[0]));
-      canvas.dataset.phase = pose.animation;
-      canvas.dataset.impact = String(impact);
-      canvas.dataset.elapsed = String(t);
-      if (t >= impact && !applied) {
+    const elapsed = (now - started) * speed;
+    scene.draw(
+      ctx,
+      battle ? elapsed : 0,
+      (index) => {
+        const hit = battle!.strikes[index];
         E.applyStrike(s, hit);
-        applied = true;
         updateHp();
         setStatus(
           hit.blocked
@@ -441,81 +430,28 @@ export function openCombatArena(
                 ? `Impact · −${hit.damage} PV`
                 : "Esquive",
         );
-      }
-    }
-    for (const [side, u] of s.units.entries()) {
-      const attacking = a?.id === u.id,
-        p = unitSpriteProfile(u);
-      let action =
-        attacking && pose
-          ? ["attack", "counter"].includes(pose.animation)
-            ? strikeAnimation(p, hit!)
-            : pose.animation
-          : hit && t >= impact
-            ? hit.blocked
-              ? "block"
-              : hit.hit
-                ? "damage"
-                : "evade"
-            : "idle";
-      if (Number.isFinite(healing) && side === 0)
-        action = E.activeWeapon(u).category === "healing" ? "heal" : "idle";
-      const clip = resolveClip(p, action),
-        frame = attacking
-          ? (pose?.index ?? 0)
-          : Math.min(
-              (clip?.frames.length ?? 1) - 1,
-              Math.floor((Math.max(0, t - impact) * (clip?.fps ?? 8)) / 1000),
-            );
-      ctx.save();
-      ctx.translate(xs[side], 350);
-      if (side === 1) ctx.scale(-1, 1);
-      drawResourceFrame(
-        ctx,
-        p,
-        clip ? action : "idle",
-        Number.isFinite(frame) ? frame : 0,
-        -size / 2,
-        -size * 0.96,
-        size,
-        size,
-        true,
-        E.colorForOwner(s.teamColors, u.owner),
-        "world",
-      );
-      ctx.restore();
-    }
-    if (a && hit) {
-      const kind = attackEffect(a),
-        side = a.id === hero().id ? 0 : 1,
-        from = { x: homes[side], y: 280 },
-        to = { x: homes[1 - side], y: 280 };
-      if (kind) drawSpell(ctx, kind, t - impact, from, to, 110);
-      else if (a.range > 1) drawArrow(ctx, t - impact, from, to);
-    }
-    if (Number.isFinite(healing)) {
-      drawHealing(ctx, (now - healing) * speed, 270, 350, 180);
-      if ((now - healing) * speed > 1200) {
-        healing = -Infinity;
-        if (!parry)
-          app.querySelector<HTMLElement>(".arena-duel")!.hidden = true;
-      }
-    }
-    if (pose && t > pose.total) {
-      index++;
-      applied = false;
-      started = now;
-      canvas.dataset.strikeIndex = String(index);
-      if (index >= battle!.strikes.length) {
+      },
+      () => {
+        if (!battle) return;
         battle = undefined;
         controls();
         setStatus("Terminé · vous pouvez rejouer.");
         if (!parry)
           app.querySelector<HTMLElement>(".arena-duel")!.hidden = true;
         lastMap = -Infinity;
+      },
+    );
+    if (Number.isFinite(healing)) {
+      const t = (now - healing) * speed;
+      drawHealing(ctx, t, 250, 475, 180);
+      if (t > 1200) {
+        healing = -Infinity;
+        if (!parry)
+          app.querySelector<HTMLElement>(".arena-duel")!.hidden = true;
       }
     }
   }
+
   function tick(now: number) {
     if (disposed) return;
     if (paused) {

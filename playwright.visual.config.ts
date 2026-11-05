@@ -5,6 +5,7 @@ export default defineConfig({
     "visual-library.spec.ts",
     "tactical-interface.spec.ts",
     "combat-arena.spec.ts",
+    "combat-v2-ui.spec.ts",
     "workshop.spec.ts",
     "initiative-ui.spec.ts",
     "magic-tests.spec.ts",

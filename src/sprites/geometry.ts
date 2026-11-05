@@ -8,6 +8,7 @@ type Frame = {
   width: number;
   height: number;
   anchorX: number;
+  ambiguous?: boolean;
   bodyHeight?: number;
   bodyGround?: number;
 };

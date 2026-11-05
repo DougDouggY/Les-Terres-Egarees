@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 root=Path(__file__).resolve().parent.parent
 sources={}
-for path in sorted((root/'src/assets/tactical').glob('*.sprite.json')):
+for path in sorted([*(root/'src/assets/tactical').glob('*.sprite.json'),*(root/'src/assets/tactical').glob('*.combat.json')]):
  for profile in json.loads(path.read_text())['profiles']:
   for clip in profile['clips'].values():
    if 'source' in clip:sources[clip['source']]=(clip['columns'],clip['rows'])
@@ -86,6 +86,21 @@ for source,(columns,rows) in sources.items():
    isolated.append(dict(row=row,column=col,x=xs.start,y=ys.start,width=xs.stop-xs.start,height=ys.stop-ys.start,ground=ys.stop,anchorX=(col+.5)*width/columns,ambiguous=False,sourceDefect=False))
   if len(isolated)!=columns*rows or len({(f['row'],f['column']) for f in isolated})!=columns*rows:raise ValueError('Trial atlas components must isolate exactly 32 figures')
   frames=isolated
+ # Combat V2: index complete connected figures by FOOT centroid, not by
+ # transparent cell bounds or the tip of a spear crossing into the next cell.
+ if source.startswith('tactical/combat-v2-'):
+  from scipy.ndimage import label,find_objects
+  labels,_=label(im[:,:,3]>16);sizes=np.bincount(labels.ravel());boxes=find_objects(labels);groups={}
+  for number,box in enumerate(boxes,1):
+   if sizes[number]<600:continue
+   ys,xs=box;region=labels[ys,xs]==number
+   fy,fx=np.where(region[round(region.shape[0]*.8):]);foot=xs.start+float(np.median(fx)) if len(fx) else (xs.start+xs.stop)/2
+   col=max(0,min(columns-1,int(foot/width*columns)));row=max(0,min(rows-1,int(((ys.start+ys.stop)/2)/height*rows)))
+   key=(row,col)
+   candidate=dict(row=row,column=col,x=xs.start,y=ys.start,width=xs.stop-xs.start,height=ys.stop-ys.start,ground=ys.stop,anchorX=foot,ambiguous=False,sourceDefect=xs.start==0 or ys.start==0 or xs.stop==width or ys.stop==height)
+   if key not in groups or sizes[number]>groups[key][0]:groups[key]=(sizes[number],candidate)
+  if len(groups)==columns*rows:frames=[v[1] for v in groups.values()]
+  else:issues.append(dict(source=source,problem='Figures V2 non isolables sans retouche artistique',expected=columns*rows,detected=len(groups)))
  # Anatomical anchor: estimate the torso from the dense lower silhouette,
  # then use its longest vertical band. Isolated staff/spear tips are excluded.
  for frame in frames:

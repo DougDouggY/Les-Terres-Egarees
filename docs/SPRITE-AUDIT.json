@@ -1,6 +1,6 @@
 {
-  "sources": 37,
-  "correctedFrames": 170,
+  "sources": 45,
+  "correctedFrames": 185,
   "issues": [
     {
       "source": "tactical/team-sample-combat.png",
@@ -8,6 +8,13 @@
       "problem": "S\u00e9paration ambigu\u00eb des figures",
       "expected": 4,
       "detected": 3
+    },
+    {
+      "source": "tactical/combat-v2-shields-a.png",
+      "column": 4,
+      "problem": "S\u00e9paration ambigu\u00eb des figures",
+      "expected": 3,
+      "detected": 2
     },
     {
       "source": "tactical/complete-north-promotions.png",

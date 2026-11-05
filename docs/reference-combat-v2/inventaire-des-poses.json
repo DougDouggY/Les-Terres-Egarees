@@ -1,0 +1,246 @@
+{
+  "civilians": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v5-civilians.webp"
+  },
+  "farmers": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v4-farmers.webp"
+  },
+  "guard-bow": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v5-guard-bow.webp"
+  },
+  "guard-spear": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v5-guard-spear.webp"
+  },
+  "guard-sword": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v5-guard-sword.webp"
+  },
+  "monks": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v3-monks.webp"
+  },
+  "viking-axe": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v6-viking-axe.webp"
+  },
+  "viking-bow": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/viking-bow.webp"
+  },
+  "viking-special": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/viking-special.webp"
+  },
+  "viking-sword": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/viking-sword.webp"
+  },
+  "viking-unshielded": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/viking-unshielded.webp"
+  },
+  "viking-special-female": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/viking-special-female.webp"
+  },
+  "v2-huscarl": {
+    "rows": 2,
+    "posesPerRow": [
+      6,
+      6
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v2-huscarl.webp"
+  },
+  "v2-hirdman": {
+    "rows": 2,
+    "posesPerRow": [
+      6,
+      6
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v2-hirdman.webp"
+  },
+  "v2-berserker": {
+    "rows": 2,
+    "posesPerRow": [
+      9,
+      9
+    ],
+    "supportsTrueSecondStrike": true,
+    "source": "combat/roster/v4-berserker-combo.webp"
+  },
+  "v2-great-axe": {
+    "rows": 2,
+    "posesPerRow": [
+      6,
+      6
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v3-great-axe.webp"
+  },
+  "v2-dual-swords": {
+    "rows": 2,
+    "posesPerRow": [
+      9,
+      9
+    ],
+    "supportsTrueSecondStrike": true,
+    "source": "combat/roster/v3-dual-swords-combo.webp"
+  },
+  "v2-archer": {
+    "rows": 2,
+    "posesPerRow": [
+      6,
+      6
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v2-archer.webp"
+  },
+  "v2-bannerman": {
+    "rows": 2,
+    "posesPerRow": [
+      6,
+      6
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v2-bannerman.webp"
+  },
+  "v2-pillard": {
+    "rows": 2,
+    "posesPerRow": [
+      6,
+      6
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v2-pillard.webp"
+  },
+  "v2-shieldbearer": {
+    "rows": 2,
+    "posesPerRow": [
+      6,
+      6
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v2-shieldbearer.webp"
+  },
+  "v2-bannerman-spent": {
+    "rows": 2,
+    "posesPerRow": [
+      6,
+      6
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v2-bannerman-spent.webp"
+  },
+  "guard-spear-unshielded": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/v5-guard-spear-unshielded.webp"
+  },
+  "henrico": {
+    "rows": 4,
+    "posesPerRow": [
+      4,
+      4,
+      4,
+      4
+    ],
+    "supportsTrueSecondStrike": false,
+    "source": "combat/roster/henrico-v1.webp"
+  }
+}

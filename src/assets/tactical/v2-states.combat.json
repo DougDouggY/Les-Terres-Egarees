@@ -1,0 +1,376 @@
+{
+  "profiles": [
+    {
+      "classId": "standard_bearer",
+      "gender": "male",
+      "equipment": "banner",
+      "state": "carried",
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    },
+    {
+      "classId": "standard_bearer",
+      "gender": "male",
+      "equipment": "sword",
+      "state": "planted",
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    },
+    {
+      "classId": "young_viking",
+      "gender": "male",
+      "equipment": "training-axe",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    },
+    {
+      "classId": "squire",
+      "gender": "male",
+      "equipment": "training-sword",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-states.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    }
+  ]
+}

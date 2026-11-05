@@ -1,0 +1,296 @@
+{
+  "profiles": [
+    {
+      "classId": "huscarl",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent, r\u00e9f\u00e9rence de peau et d\u2019\u00e9quipement stable ; esquive et marche sp\u00e9cifiques encore manquantes.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            5,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "intercept": {
+          "reuse": "block",
+          "note": "D\u00e9fense du m\u00eame bouclier ; la cible prot\u00e9g\u00e9e est choisie uniquement par le moteur."
+        }
+      }
+    },
+    {
+      "classId": "clan_healer",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent, r\u00e9f\u00e9rence de peau et d\u2019\u00e9quipement stable ; esquive et marche sp\u00e9cifiques encore manquantes.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            5,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "honor_guard",
+      "gender": "any",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent, r\u00e9f\u00e9rence de peau et d\u2019\u00e9quipement stable ; esquive et marche sp\u00e9cifiques encore manquantes.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            4,
+            5,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-shields-b.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    }
+  ]
+}

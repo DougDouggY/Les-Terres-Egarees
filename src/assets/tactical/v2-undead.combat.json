@@ -1,0 +1,283 @@
+{
+  "profiles": [
+    {
+      "classId": "skeleton",
+      "gender": "any",
+      "equipment": "rusty-sword",
+      "state": "default",
+      "note": "Atlas V2 : trois Sans-Repos, figures isol\u00e9es sans fragments voisins.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "sans_axe",
+      "gender": "any",
+      "equipment": "axe",
+      "state": "default",
+      "note": "Atlas V2 : trois Sans-Repos, figures isol\u00e9es sans fragments voisins.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "sans_spear",
+      "gender": "any",
+      "equipment": "lance",
+      "state": "default",
+      "note": "Atlas V2 : trois Sans-Repos, figures isol\u00e9es sans fragments voisins.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-undead.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    }
+  ]
+}

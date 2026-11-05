@@ -24,7 +24,7 @@ export function initiativeMarkup(s: Campaign) {
           "'": "&#39;",
         })[c]!,
     );
-  return `<nav class="initiative-strip" aria-label="Ordre d’initiative"><button class="initiative-arrow" data-initiative-step="-1" aria-label="Initiative précédente">‹</button><div class="initiative-window"><div class="initiative-track">${cycles
+  return `<nav class="initiative-strip${s.initiativeCollapsed ? " collapsed" : ""}" aria-label="Ordre d’initiative"><button class="initiative-arrow" data-initiative-step="-1" aria-label="Initiative précédente">‹</button><div class="initiative-window"><div class="initiative-track">${cycles
     .map(
       (cycle, n) =>
         `${n ? '<span class="initiative-cycle" role="separator" aria-label="Nouveau cycle"></span>' : ""}${cycle.queue
@@ -39,11 +39,15 @@ export function initiativeMarkup(s: Campaign) {
     )
     .join(
       "",
-    )}</div></div><button class="initiative-arrow" data-initiative-step="1" aria-label="Initiative suivante">›</button></nav>`;
+    )}</div></div><button class="initiative-arrow" data-initiative-step="1" aria-label="Initiative suivante">›</button><button class="initiative-eye" aria-label="Afficher ou masquer l’initiative" aria-expanded="${!s.initiativeCollapsed}"><svg width="20" height="14" viewBox="0 0 24 16" aria-hidden="true"><path d="M1 8 Q12 -5 23 8 Q12 21 1 8Z" fill="none" stroke="currentColor"/><circle cx="12" cy="8" r="3" fill="currentColor"/></svg></button></nav>`;
 }
 let previousToken = "",
   previousCenter = 0;
-export function bindInitiative(root: HTMLElement, s: Campaign) {
+export function bindInitiative(
+  root: HTMLElement,
+  s: Campaign,
+  changed = () => {},
+) {
   const nav = root.querySelector<HTMLElement>(".initiative-strip");
   if (!nav) return;
   const viewport = nav.querySelector<HTMLElement>(".initiative-window")!,
@@ -104,6 +108,18 @@ export function bindInitiative(root: HTMLElement, s: Campaign) {
   });
   const observer = new ResizeObserver(() => center());
   observer.observe(viewport);
+  const eye = nav.querySelector<HTMLButtonElement>(".initiative-eye")!;
+  eye.onclick = () => {
+    s.initiativeCollapsed = !s.initiativeCollapsed;
+    nav.classList.toggle("collapsed", s.initiativeCollapsed);
+    eye.setAttribute("aria-expanded", String(!s.initiativeCollapsed));
+    selected = Math.max(
+      0,
+      entries.findIndex((e) => e.classList.contains("current")),
+    );
+    center();
+    changed();
+  };
   // One rendered pose, redrawn only to accommodate asynchronous image loading.
   let disposed = false;
   const draw = () => {
