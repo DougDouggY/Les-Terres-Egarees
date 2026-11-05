@@ -1,0 +1,4751 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "shaman",
+      "gender": "female",
+      "equipment": "healing",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 139
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "female",
+      "equipment": "spell",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "female",
+      "equipment": "healing",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "necromancer",
+      "gender": "female",
+      "equipment": "spell",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "summon": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "necromancer",
+      "gender": "female",
+      "equipment": "healing",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "summon": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "archmage",
+      "gender": "female",
+      "equipment": "spell",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "area": {
+          "reuse": "heal",
+          "status": "provisional",
+          "note": "Incantation de ce skin, effet de zone calcul\u00e9 par le jeu."
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 147
+      }
+    },
+    {
+      "classId": "archmage",
+      "gender": "female",
+      "equipment": "healing",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "area": {
+          "reuse": "heal",
+          "status": "provisional",
+          "note": "Incantation de ce skin, effet de zone calcul\u00e9 par le jeu."
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 147
+      }
+    },
+    {
+      "classId": "volva",
+      "gender": "female",
+      "equipment": "spell",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "buff": {
+          "reuse": "heal",
+          "status": "provisional",
+          "note": "Incantation de ce skin pour la capacit\u00e9 r\u00e9elle d\u2019am\u00e9lioration."
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 151
+      }
+    },
+    {
+      "classId": "volva",
+      "gender": "female",
+      "equipment": "healing",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "buff": {
+          "reuse": "heal",
+          "status": "provisional",
+          "note": "Incantation de ce skin pour la capacit\u00e9 r\u00e9elle d\u2019am\u00e9lioration."
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 151
+      }
+    },
+    {
+      "classId": "hamrammr",
+      "gender": "female",
+      "equipment": "healing",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "transform": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 152
+      }
+    },
+    {
+      "classId": "north_warrior",
+      "gender": "female",
+      "equipment": "axe",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-warriors.png": 118
+      }
+    },
+    {
+      "classId": "nordic_blade",
+      "gender": "female",
+      "equipment": "sword",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-warriors.png": 116
+      }
+    },
+    {
+      "classId": "berserker",
+      "gender": "female",
+      "equipment": "dual-axes",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "attack_offhand": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-warriors.png": 113
+      }
+    },
+    {
+      "classId": "drengr",
+      "gender": "female",
+      "equipment": "dual-swords",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "attack_offhand": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-warriors.png": 114
+      }
+    },
+    {
+      "classId": "ironbreaker",
+      "gender": "female",
+      "equipment": "great-axe",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-warriors.png": 125
+      }
+    },
+    {
+      "classId": "duelist",
+      "gender": "female",
+      "equipment": "dual-swords",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "attack_offhand": {
+          "source": "tactical/combat-v4-warriors.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-warriors.png": 119
+      }
+    },
+    {
+      "classId": "huscarl",
+      "gender": "female",
+      "equipment": "axe-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-motion-shields.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            5,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "block": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            4,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-shields.png": 77,
+        "tactical/combat-v4-motion-shields.png": 180
+      }
+    },
+    {
+      "classId": "huscarl",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-motion-shields.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            5,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "block": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            4,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-shields.png": 77,
+        "tactical/combat-v4-motion-shields.png": 179
+      }
+    },
+    {
+      "classId": "clan_healer",
+      "gender": "female",
+      "equipment": "axe-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-motion-shields.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "block": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            4,
+            4,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "bandage": {
+          "source": "tactical/combat-v4-abilities.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "reuse": "bandage"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-shields.png": 76,
+        "tactical/combat-v4-motion-shields.png": 182,
+        "tactical/combat-v4-abilities.png": 205
+      }
+    },
+    {
+      "classId": "clan_healer",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-motion-shields.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            5,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "block": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            4,
+            4,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "bandage": {
+          "source": "tactical/combat-v4-abilities.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "reuse": "bandage"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-shields.png": 79,
+        "tactical/combat-v4-motion-shields.png": 182,
+        "tactical/combat-v4-abilities.png": 205
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-motion-shields.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            5,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "block": {
+          "source": "tactical/combat-v4-shields.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            4,
+            4,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-shields.png": 76,
+        "tactical/combat-v4-motion-shields.png": 184
+      }
+    },
+    {
+      "classId": "young_viking",
+      "gender": "female",
+      "equipment": "training-axe",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-young-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme."
+        },
+        "move": {
+          "source": "tactical/combat-v4-motion-young-female.png",
+          "columns": 4,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Course adapt\u00e9e \u00e0 la m\u00eame apparence que les poses offensives V4."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-young-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/combat-v4-young-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-young-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme."
+        },
+        "death": {
+          "source": "tactical/combat-v4-young-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            5,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme."
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-motion-shields.png": 176,
+        "tactical/combat-v4-young-female.png": 341,
+        "tactical/combat-v4-motion-young-female.png": 592
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "female",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-ranged.png": 127
+      }
+    },
+    {
+      "classId": "pavise_crossbowman",
+      "gender": "female",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "fortify": {
+          "source": "tactical/combat-v4-abilities.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-ranged.png": 139,
+        "tactical/combat-v4-abilities.png": 206
+      }
+    },
+    {
+      "classId": "pavise_crossbowman",
+      "gender": "female",
+      "equipment": "crossbow",
+      "state": "fortified",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "fortify": {
+          "source": "tactical/combat-v4-abilities.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-ranged.png": 139,
+        "tactical/combat-v4-abilities.png": 206
+      }
+    },
+    {
+      "classId": "tracker",
+      "gender": "female",
+      "equipment": "bow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-ranged.png": 128
+      }
+    },
+    {
+      "classId": "tracker",
+      "gender": "female",
+      "equipment": "axe",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-ranged.png": 137
+      }
+    },
+    {
+      "classId": "ranger",
+      "gender": "female",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-ranged.png": 144
+      }
+    },
+    {
+      "classId": "standard_bearer",
+      "gender": "female",
+      "equipment": "banner",
+      "state": "carried",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "banner": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-mixed.png": 117
+      }
+    },
+    {
+      "classId": "standard_bearer",
+      "gender": "female",
+      "equipment": "sword",
+      "state": "planted",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-mixed.png": 124
+      }
+    },
+    {
+      "classId": "squire",
+      "gender": "female",
+      "equipment": "training-sword",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-mixed.png": 124
+      }
+    },
+    {
+      "classId": "ranger",
+      "gender": "female",
+      "equipment": "sword",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-mixed.png": 128
+      }
+    },
+    {
+      "classId": "hunter",
+      "gender": "male",
+      "equipment": "bow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-mixed.png": 128
+      }
+    },
+    {
+      "classId": "master_hunter",
+      "gender": "male",
+      "equipment": "bow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-mixed.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-mixed.png": 141
+      }
+    },
+    {
+      "classId": "young_viking",
+      "gender": "male",
+      "equipment": "training-axe",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-fixes.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-motion-young.png",
+          "columns": 4,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-fixes.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v4-fixes.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-fixes.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-fixes.png",
+          "columns": 8,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identit\u00e9 propre ; contr\u00f4le visuel document\u00e9 dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-fixes.png": 149,
+        "tactical/combat-v4-motion-young.png": 447
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "female",
+      "equipment": "axe-shield",
+      "state": "default",
+      "note": "Atlas V2 coh\u00e9rent, r\u00e9f\u00e9rence de peau et d\u2019\u00e9quipement stable ; esquive et marche sp\u00e9cifiques encore manquantes.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-raider-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme."
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion1.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-raider-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/combat-v4-raider-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-raider-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme."
+        },
+        "death": {
+          "source": "tactical/combat-v4-raider-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            5,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme."
+        },
+        "block": {
+          "source": "tactical/combat-v4-raider-female.png",
+          "columns": 8,
+          "rows": 1,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            4,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Correction apr\u00e8s revue visuelle V4, m\u00eames v\u00eatements et arme.",
+          "impactFrame": 1
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-raider-female.png": 215
+      }
+    },
+    {
+      "classId": "hamrammr",
+      "gender": "any",
+      "equipment": "claws",
+      "state": "bear",
+      "clips": {
+        "transform": {
+          "reuse": "idle",
+          "status": "provisional",
+          "note": "Retour humain : garde animale puis vraie apparence humaine de l\u2019unit\u00e9. Dessins interm\u00e9diaires d\u00e9di\u00e9s manquants ; aucune image masculine impos\u00e9e \u00e0 la variante f\u00e9minine."
+        }
+      }
+    }
+  ]
+}

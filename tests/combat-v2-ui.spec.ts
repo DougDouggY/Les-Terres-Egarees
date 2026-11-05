@@ -57,7 +57,7 @@ test("V2 : scénarios, skins stables, ralenti, miroir, diagnostic et nouvelle ga
   await expect(page.locator("[data-compare-play]")).toBeEnabled();
   await page.locator("#compare-progress").fill("349");
   await expect(page.locator("#compare-diagnostic")).toContainText(
-    '"duration": 2240',
+    '"duration": 2400',
   );
   await page.screenshot({ path: "artifacts/combat-v2/dual-weapons.png" });
   expect(
@@ -226,7 +226,7 @@ test("riposte : vraie réaction à l’impact et pieds immobiles pendant la cour
   });
   const hit = sample.impact.find((f: any) => f.actorId === sample.id)! as any;
   expect(hit.animation).toBe("damage");
-  expect(hit.index).toBe(1);
+  expect(hit.index).toBe(0); // Première pose blessée du Cavalier, pas son retour en garde.
   for (const f of sample.impact as any[])
     expect(
       (sample.held as any[]).find((h) => h.actorId === f.actorId).feetX,

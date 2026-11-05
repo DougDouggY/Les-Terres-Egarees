@@ -445,6 +445,12 @@ export function openWorkshop(
     if (!playing) {
       started += now - last;
       if (support) support.start += now - last;
+    } else if (last >= started && now - last > 50) {
+      // A slow atlas decode/recolor must not skip an entire support gesture.
+      // This is presentation time only; the engine result stays unchanged.
+      const skipped = now - last - 50;
+      started += skipped;
+      if (support && last >= support.start) support.start += skipped;
     }
     last = now;
     const canvas = app.querySelector<HTMLCanvasElement>("#lab-battle");

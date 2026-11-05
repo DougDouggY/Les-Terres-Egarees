@@ -99,7 +99,15 @@ test("tous les skins : identité stable, repos/attaque de même atlas, aucune po
       .flatMap((f) => JSON.parse(readFileSync(dir + f, "utf8")).profiles)
       .map((p) => [profileKey(p), p]),
   );
-  assert.equal(profiles.length, 55);
+  assert.equal(profiles.length, 89);
+  const old = JSON.parse(
+    readFileSync(dir + "zz-v3.combat.json", "utf8"),
+  ).profiles;
+  for (const p of old)
+    assert.ok(
+      profiles.some((q) => profileKey(q) === profileKey(p)),
+      profileKey(p),
+    );
   for (const p of profiles) {
     const skin = buildCombatSkin(p, replacements.get(profileKey(p)))!;
     assert.equal(skin.id, profileKey(p));
@@ -142,11 +150,24 @@ test("arbalète : recharge visuelle après les événements sans frappe supplém
   assert.ok(sampleV2Timeline(t, 1400)!.reloadPhase! > 0);
 });
 
-test('Porte-étendard : taille anatomique mesurée sous la pointe de la bannière',()=>{
- const layouts=JSON.parse(readFileSync('src/assets/tactical/atlas-layout.json','utf8'));
- for(const [source,row]of [['tactical/combat-v3-equipment.png',0],['tactical/combat-v3-motion2.png',1]] as const){
-  const guard=layouts[source].frames.find((f:any)=>f.row===row&&f.column===0);
-  assert.ok(guard.bodyHeight<guard.height*.8,'la hampe ne mesure pas la taille du personnage');
-  assert.ok(guard.bodyHeight>guard.height*.6,'le corps entier reste pris en compte');
- }
+test("Porte-étendard : taille anatomique mesurée sous la pointe de la bannière", () => {
+  const layouts = JSON.parse(
+    readFileSync("src/assets/tactical/atlas-layout.json", "utf8"),
+  );
+  for (const [source, row] of [
+    ["tactical/combat-v3-equipment.png", 0],
+    ["tactical/combat-v3-motion2.png", 1],
+  ] as const) {
+    const guard = layouts[source].frames.find(
+      (f: any) => f.row === row && f.column === 0,
+    );
+    assert.ok(
+      guard.bodyHeight < guard.height * 0.8,
+      "la hampe ne mesure pas la taille du personnage",
+    );
+    assert.ok(
+      guard.bodyHeight > guard.height * 0.6,
+      "le corps entier reste pris en compte",
+    );
+  }
 });

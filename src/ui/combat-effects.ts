@@ -66,7 +66,7 @@ export function drawSpell(
 ) {
   if (kind === "heal") return;
   const flip = to.x < from.x;
-  if (t >= -320 && t < -180)
+  if (kind === "fire" && t >= -320 && t < -180)
     drawEffectFrame(
       ctx,
       kind,
@@ -87,6 +87,28 @@ export function drawSpell(
       size,
       flip,
     );
+  }
+  if (kind === "lightning" && t >= -300 && t < 100) {
+    const appear = Math.min(1, (t + 300) / 140),
+      fade = t > 20 ? Math.max(0, (100 - t) / 80) : 1;
+    ctx.save();
+    ctx.globalAlpha = appear * fade * 0.9;
+    // Frames 2/3 begin near (9%,6%) of the atlas cell. Match that
+    // actual upper endpoint, including the horizontal mirror.
+    const x = Math.round((to.x + (flip ? 1 : -1) * size * 0.63) / 3) * 3,
+      y = Math.round((to.y - 25 - size * 0.69 - 9) / 3) * 3;
+    ctx.fillStyle = "#6c747d";
+    for (const [dx, dy, w, h] of [
+      [-25, -3, 50, 15],
+      [-18, -12, 20, 18],
+      [-4, -16, 24, 22],
+      [14, -8, 17, 17],
+    ])
+      ctx.fillRect(x + dx, y + dy, w, h);
+    ctx.fillStyle = "#a1a6ad";
+    ctx.fillRect(x - 15, y - 9, 14, 5);
+    ctx.fillRect(x + 2, y - 12, 13, 5);
+    ctx.restore();
   }
   if (kind === "lightning" && t >= -80 && t < 100)
     drawEffectFrame(

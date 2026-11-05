@@ -1,4 +1,5 @@
 import "./tools.css";
+import { capabilityFixture } from "./capability-fixture";
 import * as E from "../engine";
 import { createSandbox, trainingUnit } from "../game/sandbox";
 import { visualClasses } from "../sprites/visual-classes";
@@ -125,7 +126,9 @@ export function makeComparisonActor(
   );
   if (w) {
     unit.activeWeaponId = w.id;
-    unit.carriedWeapons = [w.id];
+    unit.carriedWeapons = Array.from(
+      new Set([...(unit.carriedWeapons ?? []), w.id]),
+    );
     E.syncWeapon(unit);
   }
   unit.hp = unit.maxHp = 100;
@@ -189,23 +192,64 @@ export function openCombatComparator(app: HTMLElement, onBack: () => void) {
         p.classId === (scenario === "intercept" ? "hunter" : "raider") &&
         p.equipment === (scenario === "intercept" ? "bow" : "axe-shield"),
     )!;
-    const a = makeComparisonActor(p, "compare-left", 1),
+    let a = makeComparisonActor(p, "compare-left", 1),
       b = makeComparisonActor(target, "compare-right", 0);
+    const isCapability =
+      [
+        "heal",
+        "bandage",
+        "transform",
+        "fortify",
+        "fortify-move",
+        "area",
+        "charge",
+        "summon",
+        "buff",
+        "banner",
+      ].includes(action) && !!E.classes[p.classId];
+    let fixture: ReturnType<typeof capabilityFixture> | undefined;
+    try {
+      fixture = isCapability ? capabilityFixture(p, action) : undefined;
+    } catch (error) {
+      status(
+        `Essai indisponible : ${error instanceof Error ? error.message : String(error)}`,
+      );
+      return;
+    }
+    if (fixture) {
+      a = fixture.before;
+      b = fixture.targetBefore;
+    }
     const next = new CombatSceneV2(
-      [a, b],
-      action === "scenario" ? comparatorStrikes(scenario, a, b) : [],
+      fixture && action === "summon" ? [a] : [a, b],
+      fixture?.strikes ??
+        (action === "scenario" ? comparatorStrikes(scenario, a, b) : []),
     );
-    if (action !== "scenario")
+    if (action !== "scenario" && !fixture?.strikes)
       next.preview = {
         actorId: a.id,
-        animation: action,
-        duration: Math.max(
-          1250,
-          ((resolveClip(combatSkin(p)?.profile, action)?.frames.length ?? 1) /
-            (resolveClip(combatSkin(p)?.profile, action)?.fps ?? 7)) *
-            1000,
-        ),
+        animation: fixture?.animation ?? action,
+        targetId: fixture && action !== "summon" ? b.id : undefined,
+        duration: fixture
+          ? 2400
+          : Math.max(
+              1250,
+              ((resolveClip(combatSkin(p)?.profile, action)?.frames.length ??
+                1) /
+                (resolveClip(combatSkin(p)?.profile, action)?.fps ?? 7)) *
+                1000,
+            ),
       };
+    if (fixture && !fixture.strikes) {
+      if (next.actors[1]) next.actors[1].side = 1;
+      const result = new CombatSceneV2(
+        [fixture.after, fixture.targetAfter],
+        [],
+      );
+      result.actors[1].side = 1;
+      next.previewResult = { scene: result, at: 1200, duration: 2400 };
+      await result.prepare();
+    }
     next.mirror = mirror;
     next.diagnostic = diagnostic;
     const play = app.querySelector<HTMLButtonElement>("[data-compare-play]");
@@ -224,16 +268,42 @@ export function openCombatComparator(app: HTMLElement, onBack: () => void) {
       ) ?? []),
     ];
     status(
-      issues.length
-        ? `${issues.length} réserve(s) graphique(s) · détails dans le diagnostic.`
-        : "Prêt · séquence déterministe indépendante.",
+      !E.classes[p.classId] && action !== "scenario"
+        ? "Prévisualisation graphique : cette entrée Sans-Repos n’a pas de capacité tactique définie."
+        : fixture
+          ? `Résultat réel : ${JSON.stringify(fixture.details)}`
+          : issues.length
+            ? `${issues.length} réserve(s) graphique(s) · détails dans le diagnostic.`
+            : "Prêt · séquence déterministe indépendante.",
     );
     const info = app.querySelector("#compare-diagnostic");
-    if (info) info.textContent = JSON.stringify(next.diagnosticJSON(), null, 2);
+    if (info)
+      info.textContent = JSON.stringify(
+        { ...next.diagnosticJSON(), capability: fixture?.details },
+        null,
+        2,
+      );
   }
   function render() {
     const p = selected(),
       c = combatSkin(p)?.profile;
+    const capabilityNames = new Set(Object.keys(c?.clips ?? {}));
+    const skills = E.classes[classId]?.skills ?? [];
+    for (const name of [
+      "heal",
+      "bandage",
+      "transform",
+      "fortify",
+      "area",
+      "charge",
+      "summon",
+      "buff",
+      "banner",
+    ])
+      if (skills.includes(name as E.SkillId)) capabilityNames.add(name);
+    if (skills.includes("fortify")) capabilityNames.add("fortify-move");
+    if (p.state === "planted") capabilityNames.delete("banner");
+    if (p.equipment !== "spell") capabilityNames.delete("area");
     const choices = Object.values(visualClasses),
       weapons = [
         ...new Set(
@@ -242,7 +312,7 @@ export function openCombatComparator(app: HTMLElement, onBack: () => void) {
             .map((p) => p.equipment),
         ),
       ];
-    app.innerHTML = `<main class="combat-lab-simple comparator-v2"><header class="arena-toolbar"><strong>Comparateur V2</strong><label>Classe<select id="compare-class">${choices.map((c) => `<option value="${c.id}" ${c.id === classId ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label><label>Arme<select id="compare-weapon">${weapons.map((w) => `<option ${w === equipment ? "selected" : ""}>${esc(w)}</option>`).join("")}</select></label><label>Skin<select id="compare-skin">${profiles()
+    app.innerHTML = `<main class="combat-lab-simple comparator-v2"><header class="arena-toolbar"><strong>Comparateur de combats · V4</strong><label>Classe<select id="compare-class">${choices.map((c) => `<option value="${c.id}" ${c.id === classId ? "selected" : ""}>${esc(c.name)}</option>`).join("")}</select></label><label>Arme<select id="compare-weapon">${weapons.map((w) => `<option ${w === equipment ? "selected" : ""}>${esc(w)}</option>`).join("")}</select></label><label>Skin<select id="compare-skin">${profiles()
       .map(
         (p) =>
           `<option value="${profileKey(p)}" ${profileKey(p) === skinId ? "selected" : ""}>${p.gender} · ${p.state}</option>`,
@@ -258,12 +328,12 @@ export function openCombatComparator(app: HTMLElement, onBack: () => void) {
       )
       .join(
         "",
-      )}</select></label><label>Pose / capacité<select id="compare-action"><option value="scenario">Scénario complet</option>${Object.keys(
-      c?.clips ?? {},
-    )
+      )}</select></label><label>Pose / capacité<select id="compare-action"><option value="scenario">Scénario complet</option>${[
+      ...capabilityNames,
+    ]
       .map(
         (name) =>
-          `<option value="${name}" ${name === action ? "selected" : ""}>${esc(animationNames[name] ?? name)}</option>`,
+          `<option value="${name}" ${name === action ? "selected" : ""}>${esc(name === "fortify-move" ? "Pavois puis déplacement" : (animationNames[name] ?? name))}</option>`,
       )
       .join(
         "",

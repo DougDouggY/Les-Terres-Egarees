@@ -20,7 +20,7 @@ for source,layout in layouts.items():
   band=a[:,max(0,int(front)-3):];wy,_=np.where(band)
   region=labels[y:y+h,x:x+w];counts=np.bincount(region.ravel(),minlength=len(sizes));counts[0]=0;main=int(counts.argmax())
   foreign=int(counts.sum()-counts[main]);mask=[]
-  if main and (foreign>12 or source.startswith('tactical/combat-v3-')):
+  if main and (foreign>12 or source.startswith(('tactical/combat-v3-', 'tactical/combat-v4-'))):
    own=region==main
    distance=distance_transform_edt(~own)
    for number in np.unique(region):

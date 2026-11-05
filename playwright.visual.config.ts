@@ -6,6 +6,7 @@ export default defineConfig({
     "tactical-interface.spec.ts",
     "combat-arena.spec.ts",
     "combat-v2-ui.spec.ts",
+    "combat-v4-ui.spec.ts",
     "workshop.spec.ts",
     "initiative-ui.spec.ts",
     "magic-tests.spec.ts",

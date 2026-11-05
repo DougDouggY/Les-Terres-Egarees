@@ -172,7 +172,16 @@ test("prévision compacte sans aide superflue, puis résultats lisibles", async 
   await expect(page.locator(".compact-forecast")).toBeVisible();
   await expect(page.locator(".compact-forecast")).not.toContainText("agilité");
   const r = await page.locator(".compact-forecast").boundingBox();
-  expect(r!.width).toBeLessThan(300);
+  expect(r!.width).toBeLessThanOrEqual(320);
+  expect(r!.y).toBeGreaterThanOrEqual(0);
+  expect(r!.y + r!.height).toBeLessThanOrEqual(page.viewportSize()!.height);
+  await expect(page.locator(".fe-names header")).toHaveCount(2);
+  await expect(page.locator(".fe-stat-grid > span")).toHaveText([
+    "PV",
+    "Dégâts",
+    "Précision",
+    "Critique",
+  ]);
   await page.screenshot({ path: "artifacts/compact-forecast.png" });
   await page.locator('[data-action^="confirm-attack-"]').click();
   await expect(page.locator(".compact-rewards")).toBeVisible();

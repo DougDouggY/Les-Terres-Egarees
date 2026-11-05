@@ -87,6 +87,8 @@ export function profileMetrics(p: SpriteProfile) {
     const r = resourceRect(c, last ? c.frames.length - 1 : 0);
     if (r) references.set(c.source, r.bodyHeight ?? r.height);
   }
+  for (const [source, height] of Object.entries(p.referenceHeights ?? {}))
+    if (height > 0) references.set(source, height);
   let half = 0,
     height = 0,
     below = 0;

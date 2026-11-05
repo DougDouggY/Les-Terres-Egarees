@@ -31,6 +31,7 @@ export function normalizeTeamColors(
   const result = { ...defaultTeamColors };
   for (const key of ["player1", "player2", "enemies"] as const)
     if (isTeamColor(v[key])) result[key] = v[key];
+  result.enemies = defaultTeamColors.enemies;
   if (!allowPinkPlayers) {
     if (result.player1 === "pink") result.player1 = "blue";
     if (result.player2 === "pink") result.player2 = "yellow";
@@ -46,14 +47,18 @@ export function setTeamColors(
   if (!Object.values(value).every(isTeamColor)) throw Error("Couleur inconnue");
   if (value.player1 === value.player2)
     throw Error("Les deux joueurs doivent avoir des couleurs distinctes.");
-  game.teamColors = { ...value };
+  game.teamColors = { ...value, enemies: defaultTeamColors.enemies };
 }
 export function colorForOwner(
   colors: TeamColors | undefined,
   owner: number,
 ): TeamColor {
   const c = colors ?? defaultTeamColors;
-  return owner === 1 ? c.player1 : owner === 2 ? c.player2 : c.enemies;
+  return owner === 1
+    ? c.player1
+    : owner === 2
+      ? c.player2
+      : defaultTeamColors.enemies;
 }
 
 export function setPlayableTeamColors(

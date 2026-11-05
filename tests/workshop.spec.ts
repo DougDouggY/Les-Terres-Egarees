@@ -78,9 +78,9 @@ test("galerie : huit vraies poses homme/femme et outil de sol ; critiques manqua
   await expect(page.locator("#sprite-canvas")).toBeVisible();
   await page.locator("#sprite-state").selectOption("default");
   await page.locator("#sprite-gender").selectOption("female");
-  await expect(page.locator(".sprite-missing").first()).toContainText(
-    "Sprite manquant",
-  );
+  await expect(page.locator(".sprite-missing")).toHaveCount(0);
+  await expect(page.locator("#sprite-canvas")).toBeVisible();
+  await expect(page.locator("#sprite-frame")).toContainText("/ 5");
   expect(
     await page.evaluate(() => localStorage.getItem("lte-save")),
   ).toBeNull();

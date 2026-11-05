@@ -4,7 +4,7 @@ import {
   type SpriteProfile,
   type Clip,
 } from "./catalog";
-import { resourceRect } from "./geometry";
+import { profileMetrics, resourceRect } from "./geometry";
 import type { Unit } from "../game/types";
 import { classes } from "../data/classes";
 export type CombatSkin = {
@@ -32,7 +32,14 @@ export function buildCombatSkin(
   const attack = resolveClip(p, "attack"),
     guard = resolveClip(p, "combat_idle") ?? resolveClip(p, "idle");
   const primary = attack ?? guard;
-  const profile: SpriteProfile = { ...p, clips: {} };
+  const profile: SpriteProfile = {
+    ...p,
+    clips: {},
+    referenceHeights: {
+      ...Object.fromEntries(profileMetrics(original).references),
+      ...p.referenceHeights,
+    },
+  };
   for (const name of Object.keys(p.clips)) {
     const c = resolveClip(p, name);
     if (!c) continue;
@@ -52,7 +59,16 @@ export function buildCombatSkin(
     }
     if (name.startsWith("combat_")) continue;
     // Guard/recovery and attack belong to one wardrobe, not to unrelated map art.
-    if (["idle", "move"].includes(name) && attack && c.source !== attack.source && !c.source.startsWith("tactical/combat-v3-motion"))
+    if (
+      ["idle", "move"].includes(name) &&
+      attack &&
+      c.source !== attack.source &&
+      !/^tactical\/combat-v[34]-motion/.test(c.source) &&
+      !(
+        p.classId === "mounted_spearman" &&
+        c.source === "tactical/combat-v3-mounted.png"
+      )
+    )
       continue;
     if (name === "evade" && c.source !== primary?.source && !replacement) {
       issues.push({
@@ -91,6 +107,21 @@ export function buildCombatSkin(
         reason: "Marche de combat spécifique manquante",
       });
     }
+  }
+  // The historical reverse-transform strip contains a male human. The bear
+  // skin is shared by both genders: never show that borrowed human drawing.
+  // The caller reveals the real resulting unit/skin after this guard transition.
+  if (p.state === "bear" && profile.clips.transform) {
+    profile.clips.transform = {
+      reuse: "idle",
+      status: "provisional",
+      note: "Retour humain : garde animale puis vrai skin humain de l’unité ; dessins intermédiaires dédiés manquants.",
+    };
+    issues.push({
+      animation: "transform",
+      reason:
+        "Transition inverse illustrée non finalisée ; ancien humain masculin écarté du skin animal partagé.",
+    });
   }
   // Counter attacks are the SAME identity and weapon; an alternate gesture is optional.
   if (attack)

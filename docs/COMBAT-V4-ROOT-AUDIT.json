@@ -1,0 +1,2513 @@
+[
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 198.0,
+    "newRoot": 198.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 341.0,
+    "newRoot": 453.0,
+    "confidence": 0.8393,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 708.0,
+    "newRoot": 715.0,
+    "confidence": 0.8919,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 851.0,
+    "newRoot": 963.0,
+    "confidence": 0.8343,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 1,
+    "column": 0,
+    "oldRoot": 195.0,
+    "newRoot": 195.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 331.0,
+    "newRoot": 448.0,
+    "confidence": 0.8771,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 707.0,
+    "newRoot": 708.0,
+    "confidence": 0.9529,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 843.0,
+    "newRoot": 957.0,
+    "confidence": 0.8816,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 195.0,
+    "newRoot": 195.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 336.0,
+    "newRoot": 449.0,
+    "confidence": 0.9331,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 711.0,
+    "newRoot": 718.0,
+    "confidence": 0.9503,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 853.0,
+    "newRoot": 959.0,
+    "confidence": 0.9452,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 3,
+    "column": 0,
+    "oldRoot": 196.0,
+    "newRoot": 196.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 338.0,
+    "newRoot": 447.0,
+    "confidence": 0.8976,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 711.0,
+    "newRoot": 707.0,
+    "confidence": 0.9377,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 3,
+    "column": 3,
+    "oldRoot": 848.0,
+    "newRoot": 957.0,
+    "confidence": 0.8697,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 4,
+    "column": 0,
+    "oldRoot": 203.0,
+    "newRoot": 203.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 334.0,
+    "newRoot": 451.0,
+    "confidence": 0.9129,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 715.0,
+    "newRoot": 710.0,
+    "confidence": 0.9128,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 4,
+    "column": 3,
+    "oldRoot": 849.0,
+    "newRoot": 972.0,
+    "confidence": 0.9131,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 5,
+    "column": 0,
+    "oldRoot": 197.0,
+    "newRoot": 197.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 340.0,
+    "newRoot": 453.0,
+    "confidence": 0.7955,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 714.0,
+    "newRoot": 715.0,
+    "confidence": 0.9053,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion1.png",
+    "row": 5,
+    "column": 3,
+    "oldRoot": 852.0,
+    "newRoot": 964.0,
+    "confidence": 0.8268,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 265.0,
+    "newRoot": 265.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 496.0,
+    "newRoot": 623.0,
+    "confidence": 0.8662,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 998.0,
+    "newRoot": 989.0,
+    "confidence": 0.9028,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 1229.0,
+    "newRoot": 1352.0,
+    "confidence": 0.8647,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-mounted.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 272.0,
+    "newRoot": 272.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-mounted.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 554.0,
+    "newRoot": 501.0,
+    "confidence": 0.7971,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-mounted.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 704.0,
+    "newRoot": 717.0,
+    "confidence": 0.8228,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-mounted.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 268.0,
+    "newRoot": 268.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-mounted.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 553.0,
+    "newRoot": 485.0,
+    "confidence": 0.862,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-mounted.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 691.0,
+    "newRoot": 710.0,
+    "confidence": 0.7504,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-mounted.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 268.0,
+    "newRoot": 268.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-mounted.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 551.0,
+    "newRoot": 487.0,
+    "confidence": 0.6535,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-mounted.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 696.0,
+    "newRoot": 710.0,
+    "confidence": 0.7332,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 1,
+    "column": 0,
+    "oldRoot": 237.0,
+    "newRoot": 237.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 483.0,
+    "newRoot": 593.0,
+    "confidence": 0.9039,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 969.0,
+    "newRoot": 964.0,
+    "confidence": 0.9412,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 1212.0,
+    "newRoot": 1319.0,
+    "confidence": 0.8703,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 272.0,
+    "newRoot": 272.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 489.0,
+    "newRoot": 634.0,
+    "confidence": 0.9231,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 993.0,
+    "newRoot": 995.0,
+    "confidence": 0.9558,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion2.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 1218.0,
+    "newRoot": 1358.0,
+    "confidence": 0.9211,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 218.0,
+    "newRoot": 218.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 415.0,
+    "newRoot": 526.0,
+    "confidence": 0.7112,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 817.0,
+    "newRoot": 823.0,
+    "confidence": 0.8505,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 1026.0,
+    "newRoot": 1126.0,
+    "confidence": 0.8363,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 212.0,
+    "newRoot": 212.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 414.0,
+    "newRoot": 518.0,
+    "confidence": 0.7091,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 814.0,
+    "newRoot": 821.0,
+    "confidence": 0.7845,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 1025.0,
+    "newRoot": 1118.0,
+    "confidence": 0.7917,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 3,
+    "column": 0,
+    "oldRoot": 221.0,
+    "newRoot": 221.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 404.0,
+    "newRoot": 519.0,
+    "confidence": 0.9489,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 814.0,
+    "newRoot": 813.0,
+    "confidence": 0.947,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 3,
+    "column": 3,
+    "oldRoot": 1014.0,
+    "newRoot": 1122.0,
+    "confidence": 0.9522,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 4,
+    "column": 0,
+    "oldRoot": 226.0,
+    "newRoot": 226.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 405.0,
+    "newRoot": 519.0,
+    "confidence": 0.7832,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 828.0,
+    "newRoot": 831.0,
+    "confidence": 0.8901,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 4,
+    "column": 3,
+    "oldRoot": 1028.0,
+    "newRoot": 1122.0,
+    "confidence": 0.7508,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 5,
+    "column": 0,
+    "oldRoot": 219.0,
+    "newRoot": 219.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 405.0,
+    "newRoot": 522.0,
+    "confidence": 0.9618,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 826.0,
+    "newRoot": 829.0,
+    "confidence": 0.9634,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion3.png",
+    "row": 5,
+    "column": 3,
+    "oldRoot": 1018.0,
+    "newRoot": 1122.0,
+    "confidence": 0.9668,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 180.0,
+    "newRoot": 180.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 365.0,
+    "newRoot": 440.0,
+    "confidence": 0.8936,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 684.0,
+    "newRoot": 697.0,
+    "confidence": 0.897,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 875.0,
+    "newRoot": 951.0,
+    "confidence": 0.8924,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 1,
+    "column": 0,
+    "oldRoot": 179.0,
+    "newRoot": 179.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 355.0,
+    "newRoot": 439.0,
+    "confidence": 0.877,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 692.0,
+    "newRoot": 695.0,
+    "confidence": 0.8781,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 875.0,
+    "newRoot": 952.0,
+    "confidence": 0.8976,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 179.0,
+    "newRoot": 179.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 347.0,
+    "newRoot": 432.0,
+    "confidence": 0.921,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 691.0,
+    "newRoot": 688.0,
+    "confidence": 0.9467,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 868.0,
+    "newRoot": 952.0,
+    "confidence": 0.9509,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 3,
+    "column": 0,
+    "oldRoot": 176.0,
+    "newRoot": 176.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 344.0,
+    "newRoot": 434.0,
+    "confidence": 0.918,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 694.0,
+    "newRoot": 692.0,
+    "confidence": 0.9445,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 3,
+    "column": 3,
+    "oldRoot": 865.0,
+    "newRoot": 948.0,
+    "confidence": 0.9203,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 4,
+    "column": 0,
+    "oldRoot": 174.0,
+    "newRoot": 174.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 348.0,
+    "newRoot": 425.0,
+    "confidence": 0.7258,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 687.0,
+    "newRoot": 688.0,
+    "confidence": 0.8908,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 4,
+    "column": 3,
+    "oldRoot": 857.0,
+    "newRoot": 943.0,
+    "confidence": 0.8994,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 5,
+    "column": 0,
+    "oldRoot": 173.0,
+    "newRoot": 173.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 348.0,
+    "newRoot": 434.0,
+    "confidence": 0.7456,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 694.0,
+    "newRoot": 695.0,
+    "confidence": 0.6799,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion4.png",
+    "row": 5,
+    "column": 3,
+    "oldRoot": 866.0,
+    "newRoot": 957.0,
+    "confidence": 0.7947,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 203.0,
+    "newRoot": 203.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 357.0,
+    "newRoot": 455.0,
+    "confidence": 0.8094,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 713.0,
+    "newRoot": 712.0,
+    "confidence": 0.8815,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 869.0,
+    "newRoot": 969.0,
+    "confidence": 0.8464,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 1,
+    "column": 0,
+    "oldRoot": 190.0,
+    "newRoot": 190.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 358.0,
+    "newRoot": 445.0,
+    "confidence": 0.7481,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 712.0,
+    "newRoot": 704.0,
+    "confidence": 0.7987,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 868.0,
+    "newRoot": 958.0,
+    "confidence": 0.8038,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 194.0,
+    "newRoot": 194.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 358.0,
+    "newRoot": 446.0,
+    "confidence": 0.9175,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 711.0,
+    "newRoot": 706.0,
+    "confidence": 0.9529,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 871.0,
+    "newRoot": 962.0,
+    "confidence": 0.9153,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 3,
+    "column": 0,
+    "oldRoot": 190.0,
+    "newRoot": 190.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 355.0,
+    "newRoot": 436.0,
+    "confidence": 0.8019,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 705.0,
+    "newRoot": 703.0,
+    "confidence": 0.8478,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 3,
+    "column": 3,
+    "oldRoot": 868.0,
+    "newRoot": 954.0,
+    "confidence": 0.7995,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 4,
+    "column": 0,
+    "oldRoot": 192.0,
+    "newRoot": 192.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 355.0,
+    "newRoot": 442.0,
+    "confidence": 0.7887,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 712.0,
+    "newRoot": 705.0,
+    "confidence": 0.8385,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 4,
+    "column": 3,
+    "oldRoot": 862.0,
+    "newRoot": 951.0,
+    "confidence": 0.7883,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 5,
+    "column": 0,
+    "oldRoot": 194.0,
+    "newRoot": 194.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 362.0,
+    "newRoot": 443.0,
+    "confidence": 0.7642,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 713.0,
+    "newRoot": 708.0,
+    "confidence": 0.9266,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion5.png",
+    "row": 5,
+    "column": 3,
+    "oldRoot": 872.0,
+    "newRoot": 956.0,
+    "confidence": 0.7843,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 207.0,
+    "newRoot": 207.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 448.0,
+    "newRoot": 508.0,
+    "confidence": 0.9245,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 815.0,
+    "newRoot": 803.0,
+    "confidence": 0.9178,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 1019.0,
+    "newRoot": 1106.0,
+    "confidence": 0.9059,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 1,
+    "column": 0,
+    "oldRoot": 212.0,
+    "newRoot": 212.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 448.0,
+    "newRoot": 513.0,
+    "confidence": 0.9226,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 809.5,
+    "newRoot": 816.0,
+    "confidence": 0.9405,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 1025.0,
+    "newRoot": 1114.0,
+    "confidence": 0.8962,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 208.0,
+    "newRoot": 208.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 437.0,
+    "newRoot": 512.0,
+    "confidence": 0.8906,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 813.0,
+    "newRoot": 815.0,
+    "confidence": 0.8642,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 1028.0,
+    "newRoot": 1119.0,
+    "confidence": 0.9229,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 3,
+    "column": 0,
+    "oldRoot": 220.0,
+    "newRoot": 220.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 442.0,
+    "newRoot": 533.0,
+    "confidence": 0.8941,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 820.0,
+    "newRoot": 823.0,
+    "confidence": 0.917,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 3,
+    "column": 3,
+    "oldRoot": 1029.0,
+    "newRoot": 1127.0,
+    "confidence": 0.8724,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 4,
+    "column": 0,
+    "oldRoot": 219.0,
+    "newRoot": 219.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 441.0,
+    "newRoot": 525.0,
+    "confidence": 0.7284,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 821.0,
+    "newRoot": 816.0,
+    "confidence": 0.7394,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 4,
+    "column": 3,
+    "oldRoot": 1027.0,
+    "newRoot": 1126.0,
+    "confidence": 0.8138,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 5,
+    "column": 0,
+    "oldRoot": 221.0,
+    "newRoot": 221.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 438.0,
+    "newRoot": 524.0,
+    "confidence": 0.9102,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 819.0,
+    "newRoot": 823.0,
+    "confidence": 0.9162,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion6.png",
+    "row": 5,
+    "column": 3,
+    "oldRoot": 1029.0,
+    "newRoot": 1132.0,
+    "confidence": 0.8853,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 180.0,
+    "newRoot": 180.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 371.0,
+    "newRoot": 431.0,
+    "confidence": 0.8812,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 695.0,
+    "newRoot": 692.0,
+    "confidence": 0.9297,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 874.0,
+    "newRoot": 949.0,
+    "confidence": 0.8682,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 1,
+    "column": 0,
+    "oldRoot": 187.0,
+    "newRoot": 187.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 361.0,
+    "newRoot": 438.0,
+    "confidence": 0.8699,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 698.0,
+    "newRoot": 703.0,
+    "confidence": 0.9171,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 869.0,
+    "newRoot": 958.0,
+    "confidence": 0.7748,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 188.0,
+    "newRoot": 188.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 347.0,
+    "newRoot": 440.0,
+    "confidence": 0.9346,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 696.0,
+    "newRoot": 701.0,
+    "confidence": 0.9395,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 862.0,
+    "newRoot": 957.0,
+    "confidence": 0.9097,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 3,
+    "column": 0,
+    "oldRoot": 184.0,
+    "newRoot": 184.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 337.0,
+    "newRoot": 438.0,
+    "confidence": 0.8979,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 693.0,
+    "newRoot": 698.0,
+    "confidence": 0.9065,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 3,
+    "column": 3,
+    "oldRoot": 863.0,
+    "newRoot": 953.0,
+    "confidence": 0.91,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 4,
+    "column": 0,
+    "oldRoot": 185.0,
+    "newRoot": 185.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 336.0,
+    "newRoot": 442.0,
+    "confidence": 0.8243,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 692.0,
+    "newRoot": 706.0,
+    "confidence": 0.9412,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 4,
+    "column": 3,
+    "oldRoot": 863.5,
+    "newRoot": 961.0,
+    "confidence": 0.9045,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 5,
+    "column": 0,
+    "oldRoot": 185.0,
+    "newRoot": 185.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 332.0,
+    "newRoot": 429.0,
+    "confidence": 0.8965,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 691.0,
+    "newRoot": 702.0,
+    "confidence": 0.831,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion7.png",
+    "row": 5,
+    "column": 3,
+    "oldRoot": 861.0,
+    "newRoot": 956.0,
+    "confidence": 0.7698,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-young.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 370.0,
+    "newRoot": 370.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-young.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 716.0,
+    "newRoot": 907.0,
+    "confidence": 0.9157,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-young.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 1469.0,
+    "newRoot": 1456.0,
+    "confidence": 0.9407,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-young.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 1801.0,
+    "newRoot": 1991.0,
+    "confidence": 0.942,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 1,
+    "column": 0,
+    "oldRoot": 218.0,
+    "newRoot": 218.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 424.0,
+    "newRoot": 531.0,
+    "confidence": 0.9447,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 809.0,
+    "newRoot": 818.0,
+    "confidence": 0.9561,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 1021.0,
+    "newRoot": 1129.0,
+    "confidence": 0.9426,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 222.5,
+    "newRoot": 222.5,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 426.0,
+    "newRoot": 534.5,
+    "confidence": 0.7358,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 818.0,
+    "newRoot": 821.5,
+    "confidence": 0.8758,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 1021.0,
+    "newRoot": 1131.5,
+    "confidence": 0.6154,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 3,
+    "column": 0,
+    "oldRoot": 220.0,
+    "newRoot": 220.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 420.0,
+    "newRoot": 516.0,
+    "confidence": 0.8763,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 811.0,
+    "newRoot": 816.0,
+    "confidence": 0.8153,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 3,
+    "column": 3,
+    "oldRoot": 1022.0,
+    "newRoot": 1118.0,
+    "confidence": 0.8783,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 4,
+    "column": 0,
+    "oldRoot": 221.0,
+    "newRoot": 221.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 425.0,
+    "newRoot": 522.0,
+    "confidence": 0.8121,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 813.0,
+    "newRoot": 814.0,
+    "confidence": 0.8029,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 4,
+    "column": 3,
+    "oldRoot": 1025.0,
+    "newRoot": 1126.0,
+    "confidence": 0.8305,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 5,
+    "column": 0,
+    "oldRoot": 218.0,
+    "newRoot": 218.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 423.0,
+    "newRoot": 531.0,
+    "confidence": 0.8431,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 818.0,
+    "newRoot": 819.0,
+    "confidence": 0.9323,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion8.png",
+    "row": 5,
+    "column": 3,
+    "oldRoot": 1028.0,
+    "newRoot": 1132.0,
+    "confidence": 0.9111,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 193.0,
+    "newRoot": 193.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 350.0,
+    "newRoot": 451.0,
+    "confidence": 0.7492,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 705.0,
+    "newRoot": 705.0,
+    "confidence": 0.8601,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 903.0,
+    "newRoot": 965.0,
+    "confidence": 0.6863,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 1,
+    "column": 0,
+    "oldRoot": 184.0,
+    "newRoot": 184.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 352.0,
+    "newRoot": 436.0,
+    "confidence": 0.9004,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 702.5,
+    "newRoot": 696.0,
+    "confidence": 0.9416,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 890.0,
+    "newRoot": 950.0,
+    "confidence": 0.9023,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 196.0,
+    "newRoot": 196.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 346.0,
+    "newRoot": 451.0,
+    "confidence": 0.7683,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 707.0,
+    "newRoot": 710.0,
+    "confidence": 0.7701,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 893.0,
+    "newRoot": 964.0,
+    "confidence": 0.7778,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 3,
+    "column": 0,
+    "oldRoot": 191.0,
+    "newRoot": 191.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 354.0,
+    "newRoot": 444.0,
+    "confidence": 0.8863,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 704.0,
+    "newRoot": 703.0,
+    "confidence": 0.9687,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 3,
+    "column": 3,
+    "oldRoot": 884.0,
+    "newRoot": 956.0,
+    "confidence": 0.9096,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 4,
+    "column": 0,
+    "oldRoot": 192.0,
+    "newRoot": 192.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 354.0,
+    "newRoot": 446.0,
+    "confidence": 0.8622,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 704.0,
+    "newRoot": 703.0,
+    "confidence": 0.9599,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 4,
+    "column": 3,
+    "oldRoot": 884.0,
+    "newRoot": 957.0,
+    "confidence": 0.909,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 5,
+    "column": 0,
+    "oldRoot": 192.0,
+    "newRoot": 192.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 346.0,
+    "newRoot": 445.0,
+    "confidence": 0.8396,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 709.0,
+    "newRoot": 704.0,
+    "confidence": 0.9041,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v3-motion9.png",
+    "row": 5,
+    "column": 3,
+    "oldRoot": 883.0,
+    "newRoot": 957.0,
+    "confidence": 0.8456,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 233.0,
+    "newRoot": 233.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 466.0,
+    "newRoot": 414.0,
+    "confidence": 0.8626,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 229.0,
+    "newRoot": 229.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 469.0,
+    "newRoot": 408.0,
+    "confidence": 0.8893,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 237.0,
+    "newRoot": 237.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 470.0,
+    "newRoot": 420.0,
+    "confidence": 0.9219,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 230.0,
+    "newRoot": 230.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 475.0,
+    "newRoot": 415.0,
+    "confidence": 0.9236,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 229.0,
+    "newRoot": 229.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 468.0,
+    "newRoot": 403.0,
+    "confidence": 0.8985,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 223.0,
+    "newRoot": 223.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-casters.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 475.0,
+    "newRoot": 404.0,
+    "confidence": 0.9128,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 280.0,
+    "newRoot": 280.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 451.0,
+    "newRoot": 464.0,
+    "confidence": 0.9311,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 224.0,
+    "newRoot": 224.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 464.0,
+    "newRoot": 413.0,
+    "confidence": 0.9022,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 223.0,
+    "newRoot": 223.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 395.0,
+    "newRoot": 407.0,
+    "confidence": 0.8946,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 220.0,
+    "newRoot": 220.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 397.0,
+    "newRoot": 406.0,
+    "confidence": 0.9337,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 214.0,
+    "newRoot": 214.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 394.0,
+    "newRoot": 400.0,
+    "confidence": 0.7941,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 220.0,
+    "newRoot": 220.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-warriors.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 456.0,
+    "newRoot": 406.0,
+    "confidence": 0.9249,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 190.0,
+    "newRoot": 190.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 381.5,
+    "newRoot": 442.0,
+    "confidence": 0.961,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 700.0,
+    "newRoot": 701.0,
+    "confidence": 0.967,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 885.5,
+    "newRoot": 954.0,
+    "confidence": 0.9633,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 1,
+    "column": 0,
+    "oldRoot": 190.0,
+    "newRoot": 190.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 381.0,
+    "newRoot": 442.0,
+    "confidence": 0.963,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 700.0,
+    "newRoot": 701.0,
+    "confidence": 0.959,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 1,
+    "column": 3,
+    "oldRoot": 886.0,
+    "newRoot": 954.0,
+    "confidence": 0.9599,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 2,
+    "column": 0,
+    "oldRoot": 196.0,
+    "newRoot": 196.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 371.0,
+    "newRoot": 449.0,
+    "confidence": 0.9334,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 700.0,
+    "newRoot": 708.0,
+    "confidence": 0.8735,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 2,
+    "column": 3,
+    "oldRoot": 876.0,
+    "newRoot": 960.0,
+    "confidence": 0.9214,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 3,
+    "column": 0,
+    "oldRoot": 196.0,
+    "newRoot": 196.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 371.0,
+    "newRoot": 449.0,
+    "confidence": 0.9293,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 700.0,
+    "newRoot": 708.0,
+    "confidence": 0.8876,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 3,
+    "column": 3,
+    "oldRoot": 876.0,
+    "newRoot": 960.0,
+    "confidence": 0.9303,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 4,
+    "column": 0,
+    "oldRoot": 195.0,
+    "newRoot": 195.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 378.0,
+    "newRoot": 448.0,
+    "confidence": 0.9025,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 704.0,
+    "newRoot": 708.0,
+    "confidence": 0.9341,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-shields.png",
+    "row": 4,
+    "column": 3,
+    "oldRoot": 877.0,
+    "newRoot": 960.0,
+    "confidence": 0.8989,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-young-female.png",
+    "row": 0,
+    "column": 0,
+    "oldRoot": 362.0,
+    "newRoot": 362.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-young-female.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 657.0,
+    "newRoot": 904.0,
+    "confidence": 0.9546,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-young-female.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 1460.0,
+    "newRoot": 1448.0,
+    "confidence": 0.9655,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-motion-young-female.png",
+    "row": 0,
+    "column": 3,
+    "oldRoot": 1739.0,
+    "newRoot": 1991.0,
+    "confidence": 0.9581,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 303.0,
+    "newRoot": 303.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 415.0,
+    "newRoot": 491.0,
+    "confidence": 0.8345,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 244.0,
+    "newRoot": 244.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 494.0,
+    "newRoot": 425.0,
+    "confidence": 0.8512,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 300.0,
+    "newRoot": 300.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 413.0,
+    "newRoot": 486.0,
+    "confidence": 0.8427,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 313.0,
+    "newRoot": 313.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 405.0,
+    "newRoot": 491.0,
+    "confidence": 0.8629,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 230.0,
+    "newRoot": 230.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-ranged.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 496.0,
+    "newRoot": 423.0,
+    "confidence": 0.9,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 0,
+    "column": 1,
+    "oldRoot": 258.0,
+    "newRoot": 258.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 0,
+    "column": 2,
+    "oldRoot": 456.0,
+    "newRoot": 443.0,
+    "confidence": 0.8996,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 1,
+    "column": 1,
+    "oldRoot": 235.0,
+    "newRoot": 235.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 1,
+    "column": 2,
+    "oldRoot": 408.0,
+    "newRoot": 412.0,
+    "confidence": 0.9594,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 2,
+    "column": 1,
+    "oldRoot": 235.0,
+    "newRoot": 235.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 2,
+    "column": 2,
+    "oldRoot": 402.0,
+    "newRoot": 414.0,
+    "confidence": 0.9641,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 3,
+    "column": 1,
+    "oldRoot": 256.0,
+    "newRoot": 256.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 3,
+    "column": 2,
+    "oldRoot": 405.0,
+    "newRoot": 441.0,
+    "confidence": 0.9509,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 4,
+    "column": 1,
+    "oldRoot": 219.0,
+    "newRoot": 219.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 4,
+    "column": 2,
+    "oldRoot": 462.0,
+    "newRoot": 401.0,
+    "confidence": 0.9174,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 5,
+    "column": 1,
+    "oldRoot": 212.0,
+    "newRoot": 212.0,
+    "confidence": 1.0,
+    "accepted": true
+  },
+  {
+    "source": "tactical/combat-v4-mixed.png",
+    "row": 5,
+    "column": 2,
+    "oldRoot": 456.0,
+    "newRoot": 394.0,
+    "confidence": 0.9189,
+    "accepted": true
+  }
+]

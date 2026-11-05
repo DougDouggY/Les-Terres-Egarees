@@ -129,12 +129,13 @@ test("neuf palettes sur montures, états et Sans-Repos ; mort à deux poses puis
   ).toBe(end);
   await expect(page.locator("#sprite-frame")).toContainText("2 / 2");
   await page.locator("[data-replay]").click();
-  await page.waitForTimeout(40);
-  expect(
-    await page
-      .locator("#sprite-canvas")
-      .evaluate((c: HTMLCanvasElement) => c.toDataURL()),
-  ).not.toBe(end);
+  await expect
+    .poll(() =>
+      page
+        .locator("#sprite-canvas")
+        .evaluate((c: HTMLCanvasElement) => c.toDataURL()),
+    )
+    .not.toBe(end);
   expect(
     await page.evaluate(() => localStorage.getItem("lte-save")),
   ).toBeNull();
@@ -154,7 +155,7 @@ test("couleurs : rose exclu des joueurs en partie, libre en galerie, aucun comba
   await expect(page.locator('#team-player2 option[value="pink"]')).toHaveCount(
     0,
   );
-  await expect(page.locator("#team-enemies")).toHaveValue("pink");
+  await expect(page.locator("#team-enemies")).toHaveCount(0);
   await page.reload();
   await page
     .getByRole("button", { name: "Galerie des sprites", exact: true })

@@ -20,6 +20,7 @@ export type V2Block = {
   start: number;
   duration: number;
   actionDuration: number;
+  approachExtra: number;
   reloadDuration: number;
   index: number;
   counterIndex?: number;
@@ -41,6 +42,7 @@ export function buildV2Timeline(
   strikes: readonly VisualStrike[],
   ranged: (id: string) => boolean,
   reload: (id: string) => boolean = () => false,
+  slowApproach: (id: string) => boolean = () => false,
 ) {
   const blocks: V2Block[] = [];
   let start = 0;
@@ -68,13 +70,25 @@ export function buildV2Timeline(
         : hold
           ? 620
           : 1250;
-    const beats = [{ index: i, at: start + duration * (second ? 0.32 : 0.58) }];
+    const approachExtra =
+      !range && !linked && slowApproach(hit.attacker) ? (hold ? 80 : 120) : 0;
+    const beats = [
+      {
+        index: i,
+        at: start + approachExtra + duration * (second ? 0.32 : 0.58),
+      },
+    ];
     if (counter !== undefined)
-      beats.push({ index: counter, at: start + duration * 0.79 });
+      beats.push({
+        index: counter,
+        at: start + approachExtra + duration * 0.79,
+      });
     blocks.push({
       start,
-      duration: duration + (reload(hit.attacker) && !hold ? 520 : 0),
-      actionDuration: duration,
+      duration:
+        duration + approachExtra + (reload(hit.attacker) && !hold ? 520 : 0),
+      actionDuration: duration + approachExtra,
+      approachExtra,
       reloadDuration: reload(hit.attacker) && !hold ? 520 : 0,
       index: i,
       counterIndex: counter,
@@ -97,7 +111,14 @@ export function sampleV2Timeline(
       timeline.blocks.find((b) => t < b.start + b.duration) ??
       timeline.blocks.at(-1);
   if (!block) return;
-  const elapsedFraction = Math.min(1, (t - block.start) / block.actionDuration);
+  const local = t - block.start,
+    base = block.actionDuration - block.approachExtra,
+    run = base * 0.35;
+  const actionTime =
+    local < run + block.approachExtra
+      ? (local * run) / (run + block.approachExtra)
+      : local - block.approachExtra;
+  const elapsedFraction = Math.min(1, actionTime / base);
   const p =
     block.linked && !block.ranged
       ? elapsedFraction < 0.32

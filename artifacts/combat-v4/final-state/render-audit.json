@@ -1,0 +1,2156 @@
+[
+  {
+    "id": "raider:female:axe-shield:default",
+    "className": "Pillard",
+    "issues": [],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v4-raider-female.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion1.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v4-raider-female.png",
+        "frames": 6,
+        "drawn": 6
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v4-raider-female.png",
+        "frames": 6,
+        "drawn": 6
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v4-raider-female.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "evade",
+        "source": "tactical/combat-v4-raider-female.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v4-raider-female.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "block",
+        "source": "tactical/combat-v4-raider-female.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v4-raider-female.png",
+        "frames": 6,
+        "drawn": 6
+      }
+    ],
+    "missing": [],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion1.png",
+            "scale": 0.7727272727272727,
+            "x": 122.5,
+            "y": 336.6818181818182,
+            "width": 149.9090909090909,
+            "height": 138.3181818181818,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v3-motion1.png",
+            "scale": 0.7727272727272727,
+            "x": 215.1886673431753,
+            "y": 331.27272727272725,
+            "width": 129.04545454545453,
+            "height": 143.72727272727272,
+            "feetX": 328.7795764340844,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v3-motion1.png",
+            "scale": 0.7727272727272727,
+            "x": 275.0531953659853,
+            "y": 328.1818181818182,
+            "width": 131.36363636363637,
+            "height": 146.8181818181818,
+            "feetX": 389.41683172962166,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-motion1.png",
+            "scale": 0.7727272727272727,
+            "x": 318.53341336652096,
+            "y": 336.6818181818182,
+            "width": 149.9090909090909,
+            "height": 138.3181818181818,
+            "feetX": 446.03341336652096,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion1.png",
+            "scale": 0.7727272727272727,
+            "x": 375.0145931462796,
+            "y": 339,
+            "width": 149.9090909090909,
+            "height": 136.77272727272728,
+            "feetX": 504.06004769173416,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 1,
+            "source": "tactical/combat-v4-raider-female.png",
+            "scale": 0.6325581395348837,
+            "x": 521.7336235865541,
+            "y": 323.1860465116279,
+            "width": 128.4093023255814,
+            "height": 151.81395348837208,
+            "feetX": 610.9243212609728,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/combat-v4-raider-female.png",
+            "scale": 0.6325581395348837,
+            "x": 540.6111627906977,
+            "y": 344.69302325581396,
+            "width": 161.30232558139534,
+            "height": 130.30697674418604,
+            "feetX": 623.4762790697674,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v4-raider-female.png",
+            "scale": 0.6325581395348837,
+            "x": 557.0576744186046,
+            "y": 338.3674418604651,
+            "width": 129.0418604651163,
+            "height": 136.6325581395349,
+            "feetX": 623.4762790697674,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-motion1.png",
+            "scale": 0.7727272727272727,
+            "x": 283.9260126849895,
+            "y": 339,
+            "width": 149.9090909090909,
+            "height": 136.77272727272728,
+            "feetX": 412.971467230444,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v4-raider-female.png",
+            "scale": 0.6325581395348837,
+            "x": 188.64186046511628,
+            "y": 338.3674418604651,
+            "width": 126.51162790697674,
+            "height": 136.6325581395349,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "raider:female:axe-shield:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v4-raider-female.png",
+            "scale": 0.6325581395348837,
+            "x": 188.64186046511628,
+            "y": 338.3674418604651,
+            "width": 126.51162790697674,
+            "height": 136.6325581395349,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pavise_crossbowman:male:crossbow:default",
+    "className": "Arbalétrier à pavois",
+    "issues": [],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v2-support.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v2-support.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "evade",
+        "source": "tactical/combat-v2-support.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v2-support.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v2-support.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v2-support.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "reload",
+        "source": "tactical/combat-v3-reload.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion3.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v2-support.png",
+        "frames": 5,
+        "drawn": 5
+      },
+      {
+        "name": "fortify",
+        "source": "tactical/combat-v4-pavise-male.png",
+        "frames": 4,
+        "drawn": 4
+      }
+    ],
+    "missing": [
+      "block"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-support.png",
+            "scale": 0.6415094339622641,
+            "x": 185.8490566037736,
+            "y": 337.07547169811323,
+            "width": 112.90566037735849,
+            "height": 137.9245283018868,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-support.png",
+            "scale": 0.6415094339622641,
+            "x": 185.8490566037736,
+            "y": 337.07547169811323,
+            "width": 112.90566037735849,
+            "height": 137.9245283018868,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v2-support.png",
+            "scale": 0.6415094339622641,
+            "x": 185.8490566037736,
+            "y": 337.07547169811323,
+            "width": 112.90566037735849,
+            "height": 137.9245283018868,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 0,
+            "source": "tactical/combat-v2-support.png",
+            "scale": 0.6415094339622641,
+            "x": 185.8490566037736,
+            "y": 337.07547169811323,
+            "width": 112.90566037735849,
+            "height": 137.9245283018868,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 1,
+            "source": "tactical/combat-v2-support.png",
+            "scale": 0.6415094339622641,
+            "x": 173.0188679245283,
+            "y": 339.64150943396226,
+            "width": 116.75471698113206,
+            "height": 135.35849056603772,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/combat-v2-support.png",
+            "scale": 0.6415094339622641,
+            "x": 171.7358490566038,
+            "y": 339.64150943396226,
+            "width": 132.79245283018867,
+            "height": 135.35849056603772,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/combat-v2-support.png",
+            "scale": 0.6415094339622641,
+            "x": 171.7358490566038,
+            "y": 339.64150943396226,
+            "width": 132.79245283018867,
+            "height": 135.35849056603772,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v2-support.png",
+            "scale": 0.6415094339622641,
+            "x": 171.0943396226415,
+            "y": 340.2830188679245,
+            "width": 120.60377358490565,
+            "height": 134.71698113207546,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "reload",
+            "index": 0,
+            "source": "tactical/combat-v3-reload.png",
+            "scale": 0.7272727272727273,
+            "x": 175.8181818181818,
+            "y": 337.5454545454545,
+            "width": 122.9090909090909,
+            "height": 137.45454545454547,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "reload",
+            "index": 1,
+            "source": "tactical/combat-v3-reload.png",
+            "scale": 0.7272727272727273,
+            "x": 177.27272727272725,
+            "y": 337.5454545454545,
+            "width": 125.81818181818183,
+            "height": 137.45454545454547,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:default",
+            "actorId": "audit-actor",
+            "animation": "reload",
+            "index": 3,
+            "source": "tactical/combat-v3-reload.png",
+            "scale": 0.7272727272727273,
+            "x": 173.63636363636363,
+            "y": 337.5454545454545,
+            "width": 133.0909090909091,
+            "height": 137.45454545454547,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pavise_crossbowman:male:crossbow:fortified",
+    "className": "Arbalétrier à pavois",
+    "issues": [],
+    "animations": [
+      {
+        "name": "attack",
+        "source": "tactical/complete-lot1-heavy.png",
+        "frames": 7,
+        "drawn": 7
+      },
+      {
+        "name": "counter",
+        "source": "tactical/complete-lot1-heavy.png",
+        "frames": 7,
+        "drawn": 7
+      },
+      {
+        "name": "damage",
+        "source": "tactical/complete-lot1-heavy.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "death",
+        "source": "tactical/complete-lot1-heavy.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "reload",
+        "source": "tactical/lot1-heavy.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "evade",
+        "source": "tactical/complete-lot1-heavy.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "idle",
+        "source": "tactical/complete-lot1-heavy.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-motion3.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/complete-lot1-heavy.png",
+        "frames": 7,
+        "drawn": 7
+      },
+      {
+        "name": "fortify",
+        "source": "tactical/combat-v4-pavise-male.png",
+        "frames": 4,
+        "drawn": 4
+      }
+    ],
+    "missing": [
+      "block"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/complete-lot1-heavy.png",
+            "scale": 0.6415094339622641,
+            "x": 194.18867924528303,
+            "y": 363.37735849056605,
+            "width": 100.71698113207546,
+            "height": 111.62264150943396,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/complete-lot1-heavy.png",
+            "scale": 0.6415094339622641,
+            "x": 194.18867924528303,
+            "y": 363.37735849056605,
+            "width": 100.71698113207546,
+            "height": 111.62264150943396,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/complete-lot1-heavy.png",
+            "scale": 0.6415094339622641,
+            "x": 194.18867924528303,
+            "y": 363.37735849056605,
+            "width": 100.71698113207546,
+            "height": 111.62264150943396,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 0,
+            "source": "tactical/complete-lot1-heavy.png",
+            "scale": 0.6415094339622641,
+            "x": 194.18867924528303,
+            "y": 363.37735849056605,
+            "width": 100.71698113207546,
+            "height": 111.62264150943396,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/complete-lot1-heavy.png",
+            "scale": 0.6415094339622641,
+            "x": 192.9056603773585,
+            "y": 362.09433962264154,
+            "width": 108.41509433962264,
+            "height": 112.90566037735849,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/complete-lot1-heavy.png",
+            "scale": 0.6415094339622641,
+            "x": 193.54716981132077,
+            "y": 369.79245283018867,
+            "width": 105.84905660377358,
+            "height": 105.20754716981132,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/complete-lot1-heavy.png",
+            "scale": 0.6415094339622641,
+            "x": 193.54716981132077,
+            "y": 369.79245283018867,
+            "width": 105.84905660377358,
+            "height": 105.20754716981132,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 5,
+            "source": "tactical/complete-lot1-heavy.png",
+            "scale": 0.6415094339622641,
+            "x": 195.47169811320754,
+            "y": 362.09433962264154,
+            "width": 98.15094339622641,
+            "height": 112.90566037735849,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "reload",
+            "index": 0,
+            "source": "tactical/lot1-heavy.png",
+            "scale": 0.723404255319149,
+            "x": 166.80851063829786,
+            "y": 336.1063829787234,
+            "width": 151.19148936170214,
+            "height": 138.8936170212766,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "reload",
+            "index": 0,
+            "source": "tactical/lot1-heavy.png",
+            "scale": 0.723404255319149,
+            "x": 166.80851063829786,
+            "y": 336.1063829787234,
+            "width": 151.19148936170214,
+            "height": 138.8936170212766,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "pavise_crossbowman:male:crossbow:fortified",
+            "actorId": "audit-actor",
+            "animation": "reload",
+            "index": 1,
+            "source": "tactical/lot1-heavy.png",
+            "scale": 0.723404255319149,
+            "x": 168.25531914893617,
+            "y": 333.93617021276594,
+            "width": 149.0212765957447,
+            "height": 141.06382978723406,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hamrammr:any:claws:bear",
+    "className": "Hamrammr",
+    "issues": [
+      {
+        "animation": "transform",
+        "reason": "Transition inverse illustrée non finalisée ; ancien humain masculin écarté du skin animal partagé."
+      }
+    ],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v3-bear.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v3-bear.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v3-bear.png",
+        "frames": 6,
+        "drawn": 6
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v3-bear.png",
+        "frames": 6,
+        "drawn": 6
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v3-bear.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "evade",
+        "source": "tactical/combat-v3-bear.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v3-bear.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "transform",
+        "source": "tactical/combat-v3-bear.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v3-bear.png",
+        "frames": 6,
+        "drawn": 6
+      }
+    ],
+    "missing": [
+      "block"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 125.19999999999999,
+            "y": 350.2,
+            "width": 240.8,
+            "height": 127.2,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 164.36217697758218,
+            "y": 367,
+            "width": 245.60000000000002,
+            "height": 110.4,
+            "feetX": 324.3621769775822,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 268.99881017691365,
+            "y": 343,
+            "width": 206.4,
+            "height": 132,
+            "feetX": 380.19881017691364,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 325.1474917179568,
+            "y": 342.2,
+            "width": 210.4,
+            "height": 132.8,
+            "feetX": 429.94749171795684,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 1,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 351.03105098348624,
+            "y": 318.2,
+            "width": 208.8,
+            "height": 156.8,
+            "feetX": 476.63105098348626,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 434.36,
+            "y": 315,
+            "width": 276.8,
+            "height": 160.8,
+            "feetX": 527.96,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 434.36,
+            "y": 315,
+            "width": 276.8,
+            "height": 160.8,
+            "feetX": 527.96,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 372.62181818181824,
+            "y": 342.2,
+            "width": 210.4,
+            "height": 132.8,
+            "feetX": 477.42181818181825,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 153.2,
+            "y": 326.2,
+            "width": 219.20000000000002,
+            "height": 148.8,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 153.2,
+            "y": 326.2,
+            "width": 219.20000000000002,
+            "height": 148.8,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "hamrammr:any:claws:bear",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v3-bear.png",
+            "scale": 0.8,
+            "x": 153.2,
+            "y": 326.2,
+            "width": 219.20000000000002,
+            "height": 148.8,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "young_viking:female:training-axe:default",
+    "className": "Jeune Viking",
+    "issues": [],
+    "animations": [
+      {
+        "name": "idle",
+        "source": "tactical/combat-v4-young-female.png",
+        "frames": 1,
+        "drawn": 1
+      },
+      {
+        "name": "move",
+        "source": "tactical/combat-v4-motion-young-female.png",
+        "frames": 4,
+        "drawn": 4
+      },
+      {
+        "name": "attack",
+        "source": "tactical/combat-v4-young-female.png",
+        "frames": 6,
+        "drawn": 6
+      },
+      {
+        "name": "counter",
+        "source": "tactical/combat-v4-young-female.png",
+        "frames": 6,
+        "drawn": 6
+      },
+      {
+        "name": "damage",
+        "source": "tactical/combat-v4-young-female.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "evade",
+        "source": "tactical/combat-v4-young-female.png",
+        "frames": 3,
+        "drawn": 3
+      },
+      {
+        "name": "death",
+        "source": "tactical/combat-v4-young-female.png",
+        "frames": 2,
+        "drawn": 2
+      },
+      {
+        "name": "attack_again",
+        "source": "tactical/combat-v4-young-female.png",
+        "frames": 6,
+        "drawn": 6
+      }
+    ],
+    "missing": [
+      "block"
+    ],
+    "sequenceFrames": [
+      {
+        "at": 0,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 0,
+            "source": "tactical/combat-v4-motion-young-female.png",
+            "scale": 0.22972972972972974,
+            "x": 181.0810810810811,
+            "y": 338.5405405405405,
+            "width": 96.25675675675676,
+            "height": 136.45945945945948,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 125,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v4-motion-young-female.png",
+            "scale": 0.22972972972972974,
+            "x": 263.53433316018936,
+            "y": 339,
+            "width": 92.81081081081082,
+            "height": 136,
+            "feetX": 329.00730613316233,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 225,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v4-motion-young-female.png",
+            "scale": 0.22972972972972974,
+            "x": 324.34687378380806,
+            "y": 339,
+            "width": 92.81081081081082,
+            "height": 136,
+            "feetX": 389.81984675678103,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 325,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 2,
+            "source": "tactical/combat-v4-motion-young-female.png",
+            "scale": 0.22972972972972974,
+            "x": 380.4379289177448,
+            "y": 338.5405405405405,
+            "width": 93.5,
+            "height": 136.6891891891892,
+            "feetX": 446.6000910799069,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 440,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 3,
+            "source": "tactical/combat-v4-motion-young-female.png",
+            "scale": 0.22972972972972974,
+            "x": 438.63230199672546,
+            "y": 339,
+            "width": 93.04054054054055,
+            "height": 136,
+            "feetX": 504.79446415888765,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 725,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 1,
+            "source": "tactical/combat-v4-young-female.png",
+            "scale": 0.39882697947214074,
+            "x": 555.3342213385359,
+            "y": 322.6480938416422,
+            "width": 86.1466275659824,
+            "height": 152.35190615835776,
+            "feetX": 611.9676524235799,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 850,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 2,
+            "source": "tactical/combat-v4-young-female.png",
+            "scale": 0.39882697947214074,
+            "x": 597.4356598240469,
+            "y": 350.5659824046921,
+            "width": 99.70674486803519,
+            "height": 124.4340175953079,
+            "feetX": 624.5558944281524,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1025,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "attack",
+            "index": 3,
+            "source": "tactical/combat-v4-young-female.png",
+            "scale": 0.39882697947214074,
+            "x": 571.9107331378299,
+            "y": 365.3225806451613,
+            "width": 96.9149560117302,
+            "height": 110.87390029325513,
+            "feetX": 624.5558944281524,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "damage",
+            "index": 1,
+            "source": "tactical/combat-v4-fixes.png",
+            "scale": 0.8607594936708861,
+            "x": 629.9493670886076,
+            "y": 340.72151898734177,
+            "width": 139.44303797468356,
+            "height": 134.27848101265823,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1250,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "move",
+            "index": 1,
+            "source": "tactical/combat-v4-motion-young-female.png",
+            "scale": 0.22972972972972974,
+            "x": 347.9695991411299,
+            "y": 339,
+            "width": 92.81081081081082,
+            "height": 136,
+            "feetX": 413.44257211410286,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1500,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v4-young-female.png",
+            "scale": 0.39882697947214074,
+            "x": 200.54545454545456,
+            "y": 338.6011730205279,
+            "width": 73.78299120234604,
+            "height": 136.39882697947215,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      },
+      {
+        "at": 1770,
+        "frames": [
+          {
+            "skinId": "young_viking:female:training-axe:default",
+            "actorId": "audit-actor",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-v4-young-female.png",
+            "scale": 0.39882697947214074,
+            "x": 200.54545454545456,
+            "y": 338.6011730205279,
+            "width": 73.78299120234604,
+            "height": 136.39882697947215,
+            "feetX": 250,
+            "feetY": 475
+          },
+          {
+            "skinId": "raider:male:axe-shield:default",
+            "actorId": "audit-target",
+            "animation": "idle",
+            "index": 0,
+            "source": "tactical/combat-pair-reference-v2.png",
+            "scale": 0.7046632124352331,
+            "x": 668.4248704663213,
+            "y": 338.2953367875648,
+            "width": 121.90673575129533,
+            "height": 136.70466321243524,
+            "feetX": 710,
+            "feetY": 475
+          }
+        ]
+      }
+    ]
+  }
+]

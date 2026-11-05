@@ -7,6 +7,7 @@ import {
   spriteCatalog,
   unitSpriteProfile,
   spriteImage,
+  prepareSpriteSource,
 } from "../sprites/resources";
 import {
   combatSkin,
@@ -40,6 +41,7 @@ export type CombatActor = {
   unit: Unit;
   skin?: CombatSkin;
   scaleBySource: Map<string, number>;
+  preparedSources: Map<string, HTMLImageElement | HTMLCanvasElement>;
   height: number;
   side: number;
 };
@@ -71,6 +73,7 @@ export class CombatSceneV2 {
   private initialHp = new Map<string, number>();
   private deathAt = new Map<string, number>();
   private colors?: TeamColors;
+  previewResult?: { scene: CombatSceneV2; at: number; duration: number };
   mirror = false;
   diagnostic = false;
   preview?: {
@@ -104,6 +107,10 @@ export class CombatSceneV2 {
         unit,
         skin,
         scaleBySource,
+        preparedSources: new Map<
+          string,
+          HTMLImageElement | HTMLCanvasElement
+        >(),
         height,
         side: (u.owner === 0) === (units[0].owner === 0) ? 0 : 1,
       };
@@ -115,6 +122,14 @@ export class CombatSceneV2 {
       (id) => this.ranged(id),
       (id) =>
         !!activeWeapon(this.actors.find((a) => a.unit.id === id)!.unit).reload,
+      (id) => {
+        const a = this.actors.find((a) => a.unit.id === id)!;
+        return (
+          !a.skin?.mounted &&
+          !a.unit.bearForm &&
+          a.skin?.profile.state !== "bear"
+        );
+      },
     );
   }
   resetPresentation() {
@@ -157,6 +172,13 @@ export class CombatSceneV2 {
       if (actor.skin)
         for (const name of Object.keys(actor.skin.profile.clips)) {
           const c = resolveClip(actor.skin.profile, name)!;
+          if (!actor.preparedSources.has(c.source)) {
+            const image = prepareSpriteSource(
+              c,
+              colorForOwner(this.colors, actor.unit.owner),
+            );
+            if (image) actor.preparedSources.set(c.source, image);
+          }
           for (let frame = 0; frame < c.frames.length; frame++) {
             const a = anchor(c, frame);
             drawResourceFrame(
@@ -172,6 +194,7 @@ export class CombatSceneV2 {
               colorForOwner(this.colors, actor.unit.owner),
               "world",
               {
+                preparedImage: actor.preparedSources.get(c.source),
                 anchorX: a?.feetX,
                 ground: a?.feetY,
                 scale: actor.scaleBySource.get(c.source),
@@ -199,7 +222,7 @@ export class CombatSceneV2 {
     // Damage clips commonly start/end in guard. Show the flinch immediately
     // at contact, rather than spending the impact pause on the guard drawing.
     if (name === "damage" && (c?.frames.length ?? 0) > 1)
-      return phase < 0.7 ? 1 : c!.frames.length - 1;
+      return phase < 0.7 ? (c!.impactFrame ?? 0) : c!.frames.length - 1;
     return Math.min(
       (c?.frames.length ?? 1) - 1,
       Math.floor(clamp(phase) * (c?.frames.length ?? 1)),
@@ -291,6 +314,16 @@ export class CombatSceneV2 {
     onImpact?: (index: number) => void,
     onDone?: () => void,
   ) {
+    if (this.previewResult && elapsed >= this.previewResult.at) {
+      this.previewResult.scene.mirror = this.mirror;
+      this.previewResult.scene.draw(ctx, elapsed - this.previewResult.at);
+      this.lastFrames = this.previewResult.scene.lastFrames;
+      if (elapsed >= this.previewResult.duration && !this.finished) {
+        this.finished = true;
+        onDone?.();
+      }
+      return;
+    }
     const sample = sampleV2Timeline(this.timeline, elapsed);
     for (const beat of this.timeline.beats)
       if (elapsed >= beat.at && !this.applied.has(beat.index)) {
@@ -382,7 +415,10 @@ export class CombatSceneV2 {
           d.actor,
           "block",
           p < 0.58
-            ? ((p - 0.48) / 0.1) * 0.5
+            ? resolveClip(d.actor.skin?.profile, "block")?.status ===
+              "provisional"
+              ? 0
+              : ((p - 0.48) / 0.1) * 0.5
             : 0.5 + Math.min(0.49, (p - 0.58) / 0.25),
         );
       } else if (hit.hit && p >= 0.58 && p < 0.82) {
@@ -548,7 +584,13 @@ export class CombatSceneV2 {
         true,
         colorForOwner(this.colors, v.actor.unit.owner),
         "world",
-        { anchorX: a?.feetX, ground: a?.feetY, scale, maskRuns: a?.maskRuns },
+        {
+          anchorX: a?.feetX,
+          ground: a?.feetY,
+          scale,
+          maskRuns: a?.maskRuns,
+          preparedImage: c && v.actor.preparedSources.get(c.source),
+        },
       );
       if (this.diagnostic && r) {
         ctx.strokeStyle = "#6bffba";
@@ -602,12 +644,17 @@ export class CombatSceneV2 {
       ctx.lineTo(960, ground);
       ctx.stroke();
     }
-    if (this.preview?.animation === "heal" && elapsed < this.preview.duration) {
+    if (
+      this.preview &&
+      ["heal", "bandage"].includes(this.preview.animation) &&
+      elapsed < this.preview.duration
+    ) {
       const v = placements.find(
         (v) =>
           v.actor.unit.id === (this.preview!.targetId ?? this.preview!.actorId),
       );
-      if (v) drawHealing(ctx, elapsed, v.x, ground, 180);
+      if (v && this.preview?.animation === "heal")
+        drawHealing(ctx, elapsed, v.x, ground, 180);
     }
     ctx.restore();
     if (

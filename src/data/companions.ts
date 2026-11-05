@@ -57,3 +57,20 @@ export function validateCompanions(f: Faction, ids: string[]) {
       "Sélectionnez le nombre requis de compagnons de cette faction.",
     );
 }
+
+/** Newest valid choice replaces the oldest, preserving chronological order. */
+export function toggleCompanion(
+  f: Faction,
+  selected: string[],
+  id: string,
+  checked: boolean,
+) {
+  if (!companionRoster.some((c) => c.id === id && c.faction === f))
+    return selected;
+  const next = selected.filter(
+    (x) =>
+      x !== id && companionRoster.some((c) => c.id === x && c.faction === f),
+  );
+  if (checked) next.push(id);
+  return next.slice(-companionCount(f));
+}

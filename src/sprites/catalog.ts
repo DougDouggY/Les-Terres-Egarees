@@ -18,6 +18,7 @@ export type ClipDefinition =
   | Clip
   | { reuse: string; status?: "functional" | "provisional"; note?: string };
 export type SpriteProfile = {
+  referenceHeights?: Record<string, number>;
   lot?: number;
   note?: string;
   classId: string;
@@ -44,6 +45,7 @@ export const animationNames: Record<string, string> = {
   evade: "Esquive",
   block: "Parade",
   heal: "Soins",
+  bandage: "Bandages",
   banner: "Planter la bannière",
   fortify: "Fortification",
   summon: "Invocation",

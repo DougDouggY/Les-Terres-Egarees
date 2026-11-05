@@ -156,13 +156,12 @@ function teamColorsModal() {
     [
       ["player1", "Joueur 1"],
       ["player2", "Joueur 2"],
-      ["enemies", "Ennemis"],
     ] as const
   )
     .map(
       ([key, label]) =>
         `<label>${label}<select id="team-${key}">${Object.entries(E.teamPalette)
-          .filter(([id]) => key === "enemies" || id !== "pink")
+          .filter(([id]) => id !== "pink")
           .map(
             ([id, value]) =>
               `<option value="${id}" ${colors[key] === id ? "selected" : ""}>${value.name}</option>`,
@@ -198,7 +197,7 @@ function configure() {
     )
     .join(
       "",
-    )}</div><div class="config-bottom">${button("Couleurs des équipes", "team-colors")}<p>Carte et déplacements conservés · initiative individuelle · brouillard indépendant</p>${button("Déployer les expéditions", "begin", "primary")}</div></main>`;
+    )}</div><div class="config-bottom">${button("Couleurs des équipes", "team-colors")}${button("Déployer les expéditions", "begin", "primary")}</div></main>`;
   app
     .querySelectorAll<HTMLSelectElement>("[data-starter]")
     .forEach(
@@ -210,10 +209,20 @@ function configure() {
     (input) =>
       (input.onchange = () => {
         const [p, id] = input.dataset.companion!.split(":");
-        const list = companionDrafts[Number(p)];
-        if (input.checked) {
-          if (!list.includes(id)) list.push(id);
-        } else companionDrafts[Number(p)] = list.filter((x) => x !== id);
+        const index = Number(p);
+        companionDrafts[index] = E.toggleCompanion(
+          heroDrafts[index].faction,
+          companionDrafts[index],
+          id,
+          input.checked,
+        );
+        app
+          .querySelectorAll<HTMLInputElement>(`[data-companion^="${index}:"]`)
+          .forEach((el) => {
+            el.checked = companionDrafts[index].includes(
+              el.dataset.companion!.split(":")[1],
+            );
+          });
       }),
   );
   for (const i of [1, 2]) {
@@ -662,6 +671,7 @@ let tacticalAction: {
   animation: string;
   start: number;
   fps: number;
+  restored?: number;
   target?: { x: number; y: number };
 } | null = null;
 /** Presentation of an already validated action; never advances initiative itself. */
@@ -669,8 +679,11 @@ async function playTacticalAction(
   sprite: Unit,
   animation: string,
   target?: Unit,
+  restored?: number,
 ) {
   const profile = combatSkin(unitSpriteProfile(sprite))?.profile;
+  if (animation === "heal" && E.hasSkill(sprite, "bandage"))
+    animation = "bandage";
   const visualAnimation = resolveClip(profile, animation) ? animation : "idle";
   const clip = resolveClip(profile, visualAnimation);
   if (!clip) return;
@@ -708,13 +721,14 @@ async function playTacticalAction(
       start: performance.now(),
       fps: clip.fps * speed,
       target: target && { x: target.x, y: target.y },
+      restored,
     };
     await new Promise((resolve) =>
       setTimeout(
         resolve,
         Math.max(
           (clip.frames.length / Math.max(1, clip.fps * speed)) * 1000,
-          animation === "heal" ? 1100 / speed : 0,
+          ["heal", "bandage"].includes(animation) ? 1100 / speed : 0,
         ),
       ),
     );
@@ -1038,19 +1052,31 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     ctx.fill();
   }
   if (
-    tacticalAction?.animation === "heal" &&
+    tacticalAction &&
+    ["heal", "bandage"].includes(tacticalAction.animation) &&
     tacticalAction.target &&
     (!fogEnabled ||
       visible.has(E.key(tacticalAction.target.x, tacticalAction.target.y)))
   ) {
     const target = tacticalAction.target;
-    drawHealing(
-      ctx,
-      (time - tacticalAction.start) * speed,
-      (target.x + 0.5) * 32,
-      (target.y + 1) * 32,
-      60,
-    );
+    if (tacticalAction.animation === "heal")
+      drawHealing(
+        ctx,
+        (time - tacticalAction.start) * speed,
+        (target.x + 0.5) * 32,
+        (target.y + 1) * 32,
+        60,
+      );
+    if (tacticalAction.restored) {
+      ctx.fillStyle = "#b6f4bd";
+      ctx.font = "bold 12px Manrope";
+      ctx.textAlign = "center";
+      ctx.fillText(
+        `+${tacticalAction.restored} PV`,
+        (target.x + 0.5) * 32,
+        target.y * 32 - 12,
+      );
+    }
   }
   if (hover !== null && (!fogEnabled || visible.has(hover))) {
     const c = E.map[hover];
@@ -1139,9 +1165,9 @@ async function clickCell(x: number, y: number) {
       }
       if (aim === "heal" && target) {
         const sprite = structuredClone(u);
-        E.healTarget(s, u, target);
+        const restored = E.healTarget(s, u, target);
         aim = null;
-        await playTacticalAction(sprite, "heal", target);
+        await playTacticalAction(sprite, "heal", target, restored);
         finishTurn();
         return;
       }
@@ -1267,7 +1293,9 @@ function preview(a: Unit, b: Unit) {
     E.teamPalette[E.colorForOwner(state!.teamColors, u.owner)].rgb.join(",");
   const value = (v: string | number, double = 1) =>
     `<b>${v}${double > 1 ? `<small class="forecast-double">×${double}</small>` : ""}</b>`;
-  modal.innerHTML = `<section class="modal forecast compact-forecast fe-forecast" aria-label="Prévision de combat" style="--forecast-left:${color(a)};--forecast-right:${color(b)}"><header><strong>${esc(a.name)}</strong><span>${esc(E.weaponName(a))}</span></header><div class="fe-stat-grid">${value(`${a.hp}/${a.maxHp}`)}<span>PV</span>${value(`${b.hp}/${b.maxHp}`)}${value(p.damage, p.strikes)}<span>Dégâts</span>${value(p.counter ? q.damage : "—", p.counter ? q.strikes : 1)}${value(`${p.hit}%`)}<span>Précision</span>${value(p.counter ? `${q.hit}%` : "—")}${value(`${p.crit}%`)}<span>Critique</span>${value(p.counter ? `${q.crit}%` : "—")}</div><footer><strong>${esc(b.name)}</strong><span>${esc(E.weaponName(b))}</span></footer><div class="modal-actions">${button("Annuler", "close-modal")}${button("Attaquer", "confirm-attack-" + b.id, "primary")}</div></section>`;
+  const weapon = (u: Unit, advantage: number) =>
+    `<span class="fe-weapon">${esc(E.weaponName(u))}${advantage ? `<i class="weapon-triangle ${advantage > 0 ? "advantage" : "disadvantage"}" aria-label="${advantage > 0 ? "Avantage" : "Désavantage"} d’arme">${advantage > 0 ? "▲" : "▼"}</i>` : ""}</span>`;
+  modal.innerHTML = `<section class="modal forecast compact-forecast fe-forecast" aria-label="Prévision de combat" style="--forecast-left:${color(a)};--forecast-right:${color(b)}"><div class="fe-names"><header><strong>${esc(a.name)}</strong>${weapon(a, p.advantage)}</header><header><strong>${esc(b.name)}</strong>${weapon(b, q.advantage)}</header></div><div class="fe-stat-grid">${value(`${a.hp}/${a.maxHp}`)}<span>PV</span>${value(`${b.hp}/${b.maxHp}`)}${value(p.damage, p.strikes)}<span>Dégâts</span>${value(p.counter ? q.damage : "—", p.counter ? q.strikes : 1)}${value(`${p.hit}%`)}<span>Précision</span>${value(p.counter ? `${q.hit}%` : "—")}${value(`${p.crit}%`)}<span>Critique</span>${value(p.counter ? `${q.crit}%` : "—")}</div><div class="modal-actions">${button("Annuler", "close-modal")}${button("Attaquer", "confirm-attack-" + b.id, "primary")}</div></section>`;
   app.append(modal);
 }
 function gameCombatHud(left: Unit, right: Unit, battle: Battle) {
@@ -1642,11 +1670,12 @@ app.addEventListener("click", async (e) => {
     teamColorsModal();
   } else if (action === "apply-team-colors") {
     const colors = Object.fromEntries(
-      ["player1", "player2", "enemies"].map((key) => [
+      ["player1", "player2"].map((key) => [
         key,
         (document.querySelector("#team-" + key) as HTMLSelectElement).value,
       ]),
     ) as E.TeamColors;
+    colors.enemies = E.defaultTeamColors.enemies;
     try {
       const target = state ?? {};
       E.setPlayableTeamColors(target, colors);

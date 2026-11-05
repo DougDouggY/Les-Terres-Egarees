@@ -88,7 +88,7 @@ for source,(columns,rows) in sources.items():
   frames=isolated
  # Combat V2: index complete connected figures by FOOT centroid, not by
  # transparent cell bounds or the tip of a spear crossing into the next cell.
- if source.startswith(('tactical/combat-v2-', 'tactical/combat-v3-')):
+ if source.startswith(('tactical/combat-v2-', 'tactical/combat-v3-', 'tactical/combat-v4-')):
   from scipy.ndimage import label,find_objects
   labels,_=label(im[:,:,3]>16);sizes=np.bincount(labels.ravel());boxes=find_objects(labels);groups={}
   for number,box in enumerate(boxes,1):
@@ -128,7 +128,7 @@ for source,(columns,rows) in sources.items():
   ground=int(feet[-1])+1 if len(feet) else bottom
   # A banner pole crosses the usual torso band. Measure the actual steel
   # helmet in the rear-body band; never normalize a person by the flag tip.
-  if (source=='tactical/combat-v3-equipment.png' and frame['row']==0) or (source=='tactical/combat-v3-motion2.png' and frame['row']==1):
+  if (source in ['tactical/combat-v3-equipment.png','tactical/combat-v4-mixed.png'] and frame['row']==0) or (source=='tactical/combat-v3-motion2.png' and frame['row']==1):
    head=im[y:y+h,x+round(w*.3):x+round(w*.6)]
    rgb=head[:,:,:3].astype(float);mx=rgb.max(2);mn=rgb.min(2)
    helmet=(mx-mn<mx*.25)&(mx>60)&(head[:,:,3]>128)

@@ -64,7 +64,7 @@ export function spriteImage(source: string) {
 }
 const maskedFrames = new WeakMap<object, Map<string, HTMLCanvasElement>>();
 function extractedFrame(
-  source: CanvasImageSource,
+  source: HTMLImageElement | HTMLCanvasElement,
   rect: { x: number; y: number; width: number; height: number },
   runs: number[][],
 ) {
@@ -97,6 +97,30 @@ function extractedFrame(
   cache.set(key, canvas);
   return canvas;
 }
+/** A battle keeps this prepared image alive until its scene ends, even if
+ * gallery/map activity evicts the global recoloration LRU in the meantime. */
+export function prepareSpriteSource(c: Clip, color?: TeamColor) {
+  const img = spriteImage(c.source);
+  if (!img.complete || !img.naturalWidth) return undefined;
+  let source: HTMLImageElement | HTMLCanvasElement = img;
+  if (color && c.recolor) {
+    try {
+      source = recoloredImage(
+        img,
+        color,
+        c.recolorEdges,
+        c.recolor === "blue" ? 215 : undefined,
+      );
+    } catch (error) {
+      console.warn(
+        "Recoloration indisponible, source du même skin conservée",
+        c.source,
+        error,
+      );
+    }
+  }
+  return source;
+}
 export function drawResourceFrame(
   ctx: CanvasRenderingContext2D,
   p: SpriteProfile | undefined,
@@ -114,6 +138,7 @@ export function drawResourceFrame(
     ground?: number;
     scale?: number;
     maskRuns?: number[][];
+    preparedImage?: HTMLImageElement | HTMLCanvasElement;
   },
 ) {
   const c = resolveClip(p, animation);
@@ -129,16 +154,9 @@ export function drawResourceFrame(
     column = c.cells?.[indexInClip]?.column ?? c.frames[indexInClip],
     left = Math.round(column * sw),
     sourceRow = c.cells?.[indexInClip]?.row ?? c.row,
-    top = Math.round(sourceRow * sh),
-    source =
-      color && c.recolor
-        ? recoloredImage(
-            img,
-            color,
-            c.recolorEdges,
-            c.recolor === "blue" ? 215 : undefined,
-          )
-        : img;
+    top = Math.round(sourceRow * sh);
+  const source = placement?.preparedImage ?? prepareSpriteSource(c, color);
+  if (!source) return false;
   ctx.save();
   ctx.imageSmoothingEnabled = !pixelArt;
   const layout = (
@@ -178,7 +196,7 @@ export function drawResourceFrame(
     // V3 source atlases can contain faint matte noise outside the actual figure.
     const runs =
       placement?.maskRuns ??
-      (c.source.startsWith("tactical/combat-v3-")
+      (/^tactical\/combat-v[34]-/.test(c.source)
         ? (
             combatAnchors as Record<
               string,
