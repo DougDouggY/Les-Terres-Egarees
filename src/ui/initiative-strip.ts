@@ -1,3 +1,6 @@
+import { profileMetrics } from "../sprites/geometry";
+import { resolveClip } from "../sprites/catalog";
+import { unitClass } from "../game/classes";
 import type { Campaign } from "../game/types";
 import { globalInitiative, initiativeOrder } from "../game/initiative";
 import { seen } from "../game/vision";
@@ -131,17 +134,26 @@ export function bindInitiative(
       if (!u || !seen(s, s.active, u)) continue;
       const ctx = c.getContext("2d")!;
       ctx.clearRect(0, 0, 64, 64);
+      const profile = unitSpriteProfile(u),
+        clip = resolveClip(profile, "idle");
+      const reference =
+        profile && clip
+          ? profileMetrics(profile).references.get(clip.source)
+          : undefined;
+      const body = unitClass(u).mounted ? 48 : 40;
       drawResourceFrame(
         ctx,
-        unitSpriteProfile(u),
+        profile,
         "idle",
         0,
         3,
-        3,
+        0,
         58,
         58,
         true,
         colorForOwner(s.teamColors, u.owner),
+        "world",
+        reference ? { scale: body / reference } : undefined,
       );
     }
   };

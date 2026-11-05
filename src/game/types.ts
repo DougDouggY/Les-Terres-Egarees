@@ -104,6 +104,7 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  chapter1?: import("./chapter1").Chapter1Progress;
   initiativeVersion?: 2;
   initiativeCollapsed?: boolean;
   committedMove?: string;

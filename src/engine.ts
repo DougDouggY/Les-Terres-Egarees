@@ -21,8 +21,10 @@ export * from "./game/team-colors";
 export * from "./game/progression";
 export * from "./game/recruitment";
 export * from "./data/companions";
-export {rules,baseBalance,promotionBonuses} from "./data/balance";
+export { rules, baseBalance, promotionBonuses } from "./data/balance";
 
 export * from "./game/initiative";
 
 export * from "./game/tactical-fields";
+
+export * from "./game/chapter1";

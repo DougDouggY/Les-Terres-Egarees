@@ -185,9 +185,14 @@ test("V5 Aventure : hache du Traqueur adjacente, prévision bois étroite et cin
     await page.setViewportSize(viewport);
     const rect = await page.locator(".duel-panels").boundingBox();
     const canvasRect = await page.locator("#combat").boundingBox();
-    expect(Math.abs(canvasRect!.width / canvasRect!.height - 1.6)).toBeLessThan(
-      0.02,
-    );
+    expect(canvasRect!.width / canvasRect!.height).toBeGreaterThanOrEqual(1.59);
+    const scales = await page
+      .locator("#combat")
+      .evaluate((c: HTMLCanvasElement) => {
+        const b = c.getBoundingClientRect();
+        return { x: b.width / c.width, y: b.height / c.height };
+      });
+    expect(Math.abs(scales.x - scales.y)).toBeLessThan(0.01);
     expect(rect!.y).toBeGreaterThanOrEqual(0);
     expect(rect!.y + rect!.height).toBeLessThanOrEqual(viewport.height);
     expect(

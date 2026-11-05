@@ -74,6 +74,7 @@ export class CombatSceneV2 {
   private deathAt = new Map<string, number>();
   private colors?: TeamColors;
   previewResult?: { scene: CombatSceneV2; at: number; duration: number };
+  presentationWidth = 960;
   groundedStage = false;
   mirror = false;
   diagnostic = false;
@@ -339,7 +340,11 @@ export class CombatSceneV2 {
       }
     this.lastFrames = [];
     ctx.save();
-    ctx.scale(ctx.canvas.width / 960, ctx.canvas.height / 600);
+    ctx.scale(
+      ctx.canvas.width / this.presentationWidth,
+      ctx.canvas.height / 600,
+    );
+    ctx.translate((this.presentationWidth - 960) / 2, 0);
     if (this.mirror) {
       ctx.translate(960, 0);
       ctx.scale(-1, 1);

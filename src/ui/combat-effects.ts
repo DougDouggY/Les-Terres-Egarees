@@ -123,10 +123,10 @@ export function drawSpell(
     ctx.globalAlpha = appear * fade;
     ctx.drawImage(
       stormCloud,
-      x - size * 0.68,
-      y - size * 0.37,
+      x - size * 1.36,
+      y - size * 0.74,
+      size * 2.72,
       size * 1.36,
-      size * 0.68,
     );
     ctx.restore();
   }

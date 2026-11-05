@@ -1,3 +1,8 @@
+import {
+  chapterEnabled,
+  chapterEncounter,
+  queueChapterScene,
+} from "./chapter1";
 import { companionRoster, validateCompanions } from "../data/companions";
 import { individualize } from "./progression";
 import { defaultTeamColors } from "./team-colors";
@@ -109,6 +114,7 @@ export function createCampaign(
     intro: 0,
   });
   const s: Campaign = {
+    chapter1: { started: false, completed: [] },
     version: 1,
     teamColors: { ...defaultTeamColors },
     mapRevision: MAP_REVISION,
@@ -155,6 +161,7 @@ function event(s: Campaign, id: string) {
 }
 export function encounter(s: Campaign) {
   visibility(s);
+  if (chapterEnabled(s)) return chapterEncounter(s);
   if (
     !s.merged &&
     alive(s).some(
@@ -267,7 +274,8 @@ export function checkEnd(s: Campaign) {
   }
   if (s.merged && !alive(s).some((u) => u.owner === 0) && event(s, "victory")) {
     for (const u of s.units) if (u.summonedBy) u.hp = 0;
-    s.scene = "ending";
+    if (chapterEnabled(s)) queueChapterScene(s, "alliance");
+    else s.scene = "ending";
     s.scenePage = 0;
     log(s, "Le sanctuaire est à vous. Pour cette nuit.");
   }
@@ -278,6 +286,7 @@ export function canFinishBattleForTest(s: Campaign) {
   return (
     s.phase === "battle" &&
     !s.scene &&
+    (!chapterEnabled(s) || s.chapter1!.completed.includes("meeting")) &&
     alive(s).some(
       (u) =>
         u.owner !== 0 &&

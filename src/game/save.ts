@@ -1,3 +1,4 @@
+import { chapterScenes, chapterLines, upgradeChapter1 } from "./chapter1";
 import { globalInitiative } from "./initiative";
 import { normalizeTeamColors } from "./team-colors";
 import {
@@ -21,7 +22,7 @@ export function encode(s: Campaign) {
     throw Error(
       "La dernière sauvegarde stable est conservée après une défaite",
     );
-  if (s.scene || s.phase === "intro")
+  if ((s.scene && !s.scene.startsWith("chapter1:")) || s.phase === "intro")
     throw Error("Sauvegarde indisponible pendant une cinématique");
   return JSON.stringify(s);
 }
@@ -92,7 +93,21 @@ export function decode(raw: string): Campaign {
   }
   if (s.phase === "camp") s.phase = "summary";
   if (s.phase === "intro") s.phase = "battle";
-  if (s.scene && s.scene !== "meeting" && s.scene !== "ending") s.scene = null;
+  if (s.scene?.startsWith("chapter1:")) {
+    const p = s.chapter1?.pending;
+    if (
+      !p ||
+      !chapterScenes.includes(p.id) ||
+      s.scene !== "chapter1:" + p.id ||
+      !Number.isInteger(p.page) ||
+      p.page < 0 ||
+      p.page >= chapterLines(s, p.id).length ||
+      ![1, 2].includes(p.owner)
+    )
+      throw Error("Scène de chapitre invalide");
+  } else if (s.scene && s.scene !== "meeting" && s.scene !== "ending")
+    s.scene = null;
+  upgradeChapter1(s);
   validate(s);
   globalInitiative(s);
   if (updatedMap) visibility(s);

@@ -1,3 +1,4 @@
+import { ChapterDirector, type ChapterMapFrame } from "./ui/chapter-dialogue";
 import { animateHp, animateExperience } from "./ui/value-animation";
 import { combatSkin } from "./sprites/combat-skins";
 import type { SpriteProfile } from "./sprites/catalog";
@@ -65,6 +66,8 @@ let aim: "heal" | "summon" | "area" | "buff" | null = null;
 let isPanning = false;
 let developerCleanup: (() => void) | null = null;
 let developerRequest = 0;
+let chapterDirector: ChapterDirector | undefined;
+let chapterFrame: ChapterMapFrame | null = null;
 let pendingReward: (() => void) | null = null;
 let toastTimer: ReturnType<typeof setTimeout>;
 const zoom = 1.65;
@@ -247,7 +250,83 @@ function configure() {
     };
   }
 }
+function chapterCinematic() {
+  chapterDirector?.dispose();
+  chapterDirector = undefined;
+  const s = state!;
+  if (!s.chapter1?.pending) {
+    s.scene = null;
+    busy = false;
+    battleUI();
+    return;
+  }
+  busy = true;
+  screen = "chapter";
+  selected = null;
+  hover = null;
+  aim = null;
+  app.innerHTML =
+    '<main class="chapter-screen"><canvas id="story-map" aria-label="Mise en scène sur la carte tactique"></canvas><div id="chapter-overlay"></div></main>';
+  const checkpoint = () => {
+    try {
+      localStorage.setItem("lte-save", E.encode(s));
+    } catch {
+      /* retain last stable checkpoint */
+    }
+  };
+  chapterDirector = new ChapterDirector(
+    app.querySelector("#chapter-overlay")!,
+    s,
+    () => {
+      const finished = E.advanceChapterLine(s);
+      if (!finished) {
+        chapterDirector!.refresh();
+        checkpoint();
+        return;
+      }
+      chapterDirector?.dispose();
+      chapterDirector = undefined;
+      chapterFrame = null;
+      busy = false;
+      if (finished === "meeting") E.merge(s);
+      // A group may discover the ruins only after both parties have already arrived.
+      if (finished.startsWith("ruins-")) E.encounter(s);
+      if (s.scene) {
+        cinematic();
+        return;
+      }
+      moved = s.committedMove === E.current(s)?.id;
+      selected = E.current(s)?.owner === s.active ? E.current(s)!.id : null;
+      if (s.encounterContinuation) {
+        const pending = s.encounterContinuation;
+        delete s.encounterContinuation;
+        const actor = E.current(s),
+          target = s.units.find((u) => u.id === pending.targetId);
+        if (
+          actor?.id === pending.actorId &&
+          target &&
+          E.canAttack(actor, target)
+        )
+          void fight(actor, target);
+        else finishTurn();
+      } else battleUI();
+      save(true);
+    },
+    (time, frame) => {
+      chapterFrame = frame;
+      const canvas = app.querySelector<HTMLCanvasElement>("#story-map");
+      if (canvas) renderMap(canvas, frame.owner, time);
+    },
+  );
+  checkpoint();
+}
 function cinematic() {
+  if (state?.scene?.startsWith("chapter1:")) {
+    initiativeCleanup?.();
+    initiativeCleanup = undefined;
+    chapterCinematic();
+    return;
+  }
   initiativeCleanup?.();
   initiativeCleanup = undefined;
   const s = state!;
@@ -444,7 +523,7 @@ function battleUI() {
   clampCamera(s.active);
   initiativeCleanup?.();
   app.innerHTML = `<main class="battle-screen compact-battle">
-  <div class="mission-objective">${s.merged ? "Repoussez les morts-vivants" : "Rejoignez le village des Veilleurs"}</div>
+  <div class="mission-objective">${s.merged ? "Repoussez les morts-vivants" : E.chapterEnabled(s) ? (E.chapterBeacon(s, s.active) ? "Rejoignez le sanctuaire en ruines" : "Trouvez un abri") : "Rejoignez le village des Veilleurs"}</div>
   ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div id="map-tooltip" class="map-tooltip" hidden></div>
@@ -823,6 +902,10 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     clampCamera(1);
     clampCamera(2);
   }
+  if (canvas.id === "story-map") {
+    viewCols = cols;
+    viewRows = rows;
+  }
   const ratio = Math.min(2, window.devicePixelRatio || 1);
   const width = Math.round(bounds.width * ratio),
     height = Math.round(bounds.height * ratio);
@@ -833,9 +916,25 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   const logicalHeight = (960 * bounds.height) / bounds.width;
   const s = state,
     ctx = canvas.getContext("2d")!,
-    visible = new Set(s.players[p - 1].visible),
+    story = canvas.id === "story-map" ? chapterFrame : null,
+    visible = new Set([...s.players[p - 1].visible, ...(story?.reveal ?? [])]),
     explored = new Set(s.players[p - 1].explored),
-    cam = s.players[p - 1].camera;
+    cam = story
+      ? {
+          x: Math.max(
+            0,
+            Math.min(E.W - viewCols, story.center.x - viewCols / 2),
+          ),
+          y: Math.max(
+            0,
+            Math.min(E.H - viewRows, story.center.y - viewRows / 2),
+          ),
+        }
+      : s.players[p - 1].camera;
+  canvas.dataset.storyReveal = String(story?.reveal.length ?? 0);
+  canvas.dataset.storyActors = (story?.actors ?? [])
+    .map((a) => a.unit.id)
+    .join(",");
   canvas.dataset.cameraX = String(cam.x);
   canvas.dataset.cameraY = String(cam.y);
   canvas.dataset.viewCols = String(viewCols);
@@ -975,6 +1074,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ctx.fill();
     }
   for (const u of E.alive(s).sort((a, b) => a.y - b.y)) {
+    if (story?.hideUnits) continue;
     if (fogEnabled && !E.seen(s, p, u)) continue;
     let x = u.x * 32,
       y = u.y * 32,
@@ -1049,6 +1149,45 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       width: viewCols * 32 + 1,
       height: viewRows * 32 + 1,
     });
+  if (story?.glow || E.chapterBeacon(s, p)) {
+    const x = E.ruinsCenter.x * 32,
+      y = E.ruinsCenter.y * 32,
+      r = 18 + Math.sin(time / 600) * 3;
+    const glow = ctx.createRadialGradient(x, y, 0, x, y, r);
+    glow.addColorStop(0, "#ffedb7b0");
+    glow.addColorStop(0.3, "#d8b87355");
+    glow.addColorStop(1, "#e1bb6a00");
+    ctx.fillStyle = glow;
+    ctx.beginPath();
+    ctx.arc(x, y, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  for (const actor of story?.actors ?? []) {
+    ctx.save();
+    ctx.globalAlpha = actor.alpha ?? 1;
+    drawSprite(
+      ctx,
+      actor.unit,
+      actor.x * 32 - 3,
+      actor.y * 32 - 7,
+      E.unitClass(actor.unit).mounted ? 52 : 38,
+      actor.frame,
+      actor.flip,
+      false,
+      actor.animation,
+    );
+    ctx.restore();
+  }
+  if (story?.flash) {
+    const f = story.flash;
+    ctx.save();
+    ctx.globalAlpha = f.strength;
+    ctx.fillStyle = "#fff4cf";
+    ctx.beginPath();
+    ctx.arc(f.x * 32 + 16, f.y * 32, 24 * f.strength, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.restore();
+  }
   if (sel && sel.owner === p && sel.id === cur?.id && !busy && !moved) {
     for (const [k] of movementField(s, sel)) {
       if (visible.has(k)) continue;
@@ -1177,6 +1316,7 @@ function animation(time: number) {
     }
     if (b) renderMap(b, (3 - state!.active) as 1 | 2, time);
   }
+  if (screen === "chapter") chapterDirector?.tick(time);
   if (combatAnim) renderCombat(time);
 }
 requestAnimationFrame(animation);
@@ -1464,9 +1604,11 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   E.applyXp(state!, result);
   E.visibility(state!);
   // The entire cinematic (including the final HP tween) has ended.
-  screen = "rewards";
-  app.innerHTML =
-    '<main class="aftermath-screen" aria-label="Fin de l’affrontement"></main>';
+  selected = null;
+  aim = null;
+  targetingAttack = false;
+  cardOpen = false;
+  battleUI();
   await rewards(result, beforeUnits);
   busy = false;
   E.log(state!, `${a.name} affronte ${b.name}.`);
@@ -1550,6 +1692,13 @@ function renderCombat(time: number) {
   const anim = combatAnim!,
     canvas = document.querySelector<HTMLCanvasElement>("#combat");
   if (!canvas) return;
+  const bounds = canvas.getBoundingClientRect();
+  const targetWidth = Math.max(
+    960,
+    Math.round((600 * bounds.width) / Math.max(1, bounds.height)),
+  );
+  if (canvas.width !== targetWidth) canvas.width = targetWidth;
+  anim.scene.presentationWidth = targetWidth;
   const ctx = canvas.getContext("2d")!;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   anim.scene.draw(
@@ -1644,7 +1793,7 @@ function summary() {
   screen = "summary";
   const s = state!;
   s.phase = "summary";
-  app.innerHTML = `<main class="summary-screen"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>PROTOTYPE · BILAN TACTIQUE</small></span></header><section><h1>Fin du test tactique</h1><p>Les unités et leur progression sont conservées. Enregistrez ce bilan ou retournez au menu.</p><div class="summary-units">${s.units
+  app.innerHTML = `<main class="summary-screen"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>PROTOTYPE · BILAN TACTIQUE</small></span></header><section><h1>${s.chapter1?.complete ? "Chapitre I — Hors des ruines" : "Fin du test tactique"}</h1><p>${s.chapter1?.complete ? "Les expéditions suivent la sorcière vers un autre lieu. Leur alliance reste fragile ; leur objectif est commun : comprendre les tempêtes rouges et trouver le chemin du retour. La suite du voyage sera racontée ultérieurement." : "Les unités et leur progression sont conservées. Enregistrez ce bilan ou retournez au menu."}</p><div class="summary-units">${s.units
     .filter((u) => u.owner !== 0 && !u.summonedBy)
     .map(
       (u) =>
@@ -1971,6 +2120,7 @@ app.addEventListener("click", async (e) => {
     try {
       state = E.createCampaign(factions, heroDrafts, companionDrafts);
       E.setPlayableTeamColors(state, readTeamPreferences());
+      E.beginChapter1(state);
     } catch (error) {
       toast((error as Error).message);
       return;
