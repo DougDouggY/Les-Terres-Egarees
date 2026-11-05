@@ -126,6 +126,14 @@ for source,(columns,rows) in sources.items():
   top,bottom=max(segments,key=lambda pair:pair[1]-pair[0]) if segments else (0,h)
   feet=np.where((band>32).sum(1)>=3)[0]
   ground=int(feet[-1])+1 if len(feet) else bottom
+  # A banner pole crosses the usual torso band. Measure the actual steel
+  # helmet in the rear-body band; never normalize a person by the flag tip.
+  if (source=='tactical/combat-v3-equipment.png' and frame['row']==0) or (source=='tactical/combat-v3-motion2.png' and frame['row']==1):
+   head=im[y:y+h,x+round(w*.3):x+round(w*.6)]
+   rgb=head[:,:,:3].astype(float);mx=rgb.max(2);mn=rgb.min(2)
+   helmet=(mx-mn<mx*.25)&(mx>60)&(head[:,:,3]>128)
+   rows_with_helmet=np.where(helmet.sum(1)>3)[0]
+   if len(rows_with_helmet):top=int(rows_with_helmet[0])
   frame['bodyHeight']=int(max(1,ground-top))
   frame['bodyGround']=int(y+ground)
  result[source]=dict(width=width,height=height,columns=columns,rows=rows,frames=frames,corrected=corrected)
