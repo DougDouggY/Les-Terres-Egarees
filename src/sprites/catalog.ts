@@ -6,7 +6,7 @@ export type Clip = {
   loop?: boolean;
   status?: "functional" | "provisional";
   note?: string;
-  recolor?: "magenta";
+  recolor?: "magenta" | "blue";
   source: string;
   columns: number;
   rows: number;

@@ -19,6 +19,8 @@ export type Beat = { index: number; at: number };
 export type V2Block = {
   start: number;
   duration: number;
+  actionDuration: number;
+  reloadDuration: number;
   index: number;
   counterIndex?: number;
   ranged: boolean;
@@ -38,6 +40,7 @@ export const sameWeaponBlock = (
 export function buildV2Timeline(
   strikes: readonly VisualStrike[],
   ranged: (id: string) => boolean,
+  reload: (id: string) => boolean = () => false,
 ) {
   const blocks: V2Block[] = [];
   let start = 0;
@@ -70,7 +73,9 @@ export function buildV2Timeline(
       beats.push({ index: counter, at: start + duration * 0.79 });
     blocks.push({
       start,
-      duration,
+      duration: duration + (reload(hit.attacker) && !hold ? 520 : 0),
+      actionDuration: duration,
+      reloadDuration: reload(hit.attacker) && !hold ? 520 : 0,
       index: i,
       counterIndex: counter,
       ranged: range,
@@ -78,7 +83,7 @@ export function buildV2Timeline(
       linked,
       beats,
     });
-    start += duration;
+    start += blocks.at(-1)!.duration;
     if (counter !== undefined) i++;
   }
   return { blocks, duration: start, beats: blocks.flatMap((b) => b.beats) };
@@ -92,13 +97,15 @@ export function sampleV2Timeline(
       timeline.blocks.find((b) => t < b.start + b.duration) ??
       timeline.blocks.at(-1);
   if (!block) return;
-  const elapsedFraction = Math.min(1, (t - block.start) / block.duration);
+  const elapsedFraction = Math.min(1, (t - block.start) / block.actionDuration);
   const p =
     block.linked && !block.ranged
       ? elapsedFraction < 0.32
         ? (elapsedFraction / 0.32) * 0.58
         : 0.58 + ((elapsedFraction - 0.32) / 0.68) * 0.42
       : elapsedFraction;
+  // A parry reply lands at 79%; hold both bodies through its reaction.
+  const retreatAt = block.counterIndex !== undefined ? 0.88 : 0.78;
   const travel = block.ranged
     ? 0
     : p < 0.58
@@ -107,6 +114,19 @@ export function sampleV2Timeline(
         : Math.sin((Math.min(1, p / 0.58) * Math.PI) / 2)
       : block.hold
         ? 1
-        : Math.max(0, Math.min(1, 1 - (p - 0.78) / 0.22));
-  return { block, p, travel, elapsedFraction, done: t >= timeline.duration };
+        : Math.max(0, Math.min(1, 1 - (p - retreatAt) / (1 - retreatAt)));
+  return {
+    block,
+    p,
+    travel,
+    elapsedFraction,
+    reloadPhase:
+      block.reloadDuration && t >= block.start + block.actionDuration
+        ? Math.min(
+            1,
+            (t - block.start - block.actionDuration) / block.reloadDuration,
+          )
+        : undefined,
+    done: t >= timeline.duration,
+  };
 }

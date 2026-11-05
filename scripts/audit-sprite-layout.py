@@ -88,7 +88,7 @@ for source,(columns,rows) in sources.items():
   frames=isolated
  # Combat V2: index complete connected figures by FOOT centroid, not by
  # transparent cell bounds or the tip of a spear crossing into the next cell.
- if source.startswith('tactical/combat-v2-'):
+ if source.startswith(('tactical/combat-v2-', 'tactical/combat-v3-')):
   from scipy.ndimage import label,find_objects
   labels,_=label(im[:,:,3]>16);sizes=np.bincount(labels.ravel());boxes=find_objects(labels);groups={}
   for number,box in enumerate(boxes,1):
@@ -99,7 +99,13 @@ for source,(columns,rows) in sources.items():
    key=(row,col)
    candidate=dict(row=row,column=col,x=xs.start,y=ys.start,width=xs.stop-xs.start,height=ys.stop-ys.start,ground=ys.stop,anchorX=foot,ambiguous=False,sourceDefect=xs.start==0 or ys.start==0 or xs.stop==width or ys.stop==height)
    if key not in groups or sizes[number]>groups[key][0]:groups[key]=(sizes[number],candidate)
-  if len(groups)==columns*rows:frames=[v[1] for v in groups.values()]
+  if len(groups)==columns*rows:
+   frames=[v[1] for v in groups.values()]
+   # The initial rectangular probe can touch faint background noise. Report
+   # only final isolated figures, including any actual cropped body/weapon.
+   issues=[issue for issue in issues if issue.get('source')!=source]
+   for f in frames:
+    if f['sourceDefect']:issues.append(dict(source=source,row=f['row'],column=f['column'],problem='Figure isolée au bord de la source : ressource à corriger.'))
   else:issues.append(dict(source=source,problem='Figures V2 non isolables sans retouche artistique',expected=columns*rows,detected=len(groups)))
  # Anatomical anchor: estimate the torso from the dense lower silhouette,
  # then use its longest vertical band. Isolated staff/spear tips are excluded.

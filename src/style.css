@@ -3553,3 +3553,22 @@ h2 {
     transition: none;
   }
 }
+
+/* Reserve matching side space so the objective stays in the actual top corner. */
+.compact-battle {
+  --objective-width: clamp(94px, 20vw, 220px);
+}
+.compact-battle .mission-objective {
+  top: 2px;
+  left: 2px;
+  width: var(--objective-width);
+  max-width: var(--objective-width);
+  box-sizing: border-box;
+  padding: 5px 7px;
+}
+.compact-battle .initiative-strip {
+  width: min(620px, calc(100vw - 2 * var(--objective-width) - 16px));
+}
+@media (max-width: 700px) {
+  .compact-battle .mission-objective { font-size: 9px; }
+}

@@ -20,7 +20,7 @@ for source,layout in layouts.items():
   band=a[:,max(0,int(front)-3):];wy,_=np.where(band)
   region=labels[y:y+h,x:x+w];counts=np.bincount(region.ravel(),minlength=len(sizes));counts[0]=0;main=int(counts.argmax())
   foreign=int(counts.sum()-counts[main]);mask=[]
-  if main and foreign>12:
+  if main and (foreign>12 or source.startswith('tactical/combat-v3-')):
    own=region==main
    distance=distance_transform_edt(~own)
    for number in np.unique(region):
@@ -33,5 +33,5 @@ for source,layout in layouts.items():
     mask.extend([[x+int(start),y+row,int(end-start)] for start,end in zip(starts,ends)])
   frames[f"{f['row']}:{f['column']}"]={'feetX':round(foot,2),'feetY':f.get('bodyGround',y+h),'weaponTip':{'x':x+round(float(front),2),'y':y+round(float(np.median(wy)) if len(wy) else h*.45,2)},'bodyHeight':f.get('bodyHeight',h),'bounds':[x,y,w,h],'ambiguous':f.get('ambiguous',False),'sourceDefect':f.get('sourceDefect',False),'maskRuns':mask,'foreignPixelsRemoved':foreign if mask else 0}
  out[source]=frames
-(root/'src/assets/tactical/combat-anchors.json').write_text(json.dumps(out,indent=2)+'\n')
+(root/'src/assets/tactical/combat-anchors.json').write_text(json.dumps(out,separators=(',',':'))+'\n')
 print('Combat anchor sources:',len(out))

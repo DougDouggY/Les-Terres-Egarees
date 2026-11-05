@@ -1,0 +1,233 @@
+{
+  "profiles": [
+    {
+      "classId": "mounted_spearman",
+      "gender": "any",
+      "equipment": "lance",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v3-mounted.png",
+          "columns": 10,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 12,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v3-mounted.png",
+          "columns": 10,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            1,
+            2,
+            3
+          ],
+          "fps": 12,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v3-mounted.png",
+          "columns": 10,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            5,
+            6,
+            0
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/combat-v3-mounted.png",
+          "columns": 10,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            7,
+            0
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v3-mounted.png",
+          "columns": 10,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            8,
+            0
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v3-mounted.png",
+          "columns": 10,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            7,
+            9
+          ],
+          "fps": 5,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "charge": {
+          "reuse": "attack"
+        }
+      },
+      "note": "Atlas mont\u00e9 V2 : arme conserv\u00e9e, attaque dirig\u00e9e vers une cible \u00e0 pied, cheval et cavalier \u00e0 \u00e9chelle fixe."
+    },
+    {
+      "classId": "young_viking",
+      "gender": "male",
+      "equipment": "training-axe",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v3-equipment.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            4
+          ],
+          "fps": 12,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v3-equipment.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            4,
+            6,
+            4
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v3-equipment.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            4,
+            6,
+            4
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v3-equipment.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            4,
+            6,
+            7
+          ],
+          "fps": 5,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v3-equipment.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            4,
+            1,
+            2,
+            3,
+            4
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion8.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        }
+      },
+      "note": "Atlas V2 coh\u00e9rent pour ce skin et cet \u00e9quipement ; poses communes redessin\u00e9es."
+    }
+  ],
+  "override": true
+}

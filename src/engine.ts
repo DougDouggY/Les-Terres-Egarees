@@ -24,3 +24,5 @@ export * from "./data/companions";
 export {rules,baseBalance,promotionBonuses} from "./data/balance";
 
 export * from "./game/initiative";
+
+export * from "./game/tactical-fields";

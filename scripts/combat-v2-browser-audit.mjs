@@ -22,7 +22,7 @@ const output = await page.evaluate(async () => {
     sheets = [],
     abilityRows = [],
     abilitySheets = [];
-  const width = 240,
+  const width = 340,
     height = 335,
     columns = [
       "idle",
@@ -47,7 +47,7 @@ const output = await page.evaluate(async () => {
       const skin = combatSkin(p),
         profile = skin.profile,
         m = profileMetrics(profile),
-        body = skin.mounted ? 225 : p.state === "bear" ? 98 : 112;
+        body = skin.mounted ? 156.8 : p.state === "bear" ? 121.9 : 112;
       const item = {
         id: profileKey(p),
         className: visualClasses[p.classId].name,
@@ -141,7 +141,7 @@ const output = await page.evaluate(async () => {
           },
           anchor = anchors[c.source]?.[`${cell.row}:${cell.column}`];
         ctx.save();
-        ctx.translate(col * width + 110, ground);
+        ctx.translate(col * width + 160, ground);
         drawResourceFrame(
           ctx,
           profile,
@@ -189,7 +189,7 @@ const output = await page.evaluate(async () => {
       sceneCanvas.width = 960;
       sceneCanvas.height = 600;
       item.sequenceFrames = [];
-      for (const t of [0, 240, 440, 725, 850, 1025, 1250]) {
+      for (const t of [0, 125, 225, 325, 440, 725, 850, 1025, 1250, 1500, 1770]) {
         scene.draw(sceneCanvas.getContext("2d"), t);
         item.sequenceFrames.push({
           at: t,
@@ -197,6 +197,7 @@ const output = await page.evaluate(async () => {
         });
       }
       for (const name of [
+        "move",
         "heal",
         "buff",
         "summon",
@@ -227,7 +228,7 @@ const output = await page.evaluate(async () => {
         profile = skin.profile,
         c = resolveClip(profile, name),
         m = profileMetrics(profile),
-        body = skin.mounted ? 225 : p.state === "bear" ? 98 : 112;
+        body = skin.mounted ? 156.8 : p.state === "bear" ? 121.9 : 112;
       ctx.font = "12px sans-serif";
       ctx.fillStyle = "#eadbb8";
       ctx.fillText(profileKey(p) + " / " + name, 5, row * height + 16);
@@ -238,7 +239,7 @@ const output = await page.evaluate(async () => {
           cell = c.cells?.[frame] ?? { row: c.row, column: c.frames[frame] },
           a = anchors[c.source]?.[`${cell.row}:${cell.column}`];
         ctx.save();
-        ctx.translate(col * width + 110, row * height + height - 22);
+        ctx.translate(col * width + 160, row * height + height - 22);
         drawResourceFrame(
           ctx,
           profile,

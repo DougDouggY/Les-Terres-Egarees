@@ -92,9 +92,9 @@ export class CombatSceneV2 {
           ? skinForUnit(u, spriteCatalog.profiles)
           : combatSkin(unitSpriteProfile(u));
       const height = skin?.mounted
-        ? 272
+        ? 190.4
         : u.bearForm || skin?.profile.state === "bear"
-          ? 118.4
+          ? 148
           : 136;
       const scaleBySource = new Map<string, number>();
       if (skin)
@@ -110,7 +110,12 @@ export class CombatSceneV2 {
     });
     for (const actor of this.actors)
       this.initialHp.set(actor.unit.id, actor.unit.hp);
-    this.timeline = buildV2Timeline(this.strikes, (id) => this.ranged(id));
+    this.timeline = buildV2Timeline(
+      this.strikes,
+      (id) => this.ranged(id),
+      (id) =>
+        !!activeWeapon(this.actors.find((a) => a.unit.id === id)!.unit).reload,
+    );
   }
   resetPresentation() {
     this.applied.clear();
@@ -191,6 +196,10 @@ export class CombatSceneV2 {
   }
   private frame(actor: CombatActor, name: string, phase: number) {
     const c = resolveClip(actor.skin?.profile, name);
+    // Damage clips commonly start/end in guard. Show the flinch immediately
+    // at contact, rather than spending the impact pause on the guard drawing.
+    if (name === "damage" && (c?.frames.length ?? 0) > 1)
+      return phase < 0.7 ? 1 : c!.frames.length - 1;
     return Math.min(
       (c?.frames.length ?? 1) - 1,
       Math.floor(clamp(phase) * (c?.frames.length ?? 1)),
@@ -339,6 +348,19 @@ export class CombatSceneV2 {
         advance = Math.max(0, 460 - gap);
       a.x += direction * travel * advance;
       Object.assign(a, this.attackPose(a.actor, hit, p, block.linked));
+      const retreatAt = block.counterIndex !== undefined ? 0.88 : 0.78;
+      if (
+        !block.ranged &&
+        ((!block.linked && p < 0.35) || (!block.hold && p > retreatAt && p < 1))
+      ) {
+        const move = resolveClip(a.actor.skin?.profile, "move");
+        if (move && move.frames.length > 1) {
+          a.name = "move";
+          const phase =
+            Math.floor(elapsed / (1000 / move.fps)) % move.frames.length;
+          a.index = p > retreatAt ? move.frames.length - 1 - phase : phase;
+        }
+      }
       if (block.hold && p >= 0.78) {
         const next = this.strikes[block.index + 1],
           name = attackName(a.actor.unit, next),
@@ -370,22 +392,27 @@ export class CombatSceneV2 {
       if (block.counterIndex !== undefined) {
         const counter = this.strikes[block.counterIndex],
           replyStart = 0.69;
-        if (p >= replyStart && p < 0.92) {
+        if (p >= replyStart && p < 0.98) {
           const replyGap = this.contact(d.actor, a.actor, counter),
             currentGap = Math.abs(a.x - d.x),
             extra = Math.max(0, currentGap - replyGap),
-            flow = Math.sin(((p - 0.69) / 0.23) * Math.PI);
+            flow =
+              p < 0.77
+                ? Math.sin((clamp((p - 0.69) / 0.08) * Math.PI) / 2)
+                : p < 0.86
+                  ? 1
+                  : Math.max(0, 1 - (p - 0.86) / 0.12);
           d.x -= direction * extra * flow;
           const q =
-            p < 0.75
-              ? 0.2 + ((p - 0.69) / 0.06) * 0.37
-              : p < 0.84
+            p < 0.79
+              ? 0.2 + ((p - 0.69) / 0.1) * 0.37
+              : p < 0.85
                 ? 0.58
-                : 0.72 + ((p - 0.84) / 0.08) * 0.2;
+                : 0.72 + ((p - 0.85) / 0.13) * 0.2;
           Object.assign(d, this.attackPose(d.actor, counter, q));
-          if (p >= 0.75) {
+          if (p >= 0.79) {
             a.name = counter.hit ? "damage" : "evade";
-            a.index = this.frame(a.actor, a.name, (p - 0.75) / 0.17);
+            a.index = this.frame(a.actor, a.name, (p - 0.79) / 0.19);
           }
         }
       }
@@ -434,16 +461,22 @@ export class CombatSceneV2 {
           ctx.stroke();
         }
       }
+      if (sample.reloadPhase !== undefined) {
+        a.name = "reload";
+        a.index = this.frame(a.actor, "reload", sample.reloadPhase);
+      }
       ctx.canvas.dataset.phase =
-        p < 0.2
-          ? "idle"
-          : p < 0.57
-            ? "prepare"
-            : p < 0.72
-              ? "impact"
-              : p < 0.92
-                ? "recover"
-                : "idle";
+        sample.reloadPhase !== undefined
+          ? "reload"
+          : p < 0.2
+            ? "idle"
+            : p < 0.57
+              ? "prepare"
+              : p < 0.72
+                ? "impact"
+                : p < 0.92
+                  ? "recover"
+                  : "idle";
       ctx.canvas.dataset.skinIds = this.actors
         .map((a) => a.skin?.id ?? "missing")
         .join("|");

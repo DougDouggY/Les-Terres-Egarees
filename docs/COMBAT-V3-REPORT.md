@@ -1,0 +1,43 @@
+# Corrections globales V3 — animations et mode Aventure
+
+Cette intervention reprend le kit V2 et couvre les **41 entrées de classes/promotions et 55 profils visuels** existants, dont les variantes d’armes, les états de bannière, les montures, la forme d’ours et les Sans-Repos. L’[inventaire par classe et animation](COMBAT-V3-INVENTORY.md) et son [JSON détaillé](COMBAT-V3-INVENTORY.json) indiquent les sources, les poses présentes, les réutilisations et les lacunes. Une animation lisible ne signifie pas que tous ses dessins dédiés sont artistiquement finalisés.
+
+## Corrections effectuées
+
+- **Contact et riposte** : maintien au contact jusqu’après le second impact, arrêt perceptible avant le recul ; la réaction aux dégâts commence immédiatement sur le dessin de fléchissement, sans attendre sur la garde. Les événements et dégâts restent ceux du moteur ; aucun coup supplémentaire n’est calculé par le lecteur.
+- **Déplacements de combat** : poses de course à jambes distinctes pour les 51 profils à pied ; galop pour les trois montures ; course animale pour l’ours. Le lecteur emploie ces poses pendant l’approche et le recul, avec cycle inversé au retour. Les archers et magiciens restent à distance lors de leurs tirs et sorts.
+- **Armes** : nouvelles séquences de taille pour plusieurs épéistes, préparation et frappe à deux mains pour le Brise-fer et l’Exécuteur ; dessins distincts des frappes principales et secondaires pour les deux armes. Les haches des nouvelles séquences gardent des têtes métalliques identifiables. Les attaques originales cohérentes sont conservées quand une proposition changeait le casque ou l’équipement.
+- **Montures** : échelle commune de **70 % de la précédente**, soit hauteur de référence 190,4 contre 136 à pied. Cette échelle reste fixe pour chaque source du skin, sans ajustement à chaque pose. Le Lancier monté porte sa lance progressivement vers l’avant et n’a plus de bouclier dans ses poses de combat ni dans ses sprites tactiques corrigés.
+- **Porte-étendard** : estoc de la hampe tenue à deux mains ; attaque à l’épée dans l’état planté. Les deux états restent distincts, sans changer de skin pendant la séquence.
+- **Ours** : véritable patte levée puis projetée vers la cible, corps accompagnant le coup et réaction synchronisée. Les mêmes dessins servent à la frappe simple, à la riposte et à l’attaque d’Agilité. Hauteur de référence portée de 118,4 à **148**, sans modifier l’échelle des humains.
+- **Équipements et couleurs** : le Jeune Viking n’affiche plus le bouclier ajouté à tort. Les casques absents et une lance dupliquée repérés dans des propositions de course ont été corrigés avant intégration. Les nouveaux atlas bleus déclarent leur palette source ; les anciennes ressources magenta restent compatibles avec le même système de couleurs d’équipe. Peau, métal neutre et alpha sont conservés par le masque.
+- **Objectif** : cadre à 2 px du coin supérieur gauche ; espace réservé sur les côtés de la barre pour éviter le chevauchement, y compris sur petit écran. Le bouton œil, sa sauvegarde, la rétraction et le centrage restent inchangés.
+- **Soins** : action proposée uniquement si un allié blessé, visible et effectivement soignable est à portée ; vérification répétée au clic. L’aperçu du soin n’équipe pas artificiellement une arme sur l’unité réelle. La portée verte du Chaman part de toutes les positions accessibles ; après déplacement, elle est recalculée depuis la position finale. Les hybrides gardent la priorité offensive jusqu’au choix explicite du soin.
+- **Arbalètes** : portée rouge rétablie, y compris pour une ancienne sauvegarde marquée déchargée. Recharge automatique affichée après le tir, sans action manuelle gratuite et sans changement de portée, précision, dégâts ou statistiques. Les premières poses réelles de recharge sont chargées avant lecture ; les séquences nouvelles sont disponibles dans le comparateur.
+- **Brume et déplacement tactique** : la planification utilise les terrains explorés et les occupants connus ; un terrain inconnu ne révèle ni son coût réel ni son obstacle par le chemin affiché. Les cases masquées peuvent être tentées et reçoivent un contour discret au-dessus de la brume. L’exécution s’arrête avant un obstacle ou un ennemi caché, ou avant de dépasser le budget réel de déplacement. Elle ne traverse pas les ennemis et ne termine pas sur un allié. Le déplacement interrompu est engagé ; il ne peut pas être annulé pour obtenir un second déplacement gratuit. Les portées dessinées ne rendent aucune cible invisible attaquable.
+
+## Ressources réellement créées et utilisées
+
+**16 atlas transparents**, contenant 418 cellules dessinées, dont **384 cellules uniques effectivement référencées** par les animations. Les 34 autres cellules ne sont pas exposées par les clips du jeu : casque différent, arme erronée, pavois supplémentaire ou proposition de déplacement incompatible avec l’état fortifié. Les propositions écartées ne remplacent pas les dessins cohérents existants. Le [manifeste des ressources](COMBAT-V3-ART.json) donne les empreintes, dimensions, cellules utilisées et exclusions exactes (indices de lignes à partir de zéro).
+
+Les anciens PNG sont conservés. Les corrections de découpage et masques alpha sont des métadonnées de lecture ; elles ne régénèrent pas la carte. Les deux corrections d’équipement nécessaires sur carte concernent seulement le Lancier monté et le Jeune Viking. Aucun terrain, décor, dimension, portrait, statistique, promotion ou condition de victoire n’a été remplacé.
+
+## Vérifications
+
+- `npm test` : réussi, avec tests des ressources et des systèmes indépendants, plus les nouveaux tests de portée, cibles de soin, terrain inconnu, arrêt avant un ennemi et compatibilité des arbalètes déchargées.
+- Parcours complet de l’interface : **32 tests réussis**. Après le raccord des palettes, cinq contrôles ciblés réussis : lecteur V2, proportions, seize sources bleues recolorées, neuf palettes historiques et calibration HSV.
+- Quatre tests finaux du lecteur réussis après le raccord de transparence commun à la galerie et au jeu, dont la réaction immédiate et le maintien des positions après riposte ; aucun dégât ou événement supplémentaire.
+- Constructions publique et prototype : réussies ; outils de développement absents de la construction publique et accessibles dans le prototype. Vite signale un lot principal supérieur à 500 Ko (environ 2,7 Mo, 716 Ko compressés) ; ce poids des métadonnées et ressources reste à optimiser.
+- Audit de rendu : **55 profils, 451 animations enregistrées (alias compris), 1 768 images effectivement dessinées**. Aucun échec de dessin disponible et aucun dépassement du cadre dans les échantillons de séquences. Les planches de poses, courses, soins, recharges et capacités sont dans `artifacts/combat-v2/` ; le relevé est `render-audit.json`.
+- Revue visuelle des nouvelles sources, poses et planches rendues, notamment armes lourdes, gardes, bannière, course, galop, contact de l’ours et recharge. Les chiffres de rendu ne sont pas un substitut à cette revue.
+- Une suite historique hors des commandes de validation courantes, `tests/phase1.test.ts`, garde **dix échecs préexistants**, reproduits aussi sur le commit publié avant V3 : ancien nombre de classes, anciennes factions/activations et anciennes règles. Elle n’a pas été modifiée pour masquer ces écarts. Les suites actuelles et les nouveaux tests passent.
+
+## Limites restant explicites
+
+Les critiques dédiés, plusieurs esquives, les dessins spécifiques de soin du Guérisseur du clan et certaines capacités restent absents dans la bibliothèque historique. La parade montée utilise encore une réaction provisoire ; la recharge du pavois fortifié conserve sa courte séquence cohérente existante. Certaines anciennes réactions à une seule pose et certaines variantes de sexe ne sont pas refaites ici. Elles restent signalées dans l’inventaire, sans charger un autre personnage en remplacement.
+
+Les entrées visuelles des Sans-Repos ne créent aucune nouvelle règle de classe ou capacité : leurs modèles existants sont conservés et leurs animations contrôlées dans l’outil de développement. Le fonctionnement du combat, les calculs, l’ordre commun des expéditions, les sauvegardes et la brume propre à chaque joueur restent conservés, hormis les corrections de déplacement et de recharge explicitement demandées.
+
+## Accès dans le prototype
+
+**Menu principal → Tests de combat → Comparer toutes les animations**. Choix de classe, skin, arme, scénario et capacité ; lecture, pause, ralentis, miroir et ancres. L’arène conserve le test de déplacement et les essais d’attaques. La galerie permet de comparer les ressources utilisées et de noter les corrections.

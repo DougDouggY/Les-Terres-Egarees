@@ -115,3 +115,29 @@ test("tous les skins : identité stable, repos/attaque de même atlas, aucune po
       assert.ok(resolveClip(skin.profile, "attack_offhand"));
   }
 });
+
+test("riposte : maintien au contact après l’impact, puis seulement le recul", () => {
+  const t = buildV2Timeline(
+    [
+      hit({ blocked: true, damage: 0 }),
+      hit({ attacker: "b", defender: "a", counter: true, parryCounter: true }),
+    ],
+    () => false,
+  );
+  const contact = t.beats[1].at;
+  assert.equal(sampleV2Timeline(t, contact)!.travel, 1);
+  assert.equal(sampleV2Timeline(t, contact + 90)!.travel, 1);
+  assert.ok(sampleV2Timeline(t, 1450)!.travel < 1);
+});
+test("arbalète : recharge visuelle après les événements sans frappe supplémentaire", () => {
+  const t = buildV2Timeline(
+    [hit()],
+    () => true,
+    () => true,
+  );
+  assert.equal(t.duration, 1770);
+  assert.equal(t.beats.length, 1);
+  assert.equal(t.beats[0].at, 725);
+  assert.equal(sampleV2Timeline(t, 1300)!.p, 1);
+  assert.ok(sampleV2Timeline(t, 1400)!.reloadPhase! > 0);
+});

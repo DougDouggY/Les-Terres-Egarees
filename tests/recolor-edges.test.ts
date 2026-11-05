@@ -93,3 +93,17 @@ test("réglages bornés, non-finis ignorés, restauration exacte des valeurs par
     setRecolorSettings(defaultRecolorSettings);
   }
 });
+
+test("palette source bleue : couleurs d’équipe sans altérer peau, métal ou transparence", () => {
+  const pixels = new Uint8ClampedArray([
+    30, 85, 180, 255, 210, 160, 120, 255, 110, 115, 120, 255, 0, 0, 0, 0,
+  ]);
+  const original = pixels.slice();
+  const result = recolorPixels(pixels.slice(), "red", {
+    width: 4,
+    settings: { ...defaultRecolorSettings, hue: 215 },
+  });
+  assert.ok(result[0] > result[2]);
+  assert.deepEqual([...result.slice(4)], [...original.slice(4)]);
+  assert.deepEqual([...pixels], [...original]);
+});

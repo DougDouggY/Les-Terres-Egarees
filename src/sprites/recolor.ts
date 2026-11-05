@@ -181,13 +181,28 @@ export function recoloredImage(
   image: HTMLImageElement,
   color: TeamColor,
   softEdges = true,
+  sourceHue?: number,
 ) {
   let colors = cache.get(image);
   if (!colors) {
     colors = new Map();
     cache.set(image, colors);
   }
-  const key = `${color}:${softEdges}:${JSON.stringify(currentSettings)}`;
+  // Source material palettes are explicit: old atlases use magenta, V3 blue.
+  // Preserve gallery calibration as a relative offset, without mutating globals.
+  const settings =
+    sourceHue === undefined
+      ? currentSettings
+      : {
+          ...currentSettings,
+          hue:
+            (sourceHue +
+              currentSettings.hue -
+              defaultRecolorSettings.hue +
+              360) %
+            360,
+        };
+  const key = `${color}:${softEdges}:${JSON.stringify(settings)}`;
   let canvas = colors.get(key);
   if (canvas) {
     const entry = recent.get(canvas)!;
@@ -201,7 +216,11 @@ export function recoloredImage(
   const ctx = canvas.getContext("2d")!;
   ctx.drawImage(image, 0, 0);
   const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  recolorPixels(pixels.data, color, { width: canvas.width, softEdges });
+  recolorPixels(pixels.data, color, {
+    width: canvas.width,
+    softEdges,
+    settings,
+  });
   ctx.putImageData(pixels, 0, 0);
   colors.set(key, canvas);
   const bytes = canvas.width * canvas.height * 4;

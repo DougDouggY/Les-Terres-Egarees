@@ -28,14 +28,27 @@ async function fixture(
           (map as Cell[]).some((d) => d.x === c.x + 1 && d.y === c.y && d.walk),
       )!;
       Object.assign(a, { x: c.x, y: c.y });
-      Object.assign(b, { x: c.x + 1, y: c.y });
+      Object.assign(b, {
+        x: c.x + (classId === "crossbowman" ? 2 : 1),
+        y: c.y,
+      });
       s.common.queue = pending ? [b.id, a.id] : [a.id, b.id];
       s.active = 1;
-      s.players[0].visible = [
-        c.y * 60 + c.x,
-        ...(foe ? [c.y * 60 + c.x + 1] : []),
-      ];
+      s.players[0].visible = [c.y * 60 + c.x, ...(foe ? [c.y * 60 + b.x] : [])];
       s.players[1].visible = [c.y * 60 + c.x + 1];
+      if (classId === "sorcerer") {
+        const spot = (map as Cell[]).find(
+          (d) =>
+            d.walk &&
+            Math.abs(d.x - c.x) + Math.abs(d.y - c.y) === 1 &&
+            d.x !== b.x,
+        );
+        if (spot) {
+          const ally = trainingUnit(s, "man_at_arms", 1, 1, 1);
+          Object.assign(ally, { x: spot.x, y: spot.y, hp: ally.maxHp - 4 });
+          s.players[0].visible.push(spot.y * 60 + spot.x);
+        }
+      }
       s.players.forEach((p) => (p.camera = { x: c.x - 6, y: c.y - 4 }));
       localStorage.setItem("lte-save", encode(s));
       localStorage.setItem("lte-speed", "5");
@@ -228,4 +241,35 @@ test("soins : priorité offensive puis sélection explicite du soin", async ({
     .locator("#map")
     .click({ button: "right", position: { x: 30, y: 300 } });
   await expect(page.locator("#unit-actions")).toBeVisible();
+});
+
+test("aucune cible blessée : action de soin absente", async ({ page }) => {
+  await fixture(page, false, false, "shaman");
+  const u = await page.evaluate(
+    () => JSON.parse(localStorage.getItem("lte-save")!).units[0],
+  );
+  await cellClick(page, u.x, u.y);
+  await cellClick(page, u.x, u.y);
+  await expect(page.locator('[data-action="skill-heal"]')).toHaveCount(0);
+  const goal = await page.locator(".mission-objective").boundingBox();
+  expect(goal!.x).toBeLessThanOrEqual(3);
+  expect(goal!.y).toBeLessThanOrEqual(3);
+});
+
+test("arbalète : portée offensive et recharge automatique sans action manuelle", async ({
+  page,
+}) => {
+  await fixture(page, false, true, "crossbowman");
+  const u = await page.evaluate(
+    () => JSON.parse(localStorage.getItem("lte-save")!).units[0],
+  );
+  await cellClick(page, u.x, u.y);
+  await cellClick(page, u.x, u.y);
+  await expect(page.locator('[data-action="skill-reload"]')).toHaveCount(0);
+  await expect(page.locator('[data-action="attack-mode"]')).toBeVisible();
+  await page.locator('[data-action="attack-mode"]').click();
+  await cellClick(page, u.x + 2, u.y);
+  await page.locator('[data-action^="confirm-attack-"]').click();
+  await expect(page.locator("#combat")).toHaveAttribute("data-phase", "reload");
+  await page.screenshot({ path: "artifacts/combat-v2/automatic-reload.png" });
 });

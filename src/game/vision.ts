@@ -5,7 +5,10 @@ import { alive } from "./queries";
 export function los(
   a: { x: number; y: number },
   b: { x: number; y: number },
+  known?: Set<number>,
 ): boolean {
+  const opaque = (x: number, y: number) =>
+    known?.has(key(x, y)) !== false && !!cell(x, y)?.opaque;
   let x = a.x,
     y = a.y;
   const nx = Math.abs(b.x - x),
@@ -17,7 +20,7 @@ export function los(
   while (ix < nx || iy < ny) {
     const d = (1 + 2 * ix) * ny - (1 + 2 * iy) * nx;
     if (d === 0) {
-      if (cell(x + sx, y)?.opaque || cell(x, y + sy)?.opaque) return false;
+      if (opaque(x + sx, y) || opaque(x, y + sy)) return false;
       x += sx;
       y += sy;
       ix++;
@@ -30,7 +33,7 @@ export function los(
       iy++;
     }
     if (x === b.x && y === b.y) return true;
-    if (cell(x, y)?.opaque) return false;
+    if (opaque(x, y)) return false;
   }
   return true;
 }

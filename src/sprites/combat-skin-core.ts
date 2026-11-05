@@ -52,9 +52,9 @@ export function buildCombatSkin(
     }
     if (name.startsWith("combat_")) continue;
     // Guard/recovery and attack belong to one wardrobe, not to unrelated map art.
-    if (["idle", "move"].includes(name) && attack && c.source !== attack.source)
+    if (["idle", "move"].includes(name) && attack && c.source !== attack.source && !c.source.startsWith("tactical/combat-v3-motion"))
       continue;
-    if (name === "evade" && c.source !== primary?.source) {
+    if (name === "evade" && c.source !== primary?.source && !replacement) {
       issues.push({
         animation: name,
         reason: "Ancienne esquive d’un autre skin écartée",

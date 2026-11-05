@@ -19,7 +19,7 @@ export function effectiveAgility(u: Unit) {
 }
 export function offensiveReady(u: Unit) {
   const w = activeWeapon(u);
-  return w.category !== "healing" && (!w.reload || u.crossbowLoaded !== false);
+  return w.category !== "healing";
 }
 export function canAttack(a: Unit, b: Unit) {
   return (
@@ -357,12 +357,12 @@ export function resolve(s: Campaign, a: Unit, b: Unit): Battle {
   if (canCounter && !out.counterSpent) out.reply(b, a);
   out.execute(opening, true);
   if (out.counterPlan) out.execute(out.counterPlan, true);
-  if (activeWeapon(a).reload) a.crossbowLoaded = false;
+  if (activeWeapon(a).reload) a.crossbowLoaded = true;
   if (
     out.result.strikes.some((t) => t.attacker === b.id) &&
     activeWeapon(b).reload
   )
-    b.crossbowLoaded = false;
+    b.crossbowLoaded = true;
   return out.finish();
 }
 export function canCastAreaAt(

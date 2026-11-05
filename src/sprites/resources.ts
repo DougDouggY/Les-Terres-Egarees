@@ -1,5 +1,6 @@
 import { resourceScale } from "./geometry";
 import atlasLayouts from "../assets/tactical/atlas-layout.json";
+import combatAnchors from "../assets/tactical/combat-anchors.json";
 import { visualClasses } from "./visual-classes";
 import { recoloredImage } from "./recolor";
 import {
@@ -130,8 +131,13 @@ export function drawResourceFrame(
     sourceRow = c.cells?.[indexInClip]?.row ?? c.row,
     top = Math.round(sourceRow * sh),
     source =
-      color && c.recolor === "magenta"
-        ? recoloredImage(img, color, c.recolorEdges)
+      color && c.recolor
+        ? recoloredImage(
+            img,
+            color,
+            c.recolorEdges,
+            c.recolor === "blue" ? 215 : undefined,
+          )
         : img;
   ctx.save();
   ctx.imageSmoothingEnabled = !pixelArt;
@@ -168,8 +174,20 @@ export function drawResourceFrame(
         (rect.y -
           (placement?.ground ?? rect.bodyGround ?? rect.y + rect.height)) *
           scale;
-    const masked = placement?.maskRuns?.length
-      ? extractedFrame(source, rect, placement.maskRuns)
+    // The same isolated silhouette is used in combat, gallery and map previews.
+    // V3 source atlases can contain faint matte noise outside the actual figure.
+    const runs =
+      placement?.maskRuns ??
+      (c.source.startsWith("tactical/combat-v3-")
+        ? (
+            combatAnchors as Record<
+              string,
+              Record<string, { maskRuns?: number[][] }>
+            >
+          )[c.source]?.[`${sourceRow}:${column}`]?.maskRuns
+        : undefined);
+    const masked = runs?.length
+      ? extractedFrame(source, rect, runs)
       : undefined;
     ctx.drawImage(
       masked ?? source,

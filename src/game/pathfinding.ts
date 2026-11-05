@@ -10,11 +10,31 @@ export function path(
   x: number,
   y: number,
   ignoreUnits = false,
+  knowledge = false,
 ): { cost: number; steps: number[] } | null {
+  const known =
+    knowledge && u.owner !== 0
+      ? new Set([
+          ...s.players[u.owner - 1].explored,
+          ...s.players[u.owner - 1].visible,
+          key(u.x, u.y),
+        ])
+      : undefined;
+  const visible =
+    knowledge && u.owner !== 0
+      ? new Set(s.players[u.owner - 1].visible)
+      : undefined;
+  const knownOccupant = (x: number, y: number) => {
+    const t = at(s, x, y);
+    return t && (!visible || allied(s, u, t) || visible.has(key(x, y)))
+      ? t
+      : undefined;
+  };
   const target = cell(x, y);
   if (
-    !target?.walk ||
-    (!ignoreUnits && at(s, x, y) && at(s, x, y)?.id !== u.id)
+    !target ||
+    (known?.has(key(x, y)) !== false && !target.walk) ||
+    (!ignoreUnits && knownOccupant(x, y) && knownOccupant(x, y)?.id !== u.id)
   )
     return null;
   const start = key(u.x, u.y),
@@ -38,9 +58,10 @@ export function path(
       [-1, 0],
     ]) {
       const n = cell(c.x + dx, c.y + dy);
-      const occupant = n ? at(s, n.x, n.y) : undefined;
+      const occupant = n ? knownOccupant(n.x, n.y) : undefined;
       if (
-        !n?.walk ||
+        !n ||
+        (known?.has(key(n.x, n.y)) !== false && !n.walk) ||
         (!ignoreUnits &&
           occupant &&
           occupant.id !== u.id &&
@@ -50,9 +71,12 @@ export function path(
       const nk = key(n.x, n.y),
         cost =
           dist.get(k)! +
-          (hasSkill(u, "forest_move") && ["forest", "tree"].includes(n.terrain)
+          (known && !known.has(nk)
             ? 1
-            : n.cost);
+            : hasSkill(u, "forest_move") &&
+                ["forest", "tree"].includes(n.terrain)
+              ? 1
+              : n.cost);
       if (cost < (dist.get(nk) ?? Infinity)) {
         dist.set(nk, cost);
         prev.set(nk, k);
@@ -62,11 +86,11 @@ export function path(
   }
   return null;
 }
-export function reachable(s: Campaign, u: Unit) {
+export function reachable(s: Campaign, u: Unit, knowledge = false) {
   const result = new Map<number, { cost: number; steps: number[] }>();
   for (const c of map) {
     if (distance(u, c) > u.move) continue;
-    const p = path(s, u, c.x, c.y);
+    const p = path(s, u, c.x, c.y, false, knowledge);
     if (p && p.cost <= u.move) result.set(key(c.x, c.y), p);
   }
   return result;
@@ -76,6 +100,7 @@ export function reachable(s: Campaign, u: Unit) {
 export function attackCells(
   u: Unit,
   origins: Iterable<number> = [key(u.x, u.y)],
+  known?: Set<number>,
 ): Set<number> {
   const result = new Set<number>();
   if (!offensiveReady(u)) return result;
@@ -85,9 +110,13 @@ export function attackCells(
     for (let dy = -u.range; dy <= u.range; dy++)
       for (let dx = -u.range; dx <= u.range; dx++) {
         const target = cell(from.x + dx, from.y + dy);
-        if (!target?.walk) continue;
+        if (
+          !target ||
+          (known?.has(key(target.x, target.y)) !== false && !target.walk)
+        )
+          continue;
         const d = Math.abs(dx) + Math.abs(dy);
-        if (d >= u.minRange && d <= u.range && los(from, target))
+        if (d >= u.minRange && d <= u.range && los(from, target, known))
           result.add(key(target.x, target.y));
       }
   }

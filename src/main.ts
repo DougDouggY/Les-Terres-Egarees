@@ -294,7 +294,7 @@ function unitCard(u: Unit) {
     )
     .join(
       "",
-    )}</div><div class="equipment"><span>ARME ÉQUIPÉE</span><strong>${E.weaponName(u)}</strong><small>Portée ${u.minRange}–${u.range} cases${E.activeWeapon(u).reload ? (u.crossbowLoaded === false ? " · À recharger" : " · Chargée") : ""}</small><small>${E.unitClass(
+    )}</div><div class="equipment"><span>ARME ÉQUIPÉE</span><strong>${E.weaponName(u)}</strong><small>Portée ${u.minRange}–${u.range} cases${E.activeWeapon(u).reload ? " · Rechargement automatique" : ""}</small><small>${E.unitClass(
     u,
   )
     .skills.filter(
@@ -346,21 +346,11 @@ function contextActions(u: Unit) {
       !u.bearForm && (u.bearCooldown ?? 0) > 0,
     );
   if (E.hasSkill(u, "buff")) html += button("Améliorer un allié", "skill-buff");
-  if (
-    E.hasSkill(u, "bandage") ||
-    (E.hasSkill(u, "heal") &&
-      !u.bearForm &&
-      u.carriedWeapons?.some(
-        (id) => E.weaponCatalog[id].category === "healing",
-      ))
-  )
-    html += button("Soigner", "skill-heal");
+  if (E.healingTargets(s, u).length) html += button("Soigner", "skill-heal");
   if (E.hasSkill(u, "banner") && !u.bannerUsed)
     html += button("Planter la bannière", "skill-banner");
   if (E.hasSkill(u, "fortify") && !u.fortified)
     html += button("Se fortifier", "skill-fortify");
-  if (E.activeWeapon(u).reload && u.crossbowLoaded === false)
-    html += button("Recharger", "skill-reload");
   if (E.summonCells(s, u).length) html += button("Invoquer", "skill-summon");
   if (
     E.hasSkill(u, "area") &&
@@ -741,10 +731,12 @@ function movementField(s: Campaign, u: Unit) {
     s.units.map((t) => `${t.id}:${t.x},${t.y},${t.hp}`).join("|") +
     u.id +
     u.classId +
-    u.move;
+    u.move +
+    JSON.stringify(s.players[u.owner === 2 ? 1 : 0].visible) +
+    JSON.stringify(s.players[u.owner === 2 ? 1 : 0].explored);
   if (signature !== reachSignature) {
     reachSignature = signature;
-    reachCache = E.reachable(s, u);
+    reachCache = E.reachable(s, u, true);
   }
   return reachCache;
 }
@@ -767,7 +759,14 @@ function attackField(
     u.range;
   if (signature !== attackSignature) {
     attackSignature = signature;
-    attackCache = E.attackCells(u, reach.keys());
+    attackCache = E.attackCells(
+      u,
+      reach.keys(),
+      new Set([
+        ...state!.players[u.owner === 2 ? 1 : 0].visible,
+        ...state!.players[u.owner === 2 ? 1 : 0].explored,
+      ]),
+    );
   }
   return attackCache;
 }
@@ -844,9 +843,8 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ? new Map([[E.key(sel.x, sel.y), { cost: 0, steps: [] }]])
       : movementField(s, sel);
     for (const [k] of reach) {
-      if (!visible.has(k)) continue;
       const c = E.map[k];
-      if (moved) continue;
+      if (moved || !visible.has(k)) continue;
       ctx.fillStyle = "#4bade34a";
       ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
       ctx.strokeStyle = "#72ceee70";
@@ -881,24 +879,20 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     sel.owner === p &&
     (aim === "heal" || (!aim && E.activeWeapon(sel).category === "healing"))
   ) {
-    const magic =
-      E.hasSkill(sel, "heal") &&
-      !sel.bearForm &&
-      E.activeWeapon(sel).category === "healing";
-    if (magic || E.hasSkill(sel, "bandage")) {
-      for (const cell of E.map) {
-        const distance = E.distance(sel, cell);
-        if (
-          !cell.walk ||
-          distance < (magic ? 1 : 0) ||
-          distance > (magic ? E.rules.healRange : 1) ||
-          !visible.has(E.key(cell.x, cell.y)) ||
-          !E.los(sel, cell)
-        )
-          continue;
-        ctx.fillStyle = "#58b97c66";
-        ctx.fillRect(cell.x * 32 + 1, cell.y * 32 + 1, 30, 30);
-      }
+    const origins = moved
+      ? [E.key(sel.x, sel.y)]
+      : movementField(s, sel).keys();
+    const cells = E.healingCells(
+      sel,
+      origins,
+      new Set([...visible, ...explored]),
+    );
+    const blue = moved ? new Map() : movementField(s, sel);
+    for (const k of cells) {
+      if (!visible.has(k) || (!moved && blue.has(k))) continue;
+      const c = E.map[k];
+      ctx.fillStyle = "#58b97c66";
+      ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
     }
   }
   if (aim && sel && sel.owner === p) {
@@ -1002,6 +996,34 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       width: viewCols * 32 + 1,
       height: viewRows * 32 + 1,
     });
+  if (sel && sel.owner === p && sel.id === cur?.id && !busy && !moved) {
+    for (const [k] of movementField(s, sel)) {
+      if (visible.has(k)) continue;
+      const c = E.map[k];
+      ctx.fillStyle = explored.has(k) ? "#6daedc38" : "#6daedc16";
+      ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
+      ctx.strokeStyle = explored.has(k) ? "#83b7d966" : "#83b7d933";
+      ctx.lineWidth = 0.6;
+      ctx.strokeRect(c.x * 32 + 2, c.y * 32 + 2, 28, 28);
+    }
+  }
+  if (sel && sel.owner === p && sel.id === cur?.id && !busy) {
+    const reach = moved
+      ? new Map([[E.key(sel.x, sel.y), { cost: 0, steps: [] }]])
+      : movementField(s, sel);
+    const healing =
+      aim === "heal" || (!aim && E.activeWeapon(sel).category === "healing");
+    const cells = healing
+      ? E.healingCells(sel, reach.keys(), new Set([...visible, ...explored]))
+      : attackField(sel, reach);
+    for (const k of cells) {
+      if (visible.has(k) || (!moved && reach.has(k))) continue;
+      const c = E.map[k];
+      ctx.strokeStyle = healing ? "#64c38a44" : "#df6b6644";
+      ctx.lineWidth = 0.6;
+      ctx.strokeRect(c.x * 32 + 2, c.y * 32 + 2, 28, 28);
+    }
+  }
   if (!fogEnabled || visible.has(E.key(E.village.entry.x, E.village.entry.y))) {
     const x = E.village.entry.x * 32,
       y = E.village.entry.y * 32;
@@ -1074,8 +1096,9 @@ function animation(time: number) {
 requestAnimationFrame(animation);
 async function animateMove(u: Unit, x: number, y: number) {
   const s = state!,
-    p = E.path(s, u, x, y);
-  if (!p || p.cost > u.move) return false;
+    plan = E.path(s, u, x, y, false, true);
+  if (!plan || plan.cost > u.move) return false;
+  const p = E.movementPrefix(s, u, plan);
   busy = true;
   moveAnim = {
     id: u.id,
@@ -1085,7 +1108,15 @@ async function animateMove(u: Unit, x: number, y: number) {
   };
   if (screen === "battle") battleUI();
   await new Promise((r) => setTimeout(r, moveAnim!.duration));
-  E.move(s, u, x, y);
+  E.move(s, u, p.destination.x, p.destination.y);
+  u.movedDistance = p.steps.length - 1;
+  if (p.interrupted) {
+    origin = null;
+    s.committedMove = u.id;
+    toast(
+      "Progression interrompue : le passage découvert ne permet pas de continuer.",
+    );
+  }
   moveAnim = null;
   busy = false;
   return true;
@@ -1168,14 +1199,8 @@ async function clickCell(x: number, y: number) {
     return;
   }
   if (selected === u?.id && u?.owner === s.active) {
-    const p = E.path(s, u, x, y);
-    if (
-      !moved &&
-      s.committedMove !== u.id &&
-      p &&
-      p.cost <= u.move &&
-      s.players[s.active - 1].visible.includes(E.key(x, y))
-    ) {
+    const p = E.path(s, u, x, y, false, true);
+    if (!moved && s.committedMove !== u.id && p && p.cost <= u.move) {
       origin = {
         x: u.x,
         y: u.y,
@@ -1675,6 +1700,7 @@ app.addEventListener("click", async (e) => {
     if (!u || busy || u.owner !== state!.active) return;
     try {
       if (action === "skill-heal") {
+        if (!E.healingTargets(state!, u).length) return;
         const healingWeapon = u.carriedWeapons?.find(
           (id) => E.weaponCatalog[id].category === "healing",
         );
