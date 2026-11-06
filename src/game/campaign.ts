@@ -1,3 +1,4 @@
+import { startingHeroClasses } from "./creation";
 import {
   chapterEnemy,
   chapter1Deployment,
@@ -52,7 +53,7 @@ export function createCampaign(
     if (
       h.faction !== faction ||
       classes[h.classId]?.faction !== faction ||
-      classes[h.classId]?.stage !== "base" ||
+      !startingHeroClasses(faction).some((c) => c.id === h.classId) ||
       !h.name.trim() ||
       h.name.trim().length > 32
     )

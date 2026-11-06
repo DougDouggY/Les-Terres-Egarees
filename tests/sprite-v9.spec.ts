@@ -123,25 +123,7 @@ test("V9 création : neuf compagnons normalisés et prénom Armand", async ({
 }) => {
   await page.goto("/");
   await page.locator('[data-action="new"]').click();
-  await expect(
-    page.locator('[data-creator-companion][data-loaded="true"]'),
-  ).toHaveCount(9);
-  await expect(page.locator(".knight-party .companion-cards")).toContainText(
-    "Armand",
-  );
-  await expect(
-    page.locator(".knight-party .companion-cards"),
-  ).not.toContainText("Alix");
-  const sizes = await page
-    .locator("[data-creator-companion],[data-creator-hero]")
-    .evaluateAll((nodes) =>
-      nodes.map((c) => (c as HTMLElement).dataset.bodyHeight),
-    );
-  expect(new Set(sizes)).toEqual(new Set(["72"]));
-  await page.screenshot({
-    path: "artifacts/sprite-v9/creator.png",
-    fullPage: true,
-  });
+  await page.locator('[data-action="creator-factions-ready"]').click();
   await page.locator("#hero-gender-1").selectOption("female");
   await expect(page.locator('[data-creator-hero="0"]')).toHaveAttribute(
     "data-loaded",
@@ -165,6 +147,31 @@ test("V9 création : neuf compagnons normalisés et prénom Armand", async ({
     .toBeLessThan(0.001);
   await page.screenshot({
     path: "artifacts/sprite-v9/creator-mobile.png",
+    fullPage: true,
+  });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  for (const n of [0, 1])
+    await page.locator(`[data-action="creator-hero-ready-${n}"]`).click();
+  for (const n of [0, 1])
+    for (let i = 0; i < 2; i++)
+      await page.locator(`[data-action="creator-intro-${n}"]`).click();
+  await expect(
+    page.locator('[data-creator-companion][data-loaded="true"]'),
+  ).toHaveCount(9);
+  await expect(page.locator(".knight-party .companion-cards")).toContainText(
+    "Armand",
+  );
+  await expect(
+    page.locator(".knight-party .companion-cards"),
+  ).not.toContainText("Alix");
+  const sizes = await page
+    .locator("[data-creator-companion]")
+    .evaluateAll((nodes) =>
+      nodes.map((c) => (c as HTMLElement).dataset.bodyHeight),
+    );
+  expect(new Set(sizes)).toEqual(new Set(["96"]));
+  await page.screenshot({
+    path: "artifacts/sprite-v9/creator.png",
     fullPage: true,
   });
 });

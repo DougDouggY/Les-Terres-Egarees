@@ -1,3 +1,4 @@
+import { tacticalIdleSway } from "./sprites/display-scale";
 import { creatorMarkup, paintCreatorSprites } from "./ui/creator";
 import {
   statSnapshot,
@@ -67,6 +68,14 @@ let heroDrafts: [E.HeroConfig, E.HeroConfig] = [
   { faction: "knight", name: "Maël", gender: "male", classId: "man_at_arms" },
 ];
 let companionDrafts: [string[], string[]] = [[], []];
+let creationFlow = E.newCreationFlow();
+const dangerAll: [boolean, boolean] = [false, false];
+let dangerSignature = "";
+let dangerFields: ReturnType<typeof E.enemyFields> = {
+  moves: new Set(),
+  attacks: new Set(),
+  ids: [],
+};
 let targetingAttack = false;
 let previousHealWeapon: string | undefined;
 let aim: "heal" | "summon" | "area" | "buff" | null = null;
@@ -150,7 +159,7 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">CHAPITRE I · LES RIVAGES DE L’OUBLI</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">01 / LES RIVAGES DE L’OUBLI</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">PROLOGUE · LES TERRES ÉGARÉES</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">PROLOGUE / LES TERRES ÉGARÉES</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
 }
 function options() {
   const modal = document.createElement("div");
@@ -203,6 +212,7 @@ function configure() {
     heroDrafts,
     companionDrafts,
     readTeamPreferences(),
+    creationFlow,
   );
   void paintCreatorSprites(app, heroDrafts, readTeamPreferences());
   app.querySelectorAll<HTMLSelectElement>("[data-starter]").forEach(
@@ -226,6 +236,14 @@ function configure() {
         const counter = app.querySelector(`[data-companion-count="${index}"]`);
         if (counter)
           counter.textContent = `${companionDrafts[index].length} / ${E.companionCount(heroDrafts[index].faction)} choisis`;
+        creationFlow.partyReady[index] = false;
+        const confirm = app.querySelector<HTMLButtonElement>(
+          `[data-action="creator-party-ready-${index}"]`,
+        );
+        if (confirm)
+          confirm.disabled =
+            companionDrafts[index].length !==
+            E.companionCount(heroDrafts[index].faction);
         app
           .querySelectorAll<HTMLInputElement>(`[data-companion^="${index}:"]`)
           .forEach((el) => {
@@ -236,6 +254,7 @@ function configure() {
       }),
   );
   for (const i of [1, 2]) {
+    if (!app.querySelector(`#hero-name-${i}`)) continue;
     (app.querySelector(`#hero-name-${i}`) as HTMLInputElement).oninput = (
       e,
     ) => {
@@ -259,6 +278,40 @@ function configure() {
     };
   }
 }
+let prologueToken = 0;
+function showPrologueTitle(s: Campaign) {
+  screen = "prologue";
+  busy = true;
+  const view = E.sessionView(),
+    owners = view.mode === "coop" ? [view.owner] : [1, 2];
+  app.innerHTML = `<main class="prologue-title" aria-label="Prologue — Les Terres Égarées"><div class="prologue-storm"></div><div class="prologue-mist mist-one"></div><div class="prologue-mist mist-two"></div><div class="prologue-perspectives">${owners.map((owner) => `<span>Expédition ${owner} · ${s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</span>`).join("")}</div><section><span>PROLOGUE</span><h1>Les Terres Égarées</h1><i></i></section></main>`;
+  localStorage.setItem("lte-save", E.encode(s));
+  const token = ++prologueToken;
+  setTimeout(() => {
+    if (
+      token !== prologueToken ||
+      state !== s ||
+      s.chapter1?.pending?.id !== "prologue"
+    )
+      return;
+    E.advanceChapterLine(s, view.mode === "coop" ? view.owner : undefined, {
+      id: "prologue",
+      page: 0,
+    });
+    localStorage.setItem("lte-save", E.encode(s));
+    if (s.chapter1?.pending?.id === "prologue") {
+      app
+        .querySelector("section")!
+        .insertAdjacentHTML(
+          "beforeend",
+          "<p>En attente de l’autre expédition…</p>",
+        );
+      return;
+    }
+    busy = false;
+    cinematic();
+  }, 3800);
+}
 function chapterCinematic() {
   chapterDirector?.dispose();
   chapterDirector = undefined;
@@ -267,6 +320,10 @@ function chapterCinematic() {
     s.scene = null;
     busy = false;
     battleUI();
+    return;
+  }
+  if (s.chapter1.pending.id === "prologue") {
+    showPrologueTitle(s);
     return;
   }
   const view = E.sessionView();
@@ -810,6 +867,14 @@ function drawSprite(
   ctx.save();
   ctx.translate(x + size / 2, y + size / 2);
   if (flip) ctx.scale(-1, 1);
+  const sway = tacticalIdleSway(
+    u.classId,
+    u.gender,
+    animation,
+    frame,
+    resolveClip(profile, "idle")?.frames.length,
+  );
+  if (sway) ctx.transform(1, 0, sway, 1, -sway * (size * 0.384), 0);
   if (
     !drawResourceFrame(
       ctx,
@@ -1061,6 +1126,55 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       if (!fogEnabled || visible.has(E.key(c.x, c.y)))
         ctx.strokeRect(c.x * 32, c.y * 32, 32, 32);
   }
+  if (canvas.id === "map" && screen === "battle") {
+    const hovered =
+      hover === null ? undefined : E.at(s, E.map[hover].x, E.map[hover].y);
+    const ids = dangerAll[p - 1]
+      ? undefined
+      : hovered?.owner === 0
+        ? [hovered.id]
+        : [];
+    const signature = JSON.stringify([
+      p,
+      ids,
+      !fogEnabled,
+      s.players[p - 1].visible,
+      s.players[p - 1].explored,
+      s.units.map((u) => [
+        u.id,
+        u.x,
+        u.y,
+        u.hp,
+        u.move,
+        u.range,
+        u.minRange,
+        u.classId,
+        u.activeWeaponId,
+      ]),
+    ]);
+    if (signature !== dangerSignature) {
+      dangerSignature = signature;
+      dangerFields = E.enemyFields(s, p, ids, !fogEnabled);
+    }
+    canvas.dataset.enemyRanges = String(dangerFields.ids.length);
+    canvas.dataset.enemyRangeMode = dangerAll[p - 1] ? "all" : "hover";
+    for (const k of dangerFields.attacks) {
+      const c = E.map[k];
+      ctx.fillStyle = "#c83d4045";
+      ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
+      ctx.strokeStyle = "#e1706688";
+      ctx.lineWidth = 0.5;
+      ctx.strokeRect(c.x * 32 + 2, c.y * 32 + 2, 28, 28);
+    }
+    for (const k of dangerFields.moves) {
+      const c = E.map[k];
+      ctx.fillStyle = "#d9a34a3c";
+      ctx.fillRect(c.x * 32 + 2, c.y * 32 + 2, 28, 28);
+      ctx.strokeStyle = "#e8bd7280";
+      ctx.lineWidth = 0.6;
+      ctx.strokeRect(c.x * 32 + 2, c.y * 32 + 2, 28, 28);
+    }
+  }
   const sel = s.units.find((u) => u.id === selected),
     cur = E.current(s);
   if (sel && sel.owner === p && sel.id === cur?.id && !busy) {
@@ -1171,6 +1285,10 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     let x = u.x * 32,
       y = u.y * 32,
       frame = Math.floor(time / 600) % 2 === 0 ? 0 : 1;
+    if (u.classId === "shaman" && u.gender === "female") {
+      canvas.dataset.idleFrame = String(frame);
+      canvas.dataset.idleTime = String(time);
+    }
     if (moveAnim?.id === u.id) {
       const f =
           Math.max(
@@ -1945,7 +2063,7 @@ function summary() {
   screen = "summary";
   const s = state!;
   s.phase = "summary";
-  app.innerHTML = `<main class="summary-screen"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>PROTOTYPE · BILAN TACTIQUE</small></span></header><section><h1>${s.chapter1?.complete ? "Chapitre I — Hors des ruines" : "Fin du test tactique"}</h1><p>${s.chapter1?.complete ? "Les expéditions suivent la sorcière vers un autre lieu. Leur alliance reste fragile ; leur objectif est commun : comprendre les tempêtes rouges et trouver le chemin du retour. La suite du voyage sera racontée ultérieurement." : "Les unités et leur progression sont conservées. Enregistrez ce bilan ou retournez au menu."}</p><div class="summary-units">${s.units
+  app.innerHTML = `<main class="summary-screen"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>PROTOTYPE · BILAN TACTIQUE</small></span></header><section><h1>${s.chapter1?.complete ? "Prologue — Les Terres Égarées" : "Fin du test tactique"}</h1><p>${s.chapter1?.complete ? "Les expéditions suivent la sorcière vers un autre lieu. Leur alliance reste fragile ; leur objectif est commun : comprendre les tempêtes rouges et trouver le chemin du retour. La suite du voyage sera racontée ultérieurement." : "Les unités et leur progression sont conservées. Enregistrez ce bilan ou retournez au menu."}</p><div class="summary-units">${s.units
     .filter((u) => u.owner !== 0 && !u.summonedBy)
     .map(
       (u) =>
@@ -1993,7 +2111,7 @@ function pause() {
   const modal = document.createElement("div");
   if (document.querySelector(".pause-menu")) return;
   modal.className = "modal-back pause-menu";
-  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Expédition ${state!.active}</span>${E.canSwitchExpedition() ? [1, 2].map((p) => button(`Expédition ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("") + button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy) : ""}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div></section>`;
+  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Expédition ${state!.active}</span>${E.canSwitchExpedition() ? [1, 2].map((p) => button(`Expédition ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("") + button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy) : ""}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div><section class="pause-commands"><h3>Commandes</h3><dl><dt>Échap</dt><dd>Ouvrir / fermer ce menu</dd><dt>D</dt><dd>Afficher / masquer les déplacements et attaques des ennemis visibles</dd><dt>Souris</dt><dd>Survoler un ennemi pour voir ses portées</dd><dt>Glisser</dt><dd>Déplacer la carte</dd><dt>Flèches</dt><dd>Déplacer la caméra</dd>${E.canSwitchExpedition() ? "<dt>Tab</dt><dd>Changer d’expédition</dd>" : ""}</dl></section></section>`;
   app.append(modal);
 }
 app.addEventListener("click", async (e) => {
@@ -2014,6 +2132,57 @@ app.addEventListener("click", async (e) => {
     return;
   }
   if (document.querySelector(".leader-choice")) return;
+  if (action.startsWith("creator-")) {
+    if (screen !== "config") return;
+    const owner = Number(action.split("-").at(-1));
+    if (action === "creator-factions-ready") {
+      creationFlow.step = 2;
+      configure();
+      return;
+    }
+    if (action === "creator-back") {
+      if (creationFlow.step === 3) {
+        creationFlow.step = 2;
+        creationFlow.heroReady = [false, false];
+        creationFlow.partyReady = [false, false];
+      } else creationFlow = E.newCreationFlow();
+      configure();
+      return;
+    }
+    if (![0, 1].includes(owner) || !E.controlsOwner(owner + 1)) return;
+    if (action.startsWith("creator-hero-ready-")) {
+      const h = heroDrafts[owner];
+      if (
+        creationFlow.step !== 2 ||
+        !h.name.trim() ||
+        h.name.length > 32 ||
+        !E.startingHeroClasses(h.faction).some((c) => c.id === h.classId)
+      ) {
+        toast("Choisissez un personnage de départ valide.");
+        return;
+      }
+      creationFlow.heroReady[owner] = true;
+      if (creationFlow.heroReady.every(Boolean)) creationFlow.step = 3;
+    } else if (action.startsWith("creator-intro-")) {
+      if (creationFlow.step !== 3) return;
+      creationFlow.introPage[owner] = Math.min(
+        2,
+        creationFlow.introPage[owner] + 1,
+      );
+    } else if (action.startsWith("creator-party-ready-")) {
+      if (creationFlow.step !== 3 || creationFlow.introPage[owner] < 2) return;
+      try {
+        E.validateCompanions(heroDrafts[owner].faction, companionDrafts[owner]);
+        creationFlow.partyReady[owner] = true;
+      } catch (error) {
+        toast((error as Error).message);
+        return;
+      }
+    }
+    configure();
+    return;
+  }
+
   if (
     state &&
     screen === "battle" &&
@@ -2261,6 +2430,8 @@ app.addEventListener("click", async (e) => {
     done?.();
   } else if (action === "new") {
     if (state) save(true);
+    state = null;
+    creationFlow = E.newCreationFlow();
     configure();
   } else if (action === "title") {
     if (busy) return;
@@ -2280,18 +2451,25 @@ app.addEventListener("click", async (e) => {
     localStorage.setItem("lte-sound", sound ? "on" : "off");
     el.closest(".modal-back")?.remove();
   } else if (action.startsWith("faction-")) {
+    if (screen !== "config" || creationFlow.step !== 1) return;
     const [, p, f] = action.split("-");
     const index = Number(p) - 1;
     factions[index] = f as Faction;
     factions[1 - index] = f === "north" ? "knight" : "north";
     factions.forEach((f, i) => {
       heroDrafts[i].faction = f;
-      heroDrafts[i].classId = E.baseClasses(f)[0].id;
+      heroDrafts[i].classId = E.startingHeroClasses(f)[0].id;
       delete heroDrafts[i].weaponId;
     });
     companionDrafts = [[], []];
     configure();
   } else if (action === "begin") {
+    if (
+      creationFlow.step !== 3 ||
+      !creationFlow.heroReady.every(Boolean) ||
+      !creationFlow.partyReady.every(Boolean)
+    )
+      return;
     try {
       state = E.createCampaign(factions, heroDrafts, companionDrafts);
       E.setPlayableTeamColors(state, readTeamPreferences());
@@ -2407,6 +2585,21 @@ window.addEventListener("keydown", (e) => {
     return;
   }
   if ((e.target as HTMLElement)?.matches("input,select,textarea")) return;
+  if (
+    e.key.toLowerCase() === "d" &&
+    !e.ctrlKey &&
+    !e.metaKey &&
+    !e.altKey &&
+    !e.repeat &&
+    screen === "battle" &&
+    state &&
+    !state.scene &&
+    !document.querySelector(".modal-back")
+  ) {
+    e.preventDefault();
+    dangerAll[state.active - 1] = !dangerAll[state.active - 1];
+    return;
+  }
   if (e.code === "Space" && screen === "transition") {
     e.preventDefault();
     nextScene();

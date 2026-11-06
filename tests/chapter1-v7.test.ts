@@ -20,6 +20,7 @@ function arrivals() {
   beginChapter1(s);
   finish(s);
   finish(s);
+  finish(s);
   return s;
 }
 function place(s: E.Campaign, owner: number, x: number, y: number) {
@@ -34,6 +35,8 @@ test("V7 début : trois Vikings et deux Chevaliers, dialogues distincts et initi
   assert.equal(s.units.filter((u) => u.owner === 1).length, 2);
   assert.equal(s.units.filter((u) => u.owner === 2).length, 3);
   assert.ok(beginChapter1(s));
+  assert.equal(s.scene, "chapter1:prologue");
+  finish(s);
   assert.equal(s.scene, "chapter1:arrival-1");
   assert.match(chapterLines(s, "arrival-1")[0].text, /convoi/);
   finish(s);

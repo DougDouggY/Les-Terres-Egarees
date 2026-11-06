@@ -26,23 +26,32 @@ test("atelier : huit poses, frappe unique et recul sans rejouer attaque ; aucune
   await expect(page.locator(".battle-screen")).toHaveCount(0);
   expect(errors).toEqual([]);
 });
-test("création : factions opposées, choix des compagnons obligatoire sans déployer", async ({
+test("création : factions opposées, compagnons obligatoires sans déployer", async ({
   page,
 }) => {
   await page.goto("/");
   await page.getByRole("button", { name: /Nouvelle aventure/ }).click();
-  await expect(page.locator("[data-companion]")).toHaveCount(6);
   await page.locator('[data-action="faction-1-knight"]').click();
-  await expect(page.locator("#hero-class-1 option:checked")).toHaveText(
-    "Homme d’armes",
-  );
   await expect(page.locator('[data-action="faction-2-north"]')).toHaveClass(
     /chosen/,
   );
-  await page
-    .getByRole("button", { name: "Déployer les expéditions", exact: true })
-    .click();
-  await expect(page.locator(".toast")).toContainText("Sélectionnez");
+  await page.locator('[data-action="creator-factions-ready"]').click();
+  await expect(
+    page.locator('#hero-class-1 option[value="sorcerer"]'),
+  ).toHaveCount(0);
+  for (const n of [0, 1])
+    await page.locator(`[data-action="creator-hero-ready-${n}"]`).click();
+  for (const n of [0, 1])
+    for (let i = 0; i < 2; i++)
+      await page.locator(`[data-action="creator-intro-${n}"]`).click();
+  await expect(page.locator("[data-companion]")).toHaveCount(9);
+  await expect(
+    page.locator('[data-action="creator-party-ready-0"]'),
+  ).toBeDisabled();
+  await expect(
+    page.locator('[data-action="creator-party-ready-1"]'),
+  ).toBeDisabled();
+  await expect(page.locator('[data-action="begin"]')).toBeDisabled();
   await expect(page.locator(".battle-screen")).toHaveCount(0);
   expect(
     await page.evaluate(() => localStorage.getItem("lte-save")),

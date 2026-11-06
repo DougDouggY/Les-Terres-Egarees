@@ -274,7 +274,7 @@ test("V7 victoire : alliance et sorcière sans coupure, départ et sauvegarde de
   await page.screenshot({ path: "artifacts/chapter1-v7/witch.png" });
   await finishScene(page, "alliance");
   await expect(
-    page.getByRole("heading", { name: "Chapitre I — Hors des ruines" }),
+    page.getByRole("heading", { name: "Prologue — Les Terres Égarées" }),
   ).toBeVisible();
   const s = await saved(page);
   expect(s.chapter1.complete).toBe(true);

@@ -119,7 +119,7 @@ export function recolorPixels(
     mask = new Uint8Array(data.length / 4);
   for (let i = 0; i < data.length; i += 4)
     if (data[i + 3] && isTeamPixel(data[i], data[i + 1], data[i + 2], settings))
-      mask[i / 4] = 1;
+      mask[i / 4] = 2;
   const width = options.width ?? 0;
   if (options.softEdges !== false && width > 0) {
     const material = mask.slice(),
@@ -161,7 +161,11 @@ export function recolorPixels(
     const source = rgbToHsv(data[i], data[i + 1], data[i + 2]),
       rgb = hsvToRgb(
         target.h,
-        target.s * Math.min(1, source.s / 0.75),
+        target.s *
+          Math.max(
+            color === "red" && mask[i / 4] === 2 ? 0.85 : 0,
+            Math.min(1, source.s / 0.75),
+          ),
         target.v * source.v,
       );
     for (let c = 0; c < 3; c++) data[i + c] = rgb[c];

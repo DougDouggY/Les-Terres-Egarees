@@ -173,15 +173,24 @@ test("menu contextuel : arme active, portée recalculée et cases adjacentes lib
   await expect(page.locator(".unit-window")).toContainText("Hache");
 });
 
-test("créateur : un nom avec caractères HTML reste du texte dans la fiche", async ({
+test("créateur : un nom avec caractères HTML reste du texte", async ({
   page,
 }) => {
-  const { clickMap } = await import("./map-helpers");
   await page.goto("/");
   await page.getByRole("button", { name: /Nouvelle aventure/ }).click();
+  await page.locator('[data-action="creator-factions-ready"]').click();
   await page.locator("#hero-name-1").fill("<b>Héros</b> & Co");
-  await page.getByRole("button", { name: /Déployer les expéditions/ }).click();
-  await clickMap(page, 10, 10);
-  await expect(page.locator(".unit-window h2")).toHaveText("<b>Héros</b> & Co");
-  await expect(page.locator(".unit-window h2 b")).toHaveCount(0);
+  await page.locator("#hero-name-2").focus();
+  await expect(page.locator('[data-hero-display="0"]')).toHaveText(
+    "<b>Héros</b> & Co",
+  );
+  await expect(page.locator('[data-hero-display="0"] b')).toHaveCount(0);
+  for (const n of [0, 1])
+    await page.locator(`[data-action="creator-hero-ready-${n}"]`).click();
+  await expect(
+    page.locator(".north-party .creator-chief-summary"),
+  ).toContainText("<b>Héros</b> & Co");
+  await expect(
+    page.locator(".north-party .creator-chief-summary b"),
+  ).toHaveCount(0);
 });

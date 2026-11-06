@@ -31,3 +31,6 @@ export * from "./game/chapter1";
 
 export * from "./game/leadership";
 export * from "./game/cooperation";
+
+export * from "./game/creation";
+export * from "./game/enemy-fields";

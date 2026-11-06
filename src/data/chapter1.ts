@@ -8,6 +8,7 @@ export type Speaker =
   | "unknown"
   | "narrator";
 export type ChapterSceneId =
+  | "prologue"
   | "arrival-1"
   | "arrival-2"
   | "ruins-1"

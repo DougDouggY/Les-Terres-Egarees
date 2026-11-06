@@ -12,6 +12,7 @@ export default defineConfig({
     "chapter1-v7.spec.ts",
     "chapter1-v8.spec.ts",
     "sprite-v9.spec.ts",
+    "prologue-v10.spec.ts",
     "chapter1-v7-combat.spec.ts",
     "workshop.spec.ts",
     "initiative-ui.spec.ts",

@@ -13,6 +13,7 @@ import {
   alliance,
   type ChapterSceneId,
   type Speaker,
+  type DialogueLine,
 } from "../data/chapter1";
 export type Chapter1Progress = {
   started: boolean;
@@ -30,6 +31,7 @@ export type Chapter1Progress = {
   complete?: boolean;
 };
 export const chapterScenes: ChapterSceneId[] = [
+  "prologue",
   "arrival-1",
   "arrival-2",
   "ruins-1",
@@ -57,7 +59,11 @@ export function storyUnit(s: Campaign, speaker: Speaker): Unit | undefined {
     ? (group.find((u) => !u.leader) ?? group[0])
     : (group.find((u) => u.leader) ?? group[0]);
 }
-export function chapterLines(s: Campaign, id: ChapterSceneId) {
+export function chapterLines(s: Campaign, id: ChapterSceneId): DialogueLine[] {
+  if (id === "prologue")
+    return [
+      { speaker: "narrator" as const, text: "Prologue — Les Terres Égarées" },
+    ];
   if (id === "meeting") return meeting;
   if (id === "alliance") return alliance;
   const owner = Number(id.at(-1)) as 1 | 2,
@@ -90,7 +96,7 @@ export function queueChapterScene(
 export function beginChapter1(s: Campaign) {
   s.chapter1 ??= { started: false, completed: [] };
   s.chapter1.started = true;
-  return queueChapterScene(s, "arrival-1", 1);
+  return queueChapterScene(s, "prologue", 1);
 }
 /** Only legacy saves in progress adopt the current story stage; finished saves stay finished. */
 export function upgradeChapter1(s: Campaign) {
@@ -169,6 +175,7 @@ export function advanceChapterLine(
   delete s.chapter1!.pending;
   s.scene = null;
   s.scenePage = 0;
+  if (id === "prologue") queueChapterScene(s, "arrival-1", 1);
   if (id === "arrival-1") queueChapterScene(s, "arrival-2", 2);
   if (id === "alliance") {
     s.chapter1!.complete = true;

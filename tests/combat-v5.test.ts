@@ -215,22 +215,38 @@ test("V5 revue des boucliers : vraie pose de choc distincte de la garde et de la
       );
     }
 });
-test("V5 Sorcière de départ : initiative réelle de base plus variation individuelle", () => {
-  const s = E.createCampaign(
-    ["knight", "north"],
-    [
-      {
-        faction: "knight",
-        name: "Iseult",
-        gender: "female",
-        classId: "sorcerer",
-      },
-      { faction: "north", name: "Eirik", gender: "male", classId: "raider" },
-    ],
-    [["gaspard"], ["astrid", "solveig"]],
+test("V10 Sorcière : indisponible pour le héros initial, classe conservée pour le recrutement ultérieur", () => {
+  assert.throws(
+    () =>
+      E.createCampaign(
+        ["knight", "north"],
+        [
+          {
+            faction: "knight",
+            name: "Iseult",
+            gender: "female",
+            classId: "sorcerer",
+          },
+          {
+            faction: "north",
+            name: "Eirik",
+            gender: "male",
+            classId: "raider",
+          },
+        ],
+        [["gaspard"], ["astrid", "solveig"]],
+      ),
+    /Héros invalide/,
   );
-  const u = s.units.find((u) => u.id === "p1a")!;
-  assert.equal(u.initiative, 7 + (u.individualVariation?.initiative ?? 0));
-  assert.ok(u.initiative >= 6 && u.initiative <= 8);
-  assert.deepEqual(globalInitiative(s).queue, initiativeOrder(s.units));
+  const unit = E.makeClassUnit(
+    "later",
+    2,
+    2,
+    "sorcerer",
+    "Iseult",
+    30,
+    20,
+    "female",
+  );
+  assert.equal(unit.classId, "sorcerer");
 });

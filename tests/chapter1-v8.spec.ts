@@ -386,7 +386,7 @@ test("V8 entrée : les deux chefs confirment sur la carte, puis dialogue et bila
     await page.locator("[data-story-next]").click();
   }
   await expect(
-    page.getByRole("heading", { name: "Chapitre I — Hors des ruines" }),
+    page.getByRole("heading", { name: "Prologue — Les Terres Égarées" }),
   ).toBeVisible();
   expect((await saved(page)).chapter1.complete).toBe(true);
 });
@@ -397,20 +397,30 @@ test("V8 nouveau créateur : neuf cartes réelles, sélection FIFO, héros conse
   page.on("pageerror", (e) => errors.push(e.message));
   await page.goto("/");
   await page.locator('[data-action="new"]').click();
+  await page.locator('[data-action="creator-factions-ready"]').click();
   await expect(page.locator(".creator-party")).toHaveCount(2);
   await expect(page.locator(".north-party .companion-card")).toHaveCount(5);
   await expect(page.locator(".knight-party .companion-card")).toHaveCount(4);
+  await page.locator("#hero-name-1").fill("Freydis");
+  await page.locator("#hero-gender-1").selectOption("female");
+  await page.locator("#hero-class-1").selectOption("nordic_blade");
+  await expect(page.locator("#hero-name-1")).toHaveValue("Freydis");
+  await expect(page.locator('[data-hero-display="0"]')).toHaveText("Freydis");
+  await expect(page.locator('[data-creator-hero="0"]')).toHaveAttribute(
+    "data-loaded",
+    "true",
+  );
+  for (const n of [0, 1])
+    await page.locator(`[data-action="creator-hero-ready-${n}"]`).click();
+  for (const n of [0, 1])
+    for (let i = 0; i < 2; i++)
+      await page.locator(`[data-action="creator-intro-${n}"]`).click();
   await expect(
     page.locator('[data-creator-companion][data-loaded="true"]'),
   ).toHaveCount(9);
   await expect(
     page.locator(".knight-party .companion-cards"),
   ).not.toContainText("Sorcier");
-  await page.locator("#hero-name-1").fill("Freydis");
-  await page.locator("#hero-gender-1").selectOption("female");
-  await page.locator("#hero-class-1").selectOption("nordic_blade");
-  await expect(page.locator("#hero-name-1")).toHaveValue("Freydis");
-  await expect(page.locator('[data-hero-display="0"]')).toHaveText("Freydis");
   for (const id of ["astrid", "bryn", "solveig"])
     await page.locator(`[data-companion="0:${id}"]`).locator("..").click();
   await expect(page.locator('[data-companion="0:astrid"]')).not.toBeChecked();
@@ -423,10 +433,7 @@ test("V8 nouveau créateur : neuf cartes réelles, sélection FIFO, héros conse
   await page.locator('[data-companion="1:ysilde"]').locator("..").click();
   await expect(page.locator('[data-companion="1:gaspard"]')).not.toBeChecked();
   await expect(page.locator('[data-companion="1:ysilde"]')).toBeChecked();
-  await expect(page.locator('[data-creator-hero="0"]')).toHaveAttribute(
-    "data-loaded",
-    "true",
-  );
+
   await page.screenshot({
     path: "artifacts/chapter1-v8/creator-desktop.png",
     fullPage: true,
@@ -441,6 +448,8 @@ test("V8 nouveau créateur : neuf cartes réelles, sélection FIFO, héros conse
     path: "artifacts/chapter1-v8/creator-mobile.png",
     fullPage: true,
   });
+  for (const n of [0, 1])
+    await page.locator(`[data-action="creator-party-ready-${n}"]`).click();
   await page.locator('[data-action="begin"]').click();
   await expect(page.locator(".chapter-dialogue")).toBeVisible();
   const s = await saved(page);

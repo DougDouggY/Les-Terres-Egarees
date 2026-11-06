@@ -22,5 +22,5 @@ export function rewardVisible(
   );
 }
 export function sharedChapterScene(id: string) {
-  return id === "meeting" || id === "alliance";
+  return id === "prologue" || id === "meeting" || id === "alliance";
 }
