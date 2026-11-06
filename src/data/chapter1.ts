@@ -6,8 +6,11 @@ export type Speaker =
   | "knight-companion"
   | "witch"
   | "unknown"
-  | "narrator";
+  | "narrator"
+  | "captain"
+  | "geraud";
 export type ChapterSceneId =
+  | import("./forest-chapter").ForestSceneId
   | "prologue"
   | "arrival-1"
   | "arrival-2"
@@ -144,22 +147,10 @@ export const alliance = [
   line("knight-chief", "Il doit bien y avoir un moyen."),
   line(
     "witch",
-    "Il y en a peut-être un. Mais pas ici. Nous devons partir, cet endroit est dangereux.",
+    "Il y en a peut-être un. Je cherche moi-même une réponse. J’ai rassemblé des informations sur ces tempêtes. Si vous voulez les voir, suivez-moi. Mais dépêchons-nous, cet endroit est dangereux.",
   ),
-  line("north-chief", "Et pourquoi devrions-nous vous faire confiance ?"),
-  line(
-    "witch",
-    "Vous pouvez rester. Mais les créatures que vous venez d’affronter ne sont que les premières.",
-  ),
-  line(
-    "knight-chief",
-    "Nous avons déjà perdu assez d’hommes. Partons. Nous discuterons en chemin.",
-  ),
-  line(
-    "narrator",
-    "Les deux expéditions suivent provisoirement la sorcière. Derrière elles, la brume se referme sur les ruines.",
-    { cue: "depart" },
-  ),
+  line("knight-chief", "D’accord. Allons-y."),
+  line("north-chief", "On n’a pas vraiment le choix.", { cue: "depart" }),
 ];
 
 export const waitingNorth = [

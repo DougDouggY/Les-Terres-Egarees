@@ -1,6 +1,6 @@
 import { discoverUnit } from "./classes";
 import type { Campaign, Unit } from "./types";
-import { cell, map, key, distance, arrivalFootprints } from "./map";
+import { cell, map, key, distance, arrivalFootprints } from "./active-map";
 import { alive } from "./queries";
 export function los(
   a: { x: number; y: number },
@@ -38,6 +38,15 @@ export function los(
   return true;
 }
 export function visibility(s: Campaign) {
+  if (s.mapId === "forest") {
+    const all = map.map((c) => key(c.x, c.y));
+    for (const p of s.players) {
+      p.visible = [...all];
+      p.explored = [...all];
+    }
+    for (const u of alive(s)) discoverUnit(s, u, u.owner !== 0);
+    return;
+  }
   for (const owner of [1, 2] as const) {
     const visible = new Set<number>();
     for (const u of alive(s).filter((u) => u.owner === owner))

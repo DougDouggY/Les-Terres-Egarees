@@ -430,7 +430,7 @@ export const classes: Record<string, ClassDefinition> = Object.fromEntries(
         stage: "recruit",
         maxLevel: 10,
         femaleName: "Écuyère",
-        role: "Armes d’entraînement · deux voies définies par le personnage",
+        role: "Épée légère · deux voies définies par le personnage",
       },
     ),
     c(

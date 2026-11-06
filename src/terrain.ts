@@ -1,5 +1,14 @@
 import { paintWoods, paintMountain } from "./landscape";
-import { map, W, H, TILE, tileIndex, village, roadRoutes } from "./game/map";
+import {
+  map,
+  W,
+  H,
+  TILE,
+  tileIndex,
+  village,
+  roadRoutes,
+  currentMapId,
+} from "./game/active-map";
 import type { Faction } from "./game/types";
 export type TerrainStyle = "regional";
 export const terrainStyles: Record<TerrainStyle, string> = {
@@ -12,6 +21,7 @@ export function decorationIndex(x: number, y: number) {
   return v % 10 < 3 ? 0 : 1 + (v % 7);
 }
 export class TerrainRenderer {
+  private board = currentMapId;
   private cache: HTMLCanvasElement | null = null;
   private stamps = new Map<number, HTMLCanvasElement>();
   constructor(
@@ -138,6 +148,10 @@ export class TerrainRenderer {
   }
   layer(_style: TerrainStyle, _factions: readonly Faction[]) {
     if (!this.atlas.complete || !this.atlas.naturalWidth) return null;
+    if (this.board !== currentMapId) {
+      this.reset();
+      this.board = currentMapId;
+    }
     if (this.cache) return this.cache;
     const raw = document.createElement("canvas");
     raw.width = W * TILE * 2;
@@ -228,17 +242,18 @@ export class TerrainRenderer {
     // The nine connected atlas cells form one landmark, still backed by nine exact cells.
     const sw = this.atlas.width / 8,
       sh = this.atlas.height / 4;
-    ctx.drawImage(
-      this.atlas,
-      sw,
-      sh,
-      sw * 3,
-      sh * 3,
-      village.x * 32,
-      village.y * 32,
-      96,
-      96,
-    );
+    if (currentMapId === "prologue")
+      ctx.drawImage(
+        this.atlas,
+        sw,
+        sh,
+        sw * 3,
+        sh * 3,
+        village.x * 32,
+        village.y * 32,
+        96,
+        96,
+      );
     const shaded = document.createElement("canvas");
     shaded.width = raw.width;
     shaded.height = raw.height;

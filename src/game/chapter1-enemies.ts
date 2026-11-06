@@ -1,6 +1,6 @@
 import type { Campaign } from "./types";
 import { makeClassUnit } from "./units";
-import { map, key, distance, village } from "./map";
+import { map, key, distance, village } from "./active-map";
 import { at } from "./queries";
 import { reachable, attackCells } from "./pathfinding";
 export type ChapterEnemy = "sword" | "axe" | "lance" | "bow";

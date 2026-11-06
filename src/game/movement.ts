@@ -1,5 +1,5 @@
 import type { Campaign, Unit } from "./types";
-import { key, map } from "./map";
+import { key, map } from "./active-map";
 import { at, allied } from "./queries";
 import { hasSkill } from "./classes";
 import { path } from "./pathfinding";

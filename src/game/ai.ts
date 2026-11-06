@@ -1,5 +1,5 @@
 import type { Campaign, Unit } from "./types";
-import { map, distance, village } from "./map";
+import { map, distance, village } from "./active-map";
 import { alive } from "./queries";
 import { reachable } from "./pathfinding";
 import { canAttack } from "./combat";
@@ -18,7 +18,7 @@ export function ai(
       .sort((a, b) => distance(u, a) - distance(u, b))[0];
     u.aiTargetId = locked?.id;
   }
-  const rally = !locked && !!s.chapter1?.alerted;
+  const rally = !s.forestChapter && !locked && !!s.chapter1?.alerted;
   const candidates = locked ? [locked] : rally ? [] : targets;
   const moves = reachable(s, u);
   let best: { x: number; y: number; target?: string; score: number } = {

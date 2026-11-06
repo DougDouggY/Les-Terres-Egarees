@@ -1,5 +1,5 @@
 import type { Campaign, Unit } from "./types";
-import { cell, distance } from "./map";
+import { cell, distance } from "./active-map";
 import { los } from "./vision";
 import { allied } from "./queries";
 import { log } from "./campaign";

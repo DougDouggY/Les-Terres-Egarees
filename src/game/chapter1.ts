@@ -1,7 +1,9 @@
+import { forestLines, type ForestSceneId } from "../data/forest-chapter";
+import { beginForestChapter, finishForestScene } from "./forest-chapter";
 import { globalInitiative } from "./initiative";
 import { sharedChapterScene } from "./cooperation";
 import type { Campaign, Unit } from "./types";
-import { village, key, distance } from "./map";
+import { village, key, distance } from "./active-map";
 import {
   arrivalNorth,
   arrivalKnight,
@@ -31,6 +33,13 @@ export type Chapter1Progress = {
   complete?: boolean;
 };
 export const chapterScenes: ChapterSceneId[] = [
+  "c1-title",
+  "c1-warning",
+  "c1-choice",
+  "c1-travelers",
+  "c1-storm",
+  "c1-recruit",
+  "c1-cave",
   "prologue",
   "arrival-1",
   "arrival-2",
@@ -42,7 +51,7 @@ export const chapterScenes: ChapterSceneId[] = [
   "alliance",
 ];
 export const chapterEnabled = (s: Campaign) =>
-  !!s.chapter1?.started && !s.sandbox;
+  !!s.chapter1?.started && !s.forestChapter && !s.sandbox;
 export function chapterOwnerForFaction(
   s: Campaign,
   faction: "north" | "knight",
@@ -50,6 +59,11 @@ export function chapterOwnerForFaction(
   return (s.factions.indexOf(faction) + 1) as 1 | 2;
 }
 export function storyUnit(s: Campaign, speaker: Speaker): Unit | undefined {
+  if (speaker === "witch") return s.units.find((u) => u.id === "story-witch");
+  if (speaker === "captain")
+    return s.units.find((u) => u.id === "valdren-captain");
+  if (speaker === "geraud") return s.units.find((u) => u.id === "geraud");
+  if (speaker === "narrator" || speaker === "unknown") return undefined;
   const faction = speaker.startsWith("north") ? "north" : "knight",
     owner = chapterOwnerForFaction(s, faction);
   const group = s.units.filter(
@@ -60,6 +74,7 @@ export function storyUnit(s: Campaign, speaker: Speaker): Unit | undefined {
     : (group.find((u) => u.leader) ?? group[0]);
 }
 export function chapterLines(s: Campaign, id: ChapterSceneId): DialogueLine[] {
+  if (id.startsWith("c1-")) return forestLines(id as ForestSceneId);
   if (id === "prologue")
     return [
       { speaker: "narrator" as const, text: "Prologue — Les Terres Égarées" },
@@ -152,6 +167,7 @@ export function advanceChapterLine(
   expected?: { id: ChapterSceneId; page: number },
 ): ChapterSceneId | undefined {
   const p = s.chapter1?.pending;
+  if (p?.id === "c1-choice") return; // Only matching votes may advance the common choice.
   if (!p || (expected && (expected.id !== p.id || expected.page !== p.page)))
     return;
   if (reader) {
@@ -179,8 +195,9 @@ export function advanceChapterLine(
   if (id === "arrival-1") queueChapterScene(s, "arrival-2", 2);
   if (id === "alliance") {
     s.chapter1!.complete = true;
-    s.phase = "summary";
+    beginForestChapter(s);
   }
+  if (id.startsWith("c1-")) finishForestScene(s, id as ForestSceneId);
   return id;
 }
 export function temporaryRuinsCells() {
@@ -191,6 +208,7 @@ export function temporaryRuinsCells() {
 }
 export function chapterBeacon(s: Campaign, owner: 1 | 2) {
   return (
+    !s.forestChapter &&
     !!s.chapter1?.completed.includes(("ruins-" + owner) as ChapterSceneId) &&
     !s.chapter1.complete
   );

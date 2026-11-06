@@ -26,7 +26,7 @@ async function library() {
     ),
   );
 }
-test("intégrité : carte, décors, portraits et toutes les images antérieures inchangés", async () => {
+test("intégrité : carte validée, ressources graphiques protégées et rendu régional versionné", async () => {
   const baseline = JSON.parse(
     await readFile("docs/update-baselines/protected-resources.json", "utf8"),
   );

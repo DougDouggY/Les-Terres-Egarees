@@ -1,5 +1,5 @@
 import type { Campaign, Unit } from "./types";
-import { key, map } from "./map";
+import { key, map } from "./active-map";
 import { seen } from "./vision";
 import { reachable, attackCells } from "./pathfinding";
 /** A player's estimate, using only their knowledge. Hidden units/obstacles never influence it. */

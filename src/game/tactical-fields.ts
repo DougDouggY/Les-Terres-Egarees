@@ -4,7 +4,7 @@ import { activeWeapon, hasSkill, syncWeapon, weaponCatalog } from "./classes";
 import { rules } from "../data/balance";
 import { alive } from "./queries";
 import { canHealTarget } from "./skills";
-import { cell, key, map } from "./map";
+import { cell, key, map } from "./active-map";
 import { los } from "./vision";
 export function healingActor(u: Unit) {
   const actor = structuredClone(u);

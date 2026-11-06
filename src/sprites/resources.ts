@@ -1,3 +1,4 @@
+import { steelWeaponSource } from "./weapon-material";
 import { resourceScale } from "./geometry";
 import atlasLayouts from "../assets/tactical/atlas-layout.json";
 import combatAnchors from "../assets/tactical/combat-anchors.json";
@@ -133,7 +134,7 @@ export function prepareSpriteSource(c: Clip, color?: TeamColor) {
       );
     }
   }
-  return source;
+  return steelWeaponSource(source, c.source);
 }
 export function drawResourceFrame(
   ctx: CanvasRenderingContext2D,

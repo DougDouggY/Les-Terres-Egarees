@@ -106,6 +106,9 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  mapId?: import("./active-map").MapId;
+  forestChapter?: import("./forest-chapter").ForestProgress;
+  developmentTest?: "chapter-one";
   chapter1RulesVersion?: 2 | 3;
   chapter1?: import("./chapter1").Chapter1Progress;
   initiativeVersion?: 2;

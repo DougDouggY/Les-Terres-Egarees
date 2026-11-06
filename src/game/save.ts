@@ -17,7 +17,8 @@ import {
   distance,
   refurbishedWalls,
   MAP_REVISION,
-} from "./map";
+  activateMap,
+} from "./active-map";
 export function encode(s: Campaign) {
   if (s.phase === "defeat")
     throw Error(
@@ -38,6 +39,32 @@ export function decode(raw: string): Campaign {
     !Array.isArray(s.fronts)
   )
     throw Error("Sauvegarde incompatible");
+  if (s.mapId !== undefined && !["prologue", "forest"].includes(s.mapId))
+    throw Error("Carte inconnue");
+  activateMap(s.mapId ?? "prologue");
+  if (s.forestChapter) {
+    const f = s.forestChapter;
+    if (
+      s.mapId !== "forest" ||
+      ![
+        "introduction",
+        "choice",
+        "battle",
+        "recruitment",
+        "cave",
+        "complete",
+      ].includes(f.stage) ||
+      !f.votes ||
+      !Array.isArray(f.completed) ||
+      Object.entries(f.votes).some(
+        ([owner, choice]) =>
+          !["1", "2"].includes(owner) ||
+          !["travelers", "storm"].includes(choice as string),
+      ) ||
+      (f.choice !== undefined && !["travelers", "storm"].includes(f.choice))
+    )
+      throw Error("Progression du chapitre invalide");
+  } else if (s.mapId === "forest") throw Error("Chapitre absent");
   // Convert positions and exploration indices before applying revision-5 collisions.
   if ((s.mapRevision ?? 1) < 5) {
     for (const u of s.units) {

@@ -74,7 +74,7 @@ export const weaponCatalog: Record<string, WeaponDefinition> =
         rarity: "training",
         power: -2,
       }),
-      w("training_sword", "Épée d’entraînement", "sword", "training-sword", {
+      w("training_sword", "Épée légère", "sword", "training-sword", {
         rarity: "training",
         power: -2,
       }),

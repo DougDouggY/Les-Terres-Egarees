@@ -274,19 +274,23 @@ test("V7 victoire : alliance et sorcière sans coupure, départ et sauvegarde de
   await page.screenshot({ path: "artifacts/chapter1-v7/witch.png" });
   await finishScene(page, "alliance");
   await expect(
-    page.getByRole("heading", { name: "Prologue — Les Terres Égarées" }),
+    page.getByRole("heading", { name: "Pour ne pas oublier" }),
   ).toBeVisible();
   const s = await saved(page);
   expect(s.chapter1.complete).toBe(true);
   expect(s.chapter1.guideMet).toBe(true);
-  expect(s.units).toHaveLength(before.units.length);
-  expect(s.common).toEqual(before.queue);
+  for (const old of before.units.filter((u: any) => u.id.startsWith("p")))
+    expect(s.units.some((u: any) => u.id === old.id)).toBe(true);
+  expect(s.units.filter((u: any) => u.id === "story-witch")).toHaveLength(1);
+  expect(s.mapId).toBe("forest");
   await page.screenshot({
     path: "artifacts/chapter1-v7/departure-summary.png",
   });
-  await page.locator('[data-action="title"]').click();
+  await page.goto("/");
   await page.locator('[data-action="continue"]').click();
-  await expect(page.locator(".chapter-dialogue")).toHaveCount(0);
+  await expect(page.locator(".prologue-title h1")).toHaveText(
+    "Pour ne pas oublier",
+  );
 });
 test("V7 initiative : Chasseur et Chasseresse à la même échelle que les autres piétons", async ({
   page,

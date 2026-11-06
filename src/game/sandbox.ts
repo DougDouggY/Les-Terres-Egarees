@@ -2,7 +2,7 @@
 import { classes, activeWeapon, promote, syncWeapon, tuning } from "./classes";
 import { makeClassUnit } from "./units";
 import type { Campaign, Unit } from "./types";
-import { map, cell, distance } from "./map";
+import { map, cell, distance } from "./active-map";
 import { resolve, applyStrike, canAttack } from "./combat";
 import { baseOrigin, gainLevel } from "./progression";
 import { move } from "./movement";

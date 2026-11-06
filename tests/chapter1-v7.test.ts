@@ -134,13 +134,15 @@ test("V7 victoire : alliance, sorcière puis départ, sans recrutement ni chapit
   finish(s);
   assert.ok(s.chapter1!.complete);
   assert.ok(s.chapter1!.guideMet);
-  assert.equal(s.phase, "summary");
-  assert.equal(s.scene, null);
-  assert.deepEqual(s.units, units);
-  assert.deepEqual(s.common, queue);
-  E.checkEnd(s);
-  assert.equal(s.scene, null);
-  assert.ok(s.units.every((u) => !u.id.includes("witch")));
+  assert.equal(s.phase, "battle");
+  assert.equal(s.scene, "chapter1:c1-title");
+  for (const old of units.filter((u) => u.owner !== 0)) {
+    const now = s.units.find((u) => u.id === old.id)!;
+    assert.equal(now.classId, old.classId);
+    assert.equal(now.xp, old.xp);
+    assert.equal(now.level, old.level);
+  }
+  assert.equal(s.units.filter((u) => u.id === "story-witch").length, 1);
 });
 test("V7 sauvegarde : reprise de la réplique et conservation des positions, brumes et activation", () => {
   const s = arrivals();

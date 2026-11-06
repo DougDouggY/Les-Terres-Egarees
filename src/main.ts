@@ -151,6 +151,9 @@ function audio(type = "hit") {
     o.onended = () => void ctx.close();
   } catch {}
 }
+function saveKey() {
+  return state?.developmentTest ? "lte-chapter-one-test" : "lte-save";
+}
 function title() {
   developerRequest++;
   initiativeCleanup?.();
@@ -159,7 +162,7 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">PROLOGUE · LES TERRES ÉGARÉES</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">PROLOGUE / LES TERRES ÉGARÉES</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">PROLOGUE · LES TERRES ÉGARÉES</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">PROLOGUE / LES TERRES ÉGARÉES</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
 }
 function options() {
   const modal = document.createElement("div");
@@ -284,22 +287,24 @@ function showPrologueTitle(s: Campaign) {
   busy = true;
   const view = E.sessionView(),
     owners = view.mode === "coop" ? [view.owner] : [1, 2];
-  app.innerHTML = `<main class="prologue-title" aria-label="Prologue — Les Terres Égarées"><div class="prologue-storm"></div><div class="prologue-mist mist-one"></div><div class="prologue-mist mist-two"></div><div class="prologue-perspectives">${owners.map((owner) => `<span>Expédition ${owner} · ${s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</span>`).join("")}</div><section><span>PROLOGUE</span><h1>Les Terres Égarées</h1><i></i></section></main>`;
-  localStorage.setItem("lte-save", E.encode(s));
+  const forest = s.chapter1?.pending?.id === "c1-title",
+    titleId = s.chapter1!.pending!.id;
+  app.innerHTML = `<main class="prologue-title" aria-label="${forest ? "Chapitre 1 — Pour ne pas oublier" : "Prologue — Les Terres Égarées"}"><div class="prologue-storm"></div><div class="prologue-mist mist-one"></div><div class="prologue-mist mist-two"></div><div class="prologue-perspectives">${owners.map((owner) => `<span>Expédition ${owner} · ${s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</span>`).join("")}</div><section><span>${forest ? "CHAPITRE 1" : "PROLOGUE"}</span><h1>${forest ? "Pour ne pas oublier" : "Les Terres Égarées"}</h1><i></i></section></main>`;
+  localStorage.setItem(saveKey(), E.encode(s));
   const token = ++prologueToken;
   setTimeout(() => {
     if (
       token !== prologueToken ||
       state !== s ||
-      s.chapter1?.pending?.id !== "prologue"
+      s.chapter1?.pending?.id !== titleId
     )
       return;
     E.advanceChapterLine(s, view.mode === "coop" ? view.owner : undefined, {
-      id: "prologue",
+      id: titleId,
       page: 0,
     });
-    localStorage.setItem("lte-save", E.encode(s));
-    if (s.chapter1?.pending?.id === "prologue") {
+    localStorage.setItem(saveKey(), E.encode(s));
+    if (s.chapter1?.pending?.id === titleId) {
       app
         .querySelector("section")!
         .insertAdjacentHTML(
@@ -322,7 +327,9 @@ function chapterCinematic() {
     battleUI();
     return;
   }
-  if (s.chapter1.pending.id === "prologue") {
+  if (["prologue", "c1-title"].includes(s.chapter1.pending.id)) {
+    if (s.developmentTest && s.chapter1.pending.id === "c1-title")
+      localStorage.setItem("lte-chapter-one-start", E.encode(s));
     showPrologueTitle(s);
     return;
   }
@@ -348,7 +355,7 @@ function chapterCinematic() {
     '<main class="chapter-screen"><canvas id="story-map" aria-label="Mise en scène sur la carte tactique"></canvas><div id="chapter-overlay"></div></main>';
   const checkpoint = () => {
     try {
-      localStorage.setItem("lte-save", E.encode(s));
+      localStorage.setItem(saveKey(), E.encode(s));
     } catch {
       /* retain last stable checkpoint */
     }
@@ -378,6 +385,12 @@ function chapterCinematic() {
       chapterFrame = null;
       busy = false;
       if (finished === "meeting") E.merge(s);
+      if (finished === "c1-recruit") {
+        delete s.forestChapter!.talkActorId;
+        origin = null;
+        finishTurn();
+        return;
+      }
       // A group may discover the ruins only after both parties have already arrived.
       if (finished.startsWith("ruins-") || finished.startsWith("waiting-"))
         E.encounter(s);
@@ -410,6 +423,13 @@ function chapterCinematic() {
     E.sessionView().mode === "coop"
       ? (E.sessionView() as { owner: 1 | 2 }).owner
       : undefined,
+    (owner, choice) => {
+      if (!E.controlsOwner(owner)) return;
+      const resolved = E.votePatrol(s, owner, choice);
+      checkpoint();
+      if (resolved) cinematic();
+      else chapterDirector!.refresh();
+    },
   );
   checkpoint();
 }
@@ -536,6 +556,7 @@ function contextActions(u: Unit) {
       html +=
         '<small class="entry-warning">Écartez les ennemis des abords avant d’entrer.</small>';
   }
+  if (E.canTalkGeraud(s, u)) html += button("Parler à Géraud", "talk-geraud");
   html += button("Équipement", "equipment");
   if (u.classId === "tracker")
     for (const id of u.carriedWeapons ?? []) {
@@ -633,7 +654,7 @@ function battleUI() {
   clampCamera(s.active);
   initiativeCleanup?.();
   app.innerHTML = `<main class="battle-screen compact-battle">
-  <div class="mission-objective">${s.merged ? (E.chapterEnabled(s) ? (E.preparedExpeditions(s).length ? "Tenez l’entrée sécurisée" : "Sécurisez l’entrée · Chefs : préparez-vous à rentrer") : "Repoussez les morts-vivants") : E.chapterEnabled(s) ? (E.chapterBeacon(s, s.active) ? "Rejoignez le sanctuaire en ruines" : "Trouvez un abri") : "Rejoignez le village des Veilleurs"}</div>
+  <div class="mission-objective">${s.forestChapter ? "Éliminez tous les ennemis" : s.merged ? (E.chapterEnabled(s) ? (E.preparedExpeditions(s).length ? "Tenez l’entrée sécurisée" : "Sécurisez l’entrée · Chefs : préparez-vous à rentrer") : "Repoussez les morts-vivants") : E.chapterEnabled(s) ? (E.chapterBeacon(s, s.active) ? "Rejoignez le sanctuaire en ruines" : "Trouvez un abri") : "Rejoignez le village des Veilleurs"}</div>
   ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div id="map-tooltip" class="map-tooltip" hidden></div>
@@ -1042,6 +1063,7 @@ function attackField(
 }
 function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   if (!state) return;
+  E.activateMap(state.mapId ?? "prologue");
   const bounds = canvas.getBoundingClientRect();
   if (!bounds.width || !bounds.height) return;
   const cols = Math.min(30 / zoom, (E.H * bounds.width) / bounds.height),
@@ -1427,7 +1449,10 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ctx.strokeRect(c.x * 32 + 2, c.y * 32 + 2, 28, 28);
     }
   }
-  if (!fogEnabled || visible.has(E.key(E.village.entry.x, E.village.entry.y))) {
+  if (
+    !s.forestChapter &&
+    (!fogEnabled || visible.has(E.key(E.village.entry.x, E.village.entry.y)))
+  ) {
     const x = E.village.entry.x * 32,
       y = E.village.entry.y * 32;
     ctx.strokeStyle = "#dec48c";
@@ -2038,7 +2063,7 @@ function save(silent = false) {
     return;
   }
   try {
-    localStorage.setItem("lte-save", E.encode(state));
+    localStorage.setItem(saveKey(), E.encode(state));
     if (!silent) toast("Votre aventure a été sauvegardée.");
   } catch {
     if (!silent) toast("Sauvegarde impossible pendant cette transition.");
@@ -2063,7 +2088,7 @@ function summary() {
   screen = "summary";
   const s = state!;
   s.phase = "summary";
-  app.innerHTML = `<main class="summary-screen"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>PROTOTYPE · BILAN TACTIQUE</small></span></header><section><h1>${s.chapter1?.complete ? "Prologue — Les Terres Égarées" : "Fin du test tactique"}</h1><p>${s.chapter1?.complete ? "Les expéditions suivent la sorcière vers un autre lieu. Leur alliance reste fragile ; leur objectif est commun : comprendre les tempêtes rouges et trouver le chemin du retour. La suite du voyage sera racontée ultérieurement." : "Les unités et leur progression sont conservées. Enregistrez ce bilan ou retournez au menu."}</p><div class="summary-units">${s.units
+  app.innerHTML = `<main class="summary-screen"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>PROTOTYPE · BILAN TACTIQUE</small></span></header><section><h1>${s.forestChapter?.stage === "complete" ? "Chapitre 1 — Pour ne pas oublier" : s.chapter1?.complete ? "Prologue — Les Terres Égarées" : "Fin du test tactique"}</h1><p>${s.forestChapter?.stage === "complete" ? "Les recherches de la sorcière sont à l’abri. Les survivants ont récupéré leurs PV et se préparent à rencontrer les Écorcheurs. À suivre au chapitre 2." : s.chapter1?.complete ? "Les expéditions suivent la sorcière vers un autre lieu. Leur alliance reste fragile ; leur objectif est commun : comprendre les tempêtes rouges et trouver le chemin du retour. La route vers sa cachette forestière est ouverte." : "Les unités et leur progression sont conservées. Enregistrez ce bilan ou retournez au menu."}</p><div class="summary-units">${s.units
     .filter((u) => u.owner !== 0 && !u.summonedBy)
     .map(
       (u) =>
@@ -2071,7 +2096,7 @@ function summary() {
     )
     .join(
       "",
-    )}</div>${button("Sauvegarder", "save", "primary")}${button("Menu principal", "title")}</section></main>`;
+    )}</div>${s.chapter1?.complete && !s.forestChapter ? button("Poursuivre · Chapitre 1", "continue-chapter-one", "primary") : ""}${s.developmentTest ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${button("Sauvegarder", "save", "primary")}${button("Menu principal", "title")}</section></main>`;
 }
 function playerKnowledge() {
   const s = state!,
@@ -2111,13 +2136,60 @@ function pause() {
   const modal = document.createElement("div");
   if (document.querySelector(".pause-menu")) return;
   modal.className = "modal-back pause-menu";
-  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Expédition ${state!.active}</span>${E.canSwitchExpedition() ? [1, 2].map((p) => button(`Expédition ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("") + button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy) : ""}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div><section class="pause-commands"><h3>Commandes</h3><dl><dt>Échap</dt><dd>Ouvrir / fermer ce menu</dd><dt>D</dt><dd>Afficher / masquer les déplacements et attaques des ennemis visibles</dd><dt>Souris</dt><dd>Survoler un ennemi pour voir ses portées</dd><dt>Glisser</dt><dd>Déplacer la carte</dd><dt>Flèches</dt><dd>Déplacer la caméra</dd>${E.canSwitchExpedition() ? "<dt>Tab</dt><dd>Changer d’expédition</dd>" : ""}</dl></section></section>`;
+  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Expédition ${state!.active}</span>${E.canSwitchExpedition() ? [1, 2].map((p) => button(`Expédition ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("") + button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy) : ""}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${state!.developmentTest && state!.forestChapter ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div><section class="pause-commands"><h3>Commandes</h3><dl><dt>Échap</dt><dd>Ouvrir / fermer ce menu</dd><dt>D</dt><dd>Afficher / masquer les déplacements et attaques des ennemis visibles</dd><dt>Souris</dt><dd>Survoler un ennemi pour voir ses portées</dd><dt>Glisser</dt><dd>Déplacer la carte</dd><dt>Flèches</dt><dd>Déplacer la caméra</dd>${E.canSwitchExpedition() ? "<dt>Tab</dt><dd>Changer d’expédition</dd>" : ""}</dl></section></section>`;
   app.append(modal);
 }
 app.addEventListener("click", async (e) => {
   const el = (e.target as HTMLElement).closest<HTMLElement>("[data-action]");
   if (!el || el.hasAttribute("disabled")) return;
   const action = el.dataset.action!;
+  if (
+    action === "dev-chapter-one" ||
+    action === "restart-chapter-one" ||
+    action === "resume-chapter-one"
+  ) {
+    if (!prototypeTools) return;
+    chapterDirector?.dispose();
+    chapterDirector = undefined;
+    chapterFrame = null;
+    initiativeCleanup?.();
+    if (action === "resume-chapter-one")
+      state = E.decode(localStorage.getItem("lte-chapter-one-test") || "");
+    else if (
+      action === "restart-chapter-one" &&
+      localStorage.getItem("lte-chapter-one-start")
+    )
+      state = E.decode(localStorage.getItem("lte-chapter-one-start")!);
+    else state = E.prepareChapterOneTest(E.createCampaign(["north", "knight"]));
+    E.activateMap(state.mapId ?? "prologue");
+    busy = false;
+    origin = null;
+    moved = false;
+    selected = null;
+    aim = null;
+    cardOpen = false;
+    if (state.scene) cinematic();
+    else battleUI();
+    return;
+  }
+  if (action === "continue-chapter-one") {
+    if (!state || !state.chapter1?.complete || state.forestChapter) return;
+    E.beginForestChapter(state);
+    origin = null;
+    busy = false;
+    cinematic();
+    return;
+  }
+  if (action === "talk-geraud") {
+    if (!state || busy || !E.controlsOwner(state.active)) return;
+    const u = E.current(state);
+    if (!u || !E.canTalkGeraud(state, u)) return;
+    E.talkGeraud(state, u);
+    origin = null;
+    aim = null;
+    cinematic();
+    return;
+  }
   if (tacticalAction) return;
   if (action.startsWith("choose-leader-")) {
     const owner = E.leadershipVacancies(state!)[0];
@@ -2473,7 +2545,7 @@ app.addEventListener("click", async (e) => {
     try {
       state = E.createCampaign(factions, heroDrafts, companionDrafts);
       E.setPlayableTeamColors(state, readTeamPreferences());
-      E.beginChapter1(state);
+      E.beginPrologue(state);
     } catch (error) {
       toast((error as Error).message);
       return;

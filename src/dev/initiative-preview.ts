@@ -2,7 +2,7 @@ import "./tools.css";
 import { createSandbox, trainingUnit } from "../game/sandbox";
 import { initiativeOrder, stepInitiative } from "../game/initiative";
 import { seen } from "../game/vision";
-import { key } from "../game/map";
+import { key } from "../game/active-map";
 import { initiativeMarkup, bindInitiative } from "../ui/initiative-strip";
 import { drawResourceFrame, unitSpriteProfile } from "../sprites/resources";
 import { colorForOwner } from "../game/team-colors";

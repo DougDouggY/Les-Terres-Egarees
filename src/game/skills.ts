@@ -4,7 +4,7 @@ import type { Campaign, Unit } from "./types";
 import { applyXp } from "./combat";
 import { current, log } from "./campaign";
 import { at, allied, alive } from "./queries";
-import { cell, distance } from "./map";
+import { cell, distance } from "./active-map";
 import { los, visibility } from "./vision";
 import { requireOwnTurn } from "./equipment";
 import {

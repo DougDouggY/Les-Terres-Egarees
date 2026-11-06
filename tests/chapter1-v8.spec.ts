@@ -386,7 +386,7 @@ test("V8 entrée : les deux chefs confirment sur la carte, puis dialogue et bila
     await page.locator("[data-story-next]").click();
   }
   await expect(
-    page.getByRole("heading", { name: "Prologue — Les Terres Égarées" }),
+    page.getByRole("heading", { name: "Pour ne pas oublier" }),
   ).toBeVisible();
   expect((await saved(page)).chapter1.complete).toBe(true);
 });

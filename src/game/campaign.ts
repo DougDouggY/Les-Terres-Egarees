@@ -1,3 +1,5 @@
+import { forestEncounter } from "./forest-chapter";
+import { activateMap } from "./active-map";
 import { startingHeroClasses } from "./creation";
 import {
   chapterEnemy,
@@ -20,7 +22,7 @@ import {
 import { makeClassUnit } from "./units";
 import { finishActivationSkills } from "./skills";
 import type { Campaign, Unit, Perspective, Faction } from "./types";
-import { key, MAP_REVISION, village } from "./map";
+import { key, MAP_REVISION, village } from "./active-map";
 import { alive, at } from "./queries";
 import { visibility } from "./vision";
 import {
@@ -34,6 +36,7 @@ export function createCampaign(
   heroes?: [HeroConfig, HeroConfig],
   companions?: [string[], string[]],
 ): Campaign {
+  activateMap("prologue");
   if (factions[0] === factions[1])
     throw Error("Les deux joueurs doivent choisir des factions différentes.");
   if (heroes && !companions)
@@ -163,6 +166,7 @@ function event(s: Campaign, id: string) {
 }
 export function encounter(s: Campaign) {
   visibility(s);
+  if (s.forestChapter) return forestEncounter(s);
   if (chapterEnabled(s)) return chapterEncounter(s);
   if (
     !s.merged &&
@@ -196,10 +200,10 @@ export function advance(s: Campaign) {
   finishActivationSkills(s);
   stepInitiative(s);
   const r = front(s).round;
-  if (r >= 2 && event(s, "storm")) {
+  if (!s.forestChapter && r >= 2 && event(s, "storm")) {
     log(s, "L’orage revient. La terre se souvient.");
   }
-  if (r >= 3 && event(s, "horde")) {
+  if (!s.forestChapter && r >= 3 && event(s, "horde")) {
     const arrivals: string[] = [];
     for (const [id, fr, x, y, type] of [
       ["e5", 1, 12, 9, "sword"],
@@ -235,6 +239,10 @@ export function checkEnd(s: Campaign) {
     s.scene = null;
     return;
   }
+  if (s.forestChapter) {
+    forestEncounter(s);
+    return;
+  }
   if (s.merged && !alive(s).some((u) => u.owner === 0) && event(s, "victory")) {
     for (const u of s.units) if (u.summonedBy) u.hp = 0;
     if (!chapterEnabled(s)) s.scene = "ending";
@@ -246,6 +254,7 @@ export function checkEnd(s: Campaign) {
 /** Temporary review shortcut: only an expedition physically near the village can use it. */
 export function canFinishBattleForTest(s: Campaign) {
   return (
+    !s.forestChapter &&
     s.phase === "battle" &&
     !s.scene &&
     (!chapterEnabled(s) || s.chapter1!.completed.includes("meeting")) &&

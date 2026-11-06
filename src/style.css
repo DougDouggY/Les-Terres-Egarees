@@ -5037,3 +5037,73 @@ body:has(.aftermath-screen) .modal-back.rewards {
   color: #4f3618;
   border-color: #a68c5b;
 }
+/* Shared narrative choice, deliberately separate votes even in the local prototype. */
+.patrol-choice {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(760px, calc(100vw - 28px));
+  max-height: calc(100dvh - 28px);
+  overflow: auto;
+  padding: 32px;
+  color: #322316;
+  pointer-events: auto;
+}
+.patrol-choice h2 {
+  font-size: 32px;
+  margin: 12px 0;
+}
+.patrol-choice p {
+  color: #4e3824;
+}
+.patrol-voters {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px;
+  margin: 22px 0;
+}
+.patrol-voters h3 {
+  font-size: 16px;
+  color: #392918;
+}
+.patrol-voters button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: #3b2916;
+  background: #e9d6a9;
+  border: 1px solid #95754a;
+  margin: 10px 0;
+  white-space: normal;
+}
+.patrol-voters button[aria-pressed="true"] {
+  background: #52635b;
+  color: #fff0ce;
+  outline: 2px solid #9c7f43;
+  outline-offset: 2px;
+}
+.patrol-voters button:disabled {
+  opacity: 0.75;
+}
+#chapter-overlay.cave-scene {
+  background: radial-gradient(ellipse at 30% 50%, #3d3328ee, #0e1717fa 70%);
+}
+.cave-scene .chapter-context::after {
+  content: "LA GROTTE · SIX MOIS DE RECHERCHES";
+  display: block;
+  margin-top: 12px;
+  color: #dcc697;
+}
+@media (max-width: 620px) {
+  .patrol-voters {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .patrol-choice {
+    padding: 20px;
+  }
+  .patrol-choice h2 {
+    font-size: 26px;
+  }
+}

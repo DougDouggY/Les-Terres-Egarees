@@ -162,8 +162,9 @@ test("V8 seuil : deux chefs vivants, activation propre, entrée sûre, confirmat
   E.prepareEntry(back, bb);
   assert.equal(back.scene, "chapter1:alliance");
   assert.equal(back.phase, "battle");
-  while (back.chapter1?.pending) E.advanceChapterLine(back);
-  assert.equal(back.phase, "summary");
+  while (back.chapter1?.pending?.id === "alliance") E.advanceChapterLine(back);
+  assert.equal(back.phase, "battle");
+  assert.equal(back.scene, "chapter1:c1-title");
   assert.equal(back.chapter1?.complete, true);
   const stalled = E.decode(E.encode(s));
   stalled.units.find((u) => u.id === a.id)!.hp = 0;

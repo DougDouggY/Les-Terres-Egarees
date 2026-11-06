@@ -1,7 +1,7 @@
 import { hasSkill } from "./classes";
 import { offensiveReady } from "./combat";
 import type { Campaign, Unit } from "./types";
-import { cell, map, key, W, H, distance } from "./map";
+import { cell, map, key, W, H, distance } from "./active-map";
 import { at, allied } from "./queries";
 import { los } from "./vision";
 export function path(
