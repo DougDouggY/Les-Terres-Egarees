@@ -6,9 +6,9 @@ import { reachable, attackCells } from "./pathfinding";
 export type ChapterEnemy = "sword" | "axe" | "lance" | "bow";
 const profiles = {
   sword: ["skeleton", "Porte-lame déchu"],
-  axe: ["raider", "Pillard égaré"],
-  lance: ["spearman", "Lancier déchu"],
-  bow: ["hunter", "Chasseur égaré"],
+  axe: ["sans_axe", "Squelette hacheur"],
+  lance: ["sans_spear", "Squelette lancier"],
+  bow: ["sans_archer", "Archer squelette"],
 } as const;
 export function chapterEnemy(
   id: string,
@@ -20,6 +20,7 @@ export function chapterEnemy(
   const [cls, name] = profiles[type];
   const u = makeClassUnit(id, 0, front, cls, name, x, y, "male");
   Object.assign(u, {
+    kind: "skeleton" as const,
     hp: 18,
     maxHp: 18,
     strength: type === "bow" ? 4 : 5,

@@ -573,3 +573,21 @@ for (const c of Object.values(classes).filter((c) => c.stage === "advanced")) {
 }
 
 classes.cavalry.role = "Épée et bouclier à cheval · déplacement 8";
+
+// Playable enemy definitions bind the existing Sans-Repos atlases to their real weapons.
+for (const [id, name, category, weapon] of [
+  ["sans_axe", "Squelette hacheur", "axe", "axe"],
+  ["sans_spear", "Squelette lancier", "lance", "lance"],
+  ["sans_archer", "Archer squelette", "bow", "bow"],
+] as const) {
+  classes[id] = {
+    ...classes.skeleton,
+    id,
+    name,
+    weapons: [category],
+    starter: [weapon],
+    skills: [],
+    promotions: [],
+    stats: { ...classes.skeleton.stats },
+  };
+}

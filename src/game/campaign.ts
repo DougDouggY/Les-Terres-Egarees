@@ -114,7 +114,7 @@ export function createCampaign(
     intro: 0,
   });
   const s: Campaign = {
-    chapter1RulesVersion: 2,
+    chapter1RulesVersion: 3,
     chapter1: { started: false, completed: [] },
     version: 1,
     teamColors: { ...defaultTeamColors },

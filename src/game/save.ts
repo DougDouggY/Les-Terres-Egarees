@@ -2,6 +2,7 @@ import { chapterScenes, chapterLines, upgradeChapter1 } from "./chapter1";
 import { globalInitiative } from "./initiative";
 import { normalizeTeamColors } from "./team-colors";
 import {
+  classes,
   hydrateClass,
   discoverUnit,
   revealPromotionOptions,
@@ -95,7 +96,7 @@ export function decode(raw: string): Campaign {
     !s.sandbox &&
     s.phase === "battle" &&
     s.chapter1?.started &&
-    s.chapter1RulesVersion !== 2
+    s.chapter1RulesVersion === undefined
   ) {
     // Existing chapter saves retain their roster, positions and wounds; no surprise spawns on load.
     for (const u of s.units)
@@ -111,6 +112,32 @@ export function decode(raw: string): Campaign {
       }
     s.chapter1RulesVersion = 2;
   }
+  if (!s.sandbox && s.chapter1?.started && s.chapter1RulesVersion !== 3) {
+    for (const u of s.units)
+      if (u.owner === 0 && /^(e\d+|sanctuary-[01])$/.test(u.id)) {
+        const replacement = (
+          {
+            raider: "sans_axe",
+            spearman: "sans_spear",
+            hunter: "sans_archer",
+          } as Record<string, string>
+        )[u.classId ?? ""];
+        if (replacement) {
+          u.classId = replacement;
+          u.kind = "skeleton";
+          u.name = classes[replacement].name;
+          u.carriedWeapons = [...classes[replacement].starter];
+          u.activeWeaponId = u.carriedWeapons[0];
+          delete u.combatSkinId;
+          delete u.visualFallbackClassId;
+          hydrateClass(u);
+        }
+      }
+    s.chapter1RulesVersion = 3;
+  }
+  for (const u of s.units)
+    if (/^p[12][bc]$/.test(u.id) && u.name === "Alix" && u.gender === "male")
+      u.name = "Armand";
   if (s.phase === "camp") s.phase = "summary";
   if (s.phase === "intro") s.phase = "battle";
   if (s.scene?.startsWith("chapter1:")) {

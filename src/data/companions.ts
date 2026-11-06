@@ -45,7 +45,7 @@ export const companionRoster = [
   },
   {
     id: "alix",
-    name: "Alix",
+    name: "Armand",
     faction: "knight" as Faction,
     classId: "spearman",
     gender: "male" as const,

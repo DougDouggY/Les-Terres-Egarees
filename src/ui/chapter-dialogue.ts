@@ -1,3 +1,4 @@
+import { anatomicalPlacement } from "../sprites/display-scale";
 import type { Campaign, Unit } from "../game/types";
 import {
   chapterLines,
@@ -229,6 +230,8 @@ export class ChapterDirector {
         150,
         true,
         colorForOwner(this.s.teamColors, u.owner),
+        "world",
+        anatomicalPlacement(unitSpriteProfile(u), "idle", 124),
       );
     }
     const frame: ChapterMapFrame = {

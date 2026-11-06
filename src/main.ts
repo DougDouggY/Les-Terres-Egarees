@@ -2449,3 +2449,13 @@ window.addEventListener("keydown", (e) => {
 });
 window.addEventListener("beforeunload", () => save(true));
 title();
+
+let creatorResizeFrame = 0;
+window.addEventListener("resize", () => {
+  if (screen !== "config") return;
+  cancelAnimationFrame(creatorResizeFrame);
+  creatorResizeFrame = requestAnimationFrame(() => {
+    if (screen === "config")
+      void paintCreatorSprites(app, heroDrafts, readTeamPreferences());
+  });
+});

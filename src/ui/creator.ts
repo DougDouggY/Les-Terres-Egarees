@@ -1,3 +1,4 @@
+import { anatomicalPlacement } from "../sprites/display-scale";
 import * as E from "../engine";
 import {
   unitSpriteProfile,
@@ -107,9 +108,16 @@ export async function paintCreatorSprites(
     const ctx = canvas.getContext("2d")!;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.imageSmoothingEnabled = false;
+    const bounds = canvas.getBoundingClientRect();
+    const displayRatio = Math.min(
+      bounds.width / canvas.width,
+      bounds.height / canvas.height,
+    );
+    const profile = unitSpriteProfile(u);
+    const body = 72 / Math.max(0.1, displayRatio);
     const drawn = drawResourceFrame(
       ctx,
-      unitSpriteProfile(u),
+      profile,
       "idle",
       0,
       4,
@@ -118,7 +126,11 @@ export async function paintCreatorSprites(
       canvas.height - 8,
       true,
       E.colorForOwner(colors, u.owner),
+      "world",
+      anatomicalPlacement(profile, "idle", body),
     );
     canvas.dataset.loaded = String(drawn);
+    canvas.dataset.bodyHeight = "72";
+    canvas.dataset.displayRatio = String(displayRatio);
   }
 }
