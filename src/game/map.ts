@@ -6,7 +6,7 @@ export const W = 60,
 const terrains: Record<Terrain, [number, boolean, number, boolean, number]> = {
   grass: [1, true, 0, false, 0],
   earth: [1, true, 0, false, 28],
-  road: [1, true, 0, false, 2],
+  road: [0.75, true, 0, false, 2],
   sand: [2, true, 0, false, 3],
   water: [99, false, 0, false, 4],
   forest: [2, true, 2, false, 5],

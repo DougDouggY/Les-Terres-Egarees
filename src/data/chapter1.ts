@@ -8,7 +8,14 @@ export type Speaker =
   | "unknown"
   | "narrator";
 export type ChapterSceneId =
-  "arrival-1" | "arrival-2" | "ruins-1" | "ruins-2" | "meeting" | "alliance";
+  | "arrival-1"
+  | "arrival-2"
+  | "ruins-1"
+  | "ruins-2"
+  | "waiting-1"
+  | "waiting-2"
+  | "meeting"
+  | "alliance";
 export type DialogueLine = {
   speaker: Speaker;
   text: string;
@@ -151,5 +158,26 @@ export const alliance = [
     "narrator",
     "Les deux expéditions suivent provisoirement la sorcière. Derrière elles, la brume se referme sur les ruines.",
     { cue: "depart" },
+  ),
+];
+
+export const waitingNorth = [
+  line(
+    "north-companion",
+    "L’entrée est encombrée de débris. Et ces traces... Nous ne sommes pas seuls ici.",
+  ),
+  line(
+    "north-chief",
+    "Ne nous engouffrons pas à l’aveugle. Sécurisez le seuil et surveillez les arbres.",
+  ),
+];
+export const waitingKnight = [
+  line(
+    "knight-companion",
+    "La porte tient à peine, mais quelque chose remue derrière ces murs.",
+  ),
+  line(
+    "knight-chief",
+    "Gardons nos positions. Dégagez l’entrée et vérifiez les abords avant d’entrer.",
   ),
 ];

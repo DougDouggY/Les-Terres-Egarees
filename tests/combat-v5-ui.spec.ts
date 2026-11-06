@@ -62,6 +62,7 @@ async function adventure(
         ),
         enemy = trainingUnit(s, "raider", 1, 1, 0);
       a.gender = gender;
+      a.leader = true; ally.leader = true;
       a.xp = 95;
       const c = E.map.find(
         (c: any) =>

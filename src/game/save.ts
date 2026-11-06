@@ -91,6 +91,26 @@ export function decode(raw: string): Campaign {
       revealPromotionOptions(s, u);
     }
   }
+  if (
+    !s.sandbox &&
+    s.phase === "battle" &&
+    s.chapter1?.started &&
+    s.chapter1RulesVersion !== 2
+  ) {
+    // Existing chapter saves retain their roster, positions and wounds; no surprise spawns on load.
+    for (const u of s.units)
+      if (u.owner === 0 && /^(e\d+|sanctuary-[01])$/.test(u.id)) {
+        const ratio = u.maxHp > 0 ? u.hp / u.maxHp : 0;
+        u.maxHp = Math.min(u.maxHp, 18);
+        u.hp = Math.min(u.maxHp, Math.ceil(u.maxHp * ratio));
+        u.strength = Math.min(u.strength, 5);
+        u.defense = Math.min(u.defense, 1);
+        u.agility = Math.min(u.agility, 3);
+        u.initiative = Math.min(u.initiative, 4);
+        u.move = Math.min(u.move, 3);
+      }
+    s.chapter1RulesVersion = 2;
+  }
   if (s.phase === "camp") s.phase = "summary";
   if (s.phase === "intro") s.phase = "battle";
   if (s.scene?.startsWith("chapter1:")) {
@@ -102,7 +122,11 @@ export function decode(raw: string): Campaign {
       !Number.isInteger(p.page) ||
       p.page < 0 ||
       p.page >= chapterLines(s, p.id).length ||
-      ![1, 2].includes(p.owner)
+      ![1, 2].includes(p.owner) ||
+      (p.readBy !== undefined &&
+        (!Array.isArray(p.readBy) ||
+          p.readBy.some((id: unknown) => id !== 1 && id !== 2) ||
+          new Set(p.readBy).size !== p.readBy.length))
     )
       throw Error("Scène de chapitre invalide");
   } else if (s.scene && s.scene !== "meeting" && s.scene !== "ending")

@@ -410,7 +410,9 @@ export function resolveArea(
 }
 export function applyStrike(s: Campaign, strike: Strike) {
   const u = s.units.find((u) => u.id === strike.defender);
-  if (u) u.hp = strike.hpAfter;
+  const a = s.units.find((u) => u.id === strike.attacker);
+  // Defence in depth: even a stale or malformed allied strike cannot inflict damage.
+  if (u && a && (a.owner === 0) !== (u.owner === 0)) u.hp = strike.hpAfter;
 }
 export function applyXp(s: Campaign, b: Battle) {
   b.levelGains ??= {};

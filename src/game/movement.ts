@@ -11,6 +11,8 @@ export function move(s: Campaign, u: Unit, x: number, y: number) {
   if (!p || p.cost > u.move) throw Error("Déplacement impossible");
   if (u.x !== x || u.y !== y) {
     u.fortified = false;
+    if (s.chapter1?.prepared && u.owner !== 0)
+      delete s.chapter1.prepared[u.owner];
     u.movedDistance = p.steps.length - 1;
   }
   u.x = x;

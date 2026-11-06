@@ -78,6 +78,9 @@ test("V7 rencontre : attendre les deux groupes près du sanctuaire, puis préser
   s.active = 1;
   chapterEncounter(s);
   finish(s);
+  assert.equal(chapterEncounter(s), true);
+  assert.equal(s.scene, "chapter1:waiting-1");
+  finish(s);
   assert.equal(chapterEncounter(s), false);
   place(s, 2, 34, 20);
   s.active = 2;
@@ -107,9 +110,19 @@ test("V7 victoire : alliance, sorcière puis départ, sans recrutement ni chapit
   s.merged = true;
   s.chapter1!.completed.push("ruins-1", "ruins-2", "meeting");
   for (const u of s.units) if (u.owner === 0) u.hp = 0;
+  E.checkEnd(s);
+  assert.equal(s.scene, null);
+  const a = place(s, 1, 31, 19),
+    b = place(s, 2, 31, 18);
+  s.common.queue = [a.id, b.id];
+  s.common.index = 0;
+  s.active = 1;
+  E.prepareEntry(s, a);
+  s.common.index = 1;
+  s.active = 2;
+  E.prepareEntry(s, b);
   const units = structuredClone(s.units),
     queue = structuredClone(s.common);
-  E.checkEnd(s);
   assert.equal(s.scene, "chapter1:alliance");
   assert.equal(chapterLines(s, "alliance")[6].speaker, "unknown");
   while (s.chapter1!.pending!.page < 6) advanceChapterLine(s);

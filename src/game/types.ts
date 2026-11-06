@@ -36,6 +36,8 @@ export type Cell = {
   interactive?: string;
 };
 export type Unit = {
+  aiTargetId?: string;
+  arriving?: boolean;
   combatSkinId?: string;
   originClassId?: string;
   individualVariation?: Record<string, number>;
@@ -104,6 +106,7 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  chapter1RulesVersion?: 2;
   chapter1?: import("./chapter1").Chapter1Progress;
   initiativeVersion?: 2;
   initiativeCollapsed?: boolean;

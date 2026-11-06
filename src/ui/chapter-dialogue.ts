@@ -102,6 +102,7 @@ export class ChapterDirector {
     private s: Campaign,
     private advance: () => void,
     private draw: (t: number, frame: ChapterMapFrame) => void,
+    private reader?: 1 | 2,
   ) {
     const p = s.chapter1!.pending!;
     this.lines = chapterLines(s, p.id);
@@ -156,7 +157,7 @@ export class ChapterDirector {
           }[l.speaker as "witch" | "unknown" | "narrator"]
         : (u?.name ?? "Un survivant");
     const portrait = chapterPortraits[l.speaker];
-    this.root.innerHTML = `<aside class="chapter-context">CHAPITRE I · ${p.id.startsWith("arrival") ? "APRÈS LA TEMPÊTE" : p.id.startsWith("ruins") ? "UNE LUEUR DANS LA BRUME" : p.id === "meeting" ? "AU SEUIL DES RUINES" : "UNE ALLIANCE FRAGILE"}<small>${this.staged() ? "Les deux expéditions" : `Expédition ${p.owner} · ${this.s.factions[p.owner - 1] === "north" ? "Vikings" : "Chevaliers"}`}</small></aside><section class="chapter-dialogue" role="dialog" aria-modal="true" aria-label="Dialogue du chapitre 1" data-story-scene="${p.id}" data-story-line="${p.page}"><div class="chapter-portrait ${["witch", "unknown"].includes(l.speaker) ? "mysterious" : ""}">${portrait ? `<img src="${esc(portrait.src)}" alt="${esc(name)}">` : u && !["witch", "unknown", "narrator"].includes(l.speaker) ? '<canvas width="140" height="160" aria-hidden="true"></canvas>' : `<b>${l.speaker === "narrator" ? "ᛟ" : "???"}</b>`}</div><div class="chapter-speech"><strong class="chapter-speaker">${esc(name)}</strong><p class="chapter-text" aria-live="off"></p><footer><small>Entrée / Espace · lire puis continuer</small><button data-story-next>Suivant <span>›</span></button></footer></div></section>`;
+    this.root.innerHTML = `<aside class="chapter-context">CHAPITRE I · ${p.id.startsWith("arrival") ? "APRÈS LA TEMPÊTE" : p.id.startsWith("ruins") ? "UNE LUEUR DANS LA BRUME" : p.id.startsWith("waiting") ? "UN SEUIL À SÉCURISER" : p.id === "meeting" ? "AU SEUIL DES RUINES" : "UNE ALLIANCE FRAGILE"}<small>${this.staged() ? "Les deux expéditions" : `Expédition ${p.owner} · ${this.s.factions[p.owner - 1] === "north" ? "Vikings" : "Chevaliers"}`}</small></aside><section class="chapter-dialogue" role="dialog" aria-modal="true" aria-label="Dialogue du chapitre 1" data-story-scene="${p.id}" data-story-line="${p.page}"><div class="chapter-portrait ${["witch", "unknown"].includes(l.speaker) ? "mysterious" : ""}">${portrait ? `<img src="${esc(portrait.src)}" alt="${esc(name)}">` : u && !["witch", "unknown", "narrator"].includes(l.speaker) ? '<canvas width="140" height="160" aria-hidden="true"></canvas>' : `<b>${l.speaker === "narrator" ? "ᛟ" : "???"}</b>`}</div><div class="chapter-speech"><strong class="chapter-speaker">${esc(name)}</strong><p class="chapter-text" aria-live="off"></p><footer><small>Entrée / Espace · lire puis continuer</small><button data-story-next>Suivant <span>›</span></button></footer></div></section>`;
     this.root
       .querySelector("[data-story-next]")!
       .addEventListener("click", (e) => {
@@ -167,6 +168,8 @@ export class ChapterDirector {
   }
   private next() {
     const l = this.lines[this.s.chapter1!.pending!.page];
+    if (this.reader && this.s.chapter1!.pending!.readBy?.includes(this.reader))
+      return;
     if (!this.ready || performance.now() - this.started < this.lock(l)) return;
     if (!this.shown) {
       this.shown = true;
@@ -200,7 +203,9 @@ export class ChapterDirector {
     if (n >= l.text.length) this.shown = true;
     const button =
       this.root.querySelector<HTMLButtonElement>("[data-story-next]")!;
-    button.disabled = !this.ready || elapsed < this.lock(l);
+    const waiting = !!this.reader && !!pending.readBy?.includes(this.reader);
+    button.disabled = waiting || !this.ready || elapsed < this.lock(l);
+    if (waiting) button.textContent = "En attente de l’autre joueur…";
     button.setAttribute(
       "aria-label",
       this.shown ? "Réplique suivante" : "Afficher toute la réplique",
@@ -284,7 +289,9 @@ export class ChapterDirector {
           frame:
             animation === "attack"
               ? Math.floor((elapsed - 750) / 90)
-              : Math.floor(time / 140),
+              : animation === "idle"
+                ? 0
+                : Math.floor(time / 140),
           flip: !north,
         });
       }
@@ -320,7 +327,7 @@ export class ChapterDirector {
           x: village.entry.x + depart * 2,
           y: village.entry.y + walk * 3 + depart * 1.5,
           animation: walk < 1 || depart ? "move" : "idle",
-          frame: Math.floor(time / 140),
+          frame: walk < 1 || depart ? Math.floor(time / 140) : 0,
         });
       }
     }

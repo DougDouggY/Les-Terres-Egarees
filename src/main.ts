@@ -1,3 +1,10 @@
+import { creatorMarkup, paintCreatorSprites } from "./ui/creator";
+import {
+  statSnapshot,
+  levelRows,
+  animateLevelGains,
+  type StatSnapshot,
+} from "./ui/level-gains";
 import { ChapterDirector, type ChapterMapFrame } from "./ui/chapter-dialogue";
 import { animateHp, animateExperience } from "./ui/value-animation";
 import { combatSkin } from "./sprites/combat-skins";
@@ -176,39 +183,35 @@ function teamColorsModal() {
       "",
     )}<p id="team-color-error" role="alert"></p>${button("Appliquer", "apply-team-colors", "primary")}${button("Fermer", "close-modal")}</section>`;
   app.append(modal);
+  const first = modal.querySelector<HTMLSelectElement>("#team-player1")!;
+  const second = modal.querySelector<HTMLSelectElement>("#team-player2")!;
+  const sync = () => {
+    for (const [self, other] of [
+      [first, second],
+      [second, first],
+    ])
+      for (const option of Array.from(self.options))
+        option.disabled = option.value === other.value;
+  };
+  first.addEventListener("change", sync);
+  second.addEventListener("change", sync);
+  sync();
 }
 function configure() {
   screen = "config";
-  app.innerHTML = `<main class="config-screen phase1-creator"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>CRÉATEUR DE HÉROS · PROTOTYPE</small></span>${button("← Retour", "title", "back")}</header><section class="config-heading"><h1>Créez vos deux héros.</h1><p>Le joueur 1 choisit sa faction ; le joueur 2 reçoit l’autre. Choisissez ensuite vos compagnons.</p></section><div class="faction-grid">${heroDrafts
-    .map(
-      (h, i) =>
-        `<section class="faction-card hero-form"><span class="eyebrow">EXPÉDITION ${i + 1}</span><div class="segmented">${button("Vikings", `faction-${i + 1}-north`, h.faction === "north" ? "chosen" : "")}${button("Chevaliers", `faction-${i + 1}-knight`, h.faction === "knight" ? "chosen" : "")}</div><div class="portrait-placeholder" aria-label="Emplacement du futur portrait">◇<small>PORTRAIT À CRÉER</small></div><label>Nom du héros — expédition ${i + 1}<input id="hero-name-${i + 1}" maxlength="32" value="${esc(h.name)}" required></label><label>Sexe — expédition ${i + 1}<select id="hero-gender-${i + 1}"><option value="male" ${h.gender === "male" ? "selected" : ""}>Homme</option><option value="female" ${h.gender === "female" ? "selected" : ""}>Femme</option></select></label><label>Classe — expédition ${i + 1}<select id="hero-class-${i + 1}">${E.baseClasses(
-          h.faction,
-        )
-          .map(
-            (c) =>
-              `<option value="${c.id}" ${c.id === h.classId ? "selected" : ""}>${c.name}</option>`,
-          )
-          .join(
-            "",
-          )}</select></label><p>${E.classes[h.classId].role}</p>${h.classId === "raider" ? `<label>Arme initiale<select data-starter="${i}"><option value="axe_shield" ${h.weaponId !== "sword_shield" ? "selected" : ""}>Hache et bouclier</option><option value="sword_shield" ${h.weaponId === "sword_shield" ? "selected" : ""}>Épée et bouclier</option></select></label>` : ""}<fieldset><legend>Compagnons · choisir ${E.companionCount(h.faction)}</legend>${E.companionRoster
-          .filter((c) => c.faction === h.faction)
-          .map(
-            (c) =>
-              `<label><input type="checkbox" data-companion="${i}:${c.id}" ${companionDrafts[i].includes(c.id) ? "checked" : ""}>${c.name} · ${E.classes[c.classId].name}</label>`,
-          )
-          .join("")}</fieldset></section>`,
-    )
-    .join(
-      "",
-    )}</div><div class="config-bottom">${button("Couleurs des équipes", "team-colors")}${button("Déployer les expéditions", "begin", "primary")}</div></main>`;
-  app
-    .querySelectorAll<HTMLSelectElement>("[data-starter]")
-    .forEach(
-      (el) =>
-        (el.onchange = () =>
-          (heroDrafts[Number(el.dataset.starter)].weaponId = el.value)),
-    );
+  app.innerHTML = creatorMarkup(
+    heroDrafts,
+    companionDrafts,
+    readTeamPreferences(),
+  );
+  void paintCreatorSprites(app, heroDrafts, readTeamPreferences());
+  app.querySelectorAll<HTMLSelectElement>("[data-starter]").forEach(
+    (el) =>
+      (el.onchange = () => {
+        heroDrafts[Number(el.dataset.starter)].weaponId = el.value;
+        void paintCreatorSprites(app, heroDrafts, readTeamPreferences());
+      }),
+  );
   app.querySelectorAll<HTMLInputElement>("[data-companion]").forEach(
     (input) =>
       (input.onchange = () => {
@@ -220,6 +223,9 @@ function configure() {
           id,
           input.checked,
         );
+        const counter = app.querySelector(`[data-companion-count="${index}"]`);
+        if (counter)
+          counter.textContent = `${companionDrafts[index].length} / ${E.companionCount(heroDrafts[index].faction)} choisis`;
         app
           .querySelectorAll<HTMLInputElement>(`[data-companion^="${index}:"]`)
           .forEach((el) => {
@@ -234,12 +240,15 @@ function configure() {
       e,
     ) => {
       heroDrafts[i - 1].name = (e.target as HTMLInputElement).value;
+      const display = app.querySelector(`[data-hero-display="${i - 1}"]`);
+      if (display) display.textContent = heroDrafts[i - 1].name;
     };
     (app.querySelector(`#hero-gender-${i}`) as HTMLSelectElement).onchange = (
       e,
     ) => {
       heroDrafts[i - 1].gender = (e.target as HTMLSelectElement)
         .value as E.Gender;
+      configure();
     };
     (app.querySelector(`#hero-class-${i}`) as HTMLSelectElement).onchange = (
       e,
@@ -260,6 +269,19 @@ function chapterCinematic() {
     battleUI();
     return;
   }
+  const view = E.sessionView();
+  if (
+    view.mode === "coop" &&
+    !E.sharedChapterScene(s.chapter1.pending.id) &&
+    s.chapter1.pending.owner !== view.owner
+  ) {
+    chapterFrame = null;
+    busy = true;
+    screen = "chapter-wait";
+    app.innerHTML =
+      '<main class="chapter-screen"><canvas id="waiting-map" aria-label="Votre carte tactique"></canvas><aside class="peer-reading" role="status">Votre compagnon poursuit sa conversation…</aside></main>';
+    return;
+  }
   busy = true;
   screen = "chapter";
   selected = null;
@@ -278,7 +300,17 @@ function chapterCinematic() {
     app.querySelector("#chapter-overlay")!,
     s,
     () => {
-      const finished = E.advanceChapterLine(s);
+      const oldPage = s.chapter1!.pending!.page;
+      const view = E.sessionView();
+      const finished = E.advanceChapterLine(
+        s,
+        view.mode === "coop" ? view.owner : undefined,
+        { id: s.chapter1!.pending!.id, page: oldPage },
+      );
+      if (!finished && s.chapter1?.pending?.page === oldPage) {
+        checkpoint();
+        return;
+      }
       if (!finished) {
         chapterDirector!.refresh();
         checkpoint();
@@ -290,7 +322,8 @@ function chapterCinematic() {
       busy = false;
       if (finished === "meeting") E.merge(s);
       // A group may discover the ruins only after both parties have already arrived.
-      if (finished.startsWith("ruins-")) E.encounter(s);
+      if (finished.startsWith("ruins-") || finished.startsWith("waiting-"))
+        E.encounter(s);
       if (s.scene) {
         cinematic();
         return;
@@ -317,6 +350,9 @@ function chapterCinematic() {
       const canvas = app.querySelector<HTMLCanvasElement>("#story-map");
       if (canvas) renderMap(canvas, frame.owner, time);
     },
+    E.sessionView().mode === "coop"
+      ? (E.sessionView() as { owner: 1 | 2 }).owner
+      : undefined,
   );
   checkpoint();
 }
@@ -373,13 +409,13 @@ function unitCard(u: Unit) {
     [E.powerLabel(u) === "Puissance" ? "PUIS" : "FOR", u.strength],
     ["DÉF", u.defense],
     ["AGI", u.agility],
-    ["INIT", u.initiative],
+    ["INIT", E.effectiveInitiative(u)],
     ["PRÉC", u.accuracy],
     ["MVT", u.move],
   ]
     .map(
       ([n, v]) =>
-        `<div tabindex="0" role="button" aria-label="${n} : ${v}" data-tooltip="${({ FOR: "Force : augmente les dégâts physiques.", PUIS: "Puissance : augmente les dégâts magiques et les soins.", DÉF: "Défense : réduit les dégâts reçus, en plus du couvert.", AGI: "Agilité : réduit la précision adverse ; 4 points d’écart donnent une seconde frappe.", INIT: "Initiative : détermine l’ordre de passage, indépendamment de l’agilité.", PRÉC: "Précision : augmente les chances de toucher.", MVT: "Mouvement : budget de déplacement, selon le coût du terrain." } as Record<string, string>)[String(n)]}"><span>${n}</span><b>${v}</b></div>`,
+        `<div tabindex="0" role="button" aria-label="${n} : ${v}" data-tooltip="${({ FOR: "Force : augmente les dégâts physiques.", PUIS: "Puissance : augmente les dégâts magiques et les soins.", DÉF: "Défense : réduit les dégâts reçus, en plus du couvert.", AGI: "Agilité : réduit la précision adverse ; 4 points d’écart donnent une seconde frappe.", INIT: "Initiative : détermine l’ordre de passage. Le chef reçoit +1 tant qu’il commande.", PRÉC: "Précision : augmente les chances de toucher.", MVT: "Mouvement : budget de déplacement, selon le coût du terrain." } as Record<string, string>)[String(n)]}"><span>${n}</span><b>${v}</b></div>`,
     )
     .join(
       "",
@@ -426,6 +462,23 @@ function contextActions(u: Unit) {
   let html = "";
   if (targets.some((t) => E.canAttack(u, t)))
     html += button("Attaquer", "attack-mode");
+  if (
+    E.chapterEnabled(s) &&
+    s.merged &&
+    u.leader &&
+    E.distance(u, E.village.entry) <= 1
+  ) {
+    const prepared = E.preparedExpeditions(s).includes(u.owner as 1 | 2);
+    html += button(
+      prepared ? "Entrée préparée" : "Se préparer à rentrer",
+      "prepare-entry",
+      "",
+      !E.canPrepareEntry(s, u),
+    );
+    if (!prepared && !E.canPrepareEntry(s, u))
+      html +=
+        '<small class="entry-warning">Écartez les ennemis des abords avant d’entrer.</small>';
+  }
   html += button("Équipement", "equipment");
   if (u.classId === "tracker")
     for (const id of u.carriedWeapons ?? []) {
@@ -523,7 +576,7 @@ function battleUI() {
   clampCamera(s.active);
   initiativeCleanup?.();
   app.innerHTML = `<main class="battle-screen compact-battle">
-  <div class="mission-objective">${s.merged ? "Repoussez les morts-vivants" : E.chapterEnabled(s) ? (E.chapterBeacon(s, s.active) ? "Rejoignez le sanctuaire en ruines" : "Trouvez un abri") : "Rejoignez le village des Veilleurs"}</div>
+  <div class="mission-objective">${s.merged ? (E.chapterEnabled(s) ? (E.preparedExpeditions(s).length ? "Tenez l’entrée sécurisée" : "Sécurisez l’entrée · Chefs : préparez-vous à rentrer") : "Repoussez les morts-vivants") : E.chapterEnabled(s) ? (E.chapterBeacon(s, s.active) ? "Rejoignez le sanctuaire en ruines" : "Trouvez un abri") : "Rejoignez le village des Veilleurs"}</div>
   ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div id="map-tooltip" class="map-tooltip" hidden></div>
@@ -539,7 +592,46 @@ function battleUI() {
   document
     .querySelector('[data-action="toggle-fog"]')
     ?.setAttribute("aria-pressed", String(!fogEnabled));
+  if (!busy && showLeaderChoice()) return;
   if (u?.owner === 0 && !busy) void enemyTurn();
+}
+function showLeaderChoice() {
+  const s = state!,
+    owner = E.leadershipVacancies(s)[0];
+  if (!owner) return false;
+  const modal = document.createElement("div");
+  modal.className = "modal-back leader-choice";
+  const own = E.controlsOwner(owner);
+  modal.innerHTML = `<section class="modal wood-sheet" role="dialog" aria-modal="true" aria-label="Choisir le nouveau chef"><h2>Un nouveau chef</h2><p>${own ? `Expédition ${owner} · Qui prend le commandement ?` : "L’autre expédition choisit son nouveau chef…"}</p>${
+    own
+      ? s.units
+          .filter((u) => u.owner === owner && u.hp > 0 && !u.summonedBy)
+          .map((u) =>
+            button(
+              `${esc(u.name)} · ${E.className(u)}`,
+              `choose-leader-${u.id}`,
+            ),
+          )
+          .join("")
+      : ""
+  }<small>Bonus de commandement : +1 Initiative. Le tour en cours est conservé.</small></section>`;
+  app.append(modal);
+  return true;
+}
+/** Entry point for a future authenticated Cloudflare transport; no network session is created here. */
+export function applyCooperativeSnapshot(snapshot: Campaign, owner: 1 | 2) {
+  chapterDirector?.dispose();
+  chapterDirector = undefined;
+  chapterFrame = null;
+  E.setSessionView({ mode: "coop", owner });
+  state = E.decode(E.encode(snapshot));
+  state.active = owner;
+  selected = null;
+  origin = null;
+  moved = state.committedMove === E.current(state)?.id;
+  busy = false;
+  observer = false;
+  battleUI();
 }
 function updateHover(c: { x: number; y: number } | null) {
   hover = c ? E.key(c.x, c.y) : null;
@@ -902,7 +994,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     clampCamera(1);
     clampCamera(2);
   }
-  if (canvas.id === "story-map") {
+  if (canvas.id === "story-map" || canvas.id === "waiting-map") {
     viewCols = cols;
     viewRows = rows;
   }
@@ -1152,10 +1244,11 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   if (story?.glow || E.chapterBeacon(s, p)) {
     const x = E.ruinsCenter.x * 32,
       y = E.ruinsCenter.y * 32,
-      r = 18 + Math.sin(time / 600) * 3;
+      r = 34 + Math.sin(time / 600) * 4;
     const glow = ctx.createRadialGradient(x, y, 0, x, y, r);
-    glow.addColorStop(0, "#ffedb7b0");
-    glow.addColorStop(0.3, "#d8b87355");
+    glow.addColorStop(0, "#fff2b9ed");
+    glow.addColorStop(0.22, "#f7d686c0");
+    glow.addColorStop(0.6, "#e6ba5a55");
     glow.addColorStop(1, "#e1bb6a00");
     ctx.fillStyle = glow;
     ctx.beginPath();
@@ -1317,6 +1410,11 @@ function animation(time: number) {
     if (b) renderMap(b, (3 - state!.active) as 1 | 2, time);
   }
   if (screen === "chapter") chapterDirector?.tick(time);
+  if (screen === "chapter-wait") {
+    const view = E.sessionView(),
+      canvas = document.querySelector<HTMLCanvasElement>("#waiting-map");
+    if (view.mode === "coop" && canvas) renderMap(canvas, view.owner, time);
+  }
   if (combatAnim) renderCombat(time);
 }
 requestAnimationFrame(animation);
@@ -1348,7 +1446,14 @@ async function animateMove(u: Unit, x: number, y: number) {
   return true;
 }
 async function clickCell(x: number, y: number) {
-  if (!state || busy || state.scene) return;
+  if (
+    !state ||
+    busy ||
+    state.scene ||
+    !E.controlsOwner(state.active) ||
+    E.leadershipVacancies(state).length
+  )
+    return;
   const s = state,
     u = E.current(s),
     target = E.at(s, x, y);
@@ -1387,7 +1492,15 @@ async function clickCell(x: number, y: number) {
         await rewards(
           healResult,
           new Map([
-            [u.id, { hp: sprite.hp, xp: sprite.xp, level: sprite.level }],
+            [
+              u.id,
+              {
+                hp: sprite.hp,
+                xp: sprite.xp,
+                level: sprite.level,
+                stats: statSnapshot(sprite),
+              },
+            ],
           ]),
           { restored, target: target.name },
         );
@@ -1507,6 +1620,7 @@ function finishTurn() {
   if (!state.scene) save(true);
 }
 function preview(a: Unit, b: Unit) {
+  if (!E.controlsOwner(a.owner) || a.owner !== state?.active) return;
   const p = E.forecast(a, b, state!),
     q = E.forecast(b, a, state!, { counter: true });
   const modal = document.createElement("div");
@@ -1547,7 +1661,10 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   origin = null;
   moved = false;
   const beforeUnits = new Map(
-    state!.units.map((u) => [u.id, { hp: u.hp, xp: u.xp, level: u.level }]),
+    state!.units.map((u) => [
+      u.id,
+      { hp: u.hp, xp: u.xp, level: u.level, stats: statSnapshot(u) },
+    ]),
   );
   const result = area
     ? E.resolveArea(state!, a, area)
@@ -1566,7 +1683,13 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
     E.applyXp(state!, result);
     E.visibility(state!);
     // Even an unseen attacker can award XP to the allied unit that defended.
-    if (result.xp.length) await rewards(result, beforeUnits);
+    if (result.xp.length)
+      await rewards(
+        result,
+        beforeUnits,
+        undefined,
+        a.owner === 0 ? b.owner : a.owner,
+      );
     busy = false;
     finishTurn();
     return;
@@ -1609,7 +1732,12 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   targetingAttack = false;
   cardOpen = false;
   battleUI();
-  await rewards(result, beforeUnits);
+  await rewards(
+    result,
+    beforeUnits,
+    undefined,
+    a.owner === 0 ? b.owner : a.owner,
+  );
   busy = false;
   E.log(state!, `${a.name} affronte ${b.name}.`);
   finishTurn();
@@ -1630,17 +1758,39 @@ function gainText(gains?: Record<string, number>) {
 }
 async function rewards(
   result: Battle,
-  before = new Map<string, { hp: number; xp: number; level: number }>(),
+  before = new Map<
+    string,
+    { hp: number; xp: number; level: number; stats?: StatSnapshot }
+  >(),
   healing?: { restored: number; target: string },
+  actingOwner = state!.active as number,
 ): Promise<void> {
+  result = {
+    ...result,
+    xp: result.xp.filter((e) => {
+      const u = state!.units.find((u) => u.id === e.id);
+      return !!u && E.rewardVisible(state!, u, actingOwner);
+    }),
+  };
+  if (!E.controlsOwner(actingOwner) || actingOwner !== state!.active) return;
   if (!result.xp.length && !healing) return;
-  const show = (html: string, label: string, animate = false) =>
+  const show = (
+    html: string,
+    label: string,
+    animate = false,
+    levelAnimation = false,
+  ) =>
     new Promise<void>((done) => {
       pendingReward = done;
       const modal = document.createElement("div");
       modal.className = "modal-back rewards";
-      modal.innerHTML = `<section class="modal compact-rewards v5-wood ${healing ? "healing-reward" : ""}" aria-label="${label}">${html}${button("Continuer", "close-reward", "primary", animate)}</section>`;
+      modal.innerHTML = `<section class="modal compact-rewards v5-wood ${healing ? "healing-reward" : ""}" aria-label="${label}">${html}${button("Continuer", "close-reward", "primary", animate || levelAnimation)}</section>`;
       app.append(modal);
+      if (levelAnimation)
+        void animateLevelGains(modal).then(() => {
+          const b = modal.querySelector<HTMLButtonElement>("button");
+          if (b) b.disabled = false;
+        });
       if (animate)
         Promise.all(
           result.xp.map((e) => {
@@ -1681,10 +1831,12 @@ async function rewards(
       `<h2>Niveau supérieur</h2>${levels
         .map((e) => {
           const u = state!.units.find((u) => u.id === e.id)!;
-          return `<div class="level-gains"><strong>${esc(u.name)} · Niveau ${u.level}</strong><p>${gainText(result.levelGains?.[u.id]).replace("Force / Puissance", E.powerLabel(u)) || "Aucun gain de caractéristique."}</p></div>`;
+          return `<div class="level-gains"><strong>${esc(u.name)} · Niveau ${u.level}</strong><p>${gainText(result.levelGains?.[u.id]).replace("Force / Puissance", E.powerLabel(u)) || "Aucun gain de caractéristique."}</p>${levelRows(u, before.get(u.id)?.stats, result.levelGains?.[u.id])}</div>`;
         })
         .join("")}`,
       "Gains de niveau",
+      false,
+      true,
     );
 }
 
@@ -1841,7 +1993,7 @@ function pause() {
   const modal = document.createElement("div");
   if (document.querySelector(".pause-menu")) return;
   modal.className = "modal-back pause-menu";
-  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Expédition ${state!.active}</span>${[1, 2].map((p) => button(`Expédition ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("")}${button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy)}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div></section>`;
+  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Expédition ${state!.active}</span>${E.canSwitchExpedition() ? [1, 2].map((p) => button(`Expédition ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("") + button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy) : ""}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div></section>`;
   app.append(modal);
 }
 app.addEventListener("click", async (e) => {
@@ -1849,6 +2001,28 @@ app.addEventListener("click", async (e) => {
   if (!el || el.hasAttribute("disabled")) return;
   const action = el.dataset.action!;
   if (tacticalAction) return;
+  if (action.startsWith("choose-leader-")) {
+    const owner = E.leadershipVacancies(state!)[0];
+    if (!owner || !E.controlsOwner(owner)) return;
+    try {
+      E.appointLeader(state!, owner, action.slice(14));
+      save(true);
+      battleUI();
+    } catch (error) {
+      toast((error as Error).message);
+    }
+    return;
+  }
+  if (document.querySelector(".leader-choice")) return;
+  if (
+    state &&
+    screen === "battle" &&
+    /^(wait$|prepare-entry$|attack-mode$|confirm-attack-|confirm-area-|skill-|equip-|quick-weapon-|heal$|promote-)/.test(
+      action,
+    ) &&
+    !E.controlsOwner(E.current(state)?.owner ?? 0)
+  )
+    return;
   if (
     prototypeTools &&
     (action === "dev-sprites" ||
@@ -1976,7 +2150,8 @@ app.addEventListener("click", async (e) => {
       if (state && screen === "battle") {
         battleUI();
         save(true);
-      }
+      } else if (screen === "config")
+        void paintCreatorSprites(app, heroDrafts, colors);
     } catch (error) {
       document.querySelector("#team-color-error")!.textContent = (
         error as Error
@@ -2135,7 +2310,7 @@ app.addEventListener("click", async (e) => {
     save(true);
   } else if (action === "next-scene") nextScene();
   else if (action.startsWith("perspective-")) {
-    if (busy) return;
+    if (busy || !E.canSwitchExpedition()) return;
     cancel();
     state!.active = Number(action.split("-")[1]) as 1 | 2;
     battleUI();
@@ -2151,8 +2326,26 @@ app.addEventListener("click", async (e) => {
       if (friend) focusUnit(friend);
     }
   } else if (action === "observer") {
+    if (!E.canSwitchExpedition()) return;
     observer = !observer;
     battleUI();
+  } else if (action === "prepare-entry") {
+    const u = E.current(state!);
+    if (!u || u.owner !== state!.active || !E.controlsOwner(u.owner) || busy)
+      return;
+    try {
+      E.prepareEntry(state!, u);
+      origin = null;
+      state!.committedMove = u.id;
+      if (state!.scene) cinematic();
+      else {
+        toast("Le seuil est sécurisé. Gardons nos positions.");
+        finishTurn();
+      }
+      save(true);
+    } catch (error) {
+      toast((error as Error).message);
+    }
   } else if (action === "wait") {
     const u = E.current(state!);
     if (!busy && u?.owner === state!.active) finishTurn();
@@ -2209,6 +2402,10 @@ app.addEventListener("click", async (e) => {
   }
 });
 window.addEventListener("keydown", (e) => {
+  if (document.querySelector(".leader-choice")) {
+    if (e.key === "Escape") e.preventDefault();
+    return;
+  }
   if ((e.target as HTMLElement)?.matches("input,select,textarea")) return;
   if (e.code === "Space" && screen === "transition") {
     e.preventDefault();
@@ -2216,6 +2413,7 @@ window.addEventListener("keydown", (e) => {
   }
   if (
     e.key === "Tab" &&
+    E.canSwitchExpedition() &&
     screen === "battle" &&
     !busy &&
     !document.querySelector(".modal-back")

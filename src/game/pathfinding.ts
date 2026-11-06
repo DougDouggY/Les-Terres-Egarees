@@ -89,7 +89,7 @@ export function path(
 export function reachable(s: Campaign, u: Unit, knowledge = false) {
   const result = new Map<number, { cost: number; steps: number[] }>();
   for (const c of map) {
-    if (distance(u, c) > u.move) continue;
+    if (distance(u, c) > Math.floor(u.move / 0.75)) continue;
     const p = path(s, u, c.x, c.y, false, knowledge);
     if (p && p.cost <= u.move) result.set(key(c.x, c.y), p);
   }

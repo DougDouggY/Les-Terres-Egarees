@@ -29,7 +29,7 @@ async function setup(page: Page, scene = "arrival", line = 0) {
           s.chapter1.completed.push("meeting");
           s.merged = true;
           for (const u of s.units) if (u.owner === 0) u.hp = 0;
-          E.checkEnd(s);
+          E.queueChapterScene(s, "alliance", 1);
         } else E.queueChapterScene(s, scene as any, 1);
         s.chapter1!.pending!.page = line;
         s.scenePage = line;

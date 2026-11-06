@@ -200,7 +200,7 @@ export function damageBanner(s: Campaign, u: Unit, index: number) {
     !b ||
     (b.hp ?? rules.banner.hp) <= 0 ||
     b.owner === u.owner ||
-    (s.merged && u.owner !== 0) ||
+    u.owner !== 0 ||
     distance(u, b) !== 1
   )
     throw Error("Bannière hors de portée");

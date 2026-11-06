@@ -1,5 +1,5 @@
 import type { Faction } from "../game/types";
-/** Existing cast only: no new identities, dialogue or portraits. */
+/** One starting companion for each base class; the knight sorcerer is reserved for later recruitment. */
 export const companionRoster = [
   {
     id: "astrid",
@@ -12,7 +12,7 @@ export const companionRoster = [
     id: "solveig",
     name: "Solveig",
     faction: "north" as Faction,
-    classId: "hunter",
+    classId: "shaman",
     gender: "female" as const,
   },
   {
@@ -20,6 +20,20 @@ export const companionRoster = [
     name: "Bryn",
     faction: "north" as Faction,
     classId: "raider",
+    gender: "male" as const,
+  },
+  {
+    id: "runa",
+    name: "Runa",
+    faction: "north" as Faction,
+    classId: "nordic_blade",
+    gender: "female" as const,
+  },
+  {
+    id: "hakon",
+    name: "Håkon",
+    faction: "north" as Faction,
+    classId: "north_warrior",
     gender: "male" as const,
   },
   {
@@ -33,7 +47,7 @@ export const companionRoster = [
     id: "alix",
     name: "Alix",
     faction: "knight" as Faction,
-    classId: "crossbowman",
+    classId: "spearman",
     gender: "male" as const,
   },
   {
@@ -42,6 +56,13 @@ export const companionRoster = [
     faction: "knight" as Faction,
     classId: "man_at_arms",
     gender: "female" as const,
+  },
+  {
+    id: "amaury",
+    name: "Amaury",
+    faction: "knight" as Faction,
+    classId: "swordsman",
+    gender: "male" as const,
   },
 ];
 export const companionCount = (f: Faction) => (f === "north" ? 2 : 1);
@@ -57,7 +78,6 @@ export function validateCompanions(f: Faction, ids: string[]) {
       "Sélectionnez le nombre requis de compagnons de cette faction.",
     );
 }
-
 /** Newest valid choice replaces the oldest, preserving chronological order. */
 export function toggleCompanion(
   f: Faction,

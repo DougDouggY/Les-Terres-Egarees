@@ -1,8 +1,12 @@
+import { globalInitiative } from "./initiative";
+import { sharedChapterScene } from "./cooperation";
 import type { Campaign, Unit } from "./types";
-import { village, key } from "./map";
+import { village, key, distance } from "./map";
 import {
   arrivalNorth,
   arrivalKnight,
+  waitingNorth,
+  waitingKnight,
   ruinsNorth,
   ruinsKnight,
   meeting,
@@ -13,7 +17,14 @@ import {
 export type Chapter1Progress = {
   started: boolean;
   completed: ChapterSceneId[];
-  pending?: { id: ChapterSceneId; owner: 1 | 2; page: number };
+  pending?: {
+    id: ChapterSceneId;
+    owner: 1 | 2;
+    page: number;
+    readBy?: (1 | 2)[];
+  };
+  alerted?: boolean;
+  prepared?: Partial<Record<1 | 2, string>>;
   allied?: boolean;
   guideMet?: boolean;
   complete?: boolean;
@@ -23,6 +34,8 @@ export const chapterScenes: ChapterSceneId[] = [
   "arrival-2",
   "ruins-1",
   "ruins-2",
+  "waiting-1",
+  "waiting-2",
   "meeting",
   "alliance",
 ];
@@ -49,6 +62,7 @@ export function chapterLines(s: Campaign, id: ChapterSceneId) {
   if (id === "alliance") return alliance;
   const owner = Number(id.at(-1)) as 1 | 2,
     north = s.factions[owner - 1] === "north";
+  if (id.startsWith("waiting")) return north ? waitingNorth : waitingKnight;
   return id.startsWith("arrival")
     ? north
       ? arrivalNorth
@@ -100,6 +114,7 @@ export function chapterEncounter(s: Campaign) {
   const own = s.units.filter(
     (u) => u.hp > 0 && u.owner === s.active && !u.summonedBy,
   );
+  if (own.some((u) => distanceToRuins(u) <= 4)) s.chapter1!.alerted = true;
   const discovery = ("ruins-" + s.active) as ChapterSceneId;
   if (
     !s.chapter1!.completed.includes(discovery) &&
@@ -121,15 +136,31 @@ export function chapterEncounter(s: Campaign) {
     )
   )
     return queueChapterScene(s, "meeting");
+  if (!s.merged && own.some((u) => distanceToRuins(u) <= 4))
+    return queueChapterScene(s, ("waiting-" + s.active) as ChapterSceneId);
   return false;
 }
-export function advanceChapterLine(s: Campaign): ChapterSceneId | undefined {
+export function advanceChapterLine(
+  s: Campaign,
+  reader?: 1 | 2,
+  expected?: { id: ChapterSceneId; page: number },
+): ChapterSceneId | undefined {
   const p = s.chapter1?.pending;
-  if (!p) return;
+  if (!p || (expected && (expected.id !== p.id || expected.page !== p.page)))
+    return;
+  if (reader) {
+    if (!sharedChapterScene(p.id) && reader !== p.owner) return;
+    if (sharedChapterScene(p.id)) {
+      p.readBy ??= [];
+      if (!p.readBy.includes(reader)) p.readBy.push(reader);
+      if (p.readBy.length < 2) return;
+    }
+  }
   const lines = chapterLines(s, p.id),
     current = lines[p.page];
   if (current?.milestone === "alliance") s.chapter1!.allied = true;
   if (current?.speaker === "witch") s.chapter1!.guideMet = true;
+  p.readBy = [];
   p.page++;
   s.scenePage = p.page;
   if (p.page < lines.length) return;
@@ -158,3 +189,49 @@ export function chapterBeacon(s: Campaign, owner: 1 | 2) {
   );
 }
 export const ruinsCenter = { x: village.x + 1.5, y: village.y + 1.5 };
+
+export function preparedExpeditions(s: Campaign): (1 | 2)[] {
+  const result: (1 | 2)[] = [];
+  for (const owner of [1, 2] as const) {
+    const id = s.chapter1?.prepared?.[owner];
+    const u = s.units.find(
+      (u) =>
+        u.id === id &&
+        u.owner === owner &&
+        u.hp > 0 &&
+        u.leader &&
+        !u.summonedBy,
+    );
+    if (u && distance(u, village.entry) <= 1) result.push(owner);
+  }
+  return result;
+}
+export function canPrepareEntry(s: Campaign, u: Unit) {
+  return (
+    chapterEnabled(s) &&
+    s.phase === "battle" &&
+    !s.scene &&
+    s.merged &&
+    !s.chapter1!.complete &&
+    globalInitiative(s).queue[globalInitiative(s).index] === u.id &&
+    u.owner === s.active &&
+    u.hp > 0 &&
+    u.leader &&
+    !u.summonedBy &&
+    distance(u, village.entry) <= 1 &&
+    !preparedExpeditions(s).includes(u.owner as 1 | 2) &&
+    !s.units.some(
+      (t) => t.owner === 0 && t.hp > 0 && distance(t, village.entry) <= 5,
+    )
+  );
+}
+export function prepareEntry(s: Campaign, u: Unit) {
+  if (!canPrepareEntry(s, u))
+    throw Error("Le chef doit rejoindre l’entrée sécurisée des ruines.");
+  s.chapter1!.prepared ??= {};
+  s.chapter1!.prepared[u.owner as 1 | 2] = u.id;
+  if (preparedExpeditions(s).length === 2) {
+    if (!s.events.includes("victory")) s.events.push("victory");
+    queueChapterScene(s, "alliance", u.owner as 1 | 2);
+  }
+}

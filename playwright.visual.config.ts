@@ -10,6 +10,7 @@ export default defineConfig({
     "combat-v5-ui.spec.ts",
     "combat-v6-ui.spec.ts",
     "chapter1-v7.spec.ts",
+    "chapter1-v8.spec.ts",
     "chapter1-v7-combat.spec.ts",
     "workshop.spec.ts",
     "initiative-ui.spec.ts",

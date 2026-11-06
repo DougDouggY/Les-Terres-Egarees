@@ -1,8 +1,10 @@
 import {
-  chapterEnabled,
-  chapterEncounter,
-  queueChapterScene,
-} from "./chapter1";
+  chapterEnemy,
+  chapter1Deployment,
+  freeChapterCell,
+  spawnSanctuaryGuards,
+} from "./chapter1-enemies";
+import { chapterEnabled, chapterEncounter } from "./chapter1";
 import { companionRoster, validateCompanions } from "../data/companions";
 import { individualize } from "./progression";
 import { defaultTeamColors } from "./team-colors";
@@ -17,8 +19,7 @@ import {
 import { makeClassUnit } from "./units";
 import { finishActivationSkills } from "./skills";
 import type { Campaign, Unit, Perspective, Faction } from "./types";
-import { key, cell, map, distance, MAP_REVISION, village } from "./map";
-import { makeUnit } from "./units";
+import { key, MAP_REVISION, village } from "./map";
 import { alive, at } from "./queries";
 import { visibility } from "./vision";
 import {
@@ -97,12 +98,11 @@ export function createCampaign(
       units.push(unit);
     });
   }
-  units.push(
-    makeUnit("e1", 0, 1, "skeleton", "Guetteur noyé", 16, 10),
-    makeUnit("e2", 0, 2, "skeleton", "Porte-lame déchu", 48, 28),
-    makeUnit("e3", 0, 1, "skeleton", "Veilleur des ruines", 28, 20),
-    makeUnit("e4", 0, 2, "skeleton", "Gardien sans nom", 37, 20),
-  );
+  for (const d of chapter1Deployment) {
+    const c = freeChapterCell({ units }, d.x, d.y);
+    if (!c) throw Error("Déploiement ennemi impossible");
+    units.push(chapterEnemy(d.id, d.side, d.type, c.x, c.y));
+  }
   for (const u of units.filter((u) => u.owner === 0))
     u.front = (factions.indexOf(u.front === 1 ? "north" : "knight") + 1) as
       1 | 2;
@@ -114,6 +114,7 @@ export function createCampaign(
     intro: 0,
   });
   const s: Campaign = {
+    chapter1RulesVersion: 2,
     chapter1: { started: false, completed: [] },
     version: 1,
     teamColors: { ...defaultTeamColors },
@@ -178,48 +179,10 @@ export function merge(s: Campaign) {
   if (s.merged) return;
   globalInitiative(s);
   s.merged = true;
-  // A finite final defence guarantees a real common battle, even if both fronts
-  // have already cleared every roaming enemy before discovering one another.
-  const candidates = [
-    { x: 28, y: 21 },
-    { x: 34, y: 18 },
-    { x: 35, y: 21 },
-    { x: 31, y: 22 },
-    ...map
-      .filter((c) => c.walk)
-      .sort(
-        (a, b) => distance(a, { x: 31, y: 19 }) - distance(b, { x: 31, y: 19 }),
-      ),
-  ];
-  for (const i of [0, 1] as const) {
-    const location = candidates.find(
-      (c) => cell(c.x, c.y)?.walk && !at(s, c.x, c.y),
-    );
-    if (!location) throw Error("Aucune case pour les sentinelles");
-    const guard = makeUnit(
-      `sanctuary-${i}`,
-      0,
-      i === 0 ? 1 : 2,
-      "skeleton",
-      i === 0 ? "Sentinelle des Veilleurs" : "Gardien du dernier seuil",
-      location.x,
-      location.y,
-    );
-    Object.assign(guard, {
-      hp: 30,
-      maxHp: 30,
-      strength: 11,
-      defense: 5,
-      initiative: 9,
-    });
-    s.units.push(guard);
-  }
+  const guards = spawnSanctuaryGuards(s);
   event(s, "sanctuary-guards");
-  log(s, "Deux sentinelles émergent des ruines. Tenez les deux flancs !");
-  insertInitiative(
-    s,
-    s.units.filter((u) => u.id.startsWith("sanctuary-")).map((u) => u.id),
-  );
+  log(s, "Des silhouettes convergent vers les ruines. Sécurisez l’entrée !");
+  insertInitiative(s, guards);
   event(s, "meeting");
   visibility(s);
   log(
@@ -236,24 +199,23 @@ export function advance(s: Campaign) {
     log(s, "L’orage revient. La terre se souvient.");
   }
   if (r >= 3 && event(s, "horde")) {
-    for (const [id, fr, x, y] of [
-      ["e5", 1, 12, 9],
-      ["e6", 2, 54, 36],
+    const arrivals: string[] = [];
+    for (const [id, fr, x, y, type] of [
+      ["e5", 1, 12, 9, "sword"],
+      ["e6", 2, 54, 36, "axe"],
+      ["e11", 1, 13, 8, "lance"],
+      ["e12", 2, 55, 35, "sword"],
+      ["e13", 1, 11, 9, "axe"],
+      ["e14", 2, 53, 36, "lance"],
     ] as const) {
-      if (!at(s, x, y))
-        s.units.push(
-          makeUnit(
-            id,
-            0,
-            (s.factions.indexOf(fr === 1 ? "north" : "knight") + 1) as 1 | 2,
-            "skeleton",
-            "Égaré de la horde",
-            x,
-            y,
-          ),
-        );
+      const c = freeChapterCell(s, x, y);
+      if (!c) continue;
+      const owner = (s.factions.indexOf(fr === 1 ? "north" : "knight") + 1) as
+        1 | 2;
+      s.units.push(chapterEnemy(id, owner, type, c.x, c.y));
+      arrivals.push(id);
     }
-    insertInitiative(s, ["e5", "e6"], false);
+    insertInitiative(s, arrivals, false);
     log(s, "La horde approche. Atteignez le sanctuaire !");
   }
   const next = current(s);
@@ -274,8 +236,7 @@ export function checkEnd(s: Campaign) {
   }
   if (s.merged && !alive(s).some((u) => u.owner === 0) && event(s, "victory")) {
     for (const u of s.units) if (u.summonedBy) u.hp = 0;
-    if (chapterEnabled(s)) queueChapterScene(s, "alliance");
-    else s.scene = "ending";
+    if (!chapterEnabled(s)) s.scene = "ending";
     s.scenePage = 0;
     log(s, "Le sanctuaire est à vous. Pour cette nuit.");
   }

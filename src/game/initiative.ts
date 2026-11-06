@@ -1,3 +1,4 @@
+import { effectiveInitiative } from "./leadership";
 import type { Campaign, Unit, Front } from "./types";
 
 export const initiativeOrder = (units: Unit[]) =>
@@ -6,7 +7,8 @@ export const initiativeOrder = (units: Unit[]) =>
     .slice()
     .sort(
       (a, b) =>
-        b.initiative - a.initiative || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
+        effectiveInitiative(b) - effectiveInitiative(a) ||
+        (a.id < b.id ? -1 : a.id > b.id ? 1 : 0),
     )
     .map((u) => u.id);
 
@@ -57,8 +59,8 @@ export function insertInitiative(
       const t = s.units.find((u) => u.id === other)!;
       return (
         t &&
-        (u.initiative > t.initiative ||
-          (u.initiative === t.initiative && u.id < t.id))
+        (effectiveInitiative(u) > effectiveInitiative(t) ||
+          (effectiveInitiative(u) === effectiveInitiative(t) && u.id < t.id))
       );
     });
     remaining.splice(at < 0 ? remaining.length : at, 0, id);
