@@ -5243,3 +5243,38 @@ body:has(.aftermath-screen) .modal-back.rewards {
     max-height: calc(100% - 40px);
   }
 }
+
+/* One combat framing for both maps: the field retains its 960×600 proportions. */
+.combat-screen .game-duel {
+  width: min(1120px, calc(100vw - 32px), calc((100dvh - 190px) * 1.6));
+}
+.combat-screen .game-duel #combat {
+  height: auto !important;
+  aspect-ratio: 960 / 600;
+  min-height: 0;
+}
+.modal-back.xp-reward-side {
+  justify-content: center;
+  padding-right: 368px;
+  pointer-events: none;
+}
+.modal-back.level-reward-side {
+  justify-content: center;
+  padding-left: 368px;
+}
+@media (max-width: 740px) {
+  .modal-back.xp-reward-side {
+    align-items: flex-start;
+    padding: 12px;
+  }
+  .modal-back.level-reward-side {
+    align-items: flex-end;
+    padding: 12px;
+  }
+  .xp-reward-side .compact-rewards {
+    max-height: 25dvh;
+  }
+  .level-reward-side .compact-rewards {
+    max-height: 68dvh;
+  }
+}

@@ -147,7 +147,7 @@ export class CombatSceneV2 {
       !!u && ["bow", "crossbow", "magic"].includes(activeWeapon(u).category)
     );
   }
-  async prepare() {
+  async prepare(yieldWork = false) {
     const sources = new Set(
       this.actors.flatMap((a) =>
         a.skin
@@ -204,6 +204,10 @@ export class CombatSceneV2 {
               },
             );
           }
+          if (yieldWork)
+            await new Promise<void>((done) =>
+              requestAnimationFrame(() => done()),
+            );
         }
     await preloadEffects();
   }

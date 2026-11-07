@@ -7,15 +7,7 @@ import { canHealTarget } from "./skills";
 import { cell, key, map } from "./active-map";
 import { los } from "./vision";
 export function healingActor(u: Unit) {
-  const actor = structuredClone(u);
-  const focus = u.carriedWeapons?.find(
-    (id) => weaponCatalog[id]?.category === "healing",
-  );
-  if (hasSkill(u, "heal") && !u.bearForm && focus) {
-    actor.activeWeaponId = focus;
-    syncWeapon(actor);
-  }
-  return actor;
+  return structuredClone(u);
 }
 export function healingTargets(s: Campaign, u: Unit) {
   const actor = healingActor(u),
@@ -30,10 +22,7 @@ export function healingCells(
   origins: Iterable<number>,
   known?: Set<number>,
 ) {
-  const magic =
-    hasSkill(u, "heal") &&
-    !u.bearForm &&
-    activeWeapon(u).category === "healing";
+  const magic = hasSkill(u, "heal") && !u.bearForm;
   const bandage = hasSkill(u, "bandage");
   const out = new Set<number>();
   if (!magic && !bandage) return out;

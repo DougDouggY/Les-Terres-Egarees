@@ -45,7 +45,15 @@ test("V12 nomenclature, Maëlys, composition 4/3/2/1 + capitaine et marche compa
   ] as const)
     assert.equal(enemies.filter((u) => u.classId === id).length, n);
   assert.ok(
-    enemies.every((u) => u.level === (u.id === "valdren-captain" ? 3 : 1)),
+    enemies.every(
+      (u) =>
+        u.level ===
+        (u.id === "valdren-captain"
+          ? 3
+          : ["valdren-6", "valdren-9"].includes(u.id)
+            ? 2
+            : 1),
+    ),
   );
   assert.equal(heroes.find((u) => u.id === "story-witch")!.name, "Maëlys");
   assert.ok(heroes.every((u) => E.cell(u.x, u.y)?.terrain === "road"));

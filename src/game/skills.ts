@@ -17,10 +17,7 @@ import {
 } from "./classes";
 import { makeClassUnit } from "./units";
 export function canHealTarget(s: Campaign, u: Unit, t: Unit) {
-  const magic =
-      hasSkill(u, "heal") &&
-      !u.bearForm &&
-      activeWeapon(u).category === "healing",
+  const magic = hasSkill(u, "heal") && !u.bearForm,
     bandage = hasSkill(u, "bandage");
   return (
     u.hp > 0 &&

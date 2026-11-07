@@ -128,7 +128,12 @@ export function beginForestChapter(s: Campaign) {
           : id === "valdren-captain"
             ? "boss"
             : "ordinary",
-      level: id === "valdren-captain" ? 3 : 1,
+      level:
+        id === "valdren-captain"
+          ? 3
+          : ["valdren-6", "valdren-9"].includes(id)
+            ? 2
+            : 1,
     });
     u.potions = 0;
     const d = patrolDeployment.find((d) => d.id === id)!;

@@ -526,6 +526,14 @@ function equipmentModal(u: Unit) {
   modal.innerHTML = `<section class="modal"><h2>Équipement</h2><p>${esc(u.name)} · Arme active : ${E.weaponName(u)}</p><div class="equipment-list">${(
     u.carriedWeapons ?? []
   )
+    .filter(
+      (id) =>
+        !(
+          E.unitClass(u).weapons.includes("magic") &&
+          E.hasSkill(u, "heal") &&
+          E.weaponCatalog[id].category === "healing"
+        ),
+    )
     .map((id) => {
       const w = E.weaponCatalog[id];
       return button(
@@ -627,6 +635,90 @@ function positionContextMenu() {
   menu.style.top = `${Math.max(96, Math.min(parent.height - menu.offsetHeight - 8, py - 24))}px`;
 }
 let initiativeCleanup: (() => void) | undefined;
+const battleArtImages = new Map<number, HTMLImageElement>();
+function battleArtIndex(u: Unit) {
+  return E.isForestMap(state!.mapId)
+    ? 2
+    : u.x <= 6
+      ? 1
+      : E.cell(u.x, u.y)?.terrain === "forest"
+        ? 2
+        : u.x >= 14 && u.x <= 20
+          ? 0
+          : 3;
+}
+async function preloadBattleArt(index: number) {
+  let image = battleArtImages.get(index);
+  if (!image) {
+    image = new Image();
+    image.src = assetBase + `assets/battle-${index}.png`;
+    battleArtImages.set(index, image);
+  }
+  try {
+    await image.decode();
+  } catch {
+    /* Keep the scenery fallback if loading fails. */
+  }
+}
+const combatWarmKeys = new Set<string>();
+let combatWarmPending = false;
+function warmUpcomingCombat() {
+  if (!state || screen !== "battle" || busy || combatWarmPending) return;
+  const s = state,
+    actor = E.current(s);
+  if (!actor) return;
+  const candidates = [
+    actor,
+    ...E.alive(s)
+      .filter(
+        (u) =>
+          (u.owner === 0) !== (actor.owner === 0) && E.seen(s, s.active, u),
+      )
+      .sort((a, b) => E.distance(actor, a) - E.distance(actor, b))
+      .slice(0, 2),
+  ];
+  const unit = candidates.find(
+    (u) =>
+      !combatWarmKeys.has(
+        JSON.stringify([
+          u.classId,
+          u.gender,
+          u.activeWeaponId,
+          u.bearForm,
+          u.fortified,
+          u.combatSkinId,
+          E.colorForOwner(s.teamColors, u.owner),
+        ]),
+      ),
+  );
+  if (!unit) return;
+  const key = JSON.stringify([
+    unit.classId,
+    unit.gender,
+    unit.activeWeaponId,
+    unit.bearForm,
+    unit.fortified,
+    unit.combatSkinId,
+    E.colorForOwner(s.teamColors, unit.owner),
+  ]);
+  combatWarmPending = true;
+  const work = async () => {
+    try {
+      if (state !== s || screen !== "battle" || busy) return;
+      await Promise.all([
+        new CombatSceneV2([unit], [], s.teamColors).prepare(true),
+        preloadBattleArt(battleArtIndex(unit)),
+      ]);
+      combatWarmKeys.add(key);
+    } finally {
+      combatWarmPending = false;
+    }
+    warmUpcomingCombat();
+  };
+  if ("requestIdleCallback" in window)
+    window.requestIdleCallback(() => void work(), { timeout: 2000 });
+  else setTimeout(() => void work(), 50);
+}
 function battleUI() {
   if (!state) return;
   const s = state;
@@ -685,6 +777,7 @@ function battleUI() {
     ?.setAttribute("aria-pressed", String(!fogEnabled));
   if (!busy && showLeaderChoice()) return;
   if (u?.owner === 0 && !busy) void enemyTurn();
+  else warmUpcomingCombat();
 }
 function showLeaderChoice() {
   const s = state!,
@@ -1968,11 +2061,12 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
     result.strikes,
     state!.teamColors,
   );
-  await scene.prepare();
+  const backdropIndex = battleArtIndex(a);
+  await Promise.all([scene.prepare(), preloadBattleArt(backdropIndex)]);
   scene.groundedStage = true;
   screen = "combat";
   document.querySelector(".toast")?.remove();
-  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${E.isForestMap(state!.mapId) ? 2 : a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="--battle-art:url('${assetBase}assets/battle-${E.isForestMap(state!.mapId) ? 2 : a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="960" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
+  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${backdropIndex}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="--battle-art:url('${assetBase}assets/battle-${backdropIndex}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="960" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
   await new Promise<void>((done) => {
     combatAnim = {
       battle: result,
@@ -2031,6 +2125,10 @@ async function rewards(
   };
   if (!E.controlsOwner(actingOwner) || actingOwner !== state!.active) return;
   if (!result.xp.length && !healing) return;
+  const levels = result.xp.filter((e) => {
+    const u = state!.units.find((u) => u.id === e.id)!;
+    return (before.get(u.id)?.level ?? u.level - (e.level ? 1 : 0)) < u.level;
+  });
   const show = (
     html: string,
     label: string,
@@ -2040,8 +2138,14 @@ async function rewards(
     new Promise<void>((done) => {
       pendingReward = done;
       const modal = document.createElement("div");
-      modal.className = "modal-back rewards";
-      modal.innerHTML = `<section class="modal compact-rewards v5-wood ${healing ? "healing-reward" : ""}" aria-label="${label}">${html}${button("Continuer", "close-reward", "primary", animate || levelAnimation)}</section>`;
+      modal.className =
+        "modal-back rewards" +
+        (levels.length
+          ? levelAnimation
+            ? " level-reward-side"
+            : " xp-reward-pending"
+          : "");
+      modal.innerHTML = `<section class="modal compact-rewards v5-wood ${healing ? "healing-reward" : ""}" aria-label="${label}">${html}${animate && levels.length ? "" : button("Continuer", "close-reward", "primary", animate || levelAnimation)}</section>`;
       app.append(modal);
       if (levelAnimation)
         void animateLevelGains(modal).then(() => {
@@ -2064,6 +2168,12 @@ async function rewards(
             );
           }),
         ).then(() => {
+          if (levels.length) {
+            modal.classList.replace("xp-reward-pending", "xp-reward-side");
+            pendingReward = null;
+            done();
+            return;
+          }
           const b = modal.querySelector<HTMLButtonElement>("button");
           if (b) b.disabled = false;
         });
@@ -2079,10 +2189,6 @@ async function rewards(
     healing ? "Résultats du soin" : "Résultats de l’affrontement",
     true,
   );
-  const levels = result.xp.filter((e) => {
-    const u = state!.units.find((u) => u.id === e.id)!;
-    return (before.get(u.id)?.level ?? u.level - (e.level ? 1 : 0)) < u.level;
-  });
   if (levels.length)
     await show(
       `<h2>Niveau supérieur</h2>${levels
@@ -2552,13 +2658,6 @@ app.addEventListener("click", async (e) => {
     try {
       if (action === "skill-heal") {
         if (!E.healingTargets(state!, u).length) return;
-        const healingWeapon = u.carriedWeapons?.find(
-          (id) => E.weaponCatalog[id].category === "healing",
-        );
-        if (healingWeapon && E.activeWeapon(u).category !== "healing") {
-          previousHealWeapon = u.activeWeaponId;
-          E.equipWeapon(state!, u, healingWeapon);
-        }
         aim = "heal";
         battleUI();
         toast("Choisissez une unité blessée à portée.");
@@ -2610,7 +2709,7 @@ app.addEventListener("click", async (e) => {
     showGrid = !showGrid;
     battleUI();
   } else if (action === "close-reward") {
-    document.querySelector(".rewards")?.remove();
+    document.querySelectorAll(".rewards").forEach((el) => el.remove());
     const done = pendingReward;
     pendingReward = null;
     done?.();

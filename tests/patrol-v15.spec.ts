@@ -52,6 +52,7 @@ test("V15 déploiement : une pause de rendu ne téléporte pas les soldats", asy
   page,
 }) => {
   await load(page, "c1-deploy");
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 50));
   await page.clock.runFor(250);
   const actors = () =>
     page

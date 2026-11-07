@@ -47,8 +47,21 @@ export const className = (u: Unit) =>
     : unitClass(u).name;
 export const hasSkill = (u: Unit, id: SkillId) =>
   unitClass(u).skills.includes(id);
-export const activeWeapon = (u: Unit) =>
-  weaponCatalog[u.activeWeaponId ?? unitClass(u).starter[0]];
+export const activeWeapon = (u: Unit) => {
+  const c = unitClass(u),
+    id = u.activeWeaponId ?? c.starter[0];
+  if (
+    c.weapons.includes("magic") &&
+    c.skills.includes("heal") &&
+    weaponCatalog[id]?.category === "healing"
+  )
+    return weaponCatalog[
+      [...(u.carriedWeapons ?? []), ...c.starter].find(
+        (w) => weaponCatalog[w]?.category === "magic",
+      )!
+    ];
+  return weaponCatalog[id];
+};
 export const weaponName = (u: Unit) =>
   activeWeapon(u)?.name ?? "Arme indisponible";
 export const visualState = (u: Unit) =>
@@ -156,6 +169,19 @@ export function promote(s: Campaign, u: Unit, id: string) {
   u.promoted = true;
   u.parryBonusWon = false;
   const b = promotionBonuses[id] ?? [];
+  if (wasRecruit) {
+    const previousMaxHp = u.maxHp;
+    // Keep earned growth, with a small advantage over a fresh level-one classmate.
+    u.maxHp = Math.max(u.maxHp, c.stats.hp + 2);
+    u.strength = Math.max(u.strength, c.stats.strength + 1);
+    u.defense = Math.max(u.defense, c.stats.defense + 1);
+    u.agility = Math.max(u.agility, c.stats.agility);
+    u.initiative = Math.max(u.initiative, c.stats.initiative);
+    u.accuracy = Math.max(u.accuracy, c.stats.accuracy);
+    u.hp = Math.min(u.maxHp, u.hp + u.maxHp - previousMaxHp);
+    u.move = c.stats.move;
+    u.vision = c.stats.vision;
+  }
   u.maxHp += b[0] ?? 0;
   u.hp = Math.min(u.maxHp, u.hp + (b[0] ?? 0));
   u.strength += b[1] ?? 0;

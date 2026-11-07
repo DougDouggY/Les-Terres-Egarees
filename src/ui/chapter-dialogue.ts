@@ -140,7 +140,7 @@ export class ChapterDirector {
       s.forestChapter ? ["idle", "move"] : ["idle", "move", "attack"],
     ).then(() => {
       this.ready = true;
-      this.started = performance.now();
+      // Text starts immediately; the patrol has its own readiness-gated clock.
     });
   }
   private group() {
@@ -327,7 +327,9 @@ export class ChapterDirector {
       ? this.reader && pending.readBy?.includes(this.reader) && automatic
         ? patrolDuration(this.s, motion) + (motion === "deployment" ? 2801 : 1)
         : time - this.started
-      : 0;
+      : automatic
+        ? 0
+        : Math.max(0, time - this.started);
     if (automatic && this.ready) {
       const acknowledged = this.reader && pending.readBy?.includes(this.reader);
       if (!acknowledged) {

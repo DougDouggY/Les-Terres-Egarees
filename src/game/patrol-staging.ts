@@ -226,9 +226,20 @@ export type ScriptedActor = {
   flip?: boolean;
 };
 /** Animation is presentational. Only the scene's committed endpoint changes the real grid. */
+const routeCache = new WeakMap<
+  Campaign,
+  { signature: string; routes: Map<string, number[]> }
+>();
 export class PatrolStaging {
   private routes = new Map<string, number[]>();
   constructor(private s: Campaign) {
+    const signature =
+      s.mapId + s.units.map((u) => u.id + ":" + u.classId).join(",");
+    const cached = routeCache.get(s);
+    if (cached?.signature === signature) {
+      this.routes = cached.routes;
+      return;
+    }
     for (const d of deploymentFor(s)) {
       const u = s.units.find((t) => t.id === d.id);
       if (!u) continue;
@@ -248,6 +259,7 @@ export class PatrolStaging {
         this.routes.set(stage + u.id, route.steps);
       }
     }
+    routeCache.set(s, { signature, routes: this.routes });
   }
   actors(stage: "approach" | "deployment", elapsed: number): ScriptedActor[] {
     const actors: ScriptedActor[] = this.s.units
