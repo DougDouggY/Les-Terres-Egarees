@@ -57,6 +57,7 @@ async function fixture(page: Page, choice = "storm") {
     E.votePatrol(s, 1, choice);
     E.votePatrol(s, 2, choice);
     finish();
+    if (s.chapter1?.pending?.id === "c1-deploy") finish();
     const k = s.units.find((u: any) => u.id === "p2a")!,
       g = s.units.find((u: any) => u.id === "geraud")!;
     k.x = g.x - 1;
@@ -111,15 +112,20 @@ test("Chapitre 1 : finale du prologue, vote des deux joueurs et sauvegarde norma
   await page
     .locator('[data-patrol-owner="2"][data-patrol-choice="travelers"]')
     .click();
-  await expect(page.locator(".patrol-status")).toContainText("diffèrent");
+  await expect(page.locator(".patrol-status")).toContainText("pas d’accord");
   await page.screenshot({ path: "artifacts/chapter-one/vote.png" });
   await page
     .locator('[data-patrol-owner="2"][data-patrol-choice="storm"]')
     .click();
   await advanceScene(page, "c1-storm");
+  await expect(page.locator("#chapter-overlay")).toHaveAttribute(
+    "data-ready",
+    "true",
+  );
+  await page.clock.fastForward(7500);
   await expect(page.locator("#map")).toBeVisible();
   await expect(page.locator(".mission-objective")).toHaveText(
-    "Éliminez tous les ennemis",
+    "Éliminer tous les ennemis",
   );
   const result = await page.evaluate(() => ({
     normal: localStorage.getItem("lte-save"),
@@ -146,8 +152,8 @@ test("Chapitre 1 : Parler volontairement à Géraud et poursuivre vers la grotte
 }) => {
   await fixture(page);
   await page.clock.install();
-  await clickUnit(page, 27, 21);
-  await clickUnit(page, 27, 21);
+  await clickUnit(page, 24, 23);
+  await clickUnit(page, 24, 23);
   await expect(page.locator('[data-action="talk-geraud"]')).toBeVisible();
   await page.locator('[data-action="talk-geraud"]').click();
   await expect(page.locator('[data-story-scene="c1-recruit"]')).toBeVisible();
@@ -162,7 +168,7 @@ test("Chapitre 1 : Parler volontairement à Géraud et poursuivre vers la grotte
   const g = s.units.find((u: any) => u.id === "geraud");
   expect(g.owner).toBe(2);
   expect(g.hp).toBe(11);
-  expect(g.x).toBe(28);
+  expect(g.x).toBe(25);
   expect(s.common.queue[s.common.index]).toBe("geraud");
   // Deterministic victory checkpoint isolates the final dialogue from combat balancing.
   await page.goto("/");
@@ -187,8 +193,8 @@ test("Chapitre 1 : branche voyageurs sans Parler et lame métallique", async ({
   page,
 }) => {
   await fixture(page, "travelers");
-  await clickUnit(page, 27, 21);
-  await clickUnit(page, 27, 21);
+  await clickUnit(page, 24, 23);
+  await clickUnit(page, 24, 23);
   await expect(page.locator('[data-action="talk-geraud"]')).toHaveCount(0);
   const changed = await page.evaluate(async () => {
     const R = await import(String("/src/sprites/resources.ts"));
@@ -272,7 +278,7 @@ test("Chapitre 1 : vote de son propre joueur, attente du pair et présentation m
     E.votePatrol(s, 2, "travelers");
     M.applyCooperativeSnapshot(s, 1);
   });
-  await expect(page.locator(".patrol-status")).toContainText("diffèrent");
+  await expect(page.locator(".patrol-status")).toContainText("pas d’accord");
   const b = await page.locator(".patrol-choice").boundingBox();
   expect(b!.x).toBeGreaterThanOrEqual(0);
   expect(b!.x + b!.width).toBeLessThanOrEqual(390);

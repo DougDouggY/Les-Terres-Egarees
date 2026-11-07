@@ -1,4 +1,4 @@
-import { chapterScenes, chapterLines, upgradeChapter1 } from "./chapter1";
+import { chapterScenes, chapterLines, upgradePrologue } from "./prologue";
 import { globalInitiative } from "./initiative";
 import { normalizeTeamColors } from "./team-colors";
 import {
@@ -49,6 +49,7 @@ export function decode(raw: string): Campaign {
       ![
         "introduction",
         "choice",
+        "deployment",
         "battle",
         "recruitment",
         "cave",
@@ -112,6 +113,7 @@ export function decode(raw: string): Campaign {
     s.mapRevision = MAP_REVISION;
   }
   for (const u of s.units) {
+    if (u.id === "story-witch" && u.name === "La sorcière") u.name = "Maëlys";
     hydrateClass(u);
     validateRecruit(u);
     if (u.owner !== 0) {
@@ -185,7 +187,7 @@ export function decode(raw: string): Campaign {
       throw Error("Scène de chapitre invalide");
   } else if (s.scene && s.scene !== "meeting" && s.scene !== "ending")
     s.scene = null;
-  upgradeChapter1(s);
+  upgradePrologue(s);
   validate(s);
   globalInitiative(s);
   if (updatedMap) visibility(s);

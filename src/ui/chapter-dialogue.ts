@@ -1,3 +1,8 @@
+import {
+  PatrolStaging,
+  PATROL_APPROACH_MS,
+  PATROL_DEPLOY_MS,
+} from "../game/patrol-staging";
 import { controlsOwner, sessionView } from "../game/cooperation";
 import type { PatrolChoice } from "../game/forest-chapter";
 import { anatomicalPlacement } from "../sprites/display-scale";
@@ -8,12 +13,12 @@ import {
   chapterOwnerForFaction,
   ruinsCenter,
   temporaryRuinsCells,
-} from "../game/chapter1";
+} from "../game/prologue";
 import {
   chapterPortraits,
   type Speaker,
   type DialogueLine,
-} from "../data/chapter1";
+} from "../data/prologue";
 import { village } from "../game/active-map";
 import { makeClassUnit } from "../game/units";
 import {
@@ -38,6 +43,7 @@ export type ChapterMapFrame = {
     alpha?: number;
   }[];
   flash?: { x: number; y: number; strength: number };
+  zoom?: number;
   glow: boolean;
 };
 const ease = (n: number) => {
@@ -54,6 +60,8 @@ const esc = (s: string) =>
   );
 /** A disposable presentation layer. It never adds units, changes PV or writes visibility. */
 export class ChapterDirector {
+  private staging?: PatrolStaging;
+  private autoplaySent = false;
   private lines: DialogueLine[];
   private started = performance.now();
   private shown = false;
@@ -109,6 +117,8 @@ export class ChapterDirector {
     private vote?: (owner: 1 | 2, choice: PatrolChoice) => void,
   ) {
     const p = s.chapter1!.pending!;
+    if (s.forestChapter?.stagingVersion === 2)
+      this.staging = new PatrolStaging(s);
     this.witch.owner = chapterOwnerForFaction(s, "knight");
     this.witch.front = this.witch.owner;
     this.lines = chapterLines(s, p.id);
@@ -141,19 +151,9 @@ export class ChapterDirector {
     const p = this.s.chapter1!.pending!;
     this.lines = chapterLines(this.s, p.id);
     const l = this.lines[p.page];
+    this.autoplaySent = !!this.reader && !!p.readBy?.includes(this.reader);
     if (p.id === "c1-choice") {
-      this.root.innerHTML = `<section class="patrol-choice wood-sheet" role="dialog" aria-modal="true" aria-label="Choix commun face à Valdren"><span class="eyebrow">VALDREN · DÉCISION COMMUNE</span><h2>Que répondez-vous ?</h2><p>Les deux expéditions doivent choisir la même réponse.</p><div class="patrol-voters">${([1, 2] as const).map((owner) => `<section><h3>Expédition ${owner} · ${this.s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</h3>${(["travelers", "storm"] as const).map((choice) => `<button data-patrol-owner="${owner}" data-patrol-choice="${choice}" aria-pressed="${this.s.forestChapter!.votes[owner] === choice}" ${controlsOwner(owner) ? "" : "disabled"}>${choice === "travelers" ? "Nous sommes des voyageurs." : "Nous sommes arrivés par une tempête rouge."}</button>`).join("")}</section>`).join("")}</div><p class="patrol-status" role="status">${this.s.forestChapter!.votes[1] && this.s.forestChapter!.votes[2] ? "Vos réponses diffèrent. Discutez et ajustez votre choix." : Object.keys(this.s.forestChapter!.votes).length ? "En attente du choix de l’autre expédition…" : "Chaque expédition choisit sa réponse."}</p></section>`;
-      this.root
-        .querySelectorAll<HTMLButtonElement>("[data-patrol-choice]")
-        .forEach((b) =>
-          b.addEventListener("click", (e) => {
-            e.stopPropagation();
-            this.vote?.(
-              Number(b.dataset.patrolOwner) as 1 | 2,
-              b.dataset.patrolChoice as PatrolChoice,
-            );
-          }),
-        );
+      this.renderChoice();
       return;
     }
     this.from = { ...this.camera };
@@ -174,14 +174,19 @@ export class ChapterDirector {
         (l.speaker === "witch" ? this.witch : undefined),
       name = ["witch", "unknown", "narrator"].includes(l.speaker)
         ? {
-            witch: "La sorcière",
+            witch:
+              this.s.chapter1?.witchNamed || this.s.forestChapter
+                ? "Maëlys"
+                : "La sorcière",
             unknown: "???",
             narrator: "Les Terres Égarées",
           }[l.speaker as "witch" | "unknown" | "narrator"]
         : (u?.name ?? "Un survivant");
     const portrait = chapterPortraits[l.speaker];
-    this.root.innerHTML = `<aside class="chapter-context">${p.id.startsWith("c1-") ? "CHAPITRE 1 · POUR NE PAS OUBLIER" : "PROLOGUE"} · ${p.id.startsWith("c1-") ? (p.id === "c1-cave" ? "LA CACHETTE" : p.id === "c1-recruit" ? "UNE MAIN TENDUE" : "LA PATROUILLE DE VALDREN") : p.id.startsWith("arrival") ? "APRÈS LA TEMPÊTE" : p.id.startsWith("ruins") ? "UNE LUEUR DANS LA BRUME" : p.id.startsWith("waiting") ? "UN SEUIL À SÉCURISER" : p.id === "meeting" ? "AU SEUIL DES RUINES" : "UNE ALLIANCE FRAGILE"}<small>${this.staged() || p.id.startsWith("c1-") ? "Les deux expéditions" : `Expédition ${p.owner} · ${this.s.factions[p.owner - 1] === "north" ? "Vikings" : "Chevaliers"}`}</small></aside><section class="chapter-dialogue" role="dialog" aria-modal="true" aria-label="${p.id.startsWith("c1-") ? "Dialogue du chapitre 1" : "Dialogue du prologue"}" data-story-scene="${p.id}" data-story-line="${p.page}"><div class="chapter-portrait ${["witch", "unknown"].includes(l.speaker) ? "mysterious" : ""}">${portrait ? `<img src="${esc(portrait.src)}" alt="${esc(name)}">` : u && !["unknown", "narrator"].includes(l.speaker) ? '<canvas width="140" height="160" aria-hidden="true"></canvas>' : `<b>${l.speaker === "narrator" ? "ᛟ" : "???"}</b>`}</div><div class="chapter-speech"><strong class="chapter-speaker">${esc(name)}</strong><p class="chapter-text" aria-live="off"></p><footer><small>Entrée / Espace · lire puis continuer</small><button data-story-next>Suivant <span>›</span></button></footer></div></section>`;
+    this.root.innerHTML = `<section class="chapter-dialogue" role="dialog" aria-modal="true" aria-label="${p.id.startsWith("c1-") ? "Dialogue du chapitre 1" : "Dialogue du prologue"}" data-story-scene="${p.id}" data-story-line="${p.page}"><div class="chapter-portrait ${["witch", "unknown"].includes(l.speaker) ? "mysterious" : ""}">${portrait ? `<img src="${esc(portrait.src)}" alt="${esc(name)}">` : u && !["unknown", "narrator"].includes(l.speaker) ? '<canvas width="140" height="160" aria-hidden="true"></canvas>' : l.speaker === "narrator" ? "" : "<b>???</b>"}</div><div class="chapter-speech"><strong class="chapter-speaker">${esc(name)}</strong><p class="chapter-text" aria-live="off"></p><footer><small>Entrée / Espace · lire puis continuer</small><button data-story-next>Suivant <span>›</span></button></footer></div></section>`;
     this.root.classList.toggle("cave-scene", p.id === "c1-cave");
+    this.root.querySelector<HTMLElement>(".chapter-dialogue")!.hidden =
+      p.id === "c1-deploy";
     this.root
       .querySelector("[data-story-next]")!
       .addEventListener("click", (e) => {
@@ -189,6 +194,42 @@ export class ChapterDirector {
         this.next();
       });
     this.root.querySelector("button")?.focus({ preventScroll: true });
+  }
+  private syncSplit() {
+    const split =
+      !!this.s.developmentTest &&
+      sessionView().mode === "local" &&
+      window.innerWidth >= 800;
+    const parent = this.root.parentElement!;
+    parent.classList.toggle("split-story", split);
+    let peer = parent.querySelector<HTMLCanvasElement>("#story-map-peer");
+    if (split && !peer) {
+      peer = document.createElement("canvas");
+      peer.id = "story-map-peer";
+      peer.setAttribute("aria-label", "Vue du joueur 2 · test local");
+      parent.insertBefore(peer, this.root);
+    }
+    if (!split) peer?.remove();
+  }
+  private renderChoice() {
+    const v = sessionView(),
+      owners = v.mode === "coop" ? [v.owner] : ([1, 2] as const);
+    const votes = this.s.forestChapter!.votes,
+      disagree = !!votes[1] && !!votes[2] && votes[1] !== votes[2];
+    this.root.classList.remove("cave-scene");
+    this.root.innerHTML = `<section class="patrol-choice" role="dialog" aria-modal="true" aria-label="Choix commun face à Valdren"><h2>Que répondez-vous ?</h2><p class="patrol-hint">Mettez-vous d’accord.</p><div class="patrol-voters">${owners.map((owner) => `<section aria-label="Choix du joueur ${owner}"><h3>Joueur ${owner} · ${this.s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</h3>${(["travelers", "storm"] as const).map((choice) => `<button data-patrol-owner="${owner}" data-patrol-choice="${choice}" aria-pressed="${votes[owner] === choice}" ${controlsOwner(owner) ? "" : "disabled"}>${choice === "travelers" ? "Nous sommes des voyageurs." : "Nous sommes arrivés par une tempête rouge."}</button>`).join("")}</section>`).join("")}</div><p class="patrol-status ${disagree ? "disagree" : ""}" role="status">${disagree ? "Vous n’êtes pas d’accord. Chacun peut modifier son choix." : Object.keys(votes).length ? "En attente du choix de l’autre joueur…" : "Choisissez votre réponse."}</p></section>`;
+    this.root
+      .querySelectorAll<HTMLButtonElement>("[data-patrol-choice]")
+      .forEach((b) =>
+        b.addEventListener("click", (e) => {
+          e.stopPropagation();
+          this.vote?.(
+            Number(b.dataset.patrolOwner) as 1 | 2,
+            b.dataset.patrolChoice as PatrolChoice,
+          );
+        }),
+      );
+    this.syncSplit();
   }
   private next() {
     if (this.s.chapter1!.pending!.id === "c1-choice") return;
@@ -203,6 +244,13 @@ export class ChapterDirector {
     this.advance();
   }
   private lock(l: DialogueLine) {
+    if (this.s.chapter1?.pending?.id === "c1-deploy") return PATROL_DEPLOY_MS;
+    if (
+      this.staging &&
+      this.s.chapter1?.pending?.id === "c1-warning" &&
+      this.s.chapter1.pending.page === 1
+    )
+      return PATROL_APPROACH_MS;
     return l.cue === "rescue"
       ? 2100
       : l.cue === "depart"
@@ -215,19 +263,47 @@ export class ChapterDirector {
     const pending = this.s.chapter1?.pending;
     if (!pending) return;
     if (pending.id === "c1-choice") {
+      this.syncSplit();
       this.root.dataset.ready = String(this.ready);
       this.draw(time, {
         owner: pending.owner,
-        center: this.group(),
+        center: { x: 19.5, y: 24.5 },
         reveal: [],
-        hideUnits: false,
-        actors: [],
+        hideUnits: !!this.staging,
+        actors: this.staging?.actors("approach", Infinity) ?? [],
         glow: false,
       });
       return;
     }
     const l = this.lines[pending.page],
-      elapsed = this.ready ? time - this.started : 0;
+      elapsed = this.ready
+        ? this.reader &&
+          pending.readBy?.includes(this.reader) &&
+          (pending.id === "c1-deploy" ||
+            (pending.id === "c1-warning" && pending.page === 1))
+          ? (pending.id === "c1-deploy"
+              ? PATROL_DEPLOY_MS
+              : PATROL_APPROACH_MS) + 1
+          : time - this.started
+        : 0;
+    if (this.staged()) {
+      const canvas =
+        this.root.parentElement?.querySelector<HTMLCanvasElement>("#story-map");
+      const box = this.root
+        .querySelector<HTMLElement>(".chapter-dialogue")
+        ?.getBoundingClientRect();
+      const bounds = canvas?.getBoundingClientRect();
+      const rows = Number(canvas?.dataset.viewRows) || 12;
+      this.target = {
+        x: village.entry.x + 0.5,
+        y: Math.max(
+          village.entry.y + 4,
+          village.entry.y +
+            2.7 +
+            (rows * (box?.height ?? 240)) / (2 * (bounds?.height || 900)),
+        ),
+      };
+    }
     const t = ease(elapsed / 950);
     this.camera = {
       x: this.from.x + (this.target.x - this.from.x) * t,
@@ -279,7 +355,54 @@ export class ChapterDirector {
       hideUnits: !this.ready || this.staged() || pending.id === "c1-cave",
       actors: [],
       glow: this.staged() || pending.id.startsWith("ruins"),
+      zoom:
+        this.staged() && window.innerWidth < 700
+          ? Math.min(
+              1.7,
+              Math.max(1, window.innerHeight / window.innerWidth / 1.1),
+            )
+          : undefined,
     };
+    if (
+      this.staging &&
+      ["c1-warning", "c1-travelers", "c1-storm", "c1-deploy"].includes(
+        pending.id,
+      )
+    ) {
+      const deployment = pending.id === "c1-deploy";
+      const clock = deployment
+        ? elapsed
+        : pending.id !== "c1-warning" || pending.page >= 2
+          ? Infinity
+          : pending.page === 1
+            ? elapsed
+            : 0;
+      frame.hideUnits = true;
+      frame.glow = false;
+      frame.actors = this.staging.actors(
+        deployment ? "deployment" : "approach",
+        clock,
+      );
+      frame.center = { x: 20.5, y: 24.5 };
+      if (deployment) {
+        const out = ease(elapsed / 2200),
+          back = ease((elapsed - 4700) / 2100),
+          wide = out * (1 - back);
+        frame.zoom = 1 - 0.5 * wide;
+        frame.center = { x: 20.5 + 10 * wide, y: 24.5 - 1.5 * wide };
+      }
+      this.draw(time, frame);
+      if (
+        deployment &&
+        this.ready &&
+        elapsed >= PATROL_DEPLOY_MS &&
+        !this.autoplaySent
+      ) {
+        this.autoplaySent = true;
+        this.advance();
+      }
+      return;
+    }
     if (
       pending.id.startsWith("ruins") &&
       (this.target === ruinsCenter || (l.cue === "group" && elapsed < 950))

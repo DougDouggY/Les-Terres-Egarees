@@ -27,7 +27,7 @@ export * from "./game/initiative";
 
 export * from "./game/tactical-fields";
 
-export * from "./game/chapter1";
+export * from "./game/prologue";
 
 export * from "./game/leadership";
 export * from "./game/cooperation";
@@ -37,4 +37,4 @@ export * from "./game/enemy-fields";
 
 export * from "./game/forest-chapter";
 
-export { beginPrologue, prologueEnabled } from "./game/prologue";
+export * from "./game/enemy-activation";

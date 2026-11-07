@@ -22,6 +22,7 @@ function battle(choice: E.PatrolChoice = "storm", swapped = false) {
   E.votePatrol(s, 1, choice);
   E.votePatrol(s, 2, choice);
   finish(s);
+  if (s.chapter1?.pending?.id === "c1-deploy") finish(s);
   return s;
 }
 test("Chapitre 1 : transition réelle, survivants conservés, morts non ressuscités, carte distincte sans brouillard", () => {

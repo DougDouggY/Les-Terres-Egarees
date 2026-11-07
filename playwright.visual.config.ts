@@ -14,6 +14,7 @@ export default defineConfig({
     "sprite-v9.spec.ts",
     "prologue-v10.spec.ts",
     "forest-chapter.spec.ts",
+    "patrol-v12.spec.ts",
     "chapter1-v7-combat.spec.ts",
     "workshop.spec.ts",
     "initiative-ui.spec.ts",

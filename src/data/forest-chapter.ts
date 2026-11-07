@@ -1,8 +1,9 @@
-import type { DialogueLine } from "./chapter1";
+import type { DialogueLine } from "./prologue";
 /** Intentionally unset until the world's royal name is agreed. No invented canon. */
 export const narrativeNames = { knightKing: "" };
 export type ForestSceneId =
   | "c1-title"
+  | "c1-deploy"
   | "c1-warning"
   | "c1-choice"
   | "c1-travelers"
@@ -26,10 +27,7 @@ export function forestLines(id: ForestSceneId): DialogueLine[] {
       return [l("narrator", "Chapitre 1 — Pour ne pas oublier")];
     case "c1-warning":
       return [
-        l(
-          "narrator",
-          "Les expéditions suivent la sorcière sur un chemin forestier. Une patrouille leur barre la route.",
-        ),
+        l("narrator", "Sur le chemin de la grotte de Maëlys…"),
         l(
           "witch",
           "Attention… Des soldats de Valdren. Ne leur parlez surtout pas des tempêtes rouges. Ils pourraient vous arrêter.",
@@ -39,6 +37,8 @@ export function forestLines(id: ForestSceneId): DialogueLine[] {
           "Halte ! Qui êtes-vous, et que faites-vous sur ces terres ?",
         ),
       ];
+    case "c1-deploy":
+      return [l("narrator", "")];
     case "c1-choice":
       return [l("narrator", "Que répondront les deux expéditions ?")];
     case "c1-travelers":
@@ -106,7 +106,7 @@ export function forestLines(id: ForestSceneId): DialogueLine[] {
       return [
         l(
           "narrator",
-          "À l’abri de la patrouille, la sorcière conduit les survivants dans une grotte aménagée au cœur de la forêt. Cartes, notes et parchemins couvrent les tables.",
+          "À l’abri de la patrouille, Maëlys conduit les survivants dans une grotte aménagée au cœur de la forêt. Cartes, notes et parchemins couvrent les tables.",
         ),
         l("north-chief", "C’est quoi, tout ce bazar ?"),
         l(

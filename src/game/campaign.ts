@@ -1,13 +1,14 @@
+import { activateDetectedGroups } from "./enemy-activation";
 import { forestEncounter } from "./forest-chapter";
 import { activateMap } from "./active-map";
 import { startingHeroClasses } from "./creation";
 import {
   chapterEnemy,
-  chapter1Deployment,
+  prologueDeployment,
   freeChapterCell,
   spawnSanctuaryGuards,
-} from "./chapter1-enemies";
-import { chapterEnabled, chapterEncounter } from "./chapter1";
+} from "./prologue-enemies";
+import { chapterEnabled, chapterEncounter } from "./prologue";
 import { companionRoster, validateCompanions } from "../data/companions";
 import { individualize } from "./progression";
 import { defaultTeamColors } from "./team-colors";
@@ -102,7 +103,7 @@ export function createCampaign(
       units.push(unit);
     });
   }
-  for (const d of chapter1Deployment) {
+  for (const d of prologueDeployment) {
     const c = freeChapterCell({ units }, d.x, d.y);
     if (!c) throw Error("Déploiement ennemi impossible");
     units.push(chapterEnemy(d.id, d.side, d.type, c.x, c.y));
@@ -198,6 +199,7 @@ export function merge(s: Campaign) {
 export function advance(s: Campaign) {
   delete s.committedMove;
   finishActivationSkills(s);
+  activateDetectedGroups(s);
   stepInitiative(s);
   const r = front(s).round;
   if (!s.forestChapter && r >= 2 && event(s, "storm")) {

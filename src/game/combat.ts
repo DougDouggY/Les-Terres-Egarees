@@ -1,3 +1,4 @@
+import { notifyEnemyDamage } from "./enemy-activation";
 import type { Campaign, Unit } from "./types";
 import { cell, distance } from "./active-map";
 import { los } from "./vision";
@@ -412,7 +413,11 @@ export function applyStrike(s: Campaign, strike: Strike) {
   const u = s.units.find((u) => u.id === strike.defender);
   const a = s.units.find((u) => u.id === strike.attacker);
   // Defence in depth: even a stale or malformed allied strike cannot inflict damage.
-  if (u && a && (a.owner === 0) !== (u.owner === 0)) u.hp = strike.hpAfter;
+  if (u && a && (a.owner === 0) !== (u.owner === 0)) {
+    const before = u.hp;
+    u.hp = strike.hpAfter;
+    notifyEnemyDamage(s, u, before);
+  }
 }
 export function applyXp(s: Campaign, b: Battle) {
   b.levelGains ??= {};

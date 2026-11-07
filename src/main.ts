@@ -419,6 +419,8 @@ function chapterCinematic() {
       chapterFrame = frame;
       const canvas = app.querySelector<HTMLCanvasElement>("#story-map");
       if (canvas) renderMap(canvas, frame.owner, time);
+      const peer = app.querySelector<HTMLCanvasElement>("#story-map-peer");
+      if (peer) renderMap(peer, 2, time);
     },
     E.sessionView().mode === "coop"
       ? (E.sessionView() as { owner: 1 | 2 }).owner
@@ -654,7 +656,7 @@ function battleUI() {
   clampCamera(s.active);
   initiativeCleanup?.();
   app.innerHTML = `<main class="battle-screen compact-battle">
-  <div class="mission-objective">${s.forestChapter ? "Éliminez tous les ennemis" : s.merged ? (E.chapterEnabled(s) ? (E.preparedExpeditions(s).length ? "Tenez l’entrée sécurisée" : "Sécurisez l’entrée · Chefs : préparez-vous à rentrer") : "Repoussez les morts-vivants") : E.chapterEnabled(s) ? (E.chapterBeacon(s, s.active) ? "Rejoignez le sanctuaire en ruines" : "Trouvez un abri") : "Rejoignez le village des Veilleurs"}</div>
+  <div class="mission-objective">${s.forestChapter ? "Éliminer tous les ennemis" : s.merged ? (E.chapterEnabled(s) ? (E.preparedExpeditions(s).length ? "Tenez l’entrée sécurisée" : "Sécurisez l’entrée · Chefs : préparez-vous à rentrer") : "Repoussez les morts-vivants") : E.chapterEnabled(s) ? (E.chapterBeacon(s, s.active) ? "Rejoignez le sanctuaire en ruines" : "Trouvez un abri") : "Rejoignez le village des Veilleurs"}</div>
   ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div id="map-tooltip" class="map-tooltip" hidden></div>
@@ -1066,7 +1068,12 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   E.activateMap(state.mapId ?? "prologue");
   const bounds = canvas.getBoundingClientRect();
   if (!bounds.width || !bounds.height) return;
-  const cols = Math.min(30 / zoom, (E.H * bounds.width) / bounds.height),
+  const cols = Math.min(
+      30 /
+        (zoom *
+          (canvas.id.startsWith("story-map") ? (chapterFrame?.zoom ?? 1) : 1)),
+      (E.H * bounds.width) / bounds.height,
+    ),
     rows = (cols * bounds.height) / bounds.width;
   if (
     canvas.id === "map" &&
@@ -1081,7 +1088,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     clampCamera(1);
     clampCamera(2);
   }
-  if (canvas.id === "story-map" || canvas.id === "waiting-map") {
+  if (canvas.id.startsWith("story-map") || canvas.id === "waiting-map") {
     viewCols = cols;
     viewRows = rows;
   }
@@ -1095,7 +1102,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   const logicalHeight = (960 * bounds.height) / bounds.width;
   const s = state,
     ctx = canvas.getContext("2d")!,
-    story = canvas.id === "story-map" ? chapterFrame : null,
+    story = canvas.id.startsWith("story-map") ? chapterFrame : null,
     visible = new Set([...s.players[p - 1].visible, ...(story?.reveal ?? [])]),
     explored = new Set(s.players[p - 1].explored),
     cam = story
@@ -1110,6 +1117,14 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
           ),
         }
       : s.players[p - 1].camera;
+  canvas.dataset.storyPositions = JSON.stringify(
+    story?.actors.map((a) => ({
+      id: a.unit.id,
+      x: a.x,
+      y: a.y,
+      animation: a.animation,
+    })) ?? [],
+  );
   canvas.dataset.storyReveal = String(story?.reveal.length ?? 0);
   canvas.dataset.storyActors = (story?.actors ?? [])
     .map((a) => a.unit.id)

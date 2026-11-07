@@ -5107,3 +5107,104 @@ body:has(.aftermath-screen) .modal-back.rewards {
     font-size: 26px;
   }
 }
+/* Narrative choices use the same opaque surface and lower edge as dialogue. */
+.patrol-choice {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  top: auto;
+  transform: translateX(-50%);
+  width: min(1080px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  padding: 18px 24px;
+  color: #eee0b9;
+  border: 1px solid #ad965f;
+  outline: 1px solid #514a31;
+  outline-offset: 3px;
+  background: linear-gradient(120deg, #24392f, #112721);
+  box-shadow: 0 8px 24px #0007;
+}
+.patrol-choice h2 {
+  font: 28px var(--serif);
+  margin: 0 0 4px;
+  color: #ead29a;
+}
+.patrol-choice .patrol-hint {
+  font-size: 13px;
+  color: #baad8e;
+  margin: 0;
+}
+.patrol-voters {
+  gap: 28px;
+  margin: 12px 0;
+}
+.patrol-voters h3 {
+  color: #cdbb92;
+  font-size: 12px;
+  margin: 0 0 5px;
+}
+.patrol-voters button {
+  margin: 6px 0;
+  padding: 10px 12px;
+  min-height: 42px;
+  background: #1d332b;
+  color: #f0dfb4;
+  border-color: #6d704e;
+}
+.patrol-voters button[aria-pressed="true"] {
+  background: #586650;
+  outline-color: #d8bb76;
+}
+.patrol-choice .patrol-status {
+  font-size: 13px;
+  color: #dbcda7;
+  margin: 8px 0 0;
+}
+.patrol-choice .patrol-status.disagree {
+  color: #ffc48e;
+}
+.split-story #story-map,
+.split-story #story-map-peer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+}
+.split-story #story-map-peer {
+  left: 50%;
+  border-left: 1px solid #c8b77c77;
+}
+.split-story .patrol-choice {
+  width: calc(100vw - 32px);
+}
+#chapter-overlay .chapter-dialogue[hidden] {
+  display: none;
+}
+#chapter-overlay.cave-scene::after {
+  content: none;
+}
+#chapter-overlay .chapter-context {
+  display: none;
+}
+@media (max-width: 620px) {
+  .patrol-choice {
+    bottom: 12px;
+    padding: 14px;
+  }
+  .patrol-choice h2 {
+    font-size: 24px;
+  }
+  .patrol-voters {
+    gap: 10px;
+    margin: 10px 0;
+  }
+  .patrol-voters button {
+    font-size: 13px;
+    padding: 8px 10px;
+  }
+  .patrol-choice .patrol-status {
+    font-size: 12px;
+  }
+}

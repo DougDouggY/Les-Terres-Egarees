@@ -36,6 +36,7 @@ export type Cell = {
   interactive?: string;
 };
 export type Unit = {
+  enemyAI?: import("./enemy-activation").EnemyBehavior;
   aiTargetId?: string;
   arriving?: boolean;
   combatSkinId?: string;
@@ -106,11 +107,13 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  enemyGroups?: Record<string, import("./enemy-activation").EnemyGroup>;
   mapId?: import("./active-map").MapId;
   forestChapter?: import("./forest-chapter").ForestProgress;
   developmentTest?: "chapter-one";
   chapter1RulesVersion?: 2 | 3;
-  chapter1?: import("./chapter1").Chapter1Progress;
+  /** Legacy serialized prologue key. Kept for V7–V11 save compatibility, never a chapter index. */
+  chapter1?: import("./prologue").PrologueProgress;
   initiativeVersion?: 2;
   initiativeCollapsed?: boolean;
   committedMove?: string;

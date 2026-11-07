@@ -1,3 +1,4 @@
+import { patrolDeployment, commitPatrol } from "./patrol-staging";
 import type { Campaign, Unit } from "./types";
 import type { ForestSceneId } from "../data/forest-chapter";
 import {
@@ -19,8 +20,15 @@ import { claimRecruit, ownerForFaction } from "./recruitment";
 import { visibility } from "./vision";
 export type PatrolChoice = "travelers" | "storm";
 export type ForestProgress = {
+  stagingVersion?: 2;
   stage:
-    "introduction" | "choice" | "battle" | "recruitment" | "cave" | "complete";
+    | "introduction"
+    | "choice"
+    | "deployment"
+    | "battle"
+    | "recruitment"
+    | "cave"
+    | "complete";
   votes: Partial<Record<1 | 2, PatrolChoice>>;
   choice?: PatrolChoice;
   geraudRecruited?: boolean;
@@ -29,7 +37,7 @@ export type ForestProgress = {
 };
 export function forestScene(
   s: Campaign,
-  id: import("../data/chapter1").ChapterSceneId,
+  id: import("../data/prologue").ChapterSceneId,
 ) {
   s.chapter1 ??= { started: true, completed: [] };
   s.chapter1.pending = { id, owner: ownerForFaction(s, "knight"), page: 0 };
@@ -58,7 +66,7 @@ export function recruitWitch(s: Campaign) {
     owner,
     owner,
     "sorcerer",
-    "La sorcière",
+    "Maëlys",
     free.x,
     free.y,
     "female",
@@ -78,27 +86,22 @@ export function beginForestChapter(s: Campaign) {
   s.banners = [];
   delete s.committedMove;
   delete s.encounterContinuation;
-  let counts: [number, number] = [0, 0];
-  for (const u of s.units) {
-    const north = s.factions[u.owner - 1] === "north";
-    const i = counts[(u.owner - 1) as 0 | 1]++;
-    u.x = 14 + (i % 3);
-    u.y = (north ? 21 : 25) + Math.floor(i / 3);
+  // A compact two-abreast march on the existing two-cell-wide trail.
+  const ordered = s.units
+    .slice()
+    .sort((a, b) => Number(b.leader) - Number(a.leader));
+  ordered.forEach((u, i) => {
+    u.x = 18 - Math.floor(i / 2);
+    u.y = 24 + (i % 2);
     if (u.hp > 0) u.hp = u.maxHp;
     u.movedDistance = 0;
     u.fortified = false;
     u.arriving = false;
     delete u.aiTargetId;
-  }
-  const deployment: [string, string, number, number][] = [
-    ["valdren-captain", "man_at_arms", 33, 21],
-    ["valdren-1", "man_at_arms", 29, 23],
-    ["valdren-2", "spearman", 30, 25],
-    ["valdren-3", "spearman", 31, 18],
-    ["valdren-4", "crossbowman", 34, 24],
-    ["valdren-5", "man_at_arms", 33, 28],
-    ["geraud", "squire", 28, 21],
-  ];
+  });
+  const deployment = patrolDeployment.map(
+    (d) => [d.id, d.cls, d.spawn[0], d.spawn[1]] as const,
+  );
   for (const [id, cls, x, y] of deployment) {
     const u = makeClassUnit(
       id,
@@ -126,13 +129,28 @@ export function beginForestChapter(s: Campaign) {
       move: 4,
       vision: 14,
       potions: 0,
+      level: id === "valdren-captain" ? 3 : 1,
     });
+    const d = patrolDeployment.find((d) => d.id === id)!;
+    u.enemyAI =
+      id === "valdren-captain"
+        ? { mode: "boss", initialHp: u.hp, awakened: false }
+        : { mode: d.group === "vanguard" ? "active" : "zone", group: d.group };
     s.units.push(u);
   }
+  s.enemyGroups = {
+    middle: { active: false, zone: { x: 27, y: 12, w: 9, h: 23 } },
+    rear: { active: false, zone: { x: 33, y: 9, w: 13, h: 27 } },
+  };
   s.merged = true;
   s.chapterMode = "cooperative";
   s.phase = "battle";
-  s.forestChapter = { stage: "introduction", votes: {}, completed: [] };
+  s.forestChapter = {
+    stagingVersion: 2,
+    stage: "introduction",
+    votes: {},
+    completed: [],
+  };
   s.common = { round: 1, index: 0, queue: initiativeOrder(s.units) };
   s.initiativeVersion = 2;
   s.fronts = [structuredClone(s.common), structuredClone(s.common)];
@@ -140,7 +158,7 @@ export function beginForestChapter(s: Campaign) {
   for (const p of s.players) {
     p.visible = [];
     p.explored = [];
-    p.camera = { x: 10, y: 17 };
+    p.camera = { x: 12, y: 20 };
     p.journal.push("Chapitre 1 — Pour ne pas oublier");
   }
   visibility(s);
@@ -194,10 +212,18 @@ export function finishForestScene(s: Campaign, id: ForestSceneId) {
   f.completed.push(id);
   if (id === "c1-title") forestScene(s, "c1-warning");
   else if (id === "c1-warning") {
+    commitPatrol(s, "approach");
     f.stage = "choice";
     forestScene(s, "c1-choice");
   } else if (id === "c1-travelers" || id === "c1-storm") {
+    if (f.stagingVersion === 2) {
+      f.stage = "deployment";
+      forestScene(s, "c1-deploy");
+    } else f.stage = "battle";
+  } else if (id === "c1-deploy") {
+    commitPatrol(s, "deployment");
     f.stage = "battle";
+    visibility(s);
   } else if (id === "c1-recruit") {
     const g = s.units.find((u) => u.id === "geraud")!;
     const owner = ownerForFaction(s, "knight");
