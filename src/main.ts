@@ -1110,7 +1110,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   const cols = Math.min(
       E.W,
       30 /
-        (zoom *
+        ((canvas.id.startsWith("story-map") ? 1.65 : zoom) *
           (canvas.id.startsWith("story-map") ? (chapterFrame?.zoom ?? 1) : 1)),
       (E.H * bounds.width) / bounds.height,
     ),
