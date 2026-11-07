@@ -39,13 +39,16 @@ export function decode(raw: string): Campaign {
     !Array.isArray(s.fronts)
   )
     throw Error("Sauvegarde incompatible");
-  if (s.mapId !== undefined && !["prologue", "forest"].includes(s.mapId))
+  if (
+    s.mapId !== undefined &&
+    !["prologue", "forest", "forest-compact"].includes(s.mapId)
+  )
     throw Error("Carte inconnue");
   activateMap(s.mapId ?? "prologue");
   if (s.forestChapter) {
     const f = s.forestChapter;
     if (
-      s.mapId !== "forest" ||
+      !["forest", "forest-compact"].includes(s.mapId) ||
       ![
         "introduction",
         "choice",
@@ -56,6 +59,12 @@ export function decode(raw: string): Campaign {
         "complete",
       ].includes(f.stage) ||
       !f.votes ||
+      (f.confirmedBy !== undefined &&
+        (!Array.isArray(f.confirmedBy) ||
+          f.confirmedBy.some((id: unknown) => id !== 1 && id !== 2) ||
+          new Set(f.confirmedBy).size !== f.confirmedBy.length)) ||
+      (f.voteRevision !== undefined &&
+        (!Number.isInteger(f.voteRevision) || f.voteRevision < 0)) ||
       !Array.isArray(f.completed) ||
       Object.entries(f.votes).some(
         ([owner, choice]) =>
@@ -65,7 +74,8 @@ export function decode(raw: string): Campaign {
       (f.choice !== undefined && !["travelers", "storm"].includes(f.choice))
     )
       throw Error("Progression du chapitre invalide");
-  } else if (s.mapId === "forest") throw Error("Chapitre absent");
+  } else if (s.mapId === "forest" || s.mapId === "forest-compact")
+    throw Error("Chapitre absent");
   // Convert positions and exploration indices before applying revision-5 collisions.
   if ((s.mapRevision ?? 1) < 5) {
     for (const u of s.units) {

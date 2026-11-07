@@ -57,3 +57,13 @@ export function activateDetectedGroups(s: Campaign) {
     if (u.hp > 0 && u.owner === 0 && u.enemyAI?.mode === "zone")
       enemyMayMove(s, u);
 }
+
+/** Pure, shared by range display and movement validation; never activates a group. */
+export function effectiveMove(u: Unit) {
+  const boss = u.enemyAI;
+  return boss?.mode === "boss" &&
+    !boss.awakened &&
+    u.hp >= (boss.initialHp ?? u.maxHp)
+    ? 0
+    : u.move;
+}

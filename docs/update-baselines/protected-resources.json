@@ -72,7 +72,7 @@
   "src/assets/tactical/lot1-dual.png": "6b96e612576e284425b8199676548955b48dadd1bee1a758181c5e057962e701",
   "src/assets/tactical/lot4-hunters.png": "240dc85872b085c681edb66bb84b1cbb532c2cfc2c310d5aa2faa684cf736aee",
   "src/game/map.ts": "86f71dc1a037655f34710193b3cc9b72aade197d853cbbe12dfdcd4aa8d1c23c",
-  "src/terrain.ts": "469166acb98c6929fe7b6b2aaf73e555c56a500061a3776a54379258ede21d97",
-  "src/landscape.ts": "9c8adb3900536127ed01401c89f15f0c3ef710b834245c135fa800abd449a103",
+  "src/terrain.ts": "a8d31499ea9075d57fa084c2ce841a07a2049e4c3ed9ab18b1710f8320633733",
+  "src/landscape.ts": "24180ab1fc1505e30c694835a6df55ad34b079253abfa6b3cc8977dbb8997092",
   "src/fog.ts": "94363baa4cb6c6852e29a414d9e4c61b114d74b635f0de3794a6fe6b4abd472b"
 }

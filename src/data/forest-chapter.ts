@@ -3,6 +3,8 @@ import type { DialogueLine } from "./prologue";
 export const narrativeNames = { knightKing: "" };
 export type ForestSceneId =
   | "c1-title"
+  | "c1-approach"
+  | "c1-captain"
   | "c1-deploy"
   | "c1-warning"
   | "c1-choice"
@@ -32,6 +34,15 @@ export function forestLines(id: ForestSceneId): DialogueLine[] {
           "witch",
           "Attention… Des soldats de Valdren. Ne leur parlez surtout pas des tempêtes rouges. Ils pourraient vous arrêter.",
         ),
+        l(
+          "captain",
+          "Halte ! Qui êtes-vous, et que faites-vous sur ces terres ?",
+        ),
+      ];
+    case "c1-approach":
+      return [l("narrator", "")];
+    case "c1-captain":
+      return [
         l(
           "captain",
           "Halte ! Qui êtes-vous, et que faites-vous sur ces terres ?",

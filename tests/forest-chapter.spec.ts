@@ -52,10 +52,10 @@ async function fixture(page: Page, choice = "storm") {
       for (let i = 0; i < 80 && s.chapter1?.pending?.id === id; i++)
         E.advanceChapterLine(s);
     };
-    finish();
-    finish();
+    while (s.chapter1?.pending?.id !== "c1-choice") finish();
     E.votePatrol(s, 1, choice);
     E.votePatrol(s, 2, choice);
+    E.confirmPatrol(s);
     finish();
     if (s.chapter1?.pending?.id === "c1-deploy") finish();
     const k = s.units.find((u: any) => u.id === "p2a")!,
@@ -75,7 +75,7 @@ async function fixture(page: Page, choice = "storm") {
           .map((u: any) => u.id),
       ],
     };
-    s.players.forEach((p: any) => (p.camera = { x: 21, y: 17 }));
+    s.players.forEach((p: any) => (p.camera = { x: 16, y: 4 }));
     E.visibility(s);
     localStorage.setItem("lte-save", E.encode(s));
   }, choice);
@@ -105,6 +105,12 @@ test("Chapitre 1 : finale du prologue, vote des deux joueurs et sauvegarde norma
   });
   await page.clock.fastForward(4000);
   await advanceScene(page, "c1-warning");
+  await expect(page.locator("#chapter-overlay")).toHaveAttribute(
+    "data-ready",
+    "true",
+  );
+  await page.clock.fastForward(3200);
+  await advanceScene(page, "c1-captain");
   await expect(page.locator(".patrol-choice")).toBeVisible();
   await page
     .locator('[data-patrol-owner="1"][data-patrol-choice="storm"]')
@@ -117,6 +123,7 @@ test("Chapitre 1 : finale du prologue, vote des deux joueurs et sauvegarde norma
   await page
     .locator('[data-patrol-owner="2"][data-patrol-choice="storm"]')
     .click();
+  await page.locator("[data-patrol-confirm]").click();
   await advanceScene(page, "c1-storm");
   await expect(page.locator("#chapter-overlay")).toHaveAttribute(
     "data-ready",
@@ -136,7 +143,7 @@ test("Chapitre 1 : finale du prologue, vote des deux joueurs et sauvegarde norma
   expect(
     result.test.units.filter((u: any) => u.id === "story-witch"),
   ).toHaveLength(1);
-  expect(result.test.players.every((p: any) => p.visible.length === 2400)).toBe(
+  expect(result.test.players.every((p: any) => p.visible.length === 680)).toBe(
     true,
   );
   await page.screenshot({ path: "artifacts/chapter-one/forest.png" });
@@ -152,8 +159,8 @@ test("Chapitre 1 : Parler volontairement à Géraud et poursuivre vers la grotte
 }) => {
   await fixture(page);
   await page.clock.install();
-  await clickUnit(page, 24, 23);
-  await clickUnit(page, 24, 23);
+  await clickUnit(page, 22, 10);
+  await clickUnit(page, 22, 10);
   await expect(page.locator('[data-action="talk-geraud"]')).toBeVisible();
   await page.locator('[data-action="talk-geraud"]').click();
   await expect(page.locator('[data-story-scene="c1-recruit"]')).toBeVisible();
@@ -168,7 +175,7 @@ test("Chapitre 1 : Parler volontairement à Géraud et poursuivre vers la grotte
   const g = s.units.find((u: any) => u.id === "geraud");
   expect(g.owner).toBe(2);
   expect(g.hp).toBe(11);
-  expect(g.x).toBe(25);
+  expect(g.x).toBe(23);
   expect(s.common.queue[s.common.index]).toBe("geraud");
   // Deterministic victory checkpoint isolates the final dialogue from combat balancing.
   await page.goto("/");
@@ -193,8 +200,8 @@ test("Chapitre 1 : branche voyageurs sans Parler et lame métallique", async ({
   page,
 }) => {
   await fixture(page, "travelers");
-  await clickUnit(page, 24, 23);
-  await clickUnit(page, 24, 23);
+  await clickUnit(page, 22, 10);
+  await clickUnit(page, 22, 10);
   await expect(page.locator('[data-action="talk-geraud"]')).toHaveCount(0);
   const changed = await page.evaluate(async () => {
     const R = await import(String("/src/sprites/resources.ts"));
@@ -258,7 +265,7 @@ test("Chapitre 1 : vote de son propre joueur, attente du pair et présentation m
       M = await import(String("/src/main.ts"));
     const s = E.createCampaign(["north", "knight"]);
     E.beginForestChapter(s);
-    for (let n = 0; n < 2; n++) {
+    while (s.chapter1?.pending?.id !== "c1-choice") {
       const id = s.chapter1!.pending!.id;
       while (s.chapter1!.pending!.id === id) E.advanceChapterLine(s);
     }

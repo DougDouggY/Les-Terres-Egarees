@@ -1,3 +1,4 @@
+import { effectiveMove } from "./enemy-activation";
 import type { Campaign, Unit } from "./types";
 import { key, map } from "./active-map";
 import { at, allied } from "./queries";
@@ -8,7 +9,7 @@ export function move(s: Campaign, u: Unit, x: number, y: number) {
   if (s.committedMove === u.id)
     throw Error("Le déplacement de cette activation est déjà engagé.");
   const p = path(s, u, x, y);
-  if (!p || p.cost > u.move) throw Error("Déplacement impossible");
+  if (!p || p.cost > effectiveMove(u)) throw Error("Déplacement impossible");
   if (u.x !== x || u.y !== y) {
     u.fortified = false;
     if (s.chapter1?.prepared && u.owner !== 0)
@@ -40,7 +41,7 @@ export function movementPrefix(
     if (
       !c?.walk ||
       (occupant && occupant.id !== u.id && !allied(s, u, occupant)) ||
-      cost + stepCost > u.move
+      cost + stepCost > effectiveMove(u)
     ) {
       interrupted = true;
       break;

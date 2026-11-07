@@ -3,7 +3,7 @@ import { path } from "./pathfinding";
 import { map } from "./active-map";
 export const PATROL_APPROACH_MS = 3400,
   PATROL_DEPLOY_MS = 6800;
-export const patrolDeployment = [
+export const legacyPatrolDeployment = [
   {
     id: "valdren-captain",
     cls: "man_at_arms",
@@ -96,9 +96,117 @@ export const patrolDeployment = [
     group: "rear",
   },
 ] as const;
+export const COMPACT_APPROACH_MS = 2600,
+  COMPACT_DEPLOY_MS = 4200;
+export const patrolDeployment = [
+  {
+    id: "valdren-captain",
+    cls: "man_at_arms",
+    x: 31,
+    y: 8,
+    spawn: [17, 9],
+    stop: [10, 9],
+    group: "boss",
+  },
+  {
+    id: "valdren-1",
+    cls: "man_at_arms",
+    x: 15,
+    y: 9,
+    spawn: [18, 10],
+    stop: [11, 10],
+    group: "vanguard",
+  },
+  {
+    id: "valdren-2",
+    cls: "spearman",
+    x: 17,
+    y: 10,
+    spawn: [19, 9],
+    stop: [12, 9],
+    group: "vanguard",
+  },
+  {
+    id: "geraud",
+    cls: "squire",
+    x: 23,
+    y: 10,
+    spawn: [33, 9],
+    group: "middle",
+  },
+  {
+    id: "valdren-5",
+    cls: "man_at_arms",
+    x: 21,
+    y: 6,
+    spawn: [32, 1],
+    group: "middle",
+  },
+  {
+    id: "valdren-3",
+    cls: "spearman",
+    x: 20,
+    y: 12,
+    spawn: [33, 18],
+    group: "middle",
+  },
+  {
+    id: "valdren-4",
+    cls: "crossbowman",
+    x: 24,
+    y: 7,
+    spawn: [33, 3],
+    group: "middle",
+  },
+  {
+    id: "valdren-6",
+    cls: "man_at_arms",
+    x: 24,
+    y: 10,
+    spawn: [33, 11],
+    group: "rear",
+  },
+  {
+    id: "valdren-7",
+    cls: "man_at_arms",
+    x: 13,
+    y: 16,
+    spawn: [16, 19],
+    group: "vanguard",
+  },
+  {
+    id: "valdren-8",
+    cls: "spearman",
+    x: 23,
+    y: 16,
+    spawn: [32, 19],
+    group: "rear",
+  },
+  {
+    id: "valdren-9",
+    cls: "crossbowman",
+    x: 27,
+    y: 14,
+    spawn: [33, 17],
+    group: "rear",
+  },
+] as const;
+export const deploymentFor = (s: Campaign) =>
+  s.mapId === "forest-compact" ? patrolDeployment : legacyPatrolDeployment;
+export const patrolDuration = (
+  s: Campaign,
+  stage: "approach" | "deployment",
+) =>
+  s.mapId === "forest-compact"
+    ? stage === "approach"
+      ? COMPACT_APPROACH_MS
+      : COMPACT_DEPLOY_MS
+    : stage === "approach"
+      ? PATROL_APPROACH_MS
+      : PATROL_DEPLOY_MS;
 export function commitPatrol(s: Campaign, stage: "approach" | "deployment") {
-  if (s.forestChapter?.stagingVersion !== 2) return;
-  for (const d of patrolDeployment) {
+  if (!s.forestChapter?.stagingVersion) return;
+  for (const d of deploymentFor(s)) {
     const u = s.units.find((t) => t.id === d.id);
     if (!u) continue;
     const dest =
@@ -121,7 +229,7 @@ export type ScriptedActor = {
 export class PatrolStaging {
   private routes = new Map<string, number[]>();
   constructor(private s: Campaign) {
-    for (const d of patrolDeployment) {
+    for (const d of deploymentFor(s)) {
       const u = s.units.find((t) => t.id === d.id);
       if (!u) continue;
       for (const stage of ["approach", "deployment"] as const) {
@@ -152,15 +260,24 @@ export class PatrolStaging {
         frame: 0,
         flip: false,
       }));
-    const duration =
-      stage === "approach" ? PATROL_APPROACH_MS : PATROL_DEPLOY_MS;
-    for (const [i, d] of patrolDeployment.entries()) {
+    const duration = patrolDuration(this.s, stage);
+    for (const [i, d] of deploymentFor(this.s).entries()) {
       if (stage === "approach" && !("stop" in d)) continue;
       const unit = this.s.units.find((u) => u.id === d.id);
       if (!unit || unit.hp <= 0) continue;
       const route = this.routes.get(stage + unit.id)!;
       const delay =
-        stage === "deployment" ? (i < 3 ? i * 140 : 600 + i * 65) : i * 150;
+        this.s.mapId === "forest-compact"
+          ? stage === "deployment"
+            ? i < 3
+              ? i * 50
+              : 180 + i * 20
+            : i * 100
+          : stage === "deployment"
+            ? i < 3
+              ? i * 140
+              : 600 + i * 65
+            : i * 150;
       const progress =
         Math.max(0, Math.min(1, (elapsed - delay) / (duration - delay - 300))) *
         (route.length - 1);

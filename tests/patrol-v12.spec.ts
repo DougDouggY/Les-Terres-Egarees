@@ -14,6 +14,23 @@ async function load(
       if (scene === "alliance") E.prepareChapterOneTest(s);
       else {
         E.beginForestChapter(s);
+        const P = await import(String("/src/game/patrol-staging.ts"));
+        s.mapId = "forest";
+        E.activateMap("forest");
+        s.forestChapter!.stagingVersion = 2;
+        for (const [i, u] of s.units
+          .filter((u: any) => u.owner !== 0)
+          .entries()) {
+          u.x = 18 - Math.floor(i / 2);
+          u.y = 24 + (i % 2);
+        }
+        for (const d of P.legacyPatrolDeployment) {
+          const u = s.units.find((u: any) => u.id === d.id)!;
+          u.x = d.spawn[0];
+          u.y = d.spawn[1];
+        }
+        E.visibility(s);
+
         const finish = () => {
           const id = s.chapter1!.pending!.id;
           while (s.chapter1?.pending?.id === id) E.advanceChapterLine(s);
@@ -23,6 +40,7 @@ async function load(
         if (scene === "c1-deploy") {
           E.votePatrol(s, 1, "storm");
           E.votePatrol(s, 2, "storm");
+          E.confirmPatrol(s);
           finish();
         }
         s.developmentTest = "chapter-one";
@@ -112,7 +130,7 @@ test("V12 patrouille : narrateur sans logo, seulement trois soldats, approche vi
   await expect(page.locator(".chapter-text")).toHaveText(
     "Sur le chemin de la grotte de Maëlys…",
   );
-  await expect(page.locator(".chapter-portrait")).toBeEmpty();
+  await expect(page.locator(".chapter-portrait")).toHaveCount(0);
   await page.locator("[data-story-next]").click();
   await page.clock.runFor(500);
   const start = await actors(page);

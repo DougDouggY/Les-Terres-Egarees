@@ -17,12 +17,12 @@ function battle(choice: E.PatrolChoice = "storm", swapped = false) {
     swapped ? ["knight", "north"] : ["north", "knight"],
   );
   E.beginForestChapter(s);
-  finish(s);
-  finish(s);
+  while (s.chapter1?.pending?.id !== "c1-choice") finish(s);
   E.votePatrol(s, 1, choice);
   E.votePatrol(s, 2, choice);
+  E.confirmPatrol(s);
   finish(s);
-  if (s.chapter1?.pending?.id === "c1-deploy") finish(s);
+  finish(s);
   return s;
 }
 test("Chapitre 1 : transition réelle, survivants conservés, morts non ressuscités, carte distincte sans brouillard", () => {
@@ -41,7 +41,7 @@ test("Chapitre 1 : transition réelle, survivants conservés, morts non ressusci
   const original = JSON.stringify(E.map);
   E.prepareChapterOneTest(s);
   finish(s);
-  assert.equal(s.mapId, "forest");
+  assert.equal(s.mapId, "forest-compact");
   assert.equal(s.chapter1?.complete, true);
   assert.equal(s.scene, "chapter1:c1-title");
   assert.equal(hero.level, 4);
@@ -87,6 +87,7 @@ test("Choix coopératif : attente, votes différents, modification, double acqui
   E.advanceChapterLine(s, 2, { id: p.id, page: 0 });
   assert.equal(s.scene, "chapter1:c1-warning");
   finish(s, 1);
+  while (s.chapter1?.pending?.id !== "c1-choice") finish(s, 1);
   assert.equal(s.scene, "chapter1:c1-choice");
   E.advanceChapterLine(s);
   assert.equal(s.scene, "chapter1:c1-choice");
@@ -94,7 +95,9 @@ test("Choix coopératif : attente, votes différents, modification, double acqui
   assert.equal(E.votePatrol(s, 2, "travelers"), false);
   const back = E.decode(E.encode(s));
   assert.deepEqual(back.forestChapter?.votes, { 1: "storm", 2: "travelers" });
-  assert.equal(E.votePatrol(back, 2, "storm"), true);
+  assert.equal(E.votePatrol(back, 2, "storm"), false);
+  assert.equal(E.confirmPatrol(back, 1), false);
+  assert.equal(E.confirmPatrol(back, 2), true);
   assert.equal(back.scene, "chapter1:c1-storm");
   assert.equal(back.forestChapter?.choice, "storm");
   assert.throws(() => E.votePatrol(back, 1, "travelers"));

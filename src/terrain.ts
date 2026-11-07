@@ -217,19 +217,36 @@ export class TerrainRenderer {
     f.putImageData(pixels, 0, 0);
     ctx.drawImage(foam, 0, 0, W * TILE, H * TILE);
     // Paths are textured strokes along the authored cell centres, with rounded junctions.
-    for (const route of roadRoutes) {
-      ctx.beginPath();
-      ctx.moveTo((route[0][0] + 0.5) * 32, (route[0][1] + 0.5) * 32);
-      for (let i = 1; i < route.length; i++)
-        ctx.lineTo((route[i][0] + 0.5) * 32, (route[i][1] + 0.5) * 32);
-      ctx.lineJoin = ctx.lineCap = "round";
-      ctx.lineWidth = 13;
-      ctx.strokeStyle = "#73704466";
-      ctx.stroke();
-      ctx.lineWidth = 9;
-      ctx.strokeStyle = this.pattern(ctx, 2);
-      ctx.stroke();
-    }
+    if (currentMapId === "forest-compact") {
+      const painted = document.createElement("canvas");
+      painted.width = raw.width;
+      painted.height = raw.height;
+      const p = painted.getContext("2d")!;
+      p.scale(2, 2);
+      p.fillStyle = this.pattern(p, 2);
+      p.fillRect(0, 0, W * TILE, H * TILE);
+      p.setTransform(1, 0, 0, 1, 0, 0);
+      p.globalCompositeOperation = "destination-in";
+      p.drawImage(
+        this.mask((c) => c.terrain === "road", raw.width, raw.height),
+        0,
+        0,
+      );
+      ctx.drawImage(painted, 0, 0, W * TILE, H * TILE);
+    } else
+      for (const route of roadRoutes) {
+        ctx.beginPath();
+        ctx.moveTo((route[0][0] + 0.5) * 32, (route[0][1] + 0.5) * 32);
+        for (let i = 1; i < route.length; i++)
+          ctx.lineTo((route[i][0] + 0.5) * 32, (route[i][1] + 0.5) * 32);
+        ctx.lineJoin = ctx.lineCap = "round";
+        ctx.lineWidth = 13;
+        ctx.strokeStyle = "#73704466";
+        ctx.stroke();
+        ctx.lineWidth = 9;
+        ctx.strokeStyle = this.pattern(ctx, 2);
+        ctx.stroke();
+      }
     for (const c of map) {
       const x = c.x * 32,
         y = c.y * 32;

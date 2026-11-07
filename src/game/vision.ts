@@ -38,7 +38,7 @@ export function los(
   return true;
 }
 export function visibility(s: Campaign) {
-  if (s.mapId === "forest") {
+  if (s.mapId === "forest" || s.mapId === "forest-compact") {
     const all = map.map((c) => key(c.x, c.y));
     for (const p of s.players) {
       p.visible = [...all];

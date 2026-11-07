@@ -20,7 +20,9 @@ import { claimRecruit, ownerForFaction } from "./recruitment";
 import { visibility } from "./vision";
 export type PatrolChoice = "travelers" | "storm";
 export type ForestProgress = {
-  stagingVersion?: 2;
+  stagingVersion?: 2 | 3;
+  confirmedBy?: (1 | 2)[];
+  voteRevision?: number;
   stage:
     | "introduction"
     | "choice"
@@ -80,8 +82,8 @@ export function beginForestChapter(s: Campaign) {
   if (s.forestChapter) return false;
   recruitWitch(s);
   s.units = s.units.filter((u) => u.owner !== 0 && !u.summonedBy);
-  s.mapId = "forest";
-  activateMap("forest");
+  s.mapId = "forest-compact";
+  activateMap("forest-compact");
   s.mapRevision = MAP_REVISION;
   s.banners = [];
   delete s.committedMove;
@@ -91,8 +93,8 @@ export function beginForestChapter(s: Campaign) {
     .slice()
     .sort((a, b) => Number(b.leader) - Number(a.leader));
   ordered.forEach((u, i) => {
-    u.x = 18 - Math.floor(i / 2);
-    u.y = 24 + (i % 2);
+    u.x = 8 - Math.floor(i / 2);
+    u.y = 9 + (i % 2);
     if (u.hp > 0) u.hp = u.maxHp;
     u.movedDistance = 0;
     u.fortified = false;
@@ -139,14 +141,14 @@ export function beginForestChapter(s: Campaign) {
     s.units.push(u);
   }
   s.enemyGroups = {
-    middle: { active: false, zone: { x: 27, y: 12, w: 9, h: 23 } },
-    rear: { active: false, zone: { x: 33, y: 9, w: 13, h: 27 } },
+    middle: { active: false, zone: { x: 16, y: 0, w: 11, h: 20 } },
+    rear: { active: false, zone: { x: 22, y: 0, w: 12, h: 20 } },
   };
   s.merged = true;
   s.chapterMode = "cooperative";
   s.phase = "battle";
   s.forestChapter = {
-    stagingVersion: 2,
+    stagingVersion: 3,
     stage: "introduction",
     votes: {},
     completed: [],
@@ -158,7 +160,7 @@ export function beginForestChapter(s: Campaign) {
   for (const p of s.players) {
     p.visible = [];
     p.explored = [];
-    p.camera = { x: 12, y: 20 };
+    p.camera = { x: 0, y: 3 };
     p.journal.push("Chapitre 1 — Pour ne pas oublier");
   }
   visibility(s);
@@ -175,14 +177,44 @@ export function votePatrol(s: Campaign, owner: 1 | 2, choice: PatrolChoice) {
     !["travelers", "storm"].includes(choice)
   )
     throw Error("Choix indisponible");
-  f.votes[owner] = choice;
-  if (f.votes[1] && f.votes[1] === f.votes[2]) {
-    f.choice = choice;
-    f.stage = "introduction";
-    forestScene(s, choice === "storm" ? "c1-storm" : "c1-travelers");
-    return true;
+  if (f.votes[owner] !== choice) {
+    f.voteRevision = (f.voteRevision ?? 0) + 1;
+    f.confirmedBy = [];
   }
+  f.votes[owner] = choice;
   return false;
+}
+export function confirmPatrol(
+  s: Campaign,
+  owner?: 1 | 2,
+  expected?: { choice: PatrolChoice; revision: number },
+) {
+  const f = s.forestChapter;
+  if (
+    !f ||
+    f.stage !== "choice" ||
+    s.chapter1?.pending?.id !== "c1-choice" ||
+    !f.votes[1] ||
+    f.votes[1] !== f.votes[2]
+  )
+    throw Error("Les deux joueurs doivent choisir la même réponse.");
+  if (
+    expected &&
+    (expected.choice !== f.votes[1] ||
+      expected.revision !== (f.voteRevision ?? 0))
+  )
+    return false;
+  if (owner !== undefined && ![1, 2].includes(owner))
+    throw Error("Joueur invalide");
+  const readers = owner ? [owner] : ([1, 2] as const);
+  f.confirmedBy ??= [];
+  for (const r of readers)
+    if (!f.confirmedBy.includes(r)) f.confirmedBy.push(r);
+  if (f.confirmedBy.length < 2) return false;
+  f.choice = f.votes[1];
+  f.stage = "introduction";
+  forestScene(s, f.choice === "storm" ? "c1-storm" : "c1-travelers");
+  return true;
 }
 export function canTalkGeraud(s: Campaign, u: Unit) {
   const g = s.units.find((t) => t.id === "geraud");
@@ -212,14 +244,24 @@ export function finishForestScene(s: Campaign, id: ForestSceneId) {
   f.completed.push(id);
   if (id === "c1-title") forestScene(s, "c1-warning");
   else if (id === "c1-warning") {
+    if (f.stagingVersion === 3) {
+      forestScene(s, "c1-approach");
+      return;
+    }
     commitPatrol(s, "approach");
     f.stage = "choice";
     forestScene(s, "c1-choice");
   } else if (id === "c1-travelers" || id === "c1-storm") {
-    if (f.stagingVersion === 2) {
+    if (f.stagingVersion) {
       f.stage = "deployment";
       forestScene(s, "c1-deploy");
     } else f.stage = "battle";
+  } else if (id === "c1-approach") {
+    commitPatrol(s, "approach");
+    forestScene(s, "c1-captain");
+  } else if (id === "c1-captain") {
+    f.stage = "choice";
+    forestScene(s, "c1-choice");
   } else if (id === "c1-deploy") {
     commitPatrol(s, "deployment");
     f.stage = "battle";

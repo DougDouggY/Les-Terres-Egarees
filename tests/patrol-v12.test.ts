@@ -2,6 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import * as E from "../src/engine";
 import {
+  legacyPatrolDeployment,
   PatrolStaging,
   patrolDeployment,
   PATROL_APPROACH_MS,
@@ -12,6 +13,9 @@ const finish = (s: E.Campaign) => {
   const id = s.chapter1!.pending!.id;
   while (s.chapter1?.pending?.id === id) E.advanceChapterLine(s);
 };
+function toChoice(s: E.Campaign) {
+  while (s.chapter1?.pending?.id !== "c1-choice") finish(s);
+}
 function state() {
   const s = E.createCampaign(["north", "knight"]);
   E.beginForestChapter(s);
@@ -19,10 +23,10 @@ function state() {
 }
 function battle() {
   const s = state();
-  finish(s);
-  finish(s);
+  toChoice(s);
   E.votePatrol(s, 1, "storm");
   E.votePatrol(s, 2, "storm");
+  E.confirmPatrol(s);
   finish(s);
   finish(s);
   return s;
@@ -54,8 +58,8 @@ test("V12 nomenclature, Maëlys, composition 4/3/2/1 + capitaine et marche compa
     "Sur le chemin de la grotte de Maëlys…",
   );
   E.validate(s);
-  assert.equal(E.W, 60);
-  assert.equal(E.H, 40);
+  assert.equal(E.W, 34);
+  assert.equal(E.H, 20);
 });
 test("V12 approche continue sur cellules valides, aucune mutation par le rendu, fin à deux cases des chefs", () => {
   const s = state(),
@@ -76,8 +80,7 @@ test("V12 approche continue sur cellules valides, aucune mutation par le rendu, 
     ),
   );
   assert.equal(JSON.stringify(s), before);
-  finish(s);
-  finish(s);
+  toChoice(s);
   const c = s.units.find((u) => u.id === "valdren-captain")!,
     leader = s.units.find((u) => u.id === "p1a")!;
   assert.equal(E.distance(c, leader), 2);
@@ -86,10 +89,10 @@ test("V12 approche continue sur cellules valides, aucune mutation par le rendu, 
 });
 test("V12 déploiement distinct avant bataille : destinations exactes, pas de tour joué, ancien test conservé", () => {
   const s = state();
-  finish(s);
-  finish(s);
+  toChoice(s);
   E.votePatrol(s, 1, "storm");
   E.votePatrol(s, 2, "storm");
+  E.confirmPatrol(s);
   finish(s);
   assert.equal(s.scene, "chapter1:c1-deploy");
   assert.equal(s.forestChapter!.stage, "deployment");
@@ -116,6 +119,18 @@ test("V12 déploiement distinct avant bataille : destinations exactes, pas de to
   // A V11 battle is never reconfigured on load or silently expanded to eleven units.
   const old = E.createCampaign(["north", "knight"]);
   E.beginForestChapter(old);
+  old.mapId = "forest";
+  E.activateMap("forest");
+  for (const [i, u] of old.units.filter((u) => u.owner !== 0).entries()) {
+    u.x = 14 + (i % 3);
+    u.y = 21 + Math.floor(i / 3);
+  }
+  for (const d of legacyPatrolDeployment) {
+    const u = old.units.find((u) => u.id === d.id)!;
+    u.x = d.x;
+    u.y = d.y;
+  }
+  E.visibility(old);
   delete old.forestChapter!.stagingVersion;
   old.forestChapter!.stage = "battle";
   old.units = old.units.filter(
@@ -137,13 +152,13 @@ test("V12 groupes : avant-garde active, défense en zone puis permanente et ind�
   assert.equal(E.enemyMayMove(s, m), false);
   assert.equal(E.enemyMayMove(s, r), false);
   const hero = s.units.find((u) => u.owner === 1)!;
-  hero.x = 28;
-  hero.y = 29;
+  hero.x = 18;
+  hero.y = 14;
   E.activateDetectedGroups(s);
   assert.ok(s.enemyGroups!.middle.active);
   assert.equal(s.enemyGroups!.rear.active, false);
-  hero.x = 18;
-  hero.y = 24;
+  hero.x = 8;
+  hero.y = 9;
   assert.ok(E.enemyMayMove(s, m));
   assert.ok(
     E.enemyMayMove(
@@ -180,8 +195,8 @@ test("V12 boss : pas de poursuite, peut attaquer à portée, déblocage uniqueme
   E.applyStrike(s, { ...strike, hit: true, damage: 1, hpAfter: boss.hp - 1 });
   assert.equal(boss.enemyAI!.awakened, true);
   boss.hp = boss.maxHp;
-  hero.x = 35;
-  hero.y = 22;
+  hero.x = 26;
+  hero.y = 9;
   assert.ok(E.enemyMayMove(s, boss));
   assert.ok(E.ai(s, boss).x !== boss.x || E.ai(s, boss).y !== boss.y);
   assert.ok(
@@ -209,10 +224,10 @@ test("V12 règle future : activation sur dégâts de groupe et exception de miss
 });
 test("V12 coop : le déploiement est acquitté une seule fois par lecteur, aucune position finale engagée avant les deux", () => {
   const s = state();
-  finish(s);
-  finish(s);
+  toChoice(s);
   E.votePatrol(s, 1, "travelers");
   E.votePatrol(s, 2, "travelers");
+  E.confirmPatrol(s);
   finish(s);
   const c = s.units.find((u) => u.id === "valdren-captain")!;
   const before = [c.x, c.y];
@@ -224,7 +239,7 @@ test("V12 coop : le déploiement est acquitté une seule fois par lecteur, aucun
   const back = E.decode(E.encode(s));
   E.advanceChapterLine(back, 2, { id: "c1-deploy", page: 0 });
   assert.equal(back.forestChapter!.stage, "battle");
-  assert.equal(back.units.find((u) => u.id === c.id)!.x, 40);
+  assert.equal(back.units.find((u) => u.id === c.id)!.x, 31);
   E.advanceChapterLine(back, 1, { id: "c1-deploy", page: 0 });
   assert.equal(back.forestChapter!.stage, "battle");
 });

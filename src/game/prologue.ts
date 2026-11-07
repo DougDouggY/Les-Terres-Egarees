@@ -34,6 +34,8 @@ export type PrologueProgress = {
   complete?: boolean;
 };
 export const chapterScenes: ChapterSceneId[] = [
+  "c1-approach",
+  "c1-captain",
   "c1-deploy",
   "c1-title",
   "c1-warning",
@@ -76,6 +78,8 @@ export function storyUnit(s: Campaign, speaker: Speaker): Unit | undefined {
     : (group.find((u) => u.leader) ?? group[0]);
 }
 export function chapterLines(s: Campaign, id: ChapterSceneId): DialogueLine[] {
+  if (id === "c1-warning" && s.forestChapter?.stagingVersion === 3)
+    return forestLines(id).slice(0, 2);
   if (id.startsWith("c1-")) return forestLines(id as ForestSceneId);
   if (id === "prologue")
     return [

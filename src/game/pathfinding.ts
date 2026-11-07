@@ -1,3 +1,4 @@
+import { effectiveMove } from "./enemy-activation";
 import { hasSkill } from "./classes";
 import { offensiveReady } from "./combat";
 import type { Campaign, Unit } from "./types";
@@ -89,9 +90,9 @@ export function path(
 export function reachable(s: Campaign, u: Unit, knowledge = false) {
   const result = new Map<number, { cost: number; steps: number[] }>();
   for (const c of map) {
-    if (distance(u, c) > Math.floor(u.move / 0.75)) continue;
+    if (distance(u, c) > Math.floor(effectiveMove(u) / 0.75)) continue;
     const p = path(s, u, c.x, c.y, false, knowledge);
-    if (p && p.cost <= u.move) result.set(key(c.x, c.y), p);
+    if (p && p.cost <= effectiveMove(u)) result.set(key(c.x, c.y), p);
   }
   return result;
 }

@@ -1,3 +1,4 @@
+import { effectiveMove } from "./enemy-activation";
 import type { Campaign, Unit } from "./types";
 import { key, map } from "./active-map";
 import { seen } from "./vision";
@@ -50,7 +51,8 @@ export function enemyFields(
       cost: 0,
       steps: [key(ghost.x, ghost.y)],
     });
-    for (const k of origins.keys()) if (visible.has(k)) moves.add(k);
+    if (effectiveMove(source) > 0)
+      for (const k of origins.keys()) if (visible.has(k)) moves.add(k);
     for (const k of attackCells(ghost, origins.keys(), known))
       if (visible.has(k)) attacks.add(k);
   }

@@ -5208,3 +5208,15 @@ body:has(.aftermath-screen) .modal-back.rewards {
     font-size: 12px;
   }
 }
+/* A narrator has no portrait column, separator or empty reserved area. */
+.chapter-dialogue.narration-only {
+  grid-template-columns: 1fr;
+}
+.chapter-dialogue.narration-only .chapter-speech {
+  border-left: 0;
+  padding-left: 0;
+}
+.patrol-confirm {
+  margin-top: 12px;
+  min-width: 140px;
+}

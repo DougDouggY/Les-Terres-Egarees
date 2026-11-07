@@ -1,4 +1,4 @@
-import { cell, map } from "./game/map";
+import { cell, map } from "./game/active-map";
 import type { Cell } from "./game/types";
 export const isWood = (c: Cell | undefined) =>
   c?.terrain === "tree" || c?.terrain === "forest";

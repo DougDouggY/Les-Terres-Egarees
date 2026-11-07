@@ -432,6 +432,15 @@ function chapterCinematic() {
       if (resolved) cinematic();
       else chapterDirector!.refresh();
     },
+    (owner, choice, revision) => {
+      const view = E.sessionView();
+      if (owner === undefined ? view.mode !== "local" : !E.controlsOwner(owner))
+        return;
+      const done = E.confirmPatrol(s, owner, { choice, revision });
+      checkpoint();
+      if (done) cinematic();
+      else chapterDirector!.refresh();
+    },
   );
   checkpoint();
 }
@@ -490,7 +499,7 @@ function unitCard(u: Unit) {
     ["AGI", u.agility],
     ["INIT", E.effectiveInitiative(u)],
     ["PRÉC", u.accuracy],
-    ["MVT", u.move],
+    ["MVT", E.effectiveMove(u)],
   ]
     .map(
       ([n, v]) =>
@@ -1069,6 +1078,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   const bounds = canvas.getBoundingClientRect();
   if (!bounds.width || !bounds.height) return;
   const cols = Math.min(
+      E.W,
       30 /
         (zoom *
           (canvas.id.startsWith("story-map") ? (chapterFrame?.zoom ?? 1) : 1)),
@@ -1182,7 +1192,8 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
         u.x,
         u.y,
         u.hp,
-        u.move,
+        E.effectiveMove(u),
+        u.enemyAI?.awakened,
         u.range,
         u.minRange,
         u.classId,
@@ -1193,6 +1204,8 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       dangerSignature = signature;
       dangerFields = E.enemyFields(s, p, ids, !fogEnabled);
     }
+    canvas.dataset.enemyMoveCount = String(dangerFields.moves.size);
+    canvas.dataset.enemyAttackCount = String(dangerFields.attacks.size);
     canvas.dataset.enemyRanges = String(dangerFields.ids.length);
     canvas.dataset.enemyRangeMode = dangerAll[p - 1] ? "all" : "hover";
     for (const k of dangerFields.attacks) {
@@ -1389,7 +1402,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       }
     }
   }
-  if (fogEnabled)
+  if (fogEnabled && !E.isForestMap(s.mapId))
     mist.draw(ctx, visible, p, time, {
       x: cam.x * 32,
       y: cam.y * 32,
@@ -1579,7 +1592,7 @@ requestAnimationFrame(animation);
 async function animateMove(u: Unit, x: number, y: number) {
   const s = state!,
     plan = E.path(s, u, x, y, false, true);
-  if (!plan || plan.cost > u.move) return false;
+  if (!plan || plan.cost > E.effectiveMove(u)) return false;
   const p = E.movementPrefix(s, u, plan);
   busy = true;
   moveAnim = {
@@ -1720,7 +1733,12 @@ async function clickCell(x: number, y: number) {
   }
   if (selected === u?.id && u?.owner === s.active) {
     const p = E.path(s, u, x, y, false, true);
-    if (!moved && s.committedMove !== u.id && p && p.cost <= u.move) {
+    if (
+      !moved &&
+      s.committedMove !== u.id &&
+      p &&
+      p.cost <= E.effectiveMove(u)
+    ) {
       origin = {
         x: u.x,
         y: u.y,
@@ -1873,7 +1891,7 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   scene.groundedStage = true;
   screen = "combat";
   document.querySelector(".toast")?.remove();
-  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="--battle-art:url('${assetBase}assets/battle-${a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="960" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
+  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${E.isForestMap(state!.mapId) ? 2 : a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="--battle-art:url('${assetBase}assets/battle-${E.isForestMap(state!.mapId) ? 2 : a.x <= 6 ? 1 : E.cell(a.x, a.y)?.terrain === "forest" ? 2 : a.x >= 14 && a.x <= 20 ? 0 : 3}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="960" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
   await new Promise<void>((done) => {
     combatAnim = {
       battle: result,
@@ -2062,7 +2080,7 @@ async function enemyTurn() {
   await new Promise((r) => setTimeout(r, 400 / speed));
   busy = false;
   const plan = E.ai(s, u);
-  await animateMove(u, plan.x, plan.y);
+  if (u.x !== plan.x || u.y !== plan.y) await animateMove(u, plan.x, plan.y);
   if (E.encounter(s)) {
     s.encounterContinuation = { actorId: u.id, targetId: plan.target };
     cinematic();
