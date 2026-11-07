@@ -1,3 +1,4 @@
+import { generateStatistics } from "./progression";
 import { patrolDeployment, commitPatrol } from "./patrol-staging";
 import type { Campaign, Unit } from "./types";
 import type { ForestSceneId } from "../data/forest-chapter";
@@ -120,19 +121,16 @@ export function beginForestChapter(s: Campaign) {
       "male",
       cls === "squire" ? ["man_at_arms", "spearman"] : undefined,
     );
-    // Chapter-specific enemies only. Class definitions and player stats are untouched.
-    Object.assign(u, {
-      maxHp: id === "valdren-captain" ? 26 : 20,
-      hp: id === "valdren-captain" ? 26 : 20,
-      strength: id === "valdren-captain" ? 7 : 5,
-      defense: id === "valdren-captain" ? 4 : 2,
-      agility: 4,
-      initiative: id === "valdren-captain" ? 6 : 4,
-      move: 4,
-      vision: 14,
-      potions: 0,
+    generateStatistics(u, {
+      role:
+        id === "geraud"
+          ? "recruitable"
+          : id === "valdren-captain"
+            ? "boss"
+            : "ordinary",
       level: id === "valdren-captain" ? 3 : 1,
     });
+    u.potions = 0;
     const d = patrolDeployment.find((d) => d.id === id)!;
     u.enemyAI =
       id === "valdren-captain"

@@ -197,8 +197,11 @@ test("V13 déploiement court et carte 34×20 sur écran large ; capitaine zéro 
     Number(await page.locator("#story-map").getAttribute("data-view-rows")),
   ).toBeLessThanOrEqual(20);
   await page.screenshot({ path: "artifacts/forest-v13/deployment.png" });
-  await page.clock.fastForward(4000);
+  await page.clock.fastForward(6000);
+  await expect(page.locator("#chapter-overlay")).toHaveCount(0);
   await expect(page.locator("#map")).toBeVisible();
+  await page.clock.fastForward(12000);
+  await page.clock.runFor(200);
   // Pan using the real drag handler to inspect the captain in the rear.
   await page.mouse.move(1600, 300);
   await page.mouse.down();

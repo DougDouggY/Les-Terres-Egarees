@@ -270,7 +270,8 @@ export class ChapterDirector {
   }
   private lock(l: DialogueLine) {
     const p = this.s.chapter1?.pending;
-    if (p?.id === "c1-deploy") return patrolDuration(this.s, "deployment");
+    if (p?.id === "c1-deploy")
+      return patrolDuration(this.s, "deployment") + 2800;
     if (p?.id === "c1-approach") return patrolDuration(this.s, "approach");
     if (
       this.staging &&
@@ -312,7 +313,7 @@ export class ChapterDirector {
       pending.id === "c1-deploy" || pending.id === "c1-approach";
     const elapsed = this.ready
       ? this.reader && pending.readBy?.includes(this.reader) && automatic
-        ? patrolDuration(this.s, motion) + 1
+        ? patrolDuration(this.s, motion) + (motion === "deployment" ? 2801 : 1)
         : time - this.started
       : 0;
     if (this.staged()) {
@@ -430,7 +431,7 @@ export class ChapterDirector {
       if (deployment) {
         const duration = patrolDuration(this.s, "deployment"),
           out = ease(elapsed / (duration * 0.27)),
-          back = ease((elapsed - duration * 0.66) / (duration * 0.34)),
+          back = ease((elapsed - duration - 2000) / 800),
           wide = out * (1 - back);
         frame.zoom = 1 - 0.5 * wide;
         frame.center = {
@@ -442,7 +443,7 @@ export class ChapterDirector {
       if (
         automatic &&
         this.ready &&
-        elapsed >= patrolDuration(this.s, motion) &&
+        elapsed >= patrolDuration(this.s, motion) + (deployment ? 2800 : 0) &&
         !this.autoplaySent
       ) {
         this.autoplaySent = true;

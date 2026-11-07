@@ -160,7 +160,7 @@ test("V13 boss : déplacement effectif, champ rouge seul et aucun effet de bord 
   E.applyStrike(s, shot);
   assert.equal(E.effectiveMove(c), 0);
   E.applyStrike(s, { ...shot, hit: true, damage: 1, hpAfter: c.hp - 1 });
-  assert.equal(E.effectiveMove(c), 4);
+  assert.equal(E.effectiveMove(c), E.classes[c.classId!].stats.move);
   c.hp = c.maxHp;
   assert.ok(E.enemyFields(s, 1, [c.id]).moves.size > 1);
   assert.equal(

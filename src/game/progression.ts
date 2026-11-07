@@ -126,3 +126,43 @@ export function powerLabel(u: Unit) {
       ? "Puissance"
       : "Force";
 }
+
+/** Creation only: never called by save hydration or recruitment. */
+export function generateStatistics(
+  u: Unit,
+  options: {
+    role: "principal" | "recruitable" | "ordinary" | "boss";
+    level?: number;
+    seed?: number;
+    overrides?: StatGains;
+  },
+) {
+  const c = classes[u.classId!];
+  u.statRole = options.role;
+  u.statSeed = options.seed ?? hashSeed(`unit:${u.id}:${u.classId}`);
+  u.level = 1;
+  for (const stat of growingStats)
+    u[stat] = stat === "maxHp" ? c.stats.hp : c.stats[stat];
+  // Combat-only reductions retain class specializations; initiative/agility and
+  // structural characteristics (movement, vision, range) retain their references.
+  if (options.role === "ordinary") {
+    u.maxHp = Math.max(1, u.maxHp - Math.max(2, Math.round(u.maxHp * 0.1)));
+    u.strength = Math.max(0, u.strength - 1);
+    u.defense = Math.max(0, u.defense - (u.defense >= 6 ? 2 : 1));
+  }
+  individualize(u, u.statSeed);
+  const rng = { seed: hashSeed(`growth:${u.statSeed}`) };
+  const target = Math.max(1, Math.floor(options.level ?? 1));
+  while (u.level < target) gainLevel(rng, u);
+  for (const stat of growingStats) {
+    const explicit = options.overrides?.[stat];
+    if (explicit !== undefined)
+      u[stat] = Math.max(
+        stat === "maxHp" ? 1 : 0,
+        Math.min(rules.caps[stat], explicit),
+      );
+  }
+  u.hp = u.maxHp;
+  delete u.lastLevelGains;
+  return u;
+}

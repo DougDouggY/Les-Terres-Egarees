@@ -5220,3 +5220,26 @@ body:has(.aftermath-screen) .modal-back.rewards {
   margin-top: 12px;
   min-width: 140px;
 }
+
+/* Unit sheets use the available desktop height, with scrolling on small screens. */
+.compact-battle .unit-window {
+  width: min(360px, calc(100vw - 32px));
+  top: 72px;
+  bottom: auto;
+  min-height: min(560px, calc(100dvh - 110px));
+  max-height: calc(100% - 90px);
+  padding: 22px;
+}
+.unit-window .unit-identity {
+  margin-bottom: 12px;
+}
+.unit-window .stats {
+  margin: 12px 0;
+}
+@media (max-height: 650px) {
+  .compact-battle .unit-window {
+    top: 32px;
+    bottom: 8px;
+    max-height: calc(100% - 40px);
+  }
+}

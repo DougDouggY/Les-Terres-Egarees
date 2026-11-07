@@ -41,6 +41,8 @@ export type Unit = {
   arriving?: boolean;
   combatSkinId?: string;
   originClassId?: string;
+  statRole?: "principal" | "recruitable" | "ordinary" | "boss";
+  statSeed?: number;
   individualVariation?: Record<string, number>;
   lastLevelGains?: import("./progression").StatGains;
   parryPoints?: number;

@@ -16,6 +16,7 @@ export default defineConfig({
     "forest-chapter.spec.ts",
     "patrol-v12.spec.ts",
     "forest-v13.spec.ts",
+    "statistics-v14.spec.ts",
     "chapter1-v7-combat.spec.ts",
     "workshop.spec.ts",
     "initiative-ui.spec.ts",

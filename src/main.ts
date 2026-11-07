@@ -86,7 +86,7 @@ let chapterDirector: ChapterDirector | undefined;
 let chapterFrame: ChapterMapFrame | null = null;
 let pendingReward: (() => void) | null = null;
 let toastTimer: ReturnType<typeof setTimeout>;
-const zoom = 1.65;
+let zoom = 1.65;
 let viewCols = 30 / zoom,
   viewRows = 20 / zoom;
 let focusToken = "";
@@ -493,7 +493,7 @@ function portrait(u: Unit, large = false) {
   return `<div class="portrait ${large ? "large" : ""}">${u.portraitAsset ? `<img src="${assetBase + esc(u.portraitAsset)}" alt="Portrait de ${esc(u.name)}">` : `<div class="portrait-placeholder" aria-label="Portrait à créer"><b>${esc(u.name.slice(0, 1))}</b><small>À CRÉER</small></div>`}</div>`;
 }
 function unitCard(u: Unit) {
-  return `${portrait(u, true)}<div class="unit-identity"><span class="eyebrow">${u.owner === 0 ? "LES MAUDITS" : `EXPÉDITION ${u.owner}`}${u.leader ? " · CHEF" : ""}</span><h2>${esc(u.name)}</h2><span>${E.className(u)} · Nv. ${u.level}</span><small>${esc(unitVisualNote(u))}</small><span></span></div><div class="hp-heading"><span>POINTS DE VIE</span><b>${u.hp}<small> / ${u.maxHp}</small></b></div><div class="bar hp"><i style="width:${(u.hp / u.maxHp) * 100}%"></i></div><div class="stats">${[
+  return `<div class="unit-identity"><span class="eyebrow">${u.owner === 0 ? "ENNEMI" : `EXPÉDITION ${u.owner}`}${u.leader ? " · CHEF" : ""}</span><h2>${esc(u.name)}</h2><span>${E.className(u)} · Nv. ${u.level}</span></div><div class="hp-heading"><span>POINTS DE VIE</span><b>${u.hp}<small> / ${u.maxHp}</small></b></div><div class="bar hp"><i style="width:${(u.hp / u.maxHp) * 100}%"></i></div><div class="stats">${[
     [E.powerLabel(u) === "Puissance" ? "PUIS" : "FOR", u.strength],
     ["DÉF", u.defense],
     ["AGI", u.agility],
@@ -516,7 +516,7 @@ function unitCard(u: Unit) {
     .map((id) => E.skillNames[id])
     .join(
       " · ",
-    )}</small></div><div class="xp-label"><span>EXPÉRIENCE</span><b>${u.xp} / 100</b></div><div class="bar xp"><i style="width:${u.xp}%"></i></div>`;
+    )}</small></div>${u.owner !== 0 && u.statRole !== "ordinary" ? `<div class="xp-label"><span>EXPÉRIENCE</span><b>${u.xp} / 100</b></div><div class="bar xp"><i style="width:${u.xp}%"></i></div>` : ""}`;
 }
 function equipmentModal(u: Unit) {
   const modal = document.createElement("div");
@@ -779,6 +779,36 @@ function bindCanvas() {
   ] as const) {
     const canvas = document.querySelector<HTMLCanvasElement>(`#${id}`);
     if (!canvas) continue;
+    canvas.addEventListener(
+      "wheel",
+      (e) => {
+        if (!state || screen !== "battle" || state.chapter1?.pending) return;
+        e.preventDefault();
+        const r = canvas.getBoundingClientRect();
+        const fx = (e.clientX - r.left) / r.width,
+          fy = (e.clientY - r.top) / r.height;
+        const oldCols = viewCols,
+          oldRows = viewRows;
+        zoom = Math.max(
+          0.8,
+          Math.min(
+            3,
+            zoom * Math.exp(-Math.max(-120, Math.min(120, e.deltaY)) * 0.0015),
+          ),
+        );
+        const cols = Math.min(E.W, 30 / zoom, (E.H * r.width) / r.height);
+        const rows = (cols * r.height) / r.width;
+        for (const player of state.players) {
+          player.camera.x += (oldCols - cols) * fx;
+          player.camera.y += (oldRows - rows) * fy;
+        }
+        viewCols = cols;
+        viewRows = rows;
+        clampCamera(1);
+        clampCamera(2);
+      },
+      { passive: false },
+    );
     let drag: {
       id: number;
       x: number;
