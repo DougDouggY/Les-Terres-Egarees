@@ -67,6 +67,8 @@ export class ChapterDirector {
   private started = performance.now();
   private shown = false;
   private ready = false;
+  private patrolElapsed = 0;
+  private patrolLast?: number;
   private from: { x: number; y: number };
   private target: { x: number; y: number };
   private camera: { x: number; y: number };
@@ -132,11 +134,11 @@ export class ChapterDirector {
     this.target = { ...this.camera };
     this.refresh();
     window.addEventListener("keydown", this.key, true);
-    void warmSprites([...s.units, this.witch, this.monster], s.teamColors, [
-      "idle",
-      "move",
-      "attack",
-    ]).then(() => {
+    void warmSprites(
+      [...s.units, this.witch, this.monster],
+      s.teamColors,
+      s.forestChapter ? ["idle", "move"] : ["idle", "move", "attack"],
+    ).then(() => {
       this.ready = true;
       this.started = performance.now();
     });
@@ -173,6 +175,8 @@ export class ChapterDirector {
         ? ruinsCenter
         : this.group();
     this.started = performance.now();
+    this.patrolElapsed = 0;
+    this.patrolLast = undefined;
     this.shown = false;
     const u =
         storyUnit(this.s, l.speaker) ??
@@ -261,7 +265,15 @@ export class ChapterDirector {
     const l = this.lines[this.s.chapter1!.pending!.page];
     if (this.reader && this.s.chapter1!.pending!.readBy?.includes(this.reader))
       return;
-    if (!this.ready || performance.now() - this.started < this.lock(l)) return;
+    const scripted = ["c1-approach", "c1-deploy"].includes(
+      this.s.chapter1!.pending!.id,
+    );
+    if (
+      !this.ready ||
+      (scripted ? this.patrolElapsed : performance.now() - this.started) <
+        this.lock(l)
+    )
+      return;
     if (!this.shown) {
       this.shown = true;
       return;
@@ -311,11 +323,23 @@ export class ChapterDirector {
     const motion = pending.id === "c1-deploy" ? "deployment" : "approach";
     const automatic =
       pending.id === "c1-deploy" || pending.id === "c1-approach";
-    const elapsed = this.ready
+    let elapsed = this.ready
       ? this.reader && pending.readBy?.includes(this.reader) && automatic
         ? patrolDuration(this.s, motion) + (motion === "deployment" ? 2801 : 1)
         : time - this.started
       : 0;
+    if (automatic && this.ready) {
+      const acknowledged = this.reader && pending.readBy?.includes(this.reader);
+      if (!acknowledged) {
+        if (this.patrolLast !== undefined)
+          this.patrolElapsed += Math.max(
+            0,
+            Math.min(50, time - this.patrolLast),
+          );
+        elapsed = this.patrolElapsed;
+      }
+      this.patrolLast = time;
+    }
     if (this.staged()) {
       const canvas =
         this.root.parentElement?.querySelector<HTMLCanvasElement>("#story-map");

@@ -286,17 +286,22 @@ export async function warmSprites(
   const ctx = canvas.getContext("2d")!;
   for (const { unit, profile } of requests)
     for (const name of animations)
-      drawResourceFrame(
-        ctx,
-        profile,
-        name,
-        0,
-        0,
-        0,
-        64,
-        64,
-        true,
-        colorForOwner(colors, unit.owner),
-        "world",
-      );
+      for (
+        let frame = 0;
+        frame < (resolveClip(profile, name)?.frames.length ?? 0);
+        frame++
+      )
+        drawResourceFrame(
+          ctx,
+          profile,
+          name,
+          frame,
+          0,
+          0,
+          64,
+          64,
+          true,
+          colorForOwner(colors, unit.owner),
+          "world",
+        );
 }

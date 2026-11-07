@@ -5,6 +5,7 @@ export const baseBalance: Record<
     growth: [number, number, number, number, number];
   }
 > = {
+  squire: { stats: [15, 3, 2, 5, 80, 4, 6, 4], growth: [60, 40, 30, 40, 35] },
   north_warrior: {
     stats: [23, 7, 5, 7, 85, 5, 5, 6],
     growth: [80, 60, 30, 25, 25],

@@ -71,6 +71,8 @@ let companionDrafts: [string[], string[]] = [[], []];
 let creationFlow = E.newCreationFlow();
 const dangerAll: [boolean, boolean] = [false, false];
 let dangerSignature = "";
+let allyFieldSignature = "";
+let allyPreview: ReturnType<typeof E.alliedFields> | undefined;
 let dangerFields: ReturnType<typeof E.enemyFields> = {
   moves: new Set(),
   attacks: new Set(),
@@ -1203,6 +1205,12 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       if (!fogEnabled || visible.has(E.key(c.x, c.y)))
         ctx.strokeRect(c.x * 32, c.y * 32, 32, 32);
   }
+  const hoveredAlly =
+    !aim && hover !== null && canvas.id === "map" && screen === "battle"
+      ? E.at(s, E.map[hover].x, E.map[hover].y)
+      : undefined;
+  const previewingAlly =
+    !!hoveredAlly?.owner && (!fogEnabled || E.seen(s, p, hoveredAlly));
   if (canvas.id === "map" && screen === "battle") {
     const hovered =
       hover === null ? undefined : E.at(s, E.map[hover].x, E.map[hover].y);
@@ -1255,9 +1263,51 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ctx.strokeRect(c.x * 32 + 2, c.y * 32 + 2, 28, 28);
     }
   }
+  if (previewingAlly && hoveredAlly) {
+    const signature =
+      dangerSignature +
+      hoveredAlly.id +
+      s.committedMove +
+      JSON.stringify(hoveredAlly.carriedWeapons);
+    if (signature !== allyFieldSignature) {
+      allyFieldSignature = signature;
+      allyPreview = E.alliedFields(s, p, hoveredAlly, !fogEnabled);
+    }
+    canvas.dataset.allyMoveCount = String(allyPreview!.moves.size);
+    canvas.dataset.allyAttackCount = String(allyPreview!.attacks.size);
+    canvas.dataset.allyHealCount = String(allyPreview!.heals.size);
+    for (const [cells, color] of [
+      [allyPreview!.attacks, "#e6535848"],
+      [allyPreview!.heals, "#58b97c66"],
+      [allyPreview!.moves, "#4bade34a"],
+    ] as const)
+      for (const k of cells) {
+        const c = E.map[k];
+        if (cells !== allyPreview!.moves && allyPreview!.moves.has(k)) continue;
+        if (cells === allyPreview!.heals && allyPreview!.attacks.has(k)) {
+          ctx.strokeStyle = "#6add91cc";
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(c.x * 32 + 2, c.y * 32 + 2, 28, 28);
+        } else {
+          ctx.fillStyle = color;
+          ctx.fillRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
+        }
+      }
+  } else {
+    canvas.dataset.allyMoveCount =
+      canvas.dataset.allyAttackCount =
+      canvas.dataset.allyHealCount =
+        "0";
+  }
   const sel = s.units.find((u) => u.id === selected),
     cur = E.current(s);
-  if (sel && sel.owner === p && sel.id === cur?.id && !busy) {
+  if (
+    sel &&
+    sel.owner === p &&
+    sel.id === cur?.id &&
+    !busy &&
+    !previewingAlly
+  ) {
     const reach = moved
       ? new Map([[E.key(sel.x, sel.y), { cost: 0, steps: [] }]])
       : movementField(s, sel);
@@ -1294,6 +1344,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   }
   if (
     sel &&
+    !previewingAlly &&
     sel.id === cur?.id &&
     sel.owner === p &&
     (aim === "heal" || (!aim && E.activeWeapon(sel).category === "healing"))

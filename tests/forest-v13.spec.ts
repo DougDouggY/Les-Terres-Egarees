@@ -124,7 +124,7 @@ test("V13 narration sans colonne et gardes immobiles jusqu’au clic après Maë
   expect(
     (await positions(page)).find((u: any) => u.id === "valdren-captain").x,
   ).toBeLessThan(17);
-  await page.clock.fastForward(2900);
+  await page.clock.runFor(2900);
   await expect(page.locator('[data-story-scene="c1-captain"]')).toBeVisible();
   await page.clock.runFor(100);
   expect(
@@ -197,7 +197,7 @@ test("V13 déploiement court et carte 34×20 sur écran large ; capitaine zéro 
     Number(await page.locator("#story-map").getAttribute("data-view-rows")),
   ).toBeLessThanOrEqual(20);
   await page.screenshot({ path: "artifacts/forest-v13/deployment.png" });
-  await page.clock.fastForward(6000);
+  await page.clock.runFor(6000);
   await expect(page.locator("#chapter-overlay")).toHaveCount(0);
   await expect(page.locator("#map")).toBeVisible();
   await page.clock.fastForward(12000);
