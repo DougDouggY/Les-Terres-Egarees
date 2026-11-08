@@ -49,3 +49,17 @@ test("custom names remain safe in the profile and its tooltip", () => {
   u.name = "<script>";
   assert.ok(!characterSheet(u).includes("<script>"));
 });
+
+test("experience is shown on two digits without a denominator", () => {
+  const u = E.createCampaign(["north", "knight"]).units[0];
+  for (const [xp, formatted] of [
+    [0, "00"],
+    [7, "07"],
+    [99, "99"],
+  ] as const) {
+    u.xp = xp;
+    const html = characterSheet(u);
+    assert.ok(html.includes(`<dt>EXP</dt><dd>${formatted}</dd>`));
+    assert.ok(!html.includes("/100"));
+  }
+});

@@ -5798,3 +5798,76 @@ body:has(.aftermath-screen) .modal-back.rewards {
 .character-window:has(> .promotion-choice) > .character-sheet {
   height: 247px;
 }
+/* V19: clearer engravings and a compact, reference-style identity block. */
+.character-profile {
+  position: relative;
+  z-index: 1;
+  background: #f2e6ce;
+}
+.character-profile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: url("./assets/ui/character-background-v18.webp") left 90px / 400px
+    247px no-repeat;
+  filter: grayscale(1) invert(1) brightness(0.65) contrast(4) brightness(1.3);
+  opacity: 0.7;
+  mix-blend-mode: multiply;
+}
+.character-pages {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #563b354d, #4a333033);
+}
+.character-portrait-slot {
+  width: 84px;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+.character-class {
+  text-align: left;
+  margin: 2px 0 3px;
+}
+.character-profile dl {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  justify-content: start;
+  gap: 3px 7px;
+  margin: 3px 0 0;
+}
+.character-profile dl div {
+  justify-content: flex-start;
+  gap: 2px;
+}
+.character-profile dt {
+  font-size: 11px;
+}
+.character-profile .character-health {
+  grid-column: 1/-1;
+}
+.character-health dd small {
+  font-size: inherit;
+}
+.character-page-title {
+  flex-shrink: 0;
+}
+.character-item-list {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+.character-item {
+  flex-shrink: 0;
+}
+.character-item-details {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+.character-statistics {
+  flex: 1;
+  min-height: 0;
+}
