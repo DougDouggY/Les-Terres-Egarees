@@ -85,11 +85,11 @@ test("V14 roulette et fiche sans portrait, desktop et petit écran", async ({
   await page.mouse.click(point.x, point.y);
   await page.mouse.click(point.x, point.y);
 
-  await page.locator('[data-action="unit-sheet"]').click();
+  await page.locator('[data-action="character"]').click();
   const sheet = page.locator(".unit-window");
   await expect(sheet).toBeVisible();
   await expect(sheet.locator(".portrait,.portrait-placeholder")).toHaveCount(0);
-  await expect(sheet).toContainText("EXPÉRIENCE");
+  await expect(sheet).toContainText("EXP");
   expect(
     await sheet.evaluate((el) => el.scrollHeight <= el.clientHeight + 2),
   ).toBe(true);

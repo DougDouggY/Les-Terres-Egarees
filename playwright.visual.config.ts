@@ -19,6 +19,7 @@ export default defineConfig({
     "statistics-v14.spec.ts",
     "patrol-v15.spec.ts",
     "magic-v16.spec.ts",
+    "character-v17.spec.ts",
     "chapter1-v7-combat.spec.ts",
     "workshop.spec.ts",
     "initiative-ui.spec.ts",

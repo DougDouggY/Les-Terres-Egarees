@@ -1,3 +1,8 @@
+import {
+  characterSheet,
+  characterPage,
+  type CharacterTab,
+} from "./ui/character-sheet";
 import { tacticalIdleSway } from "./sprites/display-scale";
 import { creatorMarkup, paintCreatorSprites } from "./ui/creator";
 import {
@@ -494,59 +499,19 @@ function nextScene() {
 function portrait(u: Unit, large = false) {
   return `<div class="portrait ${large ? "large" : ""}">${u.portraitAsset ? `<img src="${assetBase + esc(u.portraitAsset)}" alt="Portrait de ${esc(u.name)}">` : `<div class="portrait-placeholder" aria-label="Portrait à créer"><b>${esc(u.name.slice(0, 1))}</b><small>À CRÉER</small></div>`}</div>`;
 }
-function unitCard(u: Unit) {
-  return `<div class="unit-identity"><span class="eyebrow">${u.owner === 0 ? "ENNEMI" : `EXPÉDITION ${u.owner}`}${u.leader ? " · CHEF" : ""}</span><h2>${esc(u.name)}</h2><span>${E.className(u)} · Nv. ${u.level}</span></div><div class="hp-heading"><span>POINTS DE VIE</span><b>${u.hp}<small> / ${u.maxHp}</small></b></div><div class="bar hp"><i style="width:${(u.hp / u.maxHp) * 100}%"></i></div><div class="stats">${[
-    [E.powerLabel(u) === "Puissance" ? "PUIS" : "FOR", u.strength],
-    ["DÉF", u.defense],
-    ["AGI", u.agility],
-    ["INIT", E.effectiveInitiative(u)],
-    ["PRÉC", u.accuracy],
-    ["MVT", E.effectiveMove(u)],
-  ]
-    .map(
-      ([n, v]) =>
-        `<div tabindex="0" role="button" aria-label="${n} : ${v}" data-tooltip="${({ FOR: "Force : augmente les dégâts physiques.", PUIS: "Puissance : augmente les dégâts magiques et les soins.", DÉF: "Défense : réduit les dégâts reçus, en plus du couvert.", AGI: "Agilité : réduit la précision adverse ; 4 points d’écart donnent une seconde frappe.", INIT: "Initiative : détermine l’ordre de passage. Le chef reçoit +1 tant qu’il commande.", PRÉC: "Précision : augmente les chances de toucher.", MVT: "Mouvement : budget de déplacement, selon le coût du terrain." } as Record<string, string>)[String(n)]}"><span>${n}</span><b>${v}</b></div>`,
-    )
-    .join(
-      "",
-    )}</div><div class="equipment"><span>ARME ÉQUIPÉE</span><strong>${E.weaponName(u)}</strong><small>Portée ${u.minRange}–${u.range} cases${E.activeWeapon(u).reload ? " · Rechargement automatique" : ""}</small><small>${E.unitClass(
-    u,
-  )
-    .skills.filter(
-      (id) => u.owner !== 0 || E.discoveries(state!).skills.includes(id),
-    )
-    .map((id) => E.skillNames[id])
-    .join(
-      " · ",
-    )}</small></div>${u.owner !== 0 && u.statRole !== "ordinary" ? `<div class="xp-label"><span>EXPÉRIENCE</span><b>${u.xp} / 100</b></div><div class="bar xp"><i style="width:${u.xp}%"></i></div>` : ""}`;
+function canManageCharacter(u: Unit) {
+  return (
+    !!state &&
+    !busy &&
+    E.controlsOwner(u.owner) &&
+    u.owner === state.active &&
+    E.current(state)?.id === u.id &&
+    !state.scene &&
+    state.phase === "battle"
+  );
 }
-function equipmentModal(u: Unit) {
-  const modal = document.createElement("div");
-  modal.className = "modal-back equipment-modal";
-  modal.innerHTML = `<section class="modal"><h2>Équipement</h2><p>${esc(u.name)} · Arme active : ${E.weaponName(u)}</p><div class="equipment-list">${(
-    u.carriedWeapons ?? []
-  )
-    .filter(
-      (id) =>
-        !(
-          E.unitClass(u).weapons.includes("magic") &&
-          E.hasSkill(u, "heal") &&
-          E.weaponCatalog[id].category === "healing"
-        ),
-    )
-    .map((id) => {
-      const w = E.weaponCatalog[id];
-      return button(
-        `${w.name}<small>Portée ${w.min}–${w.max}${id === u.activeWeaponId ? " · ÉQUIPÉE" : ""}</small>`,
-        `equip-${id}`,
-        "",
-        !E.compatibleWeapon(u, id) || id === u.activeWeaponId,
-      );
-    })
-    .join(
-      "",
-    )}</div>${u.potions > 0 && u.hp < u.maxHp ? button(`Utiliser une potion (${u.potions})`, "heal", "primary") : ""}${button("Fermer", "close-modal")}</section>`;
-  app.append(modal);
+function unitCard(u: Unit) {
+  return characterSheet(u, canManageCharacter(u));
 }
 function promotionMarkup(u: Unit) {
   const options = E.promotionOptions(u);
@@ -578,7 +543,7 @@ function contextActions(u: Unit) {
         '<small class="entry-warning">Écartez les ennemis des abords avant d’entrer.</small>';
   }
   if (E.canTalkGeraud(s, u)) html += button("Parler à Géraud", "talk-geraud");
-  html += button("Équipement", "equipment");
+  html += button("Personnage", "character");
   if (u.classId === "tracker")
     for (const id of u.carriedWeapons ?? []) {
       const w = E.weaponCatalog[id];
@@ -607,10 +572,7 @@ function contextActions(u: Unit) {
     E.map.some((c) => E.distance(u, c) <= u.range && E.canCastAreaAt(s, u, c))
   )
     html += button("Attaque de zone", "skill-area");
-  html +=
-    button("Fiche", "unit-sheet") +
-    button("Attendre", "wait") +
-    button("Annuler", "cancel");
+  html += button("Attendre", "wait") + button("Annuler", "cancel");
   return `<div id="unit-actions" class="unit-actions" role="menu" aria-label="Actions de ${esc(u.name)}">${html}</div>`;
 }
 function positionContextMenu() {
@@ -763,7 +725,7 @@ function battleUI() {
   ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div id="map-tooltip" class="map-tooltip" hidden></div>
-  ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window" aria-label="Fiche de ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer la fiche">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
+  ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window character-window" aria-label="Personnage · ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer le personnage">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
   ${sel && own && sel.id === u?.id && moved && !busy && !targetingAttack ? contextActions(u) : ""}
   </div></section></div></main>`;
   initiativeCleanup = bindInitiative(app, s, () => save(true));
@@ -2618,15 +2580,30 @@ app.addEventListener("click", async (e) => {
         error as Error
       ).message;
     }
-  } else if (action === "equipment" || action === "unit-sheet") {
+  } else if (
+    action === "character-tab" ||
+    action.startsWith("character-item-")
+  ) {
+    const root = el.closest<HTMLElement>(".character-sheet");
+    const u = state?.units.find((u) => u.id === root?.dataset.characterUnit);
+    if (!root || !u) return;
+    let tab = root.dataset.characterTab as CharacterTab;
+    if (action === "character-tab")
+      tab = tab === "inventory" ? "stats" : "inventory";
+    else root.dataset.characterItem = action.slice("character-item-".length);
+    root.dataset.characterTab = tab;
+    root.querySelector(".character-pages")!.innerHTML = characterPage(
+      u,
+      tab,
+      root.dataset.characterItem,
+      canManageCharacter(u),
+    );
+  } else if (["character", "equipment", "unit-sheet"].includes(action)) {
     const u = E.current(state!);
     if (!u || u.owner !== state!.active || busy) return;
-    if (action === "equipment") equipmentModal(u);
-    else {
-      cardOpen = true;
-      selected = u.id;
-      battleUI();
-    }
+    cardOpen = true;
+    selected = u.id;
+    battleUI();
   } else if (action.startsWith("equip-")) {
     try {
       E.equipWeapon(state!, E.current(state!)!, action.slice(6));
@@ -2860,7 +2837,7 @@ app.addEventListener("click", async (e) => {
     const u = state!.units.find((u) => u.id === action.slice(6))!;
     const m = document.createElement("div");
     m.className = "modal-back";
-    m.innerHTML = `<section class="modal sheet">${unitCard(u)}${button("Fermer", "close-modal", "primary")}</section>`;
+    m.innerHTML = `<section class="modal sheet character-modal"><button class="close-unit" data-action="close-modal" aria-label="Fermer le personnage">×</button>${unitCard(u)}</section>`;
     app.append(m);
   }
 });

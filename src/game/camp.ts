@@ -24,7 +24,7 @@ export const buildings: Record<
     stages: ["Atelier effondré", "Établi remis en service", "Forge restaurée"],
     benefits: [
       "Récupérez les poutres et les outils du convoi.",
-      "Préparer des potions avec les plantes du camp.",
+      "Préparer des bandages avec les plantes du camp.",
       "Affûter une fois les armes de tous les survivants : Force +1.",
     ],
   },
@@ -333,10 +333,10 @@ export function prepareCampPotions(s: Campaign) {
   const units = s.units.filter(
     (u) => u.owner !== 0 && u.hp > 0 && u.potions < 3,
   );
-  if (!units.length) throw Error("Les réserves de potions sont déjà pleines");
+  if (!units.length) throw Error("Les réserves de bandages sont déjà pleines");
   addStock(s, "Plantes médicinales", -1);
   for (const u of units) u.potions++;
-  note(s, "L’atelier prépare des potions pour les survivants.");
+  note(s, "L’atelier prépare des bandages pour les survivants.");
 }
 export function improveCampWeapons(s: Campaign) {
   const c = service(s, "workshop", 2);
