@@ -52,7 +52,19 @@ const classTexts: Record<string, string> = {
 };
 const tip = (text: string, body: string) =>
   `<span class="character-tip" tabindex="0" data-character-tip="${esc(text)}">${body}</span>`;
-export function biography(u: Unit) {
+export function biography(u: Unit, campaign?: E.Campaign) {
+  if (u.id === "geraud")
+    return u.owner === 0
+      ? "Écuyer de Valdren, il apprend encore le métier des armes."
+      : "Ancien écuyer de Valdren, il apprend encore le maniement des armes. Il se souvient des tempêtes rouges et croit toujours à leur existence.";
+  if (u.id === "story-witch") {
+    if (campaign?.forestChapter?.completed.includes("c1-cave"))
+      return "Sorcière étudiant les tempêtes rouges, elle combat l’oubli grâce à ses notes. Sa sœur est prisonnière de Valdren.";
+    if (campaign?.chapter1?.witchNamed || campaign?.forestChapter)
+      return "Sorcière qui enquête sur les tempêtes rouges et cherche un moyen de quitter ces terres.";
+    return "Une sorcière rencontrée près du sanctuaire, qui semble en savoir davantage sur ces terres.";
+  }
+
   return (
     (Object.hasOwn(stories, u.name) ? stories[u.name] : undefined) ??
     (u.leader
@@ -168,7 +180,11 @@ export function characterPage(
     `<div class="character-item-list" role="group" aria-label="Objets transportés">${items.map((item) => `<button data-action="character-item-${esc(item.id)}" class="character-item ${chosen?.id === item.id ? "selected" : ""}" aria-pressed="${chosen?.id === item.id}"><span class="item-cursor" aria-hidden="true">${item.id === u.activeWeaponId ? "▸" : "·"}</span>${icon(item.id === "bandages" ? "bandages" : (E.weaponCatalog[item.id]?.category ?? "sword"))}<span>${esc(item.name)}</span>${item.id === "bandages" ? `<b>×${u.potions}</b>` : ""}</button>`).join("")}</div><section class="character-item-details" aria-label="Détails de l’objet" aria-live="polite">${details}</section>`
   );
 }
-export function characterSheet(u: Unit, canManage = false) {
+export function characterSheet(
+  u: Unit,
+  canManage = false,
+  campaign?: E.Campaign,
+) {
   const playable = u.owner !== 0 && u.statRole !== "ordinary";
-  return `<div class="character-sheet" data-character-unit="${esc(u.id)}" data-character-tab="inventory"><aside class="character-profile"><div class="character-portrait-slot" role="img" aria-label="Emplacement du portrait"></div><h2>${tip(biography(u), esc(u.name))}</h2><p class="character-class">${tip(classDescription(u), esc(E.className(u)))}</p><dl><div><dt>Niv</dt><dd>${u.level}</dd></div>${playable ? `<div><dt>EXP</dt><dd>${u.xp}<small>/100</small></dd></div>` : ""}<div class="character-health"><dt>PV</dt><dd>${u.hp}<small>/${u.maxHp}</small></dd></div></dl></aside><section class="character-pages">${characterPage(u, "inventory", undefined, canManage)}</section></div>`;
+  return `<div class="character-sheet" data-character-unit="${esc(u.id)}" data-character-tab="inventory"><aside class="character-profile"><div class="character-portrait-slot" role="img" aria-label="Emplacement du portrait"></div><h2>${tip(biography(u, campaign), esc(u.name))}</h2><p class="character-class">${tip(classDescription(u), esc(E.className(u)))}</p><dl><div><dt>Niv</dt><dd>${u.level}</dd></div>${playable ? `<div><dt>EXP</dt><dd>${u.xp}<small>/100</small></dd></div>` : ""}<div class="character-health"><dt>PV</dt><dd>${u.hp}<small>/${u.maxHp}</small></dd></div></dl></aside><section class="character-pages">${characterPage(u, "inventory", undefined, canManage)}</section></div>`;
 }

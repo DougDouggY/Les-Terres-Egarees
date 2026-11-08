@@ -1,0 +1,9 @@
+# V18 — Fiche réduite, fond illustré et biographies évolutives
+
+- Fenêtre normale 400 × 263 px, contre 650 × 395 px auparavant : hauteur réduite de 33,4 %, largeur de 38,5 %. Les tailles courantes des textes restent lisibles ; la réduction porte sur les marges, l'espace de portrait et les espacements. Les contenus exceptionnellement longs restent défilables. Les choix de promotion restent utilisables sous la fiche.
+- Un fond original a été généré, avec texture, dégradés, entrelacs et rose des vents en filigrane. Il est encodé en WebP pour le jeu et intégré sous des aplats translucides conservant les couleurs crème, brune et bleue. Aucun sprite, portrait, décor tactique ou cinématique régénéré.
+- Le menu d'action du personnage est masqué pendant l'ouverture de sa fiche, puis revient à la fermeture sans consommer d'action.
+- Géraud : biographie d'écuyer de Valdren avant recrutement ; après recrutement, ancien écuyer qui apprend encore les armes et se souvient des tempêtes rouges.
+- Maëlys : description fondée sur les informations connues. Ses recherches sur les tempêtes apparaissent après sa présentation ; l'oubli, ses notes et sa sœur prisonnière de Valdren ne sont mentionnés qu'après l'achèvement du dialogue de la grotte. Les descriptions sont calculées depuis les événements sauvegardés, sans nouveau champ ni modification des dialogues. Les biographies des autres personnages restent inchangées.
+
+Vérifications : dimensions réellement mesurées dans Chromium, menu d'action absent pendant l'inspection puis de retour à la fermeture, onglets et profil conservés, équipement, bandages, inspection ennemie et petit écran ; biographies avant/après recrutement et révélation, y compris après sauvegarde/chargement ; suite automatique ; compilations publique/prototype et contrôles des outils de développement. Captures dans `artifacts/character-v18`.

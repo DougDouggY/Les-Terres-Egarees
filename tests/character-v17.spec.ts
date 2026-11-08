@@ -129,7 +129,7 @@ async function saved(page: Page) {
   return page.evaluate(() => JSON.parse(localStorage.getItem("lte-save")!));
 }
 
-mkdirSync("artifacts/character-v17", { recursive: true });
+mkdirSync("artifacts/character-v18", { recursive: true });
 test("V17 inventaire compact, onglets, profil fixe et croix", async ({
   page,
 }) => {
@@ -140,12 +140,13 @@ test("V17 inventaire compact, onglets, profil fixe et croix", async ({
   await page.locator('[data-action="character"]').click();
   const root = page.locator(".character-window");
   await expect(root).toBeVisible();
+  await expect(page.locator("#unit-actions")).toHaveCount(0);
   await expect(
     root.getByRole("heading", { name: "Inventaire", exact: true }),
   ).toBeVisible();
   const box = await root.boundingBox();
-  expect(box!.width).toBeLessThan(700);
-  expect(box!.height).toBeLessThan(500);
+  expect(box!.width).toBeLessThanOrEqual(400);
+  expect(box!.height).toBeLessThanOrEqual(264);
   await expect(root.locator(".character-portrait-slot")).toBeEmpty();
   await expect(root.locator("img,.bar")).toHaveCount(0);
   await root
@@ -154,7 +155,7 @@ test("V17 inventaire compact, onglets, profil fixe et croix", async ({
   await page.locator('[data-action="character-item-axe"]').click();
   await expect(root.locator(".character-item-details")).toContainText("Dégâts");
   await expect(root).not.toContainText("Portée");
-  await page.screenshot({ path: "artifacts/character-v17/inventory.png" });
+  await page.screenshot({ path: "artifacts/character-v18/inventory.png" });
   await root.getByRole("button", { name: "Onglet suivant" }).click();
   await expect(
     root.getByRole("heading", { name: "Statistiques", exact: true }),
@@ -172,7 +173,7 @@ test("V17 inventaire compact, onglets, profil fixe et croix", async ({
       .locator(".character-profile h2 .character-tip")
       .evaluate((el) => getComputedStyle(el, "::after").display),
   ).toBe("block");
-  await page.screenshot({ path: "artifacts/character-v17/statistics.png" });
+  await page.screenshot({ path: "artifacts/character-v18/statistics.png" });
   await root.getByRole("button", { name: "Onglet précédent" }).click();
   await page.locator('[data-action="character-item-axe"]').click();
   await page.locator('[data-action="equip-axe"]').click();
@@ -181,6 +182,7 @@ test("V17 inventaire compact, onglets, profil fixe et croix", async ({
   ).toHaveText("▸");
   await page.locator('[data-action="close-unit"]').click();
   await expect(root).toHaveCount(0);
+  await expect(page.locator("#unit-actions")).toBeVisible();
   await page.locator('[data-action="wait"]').click();
   expect(
     (await saved(page)).units.find((u: any) => u.id === a.id).activeWeaponId,
@@ -211,5 +213,5 @@ test("V17 bandages utilisables, quantité conservée et vue ennemie sans XP", as
   expect(box!.x).toBeGreaterThanOrEqual(0);
   expect(box!.x + box!.width).toBeLessThanOrEqual(600);
   expect(box!.height).toBeLessThan(700);
-  await page.screenshot({ path: "artifacts/character-v17/compact-screen.png" });
+  await page.screenshot({ path: "artifacts/character-v18/compact-screen.png" });
 });

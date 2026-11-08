@@ -16,7 +16,7 @@
     "test:visual": "node --import tsx --test tests/visual-library.test.ts tests/combat-trial.test.ts tests/recolor-edges.test.ts tests/combat-v2.test.ts tests/combat-v4.test.ts tests/combat-v5.test.ts",
     "test:visual-ui": "playwright test --config=playwright.visual.config.ts",
     "report:sprites": "node --import tsx scripts/sprite-report.ts",
-    "test:systems": "node --import tsx --test tests/systems-independent.test.ts tests/initiative.test.ts tests/tactical-fields.test.ts tests/combat-v6.test.ts tests/chapter1-v7.test.ts tests/chapter1-v8.test.ts tests/sprite-v9.test.ts tests/prologue-v10.test.ts tests/forest-chapter.test.ts tests/patrol-v12.test.ts tests/forest-v13.test.ts tests/statistics-v14.test.ts tests/patrol-v15.test.ts tests/magic-v16.test.ts tests/character-v17.test.ts"
+    "test:systems": "node --import tsx --test tests/systems-independent.test.ts tests/initiative.test.ts tests/tactical-fields.test.ts tests/combat-v6.test.ts tests/chapter1-v7.test.ts tests/chapter1-v8.test.ts tests/sprite-v9.test.ts tests/prologue-v10.test.ts tests/forest-chapter.test.ts tests/patrol-v12.test.ts tests/forest-v13.test.ts tests/statistics-v14.test.ts tests/patrol-v15.test.ts tests/magic-v16.test.ts tests/character-v17.test.ts tests/character-v18.test.ts"
   },
   "devDependencies": {
     "@fontsource/cormorant-garamond": "^5.3.0",

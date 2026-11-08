@@ -511,7 +511,7 @@ function canManageCharacter(u: Unit) {
   );
 }
 function unitCard(u: Unit) {
-  return characterSheet(u, canManageCharacter(u));
+  return characterSheet(u, canManageCharacter(u), state ?? undefined);
 }
 function promotionMarkup(u: Unit) {
   const options = E.promotionOptions(u);
@@ -726,7 +726,7 @@ function battleUI() {
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div id="map-tooltip" class="map-tooltip" hidden></div>
   ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window character-window" aria-label="Personnage · ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer le personnage">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
-  ${sel && own && sel.id === u?.id && moved && !busy && !targetingAttack ? contextActions(u) : ""}
+  ${sel && own && sel.id === u?.id && moved && !busy && !targetingAttack && !cardOpen ? contextActions(u) : ""}
   </div></section></div></main>`;
   initiativeCleanup = bindInitiative(app, s, () => save(true));
   bindCanvas();
