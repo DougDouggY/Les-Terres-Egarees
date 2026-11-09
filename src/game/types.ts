@@ -36,6 +36,9 @@ export type Cell = {
   interactive?: string;
 };
 export type Unit = {
+  /** Identity metadata; optional for compatibility with existing saves. */
+  hasPersonalName?: boolean;
+  factionLabel?: string;
   enemyAI?: import("./enemy-activation").EnemyBehavior;
   aiTargetId?: string;
   arriving?: boolean;

@@ -82,6 +82,7 @@ export function createCampaign(
       );
       syncWeapon(hero);
     }
+    hero.hasPersonalName = true;
     individualize(hero);
     units.push(hero);
     const ids =
@@ -99,6 +100,7 @@ export function createCampaign(
         y + 1,
         c.gender,
       );
+      unit.hasPersonalName = true;
       individualize(unit);
       units.push(unit);
     });

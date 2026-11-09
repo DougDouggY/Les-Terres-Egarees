@@ -206,6 +206,8 @@ test("V17 bandages utilisables, quantité conservée et vue ennemie sans XP", as
   await clickCell(page, enemy.x, enemy.y);
   const root = page.locator(".character-window");
   await expect(root).toBeVisible();
+  await expect(root.locator(".character-profile h2")).toHaveText("Écorcheurs");
+  await expect(root.locator(".character-class")).toHaveText("Pillard");
   await expect(root.locator("dt").filter({ hasText: "EXP" })).toHaveCount(0);
   await expect(root.locator('[data-action^="equip-"]')).toHaveCount(0);
   await page.setViewportSize({ width: 600, height: 700 });

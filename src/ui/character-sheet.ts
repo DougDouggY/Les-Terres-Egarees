@@ -74,6 +74,31 @@ export function biography(u: Unit, campaign?: E.Campaign) {
         : "Soldat de cette troupe, dont le parcours demeure inconnu.")
   );
 }
+/** A faction replaces only a generic designation, never a personal name. */
+export function characterHeading(u: Unit) {
+  const c = E.unitClass(u);
+  const legacyCharacter =
+    /^p[12][abc]$/.test(u.id) ||
+    u.id === "geraud" ||
+    u.id === "story-witch" ||
+    u.statRole === "principal" ||
+    u.statRole === "recruitable";
+  const genericDesignation =
+    [c.name, c.femaleName, E.names[u.kind]].includes(u.name) ||
+    /^(?:Squelette|Archer squelette|Porte-lame déchu|Capitaine de Valdren|Écorcheur)/i.test(
+      u.name,
+    );
+  const named = u.hasPersonalName ?? (legacyCharacter || !genericDesignation);
+  if (named) return u.name;
+  return (
+    u.factionLabel ??
+    (c.faction === "enemy"
+      ? "Sans-repos"
+      : c.faction === "knight"
+        ? "Valdren"
+        : "Écorcheurs")
+  );
+}
 export function classDescription(u: Unit) {
   const c = E.unitClass(u);
   return (
@@ -186,5 +211,5 @@ export function characterSheet(
   campaign?: E.Campaign,
 ) {
   const playable = u.owner !== 0 && u.statRole !== "ordinary";
-  return `<div class="character-sheet" data-character-unit="${esc(u.id)}" data-character-tab="inventory"><aside class="character-profile"><div class="character-portrait-slot" role="img" aria-label="Emplacement du portrait"></div><h2>${tip(biography(u, campaign), esc(u.name))}</h2><p class="character-class">${tip(classDescription(u), esc(E.className(u)))}</p><dl><div><dt>NIV</dt><dd>${u.level}</dd></div>${playable ? `<div><dt>EXP</dt><dd>${String(u.xp).padStart(2, "0")}</dd></div>` : ""}<div class="character-health"><dt>PV</dt><dd>${u.hp}<small>/${u.maxHp}</small></dd></div></dl></aside><section class="character-pages">${characterPage(u, "inventory", undefined, canManage)}</section></div>`;
+  return `<div class="character-sheet" data-character-unit="${esc(u.id)}" data-character-tab="inventory"><aside class="character-profile"><div class="character-portrait-slot" role="img" aria-label="Emplacement du portrait"></div><h2>${tip(biography(u, campaign), esc(characterHeading(u)))}</h2><p class="character-class">${tip(classDescription(u), esc(E.className(u)))}</p><dl><div><dt>NIV</dt><dd>${u.level}</dd></div>${playable ? `<div><dt>EXP</dt><dd>${String(u.xp).padStart(2, "0")}</dd></div>` : ""}<div class="character-health"><dt>PV</dt><dd>${u.hp}<small>/${u.maxHp}</small></dd></div></dl></aside><section class="character-pages">${characterPage(u, "inventory", undefined, canManage)}</section></div>`;
 }

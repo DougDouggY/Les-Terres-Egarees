@@ -1,5 +1,6 @@
 import {
   characterSheet,
+  characterHeading,
   characterPage,
   type CharacterTab,
 } from "./ui/character-sheet";
@@ -725,7 +726,7 @@ function battleUI() {
   ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div id="map-tooltip" class="map-tooltip" hidden></div>
-  ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window character-window" aria-label="Personnage · ${esc(sel.name)}"><button class="close-unit" data-action="close-unit" aria-label="Fermer le personnage">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
+  ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window character-window" aria-label="Personnage · ${esc(characterHeading(sel))}"><button class="close-unit" data-action="close-unit" aria-label="Fermer le personnage">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
   ${sel && own && sel.id === u?.id && moved && !busy && !targetingAttack && !cardOpen ? contextActions(u) : ""}
   </div></section></div></main>`;
   initiativeCleanup = bindInitiative(app, s, () => save(true));
@@ -794,7 +795,7 @@ function updateHover(c: { x: number; y: number } | null) {
     unit = E.at(state, t.x, t.y);
   info.hidden = false;
   if (unit && (!fogEnabled || E.seen(state, p, unit))) {
-    info.innerHTML = `<strong>${esc(unit.name)}</strong><small>${E.className(unit)}</small><span>${unit.hp} / ${unit.maxHp} PV</span><div class="bar hp"><i style="width:${(100 * unit.hp) / unit.maxHp}%"></i></div>`;
+    info.innerHTML = `<strong>${esc(characterHeading(unit))}</strong><small>${E.className(unit)}</small><span>${unit.hp} / ${unit.maxHp} PV</span><div class="bar hp"><i style="width:${(100 * unit.hp) / unit.maxHp}%"></i></div>`;
   } else
     info.innerHTML = `<strong>${terrainNames[t.terrain]}</strong><span>${t.walk ? `Déplacement ${t.cost} · Défense +${t.defense}` : "Infranchissable"}</span>`;
 }

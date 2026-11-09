@@ -135,6 +135,8 @@ export function beginForestChapter(s: Campaign) {
             ? 2
             : 1,
     });
+    u.hasPersonalName = id === "geraud";
+    if (id !== "geraud") u.factionLabel = "Valdren";
     u.potions = 0;
     const d = patrolDeployment.find((d) => d.id === id)!;
     u.enemyAI =

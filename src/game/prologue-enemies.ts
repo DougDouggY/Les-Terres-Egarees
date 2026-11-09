@@ -20,6 +20,8 @@ export function chapterEnemy(
   const [cls, name] = profiles[type];
   const u = makeClassUnit(id, 0, front, cls, name, x, y, "male");
   Object.assign(u, {
+    hasPersonalName: false,
+    factionLabel: "Sans-repos",
     kind: "skeleton" as const,
     hp: 18,
     maxHp: 18,
