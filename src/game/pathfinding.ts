@@ -1,3 +1,4 @@
+import { gridPath } from "./grid-path";
 import { effectiveMove } from "./enemy-activation";
 import { hasSkill } from "./classes";
 import { offensiveReady } from "./combat";
@@ -38,54 +39,23 @@ export function path(
     (!ignoreUnits && knownOccupant(x, y) && knownOccupant(x, y)?.id !== u.id)
   )
     return null;
-  const start = key(u.x, u.y),
-    end = key(x, y),
-    dist = new Map<number, number>([[start, 0]]),
-    prev = new Map<number, number>(),
-    open = [start];
-  while (open.length) {
-    open.sort((a, b) => dist.get(a)! - dist.get(b)!);
-    const k = open.shift()!;
-    if (k === end) {
-      const steps = [end];
-      while (steps[0] !== start) steps.unshift(prev.get(steps[0])!);
-      return { cost: dist.get(k)!, steps };
-    }
-    const c = map[k];
-    for (const [dx, dy] of [
-      [0, -1],
-      [1, 0],
-      [0, 1],
-      [-1, 0],
-    ]) {
-      const n = cell(c.x + dx, c.y + dy);
-      const occupant = n ? knownOccupant(n.x, n.y) : undefined;
-      if (
-        !n ||
-        (known?.has(key(n.x, n.y)) !== false && !n.walk) ||
-        (!ignoreUnits &&
-          occupant &&
-          occupant.id !== u.id &&
-          !allied(s, u, occupant))
-      )
-        continue;
-      const nk = key(n.x, n.y),
-        cost =
-          dist.get(k)! +
-          (known && !known.has(nk)
-            ? 1
-            : hasSkill(u, "forest_move") &&
-                ["forest", "tree"].includes(n.terrain)
-              ? 1
-              : n.cost);
-      if (cost < (dist.get(nk) ?? Infinity)) {
-        dist.set(nk, cost);
-        prev.set(nk, k);
-        if (!open.includes(nk)) open.push(nk);
-      }
-    }
-  }
-  return null;
+  return gridPath(W, H, key(u.x, u.y), key(x, y), (nk) => {
+    const n = map[nk],
+      occupant = knownOccupant(n.x, n.y);
+    if (
+      (known?.has(nk) !== false && !n.walk) ||
+      (!ignoreUnits &&
+        occupant &&
+        occupant.id !== u.id &&
+        !allied(s, u, occupant))
+    )
+      return null;
+    return known && !known.has(nk)
+      ? 1
+      : hasSkill(u, "forest_move") && ["forest", "tree"].includes(n.terrain)
+        ? 1
+        : n.cost;
+  });
 }
 export function reachable(s: Campaign, u: Unit, knowledge = false) {
   const result = new Map<number, { cost: number; steps: number[] }>();

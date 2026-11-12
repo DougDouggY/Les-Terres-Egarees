@@ -1,0 +1,50 @@
+.material-lab {
+  background: #111e1d;
+}
+.material-lab .material-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin: 20px 0 8px;
+}
+.material-lab .material-toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.material-lab .material-toolbar button[aria-pressed="true"] {
+  background: #726344;
+  border-color: #e1ca8d;
+}
+.material-lab .material-toolbar select {
+  color: #eadbb5;
+  background: #233b2d;
+  padding: 8px;
+  border: 1px solid #a28e5c;
+}
+.material-lab .material-stage {
+  max-width: 100%;
+  max-height: 75vh;
+  overflow: auto;
+  background: #162728;
+  border: 1px solid #8b8058;
+}
+.material-lab canvas {
+  display: block;
+  image-rendering: pixelated;
+  max-width: none !important;
+  cursor: crosshair;
+}
+.material-lab .material-note {
+  font-size: 11px;
+}
+.material-lab output {
+  display: block;
+  padding: 12px 0;
+  font-size: 12px;
+  color: #e1ca8d;
+}
+.material-lab input {
+  accent-color: #bca66b;
+}

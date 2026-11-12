@@ -2453,6 +2453,8 @@ app.addEventListener("click", async (e) => {
       action === "dev-systems" ||
       action.startsWith("dev-workshop") ||
       action === "dev-tests" ||
+      action === "dev-map-workshop" ||
+      action === "dev-material-lab" ||
       action === "dev-comparator" ||
       action === "dev-arena" ||
       action === "dev-parries" ||
@@ -2468,6 +2470,26 @@ app.addEventListener("click", async (e) => {
       const hub = await import("./dev/test-hub");
       if (request !== developerRequest) return;
       developerCleanup = hub.openTestHub(app, title);
+      return;
+    }
+    if (action === "dev-material-lab") {
+      const view = await import("./dev/material-lab");
+      if (request !== developerRequest) return;
+      developerCleanup = view.openMaterialLab(app, () => {
+        developerCleanup?.();
+        void import("./dev/test-hub").then((h) => { developerCleanup = h.openTestHub(app, title); });
+      });
+      return;
+    }
+    if (action === "dev-map-workshop") {
+      const view = await import("./dev/map-workshop");
+      if (request !== developerRequest) return;
+      developerCleanup = view.openMapWorkshop(app, () => {
+        developerCleanup?.();
+        void import("./dev/test-hub").then((h) => {
+          developerCleanup = h.openTestHub(app, title);
+        });
+      });
       return;
     }
     if (action === "dev-comparator") {
