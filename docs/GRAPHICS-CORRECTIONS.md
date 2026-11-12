@@ -12,12 +12,15 @@ L’escalier d’entrée, les sols, la mer, les cales et les mâts validés sont
   profil distinct. Le trône est dessiné tourné à gauche. Ces deux variantes sont
   dans `public/assets/material-tests/directional-props.png` ; les autres textures
   restent celles du tileset validé.
-- Un mur partagé entre plusieurs intérieurs garde son toit tant qu’un des
-  intérieurs voisins reste fermé. Les coins entre armurerie/cantine/gardes et
-  autour de la réserve ne se découvrent plus depuis le seul couloir voisin.
-  Le mécanisme d’ouverture et de révélation des pièces est conservé.
-- Les bastingages remplissent maintenant toute la largeur de leur case bloquée.
-  Les ouvertures de passerelles sont conservées.
+- Correction de la régression des cloisons : dès qu’une pièce ou un couloir est
+  découvert, ses murs adjacents restent visibles, même si la pièce de l’autre
+  côté est encore fermée. Le toit reste sur le sol des pièces fermées et sur les
+  coins sans face exposée. Les tests couvrent maintenant ces états intermédiaires.
+- Les bastingages gardent leur largeur d’une case. Leur dessin compose une
+  corniche supérieure continue en bois, un chanfrein éclairé, une ombre portée
+  sous la corniche et une face verticale en planches cerclée de fer. Le bois de
+  bout ferme les extrémités aux passerelles. Les textures viennent des matériaux
+  validés ; les collisions et les ouvertures de passerelles restent inchangées.
 - Les grandes caisses restent des caisses uniques de 2 × 2 cases, sur leur
   empreinte d’origine, au lieu de quatre petits objets.
 - L’atelier utilise un homme d’armes du catalogue réel du jeu, ses sprites de

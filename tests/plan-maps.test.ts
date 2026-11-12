@@ -197,25 +197,41 @@ test("shared tactical pathfinder respects weighted costs, blockers and map edges
   assert.deepEqual(buildPlan("boarding").objects, boardingPlan.objects);
 });
 
-test("closed rooms keep shared wall corners roofed when the adjacent corridor opens", () => {
+test("revealed corridors expose partition walls while closed room floors and untouched corners stay roofed", () => {
   const s = createPlanState(castlePlan);
   openPlanDoor(s, 13, "key");
+  // Regression: these partitions were hidden by roofs until BOTH rooms opened.
   for (const [x, y] of [
     [9, 18],
     [9, 19],
-    [9, 24],
     [10, 24],
-    [38, 14],
-    [28, 14],
   ]) {
     assert.equal(castlePlan.tiles[y * 42 + x], "wall");
-    assert.equal(roofVisible(s, y * 42 + x), true, `${x},${y}`);
+    assert.equal(
+      roofVisible(s, y * 42 + x),
+      false,
+      `visible partition ${x},${y}`,
+    );
   }
+  for (const [x, y] of [
+    [9, 24],
+    [38, 14],
+    [28, 14],
+  ])
+    assert.equal(
+      roofVisible(s, y * 42 + x),
+      true,
+      `untouched corner ${x},${y}`,
+    );
+  for (const [x, y] of [
+    [3, 21],
+    [7, 28],
+    [31, 17],
+    [4, 12],
+  ])
+    assert.equal(roofVisible(s, y * 42 + x), true, `closed floor ${x},${y}`);
   openPlanDoor(s, 14, "key");
   assert.equal(roofVisible(s, 9 + 24 * 42), true, "guards remain closed");
-  assert.equal(roofVisible(s, 9 + 18 * 42), true, "canteen remains closed");
   openPlanDoor(s, 116, "key");
   assert.equal(roofVisible(s, 9 + 24 * 42), false);
-  openPlanDoor(s, 10003, "key");
-  assert.equal(roofVisible(s, 9 + 18 * 42), false);
 });

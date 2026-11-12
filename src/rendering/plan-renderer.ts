@@ -16,7 +16,6 @@ import {
   SHIP,
   MATERIAL_PIXELS,
   periodicWater,
-  approvedRailTexture,
   loadMaterialImages,
   type MaterialImages,
   type Crop,
@@ -112,6 +111,56 @@ function doorSprite(
     );
   } else c.drawImage(images.castleDetails, 450, 600, 114, 154, x, y, w, h);
 }
+/** A raised wooden wall: continuous upper beam, shaded upright face and end grain.
+ * All projection remains inside the existing blocked tile, never over a gangway. */
+function paintBulwark(
+  c: CanvasRenderingContext2D,
+  images: PlanArtwork,
+  ironBand: boolean,
+  northEnd: boolean,
+  southEnd: boolean,
+) {
+  // Dark upright planking and iron straps use the approved wooden wall material.
+  c.drawImage(images.corrections, 633, 630, 302, 620, 8, 0, 88, P);
+  c.fillStyle = "#180d09";
+  c.fillRect(0, 0, 8, P); // cast contact shadow on the deck side
+  // Broad top of the beam, raised above the recessed outside face.
+  c.drawImage(images.corrections, 960, 640, 80, 600, 8, 0, 46, P);
+  c.fillStyle = "#f5ce87";
+  c.fillRect(8, 0, 3, P);
+  c.fillStyle = "#ba793c";
+  c.fillRect(11, 0, 3, P);
+  // Stepped, beveled cornice projects past the facade: a hard lit edge and a
+  // deep undercut separate the top surface from the vertical wooden boards.
+  c.fillStyle = "#f4c779";
+  c.fillRect(50, 0, 5, P);
+  c.fillStyle = "#b87836";
+  c.fillRect(55, 0, 5, P);
+  c.fillStyle = "#573018";
+  c.fillRect(60, 0, 6, P);
+  c.fillStyle = "#1c110bbd";
+  c.fillRect(66, 0, 8, P);
+  c.fillStyle = "#1a100be6";
+  c.fillRect(92, 0, 4, P);
+  if (ironBand) {
+    // A metal binding wraps over the beam and down its face (not a floor post).
+    c.fillStyle = "#241d18";
+    c.fillRect(8, 36, 84, 14);
+    c.fillStyle = "#78634a";
+    c.fillRect(8, 36, 47, 3);
+    c.fillStyle = "#bba37e";
+    for (const x of [19, 43, 81]) c.fillRect(x, 41, 3, 3);
+  }
+  for (const y of [northEnd ? 0 : -1, southEnd ? P - 14 : -1]) {
+    if (y < 0) continue;
+    c.drawImage(images.corrections, 1148, 641, 86, 63, 8, y, 84, 14);
+    c.fillStyle = "#f2c77b";
+    c.fillRect(8, y, 84, 2);
+    c.fillStyle = "#2f1b0f";
+    c.fillRect(8, y + 12, 84, 2);
+  }
+}
+
 export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
   const map = s.map,
     a = surface(map);
@@ -147,16 +196,13 @@ export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
                 c.translate(xx + P, yy);
                 c.scale(-1, 1);
               } else c.translate(xx, yy);
-              c.drawImage(
-                approvedRailTexture(images, y % 2 === 0),
-                0,
-                0,
-                P / 4,
-                P,
-                0,
-                0,
-                P,
-                P,
+              paintBulwark(
+                c,
+                images,
+                y % 2 === 0,
+                y === 0 || map.tiles[(y - 1) * map.width + x] !== "rail",
+                y === map.height - 1 ||
+                  map.tiles[(y + 1) * map.width + x] !== "rail",
               );
               c.restore();
             }
