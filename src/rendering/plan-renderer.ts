@@ -1,5 +1,6 @@
 import {
   wallJunction,
+  planDoorAxis,
   carpetVisualBounds,
   storageSprites,
 } from "./plan-geometry";
@@ -26,12 +27,13 @@ const P = PLAN_RENDER_TILE;
 export type PlanArtwork = MaterialImages & {
   props: HTMLImageElement;
   shipDetails: HTMLImageElement;
+  directional: HTMLImageElement;
 };
 let artwork: Promise<PlanArtwork> | undefined;
 export function loadPlanArtwork() {
   return (artwork ??= Promise.all([
     loadMaterialImages(),
-    ...["plan-props.png", "ship-details.png"].map(
+    ...["plan-props.png", "ship-details.png", "directional-props.png"].map(
       (file) =>
         new Promise<HTMLImageElement>((resolve, reject) => {
           const i = new Image();
@@ -42,8 +44,8 @@ export function loadPlanArtwork() {
         }),
     ),
   ]).then(
-    ([images, props, shipDetails]) =>
-      ({ ...images, props, shipDetails }) as PlanArtwork,
+    ([images, props, shipDetails, directional]) =>
+      ({ ...images, props, shipDetails, directional }) as PlanArtwork,
   ));
 }
 export async function loadPlanOutdoorAtlas() {
@@ -90,17 +92,24 @@ function doorSprite(
   c: CanvasRenderingContext2D,
   images: PlanArtwork,
   o: PlanObject,
+  map: PlanMap,
 ) {
   const x = o.x * P,
     y = o.y * P,
     w = o.w * P,
     h = o.h * P;
-  if (o.h > o.w) {
-    c.save();
-    c.translate(x, y + h);
-    c.rotate(-Math.PI / 2);
-    c.drawImage(images.castleDetails, 450, 600, 114, 154, 0, 0, h, w);
-    c.restore();
+  if (planDoorAxis(map, o) === "vertical") {
+    c.drawImage(
+      images.directional,
+      1265,
+      94,
+      195,
+      730,
+      x + w * 0.12,
+      y,
+      w * 0.76,
+      h,
+    );
   } else c.drawImage(images.castleDetails, 450, 600, 114, 154, x, y, w, h);
 }
 export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
@@ -146,7 +155,7 @@ export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
                 P,
                 0,
                 0,
-                P / 2,
+                P,
                 P,
               );
               c.restore();
@@ -175,10 +184,7 @@ export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
           const joint = wallJunction(map, x, y, s.opened);
           if (joint.axis === "vertical") {
             wallV(xx, yy);
-            if (joint.openS) {
-              stamp(images.castle, CASTLE.face, xx, yy + P - 18, P, 18);
-              stamp(images.castle, CASTLE.coping, xx, yy + P - 21, P, 3);
-            }
+            if (joint.openS) wallH(xx, yy);
             if (joint.openN) {
               stamp(images.castle, CASTLE.coping, xx, yy, P, 8);
               c.fillStyle = "#635640";
@@ -223,8 +229,8 @@ export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
     if (o.type === "chest")
       stamp(images.chest, [328, 178, 875, 657], x + 8, y + 15, w - 16, h - 30);
     if (o.type === "throne")
-      stamp(images.props, [217, 80, 449, 710], x, y, w, h);
-    if (o.type === "door" && !s.opened.has(o.id)) doorSprite(c, images, o);
+      stamp(images.directional, [305, 24, 420, 800], x, y, w, h);
+    if (o.type === "door" && !s.opened.has(o.id)) doorSprite(c, images, o, map);
     if (o.type === "stairs") paintEntranceSteps(c, images, o);
     if (o.type === "reinforcement")
       stamp(images.castle, [949, 950, 298, 294], x, y, w, h);
@@ -463,7 +469,7 @@ export function renderPlanRoof(s: PlanState, images?: PlanArtwork) {
     }
   // A closed accessible gate is visible on its facade; opened gates leave no sprite.
   for (const door of s.map.doors)
-    if (doorAvailable(s, door)) doorSprite(c, images, door);
+    if (doorAvailable(s, door)) doorSprite(c, images, door, s.map);
   return a;
 }
 export function compositePlan(s: PlanState, images?: PlanArtwork) {

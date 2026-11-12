@@ -46,6 +46,10 @@ try {
       .isDisabled(),
     true,
   );
+  assert.match(
+    await page.locator("#study-canvas").getAttribute("data-character"),
+    /^man_at_arms:/,
+  );
   await exportPNG("castle-roof-42x34");
   const closed = await getCanvas();
   await page
@@ -62,6 +66,8 @@ try {
     true,
   );
   await exportPNG("castle-entrance-open-42x34");
+  await detail("correction-castle-roof-side-door", 10, 21);
+  await detail("correction-castle-roof-reserve", 34, 15);
   for (const room of [
     "Cantine",
     "Armurerie",
@@ -116,6 +122,10 @@ try {
     document
       .querySelector(".study-status")
       ?.textContent.includes("colonne 17, ligne 9"),
+  );
+  assert.equal(
+    await page.locator("#study-canvas").getAttribute("data-character"),
+    `man_at_arms:${8 * 42 + 16}`,
   );
   await clickCell(0, 0);
   await page.getByText("Case inaccessible :", { exact: false }).waitFor();
@@ -178,6 +188,7 @@ try {
     .getByRole("button", { name: "Réinitialiser", exact: true })
     .click();
   await exportPNG("boarding-42x34");
+  await detail("correction-exploration-character", 6, 20);
   await detail("correction-ship-rails-gangway", 21, 7);
   await detail("correction-ship-mast-left", 10, 16);
   await detail("correction-ship-mast-right", 32, 17);
@@ -254,16 +265,11 @@ try {
           b = boatSmall.getContext("2d").getImageData(6 * P, 6 * P, P, P).data;
         let changed = 0;
         for (let y = 0; y < P; y++)
-          for (let x = 24; x < 48; x++) {
+          for (let x = 48; x < P; x++) {
             const k = (y * P + x) * 4;
             if (a[k] !== b[k] || a[k + 1] !== b[k + 1] || a[k + 2] !== b[k + 2])
               changed++;
           }
-        for (let y = 0; y < P; y++)
-          for (let x = 48; x < P; x++)
-            for (let ch = 0; ch < 4; ch++)
-              if (a[(y * P + x) * 4 + ch] !== b[(y * P + x) * 4 + ch])
-                return false;
         return changed > 1500;
       })(),
     };

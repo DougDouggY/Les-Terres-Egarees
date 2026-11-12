@@ -79,7 +79,7 @@ test("throne rug rotates visually around its authored center, hall rug and JSON 
   assert.deepEqual(carpetVisualBounds(castlePlan, hall), hall);
   assert.equal(JSON.stringify(PLAN_SOURCE), before);
 });
-test("added storage sprites fill only pre-existing blocked footprints, at integer grid coordinates", () => {
+test("large crates preserve their whole authored footprint instead of splitting into small props", () => {
   let barrels = 0,
     crates = 0;
   for (const o of boardingPlan.objects.filter((o) => o.type === "crate")) {
@@ -92,13 +92,36 @@ test("added storage sprites fill only pre-existing blocked footprints, at intege
     assert.equal(new Set(actual).size, actual.length);
     for (const p of props) {
       assert.ok([p.x, p.y, p.w, p.h].every(Number.isInteger));
-      assert.equal(p.w, 1);
-      assert.equal(p.h, 1);
+      assert.equal(p.w, o.w);
+      assert.equal(p.h, o.h);
       for (const k of objectCells(boardingPlan, p))
         assert.equal(boardingPlan.cells[k].walk, false);
       p.type === "barrel" ? barrels++ : crates++;
     }
   }
-  assert.equal(barrels, 2);
-  assert.equal(crates, 10);
+  assert.equal(barrels, 0);
+  assert.equal(crates, 6);
+});
+
+test("vertical walls above permanent doorless gaps use the same full end face as opened doors", () => {
+  const map = {
+    ...castlePlan,
+    width: 3,
+    height: 3,
+    doors: [],
+    tiles: [
+      "floor",
+      "wall",
+      "floor",
+      "floor",
+      "wall",
+      "floor",
+      "floor",
+      "floor",
+      "floor",
+    ] as typeof castlePlan.tiles,
+  };
+  const end = wallJunction(map, 1, 1, new Set());
+  assert.equal(end.axis, "vertical");
+  assert.equal(end.openS, true);
 });

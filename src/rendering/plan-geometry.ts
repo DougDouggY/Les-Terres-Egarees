@@ -47,7 +47,7 @@ export function wallJunction(
     e,
     northJoin: n && axis === "horizontal",
     openN: opening(x, y - 1, "vertical"),
-    openS: opening(x, y + 1, "vertical"),
+    openS: opening(x, y + 1, "vertical") || (n && !s && !w && !e),
     openW: opening(x - 1, y, "horizontal"),
     openE: opening(x + 1, y, "horizontal"),
   };
@@ -79,17 +79,5 @@ export function carpetVisualBounds(map: PlanMap, carpet: PlanObject) {
 }
 /** Decorate only pre-existing blocked storage footprints, never an additional route cell. */
 export function storageSprites(o: PlanObject): PlanObject[] {
-  if (o.type !== "crate" || o.w < 2 || o.h < 2) return [o];
-  const out: PlanObject[] = [];
-  for (let y = 0; y < o.h; y++)
-    for (let x = 0; x < o.w; x++)
-      out.push({
-        ...o,
-        x: o.x + x,
-        y: o.y + y,
-        w: 1,
-        h: 1,
-        type: x === o.w - 1 && y === o.h - 1 ? "barrel" : "crate",
-      });
-  return out;
+  return [o];
 }

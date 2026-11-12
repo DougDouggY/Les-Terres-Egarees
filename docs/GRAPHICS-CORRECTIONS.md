@@ -1,55 +1,48 @@
 # Corrections ciblées des deux cartes
 
-Aucune modification de `src/data/tactical-plans.json`, des dimensions, des
-collisions ou des systèmes de déplacement, de portes et de révélation des toits.
-Les images du tileset sont réutilisées sans nouvelle génération d'assets.
+Le JSON fourni, les dimensions 42 × 34 et toutes les collisions sont conservés.
+L’escalier d’entrée, les sols, la mer, les cales et les mâts validés sont conservés.
 
-## Château
+## Dernier retour visuel
 
-- `wallJunction` distingue les croisements, les T, les angles et les terminaisons.
-  La continuité verticale prend priorité : la façade horizontale ne traverse
-  pas sa case. Les joints nord et sud sont traités différemment.
-- Les portes carrées trouvent leur orientation à partir des murs voisins.
-  Les ouvertures verticales montrent une tranche basse et un bord supérieur,
-  dans les cases murales adjacentes, sans ajouter de jambage dans le passage.
-  Les ouvertures horizontales gardent leurs terminaisons latérales propres.
-- Les marches d'entrée sont composées sur les 6 × 2 cases d'escalier du JSON
-  avec la pierre du mur, sans cadre ou poteaux rapportés et sans étirer un sprite.
-- Seul le rendu du tapis du trône pivote : le centre reste `(33, 8)`, le rectangle
-  visuel devient `(29, 7, 8, 2)`. Cela amène son extrémité vers le trône.
-  L'objet JSON `(32, 4, 2, 8)` est inchangé, de même que la navigation (sol libre).
+- Au-dessus d’un passage dans un mur vertical, une façade complète remplace la
+  tranche trop fine : même pierre et même couronnement que les murs horizontaux.
+  Cela vaut pour les portes ouvertes/détruites et les passages sans porte.
+- Les portes verticales, y compris les portes carrées, utilisent un dessin de
+  profil distinct. Le trône est dessiné tourné à gauche. Ces deux variantes sont
+  dans `public/assets/material-tests/directional-props.png` ; les autres textures
+  restent celles du tileset validé.
+- Un mur partagé entre plusieurs intérieurs garde son toit tant qu’un des
+  intérieurs voisins reste fermé. Les coins entre armurerie/cantine/gardes et
+  autour de la réserve ne se découvrent plus depuis le seul couloir voisin.
+  Le mécanisme d’ouverture et de révélation des pièces est conservé.
+- Les bastingages remplissent maintenant toute la largeur de leur case bloquée.
+  Les ouvertures de passerelles sont conservées.
+- Les grandes caisses restent des caisses uniques de 2 × 2 cases, sur leur
+  empreinte d’origine, au lieu de quatre petits objets.
+- L’atelier utilise un homme d’armes du catalogue réel du jeu, ses sprites de
+  repos et de marche et le même rendu que les unités du jeu. Clic ou flèches pour
+  se déplacer, sans ennemis et sans modification des sauvegardes de campagne.
 
-## Abordage
-
-- Le bastingage passe visuellement d'un quart à une demi-case, à l'intérieur
-  de la même case infranchissable. Les ouvertures de passerelles ne changent pas.
-- Les grilles de cale répètent une maille du sprite métallique existant sur
-  les tiers de cases, avec un cadre assemblé dans leur rectangle de 3 × 3 cases.
-- Les deux mâts complets utilisent le même disque de bois circulaire que les
-  demi-mâts de bordure. Même image source, même échelle, aucune ellipse.
-- Les obstacles d'une case sont dessinés à la taille de leur case, sans les
-  anciens retraits. Les deux zones de stockage de 2 × 2 cases déjà bloquées
-  accueillent chacune trois caisses d'une case et un tonneau. Cela ajoute
-  quatre caisses et deux tonneaux visibles sans étendre aucune collision ni
-  bloquer de chemin supplémentaire. Le JSON reste inchangé.
+Le tapis horizontal conserve son centre prévu `(33, 8)` et son rectangle visuel
+`(29, 7, 8, 2)` ; l’objet JSON d’origine reste inchangé.
 
 ## Vérification et captures
 
-- `npm test` : 145 tests (les 141 existants et 4 nouveaux tests de géométrie).
-- `node scripts/map-studies-audit.mjs` : parcours réel dans Chromium,
-  captures des zones corrigées à 300 %, portes/toits, déplacements, deux
-  passerelles, obstacles, eau sous les planches, zoom, caméra et sauvegardes.
-- L'audit compare le bas d'un mât complet au demi-mât supérieur : pixels
-  identiques. Il vérifie aussi l'élargissement du bastingage et la mer restante.
-- `npm run build`, `npm run check:public`, build prototype et contrôle prototype.
-- `cmp` avec le fichier JSON fourni : identique.
+- `npm test` : 147 tests, dont les régressions de coins de toiture et de passages
+  permanents sans porte.
+- `node scripts/map-studies-audit.mjs` : parcours réel dans Chromium, personnage
+  dans les deux cartes, sept portes, toits opaques, deux passerelles, obstacles,
+  mer sous les planches, zoom, caméra, exports PNG et sauvegardes préservées.
+- `npm run build`, `npm run check:public`, compilation du prototype et contrôle
+  du prototype. Vérification supplémentaire du prototype compilé dans Chromium.
+- Comparaison du JSON au fichier fourni : identique.
 
-Les captures sont dans `artifacts/map-plans/correction-*.png` et sont copiées
-pour publication dans `public/validation/cartes/`. La page statique associée
-est consultable à `/Les-Terres-Egarees/validation/cartes/` après déploiement.
-L'accès interactif reste **Tests de combat → Explorer les deux cartes**.
+Les huit captures initiales sont actualisées. Trois vues supplémentaires montrent
+les portes de profil/toits fermés, la réserve et le personnage. Elles sont dans
+`artifacts/map-plans/correction-*.png`, copiées dans `public/validation/cartes/`.
 
-Fichiers des corrections : `src/rendering/plan-geometry.ts`,
-`src/rendering/plan-renderer.ts`, `tests/plan-graphics.test.ts`,
-`scripts/map-studies-audit.mjs`, `package.json` (ajout des tests),
-`src/dev/test-hub.ts` (lien vers captures) et la page de captures ci-dessus.
+Site : https://dougdouggy.github.io/Les-Terres-Egarees/
+
+Accès interactif : **Tests de combat → Explorer les deux cartes**.
+Captures : `/Les-Terres-Egarees/validation/cartes/`.

@@ -185,16 +185,16 @@ function structureOpen(s: PlanState, k: number) {
 export function roofVisible(s: PlanState, k: number): boolean {
   if (!s.map.building.has(k)) return false;
   if (s.revealed.has(k)) return false;
-  if (
-    s.map.tiles[k] === "wall" &&
-    neighbors(s.map, k).some(
-      (n) =>
-        s.revealed.has(n) ||
-        (s.map.tiles[n] === "wall" &&
-          neighbors(s.map, n).some((nn) => s.revealed.has(nn))),
-    )
-  )
-    return false;
+  if (s.map.tiles[k] === "wall") {
+    // A shared wall/corner belongs to every adjoining interior, including rooms
+    // behind closed doors. Revealing a corridor must not cut into their roofs.
+    const edges = new Set(
+      neighbors(s.map, k)
+        .flatMap((n) => (s.map.tiles[n] === "wall" ? neighbors(s.map, n) : [n]))
+        .filter((n) => s.map.building.has(n) && s.map.tiles[n] !== "wall"),
+    );
+    return !edges.size || ![...edges].every((n) => s.revealed.has(n));
+  }
   return true;
 }
 export function doorAvailable(s: PlanState, o: PlanObject) {

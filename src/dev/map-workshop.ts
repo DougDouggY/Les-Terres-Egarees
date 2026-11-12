@@ -1,4 +1,10 @@
 import {
+  spriteCatalog,
+  spriteImage,
+  drawResourceFrame,
+} from "../sprites/resources";
+import { resolveClip } from "../sprites/catalog";
+import {
   castlePlan,
   boardingPlan,
   createPlanState,
@@ -21,7 +27,7 @@ import "./tools.css";
 import "./map-workshop.css";
 
 export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
-  app.innerHTML = `<main class="dev-screen map-workshop"><header class="dev-top"><div><span class="dev-badge">CARTES TACTIQUES · HORS CAMPAGNE</span><h1>Atelier des cartes</h1><p>Plans validés · Château et abordage · Aperçus indépendants de la campagne.</p></div><button data-study-back>Retour aux tests</button></header><div class="study-layout"><aside class="study-sidebar"><button class="study-choice" data-study="castle" aria-pressed="true"><strong>01 · Le château oublié</strong><small>42 × 34 cases · portes et toits progressifs</small></button><button class="study-choice" data-study="boarding" aria-pressed="false"><strong>02 · Abordage naval</strong><small>42 × 34 cases · deux passerelles</small></button><div class="study-doors" data-study-doors></div><div class="study-note"><h2>Explorer le décor</h2><p>Cliquez une case praticable : le curseur suit le chemin indiqué. Le losange est un repère de test. Cliquez une porte accessible, puis choisissez « Clé » ou « Détruire ».</p><p>Glissez pour déplacer la caméra. Molette ou sélecteur pour zoomer. Flèches : déplacer le curseur. Maj + flèches : déplacer la caméra.</p><p>Grille et collisions sont des aides facultatives. Aucun personnage ni aucune sauvegarde de campagne ne sont utilisés.</p></div></aside><section><div class="study-tools"><label>Zoom <select id="study-zoom" aria-label="Zoom"><option value="1">100 %</option><option value="1.5">150 %</option><option value="2" selected>200 %</option><option value="3">300 %</option><option value="4">400 %</option></select></label><label><input id="study-grid" type="checkbox">Grille</label><label><input id="study-collisions" type="checkbox">Collisions</label><button data-study-fit>Cadrer la carte</button><button data-study-reset>Réinitialiser</button><button data-study-export disabled>Exporter le PNG</button></div><div class="study-stage"><canvas id="study-canvas" tabindex="0" aria-label="Carte de test interactive"></canvas></div><output class="study-status" aria-live="polite"></output><footer class="study-footer"><span data-study-dimensions></span><span>Textures validées · grille 32 px · export détaillé ×3</span></footer></section></div></main>`;
+  app.innerHTML = `<main class="dev-screen map-workshop"><header class="dev-top"><div><span class="dev-badge">CARTES TACTIQUES · HORS CAMPAGNE</span><h1>Atelier des cartes</h1><p>Plans validés · Château et abordage · Aperçus indépendants de la campagne.</p></div><button data-study-back>Retour aux tests</button></header><div class="study-layout"><aside class="study-sidebar"><button class="study-choice" data-study="castle" aria-pressed="true"><strong>01 · Le château oublié</strong><small>42 × 34 cases · portes et toits progressifs</small></button><button class="study-choice" data-study="boarding" aria-pressed="false"><strong>02 · Abordage naval</strong><small>42 × 34 cases · deux passerelles</small></button><div class="study-doors" data-study-doors></div><div class="study-note"><h2>Explorer le décor</h2><p>Cliquez une case praticable : le personnage suit le chemin indiqué. Cliquez une porte accessible, puis choisissez « Clé » ou « Détruire ».</p><p>Glissez pour déplacer la caméra. Molette ou sélecteur pour zoomer. Flèches : déplacer le personnage. Maj + flèches : déplacer la caméra.</p><p>Grille et collisions sont des aides facultatives. Un homme d’armes du jeu, sans ennemis. Vos sauvegardes de campagne restent indépendantes.</p></div></aside><section><div class="study-tools"><label>Zoom <select id="study-zoom" aria-label="Zoom"><option value="1">100 %</option><option value="1.5">150 %</option><option value="2" selected>200 %</option><option value="3">300 %</option><option value="4">400 %</option></select></label><label><input id="study-grid" type="checkbox">Grille</label><label><input id="study-collisions" type="checkbox">Collisions</label><button data-study-fit>Cadrer la carte</button><button data-study-reset>Réinitialiser</button><button data-study-export disabled>Exporter le PNG</button></div><div class="study-stage"><canvas id="study-canvas" tabindex="0" aria-label="Carte de test interactive"></canvas></div><output class="study-status" aria-live="polite"></output><footer class="study-footer"><span data-study-dimensions></span><span>Textures validées · grille 32 px · export détaillé ×3</span></footer></section></div></main>`;
   const canvas = app.querySelector<HTMLCanvasElement>("#study-canvas")!,
     c = canvas.getContext("2d")!;
   const stage = app.querySelector<HTMLElement>(".study-stage")!;
@@ -49,6 +55,14 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     oy: number;
     moved: boolean;
   } | null = null;
+  const actor =
+    spriteCatalog.profiles.find(
+      (p) =>
+        p.classId === "man_at_arms" &&
+        p.gender === "male" &&
+        p.equipment === "sword-shield",
+    ) ?? spriteCatalog.profiles.find((p) => p.classId === "man_at_arms");
+  let actorFrame = 0;
   const label = () => {
     app.querySelector("[data-study-dimensions]")!.textContent =
       `${map.name} · ${map.width} × ${map.height} · ${map.width * T} × ${map.height * T} px`;
@@ -95,7 +109,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     );
   }
   const message = () => {
-    status.textContent = `Repère : colonne ${(cursor % map.width) + 1}, ligne ${Math.floor(cursor / map.width) + 1}. Cliquez une case pour tester son accès.`;
+    status.textContent = `Personnage : colonne ${(cursor % map.width) + 1}, ligne ${Math.floor(cursor / map.width) + 1}. Cliquez une case pour tester son accès.`;
   };
   function draw() {
     if (disposed) return;
@@ -150,19 +164,20 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     }
     const x = (cursor % map.width) * T + 16,
       y = Math.floor(cursor / map.width) * T + 16;
-    c.fillStyle = "#122b2bc9";
-    c.fillRect(x - 7, y - 7, 14, 14);
-    c.strokeStyle = "#f9dda0";
-    c.lineWidth = 1.5;
-    c.beginPath();
-    c.moveTo(x, y - 8);
-    c.lineTo(x + 7, y);
-    c.lineTo(x, y + 8);
-    c.lineTo(x - 7, y);
-    c.closePath();
-    c.stroke();
-    c.fillStyle = "#f9dda0";
-    c.fillRect(x - 1, y - 1, 2, 2);
+    drawResourceFrame(
+      c,
+      actor,
+      route.length ? "move" : "idle",
+      actorFrame,
+      x - T / 2,
+      y - T * 0.72,
+      T,
+      T * 1.15,
+      true,
+      "blue",
+      "world",
+    );
+    canvas.dataset.character = actor ? `${actor.classId}:${cursor}` : "missing";
     c.drawImage(roof, 0, 0, map.width * T, map.height * T);
     if (grid.checked) {
       c.strokeStyle = "#e9e2c044";
@@ -248,7 +263,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     const path = planPath(state, cursor, to);
     if (!path) {
       status.textContent =
-        "Case inaccessible : mur, obstacle, toit fermé, bastingage ou eau. Le repère reste sur une case praticable.";
+        "Case inaccessible : mur, obstacle, toit fermé, bastingage ou eau. Le personnage reste sur une case praticable.";
       draw();
       return;
     }
@@ -258,6 +273,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
       if (disposed) return;
       if (route.length) {
         cursor = route.shift()!;
+        actorFrame++;
         draw();
         timer = window.setTimeout(step, 75);
       } else {
@@ -401,8 +417,16 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
   message();
   doorPanel();
   fit();
-  void loadPlanArtwork()
-    .then((image) => {
+  void Promise.all([
+    loadPlanArtwork(),
+    ...["idle", "move"].map(async (animation) => {
+      const clip = resolveClip(actor, animation);
+      if (!clip)
+        throw Error(`Animation du personnage manquante : ${animation}`);
+      await spriteImage(clip.source).decode();
+    }),
+  ])
+    .then(([image]) => {
       if (disposed) return;
       outdoor = image;
       refreshArt();
