@@ -1,4 +1,9 @@
-import type { PlanMap, PlanObject } from "../data/plan-maps";
+import {
+  roofVisible,
+  type PlanMap,
+  type PlanObject,
+  type PlanState,
+} from "../data/plan-maps";
 export type WallAxis = "horizontal" | "vertical";
 export function planDoorAxis(map: PlanMap, o: PlanObject): WallAxis {
   if (o.w !== o.h) return o.w > o.h ? "horizontal" : "vertical";
@@ -80,4 +85,50 @@ export function carpetVisualBounds(map: PlanMap, carpet: PlanObject) {
 /** Decorate only pre-existing blocked storage footprints, never an additional route cell. */
 export function storageSprites(o: PlanObject): PlanObject[] {
   return [o];
+}
+
+/** Zero-based cells matched to the green marks against the authored 42 × 34 raster.
+ * Only the exposed corner gets a flat stone top; neighboring closed floors keep their roof.
+ */
+export const castleCornerCaps = [
+  [20, 0],
+  [9, 4],
+  [20, 4],
+  [27, 14],
+  [38, 14],
+  [4, 24],
+  [9, 24],
+  [14, 26],
+  [27, 26],
+] as const;
+export function exposedCornerCap(s: PlanState, x: number, y: number) {
+  if (
+    s.map.id !== "castle" ||
+    !castleCornerCaps.some(([cx, cy]) => cx === x && cy === y)
+  )
+    return false;
+  return [-1, 1].some((dx) =>
+    [-1, 1].some((dy) => {
+      const xx = x + dx,
+        yy = y + dy;
+      if (xx < 0 || yy < 0 || xx >= s.map.width || yy >= s.map.height)
+        return true;
+      const k = yy * s.map.width + xx;
+      return !s.map.building.has(k) || s.revealed.has(k);
+    }),
+  );
+}
+/** The stone half belongs to the hidden room, never a rotated front door. */
+export function sideDoorHiddenSide(
+  s: PlanState,
+  o: PlanObject,
+): "left" | "right" {
+  const hidden = (x: number) =>
+    Array.from({ length: o.h }, (_, dy) =>
+      roofVisible(s, (o.y + dy) * s.map.width + x),
+    ).some(Boolean);
+  if (hidden(o.x - 1)) return "left";
+  if (hidden(o.x + o.w)) return "right";
+  // Once both rooms are exposed retain the authored room-facing frame.
+  return o.id === 16 ? "right" : "left";
 }

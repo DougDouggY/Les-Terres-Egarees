@@ -125,3 +125,51 @@ test("vertical walls above permanent doorless gaps use the same full end face as
   assert.equal(end.axis, "vertical");
   assert.equal(end.openS, true);
 });
+
+test("marked corner tops follow progressive exposure without uncovering closed rooms", async () => {
+  const { castleCornerCaps, exposedCornerCap, sideDoorHiddenSide } =
+    await import("../src/rendering/plan-geometry");
+  const { createPlanState, openPlanDoor, roofVisible } =
+    await import("../src/data/plan-maps");
+  const s = createPlanState(castlePlan);
+  for (const [x, y] of castleCornerCaps)
+    assert.equal(
+      castlePlan.tiles[y * 42 + x],
+      "wall",
+      `reference mark ${x},${y}`,
+    );
+  for (const [x, y] of [
+    [20, 0],
+    [38, 14],
+    [4, 24],
+    [14, 26],
+    [27, 26],
+  ])
+    assert.ok(exposedCornerCap(s, x, y), `exterior ${x},${y}`);
+  assert.equal(exposedCornerCap(s, 9, 4), false);
+  openPlanDoor(s, 13, "key");
+  for (const [x, y] of castleCornerCaps) assert.ok(exposedCornerCap(s, x, y));
+  for (const id of [14, 10003])
+    assert.equal(
+      sideDoorHiddenSide(
+        s,
+        castlePlan.doors.find((d) => d.id === id)!,
+      ),
+      "left",
+    );
+  assert.equal(
+    sideDoorHiddenSide(
+      s,
+      castlePlan.doors.find((d) => d.id === 16)!,
+    ),
+    "right",
+  );
+  for (const [x, y] of [
+    [3, 21],
+    [7, 28],
+    [31, 17],
+    [4, 12],
+    [30, 8],
+  ])
+    assert.ok(roofVisible(s, y * 42 + x), `closed room ${x},${y}`);
+});

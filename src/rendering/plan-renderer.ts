@@ -1,5 +1,7 @@
 import {
   wallJunction,
+  exposedCornerCap,
+  sideDoorHiddenSide,
   planDoorAxis,
   carpetVisualBounds,
   storageSprites,
@@ -91,25 +93,68 @@ function doorSprite(
   c: CanvasRenderingContext2D,
   images: PlanArtwork,
   o: PlanObject,
-  map: PlanMap,
+  state: PlanState,
 ) {
   const x = o.x * P,
     y = o.y * P,
     w = o.w * P,
     h = o.h * P;
-  if (planDoorAxis(map, o) === "vertical") {
-    c.drawImage(
-      images.directional,
-      1265,
-      94,
-      195,
-      730,
-      x + w * 0.12,
-      y,
-      w * 0.76,
-      h,
-    );
-  } else c.drawImage(images.castleDetails, 450, 600, 114, 154, x, y, w, h);
+  if (planDoorAxis(state.map, o) === "vertical") {
+    // Floor remains visible next to the half coping, even over the closed roof layer.
+    for (let dy = 0; dy < o.h; dy++) {
+      c.drawImage(
+        images.castle,
+        ...((o.x + o.y + dy) % 3 ? CASTLE.floor : CASTLE.floor2),
+        x,
+        y + dy * P,
+        w,
+        P,
+      );
+      c.fillStyle = "#285d942a";
+      c.fillRect(x, y + dy * P, w, P);
+    }
+    const right = sideDoorHiddenSide(state, o) === "right";
+    const edge = x + (right ? w * 0.52 : 0),
+      width = w * 0.48;
+    c.drawImage(images.corrections, 321, 630, 151, 620, edge, y, width, h);
+    c.fillStyle = "#594a35";
+    c.fillRect(right ? edge : edge + width - 3, y, 3, h);
+    // A recessed latch at the floor-facing edge is the only visible door hardware.
+    const latch = right ? edge - 4 : edge + width - 2;
+    c.fillStyle = "#3a3025";
+    c.fillRect(latch, y + h * 0.48, 6, 13);
+    c.fillStyle = "#bd9c61";
+    c.fillRect(latch + 1, y + h * 0.48 + 3, 4, 5);
+  } else {
+    // Lower the panel inside its original footprint and close the frame with stone.
+    c.drawImage(images.castleDetails, 450, 600, 114, 154, x, y + 23, w, h - 23);
+    c.drawImage(images.castle, ...CASTLE.coping, x, y, w, 23);
+    c.fillStyle = "#655039";
+    c.fillRect(x, y + 23, w, 3);
+    for (const edge of [x, x + w - 7])
+      c.drawImage(images.castle, ...CASTLE.coping, edge, y + 23, 7, h - 23);
+  }
+}
+/** Sparse splintered seams, away from gangways and the main circulation lanes. */
+function ghostDeckGaps(
+  c: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  water: CanvasPattern,
+) {
+  const chips = [
+    [25, 3, 35, 15],
+    [37, 12, 31, 12],
+    [31, 22, 24, 9],
+  ];
+  for (const [dx, dy, w, h] of chips) {
+    c.fillStyle = "#403d32";
+    c.fillRect(x + dx - 3, y + dy - 2, w + 6, h + 5);
+    c.fillStyle = water;
+    c.fillRect(x + dx, y + dy, w, h);
+    c.fillStyle = "#b9b898";
+    c.fillRect(x + dx, y + dy + h, w - 5, 2);
+  }
 }
 /** A raised wooden wall: continuous upper beam, shaded upright face and end grain.
  * All projection remains inside the existing blocked tile, never over a gangway. */
@@ -226,7 +271,9 @@ export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
         );
         c.fillStyle = "#285d942a";
         c.fillRect(xx, yy, P, P);
-        if (t === "wall") {
+        if (t === "wall" && exposedCornerCap(s, x, y)) {
+          stamp(images.corrections, [321, 630, 302, 620], xx, yy);
+        } else if (t === "wall") {
           const joint = wallJunction(map, x, y, s.opened);
           if (joint.axis === "vertical") {
             wallV(xx, yy);
@@ -260,6 +307,48 @@ export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
           }
         }
       }
+      // Apply the aging only to wooden surfaces of the right hull. Water and
+      // gangway apertures are excluded; their pixels and all collisions stay intact.
+      const ghost = decks.find((o) => o.type === "deck2");
+      const gangwayLanding = map.objects.some(
+        (o) =>
+          o.type === "gangway" &&
+          x >= o.x - 2 &&
+          x < o.x + o.w + 2 &&
+          y >= o.y &&
+          y < o.y + o.h,
+      );
+      if (
+        map.id === "boarding" &&
+        ghost &&
+        !gangwayLanding &&
+        x >= ghost.x &&
+        x < ghost.x + ghost.w &&
+        (t === "rail" ||
+          (t === "deck" && x > ghost.x && x < ghost.x + ghost.w - 1))
+      ) {
+        const woodPixels = c.getImageData(xx, yy, P, P);
+        for (let i = 0; i < woodPixels.data.length; i += 4) {
+          const r = woodPixels.data[i],
+            g = woodPixels.data[i + 1],
+            b = woodPixels.data[i + 2];
+          const l = r * 0.299 + g * 0.587 + b * 0.114;
+          woodPixels.data[i] = r * 0.28 + l * 0.55 + 48;
+          woodPixels.data[i + 1] = g * 0.28 + l * 0.55 + 51;
+          woodPixels.data[i + 2] = b * 0.28 + l * 0.55 + 48;
+        }
+        c.putImageData(woodPixels, xx, yy);
+        if (
+          t === "deck" &&
+          [
+            [26, 3],
+            [37, 11],
+            [25, 26],
+            [37, 30],
+          ].some(([gx, gy]) => gx === x && gy === y)
+        )
+          ghostDeckGaps(c, xx, yy, water);
+      }
       c.restore();
     }
   // Decoration follows authored rectangles, never the layout in the reference illustrations.
@@ -276,7 +365,7 @@ export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
       stamp(images.chest, [328, 178, 875, 657], x + 8, y + 15, w - 16, h - 30);
     if (o.type === "throne")
       stamp(images.directional, [305, 24, 420, 800], x, y, w, h);
-    if (o.type === "door" && !s.opened.has(o.id)) doorSprite(c, images, o, map);
+    if (o.type === "door" && !s.opened.has(o.id)) doorSprite(c, images, o, s);
     if (o.type === "stairs") paintEntranceSteps(c, images, o);
     if (o.type === "reinforcement")
       stamp(images.castle, [949, 950, 298, 294], x, y, w, h);
@@ -506,7 +595,9 @@ export function renderPlanRoof(s: PlanState, images?: PlanArtwork) {
         }
       }
       // The exterior stone faces remain visible beneath the roofs; interior cells stay opaque.
-      if (map.tiles[k] === "wall") {
+      if (map.tiles[k] === "wall" && exposedCornerCap(s, gx, gy)) {
+        stamp(images.corrections, [321, 630, 302, 620], x, y);
+      } else if (map.tiles[k] === "wall") {
         if (!building(gx - 1, gy) || !building(gx + 1, gy)) wallV(x, y);
         if (!building(gx, gy - 1))
           stamp(images.castle, CASTLE.coping, x, y, P, 18);
@@ -515,7 +606,7 @@ export function renderPlanRoof(s: PlanState, images?: PlanArtwork) {
     }
   // A closed accessible gate is visible on its facade; opened gates leave no sprite.
   for (const door of s.map.doors)
-    if (doorAvailable(s, door)) doorSprite(c, images, door, s.map);
+    if (doorAvailable(s, door)) doorSprite(c, images, door, s);
   return a;
 }
 export function compositePlan(s: PlanState, images?: PlanArtwork) {

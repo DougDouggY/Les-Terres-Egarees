@@ -52,6 +52,12 @@ try {
   );
   await exportPNG("castle-roof-42x34");
   const closed = await getCanvas();
+  await detail("revision-closed-front-door", 21, 26);
+  await detail("revision-closed-left-corners", 5, 25);
+  await detail("revision-closed-right-corner", 38, 14);
+  await page
+    .getByRole("button", { name: "Cadrer la carte", exact: true })
+    .click();
   await page
     .getByRole("button", { name: "Clé — Porte principale", exact: true })
     .click();
@@ -66,6 +72,10 @@ try {
     true,
   );
   await exportPNG("castle-entrance-open-42x34");
+  await detail("revision-side-door-left", 10, 10);
+  await detail("revision-side-door-right", 20, 6);
+  await detail("revision-hall-corners", 21, 24, 2);
+  await detail("revision-corridor-corners", 15, 4, 2);
   await detail("correction-castle-roof-side-door", 10, 21);
   await detail("correction-castle-roof-reserve", 34, 15);
   for (const room of [
@@ -78,16 +88,19 @@ try {
     await page
       .getByRole("button", { name: `Détruire — ${room}`, exact: true })
       .click();
+    if (room === "Cantine") await detail("revision-canteen-open", 9, 10);
+    if (room === "Armurerie") await detail("revision-armory-open", 9, 23);
+    if (room === "Réserve") await detail("revision-reserve-open", 33, 16, 2);
   }
   await page
     .getByRole("button", { name: "Clé — Salle du trône", exact: true })
     .click();
   await exportPNG("castle-interior-42x34");
-  async function detail(name, x, y) {
+  async function detail(name, x, y, zoom = 3) {
     await page
       .getByRole("button", { name: "Cadrer la carte", exact: true })
       .click();
-    await page.locator("#study-zoom").selectOption("3");
+    await page.locator("#study-zoom").selectOption(String(zoom));
     await page.locator("#study-canvas").focus();
     const dx = x - 21,
       dy = y - 17;
@@ -188,6 +201,8 @@ try {
     .getByRole("button", { name: "Réinitialiser", exact: true })
     .click();
   await exportPNG("boarding-42x34");
+  await detail("revision-ships-comparison", 21, 17, 1);
+  await detail("revision-ghost-deck-gaps", 26, 3);
   await detail("correction-exploration-character", 6, 20);
   await detail("correction-ship-rails-gangway", 21, 7);
   await detail("correction-ship-mast-left", 10, 16);
@@ -402,6 +417,80 @@ try {
     .getByRole("button", { name: "Retour au menu", exact: true })
     .click();
   await page.getByRole("button", { name: /Nouvelle aventure/ }).waitFor();
+  const targeted = await page.evaluate(async () => {
+    const m = await import("/src/data/plan-maps.ts"),
+      r = await import("/src/rendering/plan-renderer.ts"),
+      g = await import("/src/rendering/plan-geometry.ts"),
+      im = await r.loadPlanArtwork(),
+      P = r.PLAN_RENDER_TILE;
+    const state = m.createPlanState(m.castlePlan),
+      failures = [];
+    const reference = document.createElement("canvas");
+    reference.width = reference.height = P;
+    const rc = reference.getContext("2d");
+    rc.imageSmoothingEnabled = false;
+    rc.drawImage(im.corrections, 321, 630, 302, 620, 0, 0, P, P);
+    const expected = rc.getImageData(0, 0, P, P).data;
+    for (const id of [null, 13, 10003, 14, 116, 15, 117, 16]) {
+      if (id !== null) m.openPlanDoor(state, id, "key");
+      const ctx = r.compositePlan(state, im).getContext("2d");
+      for (const [x, y] of g.castleCornerCaps)
+        if (g.exposedCornerCap(state, x, y)) {
+          const actual = ctx.getImageData(x * P, y * P, P, P).data;
+          if (!expected.every((v, i) => v === actual[i]))
+            failures.push([id, x, y]);
+        }
+    }
+    // Compare against the same hull rendered with its original wood designation.
+    const normal = {
+      ...m.boardingPlan,
+      objects: m.boardingPlan.objects.map((o) =>
+        o.type === "deck2" ? { ...o, type: "deck1" } : o,
+      ),
+    };
+    const a = r
+        .renderPlanBase(m.createPlanState(m.boardingPlan), im)
+        .getContext("2d"),
+      b = r.renderPlanBase(m.createPlanState(normal), im).getContext("2d");
+    function pixels(ctx, x, y, w = P, h = P) {
+      return ctx.getImageData(x * P, y * P, w, h).data;
+    }
+    function same(x, y, w = P, h = P) {
+      const aa = pixels(a, x, y, w, h),
+        bb = pixels(b, x, y, w, h);
+      return aa.every((v, i) => v === bb[i]);
+    }
+    const pale = pixels(a, 30, 10),
+      original = pixels(b, 30, 10);
+    let light = 0,
+      old = 0;
+    for (let i = 0; i < pale.length; i += 4) {
+      light += pale[i] + pale[i + 1] + pale[i + 2];
+      old += original[i] + original[i + 1] + original[i + 2];
+    }
+    return {
+      failures,
+      left: same(1, 0, 18 * P, 34 * P),
+      sea: same(20, 0, 2 * P, 34 * P),
+      bridges: m.boardingPlan.objects
+        .filter((o) => o.type === "gangway")
+        .every((o) => same(o.x - 2, o.y, (o.w + 4) * P, o.h * P)),
+      paler: light > old,
+      gaps: !same(26, 3),
+    };
+  });
+  assert.deepEqual(
+    targeted,
+    {
+      failures: [],
+      left: true,
+      sea: true,
+      bridges: true,
+      paler: true,
+      gaps: true,
+    },
+    "Marked caps at every opening stage; ghost changes confined to right hull",
+  );
   assert.deepEqual(errors, []);
   console.log(
     "PASS: progressive roofs, all 7 doors by key/destruction, opaque roof over simulated units, reset, rooms/corridors movement, both gangways, rails/sea/masts/crates blocked, overlays, zoom/pan, PNG exports, navigation, campaign storage preserved, no browser errors.",

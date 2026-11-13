@@ -49,3 +49,35 @@ Site : https://dougdouggy.github.io/Les-Terres-Egarees/
 
 Accès interactif : **Tests de combat → Explorer les deux cartes**.
 Captures : `/Les-Terres-Egarees/validation/cartes/`.
+
+## Révision du 14 novembre 2026 — en attente de retour graphique
+
+Les repères des trois captures ont été reportés sur le raster d’origine, avec
+coordonnées à partir de zéro : `(20,0)`, `(9,4)`, `(20,4)`, `(27,14)`,
+`(38,14)`, `(4,24)`, `(9,24)`, `(14,26)`, `(27,26)`. Le dessus de pierre
+vient du même matériau que les murs latéraux, sans façade verticale ajoutée.
+Les raccords intérieurs apparaissent lorsque leur diagonale est découverte ;
+les sols des pièces voisines restent couverts. La logique de révélation et la
+correction des cloisons de `4c5e2a7` sont conservées.
+
+Les portes de face ont un panneau abaissé dans leur empreinte, un linteau et
+deux montants. Les portes latérales ne réutilisent plus un panneau frontal :
+un demi-couronnement occupe le côté de la salle cachée, avec sol sur l’autre
+moitié et une poignée discrète. L’ouverture/destruction retire la poignée ;
+les terminaisons existantes des murs ferment les extrémités du passage.
+
+Seuls le plancher et les bastingages du navire droit sont délavés : transformation
+des couleurs des textures existantes, sans nouvelle image générée. Quatre petites
+brèches décoratives sont à `(26,3)`, `(37,11)`, `(25,26)`, `(37,30)`, hors des
+passerelles. Les mâts, caisses, cales, formes, collisions et chemins restent
+conservés. Le navire gauche, la mer et les passerelles restent identiques au pixel.
+
+Validation : 148 tests de logique ; compilations standard et prototype ; contrôles
+public/prototype ; audit Chromium avec le personnage sur les deux cartes et
+captures de plusieurs étapes intermédiaires. L’audit compare les neuf raccords
+au matériau attendu à chaque ouverture et vérifie les pixels préservés sur
+le navire gauche, la mer et les passerelles. Le JSON original est inchangé.
+
+Captures réelles : `public/validation/cartes/revision-*.png`, accessibles depuis
+la page `validation/cartes/?v=20261114-c1`. Leur présence ne constitue pas une
+validation graphique par l’utilisateur.
