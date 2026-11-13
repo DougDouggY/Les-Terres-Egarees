@@ -173,3 +173,37 @@ test("marked corner tops follow progressive exposure without uncovering closed r
   ])
     assert.ok(roofVisible(s, y * 42 + x), `closed room ${x},${y}`);
 });
+
+test("armory junction becomes a front facade; exterior height avoids every stair cell", async () => {
+  const { exposedCornerCap, exteriorFacadeCells } =
+    await import("../src/rendering/plan-geometry");
+  const { createPlanState, openPlanDoor } =
+    await import("../src/data/plan-maps");
+  const s = createPlanState(castlePlan);
+  openPlanDoor(s, 13, "key");
+  assert.equal(exposedCornerCap(s, 9, 24), true);
+  openPlanDoor(s, 14, "key");
+  assert.equal(exposedCornerCap(s, 9, 24), false);
+  assert.equal(wallJunction(castlePlan, 9, 24, s.opened).axis, "horizontal");
+  const faces = exteriorFacadeCells(castlePlan);
+  for (const [x, y] of [
+    [0, 24],
+    [3, 24],
+    [15, 26],
+    [17, 26],
+    [24, 26],
+    [26, 26],
+    [4, 31],
+    [14, 31],
+    [27, 31],
+    [38, 31],
+    [39, 14],
+    [41, 14],
+  ])
+    assert.ok(faces.includes(y * 42 + x), `red facade ${x},${y}`);
+  for (const k of faces)
+    assert.equal(castlePlan.cells[k + 42].terrain, "grass");
+  for (const x of [18, 19, 20, 21, 22, 23])
+    assert.ok(!faces.includes(26 * 42 + x));
+  assert.deepEqual(exteriorFacadeCells(boardingPlan), []);
+});

@@ -81,3 +81,21 @@ le navire gauche, la mer et les passerelles. Le JSON original est inchangé.
 Captures réelles : `public/validation/cartes/revision-*.png`, accessibles depuis
 la page `validation/cartes/?v=20261114-c1`. Leur présence ne constitue pas une
 validation graphique par l’utilisateur.
+
+## Retour suivant — façades et retour du navire d’origine
+
+- Au raccord `(9,24)`, l’ouverture de l’armurerie remplace le dessus plat par
+  une façade horizontale, même lorsque la salle des gardes reste couverte.
+- Les façades sud donnant sur l’herbe gagnent une case de hauteur visuelle,
+  sous leur contour existant : débord de l’armurerie, côtés de l’entrée,
+  façades basses des deux ailes et débord nord-est. Les marches restent libres.
+  Les angles suivent les contours existants. Aucun changement du JSON, des
+  collisions, des déplacements ou des dimensions.
+- Le vieillissement et les brèches du bateau sont retirés. Une comparaison
+  Chromium avec le moteur du commit `4c5e2a7` confirme que la carte d’abordage
+  entière est identique au pixel près (ponts, passerelles, accessoires compris).
+- 149 tests de logique, compilations et contrôles public/prototype, parcours
+  interactif des deux cartes et captures de l’armurerie et des façades.
+
+Captures actualisées : `validation/cartes/?v=20261114-c2`. Aucun changement
+supplémentaire de direction graphique ; résultat en attente du retour utilisateur.

@@ -9,7 +9,7 @@ const browser = await chromium.launch({
 });
 try {
   const page = await browser.newPage({
-      viewport: { width: 1600, height: 1250 },
+      viewport: { width: 1800, height: 1250 },
     }),
     errors = [];
   page.on("pageerror", (e) => errors.push(e.message));
@@ -89,7 +89,10 @@ try {
       .getByRole("button", { name: `Détruire — ${room}`, exact: true })
       .click();
     if (room === "Cantine") await detail("revision-canteen-open", 9, 10);
-    if (room === "Armurerie") await detail("revision-armory-open", 9, 23);
+    if (room === "Armurerie") {
+      await detail("revision-armory-open", 9, 23);
+      await detail("revision-exterior-height", 21, 24, 1);
+    }
     if (room === "Réserve") await detail("revision-reserve-open", 33, 16, 2);
   }
   await page
@@ -434,6 +437,15 @@ try {
     for (const id of [null, 13, 10003, 14, 116, 15, 117, 16]) {
       if (id !== null) m.openPlanDoor(state, id, "key");
       const ctx = r.compositePlan(state, im).getContext("2d");
+      if (state.opened.has(14)) {
+        const junction = ctx.getImageData(9 * P, 24 * P + 35, P, 55).data;
+        const facade = r
+          .renderPlanBase(state, im)
+          .getContext("2d")
+          .getImageData(9 * P, 24 * P + 35, P, 55).data;
+        if (!junction.every((v, i) => v === facade[i]))
+          failures.push([id, "armory facade"]);
+      }
       for (const [x, y] of g.castleCornerCaps)
         if (g.exposedCornerCap(state, x, y)) {
           const actual = ctx.getImageData(x * P, y * P, P, P).data;
@@ -475,8 +487,8 @@ try {
       bridges: m.boardingPlan.objects
         .filter((o) => o.type === "gangway")
         .every((o) => same(o.x - 2, o.y, (o.w + 4) * P, o.h * P)),
-      paler: light > old,
-      gaps: !same(26, 3),
+      restored: light === old,
+      gapsRemoved: same(26, 3),
     };
   });
   assert.deepEqual(
@@ -486,10 +498,10 @@ try {
       left: true,
       sea: true,
       bridges: true,
-      paler: true,
-      gaps: true,
+      restored: true,
+      gapsRemoved: true,
     },
-    "Marked caps at every opening stage; ghost changes confined to right hull",
+    "Marked caps at every opening stage; original ship wood restored",
   );
   assert.deepEqual(errors, []);
   console.log(

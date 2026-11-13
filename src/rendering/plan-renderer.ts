@@ -2,6 +2,7 @@ import {
   wallJunction,
   exposedCornerCap,
   sideDoorHiddenSide,
+  exteriorFacadeCells,
   planDoorAxis,
   carpetVisualBounds,
   storageSprites,
@@ -135,27 +136,6 @@ function doorSprite(
       c.drawImage(images.castle, ...CASTLE.coping, edge, y + 23, 7, h - 23);
   }
 }
-/** Sparse splintered seams, away from gangways and the main circulation lanes. */
-function ghostDeckGaps(
-  c: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  water: CanvasPattern,
-) {
-  const chips = [
-    [25, 3, 35, 15],
-    [37, 12, 31, 12],
-    [31, 22, 24, 9],
-  ];
-  for (const [dx, dy, w, h] of chips) {
-    c.fillStyle = "#403d32";
-    c.fillRect(x + dx - 3, y + dy - 2, w + 6, h + 5);
-    c.fillStyle = water;
-    c.fillRect(x + dx, y + dy, w, h);
-    c.fillStyle = "#b9b898";
-    c.fillRect(x + dx, y + dy + h, w - 5, 2);
-  }
-}
 /** A raised wooden wall: continuous upper beam, shaded upright face and end grain.
  * All projection remains inside the existing blocked tile, never over a gangway. */
 function paintBulwark(
@@ -203,6 +183,25 @@ function paintBulwark(
     c.fillRect(8, y, 84, 2);
     c.fillStyle = "#2f1b0f";
     c.fillRect(8, y + 12, 84, 2);
+  }
+}
+
+/** South-facing exterior walls project one additional course onto the grass.
+ * This is visual height, never new map geometry; stairs retain their full footprint.
+ */
+function paintExteriorFacades(
+  c: CanvasRenderingContext2D,
+  map: PlanMap,
+  images: PlanArtwork,
+) {
+  for (const k of exteriorFacadeCells(map)) {
+    const x = (k % map.width) * P,
+      y = (Math.floor(k / map.width) + 1) * P;
+    c.fillStyle = "#7c6143";
+    c.fillRect(x, y, P, P);
+    c.drawImage(images.castle, ...CASTLE.face, x, y, P, P);
+    c.fillStyle = "#493c2b";
+    c.fillRect(x, y + P - 3, P, 3);
   }
 }
 
@@ -307,50 +306,9 @@ export function renderPlanBase(s: PlanState, images?: PlanArtwork) {
           }
         }
       }
-      // Apply the aging only to wooden surfaces of the right hull. Water and
-      // gangway apertures are excluded; their pixels and all collisions stay intact.
-      const ghost = decks.find((o) => o.type === "deck2");
-      const gangwayLanding = map.objects.some(
-        (o) =>
-          o.type === "gangway" &&
-          x >= o.x - 2 &&
-          x < o.x + o.w + 2 &&
-          y >= o.y &&
-          y < o.y + o.h,
-      );
-      if (
-        map.id === "boarding" &&
-        ghost &&
-        !gangwayLanding &&
-        x >= ghost.x &&
-        x < ghost.x + ghost.w &&
-        (t === "rail" ||
-          (t === "deck" && x > ghost.x && x < ghost.x + ghost.w - 1))
-      ) {
-        const woodPixels = c.getImageData(xx, yy, P, P);
-        for (let i = 0; i < woodPixels.data.length; i += 4) {
-          const r = woodPixels.data[i],
-            g = woodPixels.data[i + 1],
-            b = woodPixels.data[i + 2];
-          const l = r * 0.299 + g * 0.587 + b * 0.114;
-          woodPixels.data[i] = r * 0.28 + l * 0.55 + 48;
-          woodPixels.data[i + 1] = g * 0.28 + l * 0.55 + 51;
-          woodPixels.data[i + 2] = b * 0.28 + l * 0.55 + 48;
-        }
-        c.putImageData(woodPixels, xx, yy);
-        if (
-          t === "deck" &&
-          [
-            [26, 3],
-            [37, 11],
-            [25, 26],
-            [37, 30],
-          ].some(([gx, gy]) => gx === x && gy === y)
-        )
-          ghostDeckGaps(c, xx, yy, water);
-      }
       c.restore();
     }
+  paintExteriorFacades(c, s.map, images);
   // Decoration follows authored rectangles, never the layout in the reference illustrations.
   for (const o of map.objects.filter((o) => o.type === "carpet"))
     paintRunner(c, images, carpetVisualBounds(map, o));
@@ -551,7 +509,10 @@ export function renderPlanRoof(s: PlanState, images?: PlanArtwork) {
     y < map.height &&
     map.building.has(y * map.width + x);
   for (const k of map.building)
-    if (roofVisible(s, k)) {
+    if (
+      roofVisible(s, k) &&
+      !(k === 24 * map.width + 9 && s.revealed.has(23 * map.width + 8))
+    ) {
       const gx = k % map.width,
         gy = Math.floor(k / map.width),
         x = gx * P,
@@ -604,6 +565,7 @@ export function renderPlanRoof(s: PlanState, images?: PlanArtwork) {
         if (!building(gx, gy + 1)) wallH(x, y);
       }
     }
+  paintExteriorFacades(c, map, images);
   // A closed accessible gate is visible on its facade; opened gates leave no sprite.
   for (const door of s.map.doors)
     if (doorAvailable(s, door)) doorSprite(c, images, door, s);

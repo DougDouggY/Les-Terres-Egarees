@@ -107,6 +107,8 @@ export function exposedCornerCap(s: PlanState, x: number, y: number) {
     !castleCornerCaps.some(([cx, cy]) => cx === x && cy === y)
   )
     return false;
+  // Once the armory is visible, this junction continues its south-facing facade.
+  if (x === 9 && y === 24 && s.revealed.has(23 * s.map.width + 8)) return false;
   return [-1, 1].some((dx) =>
     [-1, 1].some((dy) => {
       const xx = x + dx,
@@ -131,4 +133,18 @@ export function sideDoorHiddenSide(
   if (hidden(o.x + o.w)) return "right";
   // Once both rooms are exposed retain the authored room-facing frame.
   return o.id === 16 ? "right" : "left";
+}
+
+/** Existing south exterior outlines; do not project over the entrance staircase. */
+export function exteriorFacadeCells(map: PlanMap): number[] {
+  if (map.id !== "castle") return [];
+  return map.tiles.flatMap((t, k) => {
+    const below = k + map.width;
+    return t === "wall" &&
+      below < map.tiles.length &&
+      !map.building.has(below) &&
+      map.cells[below].terrain === "grass"
+      ? [k]
+      : [];
+  });
 }
