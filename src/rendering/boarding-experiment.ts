@@ -10,10 +10,11 @@ export type BoardingArtwork = {
   elements: HTMLImageElement;
   tiles: HTMLImageElement;
   props: HTMLImageElement;
+  structures: HTMLImageElement;
 };
 export function loadBoardingArtwork(): Promise<BoardingArtwork> {
   return Promise.all(
-    ["elements.png", "tiles.png", "props.png"].map(
+    ["elements.png", "tiles.png", "props.png", "structures.png"].map(
       (file) =>
         new Promise<HTMLImageElement>((resolve, reject) => {
           const im = new Image();
@@ -23,7 +24,12 @@ export function loadBoardingArtwork(): Promise<BoardingArtwork> {
             import.meta.env.BASE_URL + "assets/boarding-experiment/" + file;
         }),
     ),
-  ).then(([elements, tiles, props]) => ({ elements, tiles, props }));
+  ).then(([elements, tiles, props, structures]) => ({
+    elements,
+    tiles,
+    props,
+    structures,
+  }));
 }
 /** Full square surfaces use a centered square crop, never an anisotropic stretch. */
 function square(
@@ -120,76 +126,32 @@ export function boardingSprite(
   cache.set(key, a);
   return a;
 }
-/** Opaque raised timber seen from above; its outer lip meets the water. */
-function rail(
+/** Textured square assets share the supplied tileset's material and light. */
+function structure(
   c: CanvasRenderingContext2D,
+  art: BoardingArtwork,
+  index: number,
   x: number,
   y: number,
-  ghost: boolean,
-  top: boolean,
+  size = P,
+  flip = false,
 ) {
-  const px = x * P,
-    py = y * P;
-  c.fillStyle = ghost ? "#132e33" : "#342317";
-  c.fillRect(px, py, P, P);
-  c.fillStyle = ghost ? "#36575b" : "#735036";
-  c.fillRect(px, py + 8, P, P - 16);
-  c.fillStyle = ghost ? "#668384" : "#b88b59";
-  c.fillRect(px, py + (top ? 8 : P - 23), P, 15);
-  c.fillStyle = ghost ? "#1d3c41" : "#4d3323";
-  c.fillRect(px, py + (top ? P - 22 : 23), P, 10);
-  // Squared posts and metal bolts are solid, including on the ghost ship.
-  c.fillStyle = ghost ? "#45686a" : "#8e6742";
-  c.fillRect(px + 5, py + 13, 22, P - 26);
-  c.fillStyle = ghost ? "#96a5a3" : "#b7a58a";
-  for (const yy of [23, P - 28]) c.fillRect(px + 13, py + yy, 6, 6);
-}
-/** Three-cell square rigging base, with a large timber mast viewed from above. */
-function mast(
-  c: CanvasRenderingContext2D,
-  x: number,
-  y: number,
-  ghost: boolean,
-) {
-  const cx = (x + 1.5) * P,
-    cy = (y + 1.5) * P;
+  const cell = art.structures.width / 3;
   c.save();
-  c.translate(cx, cy);
-  c.fillStyle = "#00000055";
-  c.beginPath();
-  c.ellipse(8, 13, P * 1.15, P * 0.98, 0, 0, Math.PI * 2);
-  c.fill();
-  c.strokeStyle = ghost ? "#849491" : "#c9ad75";
-  c.lineWidth = 9;
-  for (const [dx, dy] of [
-    [-1, -1],
-    [1, -1],
-    [-1, 1],
-    [1, 1],
-  ]) {
-    c.beginPath();
-    c.moveTo(dx * P * 1.25, dy * P * 1.25);
-    c.lineTo(dx * P * 0.48, dy * P * 0.48);
-    c.stroke();
-  }
-  for (const [radius, color] of [
-    [0.91, ghost ? "#1b3539" : "#39291e"],
-    [0.79, ghost ? "#6c8d83" : "#c1a66b"],
-    [0.66, ghost ? "#2f5556" : "#765039"],
-    [0.54, ghost ? "#577b72" : "#ac7c4d"],
-  ] as const) {
-    c.fillStyle = color;
-    c.beginPath();
-    c.arc(0, 0, radius * P, 0, Math.PI * 2);
-    c.fill();
-  }
-  c.strokeStyle = ghost ? "#365552" : "#715035";
-  c.lineWidth = 4;
-  for (const radius of [0.22, 0.38]) {
-    c.beginPath();
-    c.arc(0, 0, radius * P, 0.2, Math.PI * 1.85);
-    c.stroke();
-  }
+  c.translate(x, y + (flip ? size : 0));
+  if (flip) c.scale(1, -1);
+  // Crop the atlas gutters; the footprint underneath is always opaque.
+  c.drawImage(
+    art.structures,
+    (index % 3) * cell + 6,
+    Math.floor(index / 3) * cell + 6,
+    cell - 12,
+    cell - 12,
+    0,
+    0,
+    size,
+    size,
+  );
   c.restore();
 }
 export function renderBoardingExperiment(
@@ -221,8 +183,11 @@ export function renderBoardingExperiment(
       }
     for (const y of [d.y, d.y + d.h - 1])
       for (let x = 0; x < map.width; x++) {
-        if (map.tiles[y * map.width + x] !== "bridge")
-          rail(c, x, y, ghost, y === d.y);
+        if (map.tiles[y * map.width + x] !== "bridge") {
+          c.fillStyle = ghost ? "#284348" : "#604027";
+          c.fillRect(x * P, y * P, P, P);
+          structure(c, art, ghost ? 4 : 3, x * P, y * P, P, y !== d.y);
+        }
       }
   }
   for (const x of BOARDING_CROSSINGS)
@@ -231,7 +196,13 @@ export function renderBoardingExperiment(
   for (const o of map.objects) {
     const ghost = o.y >= 17;
     if (o.type === "mast") {
-      mast(c, o.x, o.y, ghost);
+      c.fillStyle = ghost ? "#284348" : "#604027";
+      c.fillRect(o.x * P, o.y * P, 3 * P, 3 * P);
+      structure(c, art, ghost ? 1 : 0, o.x * P, o.y * P, 3 * P);
+      continue;
+    }
+    if (o.type === "crate" && ghost) {
+      structure(c, art, 2, o.x * P, o.y * P);
       continue;
     }
     const index = (
