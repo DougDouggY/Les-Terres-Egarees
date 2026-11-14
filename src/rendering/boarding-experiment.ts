@@ -261,12 +261,34 @@ export function renderBoardingExperiment(
         if (map.tiles[y * map.width + x] !== "bridge") {
           c.fillStyle = ghost ? "#284348" : "#604027";
           c.fillRect(x * P, y * P, P, P);
-          c.save();
-          c.translate(x * P, (y + (y !== d.y ? 1 : 0)) * P);
-          if (y !== d.y) c.scale(1, -1);
-          // The broad top occupies most of the rail; only a shallow side remains.
-          c.drawImage(detail(art, ghost ? 3 : 2), 0, 0, P, P);
-          c.restore();
+          // Same orientation on all four edges: top cap 25%, front face 75%.
+          const cell = art.structures.width / 3,
+            side = cell - 12;
+          const sx = (ghost ? 1 : 0) * cell + 6,
+            sy = cell + 6;
+          const cap = side * 0.22;
+          c.drawImage(
+            art.structures,
+            sx,
+            sy,
+            side,
+            cap,
+            x * P,
+            y * P,
+            P,
+            P * 0.25,
+          );
+          c.drawImage(
+            art.structures,
+            sx,
+            sy + cap,
+            side,
+            side - cap,
+            x * P,
+            y * P + P * 0.25,
+            P,
+            P * 0.75,
+          );
         }
       }
   }
@@ -319,17 +341,27 @@ export function renderBoardingExperiment(
       c.drawImage(boardingSprite(art, index), o.x * P, o.y * P, P, P);
   }
   // Height is purely visual: the original 3×3 metal bases and collisions remain.
-  // Draw poles last so they rise above the deck towards its upper rail.
+  // Keep the top inside the first row of the blocked base (case 178 for mast 1).
   for (const o of map.objects.filter((o) => o.type === "mast")) {
     const im = detail(art, o.y >= 17 ? 1 : 0);
-    const height = 4.7 * P,
-      width = (height * im.width) / im.height;
+    // Shorten the shaft, retaining its diameter, cut top and rope-wrapped foot.
+    const width = 1.3 * P,
+      scale = width / im.width;
+    const x = (o.x + 1.5) * P - width / 2,
+      y = o.y * P;
+    const topHeight = 0.8 * P,
+      footHeight = P;
+    c.drawImage(im, 0, 0, im.width, topHeight / scale, x, y, width, topHeight);
     c.drawImage(
       im,
-      (o.x + 1.5) * P - width / 2,
-      (o.y - 2.9) * P,
+      0,
+      im.height - footHeight / scale,
+      im.width,
+      footHeight / scale,
+      x,
+      y + topHeight,
       width,
-      height,
+      footHeight,
     );
   }
   return a;
