@@ -1,3 +1,9 @@
+import { boardingExperimentPlan } from "../data/boarding-experiment";
+import {
+  loadBoardingArtwork,
+  renderBoardingExperiment,
+  type BoardingArtwork,
+} from "../rendering/boarding-experiment";
 import { castleExperimentPlan } from "../rendering/castle-experiment-layout";
 import {
   loadCastleExperiment,
@@ -33,12 +39,13 @@ const studies = {
   castle: castlePlan,
   castleNew: castleExperimentPlan,
   boarding: boardingPlan,
+  boardingNew: boardingExperimentPlan,
 };
 import "./tools.css";
 import "./map-workshop.css";
 
 export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
-  app.innerHTML = `<main class="dev-screen map-workshop"><header class="dev-top"><div><span class="dev-badge">CARTES TACTIQUES · HORS CAMPAGNE</span><h1>Atelier des cartes</h1><p>Plans validés · Château et abordage · Aperçus indépendants de la campagne.</p></div><button data-study-back>Retour aux tests</button></header><div class="study-layout"><aside class="study-sidebar"><button class="study-choice" data-study="castle" aria-pressed="true"><strong>01 · Le château oublié</strong><small>42 × 34 cases · portes et toits progressifs</small></button><button class="study-choice" data-study="castleNew" aria-pressed="false"><strong>02 · Château · Nouveau set EC</strong><small>Sol validé · nouveau décor</small></button><button class="study-choice" data-study="boarding" aria-pressed="false"><strong>03 · Abordage naval</strong><small>42 × 34 cases · deux passerelles</small></button><div class="study-note" data-castle-skin><button type="button" data-study-reveal>Tout révéler (aperçu)</button></div><div class="study-doors" data-study-doors></div><div class="study-doors" data-study-chests hidden></div><div class="study-note"><h2>Explorer le décor</h2><p>Cliquez une case praticable : le personnage suit le chemin indiqué. Cliquez une porte accessible, puis choisissez « Clé » ou « Détruire ».</p><p>Glissez pour déplacer la caméra. Molette ou sélecteur pour zoomer. Flèches : déplacer le personnage. Maj + flèches : déplacer la caméra.</p><p>Grille et collisions sont des aides facultatives. Un homme d’armes du jeu, sans ennemis. Vos sauvegardes de campagne restent indépendantes.</p></div></aside><section><div class="study-tools"><label>Zoom <select id="study-zoom" aria-label="Zoom"><option value="1">100 %</option><option value="1.5">150 %</option><option value="2" selected>200 %</option><option value="3">300 %</option><option value="4">400 %</option></select></label><label><input id="study-grid" type="checkbox">Grille</label><label><input id="study-collisions" type="checkbox">Collisions</label><button data-study-fit>Cadrer la carte</button><button data-study-reset>Réinitialiser</button><button data-study-export disabled>Exporter le PNG</button></div><div class="study-stage"><canvas id="study-canvas" tabindex="0" aria-label="Carte de test interactive" aria-describedby="study-cell-tooltip"></canvas><div id="study-cell-tooltip" class="study-cell-tooltip" role="tooltip" hidden></div></div><output class="study-status" aria-live="polite"></output><footer class="study-footer"><span data-study-dimensions></span><span>Textures validées · grille 32 px · export détaillé ×3</span></footer></section></div></main>`;
+  app.innerHTML = `<main class="dev-screen map-workshop"><header class="dev-top"><div><span class="dev-badge">CARTES TACTIQUES · HORS CAMPAGNE</span><h1>Atelier des cartes</h1><p>Plans validés et variantes · Château et abordage · Hors campagne.</p></div><button data-study-back>Retour aux tests</button></header><div class="study-layout"><aside class="study-sidebar"><button class="study-choice" data-study="castle" aria-pressed="true"><strong>01 · Le château oublié</strong><small>42 × 34 cases · portes et toits progressifs</small></button><button class="study-choice" data-study="castleNew" aria-pressed="false"><strong>02 · Château · Nouveau set EC</strong><small>Sol validé · nouveau décor</small></button><button class="study-choice" data-study="boarding" aria-pressed="false"><strong>03 · Abordage naval</strong><small>42 × 34 cases · deux passerelles</small></button><button class="study-choice" data-study="boardingNew" aria-pressed="false"><strong>04 · Abordage · Nouveau set</strong><small>Normal en haut · fantôme en bas · 7 passerelles</small></button><div class="study-note" data-castle-skin><button type="button" data-study-reveal>Tout révéler (aperçu)</button></div><div class="study-doors" data-study-doors></div><div class="study-doors" data-study-chests hidden></div><div class="study-note"><h2>Explorer le décor</h2><p>Cliquez une case praticable : le personnage suit le chemin indiqué. Cliquez une porte accessible, puis choisissez « Clé » ou « Détruire ».</p><p>Glissez pour déplacer la caméra. Molette ou sélecteur pour zoomer. Flèches : déplacer le personnage. Maj + flèches : déplacer la caméra.</p><p>Grille et collisions sont des aides facultatives. Un homme d’armes du jeu, sans ennemis. Vos sauvegardes de campagne restent indépendantes.</p></div></aside><section><div class="study-tools"><label>Zoom <select id="study-zoom" aria-label="Zoom"><option value="1">100 %</option><option value="1.5">150 %</option><option value="2" selected>200 %</option><option value="3">300 %</option><option value="4">400 %</option></select></label><label><input id="study-grid" type="checkbox">Grille</label><label><input id="study-collisions" type="checkbox">Collisions</label><button data-study-fit>Cadrer la carte</button><button data-study-reset>Réinitialiser</button><button data-study-export disabled>Exporter le PNG</button></div><div class="study-stage"><canvas id="study-canvas" tabindex="0" aria-label="Carte de test interactive" aria-describedby="study-cell-tooltip"></canvas><div id="study-cell-tooltip" class="study-cell-tooltip" role="tooltip" hidden></div></div><output class="study-status" aria-live="polite"></output><footer class="study-footer"><span data-study-dimensions></span><span>Grille 32 px · export détaillé ×3</span></footer></section></div></main>`;
   const canvas = app.querySelector<HTMLCanvasElement>("#study-canvas")!,
     c = canvas.getContext("2d")!;
   const stage = app.querySelector<HTMLElement>(".study-stage")!;
@@ -95,19 +102,23 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
       `${map.name}${skin === "new" ? " · Nouveau set EC" : ""} · ${map.width} × ${map.height} · ${map.width * T} × ${map.height * T} px`;
   };
   let experiment: CastleExperimentArt | undefined;
+  let seaArtwork: BoardingArtwork | undefined;
   let skinRequest = 0;
-  let skin: "approved" | "new" = "approved";
+  let skin: "approved" | "new" | "boarding-new" = "approved";
   const openedChests = new Set<number>();
   function refreshArt() {
     const useNew =
       map.id === "castle" && skin === "new" && outdoor && experiment;
-    art = useNew
-      ? renderCastleExperiment(state, outdoor!, experiment!, openedChests)
-      : renderPlanBase(state, outdoor);
+    const useSea = skin === "boarding-new" && outdoor && seaArtwork;
+    art = useSea
+      ? renderBoardingExperiment(map, outdoor!, seaArtwork!)
+      : useNew
+        ? renderCastleExperiment(state, outdoor!, experiment!, openedChests)
+        : renderPlanBase(state, outdoor);
     roof = useNew
       ? renderCastleExperimentRoof(state, outdoor!, experiment!)
       : renderPlanRoof(state, outdoor);
-    canvas.dataset.skin = useNew ? "new" : "approved";
+    canvas.dataset.skin = useSea ? "boarding-new" : useNew ? "new" : "approved";
   }
   const doorNames: Record<number, string> = {
     13: "Porte principale",
@@ -295,14 +306,15 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
   }
   function fit() {
     size();
+    const step = map === boardingExperimentPlan ? 0.25 : 0.5;
     zoom = Math.max(
-      0.5,
+      step,
       Math.floor(
         Math.min(
           (canvas.width - 32) / (map.width * T),
           (canvas.height - 32) / (map.height * T),
-        ) * 2,
-      ) / 2,
+        ) / step,
+      ) * step,
     );
     syncZoom();
     center();
@@ -322,7 +334,10 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     y = canvas.height / 2,
   ) {
     hideCellTip();
-    const next = Math.max(0.5, Math.min(4, value));
+    const next = Math.max(
+      map === boardingExperimentPlan ? 0.25 : 0.5,
+      Math.min(4, value),
+    );
     offsetX = x - ((x - offsetX) * next) / zoom;
     offsetY = y - ((y - offsetY) * next) / zoom;
     zoom = next;
@@ -393,12 +408,19 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
       try {
         if (choice === "castleNew" && !experiment)
           experiment = await loadCastleExperiment();
+        if (choice === "boardingNew" && !seaArtwork)
+          seaArtwork = await loadBoardingArtwork();
         if (disposed || request !== skinRequest) return;
         clearTimeout(timer);
         route = [];
         preview = [];
         map = studies[choice];
-        skin = choice === "castleNew" ? "new" : "approved";
+        skin =
+          choice === "boardingNew"
+            ? "boarding-new"
+            : choice === "castleNew"
+              ? "new"
+              : "approved";
         state = createPlanState(map);
         openedChests.clear();
         refreshArt();
@@ -444,7 +466,10 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
   };
   app.querySelector<HTMLButtonElement>("[data-study-export]")!.onclick = () => {
     const a = document.createElement("a");
-    a.download = `plan-${map.id}-${canvas.dataset.skin}-${map.width}x${map.height}.png`;
+    a.download =
+      skin === "boarding-new"
+        ? `plan-abordage-fantome-${map.width}x${map.height}.png`
+        : `plan-${map.id}-${canvas.dataset.skin}-${map.width}x${map.height}.png`;
     const exported = document.createElement("canvas");
     exported.width = art.width;
     exported.height = art.height;

@@ -10,7 +10,7 @@ test("nouveau château : comparaison, transparence, portes et export", async ({
     .getByRole("button", { name: "Tests de combat", exact: true })
     .click();
   await page.getByRole("button", { name: "Explorer les deux cartes" }).click();
-  await expect(page.locator("[data-study]")).toHaveCount(3);
+  await expect(page.locator("[data-study]")).toHaveCount(4);
   const canvas = page.locator("#study-canvas");
   await expect(canvas).toHaveAttribute("data-ready", "true");
   const approved = await canvas.evaluate((c) =>

@@ -235,3 +235,101 @@ test("revealed corridors expose partition walls while closed room floors and unt
   openPlanDoor(s, 116, "key");
   assert.equal(roofVisible(s, 9 + 24 * 42), false);
 });
+
+test("nouvel abordage : rotation des emprises et sept passages fins irréguliers", async () => {
+  const { buildBoardingExperiment, BOARDING_CROSSINGS } =
+    await import("../src/data/boarding-experiment");
+  const snapshot = JSON.stringify(PLAN_SOURCE.maps.ship),
+    map = buildBoardingExperiment(),
+    state = createPlanState(map);
+  assert.equal(map.width, 34);
+  assert.equal(map.height, 42);
+  assert.deepEqual(
+    map.objects
+      .filter((o) => o.type === "deck1" || o.type === "deck2")
+      .map((o) => [o.w, o.h, o.y]),
+    [
+      [34, 18, 1],
+      [34, 18, 23],
+    ],
+  );
+  const bridges = map.objects.filter((o) => o.type === "gangway");
+  assert.equal(bridges.length, 7);
+  assert.deepEqual(
+    bridges.map((o) => o.x),
+    [...BOARDING_CROSSINGS],
+  );
+  assert.ok(
+    new Set(bridges.slice(1).map((o, i) => o.x - bridges[i].x)).size > 2,
+  );
+  for (const b of bridges) {
+    assert.equal(b.w, 1);
+    assert.equal(b.h, 4);
+    const path: number[] = planPath(
+      state,
+      17 * map.width + b.x,
+      24 * map.width + b.x,
+    )!;
+    assert.equal(path.length, 8);
+    assert.ok(path.every((k) => k % map.width === b.x));
+  }
+  for (let y = 19; y <= 22; y++)
+    for (let x = 0; x < 34; x++)
+      assert.equal(
+        planWalkable(state, y * 34 + x),
+        (BOARDING_CROSSINGS as readonly number[]).includes(x),
+      );
+  for (const p of map.objects.filter(
+    (o) => !["deck1", "deck2", "gangway"].includes(o.type),
+  )) {
+    assert.equal(p.w, 1);
+    assert.equal(p.h, 1);
+  }
+  assert.equal(JSON.stringify(PLAN_SOURCE.maps.ship), snapshot);
+  assert.equal(boardingPlan.width, 42);
+  assert.equal(
+    boardingPlan.objects.filter((o) => o.type === "gangway").length,
+    2,
+  );
+});
+
+test("nouvel abordage : chaque case praticable est accessible, obstacles et eau restent bloqués", async () => {
+  const { buildBoardingExperiment } =
+    await import("../src/data/boarding-experiment");
+  const map = buildBoardingExperiment(),
+    state = createPlanState(map),
+    seen = new Set([map.start]),
+    queue = [map.start];
+  for (let i = 0; i < queue.length; i++) {
+    const k = queue[i],
+      x = k % map.width,
+      y = Math.floor(k / map.width);
+    for (const [dx, dy] of [
+      [1, 0],
+      [-1, 0],
+      [0, 1],
+      [0, -1],
+    ]) {
+      const xx = x + dx,
+        yy = y + dy,
+        n = yy * map.width + xx;
+      if (
+        xx >= 0 &&
+        yy >= 0 &&
+        xx < map.width &&
+        yy < map.height &&
+        !seen.has(n) &&
+        planWalkable(state, n)
+      ) {
+        seen.add(n);
+        queue.push(n);
+      }
+    }
+  }
+  assert.equal(seen.size, map.cells.filter((c) => c.walk).length);
+  for (const o of map.objects.filter((o) =>
+    ["mast", "crate", "barrel", "brazier"].includes(o.type),
+  ))
+    assert.equal(planWalkable(state, o.y * map.width + o.x), false);
+  assert.equal(planPath(state, map.start, 20 * 34 + 3), null);
+});
