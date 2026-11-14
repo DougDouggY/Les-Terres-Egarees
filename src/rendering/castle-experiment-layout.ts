@@ -1,18 +1,12 @@
+import { doorAt, type PlanState } from "../data/plan-maps";
 import type { PlanMap, PlanObject } from "../data/plan-maps";
-import { exteriorFacadeCells, planDoorAxis } from "./plan-geometry";
+import {
+  exteriorFacadeCells,
+  planDoorAxis,
+  wallJunction,
+} from "./plan-geometry";
 import { hash } from "./plan-tileset";
-export const CASTLE_STONES = [
-  "slabs",
-  "cobbles",
-  "bricks",
-  "diamonds",
-  "worn",
-  "mossSlabs",
-  "moss",
-  "patchwork",
-  "mossBricks",
-] as const;
-/** A seeded draw per cell keeps the nine stones mixed without flickering when doors open. */
+/** The approved stone floor is reused; kitchen and library keep their special floors. */
 export function castleFloor(map: PlanMap, x: number, y: number): string {
   const room = map.objects.find(
     (o) =>
@@ -24,7 +18,7 @@ export function castleFloor(map: PlanMap, x: number, y: number): string {
   );
   if (room?.name === "Cantine") return "checker";
   if (room?.name === "Bibliothèque") return "wood";
-  return CASTLE_STONES[hash(x, y) % CASTLE_STONES.length];
+  return "approved";
 }
 export function castleWallDecor(
   x: number,
@@ -69,4 +63,27 @@ export function castleDoorFrames(map: PlanMap): DoorFrame[] {
 }
 export function castleTallWalls(map: PlanMap) {
   return new Set(exteriorFacadeCells(map));
+}
+
+/** Second tall-wall sample is excluded; the niche is a rare accent. */
+export function castleTallVariant(x: number, y: number): 0 | 2 | 3 {
+  const n = hash(x, y) % 12;
+  return n === 0 ? 2 : n % 2 ? 0 : 3;
+}
+/** Finish the upper end of a lateral passage with a front face, not a flat cap. */
+export function castlePassageFace(s: PlanState, x: number, y: number): boolean {
+  const m = s.map,
+    k = y * m.width + x,
+    below = k + m.width;
+  if (
+    m.tiles[k] !== "wall" ||
+    y + 1 >= m.height ||
+    !m.building.has(below) ||
+    m.tiles[below] === "wall"
+  )
+    return false;
+  const d = doorAt(m, below);
+  if (d && !s.opened.has(d.id)) return false;
+  const joint = wallJunction(m, x, y, s.opened);
+  return joint.axis === "vertical" && (joint.n || joint.openS);
 }

@@ -6,18 +6,17 @@ import {
   sideDoorHiddenSide,
   carpetVisualBounds,
 } from "./plan-geometry";
-import {
-  renderPlanBase,
-  renderPlanRoof,
-  PLAN_RENDER_TILE as P,
-  type PlanArtwork,
-} from "./plan-renderer";
+import { PLAN_RENDER_TILE as P, type PlanArtwork } from "./plan-renderer";
+import { CASTLE } from "../dev/material-renderer";
+import { exposedCornerCap } from "./plan-geometry";
 import {
   castleFloor,
   castleDoorFrames,
   castleTallWalls,
   castleWallDecor,
   castleRugStyle,
+  castleTallVariant,
+  castlePassageFace,
 } from "./castle-experiment-layout";
 
 type Rect = readonly [number, number, number, number];
@@ -47,19 +46,7 @@ export function loadCastleExperiment(): Promise<CastleExperimentArt> {
     ),
   ).then(Object.fromEntries) as Promise<CastleExperimentArt>;
 }
-const floors: Record<string, Rect> = {
-  slabs: [38, 187, 113, 114],
-  cobbles: [175, 187, 113, 114],
-  bricks: [311, 187, 112, 114],
-  diamonds: [445, 187, 113, 114],
-  checker: [582, 187, 111, 114],
-  worn: [38, 327, 113, 113],
-  mossSlabs: [175, 327, 113, 113],
-  moss: [312, 327, 111, 113],
-  patchwork: [445, 327, 113, 113],
-  mossBricks: [582, 327, 111, 113],
-  wood: [1465, 614, 172, 170],
-};
+const woodFloor: Rect = [1465, 614, 172, 170];
 const coping: Rect = [786, 139, 94, 98];
 const shortWalls: Rect[] = [
   [30, 138, 92, 100],
@@ -68,21 +55,23 @@ const shortWalls: Rect[] = [
   [387, 138, 94, 100],
   [506, 138, 94, 100],
 ];
-const tallWalls: Rect[] = [
-  [42, 323, 102, 195],
-  [189, 323, 104, 195],
-  [339, 323, 105, 195],
-  [487, 323, 107, 195],
-];
+const tallWalls: Record<0 | 2 | 3, Rect> = {
+  0: [42, 323, 102, 195],
+  2: [339, 323, 105, 195],
+  3: [487, 323, 107, 195],
+};
 const shortPillar: Rect = [1066, 138, 94, 100];
-const tallPillar: Rect = [676, 323, 105, 195];
 const banners: Rect[] = [
   [75, 416, 138, 264],
   [289, 416, 141, 264],
   [505, 416, 145, 264],
 ];
 
-function tools(c: CanvasRenderingContext2D, art: CastleExperimentArt) {
+function tools(
+  c: CanvasRenderingContext2D,
+  art: CastleExperimentArt,
+  old: PlanArtwork,
+) {
   const stamp = (
     sheet: Sheet,
     r: Rect,
@@ -98,8 +87,35 @@ function tools(c: CanvasRenderingContext2D, art: CastleExperimentArt) {
     c.drawImage(art[sheet], ...r, 0, 0, w, h);
     c.restore();
   };
-  const floor = (s: PlanState, x: number, y: number) =>
-    stamp("floors", floors[castleFloor(s.map, x, y)], x * P, y * P);
+  const floor = (s: PlanState, x: number, y: number) => {
+    const material = castleFloor(s.map, x, y);
+    if (material === "approved") {
+      c.drawImage(
+        old.castle,
+        ...((x + y) % 3 ? CASTLE.floor : CASTLE.floor2),
+        x * P,
+        y * P,
+        P,
+        P,
+      );
+      c.fillStyle = "#285d942a";
+      c.fillRect(x * P, y * P, P, P);
+    } else if (material === "checker") {
+      // The reference has 3×3 squares: invert every other tile to join the checks.
+      for (let dy = 0; dy < 3; dy++)
+        for (let dx = 0; dx < 3; dx++) {
+          const dark = (x * 3 + dx + y * 3 + dy) % 2;
+          stamp(
+            "floors",
+            dark ? [621, 188, 34, 35] : [584, 188, 34, 35],
+            x * P + (dx * P) / 3,
+            y * P + (dy * P) / 3,
+            P / 3,
+            P / 3,
+          );
+        }
+    } else stamp("floors", woodFloor, x * P, y * P);
+  };
   function face(x: number, y: number, tall = false, pillar?: "left" | "right") {
     const seed = (x * 7 + y * 11) >>> 0;
     if (pillar) {
@@ -120,7 +136,14 @@ function tools(c: CanvasRenderingContext2D, art: CastleExperimentArt) {
     const decor = castleWallDecor(x, y);
     if (tall) {
       // Tall masonry stays two cells high. No freestanding columns on long facades.
-      stamp("walls", tallWalls[seed % 4], x * P, y * P, P, 2 * P);
+      stamp(
+        "walls",
+        tallWalls[castleTallVariant(x, y)],
+        x * P,
+        y * P,
+        P,
+        2 * P,
+      );
       if (decor === "banner")
         stamp("openings", banners[2], x * P, y * P, P, 2 * P);
     } else if (decor === "window")
@@ -135,7 +158,7 @@ function tools(c: CanvasRenderingContext2D, art: CastleExperimentArt) {
   function door(s: PlanState, o: PlanObject) {
     if (s.opened.has(o.id)) return;
     if (planDoorAxis(s.map, o) === "vertical") {
-      const flip = sideDoorHiddenSide(s, o) === "left";
+      const flip = sideDoorHiddenSide(s, o) === "right";
       for (let dy = 0; dy < o.h; dy++)
         stamp("side", [0, 0, 32, 32], o.x * P, (o.y + dy) * P, P, P, flip);
     } else if (o.w === 2)
@@ -160,20 +183,47 @@ export function renderCastleExperiment(
   old: PlanArtwork,
   art: CastleExperimentArt,
 ) {
-  const a = renderPlanBase(s, old),
-    c = a.getContext("2d")!;
+  const a = document.createElement("canvas");
+  a.width = s.map.width * P;
+  a.height = s.map.height * P;
+  const c = a.getContext("2d")!;
   c.imageSmoothingEnabled = false;
-  const { stamp, floor, face, door } = tools(c, art),
+  const { stamp, floor, face, door } = tools(c, art, old),
     map = s.map,
     tall = castleTallWalls(map);
-  for (const k of map.building)
-    floor(s, k % map.width, Math.floor(k / map.width));
+  // Fresh terrain underlay: never inherit the previous facade or staircase pixels.
+  for (let y = 0; y < map.height; y++)
+    for (let x = 0; x < map.width; x++) {
+      if (map.building.has(y * map.width + x)) floor(s, x, y);
+      else {
+        const t = map.tiles[y * map.width + x],
+          sw = old.regional.width / 8,
+          sh = old.regional.height / 4;
+        c.save();
+        c.translate(x * P + (x % 2 ? P : 0), y * P + (y % 2 ? P : 0));
+        c.scale(x % 2 ? -1 : 1, y % 2 ? -1 : 1);
+        c.drawImage(
+          old.regional,
+          (t === "path" ? 2 : 0) * sw,
+          0,
+          sw,
+          sh,
+          0,
+          0,
+          P,
+          P,
+        );
+        c.restore();
+      }
+    }
   for (const k of map.building) {
     if (map.tiles[k] !== "wall") continue;
     const x = k % map.width,
       y = Math.floor(k / map.width),
       joint = wallJunction(map, x, y, s.opened);
-    if (joint.axis === "vertical") stamp("walls", coping, x * P, y * P);
+    if (exposedCornerCap(s, x, y)) stamp("walls", coping, x * P, y * P);
+    else if (joint.axis === "vertical" && !castlePassageFace(s, x, y))
+      stamp("walls", coping, x * P, y * P);
     else face(x, y, tall.has(k));
   }
   for (const f of castleDoorFrames(map))
@@ -265,29 +315,26 @@ export function renderCastleExperimentRoof(
   old: PlanArtwork,
   art: CastleExperimentArt,
 ) {
-  const a = renderPlanRoof(s, old),
-    c = a.getContext("2d")!;
+  const a = document.createElement("canvas");
+  a.width = s.map.width * P;
+  a.height = s.map.height * P;
+  const c = a.getContext("2d")!;
   c.imageSmoothingEnabled = false;
-  const { stamp, face, door } = tools(c, art),
-    map = s.map,
-    tall = castleTallWalls(map);
-  const outside = (x: number, y: number) =>
-    x < 0 ||
-    y < 0 ||
-    x >= map.width ||
-    y >= map.height ||
-    !map.building.has(y * map.width + x);
+  const { stamp, door } = tools(c, art, old),
+    map = s.map;
+  // This layer owns roofs only. Repainting legacy facades here leaked old art
+  // over the lower course of the new two-cell walls after opening a room.
   for (const k of map.building) {
-    if (!roofVisible(s, k) || map.tiles[k] !== "wall") continue;
+    if (!roofVisible(s, k)) continue;
     const x = k % map.width,
       y = Math.floor(k / map.width);
-    if (outside(x - 1, y) || outside(x + 1, y) || outside(x, y - 1))
+    if (map.tiles[k] === "wall" && exposedCornerCap(s, x, y))
       stamp("walls", coping, x * P, y * P);
-    if (tall.has(k)) face(x, y, true);
+    else c.drawImage(old.castle, ...CASTLE.roof, x * P, y * P, P, P);
   }
-  for (const f of castleDoorFrames(map))
-    if (roofVisible(s, f.y * map.width + f.x))
-      face(f.x, f.y, tall.has(f.y * map.width + f.x), f.pillar);
+  // Only available gates are visible through a closed roof. Their neighbors
+  // remain covered until that part of the building has actually been revealed.
   for (const o of map.doors) if (doorAvailable(s, o)) door(s, o);
+
   return a;
 }

@@ -37,10 +37,26 @@ import "./tools.css";
 import "./map-workshop.css";
 
 export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
-  app.innerHTML = `<main class="dev-screen map-workshop"><header class="dev-top"><div><span class="dev-badge">CARTES TACTIQUES · HORS CAMPAGNE</span><h1>Atelier des cartes</h1><p>Plans validés · Château et abordage · Aperçus indépendants de la campagne.</p></div><button data-study-back>Retour aux tests</button></header><div class="study-layout"><aside class="study-sidebar"><button class="study-choice" data-study="castle" aria-pressed="true"><strong>01 · Le château oublié</strong><small>42 × 34 cases · portes et toits progressifs</small></button><button class="study-choice" data-study="castleNew" aria-pressed="false"><strong>02 · Château · Nouveau set EC</strong><small>Neuf pierres mélangées · nouveau décor</small></button><button class="study-choice" data-study="boarding" aria-pressed="false"><strong>03 · Abordage naval</strong><small>42 × 34 cases · deux passerelles</small></button><div class="study-note" data-castle-skin><button type="button" data-study-reveal>Tout révéler (aperçu)</button></div><div class="study-doors" data-study-doors></div><div class="study-note"><h2>Explorer le décor</h2><p>Cliquez une case praticable : le personnage suit le chemin indiqué. Cliquez une porte accessible, puis choisissez « Clé » ou « Détruire ».</p><p>Glissez pour déplacer la caméra. Molette ou sélecteur pour zoomer. Flèches : déplacer le personnage. Maj + flèches : déplacer la caméra.</p><p>Grille et collisions sont des aides facultatives. Un homme d’armes du jeu, sans ennemis. Vos sauvegardes de campagne restent indépendantes.</p></div></aside><section><div class="study-tools"><label>Zoom <select id="study-zoom" aria-label="Zoom"><option value="1">100 %</option><option value="1.5">150 %</option><option value="2" selected>200 %</option><option value="3">300 %</option><option value="4">400 %</option></select></label><label><input id="study-grid" type="checkbox">Grille</label><label><input id="study-collisions" type="checkbox">Collisions</label><button data-study-fit>Cadrer la carte</button><button data-study-reset>Réinitialiser</button><button data-study-export disabled>Exporter le PNG</button></div><div class="study-stage"><canvas id="study-canvas" tabindex="0" aria-label="Carte de test interactive"></canvas></div><output class="study-status" aria-live="polite"></output><footer class="study-footer"><span data-study-dimensions></span><span>Textures validées · grille 32 px · export détaillé ×3</span></footer></section></div></main>`;
+  app.innerHTML = `<main class="dev-screen map-workshop"><header class="dev-top"><div><span class="dev-badge">CARTES TACTIQUES · HORS CAMPAGNE</span><h1>Atelier des cartes</h1><p>Plans validés · Château et abordage · Aperçus indépendants de la campagne.</p></div><button data-study-back>Retour aux tests</button></header><div class="study-layout"><aside class="study-sidebar"><button class="study-choice" data-study="castle" aria-pressed="true"><strong>01 · Le château oublié</strong><small>42 × 34 cases · portes et toits progressifs</small></button><button class="study-choice" data-study="castleNew" aria-pressed="false"><strong>02 · Château · Nouveau set EC</strong><small>Sol validé · nouveau décor</small></button><button class="study-choice" data-study="boarding" aria-pressed="false"><strong>03 · Abordage naval</strong><small>42 × 34 cases · deux passerelles</small></button><div class="study-note" data-castle-skin><button type="button" data-study-reveal>Tout révéler (aperçu)</button></div><div class="study-doors" data-study-doors></div><div class="study-note"><h2>Explorer le décor</h2><p>Cliquez une case praticable : le personnage suit le chemin indiqué. Cliquez une porte accessible, puis choisissez « Clé » ou « Détruire ».</p><p>Glissez pour déplacer la caméra. Molette ou sélecteur pour zoomer. Flèches : déplacer le personnage. Maj + flèches : déplacer la caméra.</p><p>Grille et collisions sont des aides facultatives. Un homme d’armes du jeu, sans ennemis. Vos sauvegardes de campagne restent indépendantes.</p></div></aside><section><div class="study-tools"><label>Zoom <select id="study-zoom" aria-label="Zoom"><option value="1">100 %</option><option value="1.5">150 %</option><option value="2" selected>200 %</option><option value="3">300 %</option><option value="4">400 %</option></select></label><label><input id="study-grid" type="checkbox">Grille</label><label><input id="study-collisions" type="checkbox">Collisions</label><button data-study-fit>Cadrer la carte</button><button data-study-reset>Réinitialiser</button><button data-study-export disabled>Exporter le PNG</button></div><div class="study-stage"><canvas id="study-canvas" tabindex="0" aria-label="Carte de test interactive" aria-describedby="study-cell-tooltip"></canvas><div id="study-cell-tooltip" class="study-cell-tooltip" role="tooltip" hidden></div></div><output class="study-status" aria-live="polite"></output><footer class="study-footer"><span data-study-dimensions></span><span>Textures validées · grille 32 px · export détaillé ×3</span></footer></section></div></main>`;
   const canvas = app.querySelector<HTMLCanvasElement>("#study-canvas")!,
     c = canvas.getContext("2d")!;
   const stage = app.querySelector<HTMLElement>(".study-stage")!;
+  const cellTip = app.querySelector<HTMLDivElement>("#study-cell-tooltip")!;
+  const hideCellTip = () => {
+    cellTip.hidden = true;
+  };
+  function showCellTip(e: PointerEvent) {
+    const k = cellAt(e);
+    if (k < 0 || drag || e.pointerType === "touch") {
+      hideCellTip();
+      return;
+    }
+    cellTip.textContent = `Case ${k + 1}`;
+    cellTip.hidden = false;
+    const bounds = stage.getBoundingClientRect();
+    cellTip.style.left = `${Math.max(4, Math.min(stage.clientWidth - cellTip.offsetWidth - 4, e.clientX - bounds.left + 12))}px`;
+    cellTip.style.top = `${Math.max(4, Math.min(stage.clientHeight - cellTip.offsetHeight - 4, e.clientY - bounds.top + 12))}px`;
+  }
   const grid = app.querySelector<HTMLInputElement>("#study-grid")!,
     collisions = app.querySelector<HTMLInputElement>("#study-collisions")!;
   const zoomSelect = app.querySelector<HTMLSelectElement>("#study-zoom")!;
@@ -222,6 +238,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     canvas.height = Math.round(stage.clientHeight);
   }
   function center() {
+    hideCellTip();
     offsetX = (canvas.width - map.width * T * zoom) / 2;
     offsetY = (canvas.height - map.height * T * zoom) / 2;
     draw();
@@ -254,6 +271,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     x = canvas.width / 2,
     y = canvas.height / 2,
   ) {
+    hideCellTip();
     const next = Math.max(0.5, Math.min(4, value));
     offsetX = x - ((x - offsetX) * next) / zoom;
     offsetY = y - ((y - offsetY) * next) / zoom;
@@ -375,6 +393,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
   grid.onchange = collisions.onchange = draw;
   zoomSelect.onchange = () => changeZoom(Number(zoomSelect.value));
   canvas.onpointerdown = (e) => {
+    hideCellTip();
     canvas.focus();
     canvas.setPointerCapture(e.pointerId);
     drag = {
@@ -386,6 +405,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     };
   };
   canvas.onpointermove = (e) => {
+    showCellTip(e);
     if (drag) {
       const dx = e.clientX - drag.x,
         dy = e.clientY - drag.y;
@@ -408,9 +428,11 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
       canvas.releasePointerCapture(e.pointerId);
   };
   canvas.onpointercancel = () => {
+    hideCellTip();
     drag = null;
   };
   canvas.onpointerleave = () => {
+    hideCellTip();
     if (!drag) {
       preview = [];
       draw();
@@ -426,6 +448,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     );
   };
   canvas.onkeydown = (e) => {
+    hideCellTip();
     const dirs: Record<string, [number, number]> = {
       ArrowLeft: [-1, 0],
       ArrowRight: [1, 0],

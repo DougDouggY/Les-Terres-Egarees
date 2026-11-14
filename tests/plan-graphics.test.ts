@@ -2,6 +2,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   castlePlan,
+  createPlanState,
+  openPlanDoor,
   boardingPlan,
   objectCells,
   PLAN_SOURCE,
@@ -230,14 +232,9 @@ test("nouveau décor : sols par pièce et piliers tournés vers les portes de fa
   }
 });
 
-test("nouveau set : neuf pierres par case et décorations limitées aux emplacements prévus", async () => {
-  const {
-    castleFloor,
-    CASTLE_STONES,
-    castleWallDecor,
-    castleRugStyle,
-    castleTallWalls,
-  } = await import("../src/rendering/castle-experiment-layout");
+test("nouveau set : sol validé et décorations limitées aux emplacements prévus", async () => {
+  const { castleFloor, castleWallDecor, castleRugStyle, castleTallWalls } =
+    await import("../src/rendering/castle-experiment-layout");
   const seen = new Set<string>();
   for (let y = 15; y < 24; y++)
     for (let x = 15; x < 27; x++) {
@@ -245,8 +242,7 @@ test("nouveau set : neuf pierres par case et décorations limitées aux emplacem
       seen.add(material);
       assert.equal(material, castleFloor(castlePlan, x, y));
     }
-  assert.deepEqual([...seen].sort(), [...CASTLE_STONES].sort());
-  assert.equal(CASTLE_STONES.length, 9);
+  assert.deepEqual([...seen], ["approved"]);
   const exterior = castleTallWalls(castlePlan);
   let outsideBanners = 0,
     insideBanners = 0;
@@ -266,4 +262,25 @@ test("nouveau set : neuf pierres par case et décorations limitées aux emplacem
   assert.equal(insideBanners, 2);
   for (const id of [10001, 10002])
     assert.ok([0, 1, 2].includes(castleRugStyle(id)));
+});
+
+test("nouveau château : passages latéraux et variantes hautes sans le deuxième modèle", async () => {
+  const { castleTallVariant, castlePassageFace, castleFloor } =
+    await import("../src/rendering/castle-experiment-layout");
+  const counts = [0, 0, 0, 0];
+  for (let y = 0; y < 34; y++)
+    for (let x = 0; x < 42; x++) counts[castleTallVariant(x, y)]++;
+  assert.equal(counts[1], 0);
+  assert.ok(counts[0] > counts[2] * 3);
+  assert.ok(counts[3] > counts[2] * 3);
+  const s = createPlanState(castlePlan);
+  openPlanDoor(s, 13, "key");
+  assert.equal(castlePassageFace(s, 14, 20), true);
+  assert.equal(castlePassageFace(s, 27, 21), true);
+  assert.equal(castlePassageFace(s, 14, 19), false);
+  assert.equal(castlePassageFace(s, 27, 20), false);
+  assert.equal(castlePassageFace(s, 9, 20), false);
+  openPlanDoor(s, 14, "key");
+  assert.equal(castlePassageFace(s, 9, 20), true);
+  assert.equal(castleFloor(castlePlan, 16, 18), "approved");
 });
