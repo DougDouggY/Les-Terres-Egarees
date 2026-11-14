@@ -400,7 +400,40 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
     const stairBacking =
       Array.from(actual.getImageData(18 * P, 27 * P, 1, 1).data).join(",") ===
       Array.from(pc.getImageData(0, 0, 1, 1).data).join(",");
+    const throne = s.map.objects.find(
+      (o: { type: string }) => o.type === "throne",
+    )!;
+    const under = actual.getImageData(
+      throne.x * P + 1,
+      throne.y * P + P / 2,
+      1,
+      1,
+    ).data;
+    const seat = actual.getImageData(
+      (throne.x + 0.5) * P,
+      (throne.y + 1) * P,
+      1,
+      1,
+    ).data;
+    const table = document.createElement("canvas");
+    table.width = art.table.width;
+    table.height = art.table.height;
+    const tc = table.getContext("2d")!;
+    tc.drawImage(art.table, 0, 0);
+    const separateBenches = [0.32, 0.75].every((y) => {
+      const row = tc.getImageData(
+        0,
+        Math.floor(y * table.height),
+        table.width,
+        1,
+      ).data;
+      for (let i = 3; i < row.length; i += 4) if (row[i] > 16) return false;
+      return true;
+    });
     return {
+      rugUnderThrone: under[0] > under[1] * 2 && under[0] > under[2] * 2,
+      redCushion: seat[0] > seat[1] * 2 && seat[0] > seat[2] * 2,
+      separateBenches,
       correctionErrors,
       earlyWall: earlyFaces.every((t) => t === tile(finalBase, 1018)),
       corrections: corrections.every(Boolean),
@@ -412,6 +445,9 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
     };
   });
   expect(result).toEqual({
+    rugUnderThrone: true,
+    redCushion: true,
+    separateBenches: true,
     correctionErrors: [],
     earlyWall: true,
     corrections: true,

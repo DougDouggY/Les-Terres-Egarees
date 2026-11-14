@@ -135,14 +135,24 @@ export function castleRoofCovered(s: PlanState, k: number): boolean {
 export function buildCastleExperimentPlan(): PlanMap {
   const map = buildPlan("castle");
   const throne = map.objects.find((o) => o.type === "throne")!;
-  // Free the removed northern row (290/291); keep the complete sprite in 2×2.
-  for (let x = throne.x; x < throne.x + throne.w; x++) {
-    const cell = map.cells[throne.y * map.width + x];
-    Object.assign(cell, { walk: true, opaque: false, cost: 1 });
-    delete cell.interactive;
-  }
+  // Restore the old six-cell footprint, then block only the new 1×2 throne.
+  for (let y = throne.y; y < throne.y + throne.h; y++)
+    for (let x = throne.x; x < throne.x + throne.w; x++) {
+      const cell = map.cells[y * map.width + x];
+      Object.assign(cell, { walk: true, opaque: false, cost: 1 });
+      delete cell.interactive;
+    }
   throne.y += 1;
   throne.h = 2;
+  throne.w = 1;
+  for (let y = throne.y; y < throne.y + throne.h; y++)
+    for (let x = throne.x; x < throne.x + throne.w; x++)
+      Object.assign(map.cells[y * map.width + x], {
+        walk: false,
+        opaque: true,
+        cost: 99,
+        interactive: `throne:${throne.id}`,
+      });
   const furniture: PlanObject[] = [
     {
       id: 20001,
@@ -208,7 +218,8 @@ export function castleCarpetBounds(map: PlanMap, carpet: PlanObject) {
   const door = map.doors.find((d) => d.id === 16);
   if (!door) return bounds;
   const start = door.x + door.w,
-    end = bounds.x + bounds.w;
+    throne = map.objects.find((o) => o.type === "throne"),
+    end = Math.max(bounds.x + bounds.w, throne ? throne.x + throne.w : 0);
   return { ...bounds, x: start, w: end - start };
 }
 

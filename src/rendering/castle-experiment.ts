@@ -46,8 +46,8 @@ export function loadCastleExperiment(): Promise<CastleExperimentArt> {
     triple: "door-triple.png",
     props: "props-transparent.png",
     bookcase: "bookcase-light.png",
-    table: "table-benches.png",
-    throne: "throne-top-down.png",
+    table: "table-benches-relief.png",
+    throne: "throne-narrow.png",
   };
   return Promise.all(
     Object.entries(files).map(
@@ -328,27 +328,7 @@ export function renderCastleExperiment(
       c.drawImage(art.bookcase, 0, 0, h, w);
       c.restore();
     }
-    if (o.type === "table-benches") {
-      // Mirror one half across the two rows: table at the joint, benches outside.
-      const im = art.table,
-        half = h / 2;
-      c.save();
-      c.translate(x, y + half);
-      c.scale(1, -1);
-      c.drawImage(im, 0, im.height / 2, im.width, im.height / 2, 0, 0, w, half);
-      c.restore();
-      c.drawImage(
-        im,
-        0,
-        im.height / 2,
-        im.width,
-        im.height / 2,
-        x,
-        y + half,
-        w,
-        half,
-      );
-    }
+    if (o.type === "table-benches") c.drawImage(art.table, x, y, w, h);
     if (o.type === "stairs") {
       // Plain lower masonry backs every transparent pixel of the staircase.
       for (let dy = 0; dy < o.h; dy++)

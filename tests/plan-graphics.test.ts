@@ -367,7 +367,7 @@ test("mobilier : rayonnages et tables bloquent seulement la variante", async () 
   const carpet = map.objects.find((o) => o.id === 10002)!;
   const b = castleCarpetBounds(map, carpet);
   assert.equal(b.x, 21);
-  assert.equal(b.x + b.w, 37);
+  assert.equal(b.x + b.w, 38);
 });
 
 test("bordures : top, ouest et est restent sous toiture jusqu’à la pièce correspondante", async () => {
@@ -396,7 +396,7 @@ test("bordures : top, ouest et est restent sous toiture jusqu’à la pièce cor
   assert.equal(castleRoofCovered(s, 587), false);
 });
 
-test("ajustements précis : étagères, trône 2×2 et plafonds après l’entrée", async () => {
+test("ajustements précis : étagères, trône 1×2 et plafonds après l’entrée", async () => {
   const { buildCastleExperimentPlan, castleRoofCovered, castleEntryFace } =
     await import("../src/rendering/castle-experiment-layout");
   const { planWalkable } = await import("../src/data/plan-maps");
@@ -426,11 +426,32 @@ test("ajustements précis : étagères, trône 2×2 et plafonds après l’entr�
   const throne = map.objects.find((o) => o.type === "throne")!;
   assert.deepEqual(
     objectCells(map, throne).map((k) => k + 1),
-    [332, 333, 374, 375],
+    [332, 374],
   );
-  for (const n of [290, 291]) {
+  for (const n of [290, 291, 333, 375]) {
     assert.equal(planWalkable(s, n - 1), true);
     assert.equal(castlePlan.cells[n - 1].walk, false);
   }
   for (const n of [1209, 1251]) assert.equal(planWalkable(s, n - 1), true);
+});
+
+test("trône étroit : tapis sous toute l’assise et ancienne colonne libérée", async () => {
+  const { buildCastleExperimentPlan, castleCarpetBounds } =
+    await import("../src/rendering/castle-experiment-layout");
+  const map = buildCastleExperimentPlan(),
+    throne = map.objects.find((o) => o.type === "throne")!,
+    rug = castleCarpetBounds(
+      map,
+      map.objects.find((o) => o.id === 10002)!,
+    );
+  assert.equal(throne.w, 1);
+  assert.equal(throne.h, 2);
+  assert.ok(
+    rug.x <= throne.x &&
+      rug.y <= throne.y &&
+      rug.x + rug.w >= throne.x + throne.w &&
+      rug.y + rug.h >= throne.y + throne.h,
+  );
+  for (const n of [333, 375]) assert.equal(map.cells[n - 1].walk, true);
+  assert.equal(castlePlan.objects.find((o) => o.type === "throne")!.w, 2);
 });
