@@ -12,6 +12,7 @@ export type BoardingArtwork = {
   props: HTMLImageElement;
   structures: HTMLImageElement;
   details: HTMLImageElement;
+  plank: HTMLImageElement;
 };
 export function loadBoardingArtwork(): Promise<BoardingArtwork> {
   return Promise.all(
@@ -21,6 +22,7 @@ export function loadBoardingArtwork(): Promise<BoardingArtwork> {
       "props.png",
       "structures.png",
       "details.png",
+      "plank.png",
     ].map(
       (file) =>
         new Promise<HTMLImageElement>((resolve, reject) => {
@@ -31,12 +33,13 @@ export function loadBoardingArtwork(): Promise<BoardingArtwork> {
             import.meta.env.BASE_URL + "assets/boarding-experiment/" + file;
         }),
     ),
-  ).then(([elements, tiles, props, structures, details]) => ({
+  ).then(([elements, tiles, props, structures, details, plank]) => ({
     elements,
     tiles,
     props,
     structures,
     details,
+    plank,
   }));
 }
 /** Full square surfaces use a centered square crop, never an anisotropic stretch. */
@@ -229,6 +232,51 @@ function deckDetail(
     im.height * scale,
   );
 }
+const plankCache = new WeakMap<HTMLImageElement, HTMLCanvasElement>();
+/** One transparent, uninterrupted timber spans the six playable crossing cells. */
+export function boardingPlank(art: BoardingArtwork): HTMLCanvasElement {
+  const hit = plankCache.get(art.plank);
+  if (hit) return hit;
+  const raw = document.createElement("canvas");
+  raw.width = art.plank.width;
+  raw.height = art.plank.height;
+  const rc = raw.getContext("2d")!;
+  rc.drawImage(art.plank, 0, 0);
+  const pixels = rc.getImageData(0, 0, raw.width, raw.height).data;
+  let l = raw.width,
+    t = raw.height,
+    r = 0,
+    b = 0;
+  for (let y = 0; y < raw.height; y++)
+    for (let x = 0; x < raw.width; x++)
+      if (pixels[(y * raw.width + x) * 4 + 3] > 24) {
+        l = Math.min(l, x);
+        t = Math.min(t, y);
+        r = Math.max(r, x + 1);
+        b = Math.max(b, y + 1);
+      }
+  const out = document.createElement("canvas");
+  out.width = P;
+  out.height = 6 * P;
+  const c = out.getContext("2d")!;
+  c.imageSmoothingEnabled = false;
+  const w = r - l,
+    h = b - t,
+    scale = Math.min((P * 0.82) / w, (P * 5.8) / h);
+  c.drawImage(
+    raw,
+    l,
+    t,
+    w,
+    h,
+    (P - w * scale) / 2,
+    (6 * P - h * scale) / 2,
+    w * scale,
+    h * scale,
+  );
+  plankCache.set(art.plank, out);
+  return out;
+}
 export function renderBoardingExperiment(
   map: PlanMap,
   old: PlanArtwork,
@@ -261,12 +309,12 @@ export function renderBoardingExperiment(
         if (map.tiles[y * map.width + x] !== "bridge") {
           c.fillStyle = ghost ? "#284348" : "#604027";
           c.fillRect(x * P, y * P, P, P);
-          // Same orientation on all four edges: top cap 25%, front face 75%.
+          // Same orientation on all four edges: a broader visible timber cap, front face below.
           const cell = art.structures.width / 3,
             side = cell - 12;
           const sx = (ghost ? 1 : 0) * cell + 6,
             sy = cell + 6;
-          const cap = side * 0.22;
+          const cap = side * 0.17;
           c.drawImage(
             art.structures,
             sx,
@@ -276,7 +324,7 @@ export function renderBoardingExperiment(
             x * P,
             y * P,
             P,
-            P * 0.25,
+            P * 0.35,
           );
           c.drawImage(
             art.structures,
@@ -285,16 +333,15 @@ export function renderBoardingExperiment(
             side,
             side - cap,
             x * P,
-            y * P + P * 0.25,
+            y * P + P * 0.35,
             P,
-            P * 0.75,
+            P * 0.65,
           );
         }
       }
   }
-  for (const x of BOARDING_CROSSINGS)
-    for (let y = 12; y <= 17; y++)
-      square(c, art.tiles, [36, 500, 98, 102], x * P, y * P, true);
+  const crossing = boardingPlank(art);
+  for (const x of BOARDING_CROSSINGS) c.drawImage(crossing, x * P, 12 * P);
   for (const o of map.objects) {
     const ghost = o.y >= 17;
     if (o.type === "mast") {

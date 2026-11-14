@@ -100,7 +100,10 @@ export function buildBoardingExperiment(): PlanMap {
       [20, 9, "anchor"],
       [1, 3, "sack"],
     ] as const)
-      place({ id: id++, type, x, y: d.y + dy, w: 1, h: 1 }, true);
+      place(
+        { id: id++, type, x, y: d.y + dy, w: 1, h: 1 },
+        type !== "reinforcement",
+      );
     if (i === 1)
       for (const [x, dy] of [
         [5, 8],

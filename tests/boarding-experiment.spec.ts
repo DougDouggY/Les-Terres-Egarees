@@ -150,7 +150,21 @@ test("rendu : sprites carrés transparents sans étirement et matériaux des deu
           t = Math.min(t, y);
           b = Math.max(b, y);
         }
+    const bridge = r.boardingPlank(art),
+      bridgePixels = bridge.getContext("2d").getImageData(0, 0, 96, 576).data;
+    const alpha = (x: number, y: number) => bridgePixels[(y * 96 + x) * 4 + 3];
+    const crossing =
+      bridge.width === 96 &&
+      bridge.height === 576 &&
+      Array.from(
+        { length: 576 },
+        (_, y) => alpha(0, y) === 0 && alpha(95, y) === 0,
+      ).every(Boolean) &&
+      [48, 144, 240, 336, 432, 528].every((y) => alpha(48, y) > 200) &&
+      alpha(48, 0) === 0 &&
+      alpha(48, 575) === 0;
     return {
+      crossing,
       square: sizes.every(([w, h]) => w === 96 && h === 96),
       edgesClear,
       distinct: warm > cold,
@@ -158,6 +172,7 @@ test("rendu : sprites carrés transparents sans étirement et matériaux des deu
     };
   });
   expect(result).toEqual({
+    crossing: true,
     square: true,
     edgesClear: true,
     distinct: true,

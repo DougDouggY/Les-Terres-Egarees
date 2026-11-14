@@ -287,6 +287,11 @@ test("nouvel abordage : ponts rétrécis hors cadre et sept passages fins irrég
   }
   assert.equal(map.objects.filter((o) => o.type === "mast").length, 6);
   assert.equal(map.objects.filter((o) => o.type === "reinforcement").length, 4);
+  for (const o of map.objects.filter((o) => o.type === "reinforcement")) {
+    const k = o.y * 34 + o.x;
+    assert.equal(planWalkable(state, k), true);
+    assert.ok(planPath(state, map.start, k));
+  }
   const holes = map.objects.filter((o) => o.type === "brokenfloor");
   assert.equal(holes.length, 5);
   assert.ok(holes.every((o) => o.y > 17 && !map.cells[o.y * 34 + o.x].walk));
@@ -345,7 +350,6 @@ test("nouvel abordage : chaque case praticable est accessible, obstacles et eau 
       "crate",
       "barrel",
       "brazier",
-      "reinforcement",
       "rope",
       "anchor",
       "sack",
