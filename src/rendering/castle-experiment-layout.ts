@@ -22,7 +22,7 @@ export function castleFloor(map: PlanMap, x: number, y: number): string {
       x < o.x + o.w &&
       y < o.y + o.h,
   );
-  if (room?.name === "Cantine") return "checker";
+  if (room?.name === "Cantine") return "wood";
   if (room?.name === "Bibliothèque") return "wood";
   return "approved";
 }
@@ -124,33 +124,69 @@ export function castleExteriorWall(map: PlanMap, k: number): boolean {
 }
 export function castleRoofCovered(s: PlanState, k: number): boolean {
   if (!roofVisible(s, k)) return false;
+  if (s.opened.has(13) && CASTLE_ENTRY_COPING_CELLS.includes(k + 1))
+    return false;
+  if (castleHiddenBorder(s.map, k)) return true;
   if (CASTLE_ROOF_CELLS.includes(k + 1)) return true;
   if (CASTLE_COPING_CELLS.includes(k + 1)) return false;
   return !castleExteriorWall(s.map, k);
 }
 export function buildCastleExperimentPlan(): PlanMap {
   const map = buildPlan("castle");
-  for (const [id, y] of [
-    [20001, 27],
-    [20002, 29],
-  ]) {
-    const shelf: PlanObject = {
-      id,
+  const furniture: PlanObject[] = [
+    {
+      id: 20001,
       type: "bookcase",
       x: 30,
-      y,
+      y: 25,
       w: 3,
+      h: 2,
+      name: "Rayonnage nord",
+    },
+    {
+      id: 20002,
+      type: "bookcase",
+      x: 30,
+      y: 28,
+      w: 3,
+      h: 2,
+      name: "Rayonnage sud",
+    },
+    {
+      id: 20003,
+      type: "bookcase-vertical",
+      x: 36,
+      y: 27,
+      w: 2,
+      h: 3,
+      name: "Rayonnage du mur droit",
+    },
+    ...[3, 7, 11, 15].map((y, i) => ({
+      id: 20100 + i,
+      type: "table-benches",
+      x: 2,
+      y,
+      w: 4,
       h: 1,
-      name: "Rayonnage de bibliothèque",
-    };
-    map.objects.push(shelf);
-    for (let x = shelf.x; x < shelf.x + shelf.w; x++)
-      Object.assign(map.cells[y * map.width + x], {
-        walk: false,
-        opaque: true,
-        cost: 99,
-        interactive: `bookcase:${id}`,
-      });
+      name: "Table et bancs",
+    })),
+  ];
+  for (const item of furniture) {
+    map.objects.push(item);
+    for (let y = item.y; y < item.y + item.h; y++)
+      for (let x = item.x; x < item.x + item.w; x++) {
+        const k = y * map.width + x;
+        if (!map.cells[k].walk)
+          throw Error(
+            `Mobilier superposé à un obstacle : ${item.id}, case ${k + 1}`,
+          );
+        Object.assign(map.cells[k], {
+          walk: false,
+          opaque: true,
+          cost: 99,
+          interactive: `${item.type}:${item.id}`,
+        });
+      }
   }
   return map;
 }
@@ -164,4 +200,22 @@ export function castleCarpetBounds(map: PlanMap, carpet: PlanObject) {
   const start = door.x + door.w,
     end = bounds.x + bounds.w;
   return { ...bounds, x: start, w: end - start };
+}
+
+export const CASTLE_ENTRY_COPING_CELLS = [178, 589, 616];
+/** The user's ranges mean the top row, the west column through 967, and east through 588. */
+export function castleHiddenBorder(map: PlanMap, k: number) {
+  const x = k % map.width,
+    y = Math.floor(k / map.width);
+  return (
+    y === 0 ||
+    (x === 0 && k + 1 <= 967) ||
+    (x === map.width - 1 && k + 1 <= 588)
+  );
+}
+export function castleCopingCell(s: PlanState, k: number) {
+  return (
+    CASTLE_COPING_CELLS.includes(k + 1) ||
+    (s.opened.has(13) && CASTLE_ENTRY_COPING_CELLS.includes(k + 1))
+  );
 }

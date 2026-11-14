@@ -38,7 +38,7 @@ import "./tools.css";
 import "./map-workshop.css";
 
 export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
-  app.innerHTML = `<main class="dev-screen map-workshop"><header class="dev-top"><div><span class="dev-badge">CARTES TACTIQUES · HORS CAMPAGNE</span><h1>Atelier des cartes</h1><p>Plans validés · Château et abordage · Aperçus indépendants de la campagne.</p></div><button data-study-back>Retour aux tests</button></header><div class="study-layout"><aside class="study-sidebar"><button class="study-choice" data-study="castle" aria-pressed="true"><strong>01 · Le château oublié</strong><small>42 × 34 cases · portes et toits progressifs</small></button><button class="study-choice" data-study="castleNew" aria-pressed="false"><strong>02 · Château · Nouveau set EC</strong><small>Sol validé · nouveau décor</small></button><button class="study-choice" data-study="boarding" aria-pressed="false"><strong>03 · Abordage naval</strong><small>42 × 34 cases · deux passerelles</small></button><div class="study-note" data-castle-skin><button type="button" data-study-reveal>Tout révéler (aperçu)</button></div><div class="study-doors" data-study-doors></div><div class="study-note"><h2>Explorer le décor</h2><p>Cliquez une case praticable : le personnage suit le chemin indiqué. Cliquez une porte accessible, puis choisissez « Clé » ou « Détruire ».</p><p>Glissez pour déplacer la caméra. Molette ou sélecteur pour zoomer. Flèches : déplacer le personnage. Maj + flèches : déplacer la caméra.</p><p>Grille et collisions sont des aides facultatives. Un homme d’armes du jeu, sans ennemis. Vos sauvegardes de campagne restent indépendantes.</p></div></aside><section><div class="study-tools"><label>Zoom <select id="study-zoom" aria-label="Zoom"><option value="1">100 %</option><option value="1.5">150 %</option><option value="2" selected>200 %</option><option value="3">300 %</option><option value="4">400 %</option></select></label><label><input id="study-grid" type="checkbox">Grille</label><label><input id="study-collisions" type="checkbox">Collisions</label><button data-study-fit>Cadrer la carte</button><button data-study-reset>Réinitialiser</button><button data-study-export disabled>Exporter le PNG</button></div><div class="study-stage"><canvas id="study-canvas" tabindex="0" aria-label="Carte de test interactive" aria-describedby="study-cell-tooltip"></canvas><div id="study-cell-tooltip" class="study-cell-tooltip" role="tooltip" hidden></div></div><output class="study-status" aria-live="polite"></output><footer class="study-footer"><span data-study-dimensions></span><span>Textures validées · grille 32 px · export détaillé ×3</span></footer></section></div></main>`;
+  app.innerHTML = `<main class="dev-screen map-workshop"><header class="dev-top"><div><span class="dev-badge">CARTES TACTIQUES · HORS CAMPAGNE</span><h1>Atelier des cartes</h1><p>Plans validés · Château et abordage · Aperçus indépendants de la campagne.</p></div><button data-study-back>Retour aux tests</button></header><div class="study-layout"><aside class="study-sidebar"><button class="study-choice" data-study="castle" aria-pressed="true"><strong>01 · Le château oublié</strong><small>42 × 34 cases · portes et toits progressifs</small></button><button class="study-choice" data-study="castleNew" aria-pressed="false"><strong>02 · Château · Nouveau set EC</strong><small>Sol validé · nouveau décor</small></button><button class="study-choice" data-study="boarding" aria-pressed="false"><strong>03 · Abordage naval</strong><small>42 × 34 cases · deux passerelles</small></button><div class="study-note" data-castle-skin><button type="button" data-study-reveal>Tout révéler (aperçu)</button></div><div class="study-doors" data-study-doors></div><div class="study-doors" data-study-chests hidden></div><div class="study-note"><h2>Explorer le décor</h2><p>Cliquez une case praticable : le personnage suit le chemin indiqué. Cliquez une porte accessible, puis choisissez « Clé » ou « Détruire ».</p><p>Glissez pour déplacer la caméra. Molette ou sélecteur pour zoomer. Flèches : déplacer le personnage. Maj + flèches : déplacer la caméra.</p><p>Grille et collisions sont des aides facultatives. Un homme d’armes du jeu, sans ennemis. Vos sauvegardes de campagne restent indépendantes.</p></div></aside><section><div class="study-tools"><label>Zoom <select id="study-zoom" aria-label="Zoom"><option value="1">100 %</option><option value="1.5">150 %</option><option value="2" selected>200 %</option><option value="3">300 %</option><option value="4">400 %</option></select></label><label><input id="study-grid" type="checkbox">Grille</label><label><input id="study-collisions" type="checkbox">Collisions</label><button data-study-fit>Cadrer la carte</button><button data-study-reset>Réinitialiser</button><button data-study-export disabled>Exporter le PNG</button></div><div class="study-stage"><canvas id="study-canvas" tabindex="0" aria-label="Carte de test interactive" aria-describedby="study-cell-tooltip"></canvas><div id="study-cell-tooltip" class="study-cell-tooltip" role="tooltip" hidden></div></div><output class="study-status" aria-live="polite"></output><footer class="study-footer"><span data-study-dimensions></span><span>Textures validées · grille 32 px · export détaillé ×3</span></footer></section></div></main>`;
   const canvas = app.querySelector<HTMLCanvasElement>("#study-canvas")!,
     c = canvas.getContext("2d")!;
   const stage = app.querySelector<HTMLElement>(".study-stage")!;
@@ -97,11 +97,12 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
   let experiment: CastleExperimentArt | undefined;
   let skinRequest = 0;
   let skin: "approved" | "new" = "approved";
+  const openedChests = new Set<number>();
   function refreshArt() {
     const useNew =
       map.id === "castle" && skin === "new" && outdoor && experiment;
     art = useNew
-      ? renderCastleExperiment(state, outdoor!, experiment!)
+      ? renderCastleExperiment(state, outdoor!, experiment!, openedChests)
       : renderPlanBase(state, outdoor);
     roof = useNew
       ? renderCastleExperimentRoof(state, outdoor!, experiment!)
@@ -117,7 +118,55 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     117: "Bibliothèque",
     10003: "Cantine",
   };
+  function toggleChest(id: number) {
+    const o = map.objects.find((o) => o.type === "chest" && o.id === id);
+    if (!o || skin !== "new" || roofVisible(state, o.y * map.width + o.x))
+      return;
+    if (openedChests.has(id)) openedChests.delete(id);
+    else openedChests.add(id);
+    refreshArt();
+    chestPanel();
+    draw();
+    status.textContent = `Coffre de la case ${o.y * map.width + o.x + 1} ${openedChests.has(id) ? "ouvert" : "refermé"}.`;
+  }
+  function chestPanel() {
+    const panel = app.querySelector<HTMLElement>("[data-study-chests]")!;
+    panel.hidden = map.id !== "castle" || skin !== "new";
+    if (panel.hidden) {
+      panel.innerHTML = "";
+      return;
+    }
+    const chests = map.objects.filter((o) => o.type === "chest");
+    const visible = chests.filter(
+      (o) => !roofVisible(state, o.y * map.width + o.x),
+    );
+    panel.innerHTML = `<h2>Coffres · avant / après</h2><p>Cliquez un coffre révélé ou utilisez ces boutons pour comparer ses deux états.</p><button data-chests-open ${visible.length ? "" : "disabled"}>Ouvrir les coffres visibles</button><button data-chests-close ${openedChests.size ? "" : "disabled"}>Tout refermer</button>${chests
+      .map((o) => {
+        const n = o.y * map.width + o.x + 1,
+          open = openedChests.has(o.id);
+        return `<div class="study-chest-row"><span>Case ${n} · ${open ? "ouvert" : "fermé"}</span><button data-chest="${o.id}" ${visible.includes(o) ? "" : "disabled"} aria-label="${open ? "Fermer" : "Ouvrir"} le coffre de la case ${n}">${open ? "Fermer" : "Ouvrir"}</button></div>`;
+      })
+      .join("")}`;
+    panel
+      .querySelectorAll<HTMLButtonElement>("[data-chest]")
+      .forEach((b) => (b.onclick = () => toggleChest(Number(b.dataset.chest))));
+    panel.querySelector<HTMLButtonElement>("[data-chests-open]")!.onclick =
+      () => {
+        for (const o of visible) openedChests.add(o.id);
+        refreshArt();
+        chestPanel();
+        draw();
+      };
+    panel.querySelector<HTMLButtonElement>("[data-chests-close]")!.onclick =
+      () => {
+        openedChests.clear();
+        refreshArt();
+        chestPanel();
+        draw();
+      };
+  }
   function doorPanel() {
+    chestPanel();
     const panel = app.querySelector<HTMLElement>("[data-study-doors]")!;
     panel.hidden = map.id !== "castle";
     app.querySelector<HTMLElement>("[data-castle-skin]")!.hidden =
@@ -292,6 +341,18 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     clearTimeout(timer);
     route = [];
     preview = [];
+    const chest = map.objects.find(
+      (o) =>
+        o.type === "chest" &&
+        to % map.width >= o.x &&
+        to % map.width < o.x + o.w &&
+        Math.floor(to / map.width) >= o.y &&
+        Math.floor(to / map.width) < o.y + o.h,
+    );
+    if (chest && skin === "new" && !roofVisible(state, to)) {
+      toggleChest(chest.id);
+      return;
+    }
     const door = doorAt(map, to);
     if (door && !state.opened.has(door.id)) {
       status.textContent = doorAvailable(state, door)
@@ -339,6 +400,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
         map = studies[choice];
         skin = choice === "castleNew" ? "new" : "approved";
         state = createPlanState(map);
+        openedChests.clear();
         refreshArt();
         cursor = map.start;
         doorPanel();
@@ -374,6 +436,7 @@ export function openMapWorkshop(app: HTMLElement, onBack: () => void) {
     preview = [];
     cursor = map.start;
     state = createPlanState(map);
+    openedChests.clear();
     refreshArt();
     doorPanel();
     message();

@@ -213,7 +213,7 @@ test("armory junction becomes a front facade; exterior height avoids every stair
 test("nouveau décor : sols par pièce et piliers tournés vers les portes de face", async () => {
   const { castleFloor, castleDoorFrames } =
     await import("../src/rendering/castle-experiment-layout");
-  assert.equal(castleFloor(castlePlan, 3, 8), "checker");
+  assert.equal(castleFloor(castlePlan, 3, 8), "wood");
   assert.equal(castleFloor(castlePlan, 30, 28), "wood");
 
   const frames = castleDoorFrames(castlePlan);
@@ -296,6 +296,7 @@ test("repères utilisateur : pourtour, toits 21/1018, plafonds et fenêtres", as
     CASTLE_EXTRA_WINDOWS,
     castleWallDecor,
     castleExteriorWall,
+    castleHiddenBorder,
   } = await import("../src/rendering/castle-experiment-layout");
   const s = createPlanState(castlePlan);
   for (const id of [null, 13, 14]) {
@@ -303,13 +304,19 @@ test("repères utilisateur : pourtour, toits 21/1018, plafonds et fenêtres", as
     for (const n of CASTLE_COPING_CELLS)
       assert.equal(
         castleRoofCovered(s, n - 1),
-        false,
+        castleHiddenBorder(castlePlan, n - 1)
+          ? (await import("../src/data/plan-maps")).roofVisible(s, n - 1)
+          : false,
         `plafond ${n} après ${id}`,
       );
     for (const n of [21, 1018])
       assert.equal(castleRoofCovered(s, n - 1), true, `toit ${n} après ${id}`);
     for (let k = 0; k < castlePlan.tiles.length; k++)
-      if (castleExteriorWall(castlePlan, k) && ![21, 1018].includes(k + 1))
+      if (
+        castleExteriorWall(castlePlan, k) &&
+        ![21, 1018].includes(k + 1) &&
+        !castleHiddenBorder(castlePlan, k)
+      )
         assert.equal(castleRoofCovered(s, k), false, `périmètre ${k + 1}`);
   }
   for (const n of CASTLE_EXTRA_WINDOWS)
@@ -319,7 +326,7 @@ test("repères utilisateur : pourtour, toits 21/1018, plafonds et fenêtres", as
     );
 });
 
-test("bibliothèque : deux rayonnages de trois cases bloquent seulement la variante", async () => {
+test("mobilier : rayonnages et tables bloquent seulement la variante", async () => {
   const { buildCastleExperimentPlan, castleCarpetBounds } =
     await import("../src/rendering/castle-experiment-layout");
   const { planPath, planWalkable } = await import("../src/data/plan-maps");
@@ -327,21 +334,65 @@ test("bibliothèque : deux rayonnages de trois cases bloquent seulement la varia
     s = createPlanState(map);
   for (let pass = 0; pass < 8; pass++)
     for (const d of map.doors) openPlanDoor(s, d.id, "key");
-  const shelves = map.objects.filter((o) => o.type === "bookcase");
-  assert.equal(shelves.length, 2);
+  const shelves = map.objects.filter((o) => o.type.startsWith("bookcase"));
+  assert.equal(shelves.length, 3);
   for (const o of shelves) {
-    assert.equal(o.w, 3);
-    assert.equal(o.h, 1);
+    assert.equal(o.w, o.type === "bookcase" ? 3 : 2);
+    assert.equal(o.h, o.type === "bookcase" ? 2 : 3);
     for (const k of objectCells(map, o)) {
       assert.equal(planWalkable(s, k), false);
       assert.equal(castlePlan.cells[k].walk, true);
     }
   }
   assert.ok(planPath(s, map.start, 30 * 42 + 35));
+  assert.ok(planPath(s, map.start, 16 * 42 + 7));
+  const tables = map.objects.filter((o) => o.type === "table-benches");
+  assert.equal(tables.length, 4);
+  for (const table of tables) {
+    assert.equal(table.w, 4);
+    assert.equal(table.h, 1);
+    for (const k of objectCells(map, table)) {
+      assert.equal(planWalkable(s, k), false);
+      assert.equal(castlePlan.cells[k].walk, true);
+    }
+  }
+  for (const x of [29, 30, 31, 32, 33, 34, 35])
+    assert.equal(planWalkable(s, 27 * 42 + x), true);
   assert.deepEqual(map.doors, castlePlan.doors);
   assert.equal(map.tiles[398], castlePlan.tiles[398]);
   const carpet = map.objects.find((o) => o.id === 10002)!;
   const b = castleCarpetBounds(map, carpet);
   assert.equal(b.x, 21);
   assert.equal(b.x + b.w, 37);
+});
+
+test("bordures : top, ouest et est restent sous toiture jusqu’à la pièce correspondante", async () => {
+  const { buildCastleExperimentPlan, castleRoofCovered, castleHiddenBorder } =
+    await import("../src/rendering/castle-experiment-layout");
+  const { roofVisible } = await import("../src/data/plan-maps");
+  const s = createPlanState(buildCastleExperimentPlan()),
+    border = s.map.tiles.flatMap((_, k) =>
+      castleHiddenBorder(s.map, k) ? [k] : [],
+    );
+  for (const k of border)
+    assert.equal(castleRoofCovered(s, k), true, `initial ${k + 1}`);
+  openPlanDoor(s, 13, "key");
+  for (const n of [178, 589, 616])
+    assert.equal(castleRoofCovered(s, n - 1), false);
+  for (const k of border)
+    if (k !== 588)
+      assert.equal(
+        castleRoofCovered(s, k),
+        roofVisible(s, k),
+        `entrée ${k + 1}`,
+      );
+  openPlanDoor(s, 14, "key");
+  assert.equal(castleRoofCovered(s, 882), false);
+  assert.equal(castleRoofCovered(s, 0), true);
+  openPlanDoor(s, 10003, "key");
+  assert.equal(castleRoofCovered(s, 0), false);
+  assert.equal(castleRoofCovered(s, 41), true);
+  openPlanDoor(s, 16, "key");
+  assert.equal(castleRoofCovered(s, 41), false);
+  assert.equal(castleRoofCovered(s, 587), false);
 });

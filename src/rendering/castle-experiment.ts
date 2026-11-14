@@ -17,7 +17,7 @@ import {
   castleTallVariant,
   castlePassageFace,
   castleRoofCovered,
-  CASTLE_COPING_CELLS,
+  castleCopingCell,
   castleCarpetBounds,
 } from "./castle-experiment-layout";
 
@@ -30,7 +30,9 @@ type Sheet =
   | "double"
   | "triple"
   | "props"
-  | "bookcase";
+  | "bookcase"
+  | "table"
+  | "throne";
 export type CastleExperimentArt = Record<Sheet, HTMLImageElement>;
 const root = "assets/castle-experiment/";
 export function loadCastleExperiment(): Promise<CastleExperimentArt> {
@@ -42,7 +44,9 @@ export function loadCastleExperiment(): Promise<CastleExperimentArt> {
     double: "door-double.png",
     triple: "door-triple.png",
     props: "props-transparent.png",
-    bookcase: "bookcase.png",
+    bookcase: "bookcase-light.png",
+    table: "table-benches.png",
+    throne: "throne-top-down.png",
   };
   return Promise.all(
     Object.entries(files).map(
@@ -207,6 +211,7 @@ export function renderCastleExperiment(
   s: PlanState,
   old: PlanArtwork,
   art: CastleExperimentArt,
+  openedChests: ReadonlySet<number> = new Set(),
 ) {
   const a = document.createElement("canvas");
   a.width = s.map.width * P;
@@ -246,7 +251,7 @@ export function renderCastleExperiment(
     const x = k % map.width,
       y = Math.floor(k / map.width),
       joint = wallJunction(map, x, y, s.opened);
-    if (CASTLE_COPING_CELLS.includes(k + 1) || exposedCornerCap(s, x, y))
+    if (castleCopingCell(s, k) || exposedCornerCap(s, x, y))
       stamp("walls", coping, x * P, y * P);
     else if (joint.axis === "vertical" && !castlePassageFace(s, x, y))
       stamp("walls", coping, x * P, y * P);
@@ -303,9 +308,25 @@ export function renderCastleExperiment(
       w = o.w * P,
       h = o.h * P;
     if (o.type === "pillar") prop(2, 2, x - 7, y - 10, P + 14, P + 20);
-    if (o.type === "chest") prop(o.id % 3, 0, x - 8, y - 8, P + 16, P + 16);
+    if (o.type === "chest")
+      prop(
+        o.id % 3,
+        openedChests.has(o.id) ? 1 : 0,
+        x - 8,
+        y - 8,
+        P + 16,
+        P + 16,
+      );
     if (o.type === "reinforcement") prop(1, 2, x - 8, y - 8, P + 16, P + 16);
     if (o.type === "bookcase") c.drawImage(art.bookcase, x, y, w, h);
+    if (o.type === "bookcase-vertical") {
+      c.save();
+      c.translate(x + w, y);
+      c.rotate(Math.PI / 2);
+      c.drawImage(art.bookcase, 0, 0, h, w);
+      c.restore();
+    }
+    if (o.type === "table-benches") c.drawImage(art.table, x, y, w, h);
     if (o.type === "stairs") {
       // Plain lower masonry backs every transparent pixel of the staircase.
       for (let dy = 0; dy < o.h; dy++)
@@ -335,8 +356,7 @@ export function renderCastleExperiment(
         );
       draw([346, 865, 25, 288], x + w - P * 0.12, P * 0.12);
     }
-    if (o.type === "throne")
-      c.drawImage(old.directional, 305, 24, 420, 800, x, y, w, h);
+    if (o.type === "throne") c.drawImage(art.throne, x, y, w, h);
     if (o.type === "door") door(s, o);
   }
   return a;

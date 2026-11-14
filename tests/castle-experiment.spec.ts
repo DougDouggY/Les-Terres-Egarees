@@ -156,7 +156,7 @@ test("survol : numéro stable de la case avec zoom et déplacement de caméra", 
   await expect(tip).toBeHidden();
 });
 
-test("rendu : toit fermé, façades complètes, angles, escaliers, portes miroir et vrai damier", async ({
+test("rendu : toit fermé, façades complètes, angles, escaliers, portes miroir et plancher de cantine", async ({
   page,
 }) => {
   test.setTimeout(60000);
@@ -249,14 +249,8 @@ test("rendu : toit fermé, façades complètes, angles, escaliers, portes miroir
       }
       if (step === 2) after = base;
     }
-    // A continuous checker alternates across both cell edges; three squares per tile.
-    const checker = after!;
-    const samples = [
-      pixel(checker, 2 * P + (P * 5) / 6, 8 * P + P / 6),
-      pixel(checker, 3 * P + P / 6, 8 * P + P / 6),
-      pixel(checker, 3 * P + P / 2, 8 * P + P / 6),
-    ];
-    const checkerJoins = samples[0] !== samples[1] && samples[0] === samples[2];
+    const canteenPlanks =
+      crop(after!, 2 * P, 8 * P, P, P) === crop(after!, 35 * P, 28 * P, P, P);
     const modified = document.createElement("canvas");
     modified.width = old.castle.width;
     modified.height = old.castle.height;
@@ -280,7 +274,7 @@ test("rendu : toit fermé, façades complètes, angles, escaliers, portes miroir
       hiddenFrames,
       corner,
       facades: facadeChecks.every(Boolean),
-      checkerJoins,
+      canteenPlanks,
       noOldSteps,
     };
   });
@@ -288,7 +282,7 @@ test("rendu : toit fermé, façades complètes, angles, escaliers, portes miroir
     hiddenFrames: true,
     corner: true,
     facades: true,
-    checkerJoins: true,
+    canteenPlanks: true,
     noOldSteps: true,
   });
 });
@@ -342,8 +336,10 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
       const c = composed.getContext("2d")!;
       c.drawImage(base, 0, 0);
       c.drawImage(cover, 0, 0);
-      for (const n of [1013, 1107, 1120, 627, 879, 1047, 757]) {
-        const ok = tile(composed, n) === cap;
+      for (const n of [1013, 1107, 1120, 627, 879, 1047, 757, 178, 589, 616]) {
+        const ok =
+          tile(composed, n) ===
+          (layout.castleRoofCovered(s, n - 1) ? roof : cap);
         corrections.push(ok);
         if (!ok) correctionErrors.push(`cap ${n} after ${id}`);
       }
@@ -353,7 +349,7 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
         if (!ok) correctionErrors.push(`roof ${n} after ${id}`);
       }
       for (const n of [629, 1011, 1309, 1315, 1332, 1339])
-        windows.push(tile(composed, n) === tile(composed, 35));
+        windows.push(tile(composed, n) === tile(base, 35));
       if (id === 13) {
         pc.clearRect(0, 0, P, P);
         pc.drawImage(art.walls, 786, 139, 94, 98, 0, 0, P, P);
@@ -392,10 +388,9 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
     const darkWood =
       average(actual.getImageData(35 * P, 28 * P, P, P).data) <
       average(pc.getImageData(0, 0, P, P).data) * 0.7;
-    pc.drawImage(art.floors, 584, 188, 34, 35, 0, 0, P, P);
-    const darkChecker =
-      lum(actual.getImageData(2 * P + P / 6, 8 * P + P / 6, 1, 1).data) <
-      lum(pc.getImageData(P / 2, P / 2, 1, 1).data) * 0.7;
+    const darkCanteenWood =
+      average(actual.getImageData(2 * P, 8 * P, P, P).data) <
+      average(pc.getImageData(0, 0, P, P).data) * 0.7;
     pc.drawImage(art.walls, 42, 424, 102, 94, 0, 0, P, P);
     const stairBacking =
       Array.from(actual.getImageData(18 * P, 27 * P, 1, 1).data).join(",") ===
@@ -406,7 +401,7 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
       windows: windows.every(Boolean),
       stone: stone.every(Boolean),
       darkWood,
-      darkChecker,
+      darkCanteenWood,
       stairBacking,
     };
   });
@@ -416,7 +411,94 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
     windows: true,
     stone: true,
     darkWood: true,
-    darkChecker: true,
+    darkCanteenWood: true,
     stairBacking: true,
   });
+});
+
+test("coffres : ouvrir, refermer, cliquer sur la carte et réinitialiser", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+  await page.evaluate(() =>
+    localStorage.setItem("lte-save", "chests-preview-sentinel"),
+  );
+  await page
+    .getByRole("button", { name: "Tests de combat", exact: true })
+    .click();
+  await page.getByRole("button", { name: "Explorer les deux cartes" }).click();
+  const canvas = page.locator("#study-canvas");
+  await expect(canvas).toHaveAttribute("data-ready", "true");
+  await page
+    .getByRole("button", { name: /02 · Château · Nouveau set EC/ })
+    .click();
+  await expect(canvas).toHaveAttribute("data-skin", "new");
+  await expect(
+    page.getByRole("button", { name: "Ouvrir les coffres visibles" }),
+  ).toBeDisabled();
+  await page.getByRole("button", { name: "Tout révéler (aperçu)" }).click();
+  await expect(page.locator(".study-chest-row")).toHaveCount(4);
+  const closed = await canvas.evaluate((c) =>
+    (c as HTMLCanvasElement).toDataURL(),
+  );
+  await page
+    .getByRole("button", {
+      name: "Ouvrir le coffre de la case 662",
+      exact: true,
+    })
+    .click();
+  await expect(
+    page.getByRole("button", {
+      name: "Fermer le coffre de la case 662",
+      exact: true,
+    }),
+  ).toBeVisible();
+  expect(
+    await canvas.evaluate((c) => (c as HTMLCanvasElement).toDataURL()),
+  ).not.toBe(closed);
+  await page
+    .getByRole("button", {
+      name: "Fermer le coffre de la case 662",
+      exact: true,
+    })
+    .focus();
+  await page.keyboard.press("Enter");
+  expect(
+    await canvas.evaluate((c) => (c as HTMLCanvasElement).toDataURL()),
+  ).toBe(closed);
+  await canvas.scrollIntoViewIfNeeded();
+  const box = (await canvas.boundingBox())!,
+    z = Number(await page.getByLabel("Zoom", { exact: true }).inputValue());
+  await page.mouse.click(
+    box.x + (box.width - 42 * 32 * z) / 2 + 31.5 * 32 * z,
+    box.y + (box.height - 34 * 32 * z) / 2 + 15.5 * 32 * z,
+  );
+  await expect(
+    page.getByRole("button", {
+      name: "Fermer le coffre de la case 662",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Ouvrir les coffres visibles" })
+    .click();
+  for (const row of await page.locator(".study-chest-row").all())
+    await expect(row).toContainText("ouvert");
+  await page
+    .getByRole("button", { name: "Tout refermer", exact: true })
+    .click();
+  for (const row of await page.locator(".study-chest-row").all())
+    await expect(row).toContainText("fermé");
+  await page
+    .getByRole("button", { name: "Ouvrir les coffres visibles" })
+    .click();
+  await page
+    .getByRole("button", { name: "Réinitialiser", exact: true })
+    .click();
+  for (const row of await page.locator(".study-chest-row").all())
+    await expect(row).toContainText("fermé");
+  expect(await page.evaluate(() => localStorage.getItem("lte-save"))).toBe(
+    "chests-preview-sentinel",
+  );
 });
