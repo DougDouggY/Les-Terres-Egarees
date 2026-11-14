@@ -143,3 +143,18 @@
   opacity: 0.35;
   cursor: not-allowed;
 }
+.map-workshop [data-castle-skin] {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.map-workshop [data-castle-skin][hidden] {
+  display: none;
+}
+.map-workshop [data-castle-skin] select {
+  max-width: 100%;
+  padding: 9px;
+  background: #192c2a;
+  color: #e6dfc7;
+  border: 1px solid #52665d;
+}

@@ -207,3 +207,63 @@ test("armory junction becomes a front facade; exterior height avoids every stair
     assert.ok(!faces.includes(26 * 42 + x));
   assert.deepEqual(exteriorFacadeCells(boardingPlan), []);
 });
+
+test("nouveau décor : sols par pièce et piliers tournés vers les portes de face", async () => {
+  const { castleFloor, castleDoorFrames } =
+    await import("../src/rendering/castle-experiment-layout");
+  assert.equal(castleFloor(castlePlan, 3, 8), "checker");
+  assert.equal(castleFloor(castlePlan, 30, 28), "wood");
+
+  const frames = castleDoorFrames(castlePlan);
+  const entrance = frames.filter((f) => f.door.id === 13);
+  assert.deepEqual(
+    entrance.map((f) => [f.x, f.pillar]),
+    [
+      [19, "right"],
+      [22, "left"],
+    ],
+  );
+  for (const f of frames) {
+    assert.equal(planDoorAxis(castlePlan, f.door), "horizontal");
+    assert.equal(castlePlan.tiles[f.y * castlePlan.width + f.x], "wall");
+    assert.equal(f.pillar, f.x < f.door.x ? "right" : "left");
+  }
+});
+
+test("nouveau set : neuf pierres par case et décorations limitées aux emplacements prévus", async () => {
+  const {
+    castleFloor,
+    CASTLE_STONES,
+    castleWallDecor,
+    castleRugStyle,
+    castleTallWalls,
+  } = await import("../src/rendering/castle-experiment-layout");
+  const seen = new Set<string>();
+  for (let y = 15; y < 24; y++)
+    for (let x = 15; x < 27; x++) {
+      const material = castleFloor(castlePlan, x, y);
+      seen.add(material);
+      assert.equal(material, castleFloor(castlePlan, x, y));
+    }
+  assert.deepEqual([...seen].sort(), [...CASTLE_STONES].sort());
+  assert.equal(CASTLE_STONES.length, 9);
+  const exterior = castleTallWalls(castlePlan);
+  let outsideBanners = 0,
+    insideBanners = 0;
+  for (let y = 0; y < castlePlan.height; y++)
+    for (let x = 0; x < castlePlan.width; x++) {
+      const decor = castleWallDecor(x, y);
+      if (decor === "window") assert.equal(y, 0);
+      if (decor === "banner") {
+        if (exterior.has(y * castlePlan.width + x)) {
+          outsideBanners++;
+          assert.equal(y, 26);
+          assert.ok([17, 24].includes(x));
+        } else insideBanners++;
+      }
+    }
+  assert.equal(outsideBanners, 2);
+  assert.equal(insideBanners, 2);
+  for (const id of [10001, 10002])
+    assert.ok([0, 1, 2].includes(castleRugStyle(id)));
+});
