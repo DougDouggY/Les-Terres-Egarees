@@ -341,7 +341,21 @@ export function renderBoardingExperiment(
       }
   }
   const crossing = boardingPlank(art);
-  for (const x of BOARDING_CROSSINGS) c.drawImage(crossing, x * P, 12 * P);
+  for (const x of BOARDING_CROSSINGS) {
+    // Cast a short contact shadow only onto the decks supporting the timber.
+    c.save();
+    c.beginPath();
+    c.rect(x * P, 12 * P, P, P);
+    c.rect(x * P, 17 * P, P, P);
+    c.clip();
+    c.shadowColor = "#07121799";
+    c.shadowBlur = 4;
+    c.shadowOffsetX = 2;
+    c.shadowOffsetY = 3;
+    c.drawImage(crossing, x * P, 12 * P);
+    c.restore();
+    c.drawImage(crossing, x * P, 12 * P);
+  }
   for (const o of map.objects) {
     const ghost = o.y >= 17;
     if (o.type === "mast") {

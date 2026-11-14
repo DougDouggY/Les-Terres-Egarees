@@ -163,7 +163,20 @@ test("rendu : sprites carrés transparents sans étirement et matériaux des deu
       [48, 144, 240, 336, 432, 528].every((y) => alpha(48, y) > 200) &&
       alpha(48, 0) === 0 &&
       alpha(48, 575) === 0;
+    let smallHoles = 0,
+      red = 0,
+      blue = 0;
+    for (let y = 96; y < 480; y++)
+      for (let x = 32; x < 64; x++) {
+        const k = (y * 96 + x) * 4;
+        if (bridgePixels[k + 3] < 20) smallHoles++;
+        else {
+          red += bridgePixels[k];
+          blue += bridgePixels[k + 2];
+        }
+      }
     return {
+      hauntedPlank: blue > red && smallHoles > 4,
       crossing,
       square: sizes.every(([w, h]) => w === 96 && h === 96),
       edgesClear,
@@ -172,6 +185,7 @@ test("rendu : sprites carrés transparents sans étirement et matériaux des deu
     };
   });
   expect(result).toEqual({
+    hauntedPlank: true,
     crossing: true,
     square: true,
     edgesClear: true,
