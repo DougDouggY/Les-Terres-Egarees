@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "chapters": [
+    {
+      "id": "prologue",
+      "title": "Les Terres Égarées",
+      "optional": false,
+      "before": "L’histoire débute du côté des chevaliers. Un petit groupe prépare une attaque contre un convoi.\n\nAlors que les chevaliers s’apprêtent à passer à l’action, une mystérieuse tempête rouge bouleverse les événements. Elle provoque notamment l’arrivée d’Odrine.\n\nParallèlement, des Vikings sont également entraînés dans cette situation surnaturelle.\n\nLes deux groupes viennent de mondes et de cultures différents. Ils ne comprennent pas encore ce qui leur arrive ni pourquoi ils se retrouvent dans ces terres inconnues.",
+      "during": "Première bataille du jeu, servant d’introduction aux déplacements et aux affrontements tactiques.\n\nLe joueur chevalier commence avec deux combattants et le joueur viking avec trois combattants.\n\nLes deux groupes doivent survivre aux événements provoqués par leur arrivée et combattre sur le même champ de bataille.\n\nLes circonstances exactes de la bataille et les ennemis présents sont à conserver selon la version déjà programmée du prologue.",
+      "after": "Les chevaliers et les Vikings se rencontrent et comprennent qu’ils partagent une situation extraordinaire.\n\nMalgré leurs différences, ils décident de s’allier pour survivre et chercher des réponses.\n\nIls rencontrent Maëlys, une mystérieuse sorcière qui semble connaître certaines particularités de ces terres.\n\nMaëlys rejoint le groupe, portant l’effectif total à six personnages.\n\nElle propose aux nouveaux arrivants de se rendre à sa grotte, qui pourrait leur offrir un refuge et un endroit où discuter de leur situation.\n\nLes détails et formulations exactes des dialogues restent à préciser."
+    },
+    {
+      "id": "1",
+      "title": "Pour ne pas oublier",
+      "optional": false,
+      "before": "Les héros poursuivent leur route après leur rencontre avec Maëlys.\n\nIls sont interceptés par une patrouille du royaume de Valdren.\n\nLes soldats leur demandent qui ils sont, d’où ils viennent et ce qu’ils font sur ces terres.\n\nLes joueurs doivent choisir leur réponse.\n\nUne possibilité consiste à dire la vérité : ils sont arrivés à cause d’étranges tempêtes rouges et ne connaissent pas ce monde.\n\nL’autre possibilité consiste à dissimuler cette vérité et à fournir une autre explication.\n\nCe choix est important : il conditionne la possibilité de recruter un personnage pendant le chapitre.",
+      "during": "Les héros affrontent une patrouille de Valdren composée de onze ennemis, dont le capitaine Aldric.\n\nAldric commande les forces adverses et constitue le chef de cette bataille.\n\nParmi les soldats se trouve Géraud, un jeune écuyer.\n\nSi les joueurs ont choisi de dire la vérité lors de la discussion précédente, une interaction de dialogue permet de convaincre Géraud de rejoindre leur groupe.\n\nS’ils ont menti, cette possibilité de recrutement n’est pas disponible.\n\nLe recrutement doit dépendre du choix narratif initial, pas d’une décision arbitraire du moteur de combat.",
+      "after": "Les héros ont vaincu la patrouille de Valdren.\n\nSi les conditions ont été remplies, Géraud rejoint définitivement le groupe des chevaliers.\n\nL’équipe compte alors six ou sept personnages selon les décisions des joueurs.\n\nLa confrontation montre que les forces de Valdren représentent un danger pour les nouveaux arrivants.\n\nLe groupe poursuit sa progression."
+    },
+    {
+      "id": "2",
+      "title": "Les Écorcheurs",
+      "optional": false,
+      "before": "Les héros découvrent l’existence des Écorcheurs, une bande de hors-la-loi opposée au pouvoir du royaume de Valdren.\n\nContrairement à ce que leur nom pourrait laisser penser, les Écorcheurs ne sont pas les ennemis des protagonistes.\n\nIl s’agit d’un groupe composé notamment de chevaliers et de Vikings qui combattent l’oppression exercée par Valdren.\n\nLes héros découvrent également que des prisonniers doivent être libérés.\n\nUne coopération avec les Écorcheurs devient possible.",
+      "during": "Les héros combattent les forces de Valdren aux côtés des Écorcheurs.\n\nL’objectif narratif principal est d’aider cette bande et de libérer les prisonniers.\n\nLe combat doit permettre de découvrir plusieurs personnages susceptibles de rejoindre la résistance.\n\nParmi les personnages concernés figure notamment un jeune Viking novice.\n\nLes détails précis du terrain, des adversaires et des objectifs secondaires restent à déterminer.",
+      "after": "Les prisonniers sont libérés.\n\nLes héros et les Écorcheurs décident de poursuivre leur coopération contre Valdren.\n\nPlusieurs combattants deviennent disponibles au recrutement.\n\nLes joueurs peuvent répartir librement certaines nouvelles recrues entre leurs deux équipes, sans imposer une séparation systématique selon leur origine.\n\nLe jeune Viking novice fait partie des recrues envisagées.\n\nL’effectif global peut atteindre environ douze à quatorze personnages, selon les recrutements.\n\nÀ partir de cette période de l’histoire, le choix des unités déployées devient important : les joueurs ne pourront pas nécessairement emmener tout le monde dans chaque bataille.\n\nLes alliés envisagent d’utiliser un ancien château abandonné comme base commune."
+    },
+    {
+      "id": "3",
+      "title": "Le château oublié",
+      "optional": false,
+      "before": "Les héros et leurs nouveaux alliés se dirigent vers un château abandonné.\n\nLe bâtiment pourrait devenir un refuge permanent et une base d’opérations pour leur résistance contre Valdren.\n\nMais le château n’est pas vide.\n\nIl est occupé par les Sans-Repos, des créatures mortes-vivantes qui hantent les lieux.\n\nLes héros décident d’explorer le château et de le nettoyer avant de s’y installer.",
+      "during": "Exploration tactique de l’intérieur du château.\n\nLes personnages progressent dans différentes salles : entrée, couloirs, salle des gardes, armurerie, réserves, bibliothèque, cantine et salle du trône.\n\nDes portes fermées, des passages et des objets interactifs peuvent modifier leur progression.\n\nLes portes verrouillées peuvent être ouvertes avec une clé ou détruites avec des armes.\n\nLe château est initialement recouvert de toitures qui dissimulent son intérieur.\n\nL’ouverture de la porte principale révèle les espaces directement accessibles. Les autres salles se découvrent progressivement lorsque les portes qui les isolent sont ouvertes ou détruites.\n\nLes Sans-Repos occupent plusieurs parties du bâtiment.\n\nL’objectif est d’éliminer la menace et de sécuriser le château.",
+      "after": "Les Sans-Repos ont été vaincus.\n\nLes héros prennent possession du château.\n\nCelui-ci devient la base commune des deux équipes et de leurs alliés.\n\nLes résistants peuvent désormais organiser leurs prochaines opérations depuis cet endroit."
+    },
+    {
+      "id": "4",
+      "title": "Deux chemins / La première nuit",
+      "optional": false,
+      "before": "Après l’installation au château, la résistance doit s’organiser.\n\nLes ressources sont limitées et il faut préparer la défense du refuge.\n\nLes deux équipes reçoivent des missions différentes.\n\nUne équipe quitte le château afin de rechercher des ressources.\n\nL’autre reste sur place pour assurer sa protection.\n\nLa nuit approche, et la menace des Sans-Repos demeure présente dans la région.",
+      "during": "Ce chapitre présente deux situations complémentaires.\n\nUne équipe participe à une expédition de ravitaillement à l’extérieur.\n\nL’autre doit défendre le château contre une attaque nocturne des Sans-Repos.\n\nLe principe narratif est de montrer que les deux équipes peuvent agir séparément tout en poursuivant un objectif commun.\n\nLe détail des ennemis et les conditions de victoire des deux missions restent à définir.",
+      "after": "Les missions prennent fin.\n\nLes deux équipes se retrouvent et font le bilan de cette première séparation.\n\nLa résistance comprend que le château ne sera pas un refuge totalement sûr tant que les menaces environnantes persisteront.\n\nLes ressources obtenues permettent de poursuivre la préparation des prochaines opérations."
+    },
+    {
+      "id": "5",
+      "title": "Le convoi royal",
+      "optional": false,
+      "before": "La résistance décide de s’attaquer directement aux ressources du royaume de Valdren.\n\nUn convoi royal est identifié comme une cible intéressante.\n\nLes héros préparent une embuscade afin de récupérer du matériel et d’affaiblir les forces royales.",
+      "during": "Attaque du convoi royal.\n\nLes joueurs doivent affronter son escorte et prendre le contrôle de la situation.\n\nLe terrain, la composition de l’escorte et les éventuels objectifs secondaires restent à définir.",
+      "after": "Le convoi est neutralisé.\n\nLes résistants récupèrent des ressources et renforcent leurs moyens d’action.\n\nCette opération constitue une nouvelle étape dans leur opposition au royaume de Valdren."
+    },
+    {
+      "id": "6",
+      "title": "La trahison",
+      "optional": false,
+      "before": "Alors que les relations entre les héros et les Écorcheurs semblaient solides, un membre de cette organisation les trahit.\n\nCette trahison expose la résistance à une attaque coordonnée.\n\nUne équipe se retrouve dans une situation dangereuse à l’extérieur, tandis que le château est menacé par les forces de Valdren.",
+      "during": "Deux affrontements se déroulent sur des fronts différents.\n\nLa première équipe doit survivre à une embuscade provoquée par la trahison.\n\nLa deuxième doit défendre le château contre un siège de Valdren.\n\nLes deux groupes doivent résister sans pouvoir immédiatement compter sur l’aide de l’autre.\n\nL’identité exacte du traître, ses motivations et les conséquences tactiques détaillées restent à définir.",
+      "after": "Les héros prennent conscience des conséquences de la trahison.\n\nLa résistance est fragilisée, mais elle poursuit son combat.\n\nLes événements poussent les protagonistes à envisager des opérations plus audacieuses contre les positions de Valdren."
+    },
+    {
+      "id": "7",
+      "title": "Le cheval de Troie",
+      "optional": false,
+      "before": "Les héros préparent un plan pour pénétrer dans une fortification de Valdren.\n\nPlutôt que d’attaquer frontalement, les chevaliers doivent se présenter comme des soldats escortant des prisonniers vikings.\n\nLes Vikings jouent donc le rôle de captifs.\n\nCette mise en scène doit permettre de franchir les défenses ennemies et d’atteindre l’intérieur de la fortification.\n\nDe véritables prisonniers sont également détenus sur place.",
+      "during": "L’infiltration se transforme en affrontement.\n\nLes joueurs doivent exploiter l’avantage obtenu grâce à leur ruse.\n\nIls cherchent à libérer les véritables prisonniers et à prendre le contrôle de la fortification.\n\nLa réussite de l’infiltration et les éventuelles conditions de déclenchement du combat restent à préciser.",
+      "after": "La fortification tombe aux mains des héros.\n\nLes prisonniers sont libérés.\n\nLa résistance dispose d’un nouvel avantage stratégique pour progresser vers le port."
+    },
+    {
+      "id": "8",
+      "title": "Le dernier port",
+      "optional": false,
+      "before": "La résistance prépare une nouvelle opération d’envergure.\n\nUne partie des Écorcheurs reste en arrière pour défendre la fortification conquise.\n\nLes deux équipes principales poursuivent leur progression vers un port contrôlé par Valdren.\n\nL’objectif est de s’emparer d’un navire afin de poursuivre leur voyage.",
+      "during": "Les héros affrontent les défenseurs du port.\n\nIls doivent sécuriser les installations portuaires et prendre possession d’un navire.\n\nLa disposition de la carte, les unités adverses et les éventuels événements spéciaux restent à préciser.",
+      "after": "Les héros parviennent à prendre un navire.\n\nIls quittent le port et prennent la mer.\n\nLeur voyage les conduit vers une nouvelle menace."
+    },
+    {
+      "id": "9",
+      "title": "À l’abordage !",
+      "optional": false,
+      "before": "Alors que les héros naviguent, un autre navire apparaît.\n\nLes deux bâtiments se retrouvent suffisamment proches pour permettre un abordage.\n\nL’un des navires peut présenter une apparence fantomatique, avec du bois vieilli, des structures abîmées et une ambiance inquiétante.\n\nL’identité exacte de son équipage et la manière dont l’affrontement commence restent à préciser.",
+      "during": "Bataille tactique entre deux navires parallèles.\n\nLes deux ponts sont séparés par l’eau et reliés par deux passerelles constituées de planches.\n\nLes personnages peuvent combattre sur les ponts et traverser les passerelles.\n\nL’eau est infranchissable.\n\nLes bastingages constituent des obstacles infranchissables, sauf aux ouvertures des passerelles.\n\nLes mâts, les caisses, les tonneaux et les trappes participent à l’organisation du terrain.\n\nLes deux navires doivent avoir une apparence cohérente, avec des variantes graphiques adaptées à leur identité.\n\nLes objectifs précis et la nature des ennemis restent à définir.",
+      "after": "Les héros survivent à l’affrontement naval.\n\nIls poursuivent leur traversée.\n\nLeur prochain arrêt sera un port abandonné, où une nouvelle menace les attend."
+    },
+    {
+      "id": "10",
+      "title": "Le port des morts",
+      "optional": false,
+      "before": "Les héros arrivent de nuit dans un port abandonné.\n\nL’endroit semble désert et inquiétant.\n\nMais la région est infestée par les Sans-Repos.",
+      "during": "Affrontement nocturne contre les Sans-Repos dans les installations du port.\n\nLes héros doivent survivre et sécuriser la zone.\n\nLes objectifs secondaires et la disposition exacte des ennemis restent à déterminer.",
+      "after": "Les héros survivent à leur arrivée.\n\nIls poursuivent leur progression vers l’intérieur des terres.\n\nLes événements surnaturels qui frappent cette région semblent liés aux mystères entourant les tempêtes rouges."
+    },
+    {
+      "id": "10.5",
+      "title": "Les nouveaux égarés",
+      "optional": true,
+      "before": "Une nouvelle tempête rouge apparaît.\n\nComme lors de l’arrivée des protagonistes, elle entraîne dans ce monde de nouveaux individus venus d’ailleurs.\n\nParmi eux se trouvent des chevaliers et des Vikings.\n\nLes héros peuvent choisir d’intervenir pour découvrir ce qui s’est passé ou de poursuivre leur route.",
+      "during": "Si les joueurs choisissent d’intervenir, ils découvrent les nouveaux arrivants et une situation dangereuse nécessitant leur aide.\n\nUne bataille facultative peut avoir lieu.\n\nLa composition exacte des nouveaux groupes et les ennemis présents restent à définir.",
+      "after": "Les conséquences dépendent du choix des joueurs.\n\nLeur intervention, ou leur absence d’intervention, doit influencer certains éléments de la situation rencontrée au chapitre 11.\n\nLes conséquences exactes restent à préciser."
+    },
+    {
+      "id": "11",
+      "title": "Le pont des souvenirs",
+      "optional": false,
+      "before": "Les héros atteignent un pont défendu par les forces de Valdren.\n\nMaëlys y retrouve sa sœur.\n\nMais celle-ci a perdu la mémoire et ne reconnaît plus correctement son passé.\n\nElle se trouve désormais parmi les adversaires des protagonistes.\n\nLa rencontre est particulièrement douloureuse pour Maëlys.",
+      "during": "Bataille pour franchir le pont.\n\nLa sœur de Maëlys fait partie des adversaires importants.\n\nUn dialogue peut avoir lieu entre les deux sœurs.\n\nCependant, contrairement à certains autres personnages rencontrés auparavant, elle ne peut pas être recrutée.\n\nSon destin est tragique : elle doit mourir au cours de ce chapitre.",
+      "after": "Maëlys doit faire face à la mort de sa sœur.\n\nCette perte donne une dimension personnelle et tragique à la progression du groupe.\n\nLes héros poursuivent leur route vers le souverain de Valdren."
+    },
+    {
+      "id": "12",
+      "title": "Le souverain oublié",
+      "optional": false,
+      "before": "Les héros atteignent le château du souverain de Valdren.\n\nIls cherchent à comprendre le rôle du royaume dans les événements qui ont bouleversé leur existence.\n\nIls se préparent à infiltrer le château et à affronter ses défenseurs.",
+      "during": "Infiltration et affrontement dans le château royal.\n\nLes héros parviennent à atteindre le souverain.\n\nUne révélation majeure change leur compréhension de l’histoire.\n\nLe roi est lui-même arrivé dans ce monde à la suite d’une tempête rouge, longtemps auparavant.\n\nIl a perdu la mémoire de son existence précédente.\n\nContrairement à ce que les héros pouvaient croire, il n’est pas responsable de l’apparition des tempêtes rouges.\n\nLe mystère de leur véritable origine demeure entier.",
+      "after": "Les deux joueurs doivent prendre une décision commune concernant le souverain.\n\nIls peuvent choisir de le tuer ou de l’épargner.\n\nCe choix doit être conservé pour la suite de l’histoire.\n\nL’acte I se termine sur cette décision et sur les nombreuses questions encore sans réponse.\n\nLe véritable mystère des tempêtes rouges reste à explorer dans la suite du jeu."
+    }
+  ],
+  "notes": "Organisation des équipes\n\nLe jeu est coopératif et repose sur deux équipes principales : les chevaliers et les Vikings.\n\nChaque joueur contrôle ses propres personnages.\n\nCertains chapitres réunissent les deux équipes, tandis que d’autres les séparent pour accomplir des objectifs complémentaires.\n\nAprès les premiers recrutements, les joueurs doivent pouvoir sélectionner les unités qu’ils déploient, au lieu de combattre systématiquement avec tous leurs personnages.\n\nUn déploiement total d’environ dix unités, puis éventuellement douze, a été envisagé. Ces nombres restent à équilibrer.\n\nRecrutements\n\nMaëlys rejoint le groupe à la fin du prologue.\n\nGéraud peut rejoindre les chevaliers au chapitre 1 selon le choix de dialogue effectué avant la bataille.\n\nLe chapitre 2 introduit plusieurs recrues potentielles parmi les Écorcheurs et les prisonniers libérés, dont un jeune Viking novice.\n\nLa répartition de certaines recrues entre les deux joueurs doit rester libre.\n\nMenace des Sans-Repos\n\nLes Sans-Repos sont des morts-vivants présents dans plusieurs régions.\n\nIls occupent notamment le château oublié et le port abandonné.\n\nUne mécanique de tombée de la nuit a également été envisagée : lorsque certaines batailles durent trop longtemps, des Sans-Repos pourraient apparaître et attaquer aussi bien les héros que leurs adversaires.\n\nCette mécanique n’est pas encore définitivement validée pour tous les chapitres.\n\nObjets et équipement\n\nSystèmes envisagés :\n\n* Armes ordinaires, rares et légendaires, distinguées visuellement.\n* Durabilité des armes.\n* Possibilité de récupérer certains équipements ennemis.\n* Stockage commun ou convoi.\n* Marchands itinérants neutres.\n* Bandages et objets de soin.\n* Clés pour ouvrir certaines portes.\n* Portes destructibles avec des armes.\n\nCes éléments sont des intentions de conception, pas des fonctionnalités à implémenter dans cette tâche.\n\nCartes\n\nLe chapitre 3 utilise un château composé de salles et de couloirs, avec des toits qui se révèlent progressivement.\n\nLe chapitre 9 utilise deux navires séparés par l’eau et reliés par deux passerelles.\n\nLes plans de ces cartes sont définis séparément et ne doivent pas être modifiés par l’éditeur de scénario.\n\nTitres du scénario fourni\n\nPrologue — L’Éther égaré. Chapitre 1 — Les Terres Égarées. Les noms affichés conservent ceux du jeu : Prologue — Les Terres Égarées et Chapitre 1 — Pour ne pas oublier."
+}
