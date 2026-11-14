@@ -236,21 +236,21 @@ test("revealed corridors expose partition walls while closed room floors and unt
   assert.equal(roofVisible(s, 9 + 24 * 42), false);
 });
 
-test("nouvel abordage : rotation des emprises et sept passages fins irréguliers", async () => {
+test("nouvel abordage : ponts rétrécis hors cadre et sept passages fins irréguliers", async () => {
   const { buildBoardingExperiment, BOARDING_CROSSINGS } =
     await import("../src/data/boarding-experiment");
   const snapshot = JSON.stringify(PLAN_SOURCE.maps.ship),
     map = buildBoardingExperiment(),
     state = createPlanState(map);
   assert.equal(map.width, 34);
-  assert.equal(map.height, 42);
+  assert.equal(map.height, 30);
   assert.deepEqual(
     map.objects
       .filter((o) => o.type === "deck1" || o.type === "deck2")
       .map((o) => [o.w, o.h, o.y]),
     [
-      [34, 18, 1],
-      [34, 18, 23],
+      [34, 12, 1],
+      [34, 12, 17],
     ],
   );
   const bridges = map.objects.filter((o) => o.type === "gangway");
@@ -267,13 +267,13 @@ test("nouvel abordage : rotation des emprises et sept passages fins irréguliers
     assert.equal(b.h, 4);
     const path: number[] = planPath(
       state,
-      17 * map.width + b.x,
-      24 * map.width + b.x,
+      11 * map.width + b.x,
+      18 * map.width + b.x,
     )!;
     assert.equal(path.length, 8);
     assert.ok(path.every((k) => k % map.width === b.x));
   }
-  for (let y = 19; y <= 22; y++)
+  for (let y = 13; y <= 16; y++)
     for (let x = 0; x < 34; x++)
       assert.equal(
         planWalkable(state, y * 34 + x),
@@ -282,9 +282,17 @@ test("nouvel abordage : rotation des emprises et sept passages fins irréguliers
   for (const p of map.objects.filter(
     (o) => !["deck1", "deck2", "gangway"].includes(o.type),
   )) {
-    assert.equal(p.w, 1);
-    assert.equal(p.h, 1);
+    assert.equal(p.w, p.type === "mast" ? 3 : 1);
+    assert.equal(p.h, p.type === "mast" ? 3 : 1);
   }
+  assert.equal(map.objects.filter((o) => o.type === "mast").length, 6);
+  // Both long sides continue past the viewport; no stern/bow wall remains.
+  for (const y of [3, 9, 19, 25])
+    for (const x of [0, 33]) assert.equal(map.tiles[y * 34 + x], "deck");
+  for (const o of map.objects.filter((o) => o.type === "mast"))
+    for (let dy = 0; dy < 3; dy++)
+      for (let dx = 0; dx < 3; dx++)
+        assert.equal(map.cells[(o.y + dy) * 34 + o.x + dx].walk, false);
   assert.equal(JSON.stringify(PLAN_SOURCE.maps.ship), snapshot);
   assert.equal(boardingPlan.width, 42);
   assert.equal(
@@ -331,5 +339,5 @@ test("nouvel abordage : chaque case praticable est accessible, obstacles et eau 
     ["mast", "crate", "barrel", "brazier"].includes(o.type),
   ))
     assert.equal(planWalkable(state, o.y * map.width + o.x), false);
-  assert.equal(planPath(state, map.start, 20 * 34 + 3), null);
+  assert.equal(planPath(state, map.start, 14 * 34 + 3), null);
 });

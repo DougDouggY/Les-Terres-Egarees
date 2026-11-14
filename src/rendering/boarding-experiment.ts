@@ -1,11 +1,10 @@
-import type { PlanMap, PlanObject } from "../data/plan-maps";
+import type { PlanMap } from "../data/plan-maps";
 import {
   BOARDING_DECKS,
   BOARDING_CROSSINGS,
 } from "../data/boarding-experiment";
 import { PLAN_RENDER_TILE as P, type PlanArtwork } from "./plan-renderer";
 import { periodicWater } from "../dev/material-renderer";
-import { hash } from "./plan-tileset";
 type Rect = readonly [number, number, number, number];
 export type BoardingArtwork = {
   elements: HTMLImageElement;
@@ -121,22 +120,77 @@ export function boardingSprite(
   cache.set(key, a);
   return a;
 }
-function hull(c: CanvasRenderingContext2D, y: number, h: number) {
-  const left = 2,
-    right = 34 * P - 2,
-    top = y * P + 3,
-    bottom = (y + h) * P - 3,
-    middle = (top + bottom) / 2;
+/** Opaque raised timber seen from above; its outer lip meets the water. */
+function rail(
+  c: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  ghost: boolean,
+  top: boolean,
+) {
+  const px = x * P,
+    py = y * P;
+  c.fillStyle = ghost ? "#132e33" : "#342317";
+  c.fillRect(px, py, P, P);
+  c.fillStyle = ghost ? "#36575b" : "#735036";
+  c.fillRect(px, py + 8, P, P - 16);
+  c.fillStyle = ghost ? "#668384" : "#b88b59";
+  c.fillRect(px, py + (top ? 8 : P - 23), P, 15);
+  c.fillStyle = ghost ? "#1d3c41" : "#4d3323";
+  c.fillRect(px, py + (top ? P - 22 : 23), P, 10);
+  // Squared posts and metal bolts are solid, including on the ghost ship.
+  c.fillStyle = ghost ? "#45686a" : "#8e6742";
+  c.fillRect(px + 5, py + 13, 22, P - 26);
+  c.fillStyle = ghost ? "#96a5a3" : "#b7a58a";
+  for (const yy of [23, P - 28]) c.fillRect(px + 13, py + yy, 6, 6);
+}
+/** Three-cell square rigging base, with a large timber mast viewed from above. */
+function mast(
+  c: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  ghost: boolean,
+) {
+  const cx = (x + 1.5) * P,
+    cy = (y + 1.5) * P;
+  c.save();
+  c.translate(cx, cy);
+  c.fillStyle = "#00000055";
   c.beginPath();
-  c.moveTo(left + P * 0.6, top);
-  c.lineTo(right - P, top);
-  c.lineTo(right, middle);
-  c.lineTo(right - P, bottom);
-  c.lineTo(left + P * 0.6, bottom);
-  c.quadraticCurveTo(left, bottom, left, bottom - P * 0.6);
-  c.lineTo(left, top + P * 0.6);
-  c.quadraticCurveTo(left, top, left + P * 0.6, top);
-  c.closePath();
+  c.ellipse(8, 13, P * 1.15, P * 0.98, 0, 0, Math.PI * 2);
+  c.fill();
+  c.strokeStyle = ghost ? "#849491" : "#c9ad75";
+  c.lineWidth = 9;
+  for (const [dx, dy] of [
+    [-1, -1],
+    [1, -1],
+    [-1, 1],
+    [1, 1],
+  ]) {
+    c.beginPath();
+    c.moveTo(dx * P * 1.25, dy * P * 1.25);
+    c.lineTo(dx * P * 0.48, dy * P * 0.48);
+    c.stroke();
+  }
+  for (const [radius, color] of [
+    [0.91, ghost ? "#1b3539" : "#39291e"],
+    [0.79, ghost ? "#6c8d83" : "#c1a66b"],
+    [0.66, ghost ? "#2f5556" : "#765039"],
+    [0.54, ghost ? "#577b72" : "#ac7c4d"],
+  ] as const) {
+    c.fillStyle = color;
+    c.beginPath();
+    c.arc(0, 0, radius * P, 0, Math.PI * 2);
+    c.fill();
+  }
+  c.strokeStyle = ghost ? "#365552" : "#715035";
+  c.lineWidth = 4;
+  for (const radius of [0.22, 0.38]) {
+    c.beginPath();
+    c.arc(0, 0, radius * P, 0.2, Math.PI * 1.85);
+    c.stroke();
+  }
+  c.restore();
 }
 export function renderBoardingExperiment(
   map: PlanMap,
@@ -154,64 +208,32 @@ export function renderBoardingExperiment(
   c.fillRect(0, 0, a.width, a.height);
   for (const [i, d] of BOARDING_DECKS.entries()) {
     const ghost = i === 1;
-    c.save();
-    hull(c, d.y, d.h);
-    c.clip();
     for (let y = d.y; y < d.y + d.h; y++)
       for (let x = 0; x < map.width; x++) {
-        const seed = hash(x, y);
-        if (ghost) {
-          const r: Rect =
-            seed % 17 === 0
-              ? [634, 164, 103, 104]
-              : seed % 7 === 0
-                ? [275, 164, 103, 104]
-                : [155, 164, 103, 104];
-          square(c, art.tiles, r, x * P, y * P);
-        } else square(c, art.elements, [38, 164, 99, 99], x * P, y * P);
-      }
-    c.restore();
-    hull(c, d.y, d.h);
-    c.strokeStyle = ghost ? "#173e47" : "#38271c";
-    c.lineWidth = 9;
-    c.stroke();
-    hull(c, d.y, d.h);
-    c.strokeStyle = ghost ? "#87a99a" : "#d6ab72";
-    c.lineWidth = 3;
-    c.stroke();
-    for (const y of [d.y, d.y + d.h - 1])
-      for (let x = 1; x < map.width - 1; x++) {
-        if (map.tiles[y * map.width + x] === "bridge") continue;
-        let index = 0;
-        if (ghost) {
-          if ([5, 17, 28].includes(x)) index = 1;
-          else if ([11, 24].includes(x)) index = 2;
-          else if (x === 21) index = 3;
-        }
-        // Join cell edges with a continuous cap; crossing cells remain open.
-        c.fillStyle = ghost ? "#355f61" : "#835d38";
-        c.fillRect(x * P, y * P + 20, P, 6);
-        c.fillStyle = ghost ? "#8daaa1" : "#dbb67d";
-        c.fillRect(x * P, y * P + 20, P, 2);
-        c.drawImage(
-          boardingSprite(art, index, ghost && index === 0),
+        // One coherent plank material per ship, with detail supplied by props.
+        square(
+          c,
+          ghost ? art.tiles : art.elements,
+          ghost ? [155, 164, 103, 104] : [38, 164, 99, 99],
           x * P,
           y * P,
-          P,
-          P,
         );
       }
-    // The stern and pointed bow stay entirely in blocked edge cells.
-    c.fillStyle = ghost ? "#26494d" : "#6d4c2d";
-    c.fillRect(4, (d.y + 0.8) * P, 12, (d.h - 1.6) * P);
-    c.fillStyle = ghost ? "#83a59a" : "#dbb477";
-    c.fillRect(4, (d.y + 0.8) * P, 3, (d.h - 1.6) * P);
+    for (const y of [d.y, d.y + d.h - 1])
+      for (let x = 0; x < map.width; x++) {
+        if (map.tiles[y * map.width + x] !== "bridge")
+          rail(c, x, y, ghost, y === d.y);
+      }
   }
   for (const x of BOARDING_CROSSINGS)
-    for (let y = 18; y <= 23; y++)
+    for (let y = 12; y <= 17; y++)
       square(c, art.tiles, [36, 500, 98, 102], x * P, y * P, true);
   for (const o of map.objects) {
-    const ghost = o.y >= 23;
+    const ghost = o.y >= 17;
+    if (o.type === "mast") {
+      mast(c, o.x, o.y, ghost);
+      continue;
+    }
     const index = (
       {
         mast: ghost ? 5 : 4,

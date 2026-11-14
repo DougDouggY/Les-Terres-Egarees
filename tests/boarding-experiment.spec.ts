@@ -35,29 +35,29 @@ test("nouvel abordage : ancien conservé, traversée, eau, export carré", async
     z = Number(await page.getByLabel("Zoom", { exact: true }).inputValue());
   const point = (x: number, y: number) => ({
     x: box.x + (box.width - 34 * 32 * z) / 2 + (x + 0.5) * 32 * z,
-    y: box.y + (box.height - 42 * 32 * z) / 2 + (y + 0.5) * 32 * z,
+    y: box.y + (box.height - 30 * 32 * z) / 2 + (y + 0.5) * 32 * z,
   });
-  const water = point(3, 20);
+  const water = point(3, 14);
   await page.mouse.click(water.x, water.y);
   await expect(page.locator(".study-status")).toContainText("inaccessible");
-  await expect(canvas).toHaveAttribute("data-character", /:217$/);
-  const target = point(13, 24);
+  await expect(canvas).toHaveAttribute("data-character", /:183$/);
+  const target = point(13, 18);
   await page.mouse.click(target.x, target.y);
-  await expect(canvas).toHaveAttribute("data-character", /:829$/, {
+  await expect(canvas).toHaveAttribute("data-character", /:625$/, {
     timeout: 15000,
   });
   const downloadEvent = page.waitForEvent("download");
   await page.getByRole("button", { name: "Exporter le PNG" }).click();
   const download = await downloadEvent;
-  expect(download.suggestedFilename()).toBe("plan-abordage-fantome-34x42.png");
+  expect(download.suggestedFilename()).toBe("plan-abordage-fantome-34x30.png");
   const { readFile } = await import("node:fs/promises");
   const png = await readFile((await download.path())!);
   expect(png.readUInt32BE(16)).toBe(34 * 96);
-  expect(png.readUInt32BE(20)).toBe(42 * 96);
+  expect(png.readUInt32BE(20)).toBe(30 * 96);
   await page
     .getByRole("button", { name: "Réinitialiser", exact: true })
     .click();
-  await expect(canvas).toHaveAttribute("data-character", /:217$/);
+  await expect(canvas).toHaveAttribute("data-character", /:183$/);
   expect(errors).toEqual([]);
 });
 
@@ -83,14 +83,12 @@ test("nouvel abordage : téléphone, cadrage complet et export", async ({
   const zoom = Number(
     await page.getByLabel("Zoom", { exact: true }).inputValue(),
   );
-  const size = await page
-    .locator("#study-canvas")
-    .evaluate((c) => ({
-      w: (c as HTMLCanvasElement).width,
-      h: (c as HTMLCanvasElement).height,
-    }));
+  const size = await page.locator("#study-canvas").evaluate((c) => ({
+    w: (c as HTMLCanvasElement).width,
+    h: (c as HTMLCanvasElement).height,
+  }));
   expect(34 * 32 * zoom).toBeLessThanOrEqual(size.w);
-  expect(42 * 32 * zoom).toBeLessThanOrEqual(size.h);
+  expect(30 * 32 * zoom).toBeLessThanOrEqual(size.h);
   expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
@@ -131,7 +129,7 @@ test("rendu : sprites carrés transparents sans étirement et matériaux des deu
     }
     const c = base.getContext("2d"),
       n = c.getImageData(5 * 96, 5 * 96, 96, 96).data,
-      g = c.getImageData(5 * 96, 27 * 96, 96, 96).data;
+      g = c.getImageData(5 * 96, 21 * 96, 96, 96).data;
     let warm = 0,
       cold = 0;
     for (let i = 0; i < n.length; i += 4) {
