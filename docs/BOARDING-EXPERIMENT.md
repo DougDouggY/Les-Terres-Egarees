@@ -15,8 +15,9 @@ Les bords, les mâts, les caisses, les tonneaux et les braseros sont infranchiss
 Les deux planches fournies sont conservées dans `public/assets/boarding-experiment/elements.png` et `tiles.png`. `props.png` est une planche transparente 4 × 4 adaptée à partir de leurs éléments : bords, mâts, cargaison, trappes et lumières.
 
 - Les sols et passerelles prennent une découpe carrée centrée dans la ressource. Le rapport horizontal/vertical reste identique : aucune texture n’est étirée sur un rectangle.
-- Les objets sont recadrés selon leurs pixels visibles et placés dans un canevas transparent de 96 × 96 pixels. Leurs proportions sont conservées. Les grands mâts occupent une plateforme métallique carrée de 3 × 3 cases, avec souche de bois et cordage au centre.
+- Les objets sont recadrés selon leurs pixels visibles et placés dans un canevas transparent de 96 × 96 pixels. Leurs proportions sont conservées. Les grands mâts occupent une plateforme métallique carrée de 3 × 3 cases. Un fût plus haut dépasse visuellement vers le haut du pont, sans étendre les collisions de la base. Les anciens visuels restent conservés dans `structures.png`.
 - `structures.png` fournit les plateformes de mâts, bastingages et caisses fantomatiques texturés dans le style du set, en atlas de 3 colonnes × 2 rangées. Les caisses du navire fantôme ont leur propre visuel aux fissures turquoise.
+- `details.png` ajoute les hauts mâts, des bastingages avec dessus plus large, deux escaliers de renfort par bateau, cordages et ancres. Sacs et cinq cases de planches trouées infranchissables sur le fantôme complètent les décors ; toutes les passerelles restent accessibles.
 - Les bords sont des bastingages opaques en relief vus du dessus, raccordés au bord de l’eau et interrompus aux passerelles.
 - Le navire normal conserve un plancher brun cohérent. Le navire fantôme utilise les planches froides du set, une surface uniforme et des lueurs turquoise.
 - L’eau reprend la texture raccordable validée.

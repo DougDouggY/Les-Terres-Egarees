@@ -93,6 +93,26 @@ export function buildBoardingExperiment(): PlanMap {
       [31, 3, "barrel"],
     ] as const)
       place({ id: id++, type, x, y: d.y + dy, w: 1, h: 1 }, true);
+    for (const [x, dy, type] of [
+      [4, 4, "reinforcement"],
+      [24, 7, "reinforcement"],
+      [9, 9, "rope"],
+      [20, 9, "anchor"],
+      [1, 3, "sack"],
+    ] as const)
+      place({ id: id++, type, x, y: d.y + dy, w: 1, h: 1 }, true);
+    if (i === 1)
+      for (const [x, dy] of [
+        [5, 8],
+        [14, 3],
+        [28, 9],
+        [31, 6],
+        [1, 4],
+      ])
+        place(
+          { id: id++, type: "brokenfloor", x, y: d.y + dy, w: 1, h: 1 },
+          true,
+        );
     if (i === 1)
       for (const x of [10, 25])
         place({ id: id++, type: "brazier", x, y: d.y + 8, w: 1, h: 1 }, true);

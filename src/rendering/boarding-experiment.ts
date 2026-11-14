@@ -11,10 +11,17 @@ export type BoardingArtwork = {
   tiles: HTMLImageElement;
   props: HTMLImageElement;
   structures: HTMLImageElement;
+  details: HTMLImageElement;
 };
 export function loadBoardingArtwork(): Promise<BoardingArtwork> {
   return Promise.all(
-    ["elements.png", "tiles.png", "props.png", "structures.png"].map(
+    [
+      "elements.png",
+      "tiles.png",
+      "props.png",
+      "structures.png",
+      "details.png",
+    ].map(
       (file) =>
         new Promise<HTMLImageElement>((resolve, reject) => {
           const im = new Image();
@@ -24,11 +31,12 @@ export function loadBoardingArtwork(): Promise<BoardingArtwork> {
             import.meta.env.BASE_URL + "assets/boarding-experiment/" + file;
         }),
     ),
-  ).then(([elements, tiles, props, structures]) => ({
+  ).then(([elements, tiles, props, structures, details]) => ({
     elements,
     tiles,
     props,
     structures,
+    details,
   }));
 }
 /** Full square surfaces use a centered square crop, never an anisotropic stretch. */
@@ -154,6 +162,73 @@ function structure(
   );
   c.restore();
 }
+const detailCache = new WeakMap<
+  HTMLImageElement,
+  Map<number, HTMLCanvasElement>
+>();
+/** Trim transparent atlas padding without changing the sprite's proportions. */
+function detail(art: BoardingArtwork, index: number): HTMLCanvasElement {
+  let cache = detailCache.get(art.details);
+  if (!cache) {
+    cache = new Map();
+    detailCache.set(art.details, cache);
+  }
+  const hit = cache.get(index);
+  if (hit) return hit;
+  const side = art.details.width / 4;
+  const raw = document.createElement("canvas");
+  raw.width = raw.height = Math.floor(side);
+  const rc = raw.getContext("2d")!;
+  rc.drawImage(
+    art.details,
+    (index % 4) * side + 4,
+    Math.floor(index / 4) * side + 4,
+    side - 8,
+    side - 8,
+    0,
+    0,
+    raw.width,
+    raw.height,
+  );
+  const data = rc.getImageData(0, 0, raw.width, raw.height).data;
+  let l = raw.width,
+    t = raw.height,
+    r = 0,
+    b = 0;
+  for (let y = 0; y < raw.height; y++)
+    for (let x = 0; x < raw.width; x++)
+      if (data[(y * raw.width + x) * 4 + 3] > 100) {
+        l = Math.min(l, x);
+        t = Math.min(t, y);
+        r = Math.max(r, x + 1);
+        b = Math.max(b, y + 1);
+      }
+  const out = document.createElement("canvas");
+  out.width = Math.max(1, r - l);
+  out.height = Math.max(1, b - t);
+  out
+    .getContext("2d")!
+    .drawImage(raw, l, t, out.width, out.height, 0, 0, out.width, out.height);
+  cache.set(index, out);
+  return out;
+}
+function deckDetail(
+  c: CanvasRenderingContext2D,
+  art: BoardingArtwork,
+  index: number,
+  x: number,
+  y: number,
+) {
+  const im = detail(art, index),
+    scale = (P - 6) / Math.max(im.width, im.height);
+  c.drawImage(
+    im,
+    x * P + (P - im.width * scale) / 2,
+    y * P + (P - im.height * scale) / 2,
+    im.width * scale,
+    im.height * scale,
+  );
+}
 export function renderBoardingExperiment(
   map: PlanMap,
   old: PlanArtwork,
@@ -186,7 +261,12 @@ export function renderBoardingExperiment(
         if (map.tiles[y * map.width + x] !== "bridge") {
           c.fillStyle = ghost ? "#284348" : "#604027";
           c.fillRect(x * P, y * P, P, P);
-          structure(c, art, ghost ? 4 : 3, x * P, y * P, P, y !== d.y);
+          c.save();
+          c.translate(x * P, (y + (y !== d.y ? 1 : 0)) * P);
+          if (y !== d.y) c.scale(1, -1);
+          // The broad top occupies most of the rail; only a shallow side remains.
+          c.drawImage(detail(art, ghost ? 3 : 2), 0, 0, P, P);
+          c.restore();
         }
       }
   }
@@ -205,17 +285,52 @@ export function renderBoardingExperiment(
       structure(c, art, 2, o.x * P, o.y * P);
       continue;
     }
+    if (["reinforcement", "rope", "anchor"].includes(o.type)) {
+      deckDetail(
+        c,
+        art,
+        o.type === "reinforcement"
+          ? ghost
+            ? 5
+            : 4
+          : o.type === "rope"
+            ? 6
+            : 7,
+        o.x,
+        o.y,
+      );
+      continue;
+    }
+    if (o.type === "brokenfloor") {
+      square(c, art.tiles, [634, 287, 103, 104], o.x * P, o.y * P);
+      continue;
+    }
     const index = (
       {
         mast: ghost ? 5 : 4,
         crate: 6,
         barrel: ghost ? 7 : 8,
         hatch: ghost ? 13 : 12,
+        sack: 9,
         brazier: 11,
       } as Record<string, number>
     )[o.type];
     if (index !== undefined)
       c.drawImage(boardingSprite(art, index), o.x * P, o.y * P, P, P);
+  }
+  // Height is purely visual: the original 3×3 metal bases and collisions remain.
+  // Draw poles last so they rise above the deck towards its upper rail.
+  for (const o of map.objects.filter((o) => o.type === "mast")) {
+    const im = detail(art, o.y >= 17 ? 1 : 0);
+    const height = 4.7 * P,
+      width = (height * im.width) / im.height;
+    c.drawImage(
+      im,
+      (o.x + 1.5) * P - width / 2,
+      (o.y - 2.9) * P,
+      width,
+      height,
+    );
   }
   return a;
 }

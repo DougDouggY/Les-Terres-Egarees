@@ -286,6 +286,10 @@ test("nouvel abordage : ponts rétrécis hors cadre et sept passages fins irrég
     assert.equal(p.h, p.type === "mast" ? 3 : 1);
   }
   assert.equal(map.objects.filter((o) => o.type === "mast").length, 6);
+  assert.equal(map.objects.filter((o) => o.type === "reinforcement").length, 4);
+  const holes = map.objects.filter((o) => o.type === "brokenfloor");
+  assert.equal(holes.length, 5);
+  assert.ok(holes.every((o) => o.y > 17 && !map.cells[o.y * 34 + o.x].walk));
   // Both long sides continue past the viewport; no stern/bow wall remains.
   for (const y of [3, 9, 19, 25])
     for (const x of [0, 33]) assert.equal(map.tiles[y * 34 + x], "deck");
@@ -336,7 +340,17 @@ test("nouvel abordage : chaque case praticable est accessible, obstacles et eau 
   }
   assert.equal(seen.size, map.cells.filter((c) => c.walk).length);
   for (const o of map.objects.filter((o) =>
-    ["mast", "crate", "barrel", "brazier"].includes(o.type),
+    [
+      "mast",
+      "crate",
+      "barrel",
+      "brazier",
+      "reinforcement",
+      "rope",
+      "anchor",
+      "sack",
+      "brokenfloor",
+    ].includes(o.type),
   ))
     assert.equal(planWalkable(state, o.y * map.width + o.x), false);
   assert.equal(planPath(state, map.start, 14 * 34 + 3), null);
