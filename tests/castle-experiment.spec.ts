@@ -323,6 +323,7 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
     pc.drawImage(old.castle, 633, 320, 303, 300, 0, 0, P, P);
     const roof = Array.from(pc.getImageData(0, 0, P, P).data).join(",");
     const correctionErrors: string[] = [];
+    const earlyFaces: string[] = [];
     const corrections: boolean[] = [],
       windows: boolean[] = [],
       stone: boolean[] = [];
@@ -336,7 +337,9 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
       const c = composed.getContext("2d")!;
       c.drawImage(base, 0, 0);
       c.drawImage(cover, 0, 0);
-      for (const n of [1013, 1107, 1120, 627, 879, 1047, 757, 178, 589, 616]) {
+      for (const n of [
+        1013, 1107, 1120, 627, 879, 1047, 757, 178, 189, 589, 616,
+      ]) {
         const ok =
           tile(composed, n) ===
           (layout.castleRoofCovered(s, n - 1) ? roof : cap);
@@ -344,9 +347,11 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
         if (!ok) correctionErrors.push(`cap ${n} after ${id}`);
       }
       for (const n of [21, 1018]) {
-        const ok = tile(composed, n) === roof;
+        const expected = n === 1018 && id !== null ? tile(base, n) : roof;
+        const ok = tile(composed, n) === expected;
+        if (n === 1018 && id !== null) earlyFaces.push(tile(composed, n));
         corrections.push(ok);
-        if (!ok) correctionErrors.push(`roof ${n} after ${id}`);
+        if (!ok) correctionErrors.push(`roof/face ${n} after ${id}`);
       }
       for (const n of [629, 1011, 1309, 1315, 1332, 1339])
         windows.push(tile(composed, n) === tile(base, 35));
@@ -386,10 +391,10 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
       return sum / (d.length / 4);
     };
     const darkWood =
-      average(actual.getImageData(35 * P, 28 * P, P, P).data) <
+      average(actual.getImageData(37 * P, 26 * P, P, P).data) <
       average(pc.getImageData(0, 0, P, P).data) * 0.7;
     const darkCanteenWood =
-      average(actual.getImageData(2 * P, 8 * P, P, P).data) <
+      average(actual.getImageData(7 * P, 8 * P, P, P).data) <
       average(pc.getImageData(0, 0, P, P).data) * 0.7;
     pc.drawImage(art.walls, 42, 424, 102, 94, 0, 0, P, P);
     const stairBacking =
@@ -397,6 +402,7 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
       Array.from(pc.getImageData(0, 0, 1, 1).data).join(",");
     return {
       correctionErrors,
+      earlyWall: earlyFaces.every((t) => t === tile(finalBase, 1018)),
       corrections: corrections.every(Boolean),
       windows: windows.every(Boolean),
       stone: stone.every(Boolean),
@@ -407,6 +413,7 @@ test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris",
   });
   expect(result).toEqual({
     correctionErrors: [],
+    earlyWall: true,
     corrections: true,
     windows: true,
     stone: true,

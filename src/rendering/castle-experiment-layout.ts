@@ -124,6 +124,7 @@ export function castleExteriorWall(map: PlanMap, k: number): boolean {
 }
 export function castleRoofCovered(s: PlanState, k: number): boolean {
   if (!roofVisible(s, k)) return false;
+  if (castleEntryFace(s, k)) return false;
   if (s.opened.has(13) && CASTLE_ENTRY_COPING_CELLS.includes(k + 1))
     return false;
   if (castleHiddenBorder(s.map, k)) return true;
@@ -133,6 +134,15 @@ export function castleRoofCovered(s: PlanState, k: number): boolean {
 }
 export function buildCastleExperimentPlan(): PlanMap {
   const map = buildPlan("castle");
+  const throne = map.objects.find((o) => o.type === "throne")!;
+  // Free the removed northern row (290/291); keep the complete sprite in 2×2.
+  for (let x = throne.x; x < throne.x + throne.w; x++) {
+    const cell = map.cells[throne.y * map.width + x];
+    Object.assign(cell, { walk: true, opaque: false, cost: 1 });
+    delete cell.interactive;
+  }
+  throne.y += 1;
+  throne.h = 2;
   const furniture: PlanObject[] = [
     {
       id: 20001,
@@ -146,7 +156,7 @@ export function buildCastleExperimentPlan(): PlanMap {
     {
       id: 20002,
       type: "bookcase",
-      x: 30,
+      x: 29,
       y: 28,
       w: 3,
       h: 2,
@@ -154,11 +164,11 @@ export function buildCastleExperimentPlan(): PlanMap {
     },
     {
       id: 20003,
-      type: "bookcase-vertical",
-      x: 36,
-      y: 27,
-      w: 2,
-      h: 3,
+      type: "bookcase",
+      x: 34,
+      y: 28,
+      w: 3,
+      h: 2,
       name: "Rayonnage du mur droit",
     },
     ...[3, 7, 11, 15].map((y, i) => ({
@@ -167,7 +177,7 @@ export function buildCastleExperimentPlan(): PlanMap {
       x: 2,
       y,
       w: 4,
-      h: 1,
+      h: 2,
       name: "Table et bancs",
     })),
   ];
@@ -202,7 +212,10 @@ export function castleCarpetBounds(map: PlanMap, carpet: PlanObject) {
   return { ...bounds, x: start, w: end - start };
 }
 
-export const CASTLE_ENTRY_COPING_CELLS = [178, 589, 616];
+export const CASTLE_ENTRY_COPING_CELLS = [178, 189, 616];
+export function castleEntryFace(s: PlanState, k: number) {
+  return s.opened.has(13) && k + 1 === 1018;
+}
 /** The user's ranges mean the top row, the west column through 967, and east through 588. */
 export function castleHiddenBorder(map: PlanMap, k: number) {
   const x = k % map.width,
