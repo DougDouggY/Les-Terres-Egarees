@@ -189,14 +189,22 @@ test("rendu : toit fermé, façades complètes, angles, escaliers, portes miroir
     expected.width = expected.height = P;
     const ec = expected.getContext("2d")!;
     ec.imageSmoothingEnabled = false;
+    ec.fillStyle = "#22364a";
+    ec.fillRect(0, 0, P, P);
     ec.drawImage(old.castle, 633, 320, 303, 300, 0, 0, P, P);
     const closedRoof = renderer.renderCastleExperimentRoof(s, old, art);
     const hiddenFrames =
-      crop(closedRoof, 19 * P, 26 * P, P, P) === crop(expected, 0, 0, P, P);
+      crop(closedRoof, 10 * P, 24 * P, P, P) === crop(expected, 0, 0, P, P);
     ec.clearRect(0, 0, P, P);
     ec.drawImage(art.walls, 786, 139, 94, 98, 0, 0, P, P);
     const corner =
-      crop(closedRoof, 14 * P, 26 * P, P, P) === crop(expected, 0, 0, P, P);
+      crop(
+        renderer.renderCastleExperiment(s, old, art),
+        14 * P,
+        26 * P,
+        P,
+        P,
+      ) === crop(expected, 0, 0, P, P);
     const facadeChecks: boolean[] = [];
     let after: HTMLCanvasElement | undefined;
     for (let step = 0; step < 3; step++) {
@@ -226,12 +234,13 @@ test("rendu : toit fermé, façades complètes, angles, escaliers, portes miroir
         for (const id of [14, 16]) {
           const d = s.map.doors.find((o: { id: number }) => o.id === id)!;
           ec.clearRect(0, 0, P, P);
+          ec.drawImage(art.walls, 786, 139, 94, 98, 0, 0, P, P);
           ec.save();
           if (geometry.sideDoorHiddenSide(s, d) === "right") {
             ec.translate(P, 0);
             ec.scale(-1, 1);
           }
-          ec.drawImage(art.side, 0, 0, 32, 32, 0, 0, P, P);
+          ec.drawImage(art.side, 24, 0, 8, 32, P * 0.75, 0, P * 0.25, P);
           ec.restore();
           facadeChecks.push(
             crop(base, d.x * P, d.y * P, P, P) === crop(expected, 0, 0, P, P),
@@ -281,5 +290,133 @@ test("rendu : toit fermé, façades complètes, angles, escaliers, portes miroir
     facades: true,
     checkerJoins: true,
     noOldSteps: true,
+  });
+});
+
+test("rendu : cases corrigées, fenêtres, pierre des portes et sols assombris", async ({
+  page,
+}) => {
+  test.setTimeout(60000);
+  await page.goto("/");
+  const result = await page.evaluate(async () => {
+    // @ts-expect-error Browser module.
+    const m = await import("/src/data/plan-maps.ts");
+    // @ts-expect-error Browser module.
+    const r = await import("/src/rendering/castle-experiment.ts");
+    // @ts-expect-error Browser module.
+    const l = await import("/src/rendering/plan-renderer.ts");
+    // @ts-expect-error Browser module.
+    const layout = await import("/src/rendering/castle-experiment-layout.ts");
+    const old = await l.loadPlanArtwork(),
+      art = await r.loadCastleExperiment(),
+      P = l.PLAN_RENDER_TILE;
+    const s = m.createPlanState(layout.buildCastleExperimentPlan());
+    const tile = (c: HTMLCanvasElement, n: number) =>
+      Array.from(
+        c
+          .getContext("2d")!
+          .getImageData(((n - 1) % 42) * P, Math.floor((n - 1) / 42) * P, P, P)
+          .data,
+      ).join(",");
+    const patch = document.createElement("canvas");
+    patch.width = patch.height = P;
+    const pc = patch.getContext("2d")!;
+    pc.imageSmoothingEnabled = false;
+    pc.drawImage(art.walls, 786, 139, 94, 98, 0, 0, P, P);
+    const cap = Array.from(pc.getImageData(0, 0, P, P).data).join(",");
+    pc.fillStyle = "#22364a";
+    pc.fillRect(0, 0, P, P);
+    pc.drawImage(old.castle, 633, 320, 303, 300, 0, 0, P, P);
+    const roof = Array.from(pc.getImageData(0, 0, P, P).data).join(",");
+    const correctionErrors: string[] = [];
+    const corrections: boolean[] = [],
+      windows: boolean[] = [],
+      stone: boolean[] = [];
+    for (const id of [null, 13, 14]) {
+      if (id) m.openPlanDoor(s, id, "key");
+      const base = r.renderCastleExperiment(s, old, art),
+        cover = r.renderCastleExperimentRoof(s, old, art);
+      const composed = document.createElement("canvas");
+      composed.width = base.width;
+      composed.height = base.height;
+      const c = composed.getContext("2d")!;
+      c.drawImage(base, 0, 0);
+      c.drawImage(cover, 0, 0);
+      for (const n of [1013, 1107, 1120, 627, 879, 1047, 757]) {
+        const ok = tile(composed, n) === cap;
+        corrections.push(ok);
+        if (!ok) correctionErrors.push(`cap ${n} after ${id}`);
+      }
+      for (const n of [21, 1018]) {
+        const ok = tile(composed, n) === roof;
+        corrections.push(ok);
+        if (!ok) correctionErrors.push(`roof ${n} after ${id}`);
+      }
+      for (const n of [629, 1011, 1309, 1315, 1332, 1339])
+        windows.push(tile(composed, n) === tile(composed, 35));
+      if (id === 13) {
+        pc.clearRect(0, 0, P, P);
+        pc.drawImage(art.walls, 786, 139, 94, 98, 0, 0, P, P);
+        const ref = Array.from(pc.getImageData(P / 2, P / 2, 1, 1).data).join(
+          ",",
+        );
+        for (const d of s.map.doors.filter((o: { id: number }) =>
+          [14, 16, 10003].includes(o.id),
+        ))
+          stone.push(
+            Array.from(
+              base
+                .getContext("2d")!
+                .getImageData(d.x * P + P / 2, d.y * P + P / 2, 1, 1).data,
+            ).join(",") === ref,
+          );
+      }
+    }
+    for (let pass = 0; pass < 8; pass++)
+      for (const d of s.map.doors) m.openPlanDoor(s, d.id, "key");
+    const finalBase = r.renderCastleExperiment(
+      s,
+      old,
+      art,
+    ) as HTMLCanvasElement;
+    const lum = (d: Uint8ClampedArray) =>
+      0.2126 * d[0] + 0.7152 * d[1] + 0.0722 * d[2];
+    const actual = finalBase.getContext("2d")!;
+    pc.drawImage(art.floors, 1465, 614, 172, 170, 0, 0, P, P);
+    const average = (d: Uint8ClampedArray) => {
+      let sum = 0;
+      for (let i = 0; i < d.length; i += 4)
+        sum += 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
+      return sum / (d.length / 4);
+    };
+    const darkWood =
+      average(actual.getImageData(35 * P, 28 * P, P, P).data) <
+      average(pc.getImageData(0, 0, P, P).data) * 0.7;
+    pc.drawImage(art.floors, 584, 188, 34, 35, 0, 0, P, P);
+    const darkChecker =
+      lum(actual.getImageData(2 * P + P / 6, 8 * P + P / 6, 1, 1).data) <
+      lum(pc.getImageData(P / 2, P / 2, 1, 1).data) * 0.7;
+    pc.drawImage(art.walls, 42, 424, 102, 94, 0, 0, P, P);
+    const stairBacking =
+      Array.from(actual.getImageData(18 * P, 27 * P, 1, 1).data).join(",") ===
+      Array.from(pc.getImageData(0, 0, 1, 1).data).join(",");
+    return {
+      correctionErrors,
+      corrections: corrections.every(Boolean),
+      windows: windows.every(Boolean),
+      stone: stone.every(Boolean),
+      darkWood,
+      darkChecker,
+      stairBacking,
+    };
+  });
+  expect(result).toEqual({
+    correctionErrors: [],
+    corrections: true,
+    windows: true,
+    stone: true,
+    darkWood: true,
+    darkChecker: true,
+    stairBacking: true,
   });
 });

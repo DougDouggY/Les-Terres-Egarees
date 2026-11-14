@@ -1,3 +1,4 @@
+import { castleExperimentPlan } from "../rendering/castle-experiment-layout";
 import {
   loadCastleExperiment,
   renderCastleExperiment,
@@ -30,7 +31,7 @@ import {
 const T = 32;
 const studies = {
   castle: castlePlan,
-  castleNew: castlePlan,
+  castleNew: castleExperimentPlan,
   boarding: boardingPlan,
 };
 import "./tools.css";

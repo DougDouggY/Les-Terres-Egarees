@@ -249,7 +249,11 @@ test("nouveau set : sol validé et décorations limitées aux emplacements prév
   for (let y = 0; y < castlePlan.height; y++)
     for (let x = 0; x < castlePlan.width; x++) {
       const decor = castleWallDecor(x, y);
-      if (decor === "window") assert.equal(y, 0);
+      if (decor === "window")
+        assert.ok(
+          y === 0 ||
+            [629, 1011, 1309, 1315, 1332, 1339].includes(y * 42 + x + 1),
+        );
       if (decor === "banner") {
         if (exterior.has(y * castlePlan.width + x)) {
           outsideBanners++;
@@ -283,4 +287,61 @@ test("nouveau château : passages latéraux et variantes hautes sans le deuxièm
   openPlanDoor(s, 14, "key");
   assert.equal(castlePassageFace(s, 9, 20), true);
   assert.equal(castleFloor(castlePlan, 16, 18), "approved");
+});
+
+test("repères utilisateur : pourtour, toits 21/1018, plafonds et fenêtres", async () => {
+  const {
+    castleRoofCovered,
+    CASTLE_COPING_CELLS,
+    CASTLE_EXTRA_WINDOWS,
+    castleWallDecor,
+    castleExteriorWall,
+  } = await import("../src/rendering/castle-experiment-layout");
+  const s = createPlanState(castlePlan);
+  for (const id of [null, 13, 14]) {
+    if (id) openPlanDoor(s, id, "key");
+    for (const n of CASTLE_COPING_CELLS)
+      assert.equal(
+        castleRoofCovered(s, n - 1),
+        false,
+        `plafond ${n} après ${id}`,
+      );
+    for (const n of [21, 1018])
+      assert.equal(castleRoofCovered(s, n - 1), true, `toit ${n} après ${id}`);
+    for (let k = 0; k < castlePlan.tiles.length; k++)
+      if (castleExteriorWall(castlePlan, k) && ![21, 1018].includes(k + 1))
+        assert.equal(castleRoofCovered(s, k), false, `périmètre ${k + 1}`);
+  }
+  for (const n of CASTLE_EXTRA_WINDOWS)
+    assert.equal(
+      castleWallDecor((n - 1) % 42, Math.floor((n - 1) / 42)),
+      "window",
+    );
+});
+
+test("bibliothèque : deux rayonnages de trois cases bloquent seulement la variante", async () => {
+  const { buildCastleExperimentPlan, castleCarpetBounds } =
+    await import("../src/rendering/castle-experiment-layout");
+  const { planPath, planWalkable } = await import("../src/data/plan-maps");
+  const map = buildCastleExperimentPlan(),
+    s = createPlanState(map);
+  for (let pass = 0; pass < 8; pass++)
+    for (const d of map.doors) openPlanDoor(s, d.id, "key");
+  const shelves = map.objects.filter((o) => o.type === "bookcase");
+  assert.equal(shelves.length, 2);
+  for (const o of shelves) {
+    assert.equal(o.w, 3);
+    assert.equal(o.h, 1);
+    for (const k of objectCells(map, o)) {
+      assert.equal(planWalkable(s, k), false);
+      assert.equal(castlePlan.cells[k].walk, true);
+    }
+  }
+  assert.ok(planPath(s, map.start, 30 * 42 + 35));
+  assert.deepEqual(map.doors, castlePlan.doors);
+  assert.equal(map.tiles[398], castlePlan.tiles[398]);
+  const carpet = map.objects.find((o) => o.id === 10002)!;
+  const b = castleCarpetBounds(map, carpet);
+  assert.equal(b.x, 21);
+  assert.equal(b.x + b.w, 37);
 });

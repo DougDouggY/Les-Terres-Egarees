@@ -4,7 +4,6 @@ import {
   wallJunction,
   planDoorAxis,
   sideDoorHiddenSide,
-  carpetVisualBounds,
 } from "./plan-geometry";
 import { PLAN_RENDER_TILE as P, type PlanArtwork } from "./plan-renderer";
 import { CASTLE } from "../dev/material-renderer";
@@ -17,11 +16,21 @@ import {
   castleRugStyle,
   castleTallVariant,
   castlePassageFace,
+  castleRoofCovered,
+  CASTLE_COPING_CELLS,
+  castleCarpetBounds,
 } from "./castle-experiment-layout";
 
 type Rect = readonly [number, number, number, number];
 type Sheet =
-  "walls" | "openings" | "floors" | "side" | "double" | "triple" | "props";
+  | "walls"
+  | "openings"
+  | "floors"
+  | "side"
+  | "double"
+  | "triple"
+  | "props"
+  | "bookcase";
 export type CastleExperimentArt = Record<Sheet, HTMLImageElement>;
 const root = "assets/castle-experiment/";
 export function loadCastleExperiment(): Promise<CastleExperimentArt> {
@@ -33,6 +42,7 @@ export function loadCastleExperiment(): Promise<CastleExperimentArt> {
     double: "door-double.png",
     triple: "door-triple.png",
     props: "props-transparent.png",
+    bookcase: "bookcase.png",
   };
   return Promise.all(
     Object.entries(files).map(
@@ -114,7 +124,13 @@ function tools(
             P / 3,
           );
         }
-    } else stamp("floors", woodFloor, x * P, y * P);
+      c.fillStyle = "#151c30a8";
+      c.fillRect(x * P, y * P, P, P);
+    } else {
+      stamp("floors", woodFloor, x * P, y * P);
+      c.fillStyle = "#111b28a0";
+      c.fillRect(x * P, y * P, P, P);
+    }
   };
   function face(x: number, y: number, tall = false, pillar?: "left" | "right") {
     const seed = (x * 7 + y * 11) >>> 0;
@@ -138,7 +154,7 @@ function tools(
       // Tall masonry stays two cells high. No freestanding columns on long facades.
       stamp(
         "walls",
-        tallWalls[castleTallVariant(x, y)],
+        tallWalls[decor === "window" ? 0 : castleTallVariant(x, y)],
         x * P,
         y * P,
         P,
@@ -146,6 +162,8 @@ function tools(
       );
       if (decor === "banner")
         stamp("openings", banners[2], x * P, y * P, P, 2 * P);
+      if (decor === "window")
+        stamp("openings", [513, 106, 142, 162], x * P, y * P);
     } else if (decor === "window")
       stamp("openings", [513, 106, 142, 162], x * P, y * P);
     else if (decor === "banner")
@@ -159,8 +177,15 @@ function tools(
     if (s.opened.has(o.id)) return;
     if (planDoorAxis(s.map, o) === "vertical") {
       const flip = sideDoorHiddenSide(s, o) === "right";
-      for (let dy = 0; dy < o.h; dy++)
-        stamp("side", [0, 0, 32, 32], o.x * P, (o.y + dy) * P, P, P, flip);
+      for (let dy = 0; dy < o.h; dy++) {
+        // The stone is exactly the same material and scale as an adjacent coping tile.
+        stamp("walls", coping, o.x * P, (o.y + dy) * P);
+        c.save();
+        c.translate(o.x * P + (flip ? P : 0), (o.y + dy) * P);
+        if (flip) c.scale(-1, 1);
+        c.drawImage(art.side, 24, 0, 8, 32, P * 0.75, 0, P * 0.25, P);
+        c.restore();
+      }
     } else if (o.w === 2)
       stamp("double", [0, 0, 64, 32], o.x * P, o.y * P, 2 * P, o.h * P);
     else if (o.w === 3)
@@ -221,7 +246,8 @@ export function renderCastleExperiment(
     const x = k % map.width,
       y = Math.floor(k / map.width),
       joint = wallJunction(map, x, y, s.opened);
-    if (exposedCornerCap(s, x, y)) stamp("walls", coping, x * P, y * P);
+    if (CASTLE_COPING_CELLS.includes(k + 1) || exposedCornerCap(s, x, y))
+      stamp("walls", coping, x * P, y * P);
     else if (joint.axis === "vertical" && !castlePassageFace(s, x, y))
       stamp("walls", coping, x * P, y * P);
     else face(x, y, tall.has(k));
@@ -229,7 +255,7 @@ export function renderCastleExperiment(
   for (const f of castleDoorFrames(map))
     face(f.x, f.y, tall.has(f.y * map.width + f.x), f.pillar);
   for (const o of map.objects.filter((o) => o.type === "carpet")) {
-    const b = carpetVisualBounds(map, o);
+    const b = castleCarpetBounds(map, o);
     const rugs: Rect[] = [
       [900, 239, 107, 111],
       [1034, 239, 106, 111],
@@ -279,7 +305,12 @@ export function renderCastleExperiment(
     if (o.type === "pillar") prop(2, 2, x - 7, y - 10, P + 14, P + 20);
     if (o.type === "chest") prop(o.id % 3, 0, x - 8, y - 8, P + 16, P + 16);
     if (o.type === "reinforcement") prop(1, 2, x - 8, y - 8, P + 16, P + 16);
+    if (o.type === "bookcase") c.drawImage(art.bookcase, x, y, w, h);
     if (o.type === "stairs") {
+      // Plain lower masonry backs every transparent pixel of the staircase.
+      for (let dy = 0; dy < o.h; dy++)
+        for (let dx = 0; dx < o.w; dx++)
+          stamp("walls", [42, 424, 102, 94], x + dx * P, y + dy * P);
       // One broad staircase: side rails only at the outer edges, repeating treads inside.
       const sx = props.width / 1263,
         sy = props.height / 1246;
@@ -325,12 +356,12 @@ export function renderCastleExperimentRoof(
   // This layer owns roofs only. Repainting legacy facades here leaked old art
   // over the lower course of the new two-cell walls after opening a room.
   for (const k of map.building) {
-    if (!roofVisible(s, k)) continue;
+    if (!castleRoofCovered(s, k)) continue;
     const x = k % map.width,
       y = Math.floor(k / map.width);
-    if (map.tiles[k] === "wall" && exposedCornerCap(s, x, y))
-      stamp("walls", coping, x * P, y * P);
-    else c.drawImage(old.castle, ...CASTLE.roof, x * P, y * P, P, P);
+    c.fillStyle = "#22364a";
+    c.fillRect(x * P, y * P, P, P);
+    c.drawImage(old.castle, ...CASTLE.roof, x * P, y * P, P, P);
   }
   // Only available gates are visible through a closed roof. Their neighbors
   // remain covered until that part of the building has actually been revealed.
