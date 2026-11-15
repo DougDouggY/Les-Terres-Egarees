@@ -21,6 +21,8 @@ export type ChapterSceneId =
   | "meeting"
   | "alliance";
 export type DialogueLine = {
+  /** Optional explicit identity for future NPC/Sans-Repos lines; no scenario rewrite. */
+  unitId?: string;
   speaker: Speaker;
   text: string;
   cue?: "ruins" | "group" | "rescue" | "witch" | "depart";

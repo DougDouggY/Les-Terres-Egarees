@@ -1,3 +1,4 @@
+import { ensurePortraits } from "./portraits";
 import { generateStatistics } from "./progression";
 import { patrolDeployment, commitPatrol } from "./patrol-staging";
 import type { Campaign, Unit } from "./types";
@@ -75,6 +76,7 @@ export function recruitWitch(s: Campaign) {
     "female",
   );
   s.units.push(witch);
+  ensurePortraits(s);
   discoverUnit(s, witch, true);
   insertInitiative(s, [witch.id]);
 }
@@ -145,6 +147,7 @@ export function beginForestChapter(s: Campaign) {
         : { mode: d.group === "vanguard" ? "active" : "zone", group: d.group };
     s.units.push(u);
   }
+  ensurePortraits(s);
   s.enemyGroups = {
     middle: { active: false, zone: { x: 16, y: 0, w: 11, h: 20 } },
     rear: { active: false, zone: { x: 22, y: 0, w: 12, h: 20 } },

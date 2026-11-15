@@ -1,3 +1,6 @@
+import { ensurePortraits, unitPortrait } from "../game/portraits";
+import { portraitAsset } from "../data/portraits";
+import { portraitMarkup } from "./portraits";
 import {
   PatrolStaging,
   PATROL_APPROACH_MS,
@@ -179,7 +182,9 @@ export class ChapterDirector {
     this.patrolLast = undefined;
     this.shown = false;
     const u =
-        storyUnit(this.s, l.speaker) ??
+        (l.unitId
+          ? this.s.units.find((u) => u.id === l.unitId)
+          : storyUnit(this.s, l.speaker)) ??
         (l.speaker === "witch" ? this.witch : undefined),
       name = ["witch", "unknown", "narrator"].includes(l.speaker)
         ? {
@@ -191,8 +196,18 @@ export class ChapterDirector {
             narrator: "Les Terres Égarées",
           }[l.speaker as "witch" | "unknown" | "narrator"]
         : (u?.name ?? "Un survivant");
-    const portrait = chapterPortraits[l.speaker];
-    this.root.innerHTML = `<section class="chapter-dialogue ${l.speaker === "narrator" ? "narration-only" : ""}" role="dialog" aria-modal="true" aria-label="${p.id.startsWith("c1-") ? "Dialogue du chapitre 1" : "Dialogue du prologue"}" data-story-scene="${p.id}" data-story-line="${p.page}">${l.speaker === "narrator" ? "" : `<div class="chapter-portrait ${["witch", "unknown"].includes(l.speaker) ? "mysterious" : ""}">${portrait ? `<img src="${esc(portrait.src)}" alt="${esc(name)}">` : u && !["unknown", "narrator"].includes(l.speaker) ? '<canvas width="140" height="160" aria-hidden="true"></canvas>' : "<b>???</b>"}</div>`}<div class="chapter-speech"><strong class="chapter-speaker">${esc(name)}</strong><p class="chapter-text" aria-live="off"></p><footer><small>Entrée / Espace · lire puis continuer</small><button data-story-next>Suivant <span>›</span></button></footer></div></section>`;
+    ensurePortraits(this.s);
+    const asset =
+      l.speaker === "witch"
+        ? portraitAsset("R01")
+        : u
+          ? unitPortrait(this.s, u)
+          : chapterPortraits[l.speaker]?.src;
+    const right =
+      l.speaker.startsWith("knight") ||
+      l.speaker === "captain" ||
+      l.speaker === "geraud";
+    this.root.innerHTML = `<section class="chapter-dialogue ${l.speaker === "narrator" ? "narration-only" : right ? "portrait-right" : ""}" role="dialog" aria-modal="true" aria-label="${p.id.startsWith("c1-") ? "Dialogue du chapitre 1" : "Dialogue du prologue"}" data-story-scene="${p.id}" data-story-line="${p.page}">${l.speaker === "narrator" ? "" : `<div class="chapter-portrait ${["witch", "unknown"].includes(l.speaker) ? "mysterious" : ""}">${l.speaker === "unknown" ? "<b>???</b>" : portraitMarkup(asset, name, !right)}</div>`}<div class="chapter-speech"><strong class="chapter-speaker">${esc(name)}</strong><p class="chapter-text" aria-live="off"></p><footer><small>Entrée / Espace · lire puis continuer</small><button data-story-next>Suivant <span>›</span></button></footer></div></section>`;
     this.root.classList.toggle("cave-scene", p.id === "c1-cave");
     this.root.querySelector<HTMLElement>(".chapter-dialogue")!.hidden = [
       "c1-deploy",
@@ -383,7 +398,9 @@ export class ChapterDirector {
       ".chapter-portrait canvas",
     );
     const u =
-      storyUnit(this.s, l.speaker) ??
+      (l.unitId
+        ? this.s.units.find((u) => u.id === l.unitId)
+        : storyUnit(this.s, l.speaker)) ??
       (l.speaker === "witch" ? this.witch : undefined);
     if (portrait && u) {
       const ctx = portrait.getContext("2d")!;

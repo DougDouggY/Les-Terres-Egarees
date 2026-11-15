@@ -1,3 +1,6 @@
+import { compatiblePortraits } from "./data/portraits";
+import { unitPortrait } from "./game/portraits";
+import { portraitMarkup } from "./ui/portraits";
 import { openNarrativePlan } from "./ui/narrative-plan";
 import {
   characterSheet,
@@ -219,6 +222,13 @@ function teamColorsModal() {
   sync();
 }
 function configure() {
+  heroDrafts.forEach((h, i) => {
+    const available = compatiblePortraits(h.faction, h.gender, [
+      heroDrafts[1 - i].portraitId ?? "",
+    ]);
+    if (!available.some((p) => p.id === h.portraitId))
+      h.portraitId = available[0]?.id;
+  });
   screen = "config";
   app.innerHTML = creatorMarkup(
     heroDrafts,
@@ -263,6 +273,7 @@ function configure() {
               el.dataset.companion!.split(":")[1],
             );
           });
+        configure();
       }),
   );
   for (const i of [1, 2]) {
@@ -499,7 +510,7 @@ function nextScene() {
   } else cinematic();
 }
 function portrait(u: Unit, large = false) {
-  return `<div class="portrait ${large ? "large" : ""}">${u.portraitAsset ? `<img src="${assetBase + esc(u.portraitAsset)}" alt="Portrait de ${esc(u.name)}">` : `<div class="portrait-placeholder" aria-label="Portrait à créer"><b>${esc(u.name.slice(0, 1))}</b><small>À CRÉER</small></div>`}</div>`;
+  return `<div class="portrait ${large ? "large" : ""}">${portraitMarkup(unitPortrait(state ?? undefined, u), u.name)}</div>`;
 }
 function canManageCharacter(u: Unit) {
   return (
@@ -2393,6 +2404,28 @@ app.addEventListener("click", async (e) => {
     return;
   }
   if (document.querySelector(".leader-choice")) return;
+  if (action.startsWith("appearance-")) {
+    const [, index, id] = action.split("-"),
+      i = Number(index);
+    if (
+      screen !== "config" ||
+      creationFlow.step !== 2 ||
+      ![0, 1].includes(i) ||
+      creationFlow.heroReady[i] ||
+      !E.controlsOwner(i + 1)
+    )
+      return;
+    const h = heroDrafts[i];
+    if (
+      compatiblePortraits(h.faction, h.gender, [
+        heroDrafts[1 - i].portraitId ?? "",
+      ]).some((p) => p.id === id)
+    ) {
+      h.portraitId = id;
+      configure();
+    }
+    return;
+  }
   if (action.startsWith("creator-")) {
     if (screen !== "config") return;
     const owner = Number(action.split("-").at(-1));
@@ -2415,6 +2448,9 @@ app.addEventListener("click", async (e) => {
       const h = heroDrafts[owner];
       if (
         creationFlow.step !== 2 ||
+        !compatiblePortraits(h.faction, h.gender, [
+          heroDrafts[1 - owner].portraitId ?? "",
+        ]).some((p) => p.id === h.portraitId) ||
         !h.name.trim() ||
         h.name.length > 32 ||
         !E.startingHeroClasses(h.faction).some((c) => c.id === h.classId)
@@ -2483,7 +2519,9 @@ app.addEventListener("click", async (e) => {
       if (request !== developerRequest) return;
       developerCleanup = view.openMaterialLab(app, () => {
         developerCleanup?.();
-        void import("./dev/test-hub").then((h) => { developerCleanup = h.openTestHub(app, title); });
+        void import("./dev/test-hub").then((h) => {
+          developerCleanup = h.openTestHub(app, title);
+        });
       });
       return;
     }

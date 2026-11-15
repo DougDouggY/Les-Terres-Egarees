@@ -6,13 +6,14 @@ import {
   characterPage,
   classDescription,
 } from "../src/ui/character-sheet";
-test("character inventory is the default with a blank portrait and numeric HP/XP", () => {
+test("character inventory is the default with its assigned portrait and numeric HP/XP", () => {
   const s = E.createCampaign(["north", "knight"]),
     u = s.units[0];
   const html = characterSheet(u, true);
   assert.ok(html.includes("Inventaire"));
   assert.ok(html.includes("character-portrait-slot"));
-  assert.ok(!html.includes("<img"));
+  assert.ok(html.includes("identity-portrait"));
+  assert.ok(html.includes(u.portraitAsset!));
   assert.ok(!html.includes("bar xp"));
   assert.ok(!html.includes("bar hp"));
   assert.ok(!html.includes("Portée"));

@@ -1,3 +1,8 @@
+import {
+  ensurePortraits,
+  reserveHeroPortraits,
+  reserveCompanionPortraits,
+} from "./portraits";
 import { activateDetectedGroups } from "./enemy-activation";
 import { forestEncounter } from "./forest-chapter";
 import { activateMap } from "./active-map";
@@ -101,6 +106,7 @@ export function createCampaign(
         c.gender,
       );
       unit.hasPersonalName = true;
+      unit.portraitIdentity = `companion:${id}`;
       individualize(unit);
       units.push(unit);
     });
@@ -150,6 +156,9 @@ export function createCampaign(
     history: [],
   };
   for (const u of units.filter((u) => u.owner !== 0)) discoverUnit(s, u, true);
+  reserveHeroPortraits(s, heroes?.map((h) => h.portraitId) ?? []);
+  reserveCompanionPortraits(s);
+  ensurePortraits(s);
   visibility(s);
   return s;
 }

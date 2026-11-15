@@ -1,3 +1,4 @@
+import { ensurePortraits } from "./portraits";
 import { chapterScenes, chapterLines, upgradePrologue } from "./prologue";
 import { globalInitiative } from "./initiative";
 import { normalizeTeamColors } from "./team-colors";
@@ -26,6 +27,7 @@ export function encode(s: Campaign) {
     );
   if ((s.scene && !s.scene.startsWith("chapter1:")) || s.phase === "intro")
     throw Error("Sauvegarde indisponible pendant une cinématique");
+  ensurePortraits(s);
   return JSON.stringify(s);
 }
 export function decode(raw: string): Campaign {
@@ -198,6 +200,7 @@ export function decode(raw: string): Campaign {
   } else if (s.scene && s.scene !== "meeting" && s.scene !== "ending")
     s.scene = null;
   upgradePrologue(s);
+  ensurePortraits(s);
   validate(s);
   globalInitiative(s);
   if (updatedMap) visibility(s);

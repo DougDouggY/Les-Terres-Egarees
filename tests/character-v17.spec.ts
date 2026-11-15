@@ -147,7 +147,7 @@ test("V17 inventaire compact, onglets, profil fixe et croix", async ({
   const box = await root.boundingBox();
   expect(box!.width).toBeLessThanOrEqual(400);
   expect(box!.height).toBeLessThanOrEqual(264);
-  await expect(root.locator(".character-portrait-slot")).toBeEmpty();
+  await expect(root.locator(".character-portrait-slot img")).toBeVisible();
   await expect(root.locator("img,.bar")).toHaveCount(0);
   await root
     .locator(".character-profile")

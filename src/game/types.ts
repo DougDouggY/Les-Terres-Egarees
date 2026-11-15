@@ -68,6 +68,8 @@ export type Unit = {
   classId?: string;
   gender?: import("../data/classes").Gender;
   portraitAsset?: string;
+  portraitId?: string;
+  portraitIdentity?: string;
   carriedWeapons?: string[];
   activeWeaponId?: string;
   recruitChoices?: [string, string];
@@ -112,6 +114,7 @@ export type Perspective = {
   intro: number;
 };
 export type Campaign = {
+  portraits?: import("./portraits").PortraitState;
   enemyGroups?: Record<string, import("./enemy-activation").EnemyGroup>;
   mapId?: import("./active-map").MapId;
   forestChapter?: import("./forest-chapter").ForestProgress;

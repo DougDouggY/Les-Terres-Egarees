@@ -26,6 +26,7 @@ export type {
   SkillId,
 } from "../data/classes";
 export type HeroConfig = {
+  portraitId?: string;
   faction: Faction;
   name: string;
   gender: Gender;
