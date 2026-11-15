@@ -2,7 +2,7 @@
 
 ## Sources réellement reçues
 
-ZIP « Sprite perso$.zip », quatre PNG lisibles, extraits sans retouche du dessin ni recomposition des corps. Les fonds sombres sont conservés pour préserver cheveux et contours ; ils s’intègrent au fond des cadres. Les zones vides autour des bustes sont retirées. Les coordonnées exactes de chaque découpe sont dans `public/assets/portraits/extraction.json`.
+ZIP « Sprite perso$.zip », quatre PNG lisibles, extraits sans retouche du dessin ni recomposition des corps. Les fonds sombres sont conservés dans les fichiers pour préserver cheveux et contours ; un masque d’affichage les retire sur la scène narrative plein écran. Les zones vides autour des bustes sont retirées. Les coordonnées exactes de chaque découpe sont dans `public/assets/portraits/extraction.json`.
 
 | Planche | Identifiants, ordre gauche → droite puis haut → bas | Nombre | Répartition |
 | --- | --- | --- | --- |
@@ -35,13 +35,13 @@ Le texte de la demande situait Maëlys en fin de chapitre 1 et Atalia en fin de 
 
 ## Attribution, création et sauvegarde
 
-Après faction et sexe, chaque joueur choisit son apparence dans la galerie de l’étape Personnage. Le filtre ne dépend pas de la classe. La sélection est indiquée et un grand aperçu est affiché. Le portrait de l’autre joueur est exclu et la création vérifie à nouveau compatibilité et unicité. La mécanique existante impose toujours une faction différente pour chaque joueur.
+Après faction, nom, sexe, classe et autres paramètres, chaque joueur choisit son apparence dans le carrousel de l’étape Personnage, après une voix hors champ. Le filtre ne dépend pas de la classe. La sélection est indiquée et un grand aperçu est affiché. Le portrait de l’autre joueur est exclu et la création vérifie à nouveau compatibilité et unicité. La mécanique existante impose toujours une faction différente pour chaque joueur.
 
 Le registre `Campaign.portraits` version 1 contient `assignments` (identité persistante → identifiant de portrait ou null ; chaque unité conserve aussi son portraitId et, pour les compagnons, sa clé d’identité de catalogue) et `issues`. Les portraits des deux héros sont réservés avant ceux des neuf compagnons nommés présentés dans la galerie. Ces compagnons conservent leur identité de catalogue même s’ils ne sont pas recrutés immédiatement ; seuls les portraits ainsi attribués sont retirés de la réserve, les autres restent libres pour les rencontres. Les portraits restants sont attribués aux personnages nommés compatibles, avec un choix déterministe basé sur la graine et l’identifiant de l’unité. Les portraits non sélectionnés restent disponibles pour les rencontres futures. L’aperçu de tous les compagnons proposés utilise exactement le même allocateur que la campagne. Aucune unité fictive n’est ajoutée à la carte ou à la sauvegarde.
 
 Les réservations des unités mortes ou absentes sont conservées. Transfert de propriétaire, dialogue, chapitre, sauvegarde et rechargement ne renouvellent pas une association. Les anonymes peuvent partager N01–N05 ; un personnage nommé réserve un portrait distinct. Les futurs dialogues peuvent indiquer un `unitId` explicite pour réutiliser l’identité de l’unité, y compris N05.
 
-En cas d’épuisement, l’association null et un motif sont enregistrés. L’interface affiche « Portrait indisponible » ; aucun doublon silencieux ni nouvelle image n’est créé. Les sauvegardes anciennes sans registre sont enrichies une seule fois ; les portraits personnalisés historiques sont conservés. Les identifiants inconnus, associations réservées illégales et doublons nommés sont refusés au chargement.
+En cas d’épuisement, l’association null et un motif sont enregistrés. L’interface affiche désormais un portrait générique PNJ importé (sans sprite de combat) ; aucun doublon silencieux ni nouvelle image n’est créé. Les sauvegardes anciennes sans registre sont enrichies une seule fois ; les associations historiques sont conservées ; l’affichage narratif utilise exclusivement les portraits importés et un secours PNJ si un ancien chemin pointe vers une autre ressource. Les identifiants inconnus, associations réservées illégales et doublons nommés sont refusés au chargement.
 
 Les sprites sur la carte et en combat ne sont pas remplacés.
 
@@ -58,4 +58,6 @@ Les sprites sur la carte et en combat ne sont pas remplacés.
 - Interfaces : `src/ui/portraits.ts`, `creator.ts`, `chapter-dialogue.ts`, `character-sheet.ts` dans `src/ui/`, `src/main.ts`, `src/style.css`.
 - Vérifications : `tests/portraits.test.ts`, `tests/portraits.spec.ts`, `playwright.portraits.config.ts`, `package.json` ; mise à jour des deux assertions historiques de portrait vide dans `tests/character-v17.test.ts` et `tests/character-v17.spec.ts`.
 
-Résultat de validation : 167 tests de logique et systèmes, 3 scénarios navigateur et un contrôle de création/reprise sur le prototype compilé avec son préfixe de publication, compilations standard et prototype et contrôle du prototype réussis. Aucun échec restant. Les apparitions de la sœur et d’Atalia ne sont pas testables en campagne puisque ces scènes ne sont pas implémentées.
+Résultat de validation après refonte : 172 tests de logique et systèmes, 5 scénarios navigateur et un contrôle de création/reprise sur le prototype compilé avec son préfixe de publication, compilations standard et prototype et contrôle du prototype réussis. Aucun échec restant. Les apparitions de la sœur et d’Atalia ne sont pas testables en campagne puisque ces scènes ne sont pas implémentées.
+
+La présentation et le parcours de création révisés sont décrits dans [CREATION-DIALOGUES.md](CREATION-DIALOGUES.md).

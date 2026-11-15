@@ -193,7 +193,9 @@ test("portraits : épuisement explicite sans doublons, réservations des unités
   assert.equal(assigned.length, new Set(assigned).size);
   assert.ok(s.portraits!.issues.length > 0);
   const empty = s.units.find((u) => s.portraits!.assignments[u.id] === null)!;
-  assert.ok(characterSheet(empty, true, s).includes("Portrait indisponible"));
+  assert.ok(
+    characterSheet(empty, true, s).includes("assets/portraits/N01.png"),
+  );
   const before = structuredClone(s.portraits);
   s.units = s.units.filter((u) => u.id !== "p1b");
   ensurePortraits(s);

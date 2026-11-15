@@ -2404,28 +2404,6 @@ app.addEventListener("click", async (e) => {
     return;
   }
   if (document.querySelector(".leader-choice")) return;
-  if (action.startsWith("appearance-")) {
-    const [, index, id] = action.split("-"),
-      i = Number(index);
-    if (
-      screen !== "config" ||
-      creationFlow.step !== 2 ||
-      ![0, 1].includes(i) ||
-      creationFlow.heroReady[i] ||
-      !E.controlsOwner(i + 1)
-    )
-      return;
-    const h = heroDrafts[i];
-    if (
-      compatiblePortraits(h.faction, h.gender, [
-        heroDrafts[1 - i].portraitId ?? "",
-      ]).some((p) => p.id === id)
-    ) {
-      h.portraitId = id;
-      configure();
-    }
-    return;
-  }
   if (action.startsWith("creator-")) {
     if (screen !== "config") return;
     const owner = Number(action.split("-").at(-1));
@@ -2438,6 +2416,7 @@ app.addEventListener("click", async (e) => {
       if (creationFlow.step === 3) {
         creationFlow.step = 2;
         creationFlow.heroReady = [false, false];
+        creationFlow.faceStage = ["details", "details"];
         creationFlow.partyReady = [false, false];
       } else creationFlow = E.newCreationFlow();
       configure();
@@ -2448,9 +2427,6 @@ app.addEventListener("click", async (e) => {
       const h = heroDrafts[owner];
       if (
         creationFlow.step !== 2 ||
-        !compatiblePortraits(h.faction, h.gender, [
-          heroDrafts[1 - owner].portraitId ?? "",
-        ]).some((p) => p.id === h.portraitId) ||
         !h.name.trim() ||
         h.name.length > 32 ||
         !E.startingHeroClasses(h.faction).some((c) => c.id === h.classId)
@@ -2458,6 +2434,39 @@ app.addEventListener("click", async (e) => {
         toast("Choisissez un personnage de départ valide.");
         return;
       }
+      creationFlow.faceStage[owner] = "choose";
+    } else if (
+      action.startsWith("creator-face-prev-") ||
+      action.startsWith("creator-face-next-")
+    ) {
+      if (creationFlow.step !== 2 || creationFlow.faceStage[owner] !== "choose")
+        return;
+      const h = heroDrafts[owner];
+      h.portraitId = E.cycleFace(
+        h.faction,
+        h.gender,
+        h.portraitId,
+        action.includes("-prev-") ? -1 : 1,
+        [heroDrafts[1 - owner].portraitId ?? ""],
+      );
+    } else if (action.startsWith("creator-face-confirm-")) {
+      if (creationFlow.step !== 2 || creationFlow.faceStage[owner] !== "choose")
+        return;
+      const h = heroDrafts[owner];
+      if (
+        !compatiblePortraits(h.faction, h.gender, [
+          heroDrafts[1 - owner].portraitId ?? "",
+        ]).some((p) => p.id === h.portraitId)
+      )
+        return;
+      creationFlow.faceStage[owner] = "confirmed";
+      creationFlow.introPage[owner] = 1;
+    } else if (action.startsWith("creator-face-continue-")) {
+      if (
+        creationFlow.step !== 2 ||
+        creationFlow.faceStage[owner] !== "confirmed"
+      )
+        return;
       creationFlow.heroReady[owner] = true;
       if (creationFlow.heroReady.every(Boolean)) creationFlow.step = 3;
     } else if (action.startsWith("creator-intro-")) {

@@ -135,7 +135,21 @@ export function unitPortrait(s: Campaign | undefined, u: Unit) {
   const reserved = Object.values(predefinedPortraits).find(
     (p) => p.unitId === u.id,
   );
-  return reserved ? portraitAsset(reserved.portraitId) : u.portraitAsset;
+  if (reserved) return portraitAsset(reserved.portraitId);
+  if (u.portraitId && portraitDefinition(u.portraitId))
+    return portraitAsset(u.portraitId);
+  const known = u.portraitAsset?.match(
+    /^assets\/portraits\/([CVRN]\d{2})\.png$/,
+  )?.[1];
+  if (known && portraitDefinition(known)) return portraitAsset(known);
+  // A missing or legacy sprite path is never enlarged as a dialogue portrait.
+  return portraitAsset(
+    u.kind === "skeleton" || u.classId?.startsWith("sans_")
+      ? "N05"
+      : u.owner === 0
+        ? "N03"
+        : "N01",
+  );
 }
 
 /** The named companions offered during creation keep their identities even if not recruited. */

@@ -1,5 +1,6 @@
-import { ensurePortraits, unitPortrait } from "../game/portraits";
-import { portraitAsset } from "../data/portraits";
+import { maskDialoguePortraits } from "./portrait-mask";
+import { dialogueCast, dialoguePages } from "./dialogue-presentation";
+import { ensurePortraits } from "../game/portraits";
 import { portraitMarkup } from "./portraits";
 import {
   PatrolStaging,
@@ -9,7 +10,6 @@ import {
 } from "../game/patrol-staging";
 import { controlsOwner, sessionView } from "../game/cooperation";
 import type { PatrolChoice } from "../game/forest-chapter";
-import { anatomicalPlacement } from "../sprites/display-scale";
 import type { Campaign, Unit } from "../game/types";
 import {
   chapterLines,
@@ -18,20 +18,11 @@ import {
   ruinsCenter,
   temporaryRuinsCells,
 } from "../game/prologue";
-import {
-  chapterPortraits,
-  type Speaker,
-  type DialogueLine,
-} from "../data/prologue";
+import { type DialogueLine } from "../data/prologue";
 import { village } from "../game/active-map";
 import { makeClassUnit } from "../game/units";
-import {
-  unitSpriteProfile,
-  drawResourceFrame,
-  warmSprites,
-} from "../sprites/resources";
+import { unitSpriteProfile, warmSprites } from "../sprites/resources";
 import { resolveClip } from "../sprites/catalog";
-import { colorForOwner } from "../game/team-colors";
 export type ChapterMapFrame = {
   owner: 1 | 2;
   center: { x: number; y: number };
@@ -69,6 +60,9 @@ export class ChapterDirector {
   private lines: DialogueLine[];
   private started = performance.now();
   private shown = false;
+  private textPages: string[] = [];
+  private textPage = 0;
+  private textStarted = performance.now();
   private ready = false;
   private patrolElapsed = 0;
   private patrolLast?: number;
@@ -181,33 +175,20 @@ export class ChapterDirector {
     this.patrolElapsed = 0;
     this.patrolLast = undefined;
     this.shown = false;
-    const u =
-        (l.unitId
-          ? this.s.units.find((u) => u.id === l.unitId)
-          : storyUnit(this.s, l.speaker)) ??
-        (l.speaker === "witch" ? this.witch : undefined),
-      name = ["witch", "unknown", "narrator"].includes(l.speaker)
-        ? {
-            witch:
-              this.s.chapter1?.witchNamed || this.s.forestChapter
-                ? "Maëlys"
-                : "La sorcière",
-            unknown: "???",
-            narrator: "Les Terres Égarées",
-          }[l.speaker as "witch" | "unknown" | "narrator"]
-        : (u?.name ?? "Un survivant");
+    this.textStarted = this.started;
+    this.textPages = dialoguePages(l.text, window.innerWidth < 520 ? 64 : 110);
+    this.textPage = 0;
     ensurePortraits(this.s);
-    const asset =
-      l.speaker === "witch"
-        ? portraitAsset("R01")
-        : u
-          ? unitPortrait(this.s, u)
-          : chapterPortraits[l.speaker]?.src;
-    const right =
-      l.speaker.startsWith("knight") ||
-      l.speaker === "captain" ||
-      l.speaker === "geraud";
-    this.root.innerHTML = `<section class="chapter-dialogue ${l.speaker === "narrator" ? "narration-only" : right ? "portrait-right" : ""}" role="dialog" aria-modal="true" aria-label="${p.id.startsWith("c1-") ? "Dialogue du chapitre 1" : "Dialogue du prologue"}" data-story-scene="${p.id}" data-story-line="${p.page}">${l.speaker === "narrator" ? "" : `<div class="chapter-portrait ${["witch", "unknown"].includes(l.speaker) ? "mysterious" : ""}">${l.speaker === "unknown" ? "<b>???</b>" : portraitMarkup(asset, name, !right)}</div>`}<div class="chapter-speech"><strong class="chapter-speaker">${esc(name)}</strong><p class="chapter-text" aria-live="off"></p><footer><small>Entrée / Espace · lire puis continuer</small><button data-story-next>Suivant <span>›</span></button></footer></div></section>`;
+    const cast = dialogueCast(this.s, this.lines, p.page);
+    const active = cast.find((p) => p.active);
+    const right = active?.side === "right";
+    this.root.innerHTML = `<section class="chapter-dialogue fe-dialogue ${l.speaker === "narrator" ? "narration-only" : right ? "portrait-right" : ""}" role="dialog" aria-modal="true" aria-label="Dialogue narratif" data-story-scene="${p.id}" data-story-line="${p.page}" data-current-speaker="${esc(active?.key ?? l.speaker)}"><div class="chapter-portraits">${cast.map((p) => `<div class="chapter-portrait portrait-${p.side} ${p.active ? "speaking" : "listening"}" data-portrait-unit="${esc(p.key)}">${portraitMarkup(p.asset, p.name, p.side === "left")}</div>`).join("")}</div><div class="chapter-speech"><p class="chapter-text" aria-live="off"></p><footer><small class="dialogue-page-count" aria-hidden="true"></small><button data-story-next aria-label="Afficher toute la réplique">Suite <span aria-hidden="true">▾</span></button></footer></div></section>`;
+    this.root
+      .querySelector(".chapter-dialogue")!
+      .addEventListener("click", (e) => {
+        if (!(e.target as Element).closest("button")) this.next();
+      });
+    maskDialoguePortraits(this.root);
     this.root.classList.toggle("cave-scene", p.id === "c1-cave");
     this.root.querySelector<HTMLElement>(".chapter-dialogue")!.hidden = [
       "c1-deploy",
@@ -293,6 +274,12 @@ export class ChapterDirector {
       this.shown = true;
       return;
     }
+    if (this.textPage < this.textPages.length - 1) {
+      this.textPage++;
+      this.shown = false;
+      this.textStarted = performance.now();
+      return;
+    }
     this.advance();
   }
   private lock(l: DialogueLine) {
@@ -361,7 +348,7 @@ export class ChapterDirector {
       const canvas =
         this.root.parentElement?.querySelector<HTMLCanvasElement>("#story-map");
       const box = this.root
-        .querySelector<HTMLElement>(".chapter-dialogue")
+        .querySelector<HTMLElement>(".chapter-speech")
         ?.getBoundingClientRect();
       const bounds = canvas?.getBoundingClientRect();
       const rows = Number(canvas?.dataset.viewRows) || 12;
@@ -382,9 +369,20 @@ export class ChapterDirector {
     };
     this.root.dataset.ready = String(this.ready);
     const text = this.root.querySelector(".chapter-text")!;
-    const n = this.shown ? l.text.length : Math.floor(elapsed / 24);
-    text.textContent = l.text.slice(0, n);
-    if (n >= l.text.length) this.shown = true;
+    const currentText = this.textPages[this.textPage] ?? l.text;
+    const n = this.shown
+      ? currentText.length
+      : Math.max(0, Math.floor((time - this.textStarted) / 24));
+    text.textContent = currentText.slice(0, n);
+    if (n >= currentText.length) this.shown = true;
+    const box = this.root.querySelector<HTMLElement>(".chapter-dialogue")!;
+    box.dataset.textPage = String(this.textPage);
+    const count = this.root.querySelector(".dialogue-page-count");
+    if (count)
+      count.textContent =
+        this.textPages.length > 1
+          ? `${this.textPage + 1} / ${this.textPages.length}`
+          : "";
     const button =
       this.root.querySelector<HTMLButtonElement>("[data-story-next]")!;
     const waiting = !!this.reader && !!pending.readBy?.includes(this.reader);
@@ -394,33 +392,6 @@ export class ChapterDirector {
       "aria-label",
       this.shown ? "Réplique suivante" : "Afficher toute la réplique",
     );
-    const portrait = this.root.querySelector<HTMLCanvasElement>(
-      ".chapter-portrait canvas",
-    );
-    const u =
-      (l.unitId
-        ? this.s.units.find((u) => u.id === l.unitId)
-        : storyUnit(this.s, l.speaker)) ??
-      (l.speaker === "witch" ? this.witch : undefined);
-    if (portrait && u) {
-      const ctx = portrait.getContext("2d")!;
-      ctx.clearRect(0, 0, 140, 160);
-      ctx.imageSmoothingEnabled = false;
-      drawResourceFrame(
-        ctx,
-        unitSpriteProfile(u),
-        "idle",
-        0,
-        8,
-        0,
-        124,
-        150,
-        true,
-        colorForOwner(this.s.teamColors, u.owner),
-        "world",
-        anatomicalPlacement(unitSpriteProfile(u), "idle", 124),
-      );
-    }
     const frame: ChapterMapFrame = {
       owner: pending.owner,
       center: this.camera,

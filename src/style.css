@@ -5972,3 +5972,233 @@ body:has(.aftermath-screen) .modal-back.rewards {
   margin: auto;
   background: #07101e;
 }
+
+/* Creation: an off-screen voice, never an extra character or a portrait reservation. */
+.creator-whisper {
+  width: min(360px, 100%);
+  padding: 12px 16px;
+  margin: 16px 0 22px;
+  position: relative;
+  background: linear-gradient(#f4e6c5, #d4bd8b);
+  color: #332b24;
+  border: 3px double #79613e;
+  border-radius: 5px;
+  box-shadow: 0 3px 9px #0005;
+  text-align: left;
+  font: 15px/1.55 var(--sans);
+}
+.creator-whisper::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 14px;
+  width: 16px;
+  height: 16px;
+  background: #e9d7af;
+  border-left: 2px solid #79613e;
+  border-bottom: 2px solid #79613e;
+  transform: rotate(45deg);
+}
+.creator-party:nth-child(2) .creator-whisper {
+  margin-left: auto;
+}
+.creator-party:nth-child(2) .creator-whisper::before {
+  left: auto;
+  right: -11px;
+  transform: rotate(225deg);
+}
+.creator-whisper p {
+  margin: 0;
+}
+.creator-whisper button {
+  margin-top: 8px;
+}
+.face-choice {
+  padding: 16px 12px;
+  text-align: center;
+}
+.face-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 16px auto 10px;
+}
+.face-preview {
+  min-width: 0;
+  width: min(260px, 65%);
+  height: 238px;
+  background: #07101e;
+  border: 2px solid #a58a59;
+}
+.face-carousel button {
+  font-size: 34px;
+  line-height: 1;
+  width: 40px;
+  padding: 12px 0;
+  flex-shrink: 0;
+}
+.face-counter {
+  display: block;
+  margin: 8px;
+  color: #dbc69c;
+  font-size: 13px;
+}
+.face-choice > .primary {
+  min-width: 160px;
+  margin-top: 6px;
+}
+/* Full-screen FE8 composition: the map remains the backdrop, portraits anchor the bottom. */
+.chapter-dialogue.fe-dialogue {
+  display: block;
+  position: absolute;
+  inset: 0;
+  bottom: 0;
+  left: 0;
+  transform: none;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.fe-dialogue .chapter-portraits {
+  position: absolute;
+  pointer-events: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.fe-dialogue .chapter-portrait {
+  position: absolute;
+  display: block;
+  min-width: 0;
+  border: 0 !important;
+  background: transparent;
+  bottom: 0;
+  width: min(43vw, 560px);
+  height: min(58vh, 560px);
+}
+.fe-dialogue .chapter-portrait.portrait-left {
+  left: 2vw;
+}
+.fe-dialogue .chapter-portrait.portrait-right {
+  right: 2vw;
+}
+.fe-dialogue .chapter-portrait.listening {
+  filter: brightness(0.78) saturate(0.85);
+  opacity: 0.95;
+}
+.fe-dialogue .chapter-portrait .identity-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.fe-dialogue .chapter-portrait.speaking {
+  filter: none;
+  opacity: 1;
+}
+.fe-dialogue .chapter-speech {
+  display: block;
+  position: absolute;
+  top: 3vh;
+  left: 4vw;
+  width: min(84vw, 1100px);
+  padding: 2vh 2.8vw 1vh;
+  background: linear-gradient(170deg, #f7efd6, #e5d6ae);
+  border: 4px double #796344;
+  border-radius: 9px;
+  box-shadow:
+    0 3px 0 #302820,
+    0 5px 10px #0007;
+}
+.fe-dialogue .chapter-speech::after {
+  content: "";
+  position: absolute;
+  left: 22%;
+  bottom: -19px;
+  width: 26px;
+  height: 26px;
+  background: #e5d6ae;
+  border-right: 2px solid #796344;
+  border-bottom: 2px solid #796344;
+  transform: skewY(-35deg);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+}
+.fe-dialogue.portrait-right .chapter-speech {
+  left: auto;
+  right: 4vw;
+}
+.fe-dialogue.portrait-right .chapter-speech::after {
+  left: 76%;
+  transform: scaleX(-1) skewY(-35deg);
+}
+.fe-dialogue.narration-only .chapter-speech::after,
+.fe-dialogue[data-current-speaker="unknown"] .chapter-speech::after {
+  display: none;
+}
+.fe-dialogue .chapter-text {
+  font-family: var(--sans);
+  font-weight: 400;
+  color: #30291f;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow: auto;
+  font-size: clamp(20px, 3vw, 42px);
+  line-height: 1.35;
+  min-height: 2.7em;
+  max-height: 4.05em;
+}
+.fe-dialogue .chapter-speech footer {
+  height: 24px;
+  margin-top: 4px;
+}
+.fe-dialogue .chapter-speech footer small {
+  color: #796343;
+  font: clamp(10px, 1.2vw, 14px) var(--sans);
+  display: block;
+}
+.fe-dialogue .chapter-speech button {
+  background: transparent;
+  border: 0;
+  padding: 0 2px;
+  color: #5d422a;
+  font-size: clamp(14px, 1.4vw, 20px);
+}
+@media (max-width: 520px) {
+  .fe-dialogue .chapter-portrait {
+    width: 47vw;
+    height: 45vh;
+  }
+  .fe-dialogue .chapter-portrait.portrait-left {
+    left: 0;
+  }
+  .fe-dialogue .chapter-portrait.portrait-right {
+    right: 0;
+  }
+  .fe-dialogue .chapter-speech,
+  .fe-dialogue.portrait-right .chapter-speech {
+    width: calc(100% - 20px);
+    left: 10px;
+    right: auto;
+    padding: 14px 16px 8px;
+    top: 18px;
+  }
+  .fe-dialogue .chapter-text {
+    font-size: clamp(18px, 5vw, 25px);
+  }
+}
+
+.chapter-dialogue.fe-dialogue.narration-only .chapter-speech {
+  border-left: 4px double #796344;
+  padding-left: 2.8vw;
+}
+@media (max-width: 520px) {
+  .chapter-dialogue.fe-dialogue.narration-only .chapter-speech {
+    padding-left: 16px;
+  }
+}

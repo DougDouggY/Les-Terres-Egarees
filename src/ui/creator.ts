@@ -16,13 +16,21 @@ const esc = (s: string) =>
         c
       ]!,
   );
-function appearance(
+function faceChoice(
   h: E.HeroConfig,
   i: number,
+  flow: E.CreationFlow,
   drafts: [E.HeroConfig, E.HeroConfig],
 ) {
-  const available = compatiblePortraits(h.faction, h.gender);
-  return `<section class="appearance-picker" aria-label="Apparence du joueur ${i + 1}"><h3>Votre portrait</h3><div class="appearance-preview">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name)}</div><div class="appearance-gallery" role="group" aria-label="Portraits compatibles">${available.map((p) => `<button type="button" data-action="appearance-${i}-${p.id}" data-portrait-id="${p.id}" aria-label="Portrait ${p.id}" aria-pressed="${h.portraitId === p.id}" ${drafts[1 - i].portraitId === p.id ? "disabled" : ""}>${portraitMarkup(portraitAsset(p.id), p.id)}<span>${p.id}</span></button>`).join("")}</div></section>`;
+  const options = compatiblePortraits(h.faction, h.gender, [
+    drafts[1 - i].portraitId ?? "",
+  ]);
+  const confirmed = flow.faceStage[i] === "confirmed";
+  return `<section class="face-choice" aria-label="Choix du visage du joueur ${i + 1}">
+    <aside class="creator-whisper" role="dialog" aria-label="Voix hors champ"><p>${confirmed ? esc(E.afterFaceLine(h.faction, h.gender)) : "Approche, enlève ta capuche."}</p></aside>
+    <div class="face-carousel">${!confirmed ? `<button type="button" data-action="creator-face-prev-${i}" aria-label="Visage précédent">‹</button>` : ""}<div class="face-preview" data-face-id="${h.portraitId ?? ""}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name)}</div>${!confirmed ? `<button type="button" data-action="creator-face-next-${i}" aria-label="Visage suivant">›</button>` : ""}</div>
+    ${confirmed ? `<button class="primary" data-action="creator-face-continue-${i}" ${flow.heroReady[i] ? "disabled" : ""}>${flow.heroReady[i] ? "Personnage validé ✓" : "Continuer"}</button>` : `<output class="face-counter" aria-live="polite">${options.findIndex((p) => p.id === h.portraitId) + 1} / ${options.length}</output><button class="primary" data-action="creator-face-confirm-${i}">Valider</button>`}
+    </section>`;
 }
 const classLabel = (id: string, gender: E.Gender) =>
   gender === "female"
@@ -63,18 +71,20 @@ export function creatorMarkup(
         rgb = E.teamPalette[E.colorForOwner(colors, owner)].rgb.join(",");
       return `<section class="creator-party ${north ? "north-party" : "knight-party"}" style="--party-rgb:${rgb}" aria-label="Expédition ${owner} · ${north ? "Vikings" : "Chevaliers"}"><header class="creator-party-heading"><span class="faction-seal" aria-hidden="true">${north ? "ᚱ" : "✦"}</span><div><span class="eyebrow">EXPÉDITION ${owner}</span><h2>${north ? "Les Vikings" : "Les Chevaliers"}</h2><p>${north ? "Prêts pour le grand voyage vers l’ouest." : "Une mission sur la route du convoi."}</p></div><div hidden class="segmented"><button data-action="faction-${owner}-north" class="${north ? "chosen" : ""}">Vikings</button><button data-action="faction-${owner}-knight" class="${north ? "" : "chosen"}">Chevaliers</button></div></header>${
         flow.step === 2
-          ? `<fieldset class="hero-validation" ${flow.heroReady[i] ? "disabled" : ""}><article class="creator-hero hero-form"><div class="creator-hero-visual"><canvas width="150" height="175" data-creator-hero="${i}" aria-label="Apparence du chef"></canvas><span>VOTRE CHEF</span><strong class="hero-display-name" data-hero-display="${i}">${esc(h.name)}</strong><small>Commandement · +1 Initiative</small></div><div class="creator-hero-fields"><label>Nom du héros — expédition ${owner}<input id="hero-name-${owner}" maxlength="32" value="${esc(h.name)}" required></label><div class="creator-fields-row"><label>Sexe — expédition ${owner}<select id="hero-gender-${owner}"><option value="male" ${h.gender === "male" ? "selected" : ""}>Homme</option><option value="female" ${h.gender === "female" ? "selected" : ""}>Femme</option></select></label><label>Classe — expédition ${owner}<select id="hero-class-${owner}">${E.startingHeroClasses(
-              h.faction,
-            )
-              .map(
-                (c) =>
-                  `<option value="${c.id}" ${h.classId === c.id ? "selected" : ""}>${esc(classLabel(c.id, h.gender))}</option>`,
+          ? flow.faceStage[i] !== "details"
+            ? faceChoice(h, i, flow, drafts)
+            : `<fieldset class="hero-validation" ${flow.heroReady[i] ? "disabled" : ""}><article class="creator-hero hero-form"><div class="creator-hero-visual"><canvas width="150" height="175" data-creator-hero="${i}" aria-label="Apparence du chef"></canvas><span>VOTRE CHEF</span><strong class="hero-display-name" data-hero-display="${i}">${esc(h.name)}</strong><small>Commandement · +1 Initiative</small></div><div class="creator-hero-fields"><label>Nom du héros — expédition ${owner}<input id="hero-name-${owner}" maxlength="32" value="${esc(h.name)}" required></label><div class="creator-fields-row"><label>Sexe — expédition ${owner}<select id="hero-gender-${owner}"><option value="male" ${h.gender === "male" ? "selected" : ""}>Homme</option><option value="female" ${h.gender === "female" ? "selected" : ""}>Femme</option></select></label><label>Classe — expédition ${owner}<select id="hero-class-${owner}">${E.startingHeroClasses(
+                h.faction,
               )
-              .join(
-                "",
-              )}</select></label></div><p class="creator-role">${esc(E.classes[h.classId].role)}</p>${appearance(h, i, drafts)}${h.classId === "raider" ? `<label>Arme initiale<select data-starter="${i}"><option value="axe_shield" ${h.weaponId !== "sword_shield" ? "selected" : ""}>Hache et bouclier</option><option value="sword_shield" ${h.weaponId === "sword_shield" ? "selected" : ""}>Épée et bouclier</option></select></label>` : ""}</div></article></fieldset><button class="hero-confirm primary" data-action="creator-hero-ready-${i}" ${flow.heroReady[i] ? "disabled" : ""}>${flow.heroReady[i] ? "Personnage validé ✓" : "Valider mon personnage"}</button>`
+                .map(
+                  (c) =>
+                    `<option value="${c.id}" ${h.classId === c.id ? "selected" : ""}>${esc(classLabel(c.id, h.gender))}</option>`,
+                )
+                .join(
+                  "",
+                )}</select></label></div><p class="creator-role">${esc(E.classes[h.classId].role)}</p>${h.classId === "raider" ? `<label>Arme initiale<select data-starter="${i}"><option value="axe_shield" ${h.weaponId !== "sword_shield" ? "selected" : ""}>Hache et bouclier</option><option value="sword_shield" ${h.weaponId === "sword_shield" ? "selected" : ""}>Épée et bouclier</option></select></label>` : ""}</div></article></fieldset><button class="hero-confirm primary" data-action="creator-hero-ready-${i}" ${flow.heroReady[i] ? "disabled" : ""}>${flow.heroReady[i] ? "Personnage validé ✓" : "Choisir mon visage"}</button>`
           : `<p class="creator-chief-summary">${esc(h.name)} · ${esc(classLabel(h.classId, h.gender))}</p>`
-      }${flow.step === 3 && flow.introPage[i] < 2 ? `<aside class="creator-narrator" role="dialog" aria-label="Une voix vous interpelle"><span class="unknown-speaker" aria-hidden="true">?</span><h3>Une voix ${north ? "sur le quai" : "près de la route"}</h3><p>${esc(E.recruitmentVoice(h.faction)[flow.introPage[i]])}</p><button data-action="creator-intro-${i}">${flow.introPage[i] === 0 ? "Continuer" : "Choisir mes compagnons"}</button></aside>` : ""}<fieldset class="creator-companions" ${flow.step !== 3 || flow.introPage[i] < 2 ? "hidden" : ""} ${flow.partyReady[i] ? "disabled" : ""}><legend>Vos compagnons <small data-companion-count="${i}">${companions[i].length} / ${E.companionCount(h.faction)} choisis</small></legend><p>${north ? "Choisissez deux compagnons." : "Choisissez un compagnon."} Un nouveau choix remplace le plus ancien.</p><div class="companion-cards">${E.companionRoster
+      }${flow.step === 3 && flow.introPage[i] < 2 ? `<aside class="creator-whisper" role="dialog" aria-label="Voix hors champ"><p>${esc(E.recruitmentVoice(h.faction)[flow.introPage[i]])}</p><button data-action="creator-intro-${i}">${north ? "Choisir mes compagnons" : "Choisir mon compagnon"}</button></aside>` : ""}<fieldset class="creator-companions" ${flow.step !== 3 || flow.introPage[i] < 2 ? "hidden" : ""} ${flow.partyReady[i] ? "disabled" : ""}><legend>${north ? "Vos compagnons" : "Votre compagnon"} <small data-companion-count="${i}">${companions[i].length} / ${E.companionCount(h.faction)} choisis</small></legend><div class="companion-cards">${E.companionRoster
         .filter((c) => c.faction === h.faction)
         .map(
           (c) =>

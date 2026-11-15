@@ -5,38 +5,73 @@ test("création : galerie compatible, choix indépendant et aperçu des deux hé
   await page.goto("/");
   await page.getByRole("button", { name: /Nouvelle aventure/ }).click();
   await page.getByRole("button", { name: /Créer nos personnages/ }).click();
-  await expect(
-    page.locator('[aria-label="Apparence du joueur 1"] [data-portrait-id]'),
-  ).toHaveCount(6);
+  await expect(page.locator(".face-choice")).toHaveCount(0);
   await page.locator("#hero-gender-1").selectOption("female");
-  await page.locator('[data-action="appearance-0-V10"]').click();
-  await page.locator('[data-action="appearance-1-C04"]').click();
-  await expect(
-    page.locator('[data-action="appearance-0-V10"]'),
-  ).toHaveAttribute("aria-pressed", "true");
-  await expect(
-    page.locator(
-      '[aria-label="Apparence du joueur 1"] .appearance-preview img',
-    ),
-  ).toHaveAttribute("src", /V10.png$/);
-  await expect(
-    page.locator(
-      '[aria-label="Apparence du joueur 2"] .appearance-preview img',
-    ),
-  ).toHaveAttribute("src", /C04.png$/);
-  await expect(
-    page.locator('[aria-label="Apparence du joueur 2"] [data-portrait-id]'),
-  ).toHaveCount(7);
-  await page.waitForFunction(() =>
-    Array.from(
-      document.querySelectorAll<HTMLImageElement>(".appearance-picker img"),
-    ).every((im) => im.complete && im.naturalWidth > 0),
-  );
-  await page.locator('[data-action="creator-hero-ready-0"]').click();
-  await page.locator('[data-action="creator-hero-ready-1"]').click();
   for (const i of [0, 1])
-    for (let n = 0; n < 2; n++)
-      await page.locator(`[data-action="creator-intro-${i}"]`).click();
+    await page.locator(`[data-action="creator-hero-ready-${i}"]`).click();
+  for (const [i, id] of [
+    [0, "V10"],
+    [1, "C04"],
+  ] as const) {
+    const root = page.locator(
+      `[aria-label="Choix du visage du joueur ${i + 1}"]`,
+    );
+    await expect(root.locator(".creator-whisper")).toHaveText(
+      "Approche, enlève ta capuche.",
+    );
+    await expect(
+      root.locator(".creator-whisper img,.creator-whisper canvas"),
+    ).toHaveCount(0);
+    const first = await root
+      .locator(".face-preview")
+      .getAttribute("data-face-id");
+    await page.locator(`[data-action="creator-face-prev-${i}"]`).click();
+    expect(
+      await root.locator(".face-preview").getAttribute("data-face-id"),
+    ).not.toBe(first);
+    await page.locator(`[data-action="creator-face-next-${i}"]`).click();
+    await expect(root.locator(".face-preview")).toHaveAttribute(
+      "data-face-id",
+      first!,
+    );
+    if (i === 0) {
+      await page.setViewportSize({ width: 390, height: 844 });
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+    }
+
+    for (
+      let n = 0;
+      n < 12 &&
+      (await root.locator(".face-preview").getAttribute("data-face-id")) !== id;
+      n++
+    )
+      await page.locator(`[data-action="creator-face-next-${i}"]`).click();
+    await expect(root.locator(".face-preview")).toHaveAttribute(
+      "data-face-id",
+      id,
+    );
+    await page.locator(`[data-action="creator-face-confirm-${i}"]`).click();
+    await expect(root.locator(".creator-whisper")).toContainText(
+      i === 0
+        ? "Prête pour le grand voyage à l'ouest ?"
+        : "Allez, on y va ! Le convoi ne va pas tarder. Dépêchez-vous !",
+    );
+    await page.locator(`[data-action="creator-face-continue-${i}"]`).click();
+  }
+  for (const i of [0, 1])
+    await page.locator(`[data-action="creator-intro-${i}"]`).click();
+  await expect(
+    page.locator(".knight-party .creator-companions legend"),
+  ).toContainText("Votre compagnon");
+  await expect(
+    page.getByText("Un nouveau choix remplace le plus ancien.", {
+      exact: false,
+    }),
+  ).toHaveCount(0);
   const cast = await page
     .locator(".companion-identity img")
     .evaluateAll((imgs) => imgs.map((im) => im.getAttribute("src")));
@@ -73,7 +108,7 @@ test("création : galerie compatible, choix indépendant et aperçu des deux hé
   await page.reload();
   await page.locator('[data-action="continue"]').click();
   await page.waitForFunction(() => document.querySelector(".chapter-dialogue"));
-  await expect(page.locator(".chapter-portrait img")).toHaveAttribute(
+  await expect(page.locator(".chapter-portrait.speaking img")).toHaveAttribute(
     "src",
     /V10.png$/,
   );
@@ -120,7 +155,9 @@ test("dialogues : portraits des joueurs, Maëlys, Géraud et fiches des ennemis"
       () => {},
       () => {},
     );
-    const north = root.querySelector("img")?.getAttribute("src");
+    const north = root
+      .querySelector(".chapter-portrait.speaking img")
+      ?.getAttribute("src");
     d.dispose();
     s.chapter1.pending = { id: "arrival-2", owner: 2, page: 0 };
     s.scene = "chapter1:arrival-2";
@@ -130,7 +167,9 @@ test("dialogues : portraits des joueurs, Maëlys, Géraud et fiches des ennemis"
       () => {},
       () => {},
     );
-    const knight = root.querySelector("img")?.getAttribute("src"),
+    const knight = root
+        .querySelector(".chapter-portrait.speaking img")
+        ?.getAttribute("src"),
       right = !!root.querySelector(".portrait-right");
     d2.dispose();
     E.beginForestChapter(s);
@@ -145,7 +184,9 @@ test("dialogues : portraits des joueurs, Maëlys, Géraud et fiches des ennemis"
       () => {},
       () => {},
     );
-    const witch = root.querySelector("img")?.getAttribute("src");
+    const witch = root
+      .querySelector(".chapter-portrait.speaking img")
+      ?.getAttribute("src");
     d3.dispose();
     s.chapter1.pending = {
       id: "c1-recruit",
@@ -160,7 +201,9 @@ test("dialogues : portraits des joueurs, Maëlys, Géraud et fiches des ennemis"
       () => {},
       () => {},
     );
-    const geraud = root.querySelector("img")?.getAttribute("src");
+    const geraud = root
+      .querySelector(".chapter-portrait.speaking img")
+      ?.getAttribute("src");
     d4.dispose();
     const enemy = s.units.find((u: any) => u.owner === 0 && u.id !== "geraud");
     const html = characterSheet(enemy, false, s);
