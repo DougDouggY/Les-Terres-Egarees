@@ -66,12 +66,12 @@ Les huit placements ennemis initiaux sont testés en simulation jusqu'à converg
 ## Vérifications effectuées
 
 - `npm test` : **191 tests réussis** (42 rendu et 149 systèmes), dont stocks initiaux, sauvegardes anciennes, soins adjacents, restrictions de cible, trois cases devant la porte, interlocuteurs vivants, convergence et cible inaccessible sans perte des poursuites valides.
-- `playwright.updates.config.ts` : **7 tests réussis** : utilisation réelle d'un bandage et passage de tour, combat élargi, suppression persistante des deux formats de sauvegarde, yeux et recolorations, rencontre/sorcière/impact, huit présentations de sprites Vikings, puis reprise de l'attente de la Pillarde hache, de la Pillarde épée et de la Lame nordique féminine après déplacement et action.
+- `playwright.updates.config.ts` : **8 tests réussis** : utilisation réelle d'un bandage et passage de tour, combat élargi, suppression persistante des deux formats de sauvegarde, yeux et recolorations, rencontre/sorcière/impact, huit présentations de sprites Vikings, puis reprise de l'attente de la Pillarde hache, de la Pillarde épée et de la Lame nordique féminine après déplacement et action, ainsi que le fond tactique du combat repris directement après une cinématique.
 - `playwright.corrections.config.ts` : **9 tests réussis** de non-régression des créations, portraits, dialogues et sauvegardes.
 - `playwright.refinements.config.ts` : **6 tests réussis** sur les introductions, interfaces sans défilement, noms au survol et au toucher, et attente de la Guerrière du Nord sur la carte.
 - Les builds et contrôles de publication sont exécutés avant l'envoi sur main.
 
-Les vérifications navigateur ciblées représentent donc **22 tests distincts**. Les anciennes suites historiques qui supposent les anciens menus ne sont pas toutes rejouées.
+Les vérifications navigateur ciblées représentent donc **23 tests distincts**. Les anciennes suites historiques qui supposent les anciens menus ne sont pas toutes rejouées.
 
 ## Fichiers principaux modifiés
 
