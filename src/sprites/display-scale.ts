@@ -13,20 +13,26 @@ export function anatomicalPlacement(
       : undefined;
   return reference ? { scale: bodyHeight / reference } : undefined;
 }
-/** Single-pose female Chamane / Guerrière du Nord: subtle idle sway, fixed feet, no foreign pose. */
+/** No replacement art: every genuine single-pose idle gets the same gentle breath. */
 export function tacticalIdleSway(
-  classId: string | undefined,
-  gender: string | undefined,
+  _classId: string | undefined,
+  _gender: string | undefined,
   animation: string,
   frame: number,
   frameCount: number | undefined,
 ) {
-  return (classId === "shaman" || classId === "north_warrior") &&
-    gender === "female" &&
-    animation === "idle" &&
-    frameCount === 1
+  return animation === "idle" && frameCount === 1
     ? frame % 2
       ? 0.014
       : -0.014
     : 0;
+}
+export function idleAnimationFrame(
+  profile: SpriteProfile | undefined,
+  time: number,
+) {
+  const clip = resolveClip(profile, "idle");
+  return clip && clip.frames.length > 1
+    ? Math.floor((time * Math.max(0.1, clip.fps)) / 1000)
+    : Math.floor(time / 600);
 }

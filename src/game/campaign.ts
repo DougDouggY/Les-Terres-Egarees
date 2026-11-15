@@ -155,6 +155,25 @@ export function createCampaign(
     world: ["sanctuary", "coast", "ruins"],
     history: [],
   };
+  // Starting supplies only: never rebalance an existing or loaded campaign.
+  for (const owner of [1, 2] as const) {
+    const team = units.filter((u) => u.owner === owner);
+    team.forEach((u) => (u.potions = 0));
+    let supplySeed = Array.from(
+      `${s.seed}:${team.map((u) => u.name).join(":")}:bandages`,
+    ).reduce(
+      (a, c) => Math.imul(a ^ c.charCodeAt(0), 16777619) >>> 0,
+      2166136261,
+    );
+    const carriers = [...team];
+    if (s.factions[owner - 1] === "north")
+      for (let i = carriers.length - 1; i > 0; i--) {
+        supplySeed = (Math.imul(supplySeed, 1664525) + 1013904223) >>> 0;
+        const j = supplySeed % (i + 1);
+        [carriers[i], carriers[j]] = [carriers[j], carriers[i]];
+      }
+    carriers.slice(0, 2).forEach((u) => (u.potions = 1));
+  }
   for (const u of units.filter((u) => u.owner !== 0)) discoverUnit(s, u, true);
   reserveHeroPortraits(s, heroes?.map((h) => h.portraitId) ?? []);
   reserveCompanionPortraits(s);

@@ -173,6 +173,6 @@ test("fiches : portraits et statistiques accessibles sur téléphone, Sans-Repos
   const portrait = (await page
     .locator(".character-portrait-slot")
     .boundingBox())!;
-  expect(Math.abs(portrait.width - portrait.height)).toBeLessThan(1);
+  expect(Math.abs(portrait.width / portrait.height - 4 / 3)).toBeLessThan(0.01);
   await expect(page.locator(".character-class")).toBeVisible();
 });

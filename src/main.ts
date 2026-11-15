@@ -11,7 +11,7 @@ import {
   characterPage,
   type CharacterTab,
 } from "./ui/character-sheet";
-import { tacticalIdleSway } from "./sprites/display-scale";
+import { tacticalIdleSway, idleAnimationFrame } from "./sprites/display-scale";
 import { creatorMarkup, paintCreatorSprites } from "./ui/creator";
 import {
   statSnapshot,
@@ -608,12 +608,7 @@ function contextActions(u: Unit) {
   let html = "";
   if (targets.some((t) => E.canAttack(u, t)))
     html += button("Attaquer", "attack-mode");
-  if (
-    E.chapterEnabled(s) &&
-    s.merged &&
-    u.leader &&
-    E.distance(u, E.village.entry) <= 1
-  ) {
+  if (E.chapterEnabled(s) && s.merged && u.leader && E.nearRuinsEntrance(u)) {
     const prepared = E.preparedExpeditions(s).includes(u.owner as 1 | 2);
     html += button(
       prepared ? "Entrée préparée" : "Se préparer à rentrer",
@@ -1553,7 +1548,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
     if (fogEnabled && !E.seen(s, p, u)) continue;
     let x = u.x * 32,
       y = u.y * 32,
-      frame = Math.floor(time / 600) % 2 === 0 ? 0 : 1;
+      frame = idleAnimationFrame(unitSpriteProfile(u), time);
     if (u.classId === "shaman" && u.gender === "female") {
       canvas.dataset.idleFrame = String(frame);
       canvas.dataset.idleTime = String(time);
@@ -1592,7 +1587,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       x + 16 - spriteSize / 2,
       y + 12 - spriteSize / 2 - 0.384 * (spriteSize - 38),
       spriteSize,
-      frame,
+      finalCapability ? idleAnimationFrame(unitSpriteProfile(u), time) : frame,
       false,
       false,
       finalCapability
@@ -2110,7 +2105,15 @@ async function fight(a: Unit, b: Unit, area?: { x: number; y: number }) {
   scene.groundedStage = true;
   screen = "combat";
   document.querySelector(".toast")?.remove();
-  app.innerHTML = `<main class="combat-screen"><div class="combat-scene-bg" style="background-image:linear-gradient(#0a191c22,#0c1c1c77),url('${assetBase}assets/battle-${backdropIndex}.png')"></div><header><span class="eyebrow">LES RIVAGES DE L’OUBLI</span><span>CONFRONTATION</span></header><section class="duel-stage game-duel" style="--battle-art:url('${assetBase}assets/battle-${backdropIndex}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="960" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section><footer><span>CHAQUE FRAPPE PEUT CHANGER VOTRE DESTIN</span><span>VITESSE ×${speed}</span></footer></main>`;
+  const tactical =
+    document.querySelector<HTMLCanvasElement>("#map, #story-map");
+  const tacticalBackground = tactical?.toDataURL() ?? "";
+  app.innerHTML = `<main class="combat-screen"><div class="combat-tactical-background" aria-hidden="true"></div><section class="duel-stage game-duel" style="--battle-art:url('${assetBase}assets/battle-${backdropIndex}.png')"><div class="combat-hud">${gameCombatHud(a, b, result)}</div><canvas id="combat" width="960" height="600"></canvas><div id="combat-result" aria-live="polite"></div></section></main>`;
+  if (tacticalBackground)
+    app.querySelector<HTMLElement>(
+      ".combat-tactical-background",
+    )!.style.backgroundImage = `url("${tacticalBackground}")`;
+
   await new Promise<void>((done) => {
     combatAnim = {
       battle: result,
@@ -2741,6 +2744,7 @@ app.addEventListener("click", async (e) => {
       tab,
       root.dataset.characterItem,
       canManageCharacter(u),
+      state ?? undefined,
     );
   } else if (["character", "equipment", "unit-sheet"].includes(action)) {
     const u = E.current(state!);
@@ -2912,14 +2916,45 @@ app.addEventListener("click", async (e) => {
     if (!busy && u?.owner === state!.active) finishTurn();
   } else if (action === "cancel") cancel();
   else if (action === "heal") {
-    const u = E.current(state!);
-    if (!busy && u?.owner === state!.active) {
-      try {
-        E.heal(state!, u);
-        finishTurn();
-      } catch {
-        toast("Aucun soin nécessaire.");
-      }
+    const u = state && E.current(state);
+    if (!state || busy || !u || !canManageCharacter(u)) return;
+    const targets = E.bandageTargets(state, u);
+    if (!targets.length) {
+      toast("Aucun allié blessé à portée.");
+      return;
+    }
+    const modal = document.createElement("div");
+    modal.className = "modal-back bandage-targets";
+    modal.dataset.bandageActor = u.id;
+    modal.innerHTML = `<section class="modal" role="dialog" aria-label="Utiliser un bandage"><h2>Utiliser un bandage</h2>${targets.map((t) => button(`${esc(t.name)}${t.id === u.id ? " · Vous" : ""} · ${t.hp}/${t.maxHp} PV`, `use-bandage-${t.id}`)).join("")}${button("Annuler", "close-modal")}</section>`;
+    app.append(modal);
+  } else if (action.startsWith("use-bandage-")) {
+    const u = state && E.current(state),
+      modal = el.closest<HTMLElement>(".bandage-targets");
+    if (
+      !state ||
+      busy ||
+      !u ||
+      modal?.dataset.bandageActor !== u.id ||
+      !canManageCharacter(u)
+    )
+      return;
+    const target = state.units.find(
+      (t) => t.id === action.slice("use-bandage-".length),
+    );
+    if (!target) return;
+    try {
+      const sprite = structuredClone(u),
+        oldHp = target.hp,
+        restored = E.heal(state, u, target);
+      modal.remove();
+      cardOpen = false;
+      aim = null;
+      battleUI();
+      await playTacticalAction(sprite, "bandage", target, restored, oldHp);
+      finishTurn();
+    } catch (error) {
+      toast((error as Error).message);
     }
   } else if (action === "attack-mode") {
     const u = E.current(state!);

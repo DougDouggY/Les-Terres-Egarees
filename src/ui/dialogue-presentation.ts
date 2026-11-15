@@ -21,8 +21,13 @@ export function dialogueCast(
 ): DialoguePortrait[] {
   const slots: Record<string, Omit<DialoguePortrait, "active" | "depth">> = {};
   let current: string | undefined;
+  let witchApproach = false;
   for (let i = 0; i <= index; i++) {
     const l = lines[i];
+    if (s.chapter1?.pending?.id === "alliance" && l.speaker === "unknown") {
+      witchApproach = true;
+      for (const p of Object.values(slots)) p.side = "right";
+    }
     if (l.speaker === "narrator" || (l.speaker === "unknown" && !l.unitId)) {
       if (i === index) current = undefined;
       continue;
@@ -30,6 +35,7 @@ export function dialogueCast(
     const u = l.unitId
       ? s.units.find((u) => u.id === l.unitId)
       : storyUnit(s, l.speaker);
+    if (u && u.hp <= 0) continue;
     const asset = u
       ? unitPortrait(s, u)
       : l.speaker === "witch"
@@ -57,6 +63,7 @@ export function dialogueCast(
       !Object.values(slots).some((p) => p.side !== side)
     )
       side = side === "left" ? "right" : "left";
+    if (witchApproach) side = l.speaker === "witch" ? "left" : "right";
     if (!existing) {
       const same = Object.values(slots).filter((p) => p.side === side);
       if (same.length >= 2) delete slots[same[0].key];
@@ -72,7 +79,7 @@ export function dialogueCast(
     if (i === index) current = key;
   }
   if (lines[index].speaker === "narrator") return [];
-  return Object.values(slots).map((p) => ({
+  const cast: DialoguePortrait[] = Object.values(slots).map((p) => ({
     ...p!,
     active: p!.key === current,
     depth:
@@ -86,6 +93,31 @@ export function dialogueCast(
         ? "front"
         : "back",
   }));
+  if (lines[index].cue === "rescue") {
+    const victim = storyUnit(s, "knight-chief"),
+      key = victim?.portraitIdentity ?? victim?.id;
+    const v = cast.find((p) => p.key === key);
+    if (v) {
+      for (const p of cast)
+        if (p.side === v.side && p.key !== v.key)
+          p.side = v.side === "left" ? "right" : "left";
+      for (const side of ["left", "right"] as const) {
+        const group = cast.filter((p) => p.side === side);
+        for (const p of group) p.depth = p.active || p === v ? "front" : "back";
+      }
+      v.depth = "front";
+      cast.push({
+        key: "chapter-ambush",
+        name: "Sans-Repos",
+        asset: portraitAsset("N05"),
+        side: v.side,
+        active: false,
+        depth: "back",
+        teamColor: "pink",
+      });
+    }
+  }
+  return cast;
 }
 /** Visual pages preserve every original character and never advance the story early. */
 export function dialoguePages(text: string, limit: number): string[] {

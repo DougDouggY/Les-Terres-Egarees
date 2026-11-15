@@ -63,10 +63,12 @@ export function chapterOwnerForFaction(
   return (s.factions.indexOf(faction) + 1) as 1 | 2;
 }
 export function storyUnit(s: Campaign, speaker: Speaker): Unit | undefined {
-  if (speaker === "witch") return s.units.find((u) => u.id === "story-witch");
+  if (speaker === "witch")
+    return s.units.find((u) => u.id === "story-witch" && u.hp > 0);
   if (speaker === "captain")
-    return s.units.find((u) => u.id === "valdren-captain");
-  if (speaker === "geraud") return s.units.find((u) => u.id === "geraud");
+    return s.units.find((u) => u.id === "valdren-captain" && u.hp > 0);
+  if (speaker === "geraud")
+    return s.units.find((u) => u.id === "geraud" && u.hp > 0);
   if (speaker === "narrator" || speaker === "unknown") return undefined;
   const faction = speaker.startsWith("north") ? "north" : "knight",
     owner = chapterOwnerForFaction(s, faction);
@@ -77,7 +79,7 @@ export function storyUnit(s: Campaign, speaker: Speaker): Unit | undefined {
     ? (group.find((u) => !u.leader) ?? group[0])
     : (group.find((u) => u.leader) ?? group[0]);
 }
-export function chapterLines(s: Campaign, id: ChapterSceneId): DialogueLine[] {
+function allChapterLines(s: Campaign, id: ChapterSceneId): DialogueLine[] {
   if (id === "c1-warning" && s.forestChapter?.stagingVersion === 3)
     return forestLines(id).slice(0, 2);
   if (id.startsWith("c1-")) return forestLines(id as ForestSceneId);
@@ -97,6 +99,18 @@ export function chapterLines(s: Campaign, id: ChapterSceneId): DialogueLine[] {
     : north
       ? ruinsNorth
       : ruinsKnight;
+}
+/** Roles resolve to living survivors; explicitly dead identities never deliver a line. */
+export function chapterLines(s: Campaign, id: ChapterSceneId): DialogueLine[] {
+  return allChapterLines(s, id).filter((l) => {
+    if (l.speaker === "narrator" || l.speaker === "unknown") return true;
+    if (l.unitId) return s.units.some((u) => u.id === l.unitId && u.hp > 0);
+    if (l.speaker === "witch") {
+      const u = s.units.find((u) => u.id === "story-witch");
+      return !u || u.hp > 0;
+    }
+    return !!storyUnit(s, l.speaker);
+  });
 }
 export function queueChapterScene(
   s: Campaign,
@@ -238,6 +252,13 @@ export function preparedExpeditions(s: Campaign): (1 | 2)[] {
   }
   return result;
 }
+/** Door plus the complete three-cell approach immediately south of it. */
+export function nearRuinsEntrance(u: { x: number; y: number }) {
+  return (
+    distance(u, village.entry) <= 1 ||
+    (u.y === village.entry.y + 1 && Math.abs(u.x - village.entry.x) <= 1)
+  );
+}
 export function canPrepareEntry(s: Campaign, u: Unit) {
   return (
     chapterEnabled(s) &&
@@ -250,7 +271,7 @@ export function canPrepareEntry(s: Campaign, u: Unit) {
     u.hp > 0 &&
     u.leader &&
     !u.summonedBy &&
-    distance(u, village.entry) <= 1 &&
+    nearRuinsEntrance(u) &&
     !preparedExpeditions(s).includes(u.owner as 1 | 2) &&
     !s.units.some(
       (t) => t.owner === 0 && t.hp > 0 && distance(t, village.entry) <= 5,

@@ -98,6 +98,6 @@ test("Guerrière du Nord : attente animée sur sa pose unique, pieds stables et 
   assert.equal(a, -b);
   assert.equal(tacticalIdleSway("north_warrior", "female", "move", 1, 1), 0);
   assert.equal(tacticalIdleSway("north_warrior", "female", "attack", 1, 1), 0);
-  assert.equal(tacticalIdleSway("north_warrior", "male", "idle", 1, 1), 0);
+  assert.notEqual(tacticalIdleSway("north_warrior", "male", "idle", 1, 1), 0);
   assert.equal(tacticalIdleSway("north_warrior", "female", "idle", 1, 2), 0);
 });

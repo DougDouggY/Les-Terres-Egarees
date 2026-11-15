@@ -1,0 +1,625 @@
+[
+  {
+    "key": "raider:male:axe-shield:default",
+    "source": "tactical/team-sample.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-2076006293, -1949314819]
+  },
+  {
+    "key": "hunter:female:bow:default",
+    "source": "tactical/lot2-north.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1423020580, 1335437414]
+  },
+  {
+    "key": "man_at_arms:female:sword-shield:default",
+    "source": "tactical/team-sample.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [746829544, 350767214]
+  },
+  {
+    "key": "crossbowman:male:crossbow:default",
+    "source": "tactical/lot2-knights.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-1772966409, -2053833029]
+  },
+  {
+    "key": "skeleton:any:rusty-sword:default",
+    "source": "tactical/lot3-melee.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [681639977, -1274516046]
+  },
+  {
+    "key": "raider:female:axe-shield:default",
+    "source": "tactical/combat-v4-raider-female.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1979256896]
+  },
+  {
+    "key": "man_at_arms:male:sword-shield:default",
+    "source": "tactical/team-sample.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [73329397, 1654099077]
+  },
+  {
+    "key": "cavalry:any:sword-shield:default",
+    "source": "tactical/lot1-mounts.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-216234743, 2068088241]
+  },
+  {
+    "key": "mounted_spearman:any:lance:default",
+    "source": "tactical/combat-v3-mounted.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1161174058]
+  },
+  {
+    "key": "sans_rider:any:lance:default",
+    "source": "tactical/lot1-mounts.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-2102940657, -1786553038]
+  },
+  {
+    "key": "standard_bearer:male:banner:carried",
+    "source": "tactical/lot1-states.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-1210140996, 1616499759]
+  },
+  {
+    "key": "standard_bearer:male:sword:planted",
+    "source": "tactical/lot1-states.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-819779168, -1138265572]
+  },
+  {
+    "key": "pavise_crossbowman:male:crossbow:default",
+    "source": "tactical/lot1-states.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-1366771551, 999187589]
+  },
+  {
+    "key": "pavise_crossbowman:male:crossbow:fortified",
+    "source": "tactical/lot1-heavy.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1820971110, -491665356]
+  },
+  {
+    "key": "ironbreaker:male:great-axe:default",
+    "source": "tactical/lot1-heavy.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-988739946, 2013095154]
+  },
+  {
+    "key": "executioner:any:great-sword:default",
+    "source": "tactical/lot1-heavy.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [995498557, -1288331701]
+  },
+  {
+    "key": "berserker:male:dual-axes:default",
+    "source": "tactical/lot1-dual.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [210206849, 1435919159]
+  },
+  {
+    "key": "drengr:male:dual-swords:default",
+    "source": "tactical/lot1-dual.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-2054762081, 968961825]
+  },
+  {
+    "key": "north_warrior:male:axe:default",
+    "source": "tactical/lot2-north.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-259035192, -1835282256]
+  },
+  {
+    "key": "nordic_blade:male:sword:default",
+    "source": "tactical/lot2-north.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [401965520, 788429308]
+  },
+  {
+    "key": "spearman:any:lance:default",
+    "source": "tactical/lot2-knights.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-1574064187, 1009160821]
+  },
+  {
+    "key": "swordsman:any:sword:default",
+    "source": "tactical/lot2-knights.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-2046813238, 340105835]
+  },
+  {
+    "key": "shaman:male:healing:default",
+    "source": "tactical/lot2-magic.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [342665174, -1895468885]
+  },
+  {
+    "key": "sorcerer:male:spell:default",
+    "source": "tactical/lot2-magic.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-960433810, -2139086633]
+  },
+  {
+    "key": "raider:male:sword-shield:default",
+    "source": "tactical/lot2-magic.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1565939481, 1086566311]
+  },
+  {
+    "key": "sans_axe:any:axe:default",
+    "source": "tactical/lot3-melee.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1909738998, -9748983]
+  },
+  {
+    "key": "sans_spear:any:lance:default",
+    "source": "tactical/lot3-melee.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [262900056, 1001769493]
+  },
+  {
+    "key": "sans_archer:any:bow:default",
+    "source": "tactical/lot3-ranged.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-65606151, 818432681]
+  },
+  {
+    "key": "sans_crossbow:any:crossbow:default",
+    "source": "tactical/lot3-ranged.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-924342313, 1142648439]
+  },
+  {
+    "key": "sans_guard:any:sword-shield:default",
+    "source": "tactical/lot3-ranged.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-1622317709, 229402193]
+  },
+  {
+    "key": "sans_necromancer:any:spell:default",
+    "source": "tactical/lot3-mages.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-994683002, -2115718348]
+  },
+  {
+    "key": "necromancer:male:spell:default",
+    "source": "tactical/lot3-mages.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1360361260, -306375039]
+  },
+  {
+    "key": "archmage:male:spell:default",
+    "source": "tactical/lot3-mages.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1678730064, -1254948698]
+  },
+  {
+    "key": "huscarl:male:axe-shield:default",
+    "source": "tactical/lot4-north.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [437758429, 622471747]
+  },
+  {
+    "key": "clan_healer:male:axe-shield:default",
+    "source": "tactical/lot4-north.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1562744717, -610703554]
+  },
+  {
+    "key": "honor_guard:any:sword-shield:default",
+    "source": "tactical/lot4-north.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [148069252, 706461968]
+  },
+  {
+    "key": "master_hunter:female:bow:default",
+    "source": "tactical/lot4-hunters.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-1475196453, -1141887745]
+  },
+  {
+    "key": "tracker:male:bow:default",
+    "source": "tactical/lot4-hunters.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1970240818, -1071777197]
+  },
+  {
+    "key": "ranger:male:crossbow:default",
+    "source": "tactical/lot4-hunters.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-846362235, 1769398343]
+  },
+  {
+    "key": "guard_knight:any:sword-shield:default",
+    "source": "tactical/lot4-knights.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-1200594738, 378922168]
+  },
+  {
+    "key": "royal_guard:any:lance-shield:default",
+    "source": "tactical/lot4-knights.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [372314231, 1532864920]
+  },
+  {
+    "key": "duelist:male:dual-swords:default",
+    "source": "tactical/lot4-knights.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [913759081, -2061170965]
+  },
+  {
+    "key": "young_viking:male:training-axe:default",
+    "source": "tactical/combat-v4-fixes.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [1174965497]
+  },
+  {
+    "key": "squire:male:training-sword:default",
+    "source": "tactical/lot4-recruits.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-1122028597, -911686211]
+  },
+  {
+    "key": "clan_healer:male:sword-shield:default",
+    "source": "tactical/lot4-recruits.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [57833439, -1665060575]
+  },
+  {
+    "key": "tracker:male:axe:default",
+    "source": "tactical/lot4-equipment.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1089655096, -195047041]
+  },
+  {
+    "key": "ranger:male:sword:default",
+    "source": "tactical/lot4-equipment.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-768137323, -1187819143]
+  },
+  {
+    "key": "huscarl:male:sword-shield:default",
+    "source": "tactical/lot4-equipment.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [790236363, 1975905694]
+  },
+  {
+    "key": "sorcerer:male:healing:default",
+    "source": "tactical/lot2-magic.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [-960433810, -2139086633]
+  },
+  {
+    "key": "necromancer:male:healing:default",
+    "source": "tactical/lot3-mages.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [815762013, -446965288]
+  },
+  {
+    "key": "archmage:male:healing:default",
+    "source": "tactical/lot3-mages.png",
+    "frames": [0, 1],
+    "unique": 2,
+    "hashes": [1687964289, 89451469]
+  },
+  {
+    "key": "volva:male:spell:default",
+    "source": "tactical/complete-shaman-forms.png",
+    "frames": [0, 5],
+    "unique": 2,
+    "hashes": [1271981937, 947065625]
+  },
+  {
+    "key": "volva:male:healing:default",
+    "source": "tactical/complete-shaman-forms.png",
+    "frames": [0, 5],
+    "unique": 2,
+    "hashes": [1271981937, 947065625]
+  },
+  {
+    "key": "hamrammr:male:healing:default",
+    "source": "tactical/complete-shaman-forms.png",
+    "frames": [0, 5],
+    "unique": 2,
+    "hashes": [-1360230946, -808465258]
+  },
+  {
+    "key": "hamrammr:any:claws:bear",
+    "source": "tactical/complete-shaman-forms.png",
+    "frames": [0, 5],
+    "unique": 2,
+    "hashes": [-1341338070, -1524095939]
+  },
+  {
+    "key": "shaman:female:healing:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [734626683]
+  },
+  {
+    "key": "sorcerer:female:spell:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-749081866]
+  },
+  {
+    "key": "sorcerer:female:healing:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-749081866]
+  },
+  {
+    "key": "necromancer:female:spell:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-906571636]
+  },
+  {
+    "key": "necromancer:female:healing:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-906571636]
+  },
+  {
+    "key": "archmage:female:spell:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1207629636]
+  },
+  {
+    "key": "archmage:female:healing:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1207629636]
+  },
+  {
+    "key": "volva:female:spell:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [1174250949]
+  },
+  {
+    "key": "volva:female:healing:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [1174250949]
+  },
+  {
+    "key": "hamrammr:female:healing:default",
+    "source": "tactical/combat-v4-casters.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [1821839500]
+  },
+  {
+    "key": "north_warrior:female:axe:default",
+    "source": "tactical/combat-v4-warriors.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [626966460]
+  },
+  {
+    "key": "nordic_blade:female:sword:default",
+    "source": "tactical/combat-v4-warriors.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [508971017]
+  },
+  {
+    "key": "berserker:female:dual-axes:default",
+    "source": "tactical/combat-v4-warriors.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [466259418]
+  },
+  {
+    "key": "drengr:female:dual-swords:default",
+    "source": "tactical/combat-v4-warriors.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [2030029511]
+  },
+  {
+    "key": "ironbreaker:female:great-axe:default",
+    "source": "tactical/combat-v4-warriors.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [237988295]
+  },
+  {
+    "key": "duelist:female:dual-swords:default",
+    "source": "tactical/combat-v4-warriors.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-94099669]
+  },
+  {
+    "key": "huscarl:female:axe-shield:default",
+    "source": "tactical/combat-v4-shields.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1250217341]
+  },
+  {
+    "key": "huscarl:female:sword-shield:default",
+    "source": "tactical/combat-v4-shields.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [1616557036]
+  },
+  {
+    "key": "clan_healer:female:axe-shield:default",
+    "source": "tactical/combat-v4-shields.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1803082411]
+  },
+  {
+    "key": "clan_healer:female:sword-shield:default",
+    "source": "tactical/combat-v4-shields.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [199134454]
+  },
+  {
+    "key": "raider:female:sword-shield:default",
+    "source": "tactical/combat-v4-shields.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [618122825]
+  },
+  {
+    "key": "young_viking:female:training-axe:default",
+    "source": "tactical/combat-v4-young-female.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [1607897978]
+  },
+  {
+    "key": "crossbowman:female:crossbow:default",
+    "source": "tactical/combat-v4-ranged.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1395276303]
+  },
+  {
+    "key": "pavise_crossbowman:female:crossbow:default",
+    "source": "tactical/combat-v4-ranged.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [1496747347]
+  },
+  {
+    "key": "pavise_crossbowman:female:crossbow:fortified",
+    "source": "tactical/combat-v4-ranged.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1557619499]
+  },
+  {
+    "key": "tracker:female:bow:default",
+    "source": "tactical/combat-v4-ranged.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-198926525]
+  },
+  {
+    "key": "tracker:female:axe:default",
+    "source": "tactical/combat-v4-ranged.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1587082977]
+  },
+  {
+    "key": "ranger:female:crossbow:default",
+    "source": "tactical/combat-v4-ranged.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [-1423196751]
+  },
+  {
+    "key": "standard_bearer:female:banner:carried",
+    "source": "tactical/combat-v4-mixed.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [2026665642]
+  },
+  {
+    "key": "standard_bearer:female:sword:planted",
+    "source": "tactical/combat-v4-mixed.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [614185480]
+  },
+  {
+    "key": "squire:female:training-sword:default",
+    "source": "tactical/combat-v4-mixed.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [960176502]
+  },
+  {
+    "key": "ranger:female:sword:default",
+    "source": "tactical/combat-v4-mixed.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [642800272]
+  },
+  {
+    "key": "hunter:male:bow:default",
+    "source": "tactical/combat-v4-mixed.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [1649734222]
+  },
+  {
+    "key": "master_hunter:male:bow:default",
+    "source": "tactical/combat-v4-mixed.png",
+    "frames": [0],
+    "unique": 1,
+    "hashes": [269341744]
+  }
+]

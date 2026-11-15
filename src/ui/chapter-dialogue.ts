@@ -64,6 +64,7 @@ export class ChapterDirector {
   private textPage = 0;
   private textStarted = performance.now();
   private ready = false;
+  private cueStarted: number | undefined;
   private patrolElapsed = 0;
   private patrolLast?: number;
   private from: { x: number; y: number };
@@ -153,6 +154,18 @@ export class ChapterDirector {
     const u = units.find((u) => u.leader) ?? units[0];
     return u ? { x: u.x + 0.5, y: u.y + 0.5 } : ruinsCenter;
   }
+  private meetingCenter() {
+    const chiefs = [
+      storyUnit(this.s, "north-chief"),
+      storyUnit(this.s, "knight-chief"),
+    ].filter((u): u is Unit => !!u && u.hp > 0);
+    return chiefs.length
+      ? {
+          x: chiefs.reduce((a, u) => a + u.x + 0.5, 0) / chiefs.length,
+          y: chiefs.reduce((a, u) => a + u.y + 0.5, 0) / chiefs.length,
+        }
+      : this.group();
+  }
   private staged() {
     return ["meeting", "alliance"].includes(this.s.chapter1!.pending!.id);
   }
@@ -172,10 +185,11 @@ export class ChapterDirector {
       .filter(Boolean)
       .at(-1);
     this.target = this.staged()
-      ? { x: village.entry.x + 0.5, y: village.entry.y + 2 }
+      ? this.meetingCenter()
       : lastCue === "ruins"
         ? ruinsCenter
         : this.group();
+    this.cueStarted = undefined;
     this.started = performance.now();
     this.patrolElapsed = 0;
     this.patrolLast = undefined;
@@ -184,10 +198,17 @@ export class ChapterDirector {
     this.textPages = dialoguePages(l.text, window.innerWidth < 520 ? 64 : 110);
     this.textPage = 0;
     ensurePortraits(this.s);
+    const previousLeft = new Set(
+      Array.from(
+        this.root.querySelectorAll<HTMLElement>(
+          ".portrait-left[data-portrait-unit]",
+        ),
+      ).map((n) => n.dataset.portraitUnit),
+    );
     const cast = dialogueCast(this.s, this.lines, p.page);
     const active = cast.find((p) => p.active);
     const right = active?.side === "right";
-    this.root.innerHTML = `<section class="chapter-dialogue fe-dialogue ${l.speaker === "narrator" ? "narration-only" : right ? "portrait-right" : ""}" role="dialog" aria-modal="true" aria-label="Dialogue narratif" data-story-scene="${p.id}" data-story-line="${p.page}" data-current-speaker="${esc(active?.key ?? l.speaker)}"><div class="chapter-portraits">${cast.map((p) => `<div class="chapter-portrait portrait-${p.side} portrait-${p.depth} ${p.active ? "speaking" : "listening"}" data-portrait-unit="${esc(p.key)}">${portraitMarkup(p.asset, p.name, p.side === "left", p.teamColor)}</div>`).join("")}</div><div class="chapter-speech"><p class="chapter-text" aria-live="off"></p><footer><small class="dialogue-page-count" aria-hidden="true"></small><button data-story-next aria-label="Afficher toute la réplique">Suite <span aria-hidden="true">▾</span></button></footer></div></section>`;
+    this.root.innerHTML = `<section class="chapter-dialogue fe-dialogue ${l.speaker === "unknown" ? "offscreen-voice" : ""} ${l.speaker === "narrator" ? "narration-only" : right ? "portrait-right" : ""}" role="dialog" aria-modal="true" aria-label="Dialogue narratif" data-story-scene="${p.id}" data-story-line="${p.page}" data-current-speaker="${esc(active?.key ?? l.speaker)}"><div class="chapter-portraits">${cast.map((p) => `<div class="chapter-portrait portrait-${p.side} portrait-${p.depth} ${previousLeft.has(p.key) && p.side === "right" && this.s.chapter1?.pending?.id === "alliance" ? "portrait-crossing" : ""} ${p.active ? "speaking" : "listening"}" data-portrait-unit="${esc(p.key)}" ${p.key === "chapter-ambush" ? 'style="opacity:0;visibility:hidden"' : ""}>${portraitMarkup(p.asset, p.name, p.side === "left", p.teamColor)}</div>`).join("")}</div><div class="chapter-speech"><p class="chapter-text" aria-live="off"></p><footer><small class="dialogue-page-count" aria-hidden="true"></small><button data-story-next aria-label="Afficher toute la réplique">Suite <span aria-hidden="true">▾</span></button></footer></div></section>`;
     this.root
       .querySelector(".chapter-dialogue")!
       .addEventListener("click", (e) => {
@@ -271,8 +292,13 @@ export class ChapterDirector {
     );
     if (
       !this.ready ||
-      (scripted ? this.patrolElapsed : performance.now() - this.started) <
-        this.lock(l)
+      (scripted
+        ? this.patrolElapsed
+        : ["rescue", "witch", "depart"].includes(l.cue ?? "")
+          ? this.cueStarted === undefined
+            ? 0
+            : performance.now() - this.cueStarted
+          : performance.now() - this.started) < this.lock(l)
     )
       return;
     if (!this.shown) {
@@ -337,6 +363,12 @@ export class ChapterDirector {
       : automatic
         ? 0
         : Math.max(0, time - this.started);
+    if (["rescue", "witch", "depart"].includes(l.cue ?? "")) {
+      if (this.ready) {
+        this.cueStarted ??= time;
+        elapsed = Math.max(0, time - this.cueStarted);
+      } else elapsed = 0;
+    }
     if (automatic && this.ready) {
       const acknowledged = this.reader && pending.readBy?.includes(this.reader);
       if (!acknowledged) {
@@ -349,24 +381,7 @@ export class ChapterDirector {
       }
       this.patrolLast = time;
     }
-    if (this.staged()) {
-      const canvas =
-        this.root.parentElement?.querySelector<HTMLCanvasElement>("#story-map");
-      const box = this.root
-        .querySelector<HTMLElement>(".chapter-speech")
-        ?.getBoundingClientRect();
-      const bounds = canvas?.getBoundingClientRect();
-      const rows = Number(canvas?.dataset.viewRows) || 12;
-      this.target = {
-        x: village.entry.x + 0.5,
-        y: Math.max(
-          village.entry.y + 4,
-          village.entry.y +
-            2.7 +
-            (rows * (box?.height ?? 240)) / (2 * (bounds?.height || 900)),
-        ),
-      };
-    }
+    if (this.staged()) this.target = this.meetingCenter();
     const t = ease(elapsed / 950);
     this.camera = {
       x: this.from.x + (this.target.x - this.from.x) * t,
@@ -477,13 +492,14 @@ export class ChapterDirector {
       frame.reveal = temporaryRuinsCells();
     if (this.staged()) {
       frame.reveal = temporaryRuinsCells();
-      const nx = village.entry.x - 1,
-        ky = village.entry.y + 2;
+      const victim = storyUnit(this.s, "knight-chief");
+      const nx = (victim?.x ?? village.entry.x) - 2.7,
+        ky = victim?.y ?? village.entry.y + 2;
       const nc = storyUnit(this.s, "north-chief"),
         kc = storyUnit(this.s, "knight-chief");
       const rescue = l.cue === "rescue";
       const travel = rescue
-        ? ease((elapsed - 450) / 400) * (1 - ease((elapsed - 1500) / 400))
+        ? ease((elapsed - 300) / 450) * (1 - ease((elapsed - 1350) / 650))
         : 0;
       const depart = l.cue === "depart" ? ease(elapsed / 2800) : 0;
       const canvas =
@@ -501,30 +517,19 @@ export class ChapterDirector {
         (u) => u.owner !== 0 && u.hp > 0 && !u.summonedBy,
       )) {
         const north = unit.owner === chapterOwnerForFaction(this.s, "north");
-        const chief = unit.id === (north ? nc : kc)?.id;
-        const companions = this.s.units.filter(
-          (u) =>
-            u.owner === unit.owner &&
-            u.hp > 0 &&
-            u.id !== (north ? nc : kc)?.id &&
-            !u.summonedBy,
-        );
-        const i = Math.max(0, companions.indexOf(unit));
-        let x = chief ? (north ? nx : nx + 2) : north ? nx - 1 - i : nx + 3;
-        let y = chief ? ky : ky + 1;
-        if (unit.id === nc?.id) x += travel * 2.7;
-        x += depart * distance;
-        y += depart * distance * 0.75;
+        let x = unit.x,
+          y = unit.y;
+        if (unit.id === nc?.id && victim) {
+          x += (victim.x - unit.x) * travel;
+          y += (victim.y + 1 - unit.y) * travel;
+        }
+
         const animation =
-          depart >= 1
-            ? "idle"
-            : depart
+          unit.id === nc?.id && rescue && elapsed > 850 && elapsed < 1250
+            ? "attack"
+            : travel > 0 && unit.id === nc?.id
               ? "move"
-              : unit.id === nc?.id && rescue && elapsed > 750 && elapsed < 1250
-                ? "attack"
-                : travel > 0 && unit.id === nc?.id
-                  ? "move"
-                  : "idle";
+              : "idle";
         const clip = resolveClip(unitSpriteProfile(unit), animation);
         frame.actors.push({
           unit,
@@ -533,7 +538,7 @@ export class ChapterDirector {
           animation: clip ? animation : "idle",
           frame:
             animation === "attack"
-              ? Math.floor((elapsed - 750) / 90)
+              ? Math.floor((elapsed - 850) / 90)
               : animation === "idle"
                 ? 0
                 : Math.floor(time / 140),
@@ -553,7 +558,7 @@ export class ChapterDirector {
           x: nx + 3.1,
           y: ky,
           animation: "idle",
-          frame: 0,
+          frame: Math.floor(time / 600) % 2,
           flip: true,
           alpha,
         });
@@ -564,13 +569,44 @@ export class ChapterDirector {
             strength: 1 - (elapsed - 850) / 450,
           };
       }
-      const witchVisible = pending.id === "alliance" && pending.page >= 8;
+      const threat = this.root.querySelector<HTMLElement>(
+        '[data-portrait-unit="chapter-ambush"]',
+      );
+      if (threat) {
+        threat.style.opacity = String(
+          rescue && elapsed < 1450
+            ? elapsed < 250
+              ? ease(elapsed / 250)
+              : elapsed > 1100
+                ? 1 - ease((elapsed - 1100) / 350)
+                : 1
+            : 0,
+        );
+        threat.style.visibility =
+          rescue && elapsed < 1450 ? "visible" : "hidden";
+      }
+      const strength =
+        rescue && elapsed >= 1050 && elapsed < 1300
+          ? 1 - (elapsed - 1050) / 250
+          : 0;
+      this.root.parentElement?.classList.toggle(
+        "rescue-impact",
+        strength > 0 &&
+          !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+      );
+      this.root.parentElement?.style.setProperty(
+        "--rescue-flash",
+        String(strength * 0.65),
+      );
+      const witchVisible =
+        pending.id === "alliance" &&
+        this.lines.slice(0, pending.page + 1).some((l) => l.cue === "witch");
       if (witchVisible) {
         const walk = l.cue === "witch" ? ease(elapsed / 1600) : 1;
         frame.actors.push({
           unit: this.witch,
-          x: village.entry.x + depart * distance,
-          y: village.entry.y + walk * 3 + depart * distance * 0.75,
+          x: this.meetingCenter().x - 8 + walk * 5 + depart * distance,
+          y: this.meetingCenter().y + depart * distance * 0.75,
           animation:
             depart >= 1 ? "idle" : walk < 1 || depart ? "move" : "idle",
           frame: walk < 1 || depart ? Math.floor(time / 140) : 0,
@@ -597,6 +633,8 @@ export class ChapterDirector {
   }
   dispose() {
     window.removeEventListener("keydown", this.key, true);
+    this.root.parentElement?.classList.remove("rescue-impact");
+    this.root.parentElement?.style.removeProperty("--rescue-flash");
     this.root.replaceChildren();
   }
 }

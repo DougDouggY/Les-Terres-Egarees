@@ -7419,3 +7419,146 @@ body:has(.aftermath-screen) .modal-back.rewards {
   opacity: 0;
   visibility: hidden;
 }
+.save-slot-actions .save-delete,
+.legacy-save .save-delete {
+  border-color: #bc7960;
+  color: #ffd8bc;
+  background: #502d25;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.save-delete span {
+  font-size: 14px;
+}
+.portrait-name-tooltip {
+  bottom: 4px;
+  max-width: 100%;
+  white-space: nowrap;
+}
+.introduction-scene .intro-face-panel {
+  left: 0;
+  bottom: 0;
+}
+.introduction-scene[data-faction="north"] .intro-face-panel {
+  right: 0;
+  left: auto;
+}
+.introduction-scene .intro-hero-portrait.chapter-portrait {
+  right: 0;
+  bottom: 0;
+}
+.introduction-scene[data-faction="north"]
+  .intro-hero-portrait.chapter-portrait {
+  left: 0;
+  right: auto;
+}
+.introduction-scene .intro-recruit-portraits {
+  left: 0;
+  bottom: 0;
+}
+.introduction-scene[data-faction="north"] .intro-recruit-portraits {
+  right: 0;
+  left: auto;
+}
+.fe-dialogue .chapter-portrait.portrait-left {
+  left: 0;
+}
+.fe-dialogue .chapter-portrait.portrait-right {
+  right: 0;
+}
+.character-profile .character-portrait-slot {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4/3;
+  max-height: 84px;
+}
+.combat-screen {
+  display: grid;
+  grid-template-rows: 1fr;
+  position: fixed;
+  inset: 0;
+  background: #101c19;
+  isolation: isolate;
+}
+.combat-tactical-background {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  opacity: 0.8;
+}
+.combat-screen .game-duel {
+  width: min(1400px, calc(100vw - 32px), calc((100dvh - 190px) * 2));
+  max-height: calc(100dvh - 20px);
+  margin: auto;
+}
+.combat-screen .game-duel #combat {
+  height: min(
+    700px,
+    calc(100dvh - 190px),
+    calc((100vw - 32px) * 0.625)
+  ) !important;
+  aspect-ratio: auto;
+  min-height: 0;
+  background-size: cover;
+}
+.bandage-targets .modal > button {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+}
+.chapter-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff5d6;
+  opacity: var(--rescue-flash, 0);
+  pointer-events: none;
+  z-index: 15;
+}
+.chapter-screen.rescue-impact {
+  animation: rescue-shake 0.075s linear infinite;
+}
+@keyframes rescue-shake {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(-4px, 2px);
+  }
+  75% {
+    transform: translate(4px, -2px);
+  }
+}
+[data-portrait-unit="chapter-ambush"] {
+  transition: opacity 0.1s;
+  filter: brightness(0.9);
+}
+.fe-dialogue.offscreen-voice .chapter-speech {
+  left: 0;
+  right: auto;
+}
+.fe-dialogue.offscreen-voice .chapter-speech::after {
+  left: 0;
+  right: auto;
+  transform: rotate(90deg);
+}
+.fe-dialogue .portrait-crossing {
+  animation: portrait-crossing 0.65s ease-out both;
+}
+@keyframes portrait-crossing {
+  from {
+    transform: translateX(calc(-100vw + min(42vw, 520px)));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fe-dialogue .portrait-crossing {
+    animation: none;
+  }
+}

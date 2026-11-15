@@ -112,14 +112,13 @@ export async function paintCreatorSprites(
   if (current !== request || !root.querySelector(".expedition-creator")) return;
   for (const { canvas, u } of previews) {
     if (!canvas.isConnected) continue;
+    const bounds = canvas.getBoundingClientRect(),
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = Math.max(1, Math.round(bounds.width * dpr));
+    canvas.height = Math.max(1, Math.round(bounds.height * dpr));
     const ctx = canvas.getContext("2d")!;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.imageSmoothingEnabled = false;
-    const bounds = canvas.getBoundingClientRect();
-    const displayRatio = Math.min(
-      bounds.width / canvas.width,
-      bounds.height / canvas.height,
-    );
+    const displayRatio = 1 / dpr;
     const profile = unitSpriteProfile(u);
     const body = 96 / Math.max(0.1, displayRatio);
     const idle = resolveClip(profile, "idle"),
@@ -145,6 +144,23 @@ export async function paintCreatorSprites(
       "world",
       placement,
     );
+    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    let bottom = -1;
+    for (let y = 0; y < canvas.height; y++)
+      for (let x = 0; x < canvas.width; x++)
+        if (pixels[(y * canvas.width + x) * 4 + 3] > 100)
+          bottom = Math.max(bottom, y);
+    const desired = Math.round(canvas.height - 10 * dpr);
+    if (bottom >= 0 && desired !== bottom) {
+      const copy = document.createElement("canvas");
+      copy.width = canvas.width;
+      copy.height = canvas.height;
+      copy.getContext("2d")!.drawImage(canvas, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(copy, 0, desired - bottom);
+    }
+    canvas.dataset.groundLine = String(desired / dpr);
+    canvas.dataset.smoothing = String(ctx.imageSmoothingEnabled);
     canvas.dataset.loaded = String(drawn);
     canvas.dataset.bodyHeight = "96";
     canvas.dataset.displayRatio = String(displayRatio);

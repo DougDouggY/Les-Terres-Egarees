@@ -10,6 +10,12 @@ const esc = (s: string) =>
         c
       ]!,
   );
+const legacyLabel = (key: string) =>
+  ({
+    "lte-save": "Ancienne partie",
+    "lte-chapter-one-test": "Ancien test du chapitre 1",
+    "lte-chapter-one-start": "Ancien début du chapitre 1",
+  })[key] ?? "Ancienne sauvegarde";
 export function openSaveManager(
   state: Campaign | null,
   onLoad: (s: Campaign) => void,
@@ -28,7 +34,10 @@ export function openSaveManager(
     } catch (e) {
       snapshotError = (e as Error).message;
     }
-  let pending: { id: string; action: "delete" | "overwrite" } | null = null;
+  let pending: {
+    id: string;
+    action: "delete" | "overwrite" | "legacy-delete";
+  } | null = null;
   const render = (error = "") => {
     let slots: ReturnType<ManualSaves["list"]> = [];
     try {
@@ -36,7 +45,7 @@ export function openSaveManager(
     } catch (e) {
       error = (e as Error).message;
     }
-    modal.innerHTML = `<section class="modal save-dialog" role="dialog" aria-modal="true" aria-label="Sauvegardes manuelles"><header><h2>Sauvegardes manuelles</h2><button data-slot-close aria-label="Fermer les sauvegardes">✕</button></header><p class="save-error" role="status">${esc(error || snapshotError)}</p>${snapshot ? '<form data-slot-create><label>Nom de la sauvegarde<input name="name" maxlength="64" placeholder="Officielle" required></label><button class="primary">Créer une sauvegarde</button></form>' : ""}<div class="save-slots">${slots.map((s) => `<article data-slot="${esc(s.id)}"><strong>${esc(s.name)}</strong><small>${esc(s.chapter)} · ${esc(s.progression)}<br><time>${new Date(s.updatedAt).toLocaleString("fr-FR")}</time></small>${pending?.id === s.id ? `<div role="alert"><p>${pending.action === "delete" ? "Supprimer" : "Écraser"} « ${esc(s.name)} » ?</p><button data-slot-confirm>Confirmer</button><button data-slot-cancel>Annuler</button></div>` : `<div class="save-slot-actions"><button data-slot-load>Charger</button><button data-slot-rename>Renommer</button>${snapshot ? "<button data-slot-overwrite>Écraser</button>" : ""}<button data-slot-delete>Supprimer</button></div>`}</article>`).join("") || "<p>Aucune sauvegarde manuelle.</p>"}</div>${[
+    modal.innerHTML = `<section class="modal save-dialog" role="dialog" aria-modal="true" aria-label="Sauvegardes manuelles"><header><h2>Sauvegardes manuelles</h2><button data-slot-close aria-label="Fermer les sauvegardes">✕</button></header><p class="save-error" role="status">${esc(error || snapshotError)}</p>${snapshot ? '<form data-slot-create><label>Nom de la sauvegarde<input name="name" maxlength="64" placeholder="Officielle" required></label><button class="primary">Créer une sauvegarde</button></form>' : ""}<div class="save-slots">${slots.map((s) => `<article data-slot="${esc(s.id)}"><strong>${esc(s.name)}</strong><small>${esc(s.chapter)} · ${esc(s.progression)}<br><time>${new Date(s.updatedAt).toLocaleString("fr-FR")}</time></small>${pending?.id === s.id ? `<div role="alert"><p>${pending.action === "delete" ? "Supprimer" : "Écraser"} « ${esc(s.name)} » ?</p><button data-slot-confirm>Confirmer</button><button data-slot-cancel>Annuler</button></div>` : `<div class="save-slot-actions"><button data-slot-load>Charger</button><button data-slot-rename>Renommer</button>${snapshot ? "<button data-slot-overwrite>Écraser</button>" : ""}<button class="save-delete" data-slot-delete aria-label="Supprimer ${esc(s.name)}"><span aria-hidden="true">🗑</span> Supprimer</button></div>`}</article>`).join("") || "<p>Aucune sauvegarde manuelle.</p>"}</div>${[
       "lte-save",
       "lte-chapter-one-test",
       "lte-chapter-one-start",
@@ -44,7 +53,7 @@ export function openSaveManager(
       .filter((k) => localStorage.getItem(k))
       .map(
         (k) =>
-          `<article class="legacy-save"><span>Ancienne sauvegarde · ${esc(k)}</span><button data-slot-legacy="${k}">Charger sans modifier</button></article>`,
+          `<article class="legacy-save"><span>${esc(legacyLabel(k))}</span><button data-slot-legacy="${k}">Charger sans modifier</button>${pending?.action === "legacy-delete" && pending.id === k ? `<div role="alert"><p>Supprimer « ${esc(legacyLabel(k))} » ?</p><button data-slot-confirm>Confirmer</button><button data-slot-cancel>Annuler</button></div>` : `<button class="save-delete" data-slot-legacy-delete="${k}" aria-label="Supprimer ${esc(legacyLabel(k))}">Supprimer</button>`}</article>`,
       )
       .join("")}</section>`;
     modal
@@ -96,13 +105,28 @@ export function openSaveManager(
       };
       render();
     }
+    if (b.dataset.slotLegacyDelete) {
+      pending = { id: b.dataset.slotLegacyDelete, action: "legacy-delete" };
+      render();
+    }
     if (b.hasAttribute("data-slot-cancel")) {
       pending = null;
       render();
     }
     if (b.hasAttribute("data-slot-confirm") && pending)
       run(() => {
-        if (pending!.action === "delete") store.delete(pending!.id, true);
+        if (pending!.action === "legacy-delete") {
+          if (
+            ![
+              "lte-save",
+              "lte-chapter-one-test",
+              "lte-chapter-one-start",
+            ].includes(pending!.id)
+          )
+            throw Error("Sauvegarde inconnue");
+          localStorage.removeItem(pending!.id);
+        } else if (pending!.action === "delete")
+          store.delete(pending!.id, true);
         else store.overwrite(pending!.id, snapshot!, true);
       });
     if (b.hasAttribute("data-slot-rename")) {

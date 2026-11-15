@@ -125,6 +125,7 @@ export function characterPage(
   tab: CharacterTab,
   itemId?: string,
   canManage = false,
+  campaign?: E.Campaign,
 ) {
   const items = characterItems(u),
     chosen =
@@ -183,7 +184,7 @@ export function characterPage(
   let details = '<p class="character-empty">Aucun objet transporté.</p>';
   if (chosen) {
     if (chosen.id === "bandages")
-      details = `<h3>Bandages</h3><p>Rend ${E.rules.bandageHeal} PV.</p>${canManage && u.hp < u.maxHp ? '<button class="character-use" data-action="heal">Utiliser</button>' : ""}`;
+      details = `<h3>Bandages</h3><p>Rend ${E.rules.bandageHeal} PV.</p>${canManage ? `<button class="character-use" data-action="heal" ${(campaign ? E.bandageTargets(campaign, u).length > 0 : u.hp < u.maxHp) ? "" : "disabled"}>Utiliser</button>` : ""}`;
     else {
       const w = E.weaponCatalog[chosen.id];
       const values =
@@ -213,5 +214,5 @@ export function characterSheet(
   campaign?: E.Campaign,
 ) {
   const playable = u.owner !== 0 && u.statRole !== "ordinary";
-  return `<div class="character-sheet" data-character-unit="${esc(u.id)}" data-character-tab="inventory"><aside class="character-profile"><div class="character-portrait-slot">${portraitMarkup(unitPortrait(campaign, u), u.name, false, E.colorForOwner(campaign?.teamColors ?? E.defaultTeamColors, u.owner))}</div><h2>${tip(biography(u, campaign), esc(characterHeading(u)))}</h2><p class="character-class">${tip(classDescription(u), esc(E.className(u)))}</p><dl><div><dt>NIV</dt><dd>${u.level}</dd></div>${playable ? `<div><dt>EXP</dt><dd>${String(u.xp).padStart(2, "0")}</dd></div>` : ""}<div class="character-health"><dt>PV</dt><dd>${u.hp}<small>/${u.maxHp}</small></dd></div></dl></aside><section class="character-pages">${characterPage(u, "inventory", undefined, canManage)}</section></div>`;
+  return `<div class="character-sheet" data-character-unit="${esc(u.id)}" data-character-tab="inventory"><aside class="character-profile"><div class="character-portrait-slot">${portraitMarkup(unitPortrait(campaign, u), u.name, false, E.colorForOwner(campaign?.teamColors ?? E.defaultTeamColors, u.owner))}</div><h2>${tip(biography(u, campaign), esc(characterHeading(u)))}</h2><p class="character-class">${tip(classDescription(u), esc(E.className(u)))}</p><dl><div><dt>NIV</dt><dd>${u.level}</dd></div>${playable ? `<div><dt>EXP</dt><dd>${String(u.xp).padStart(2, "0")}</dd></div>` : ""}<div class="character-health"><dt>PV</dt><dd>${u.hp}<small>/${u.maxHp}</small></dd></div></dl></aside><section class="character-pages">${characterPage(u, "inventory", undefined, canManage, campaign)}</section></div>`;
 }

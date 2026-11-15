@@ -60,7 +60,7 @@ test("sauvegardes : créer, charger, tester sans enregistrer, rouvrir, renommer,
   await first.getByRole("button", { name: "Écraser", exact: true }).click();
   await first.getByRole("button", { name: "Confirmer", exact: true }).click();
   const second = page.locator("[data-slot]").nth(1);
-  await second.getByRole("button", { name: "Supprimer", exact: true }).click();
+  await second.locator("[data-slot-delete]").click();
   await second.getByRole("button", { name: "Confirmer", exact: true }).click();
   await expect(page.locator("[data-slot]")).toHaveCount(1);
   expect(await page.evaluate(() => localStorage.getItem("lte-save"))).toBe(

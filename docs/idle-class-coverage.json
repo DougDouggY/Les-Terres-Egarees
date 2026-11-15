@@ -1,0 +1,770 @@
+[
+  {
+    "id": "north_warrior",
+    "gender": "male",
+    "weapon": "axe",
+    "state": "default",
+    "profile": "north_warrior:male:axe:default",
+    "frames": 2
+  },
+  {
+    "id": "north_warrior",
+    "gender": "female",
+    "weapon": "axe",
+    "state": "default",
+    "profile": "north_warrior:female:axe:default",
+    "frames": 1
+  },
+  {
+    "id": "berserker",
+    "gender": "male",
+    "weapon": "twin_axes",
+    "state": "default",
+    "profile": "berserker:male:dual-axes:default",
+    "frames": 2
+  },
+  {
+    "id": "berserker",
+    "gender": "female",
+    "weapon": "twin_axes",
+    "state": "default",
+    "profile": "berserker:female:dual-axes:default",
+    "frames": 1
+  },
+  {
+    "id": "ironbreaker",
+    "gender": "male",
+    "weapon": "great_axe",
+    "state": "default",
+    "profile": "ironbreaker:male:great-axe:default",
+    "frames": 2
+  },
+  {
+    "id": "ironbreaker",
+    "gender": "female",
+    "weapon": "great_axe",
+    "state": "default",
+    "profile": "ironbreaker:female:great-axe:default",
+    "frames": 1
+  },
+  {
+    "id": "raider",
+    "gender": "male",
+    "weapon": "axe_shield",
+    "state": "default",
+    "profile": "raider:male:axe-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "raider",
+    "gender": "male",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "raider:male:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "raider",
+    "gender": "female",
+    "weapon": "axe_shield",
+    "state": "default",
+    "profile": "raider:female:axe-shield:default",
+    "frames": 1
+  },
+  {
+    "id": "raider",
+    "gender": "female",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "raider:female:sword-shield:default",
+    "frames": 1
+  },
+  {
+    "id": "huscarl",
+    "gender": "male",
+    "weapon": "axe_shield",
+    "state": "default",
+    "profile": "huscarl:male:axe-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "huscarl",
+    "gender": "male",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "huscarl:male:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "huscarl",
+    "gender": "female",
+    "weapon": "axe_shield",
+    "state": "default",
+    "profile": "huscarl:female:axe-shield:default",
+    "frames": 1
+  },
+  {
+    "id": "huscarl",
+    "gender": "female",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "huscarl:female:sword-shield:default",
+    "frames": 1
+  },
+  {
+    "id": "clan_healer",
+    "gender": "male",
+    "weapon": "axe_shield",
+    "state": "default",
+    "profile": "clan_healer:male:axe-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "clan_healer",
+    "gender": "male",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "clan_healer:male:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "clan_healer",
+    "gender": "female",
+    "weapon": "axe_shield",
+    "state": "default",
+    "profile": "clan_healer:female:axe-shield:default",
+    "frames": 1
+  },
+  {
+    "id": "clan_healer",
+    "gender": "female",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "clan_healer:female:sword-shield:default",
+    "frames": 1
+  },
+  {
+    "id": "nordic_blade",
+    "gender": "male",
+    "weapon": "sword",
+    "state": "default",
+    "profile": "nordic_blade:male:sword:default",
+    "frames": 2
+  },
+  {
+    "id": "nordic_blade",
+    "gender": "female",
+    "weapon": "sword",
+    "state": "default",
+    "profile": "nordic_blade:female:sword:default",
+    "frames": 1
+  },
+  {
+    "id": "drengr",
+    "gender": "male",
+    "weapon": "twin_swords",
+    "state": "default",
+    "profile": "drengr:male:dual-swords:default",
+    "frames": 2
+  },
+  {
+    "id": "drengr",
+    "gender": "female",
+    "weapon": "twin_swords",
+    "state": "default",
+    "profile": "drengr:female:dual-swords:default",
+    "frames": 1
+  },
+  {
+    "id": "honor_guard",
+    "gender": "male",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "honor_guard:any:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "honor_guard",
+    "gender": "female",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "honor_guard:any:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "hunter",
+    "gender": "male",
+    "weapon": "bow",
+    "state": "default",
+    "profile": "hunter:male:bow:default",
+    "frames": 1
+  },
+  {
+    "id": "hunter",
+    "gender": "female",
+    "weapon": "bow",
+    "state": "default",
+    "profile": "hunter:female:bow:default",
+    "frames": 2
+  },
+  {
+    "id": "master_hunter",
+    "gender": "male",
+    "weapon": "bow",
+    "state": "default",
+    "profile": "master_hunter:male:bow:default",
+    "frames": 1
+  },
+  {
+    "id": "master_hunter",
+    "gender": "female",
+    "weapon": "bow",
+    "state": "default",
+    "profile": "master_hunter:female:bow:default",
+    "frames": 2
+  },
+  {
+    "id": "tracker",
+    "gender": "male",
+    "weapon": "bow",
+    "state": "default",
+    "profile": "tracker:male:bow:default",
+    "frames": 2
+  },
+  {
+    "id": "tracker",
+    "gender": "male",
+    "weapon": "axe",
+    "state": "default",
+    "profile": "tracker:male:axe:default",
+    "frames": 2
+  },
+  {
+    "id": "tracker",
+    "gender": "female",
+    "weapon": "bow",
+    "state": "default",
+    "profile": "tracker:female:bow:default",
+    "frames": 1
+  },
+  {
+    "id": "tracker",
+    "gender": "female",
+    "weapon": "axe",
+    "state": "default",
+    "profile": "tracker:female:axe:default",
+    "frames": 1
+  },
+  {
+    "id": "shaman",
+    "gender": "male",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "shaman:male:healing:default",
+    "frames": 2
+  },
+  {
+    "id": "shaman",
+    "gender": "female",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "shaman:female:healing:default",
+    "frames": 1
+  },
+  {
+    "id": "man_at_arms",
+    "gender": "male",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "man_at_arms:male:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "man_at_arms",
+    "gender": "female",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "man_at_arms:female:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "guard_knight",
+    "gender": "male",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "guard_knight:any:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "guard_knight",
+    "gender": "female",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "guard_knight:any:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "cavalry",
+    "gender": "male",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "cavalry:any:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "cavalry",
+    "gender": "female",
+    "weapon": "sword_shield",
+    "state": "default",
+    "profile": "cavalry:any:sword-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "spearman",
+    "gender": "male",
+    "weapon": "lance",
+    "state": "default",
+    "profile": "spearman:any:lance:default",
+    "frames": 2
+  },
+  {
+    "id": "spearman",
+    "gender": "female",
+    "weapon": "lance",
+    "state": "default",
+    "profile": "spearman:any:lance:default",
+    "frames": 2
+  },
+  {
+    "id": "royal_guard",
+    "gender": "male",
+    "weapon": "lance_shield",
+    "state": "default",
+    "profile": "royal_guard:any:lance-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "royal_guard",
+    "gender": "female",
+    "weapon": "lance_shield",
+    "state": "default",
+    "profile": "royal_guard:any:lance-shield:default",
+    "frames": 2
+  },
+  {
+    "id": "mounted_spearman",
+    "gender": "male",
+    "weapon": "lance",
+    "state": "default",
+    "profile": "mounted_spearman:any:lance:default",
+    "frames": 1
+  },
+  {
+    "id": "mounted_spearman",
+    "gender": "female",
+    "weapon": "lance",
+    "state": "default",
+    "profile": "mounted_spearman:any:lance:default",
+    "frames": 1
+  },
+  {
+    "id": "standard_bearer",
+    "gender": "male",
+    "weapon": "banner_lance",
+    "state": "default",
+    "profile": "standard_bearer:male:banner:carried",
+    "frames": 2
+  },
+  {
+    "id": "standard_bearer",
+    "gender": "male",
+    "weapon": "sword",
+    "state": "alternate",
+    "profile": "standard_bearer:male:sword:planted",
+    "frames": 2
+  },
+  {
+    "id": "standard_bearer",
+    "gender": "female",
+    "weapon": "banner_lance",
+    "state": "default",
+    "profile": "standard_bearer:female:banner:carried",
+    "frames": 1
+  },
+  {
+    "id": "standard_bearer",
+    "gender": "female",
+    "weapon": "sword",
+    "state": "alternate",
+    "profile": "standard_bearer:female:sword:planted",
+    "frames": 1
+  },
+  {
+    "id": "crossbowman",
+    "gender": "male",
+    "weapon": "crossbow",
+    "state": "default",
+    "profile": "crossbowman:male:crossbow:default",
+    "frames": 2
+  },
+  {
+    "id": "crossbowman",
+    "gender": "female",
+    "weapon": "crossbow",
+    "state": "default",
+    "profile": "crossbowman:female:crossbow:default",
+    "frames": 1
+  },
+  {
+    "id": "ranger",
+    "gender": "male",
+    "weapon": "crossbow",
+    "state": "default",
+    "profile": "ranger:male:crossbow:default",
+    "frames": 2
+  },
+  {
+    "id": "ranger",
+    "gender": "male",
+    "weapon": "sword",
+    "state": "default",
+    "profile": "ranger:male:sword:default",
+    "frames": 2
+  },
+  {
+    "id": "ranger",
+    "gender": "female",
+    "weapon": "crossbow",
+    "state": "default",
+    "profile": "ranger:female:crossbow:default",
+    "frames": 1
+  },
+  {
+    "id": "ranger",
+    "gender": "female",
+    "weapon": "sword",
+    "state": "default",
+    "profile": "ranger:female:sword:default",
+    "frames": 1
+  },
+  {
+    "id": "pavise_crossbowman",
+    "gender": "male",
+    "weapon": "crossbow",
+    "state": "default",
+    "profile": "pavise_crossbowman:male:crossbow:default",
+    "frames": 2
+  },
+  {
+    "id": "pavise_crossbowman",
+    "gender": "female",
+    "weapon": "crossbow",
+    "state": "default",
+    "profile": "pavise_crossbowman:female:crossbow:default",
+    "frames": 1
+  },
+  {
+    "id": "swordsman",
+    "gender": "male",
+    "weapon": "sword",
+    "state": "default",
+    "profile": "swordsman:any:sword:default",
+    "frames": 2
+  },
+  {
+    "id": "swordsman",
+    "gender": "female",
+    "weapon": "sword",
+    "state": "default",
+    "profile": "swordsman:any:sword:default",
+    "frames": 2
+  },
+  {
+    "id": "duelist",
+    "gender": "male",
+    "weapon": "twin_swords",
+    "state": "default",
+    "profile": "duelist:male:dual-swords:default",
+    "frames": 2
+  },
+  {
+    "id": "duelist",
+    "gender": "female",
+    "weapon": "twin_swords",
+    "state": "default",
+    "profile": "duelist:female:dual-swords:default",
+    "frames": 1
+  },
+  {
+    "id": "executioner",
+    "gender": "male",
+    "weapon": "great_sword",
+    "state": "default",
+    "profile": "executioner:any:great-sword:default",
+    "frames": 2
+  },
+  {
+    "id": "executioner",
+    "gender": "female",
+    "weapon": "great_sword",
+    "state": "default",
+    "profile": "executioner:any:great-sword:default",
+    "frames": 2
+  },
+  {
+    "id": "sorcerer",
+    "gender": "male",
+    "weapon": "spell",
+    "state": "default",
+    "profile": "sorcerer:male:spell:default",
+    "frames": 2
+  },
+  {
+    "id": "sorcerer",
+    "gender": "male",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "sorcerer:male:spell:default",
+    "frames": 2
+  },
+  {
+    "id": "sorcerer",
+    "gender": "female",
+    "weapon": "spell",
+    "state": "default",
+    "profile": "sorcerer:female:spell:default",
+    "frames": 1
+  },
+  {
+    "id": "sorcerer",
+    "gender": "female",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "sorcerer:female:spell:default",
+    "frames": 1
+  },
+  {
+    "id": "necromancer",
+    "gender": "male",
+    "weapon": "spell",
+    "state": "default",
+    "profile": "necromancer:male:spell:default",
+    "frames": 2
+  },
+  {
+    "id": "necromancer",
+    "gender": "male",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "necromancer:male:spell:default",
+    "frames": 2
+  },
+  {
+    "id": "necromancer",
+    "gender": "female",
+    "weapon": "spell",
+    "state": "default",
+    "profile": "necromancer:female:spell:default",
+    "frames": 1
+  },
+  {
+    "id": "necromancer",
+    "gender": "female",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "necromancer:female:spell:default",
+    "frames": 1
+  },
+  {
+    "id": "archmage",
+    "gender": "male",
+    "weapon": "spell",
+    "state": "default",
+    "profile": "archmage:male:spell:default",
+    "frames": 2
+  },
+  {
+    "id": "archmage",
+    "gender": "male",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "archmage:male:spell:default",
+    "frames": 2
+  },
+  {
+    "id": "archmage",
+    "gender": "female",
+    "weapon": "spell",
+    "state": "default",
+    "profile": "archmage:female:spell:default",
+    "frames": 1
+  },
+  {
+    "id": "archmage",
+    "gender": "female",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "archmage:female:spell:default",
+    "frames": 1
+  },
+  {
+    "id": "young_viking",
+    "gender": "male",
+    "weapon": "training_axe",
+    "state": "default",
+    "profile": "young_viking:male:training-axe:default",
+    "frames": 1
+  },
+  {
+    "id": "young_viking",
+    "gender": "female",
+    "weapon": "training_axe",
+    "state": "default",
+    "profile": "young_viking:female:training-axe:default",
+    "frames": 1
+  },
+  {
+    "id": "squire",
+    "gender": "male",
+    "weapon": "training_sword",
+    "state": "default",
+    "profile": "squire:male:training-sword:default",
+    "frames": 2
+  },
+  {
+    "id": "squire",
+    "gender": "female",
+    "weapon": "training_sword",
+    "state": "default",
+    "profile": "squire:female:training-sword:default",
+    "frames": 1
+  },
+  {
+    "id": "skeleton",
+    "gender": "male",
+    "weapon": "rusty_sword",
+    "state": "default",
+    "profile": "skeleton:any:rusty-sword:default",
+    "frames": 2
+  },
+  {
+    "id": "skeleton",
+    "gender": "female",
+    "weapon": "rusty_sword",
+    "state": "default",
+    "profile": "skeleton:any:rusty-sword:default",
+    "frames": 2
+  },
+  {
+    "id": "volva",
+    "gender": "male",
+    "weapon": "spell",
+    "state": "default",
+    "profile": "volva:male:spell:default",
+    "frames": 2
+  },
+  {
+    "id": "volva",
+    "gender": "male",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "volva:male:spell:default",
+    "frames": 2
+  },
+  {
+    "id": "volva",
+    "gender": "female",
+    "weapon": "spell",
+    "state": "default",
+    "profile": "volva:female:spell:default",
+    "frames": 1
+  },
+  {
+    "id": "volva",
+    "gender": "female",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "volva:female:spell:default",
+    "frames": 1
+  },
+  {
+    "id": "hamrammr",
+    "gender": "male",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "hamrammr:male:healing:default",
+    "frames": 2
+  },
+  {
+    "id": "hamrammr",
+    "gender": "male",
+    "weapon": "claws",
+    "state": "alternate",
+    "profile": "hamrammr:any:claws:bear",
+    "frames": 2
+  },
+  {
+    "id": "hamrammr",
+    "gender": "female",
+    "weapon": "healing_focus",
+    "state": "default",
+    "profile": "hamrammr:female:healing:default",
+    "frames": 1
+  },
+  {
+    "id": "hamrammr",
+    "gender": "female",
+    "weapon": "claws",
+    "state": "alternate",
+    "profile": "hamrammr:any:claws:bear",
+    "frames": 2
+  },
+  {
+    "id": "sans_axe",
+    "gender": "male",
+    "weapon": "axe",
+    "state": "default",
+    "profile": "sans_axe:any:axe:default",
+    "frames": 2
+  },
+  {
+    "id": "sans_axe",
+    "gender": "female",
+    "weapon": "axe",
+    "state": "default",
+    "profile": "sans_axe:any:axe:default",
+    "frames": 2
+  },
+  {
+    "id": "sans_spear",
+    "gender": "male",
+    "weapon": "lance",
+    "state": "default",
+    "profile": "sans_spear:any:lance:default",
+    "frames": 2
+  },
+  {
+    "id": "sans_spear",
+    "gender": "female",
+    "weapon": "lance",
+    "state": "default",
+    "profile": "sans_spear:any:lance:default",
+    "frames": 2
+  },
+  {
+    "id": "sans_archer",
+    "gender": "male",
+    "weapon": "bow",
+    "state": "default",
+    "profile": "sans_archer:any:bow:default",
+    "frames": 2
+  },
+  {
+    "id": "sans_archer",
+    "gender": "female",
+    "weapon": "bow",
+    "state": "default",
+    "profile": "sans_archer:any:bow:default",
+    "frames": 2
+  }
+]

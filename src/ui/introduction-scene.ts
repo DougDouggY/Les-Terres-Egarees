@@ -194,7 +194,7 @@ export class IntroductionScene {
     if (this.phase === "invite")
       html = this.bubble(E.recruitmentVoice(h.faction)[1]);
     if (this.phase === "face")
-      html = `<section class="intro-face-panel" aria-label="Choix du visage"><div class="intro-face-controls"><button type="button" data-intro-face="-1" aria-label="Visage précédent">‹</button><button type="button" class="primary" data-intro-confirm-face>Valider</button><button type="button" data-intro-face="1" aria-label="Visage suivant">›</button></div><div class="intro-face-carousel"><div class="intro-face-image chapter-portrait" data-face-id="${h.portraitId ?? ""}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name, h.faction === "knight")}</div></div></section>`;
+      html = `<section class="intro-face-panel" aria-label="Choix du visage"><div class="intro-face-controls"><button type="button" data-intro-face="-1" aria-label="Visage précédent">‹</button><button type="button" class="primary" data-intro-confirm-face>Valider</button><button type="button" data-intro-face="1" aria-label="Visage suivant">›</button></div><div class="intro-face-carousel"><div class="intro-face-image chapter-portrait" data-face-id="${h.portraitId ?? ""}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name, h.faction === "knight", E.colorForOwner(this.options.colors, this.options.index + 1))}</div></div></section>`;
     if (this.phase === "recruit")
       html = `<section class="intro-recruit-panel" aria-label="Choix des compagnons"><h2>${h.faction === "north" ? "Vos compagnons" : "Votre compagnon"}</h2><div class="intro-candidates">${E.companionRoster
         .filter((c) => c.faction === h.faction)
@@ -213,7 +213,7 @@ export class IntroductionScene {
         )
         .map(
           (u, j) =>
-            `<div class="chapter-portrait ${j === (this.phase === "arrival" ? this.recruitIndex - 1 : this.recruitIndex) ? "speaking" : "listening"}" data-intro-portrait="${j}">${portraitMarkup(this.recruitAssets[j], u.name, h.faction === "knight")}</div>`,
+            `<div class="chapter-portrait ${j === (this.phase === "arrival" ? this.recruitIndex - 1 : this.recruitIndex) ? "speaking" : "listening"}" data-intro-portrait="${j}">${portraitMarkup(this.recruitAssets[j], u.name, h.faction === "knight", E.colorForOwner(this.options.colors, this.options.index + 1))}</div>`,
         )
         .join("")}</div>`;
       if (this.phase === "words")
@@ -233,7 +233,7 @@ export class IntroductionScene {
         "ending",
       ].includes(this.phase)
     )
-      html += `<div class="intro-hero-portrait chapter-portrait ${["words", "arrival"].includes(this.phase) ? "listening" : "speaking"}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name, h.faction === "north")}</div>`;
+      html += `<div class="intro-hero-portrait chapter-portrait ${["words", "arrival"].includes(this.phase) ? "listening" : "speaking"}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name, h.faction === "north", E.colorForOwner(this.options.colors, this.options.index + 1))}</div>`;
     this.ui.innerHTML = html;
     maskDialoguePortraits(this.ui);
   }
