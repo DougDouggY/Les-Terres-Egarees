@@ -60,6 +60,13 @@ export async function paintCreatorSprites(
   colors: E.TeamColors,
 ) {
   const current = ++request;
+  root
+    .querySelectorAll<HTMLCanvasElement>(
+      "[data-creator-hero],[data-creator-companion]",
+    )
+    .forEach((c) => {
+      c.dataset.loaded = "false";
+    });
   const previews = Array.from(
     root.querySelectorAll<HTMLCanvasElement>(
       "[data-creator-hero],[data-creator-companion]",
@@ -111,7 +118,12 @@ export async function paintCreatorSprites(
   );
   if (current !== request || !root.querySelector(".expedition-creator")) return;
   for (const { canvas, u } of previews) {
-    if (!canvas.isConnected) continue;
+    if (
+      !canvas.isConnected ||
+      !canvas.getClientRects().length ||
+      !canvas.getBoundingClientRect().width
+    )
+      continue;
     const bounds = canvas.getBoundingClientRect(),
       dpr = Math.min(2, window.devicePixelRatio || 1);
     canvas.width = Math.max(1, Math.round(bounds.width * dpr));
@@ -130,34 +142,60 @@ export async function paintCreatorSprites(
           anchorX: rect.anchorX,
         }
       : anatomicalPlacement(profile, "idle", body);
+    // Render away from the small preview first: no weapon or foot can be
+    // clipped before its visible bounds have been measured.
+    const scratch = document.createElement("canvas");
+    scratch.width = scratch.height = 1024;
+    const sourceContext = scratch.getContext("2d")!;
     const drawn = drawResourceFrame(
-      ctx,
+      sourceContext,
       profile,
       "idle",
       0,
-      4,
-      4,
-      canvas.width - 8,
-      canvas.height - 8,
+      256,
+      128,
+      512,
+      512,
       true,
       E.colorForOwner(colors, u.owner),
       "world",
       placement,
     );
-    const pixels = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-    let bottom = -1;
-    for (let y = 0; y < canvas.height; y++)
-      for (let x = 0; x < canvas.width; x++)
-        if (pixels[(y * canvas.width + x) * 4 + 3] > 100)
+    const pixels = sourceContext.getImageData(0, 0, 1024, 1024).data;
+    let left = 1024,
+      right = -1,
+      top = 1024,
+      bottom = -1;
+    for (let y = 0; y < 1024; y++)
+      for (let x = 0; x < 1024; x++)
+        if (pixels[(y * 1024 + x) * 4 + 3] > 0) {
+          left = Math.min(left, x);
+          right = Math.max(right, x);
+          top = Math.min(top, y);
           bottom = Math.max(bottom, y);
+        }
     const desired = Math.round(canvas.height - 10 * dpr);
-    if (bottom >= 0 && desired !== bottom) {
-      const copy = document.createElement("canvas");
-      copy.width = canvas.width;
-      copy.height = canvas.height;
-      copy.getContext("2d")!.drawImage(canvas, 0, 0);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(copy, 0, desired - bottom);
+    if (bottom >= 0) {
+      const width = right - left + 1,
+        height = bottom - top + 1,
+        fit = Math.min(
+          1,
+          (canvas.width - 12 * dpr) / width,
+          (canvas.height - 18 * dpr) / height,
+        ),
+        dw = Math.round(width * fit),
+        dh = Math.round(height * fit);
+      ctx.drawImage(
+        scratch,
+        left,
+        top,
+        width,
+        height,
+        Math.round((canvas.width - dw) / 2),
+        desired - dh + 1,
+        dw,
+        dh,
+      );
     }
     canvas.dataset.groundLine = String(desired / dpr);
     canvas.dataset.smoothing = String(ctx.imageSmoothingEnabled);

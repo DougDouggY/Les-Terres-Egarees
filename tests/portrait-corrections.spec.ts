@@ -1,11 +1,12 @@
 import { test, expect } from "@playwright/test";
-test("33 portraits : transparence partagée et Géraud recoloré sans toucher au visage ni au métal", async ({
+test("33 portraits : transparence partagée et couleurs originales conservées", async ({
   page,
 }) => {
   await page.goto("/");
   const result = await page.evaluate(async () => {
-    const { maskDialoguePortraits, recolorGeraud, portraitBackdropMask } =
-      await import(String("/src/ui/portrait-mask.ts"));
+    const { maskDialoguePortraits, portraitBackdropMask } = await import(
+      String("/src/ui/portrait-mask.ts")
+    );
     const ids = ["C", "V", "N", "R"].flatMap((prefix) =>
       Array.from(
         { length: prefix === "N" ? 5 : prefix === "R" ? 4 : 12 },
@@ -58,42 +59,7 @@ test("33 portraits : transparence partagée et Géraud recoloré sans toucher au
         ).length,
       };
     });
-    const im = source[ids.indexOf("R03")],
-      c = document.createElement("canvas");
-    c.width = im.naturalWidth;
-    c.height = im.naturalHeight;
-    const ctx = c.getContext("2d")!;
-    ctx.drawImage(im, 0, 0);
-    const raw = ctx.getImageData(0, 0, c.width, c.height).data,
-      pink = raw.slice(),
-      blue = raw.slice();
-    recolorGeraud(pink, c.width, c.height, [255, 45, 161]);
-    recolorGeraud(blue, c.width, c.height, [63, 132, 231]);
-    let changed = 0,
-      changedAboveNeck = 0,
-      changedNeutral = 0;
-    for (let k = 0; k < raw.length; k += 4)
-      if (
-        pink[k] !== raw[k] ||
-        pink[k + 1] !== raw[k + 1] ||
-        pink[k + 2] !== raw[k + 2]
-      ) {
-        changed++;
-        if (Math.floor(k / 4 / c.width) < c.height * 0.53) changedAboveNeck++;
-        if (
-          Math.max(raw[k], raw[k + 1], raw[k + 2]) -
-            Math.min(raw[k], raw[k + 1], raw[k + 2]) <
-          10
-        )
-          changedNeutral++;
-      }
-    return {
-      rows,
-      changed,
-      changedAboveNeck,
-      changedNeutral,
-      different: pink.some((v: number, i: number) => v !== blue[i]),
-    };
+    return { rows };
   });
   expect(result.rows).toHaveLength(33);
   for (const r of result.rows) {
@@ -101,15 +67,11 @@ test("33 portraits : transparence partagée et Géraud recoloré sans toucher au
     expect(r.transparent, r.id).toBeGreaterThan(100);
     expect(r.kept, r.id).toBeGreaterThan(1000);
   }
-  expect(result.changed).toBeGreaterThan(1000);
-  expect(result.changedAboveNeck).toBe(0);
-  expect(result.changedNeutral).toBe(0);
-  expect(result.different).toBe(true);
   await expect(page.locator('img[data-backdrop-masked="true"]')).toHaveCount(
     33,
   );
   await page.screenshot({ path: "/tmp/portraits-transparent.png" });
-  // The actual unit sheet uses owner colours before/after recruitment; source ID stays R03.
+  // Recruitment changes ownership, never the portrait colours or identity.
   await page.evaluate(async () => {
     const E = await import(String("/src/engine.ts"));
     const { characterSheet } = await import(
@@ -144,7 +106,7 @@ test("33 portraits : transparence partagée et Géraud recoloré sans toucher au
     "data-backdrop-masked",
     "true",
   );
-  expect(await page.locator("img").getAttribute("src")).not.toBe(enemy);
+  expect(await page.locator("img").getAttribute("src")).toBe(enemy);
   await expect(page.locator("img")).toHaveAttribute(
     "data-portrait-source",
     /R03.png$/,

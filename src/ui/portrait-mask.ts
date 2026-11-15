@@ -114,109 +114,6 @@ export function portraitBackdropMask(
   }
   return mask;
 }
-/** Explicit cloth region on R03 only; never a global hue replacement. Neutral metal,
- * skin, eyes, hair, gold trim and the original luminance are retained. */
-export function recolorGeraud(
-  pixels: Uint8ClampedArray,
-  w: number,
-  h: number,
-  rgb: readonly number[],
-) {
-  const polygon = [
-    [0.17, 0.66],
-    [0.25, 0.59],
-    [0.52, 0.54],
-    [0.64, 0.53],
-    [0.72, 0.57],
-    [0.62, 0.67],
-    [0.57, 0.75],
-    [0.39, 0.87],
-    [0.25, 0.83],
-    [0.2, 0.74],
-  ];
-  for (let y = 0; y < h; y++)
-    for (let x = 0; x < w; x++) {
-      const px = x / w,
-        py = y / h;
-      let inside = false;
-      for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
-        const [ax, ay] = polygon[i],
-          [bx, by] = polygon[j];
-        if (
-          ay > py !== by > py &&
-          px < ((bx - ax) * (py - ay)) / (by - ay) + ax
-        )
-          inside = !inside;
-      }
-      if (!inside) continue;
-      const k = (y * w + x) * 4,
-        r = pixels[k],
-        g = pixels[k + 1],
-        b = pixels[k + 2];
-      if (
-        b > 35 &&
-        b > r * 1.2 &&
-        b > g * 1.13 &&
-        Math.max(r, g, b) - Math.min(r, g, b) >= 15
-      ) {
-        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b,
-          target = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2],
-          scale = lum / Math.max(1, target);
-        for (let c = 0; c < 3; c++)
-          pixels[k + c] = Math.min(255, Math.round(rgb[c] * scale));
-      }
-    }
-}
-/** Conservative cloth/chest masks. Hair, faces, metal shoulders and reserved identities are excluded. */
-export function recolorPortraitDetails(
-  id: string,
-  p: Uint8ClampedArray,
-  w: number,
-  h: number,
-  rgb: readonly number[],
-) {
-  if (id === "R03") {
-    recolorGeraud(p, w, h, rgb);
-    return;
-  }
-  const regions: Record<string, [number, number, number, number]> = {
-    C01: [0.23, 0.76, 0.62, 1],
-    C02: [0.18, 0.78, 0.62, 1],
-    C03: [0.02, 0.72, 0.48, 1],
-    C04: [0.48, 0.61, 0.93, 0.94],
-    C05: [0.25, 0.76, 0.65, 1],
-    C06: [0.34, 0.68, 0.66, 0.94],
-    C07: [0.51, 0.72, 0.94, 0.98],
-    C08: [0.26, 0.8, 0.59, 1],
-    C09: [0.3, 0.82, 0.59, 1],
-    C11: [0.39, 0.76, 0.68, 1],
-  };
-  const r = regions[id];
-  if (!r) return;
-  for (let y = Math.ceil(r[1] * h); y < Math.min(h, r[3] * h); y++)
-    for (let x = Math.ceil(r[0] * w); x < Math.min(w, r[2] * w); x++) {
-      const k = (y * w + x) * 4,
-        red = p[k],
-        g = p[k + 1],
-        b = p[k + 2],
-        lum = 0.2126 * red + 0.7152 * g + 0.0722 * b;
-      if (
-        b < 45 ||
-        lum < 35 ||
-        b - red < 30 ||
-        b - g < 18 ||
-        (b - red) / b < 0.35
-      )
-        continue;
-      const target = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
-      for (let c = 0; c < 3; c++)
-        p[k + c] = Math.min(
-          255,
-          Math.round((rgb[c] * lum) / Math.max(1, target)),
-        );
-    }
-}
-import { teamPalette } from "../game/team-colors";
 const images = new Map<string, string>();
 const prepared = new WeakSet<HTMLImageElement>();
 /** Shared by dialogue, creation, unit sheets and recruitment: original files stay untouched. */
@@ -236,14 +133,8 @@ export function maskDialoguePortraits(root: HTMLElement) {
       );
       const id = source.match(/\/([CVRN]\d\d)\.png/)?.[1];
       if (!id) return;
-      const color = im.dataset.teamColor as
-          keyof typeof teamPalette | undefined,
-        sheet = !!im.closest(".character-portrait-slot"),
-        key =
-          source +
-          ":" +
-          (color ?? "original") +
-          (sheet ? ":sheet" : ":dialogue");
+      const sheet = !!im.closest(".character-portrait-slot"),
+        key = source + (sheet ? ":sheet" : ":dialogue");
       let display = images.get(key);
       if (!display) {
         const c = document.createElement("canvas");
@@ -259,14 +150,6 @@ export function maskDialoguePortraits(root: HTMLElement) {
             id.startsWith("V") ? 0.68 : 0.47,
             id === "R03" ? 7 : id === "C07" ? 2 : 0,
             id,
-          );
-        if (color && teamPalette[color])
-          recolorPortraitDetails(
-            id,
-            p.data,
-            c.width,
-            c.height,
-            teamPalette[color].rgb,
           );
         for (let k = 3; k < p.data.length; k += 4) p.data[k] = mask[k];
         ctx.putImageData(p, 0, 0);

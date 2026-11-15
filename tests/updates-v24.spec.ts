@@ -192,7 +192,7 @@ test("suppression visible : anciens et nouveaux emplacements, confirmation nomin
   await page.locator('[data-action="continue"]').click();
   await expect(page.locator("[data-slot] strong")).toHaveText("À garder");
 });
-test("portraits : yeux opaques, têtes de fiches harmonisées et vraies recolorations sans toucher aux visages", async ({
+test("portraits : yeux opaques et têtes de fiches harmonisées", async ({
   page,
 }) => {
   await page.goto("/");
@@ -250,28 +250,10 @@ test("portraits : yeux opaques, têtes de fiches harmonisées et vraies recolora
       }
       const bounds = L.opaquePortraitBounds(raw, c.width, c.height),
         head = L.sheetPortraitPlacement(id, bounds).headHeight;
-      const pink = before.slice(),
-        yellow = before.slice();
-      P.recolorPortraitDetails(id, pink, c.width, c.height, [255, 45, 161]);
-      P.recolorPortraitDetails(id, yellow, c.width, c.height, [234, 193, 58]);
-      let changed = 0,
-        faceChanged = 0;
-      for (let k = 0; k < raw.length; k += 4)
-        if (
-          pink[k] !== before[k] ||
-          pink[k + 1] !== before[k + 1] ||
-          pink[k + 2] !== before[k + 2]
-        ) {
-          changed++;
-          if (Math.floor(k / 4 / c.width) < c.height * 0.5) faceChanged++;
-        }
       rows.push({
         id,
         restored,
         head,
-        changed,
-        faceChanged,
-        different: pink.some((x: number, k: number) => x !== yellow[k]),
         corner: mask[3],
       });
     }
@@ -279,27 +261,8 @@ test("portraits : yeux opaques, têtes de fiches harmonisées et vraies recolora
   });
   for (const r of result) {
     expect(r.corner, r.id).toBe(0);
-    expect(r.faceChanged, r.id).toBe(0);
     if (["C03", "C04", "C06"].includes(r.id))
       expect(r.restored, r.id).toBeGreaterThan(0);
-    if (
-      [
-        "C01",
-        "C02",
-        "C03",
-        "C04",
-        "C05",
-        "C06",
-        "C07",
-        "C08",
-        "C09",
-        "C11",
-        "R03",
-      ].includes(r.id)
-    ) {
-      expect(r.changed, r.id).toBeGreaterThan(10);
-      expect(r.different).toBe(true);
-    }
   }
   const heads = result.map((r) => r.head);
   expect(Math.max(...heads) - Math.min(...heads)).toBeLessThan(40);
@@ -551,3 +514,76 @@ test("combat repris après la rencontre : le fond utilise aussi la carte de la c
       .evaluate((el) => getComputedStyle(el).backgroundImage),
   ).toMatch(/^url\("data:image\/png/);
 });
+
+for (const viewport of [
+  { width: 1806, height: 880 },
+  { width: 800, height: 844 },
+]) {
+  test(`aperçus Pillard/Pillarde centrés et complets à ${viewport.width}px, écran dense`, async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({
+      viewport,
+      deviceScaleFactor: 2,
+    });
+    const page = await context.newPage();
+    await page.goto("/");
+    await page.locator('[data-action="new"]').click();
+    await page.locator('[data-action="solo"]').click();
+    await page.locator('[data-action="creator-factions-ready"]').click();
+    for (const gender of ["male", "female"]) {
+      await page.locator("#hero-gender-1").selectOption(gender);
+      await page.locator("#hero-class-1").selectOption("raider");
+      for (const weapon of [
+        "axe_shield",
+        "sword_shield",
+        "axe_shield",
+        "sword_shield",
+      ]) {
+        await page.locator('[data-starter="0"]').selectOption(weapon);
+        const canvas = page.locator('[data-creator-hero="0"]');
+        await expect(canvas).toHaveAttribute("data-loaded", "true");
+        const bounds = await canvas.evaluate((c: HTMLCanvasElement) => {
+          const d = c
+            .getContext("2d")!
+            .getImageData(0, 0, c.width, c.height).data;
+          let l = c.width,
+            r = -1,
+            t = c.height,
+            b = -1;
+          for (let y = 0; y < c.height; y++)
+            for (let x = 0; x < c.width; x++)
+              if (d[(y * c.width + x) * 4 + 3] > 0) {
+                l = Math.min(l, x);
+                r = Math.max(r, x);
+                t = Math.min(t, y);
+                b = Math.max(b, y);
+              }
+          return { l, r, t, b, w: c.width, h: c.height };
+        });
+        const reference = await page
+          .locator('[data-creator-hero="1"]')
+          .boundingBox();
+        const box = await canvas.boundingBox();
+        expect(
+          Math.abs(box!.y + box!.height - reference!.y - reference!.height),
+        ).toBeLessThanOrEqual(1);
+        expect(
+          bounds.l,
+          JSON.stringify({ gender, weapon, ...bounds }),
+        ).toBeGreaterThanOrEqual(6);
+        expect(bounds.w - 1 - bounds.r).toBeGreaterThanOrEqual(6);
+        expect(
+          Math.abs(bounds.l - (bounds.w - 1 - bounds.r)),
+        ).toBeLessThanOrEqual(1);
+        expect(bounds.t).toBeGreaterThan(0);
+        expect(bounds.h - 1 - bounds.b).toBeGreaterThanOrEqual(9);
+      }
+    }
+    await page.screenshot({
+      path: `/tmp/pillarde-creation-${viewport.width}.png`,
+      fullPage: true,
+    });
+    await context.close();
+  });
+}

@@ -85,3 +85,13 @@ Les vérifications navigateur ciblées représentent donc **23 tests distincts**
 - Tests ajoutés ou adaptés, `playwright.updates.config.ts`, manifeste d'audit et `package.json`.
 
 Aucun portrait, sprite, décor, carte ou capture suivi par Git n'est redessiné ou remplacé.
+
+## Correction suivante — portraits originaux et aperçu du Pillard
+
+À la demande du joueur, toute recoloration des portraits est supprimée, y compris celle de Géraud. La transparence et les protections des yeux sont conservées ; les couleurs d'équipe des sprites tactiques restent indépendantes.
+
+L'aperçu de création mesure maintenant la silhouette complète dans une surface intermédiaire avant de la centrer et de l'adapter au cadre sans découper l'arme ou les pieds. La largeur du canvas ne dépend plus de ses dimensions internes. L'alignement vertical de la colonne visuelle part du haut du formulaire, même lorsque le Pillard possède un champ d'arme supplémentaire. Le statut de chargement est réinitialisé à chaque changement d'arme.
+
+Vérification navigateur : Pillard/Pillarde, hache/bouclier et épée/bouclier, changements d'arme répétés, largeurs 1806 et 800 pixels avec densité 2 ; silhouette entière, centrage horizontal et position verticale relative à l'autre chef. Les petits écrans où le jeu masque déjà l'aperçu gardent ce comportement.
+
+Le dessin de la Pillarde à l'épée n'est pas refait : sa silhouette d'origine mesure environ 77 × 77 pixels et contient déjà le manque de netteté observé. Une source plus détaillée ou un nouveau dessin est nécessaire pour gagner en détail ; la désactivation du lissage ne recrée pas ce détail.
