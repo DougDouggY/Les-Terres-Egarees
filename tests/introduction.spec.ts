@@ -6,7 +6,8 @@ test("départs inversés et téléphone : décors complets, héros visibles, auc
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  await page.getByRole("button", { name: /Nouvelle aventure/ }).click();
+  await page.getByRole("button", { name: /Nouvelle partie/ }).click();
+  await page.getByRole("button", { name: "Jouer solo", exact: true }).click();
   await page.locator('[data-action="faction-1-knight"]').click();
   await page.getByRole("button", { name: /Créer nos personnages/ }).click();
   await page.locator("#hero-name-1").fill("élise de Brume");
@@ -14,9 +15,8 @@ test("départs inversés et téléphone : décors complets, héros visibles, auc
   await page.locator("#hero-gender-1").selectOption("female");
   await completeIntroduction(page, 0, "knight", "C10", ["ysilde"]);
   await completeIntroduction(page, 1, "north", "V02", ["bryn", "runa"]);
-  const saved = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("lte-save")!),
-  );
+  const { saveIntroduction } = await import("./introduction-flow");
+  const saved = await saveIntroduction(page);
   expect(saved.factions).toEqual(["knight", "north"]);
   expect(saved.units.filter((u: any) => u.owner !== 0)).toHaveLength(5);
   expect(saved.portraits.assignments.p1a).toBe("C10");

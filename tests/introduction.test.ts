@@ -38,7 +38,7 @@ test("introduction : fichiers fournis RRR et RRTT conservés octet pour octet au
     assert.equal(createHash("sha256").update(bytes).digest("hex"), hash);
   }
 });
-test("introduction : cadrage complet, proportions et drakkar préservés sur bureau et téléphone", () => {
+test("introduction : cadrage cover sans bordures et proportions préservées sur bureau et téléphone", () => {
   for (const [w, h] of [
     [1374, 1145],
     [1536, 1024],
@@ -49,9 +49,9 @@ test("introduction : cadrage complet, proportions et drakkar préservés sur bur
       [844, 390],
     ]) {
       const fit = fittedBackdrop(w, h, vw, vh);
-      assert.ok(fit.x >= 0 && fit.y >= 0);
-      assert.ok(fit.x + fit.w <= vw + 0.001);
-      assert.ok(fit.y + fit.h <= vh + 0.001);
+      assert.ok(fit.x <= 0.001 && fit.y <= 0.001);
+      assert.ok(fit.x + fit.w >= vw - 0.001);
+      assert.ok(fit.y + fit.h >= vh - 0.001);
       assert.ok(Math.abs(fit.w / fit.h - w / h) < 0.00001);
     }
 });

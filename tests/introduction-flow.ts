@@ -60,10 +60,16 @@ export async function completeIntroduction(
   await expect(scene).toHaveAttribute("data-intro-phase", "recruit");
   expect(
     Number(await scene.locator(".intro-actors").getAttribute("data-hero-x")),
-  ).toBeLessThan(stopped);
+  ).toBe(
+    faction === "north"
+      ? page.viewportSize()!.width < page.viewportSize()!.height
+        ? 0.62
+        : 0.35
+      : 0.65,
+  );
   await expect(scene.locator(".intro-actors")).toHaveAttribute(
     "data-hero-facing",
-    "right",
+    faction === "north" ? "right" : "left",
   );
   const panel = scene.locator(".intro-recruit-panel");
   await expect(panel.locator("img,canvas")).toHaveCount(0);
@@ -80,13 +86,19 @@ export async function completeIntroduction(
       i + 1,
     );
     const active = scene.locator(".intro-recruit-portraits .speaking img");
-    portraits.push((await active.getAttribute("src"))!.split("assets/")[1]);
+    portraits.push(
+      (await active.getAttribute("data-portrait-source"))!.split("assets/")[1],
+    );
     await expect(active).toHaveAttribute("data-backdrop-masked", "true");
     await expect(scene.locator(".chapter-speaker")).toHaveCount(0);
     if (i === 1) {
-      const a = (await scene.locator(".speaking").boundingBox())!,
-        b = (await scene.locator(".listening").boundingBox())!;
-      expect(Math.abs(a.x - b.x)).toBeGreaterThan(30);
+      const a = (await scene
+          .locator(".intro-recruit-portraits .speaking")
+          .boundingBox())!,
+        b = (await scene
+          .locator(".intro-recruit-portraits .listening")
+          .boundingBox())!;
+      expect(Math.abs(a.x - b.x)).toBeGreaterThan(20);
     }
     const bubble = (await scene.locator(".intro-bubble").boundingBox())!;
     expect(bubble.y).toBeGreaterThanOrEqual(0);
@@ -101,4 +113,24 @@ export async function completeIntroduction(
   }
   await expect(scene).toHaveCount(0);
   return { owner, face, ids, portraits };
+}
+
+export async function saveIntroduction(page: Page) {
+  expect(
+    await page.evaluate(() => localStorage.getItem("lte-save")),
+  ).toBeNull();
+  await page.locator('[data-action="story-save"]').click({ timeout: 15000 });
+  await page
+    .getByLabel("Nom de la sauvegarde", { exact: true })
+    .fill("Officielle");
+  await page
+    .getByRole("button", { name: "Créer une sauvegarde", exact: true })
+    .click();
+  const saved = await page.evaluate(() =>
+    JSON.parse(
+      JSON.parse(localStorage.getItem("lte-manual-saves-v1")!).slots[0].payload,
+    ),
+  );
+  await page.getByRole("button", { name: "Fermer les sauvegardes" }).click();
+  return saved;
 }

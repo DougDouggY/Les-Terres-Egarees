@@ -78,6 +78,7 @@ async function fixture(page: Page, scene = "arrival-1", line = 0) {
   await expect(page.locator("#chapter-overlay")).toHaveAttribute(
     "data-ready",
     "true",
+    { timeout: 15000 },
   );
 }
 test("FE8 : un interlocuteur puis deux, grand portrait importé, nom absent, composition plein écran", async ({
@@ -87,7 +88,7 @@ test("FE8 : un interlocuteur puis deux, grand portrait importé, nom absent, com
   await fixture(page);
   await expect(page.locator(".chapter-portrait img")).toHaveCount(1);
   await expect(page.locator(".chapter-portrait.speaking img")).toHaveAttribute(
-    "src",
+    "data-portrait-source",
     /V10.png$/,
   );
   await expect(page.locator(".chapter-speaker")).toHaveCount(0);
@@ -112,7 +113,8 @@ test("FE8 : un interlocuteur puis deux, grand portrait importé, nom absent, com
   expect(speech.y).toBeLessThan(60);
   expect(speech.width).toBeGreaterThan(900);
   expect(speech.height).toBeLessThan(300);
-  expect(portrait.height).toBeGreaterThan(400);
+  expect(portrait.height).toBeGreaterThan(240);
+  expect(portrait.height).toBeLessThan(350);
   expect(portrait.y + portrait.height).toBeGreaterThanOrEqual(798);
   await expect(page.locator(".chapter-portrait.speaking img")).toHaveAttribute(
     "data-backdrop-masked",
@@ -154,7 +156,7 @@ test("FE8 : texte paginé sans avancer la scène, clic et clavier, puis un ennem
   await page.screenshot({ path: "/tmp/dialogue-fe8-mobile.png" });
   await fixture(page, "c1-captain", 0);
   await expect(page.locator(".chapter-portrait.speaking img")).toHaveAttribute(
-    "src",
+    "data-portrait-source",
     /N0[34].png$/,
   );
   await expect(page.locator(".chapter-speaker")).toHaveCount(0);

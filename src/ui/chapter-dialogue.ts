@@ -89,6 +89,7 @@ export class ChapterDirector {
     0,
   );
   private key = (e: KeyboardEvent) => {
+    if (document.querySelector(".save-manager")) return;
     if (e.ctrlKey || e.metaKey) return;
     e.stopImmediatePropagation();
     if ([" ", "Enter"].includes(e.key)) {
@@ -182,7 +183,7 @@ export class ChapterDirector {
     const cast = dialogueCast(this.s, this.lines, p.page);
     const active = cast.find((p) => p.active);
     const right = active?.side === "right";
-    this.root.innerHTML = `<section class="chapter-dialogue fe-dialogue ${l.speaker === "narrator" ? "narration-only" : right ? "portrait-right" : ""}" role="dialog" aria-modal="true" aria-label="Dialogue narratif" data-story-scene="${p.id}" data-story-line="${p.page}" data-current-speaker="${esc(active?.key ?? l.speaker)}"><div class="chapter-portraits">${cast.map((p) => `<div class="chapter-portrait portrait-${p.side} ${p.active ? "speaking" : "listening"}" data-portrait-unit="${esc(p.key)}">${portraitMarkup(p.asset, p.name, p.side === "left")}</div>`).join("")}</div><div class="chapter-speech"><p class="chapter-text" aria-live="off"></p><footer><small class="dialogue-page-count" aria-hidden="true"></small><button data-story-next aria-label="Afficher toute la réplique">Suite <span aria-hidden="true">▾</span></button></footer></div></section>`;
+    this.root.innerHTML = `<section class="chapter-dialogue fe-dialogue ${l.speaker === "narrator" ? "narration-only" : right ? "portrait-right" : ""}" role="dialog" aria-modal="true" aria-label="Dialogue narratif" data-story-scene="${p.id}" data-story-line="${p.page}" data-current-speaker="${esc(active?.key ?? l.speaker)}"><div class="chapter-portraits">${cast.map((p) => `<div class="chapter-portrait portrait-${p.side} portrait-${p.depth} ${p.active ? "speaking" : "listening"}" data-portrait-unit="${esc(p.key)}">${portraitMarkup(p.asset, p.name, p.side === "left", p.teamColor)}</div>`).join("")}</div><div class="chapter-speech"><p class="chapter-text" aria-live="off"></p><footer><small class="dialogue-page-count" aria-hidden="true"></small><button data-story-next aria-label="Afficher toute la réplique">Suite <span aria-hidden="true">▾</span></button></footer></div></section>`;
     this.root
       .querySelector(".chapter-dialogue")!
       .addEventListener("click", (e) => {

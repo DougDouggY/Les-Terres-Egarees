@@ -91,13 +91,19 @@ export function ensurePortraits(s: Campaign) {
         (u.kind === "skeleton" || u.classId?.startsWith("sans_"))
           ? ["N05"]
           : u.owner === 0 && faction === "knight"
-            ? ["N03", "N04"]
+            ? u.id === "valdren-captain"
+              ? ["N04", "N03"]
+              : ["N03", "N04"]
             : undefined;
       const pool = genericIds
         ? genericIds.filter((id) => !used.has(id)).map((id) => ({ id }))
         : compatiblePortraits(faction, u.gender ?? "male", [...used]);
       const id = pool.length
-        ? pool[hash(`${s.seed}:${identity}`) % pool.length].id
+        ? pool[
+            u.id === "valdren-captain"
+              ? 0
+              : hash(`${s.seed}:${identity}`) % pool.length
+          ].id
         : null;
       state.assignments[identity] = id;
       if (id) used.add(id);
@@ -113,14 +119,14 @@ export function ensurePortraits(s: Campaign) {
     } else if (id === null) {
       delete u.portraitId;
       delete u.portraitAsset;
-    } else if (!u.portraitAsset) {
+    } else if (!u.portraitAsset || (!isNamed(u) && u.owner === 0)) {
       const generic =
         u.kind === "skeleton" || u.classId?.startsWith("sans_")
           ? "N05"
           : u.owner === 0
-            ? hash(u.id) % 2
-              ? "N03"
-              : "N04"
+            ? state.assignments["valdren-captain"] === "N03"
+              ? "N04"
+              : "N03"
             : hash(u.id) % 2
               ? "N01"
               : "N02";

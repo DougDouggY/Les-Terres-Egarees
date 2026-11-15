@@ -6487,3 +6487,608 @@ body:has(.aftermath-screen) .modal-back.rewards {
     animation-duration: 0.08s;
   }
 }
+
+/* Compact viewport layouts: controls remain in view, long lists scroll locally. */
+.mode-screen {
+  height: 100dvh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background: #172720;
+}
+.mode-screen > button {
+  align-self: flex-start;
+}
+.mode-screen > section {
+  margin: auto;
+  display: grid;
+  gap: 14px;
+  width: min(440px, 90vw);
+  text-align: center;
+}
+.mode-screen h1 {
+  margin: 0 0 12px;
+}
+.mode-screen p {
+  margin: 0;
+}
+.mode-screen small {
+  opacity: 0.7;
+}
+.title-screen .brand,
+.title-screen .chapter-card,
+.title-screen .title-note,
+.title-screen .title-footer,
+.title-screen .tagline,
+.title-screen .title-copy > .eyebrow {
+  display: none;
+}
+.title-screen {
+  height: 100dvh;
+  min-height: 0;
+  overflow: clip;
+}
+.title-copy {
+  padding: 0 !important;
+  position: absolute;
+  left: 8vw;
+  top: 8vh;
+  max-height: 86vh;
+  overflow: auto;
+}
+.title-copy h1 {
+  font-size: clamp(28px, 6vw, 76px);
+  margin: 0 0 24px;
+}
+.title-actions {
+  gap: 8px;
+}
+.title-actions > button {
+  padding: 12px 20px;
+}
+.dev-entry {
+  margin: 8px 0;
+  max-height: 25vh;
+  overflow: auto;
+}
+.dev-entry summary {
+  cursor: pointer;
+  padding: 8px;
+}
+.dev-entry button {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  padding: 6px;
+}
+.expedition-creator.config-screen {
+  height: 100dvh;
+  min-height: 0;
+  max-width: none;
+  padding: 12px 2vw;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  overflow: clip;
+}
+.creator-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.creator-toolbar h1 {
+  font-size: 22px;
+  margin: 0;
+}
+.expedition-creator .creator-parties {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 0;
+  gap: 2vw;
+  margin: 0;
+}
+.expedition-creator .creator-party {
+  min-width: 0;
+  min-height: 0;
+  padding: clamp(10px, 2vh, 22px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: auto;
+}
+.creator-factions .creator-party {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.creator-factions .faction-choice-icon {
+  font-size: clamp(45px, 12vh, 100px);
+}
+.expedition-creator .creator-party h2,
+.expedition-creator .creator-party h3 {
+  margin: 0;
+}
+.expedition-creator .creator-party-heading {
+  min-height: 0;
+  margin: 0;
+  padding: 0 0 8px;
+}
+.expedition-creator .creator-party-heading .eyebrow {
+  font-size: 11px;
+}
+.expedition-creator .creator-party-heading h2 {
+  font-size: 20px;
+}
+.expedition-creator .creator-hero {
+  padding: 0;
+  gap: 14px;
+  grid-template-columns: minmax(80px, 30%) 1fr;
+}
+.expedition-creator .hero-validation {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  border: 0;
+  flex: 1;
+}
+.expedition-creator .creator-hero-visual {
+  padding: 0;
+  min-height: 0;
+}
+.expedition-creator .creator-hero-visual canvas {
+  height: clamp(85px, 20vh, 175px);
+  max-width: 100%;
+  object-fit: contain;
+}
+.expedition-creator .creator-hero-fields {
+  gap: 10px;
+  min-width: 0;
+}
+.expedition-creator label {
+  font-size: 12px;
+  gap: 4px;
+}
+.expedition-creator input,
+.expedition-creator select {
+  min-width: 0;
+  width: 100%;
+  padding: 8px;
+}
+.expedition-creator .creator-fields-row {
+  gap: 8px;
+}
+.expedition-creator .creator-role {
+  font-size: 12px;
+  margin: 0;
+}
+.expedition-creator .hero-confirm {
+  margin: 0;
+  align-self: stretch;
+}
+.expedition-creator .creator-bottom {
+  margin: 0;
+  padding: 0;
+  gap: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.save-manager {
+  z-index: 10000;
+}
+.save-dialog {
+  width: min(760px, 94vw);
+  max-height: 92dvh;
+  overflow: auto;
+  padding: 20px;
+}
+.save-dialog > header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.save-dialog h2 {
+  margin: 0;
+}
+.save-dialog form {
+  display: flex;
+  align-items: end;
+  gap: 10px;
+}
+.save-dialog label {
+  flex: 1;
+  min-width: 0;
+}
+.save-slots {
+  display: grid;
+  gap: 10px;
+  margin: 15px 0;
+}
+.save-slots article,
+.legacy-save {
+  padding: 12px;
+  border: 1px solid #847b5d;
+  display: grid;
+  gap: 8px;
+}
+.save-slots small {
+  display: block;
+  color: #d2cbb7;
+}
+.save-slot-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.save-error {
+  color: #edb5a1;
+}
+.save-dialog button {
+  padding: 8px 12px;
+}
+.save-dialog input {
+  width: 100%;
+  min-width: 0;
+}
+/* Same visual bust height, with room for the widest shoulders. Four depth slots. */
+.fe-dialogue .chapter-portrait,
+.introduction-scene .intro-hero-portrait.chapter-portrait {
+  width: 42vw;
+  height: min(36vh, 26vw, 340px);
+  bottom: 0;
+  min-height: 0;
+  left: auto;
+  right: auto;
+}
+.fe-dialogue .chapter-portrait.portrait-left {
+  left: 3vw;
+  right: auto;
+}
+.fe-dialogue .chapter-portrait.portrait-right {
+  right: 3vw;
+  left: auto;
+}
+.fe-dialogue .chapter-portrait.portrait-back {
+  height: min(33vh, 24vw, 310px);
+  bottom: 10px;
+  z-index: 1;
+  opacity: 0.88;
+}
+.fe-dialogue .chapter-portrait.portrait-back.portrait-left {
+  left: 12vw;
+}
+.fe-dialogue .chapter-portrait.portrait-back.portrait-right {
+  right: 12vw;
+}
+.fe-dialogue .chapter-portrait.portrait-front {
+  z-index: 2;
+}
+/* Both paintings cover the stage. Viking crops favour the left-hand drakkar. */
+.intro-backdrop {
+  object-fit: cover;
+  object-position: center;
+}
+.introduction-scene[data-faction="north"] .intro-backdrop {
+  object-position: left center;
+}
+.intro-mist {
+  position: absolute;
+  inset: 25% -10% 10%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.22;
+  background:
+    radial-gradient(ellipse at 24% 60%, #e4edd3 0, transparent 35%),
+    radial-gradient(ellipse at 70% 44%, #d3e2d2 0, transparent 32%);
+  animation: clearing-mist 18s ease-in-out infinite alternate;
+}
+@keyframes clearing-mist {
+  to {
+    transform: translateX(6%) translateY(-3%);
+    opacity: 0.12;
+  }
+}
+.intro-interface {
+  z-index: 3;
+}
+.introduction-scene .intro-face-panel {
+  top: auto;
+  bottom: 4vh;
+  width: min(510px, 46vw);
+  left: 3vw;
+  right: auto;
+}
+.introduction-scene[data-faction="north"] .intro-face-panel {
+  right: 3vw;
+  left: auto;
+}
+.introduction-scene .intro-face-carousel {
+  height: min(36vh, 26vw, 340px);
+  gap: 8px;
+}
+.introduction-scene .intro-face-carousel button {
+  width: 36px;
+  font-size: 30px;
+}
+.introduction-scene .intro-face-image.chapter-portrait {
+  width: calc(100% - 88px);
+  height: 100%;
+}
+.introduction-scene .intro-face-panel > button {
+  margin-top: 8px;
+  min-width: 110px;
+}
+.introduction-scene .intro-hero-portrait.chapter-portrait {
+  position: absolute;
+  right: 3vw;
+  transition: filter 0.2s;
+  pointer-events: none;
+  border: 0;
+  background: none;
+}
+.introduction-scene[data-faction="north"]
+  .intro-hero-portrait.chapter-portrait {
+  left: 3vw;
+  right: auto;
+}
+.introduction-scene[data-intro-phase="join"] .intro-hero-portrait {
+  animation: join-knight 1.4s ease-in-out both;
+}
+.introduction-scene[data-faction="north"][data-intro-phase="join"]
+  .intro-hero-portrait {
+  animation-name: join-viking;
+}
+@keyframes join-knight {
+  from {
+    transform: translateX(-54vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes join-viking {
+  from {
+    transform: translateX(54vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.intro-hero-portrait.listening {
+  filter: brightness(0.8) saturate(0.88);
+}
+.introduction-scene .intro-recruit-panel {
+  left: 3vw;
+  right: auto;
+  top: 4vh;
+  width: min(380px, 43vw);
+  max-height: 49vh;
+  overflow: auto;
+  padding: 12px;
+}
+.introduction-scene[data-faction="north"] .intro-recruit-panel {
+  right: 3vw;
+  left: auto;
+}
+.introduction-scene .intro-recruit-portraits {
+  left: 3vw;
+  right: auto;
+  bottom: 0;
+  width: 50vw;
+  height: min(36vh, 26vw, 340px);
+}
+.introduction-scene[data-faction="north"] .intro-recruit-portraits {
+  right: 3vw;
+  left: auto;
+}
+.introduction-scene .intro-recruit-portraits .chapter-portrait {
+  width: 84%;
+  height: 100%;
+  bottom: 0;
+}
+.introduction-scene .intro-recruit-portraits .speaking {
+  left: 0;
+  right: auto;
+  z-index: 3;
+  transform: none;
+}
+.introduction-scene .intro-recruit-portraits .listening {
+  left: 16%;
+  right: auto;
+  z-index: 1;
+  transform: translateY(-10px) scale(0.94);
+}
+.introduction-scene[data-faction="north"] .intro-recruit-portraits .speaking {
+  right: 0;
+  left: auto;
+}
+.introduction-scene[data-faction="north"] .intro-recruit-portraits .listening {
+  right: 16%;
+  left: auto;
+}
+@media (max-width: 700px) {
+  .expedition-creator.config-screen {
+    padding: 8px;
+    gap: 8px;
+  }
+  .expedition-creator .creator-parties {
+    gap: 8px;
+  }
+  .expedition-creator .creator-party {
+    padding: 10px;
+    gap: 6px;
+  }
+  .expedition-creator .creator-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .expedition-creator .creator-hero-visual {
+    display: none;
+  }
+  .expedition-creator .creator-party-heading .faction-seal {
+    display: none;
+  }
+  .expedition-creator .creator-party-heading h2 {
+    font-size: 17px;
+  }
+  .expedition-creator .creator-fields-row {
+    display: flex;
+    flex-direction: column;
+  }
+  .expedition-creator .creator-role {
+    font-size: 11px;
+  }
+  .expedition-creator .creator-bottom button,
+  .expedition-creator .hero-confirm {
+    font-size: 12px;
+    padding: 9px;
+  }
+  .creator-toolbar h1 {
+    font-size: 19px;
+  }
+  .creator-factions .segmented {
+    flex-direction: column;
+    align-self: stretch;
+  }
+  .creator-factions .faction-choice-icon {
+    font-size: 50px;
+  }
+  .introduction-scene .intro-face-panel {
+    width: 67vw;
+    bottom: 7vh;
+  }
+  .introduction-scene .intro-face-carousel {
+    height: min(33vh, 42vw);
+    gap: 4px;
+  }
+  .introduction-scene .intro-face-carousel button {
+    width: 30px;
+  }
+  .introduction-scene .intro-face-image.chapter-portrait {
+    width: calc(100% - 68px);
+  }
+  .introduction-scene .intro-recruit-panel {
+    width: 70vw;
+    max-height: 46vh;
+  }
+  .intro-candidates {
+    gap: 4px;
+  }
+  .intro-candidates button {
+    padding: 6px 8px;
+  }
+  .intro-recruit-panel h2 {
+    font-size: 18px;
+  }
+  .intro-back {
+    font-size: 11px;
+    bottom: 8px;
+    left: 8px;
+  }
+  .save-dialog form {
+    flex-wrap: wrap;
+  }
+  .title-copy {
+    left: 6vw;
+    right: 6vw;
+    top: 6vh;
+  }
+  .title-copy h1 {
+    font-size: 42px;
+  }
+}
+@media (max-height: 540px) {
+  .expedition-creator .creator-role {
+    display: none;
+  }
+  .expedition-creator .creator-hero-visual {
+    display: none;
+  }
+  .expedition-creator .creator-party-heading {
+    padding: 0;
+  }
+  .expedition-creator .creator-fields-row {
+    flex-direction: row;
+  }
+  .expedition-creator .creator-hero {
+    display: block;
+  }
+  .expedition-creator .creator-hero-fields {
+    gap: 4px;
+  }
+  .expedition-creator label {
+    font-size: 11px;
+  }
+  .expedition-creator input,
+  .expedition-creator select {
+    padding: 4px;
+  }
+  .expedition-creator .creator-party {
+    gap: 4px;
+    padding: 8px;
+  }
+  .creator-toolbar button {
+    padding: 5px;
+  }
+  .intro-recruit-panel .intro-candidates {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-mist {
+    animation: none;
+  }
+  .introduction-scene[data-intro-phase="join"] .intro-hero-portrait {
+    animation-duration: 0.168s;
+  }
+}
+.story-save {
+  position: fixed;
+  bottom: 12px;
+  left: calc(50% - 55px);
+  z-index: 30;
+  padding: 6px 12px;
+  font-size: 12px;
+  background: #172720d9;
+}
+.character-portrait-slot,
+.companion-identity,
+.appearance-preview,
+.appearance-gallery button,
+.portrait {
+  background: #d9c8a0;
+}
+.expedition-creator .creator-hero {
+  background: #e4d4b0;
+  box-shadow: none;
+  border: 1px solid #92784d;
+  padding: 12px;
+  min-width: 0;
+  overflow: visible;
+}
+.expedition-creator .creator-hero-fields {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.expedition-creator .creator-hero.hero-form label {
+  margin: 0;
+  min-width: 0;
+  font-size: 12px;
+}
+.expedition-creator .creator-role {
+  color: #594126;
+}
+.expedition-creator .creator-bottom > button {
+  min-height: 36px;
+}
+@media (max-height: 540px) {
+  .expedition-creator .creator-hero {
+    padding: 6px;
+  }
+}
+.expedition-creator .hero-validation legend {
+  font: 18px var(--serif);
+  padding: 0 0 6px;
+  color: #e5d2a6;
+}

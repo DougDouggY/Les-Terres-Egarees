@@ -9,7 +9,7 @@ test("generic profiles show their faction while preserving class and personal id
     captain = s.units.find((u) => u.id === "valdren-captain")!,
     geraud = s.units.find((u) => u.id === "geraud")!;
   assert.equal(characterHeading(soldier), "Valdren");
-  assert.equal(characterHeading(captain), "Valdren");
+  assert.equal(characterHeading(captain), "Capitaine Aldric");
   assert.equal(characterHeading(geraud), "Géraud");
   assert.equal(
     characterHeading(s.units.find((u) => u.id === "story-witch")!),

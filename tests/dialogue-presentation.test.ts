@@ -128,3 +128,39 @@ test("portraits : masque d’affichage limité au fond connecté, détails sombr
   assert.equal(mask[(1 * w + 1) * 4 + 3], 255);
   assert.deepEqual(p, before);
 });
+
+test("dialogues : quatre positions, deux portraits par côté, actif devant, aucun interlocuteur futur", () => {
+  const s = E.createCampaign(["north", "knight"]);
+  const units = s.units.filter((u) => u.owner !== 0);
+  const left = units.filter((u) => u.owner === 1).slice(0, 2),
+    right = units.filter((u) => u.owner === 2).slice(0, 2);
+  const lines = [...left, ...right].map((u) => ({
+    speaker: "unknown" as const,
+    unitId: u.id,
+    text: "Réplique",
+  }));
+  assert.equal(dialogueCast(s, lines, 0).length, 1);
+  const cast = dialogueCast(s, lines, 3);
+  assert.equal(cast.length, 4);
+  for (const side of ["left", "right"]) {
+    const group = cast.filter((p) => p.side === side);
+    assert.equal(group.length, 2);
+    assert.equal(group.filter((p) => p.depth === "front").length, 1);
+    assert.equal(group.filter((p) => p.depth === "back").length, 1);
+  }
+  assert.equal(cast.find((p) => p.active)!.depth, "front");
+});
+test("portraits : vêtement sombre relié au bord conservé, fond extérieur supprimé", () => {
+  const w = 8,
+    h = 8,
+    p = new Uint8ClampedArray(w * h * 4);
+  for (let k = 0; k < w * h; k++) p.set([7, 14, 28, 255], k * 4);
+  for (let y = 2; y < h; y++) {
+    p.set([190, 120, 70, 255], (y * w + 2) * 4);
+    p.set([190, 120, 70, 255], (y * w + 5) * 4);
+  }
+  const mask = portraitBackdropMask(p, w, h);
+  assert.equal(mask[(7 * w + 3) * 4 + 3], 255);
+  assert.equal(mask[(7 * w + 4) * 4 + 3], 255);
+  assert.equal(mask[(7 * w + 0) * 4 + 3], 0);
+});

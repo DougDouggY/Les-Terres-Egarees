@@ -1,23 +1,43 @@
-/** A display-only alpha mask for the supplied navy backdrops, preserving enclosed dark details. */
+/** Flood the edge-connected navy background, protecting the body silhouette below the hair. */
 export function portraitBackdropMask(
   pixels: Uint8ClampedArray,
   width: number,
   height: number,
+  bodyStart = 0.47,
+  trimRight = 0,
 ) {
   const outside = new Uint8Array(width * height),
-    queue = new Uint32Array(width * height);
-  let read = 0,
-    write = 0;
-  const visit = (k: number) => {
-    if (outside[k]) return;
+    queue = new Uint32Array(width * height),
+    protectedBody = new Uint8Array(width * height);
+  const background = (k: number) => {
     const i = k * 4,
       r = pixels[i],
       g = pixels[i + 1],
       b = pixels[i + 2];
-    if (
+    return (
+      (trimRight > 0 &&
+        k % width >= width - trimRight &&
+        Math.floor(k / width) > height * 0.75) ||
       pixels[i + 3] === 0 ||
       (r < 18 && g < 26 && b < 48 && g >= r + 3 && b >= g + 4)
-    ) {
+    );
+  };
+  // The original flood could enter navy collars/armour from the bottom edge. Keep their
+  // row envelope intact; hair above this boundary still permits connected background gaps.
+  for (let y = Math.floor(height * bodyStart); y < height; y++) {
+    let left = width,
+      right = -1;
+    for (let x = 0; x < width; x++)
+      if (!background(y * width + x)) {
+        left = Math.min(left, x);
+        right = x;
+      }
+    for (let x = left; x <= right; x++) protectedBody[y * width + x] = 1;
+  }
+  let read = 0,
+    write = 0;
+  const visit = (k: number) => {
+    if (!outside[k] && !protectedBody[k] && background(k)) {
       outside[k] = 1;
       queue[write++] = k;
     }
@@ -46,34 +66,110 @@ export function portraitBackdropMask(
   }
   return mask;
 }
-const masks = new Map<string, string>();
-/** Original portrait files and colours stay intact; only their displayed backdrop is masked. */
+/** Explicit cloth region on R03 only; never a global hue replacement. Neutral metal,
+ * skin, eyes, hair, gold trim and the original luminance are retained. */
+export function recolorGeraud(
+  pixels: Uint8ClampedArray,
+  w: number,
+  h: number,
+  rgb: readonly number[],
+) {
+  const polygon = [
+    [0.17, 0.66],
+    [0.25, 0.59],
+    [0.52, 0.54],
+    [0.64, 0.53],
+    [0.72, 0.57],
+    [0.62, 0.67],
+    [0.57, 0.75],
+    [0.39, 0.87],
+    [0.25, 0.83],
+    [0.2, 0.74],
+  ];
+  for (let y = 0; y < h; y++)
+    for (let x = 0; x < w; x++) {
+      const px = x / w,
+        py = y / h;
+      let inside = false;
+      for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+        const [ax, ay] = polygon[i],
+          [bx, by] = polygon[j];
+        if (
+          ay > py !== by > py &&
+          px < ((bx - ax) * (py - ay)) / (by - ay) + ax
+        )
+          inside = !inside;
+      }
+      if (!inside) continue;
+      const k = (y * w + x) * 4,
+        r = pixels[k],
+        g = pixels[k + 1],
+        b = pixels[k + 2];
+      if (
+        b > 35 &&
+        b > r * 1.2 &&
+        b > g * 1.13 &&
+        Math.max(r, g, b) - Math.min(r, g, b) >= 15
+      ) {
+        const lum = 0.2126 * r + 0.7152 * g + 0.0722 * b,
+          target = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2],
+          scale = lum / Math.max(1, target);
+        for (let c = 0; c < 3; c++)
+          pixels[k + c] = Math.min(255, Math.round(rgb[c] * scale));
+      }
+    }
+}
+import { teamPalette } from "../game/team-colors";
+const images = new Map<string, string>();
+const prepared = new WeakSet<HTMLImageElement>();
+/** Shared by dialogue, creation, unit sheets and recruitment: original files stay untouched. */
 export function maskDialoguePortraits(root: HTMLElement) {
   for (const im of Array.from(
-    root.querySelectorAll<HTMLImageElement>(".chapter-portrait img"),
+    root.querySelectorAll<HTMLImageElement>("img.identity-portrait"),
   )) {
+    if (prepared.has(im)) continue;
+    prepared.add(im);
+    const source = im.dataset.portraitSource || im.src;
+    im.dataset.portraitSource = source;
     const apply = () => {
       if (!im.naturalWidth) return;
-      let mask = masks.get(im.src);
-      if (!mask) {
+      const id = source.match(/\/([CVRN]\d\d)\.png/)?.[1];
+      if (!id) return;
+      const color = im.dataset.teamColor as
+          keyof typeof teamPalette | undefined,
+        key = source + ":" + (color ?? "original");
+      let display = images.get(key);
+      if (!display) {
         const c = document.createElement("canvas");
         c.width = im.naturalWidth;
         c.height = im.naturalHeight;
         const ctx = c.getContext("2d")!;
         ctx.drawImage(im, 0, 0);
-        const pixels = ctx.getImageData(0, 0, c.width, c.height);
-        pixels.data.set(portraitBackdropMask(pixels.data, c.width, c.height));
-        ctx.putImageData(pixels, 0, 0);
-        mask = c.toDataURL();
-        masks.set(im.src, mask);
+        const p = ctx.getImageData(0, 0, c.width, c.height),
+          mask = portraitBackdropMask(
+            p.data,
+            c.width,
+            c.height,
+            id.startsWith("V") ? 0.68 : 0.47,
+            id === "R03" ? 7 : id === "C07" ? 2 : 0,
+          );
+        if (id === "R03" && color && teamPalette[color])
+          recolorGeraud(p.data, c.width, c.height, teamPalette[color].rgb);
+        for (let k = 3; k < p.data.length; k += 4) p.data[k] = mask[k];
+        ctx.putImageData(p, 0, 0);
+        display = c.toDataURL();
+        images.set(key, display);
       }
-      im.style.maskImage = `url("${mask}")`;
-      im.style.maskSize = "contain";
-      im.style.maskPosition = "center bottom";
-      im.style.maskRepeat = "no-repeat";
+      im.src = display;
       im.dataset.backdropMasked = "true";
     };
-    if (im.complete) apply();
+    if (im.complete && im.naturalWidth) apply();
     else im.addEventListener("load", apply, { once: true });
   }
+}
+export function installPortraitMasks(root: HTMLElement) {
+  const observer = new MutationObserver(() => maskDialoguePortraits(root));
+  observer.observe(root, { childList: true, subtree: true });
+  maskDialoguePortraits(root);
+  return () => observer.disconnect();
 }

@@ -30,6 +30,7 @@ type Phase =
   | "approach"
   | "hood"
   | "face"
+  | "join"
   | "ready"
   | "invite"
   | "relocate"
@@ -49,7 +50,7 @@ export type IntroductionOptions = {
   back: () => void;
 };
 export function introductionMarkup(h: E.HeroConfig, index: number) {
-  return `<main class="introduction-scene" aria-label="Introduction ${h.faction === "north" ? "Viking" : "Chevalier"}" data-intro-owner="${index}" data-intro-phase="loading"><img class="intro-backdrop" src="${import.meta.env.BASE_URL + introductionBackdrops[h.faction]}" alt="${h.faction === "north" ? "Clairière avec le drakkar à gauche" : "Clairière au milieu de la forêt"}"><canvas class="intro-actors" aria-label="Personnages de la scène"></canvas><div class="intro-interface"></div><button type="button" class="intro-back" data-intro-back>← Retour aux paramètres</button><span class="intro-loading" role="status">Chargement…</span></main>`;
+  return `<main class="introduction-scene" aria-label="Introduction ${h.faction === "north" ? "Viking" : "Chevalier"}" data-faction="${h.faction}" data-intro-owner="${index}" data-intro-phase="loading"><img class="intro-backdrop" src="${import.meta.env.BASE_URL + introductionBackdrops[h.faction]}" alt="${h.faction === "north" ? "Clairière avec le drakkar à gauche" : "Clairière au milieu de la forêt"}"><canvas class="intro-actors" aria-label="Personnages de la scène"></canvas><div class="intro-mist" aria-hidden="true"></div><div class="intro-interface"></div><button type="button" class="intro-back" data-intro-back>← Retour aux paramètres</button><span class="intro-loading" role="status">Chargement…</span></main>`;
 }
 /** A local presentation controller: no campaign units, map data, statistics or story state are changed. */
 export class IntroductionScene {
@@ -110,11 +111,18 @@ export class IntroductionScene {
       0,
       "male",
     );
-    this.start = { x: h.faction === "north" ? 0.3 : 0.34, y: 0.64 };
-    this.stop = { x: h.faction === "north" ? 0.51 : 0.47, y: 0.46 };
-    this.left = { x: h.faction === "north" ? 0.3 : 0.28, y: 0.56 };
+    this.start = { x: h.faction === "north" ? 0.9 : 0.12, y: 0.61 };
+    this.stop = { x: h.faction === "north" ? 0.53 : 0.43, y: 0.53 };
+    this.left = { x: h.faction === "north" ? 0.35 : 0.65, y: 0.55 };
+    if (h.faction === "north" && root.clientWidth < root.clientHeight) {
+      this.start = { x: 0.98, y: 0.61 };
+      this.stop = { x: 0.78, y: 0.54 };
+      this.left = { x: 0.62, y: 0.57 };
+    }
     this.heroPosition = { ...this.start };
-    this.hostPosition = { x: this.stop.x + 0.12, y: 0.46 };
+    this.hostPosition = { x: h.faction === "north" ? 0.28 : 0.6, y: 0.48 };
+    if (h.faction === "north" && root.clientWidth < root.clientHeight)
+      this.hostPosition = { x: 0.54, y: 0.48 };
     const loaded =
       this.image.complete && this.image.naturalWidth
         ? Promise.resolve()
@@ -180,7 +188,7 @@ export class IntroductionScene {
     if (this.phase === "invite")
       html = this.bubble(E.recruitmentVoice(h.faction)[1]);
     if (this.phase === "face")
-      html = `<section class="intro-face-panel" aria-label="Choix du visage"><div class="intro-face-carousel"><button type="button" data-intro-face="-1" aria-label="Visage précédent">‹</button><div class="intro-face-image chapter-portrait" data-face-id="${h.portraitId ?? ""}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name)}</div><button type="button" data-intro-face="1" aria-label="Visage suivant">›</button></div><button type="button" class="primary" data-intro-confirm-face>Valider</button></section>`;
+      html = `<section class="intro-face-panel" aria-label="Choix du visage"><div class="intro-face-carousel"><button type="button" data-intro-face="-1" aria-label="Visage précédent">‹</button><div class="intro-face-image chapter-portrait" data-face-id="${h.portraitId ?? ""}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name, h.faction === "knight")}</div><button type="button" data-intro-face="1" aria-label="Visage suivant">›</button></div><button type="button" class="primary" data-intro-confirm-face>Valider</button></section>`;
     if (this.phase === "recruit")
       html = `<section class="intro-recruit-panel" aria-label="Choix des compagnons"><h2>${h.faction === "north" ? "Vos compagnons" : "Votre compagnon"}</h2><div class="intro-candidates">${E.companionRoster
         .filter((c) => c.faction === h.faction)
@@ -199,7 +207,7 @@ export class IntroductionScene {
         )
         .map(
           (u, j) =>
-            `<div class="chapter-portrait ${j === this.recruitIndex ? "speaking" : "listening"}" data-intro-portrait="${j}">${portraitMarkup(this.recruitAssets[j], u.name, false)}</div>`,
+            `<div class="chapter-portrait ${j === this.recruitIndex ? "speaking" : "listening"}" data-intro-portrait="${j}">${portraitMarkup(this.recruitAssets[j], u.name, h.faction === "knight")}</div>`,
         )
         .join("")}</div>`;
       if (this.phase === "words")
@@ -207,6 +215,19 @@ export class IntroductionScene {
           companionIntroductions[this.selected[this.recruitIndex]],
         );
     }
+    if (
+      [
+        "join",
+        "ready",
+        "invite",
+        "relocate",
+        "recruit",
+        "arrival",
+        "words",
+        "ending",
+      ].includes(this.phase)
+    )
+      html += `<div class="intro-hero-portrait chapter-portrait ${["words", "arrival"].includes(this.phase) ? "listening" : "speaking"}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name, h.faction === "north")}</div>`;
     this.ui.innerHTML = html;
     maskDialoguePortraits(this.ui);
     this.root.querySelector<HTMLButtonElement>(".intro-back")!.hidden = [
@@ -236,7 +257,7 @@ export class IntroductionScene {
     }
     if (el.hasAttribute("data-intro-confirm-face") && this.phase === "face") {
       this.options.flow.faceStage[this.options.index] = "confirmed";
-      this.enter("ready");
+      this.enter("join");
       return;
     }
     if (el.dataset.introCandidate && this.phase === "recruit") {
@@ -339,8 +360,8 @@ export class IntroductionScene {
     now: number,
     rect: ReturnType<typeof fittedBackdrop>,
   ) {
-    const x = rect.x + p.x * rect.w,
-      y = rect.y + p.y * rect.h;
+    const x = p.x * this.root.clientWidth,
+      y = p.y * this.root.clientHeight;
     const body = Math.max(44, Math.min(82, 96 * rect.scale));
     this.ctx.fillStyle = "#07170d55";
     this.ctx.beginPath();
@@ -348,7 +369,7 @@ export class IntroductionScene {
     this.ctx.fill();
     this.ctx.save();
     this.ctx.translate(x, y);
-    if (faceRight) this.ctx.scale(-1, 1);
+    if (!faceRight) this.ctx.scale(-1, 1);
     const profile = unitSpriteProfile(u),
       animation = move && resolveClip(profile, "move") ? "move" : "idle";
     drawResourceFrame(
@@ -389,24 +410,53 @@ export class IntroductionScene {
           this.image.naturalHeight,
           box.width,
           box.height,
+          this.config.faction === "north" ? 0 : 0.5,
         ),
         elapsed = now - this.phaseStarted;
       let moving = false,
-        facing = true;
+        facing = this.config.faction === "knight";
       if (this.phase === "approach") {
         const t = elapsed / (1800 * this.motion);
         this.heroPosition = this.interpolate(this.start, this.stop, t);
         moving = t < 1;
         if (t >= 1) this.enter("hood");
       }
-      if (this.phase === "relocate") {
+      if (this.phase === "join") {
         const t = elapsed / (1400 * this.motion);
         this.heroPosition = this.interpolate(this.stop, this.left, t);
         moving = t < 1;
-        facing = !moving;
-        if (t >= 1) this.enter("recruit");
+        facing = moving
+          ? this.config.faction === "knight"
+          : this.config.faction === "north";
+        if (t >= 1) this.enter("ready");
       }
-      this.paint(this.host, this.hostPosition, false, false, now, rect);
+      if (
+        [
+          "ready",
+          "invite",
+          "relocate",
+          "recruit",
+          "arrival",
+          "words",
+          "ending",
+        ].includes(this.phase)
+      )
+        facing = this.config.faction === "north";
+      if (this.phase === "relocate") this.enter("recruit");
+      const north = this.config.faction === "north";
+      this.paint(this.host, this.hostPosition, false, north, now, rect);
+      for (const [dx, dy] of [
+        [north ? -0.09 : 0.1, 0.08],
+        [north ? 0.07 : -0.04, -0.08],
+      ])
+        this.paint(
+          this.host,
+          { x: this.hostPosition.x + dx, y: this.hostPosition.y + dy },
+          false,
+          north,
+          now,
+          rect,
+        );
       this.paint(this.hero, this.heroPosition, moving, facing, now, rect);
       for (
         let j = 0;
@@ -416,17 +466,23 @@ export class IntroductionScene {
       ) {
         if (j > this.recruitIndex) break;
         const target = {
-          x: this.left.x + 0.16 + j * 0.12,
-          y: this.left.y + j * 0.045,
+          x: this.stop.x + (north ? j * 0.1 : -j * 0.1),
+          y: this.stop.y + 0.04 + j * 0.045,
         };
         const entering = this.phase === "arrival" && j === this.recruitIndex;
         const t = entering ? elapsed / (1400 * this.motion) : 1;
-        const p = this.interpolate({ x: 0.87, y: target.y }, target, t);
-        this.paint(this.recruits[j], p, entering && t < 1, false, now, rect);
+        const p = this.interpolate(
+          { x: north ? 0.96 : 0.06, y: target.y },
+          target,
+          t,
+        );
+        this.paint(this.recruits[j], p, entering && t < 1, !north, now, rect);
         if (entering && t >= 1) this.enter("words");
       }
       this.canvas.dataset.heroX = String(this.heroPosition.x);
       this.canvas.dataset.heroFacing = facing ? "right" : "left";
+      this.canvas.dataset.hostFacing = north ? "right" : "left";
+      this.canvas.dataset.decorativeActors = "2";
       this.canvas.dataset.hostX = String(this.hostPosition.x);
     }
     this.raf = requestAnimationFrame(this.draw);

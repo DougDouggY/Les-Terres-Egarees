@@ -33,6 +33,15 @@ export function encode(s: Campaign) {
 export function decode(raw: string): Campaign {
   const s = JSON.parse(raw);
   s.teamColors = normalizeTeamColors(s.teamColors);
+  // Preserve unit identity and portraits while upgrading the former territorial label.
+  const captain =
+    Array.isArray(s.units) &&
+    s.units.find((u: { id: string }) => u.id === "valdren-captain");
+  if (captain && captain.name === "Capitaine de Valdren") {
+    captain.name = "Capitaine Aldric";
+    captain.hasPersonalName = true;
+  }
+
   if (
     s.version !== 1 ||
     !Array.isArray(s.units) ||

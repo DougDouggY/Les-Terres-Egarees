@@ -4,7 +4,8 @@ test("création : deux introductions animées, candidats cachés, sauvegarde et 
 }) => {
   const { completeIntroduction } = await import("./introduction-flow");
   await page.goto("/");
-  await page.getByRole("button", { name: /Nouvelle aventure/ }).click();
+  await page.getByRole("button", { name: /Nouvelle partie/ }).click();
+  await page.getByRole("button", { name: "Jouer solo", exact: true }).click();
   await page.getByRole("button", { name: /Créer nos personnages/ }).click();
   await expect(page.getByText("Vous", { exact: true })).toHaveCount(2);
   expect(await page.locator(".expedition-creator").innerText()).not.toMatch(
@@ -22,10 +23,8 @@ test("création : deux introductions animées, candidats cachés, sauvegarde et 
   const knight = await completeIntroduction(page, 1, "knight", "C04", [
     "gaspard",
   ]);
-  await page.waitForFunction(() => !!localStorage.getItem("lte-save"));
-  const saved = await page.evaluate(() =>
-    JSON.parse(localStorage.getItem("lte-save")!),
-  );
+  const { saveIntroduction } = await import("./introduction-flow");
+  const saved = await saveIntroduction(page);
   expect(saved.portraits.assignments.p1a).toBe("V10");
   expect(saved.portraits.assignments.p2a).toBe("C04");
   expect(
@@ -44,8 +43,9 @@ test("création : deux introductions animées, candidats cachés, sauvegarde et 
   );
   await page.reload();
   await page.locator('[data-action="continue"]').click();
+  await page.locator("[data-slot-load]").click();
   await expect(page.locator(".chapter-portrait.speaking img")).toHaveAttribute(
-    "src",
+    "data-portrait-source",
     /V10.png$/,
     { timeout: 15000 },
   );

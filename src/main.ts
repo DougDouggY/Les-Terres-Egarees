@@ -1,3 +1,5 @@
+import { openSaveManager } from "./ui/save-manager";
+import { installPortraitMasks } from "./ui/portrait-mask";
 import { IntroductionScene, introductionMarkup } from "./ui/introduction-scene";
 import { compatiblePortraits } from "./data/portraits";
 import { unitPortrait } from "./game/portraits";
@@ -165,9 +167,8 @@ function audio(type = "hit") {
     o.onended = () => void ctx.close();
   } catch {}
 }
-function saveKey() {
-  return state?.developmentTest ? "lte-chapter-one-test" : "lte-save";
-}
+let chapterTestStart: string | null = null;
+installPortraitMasks(app);
 function title() {
   introductionScene?.dispose();
   introductionScene = undefined;
@@ -178,7 +179,11 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>UN RÉCIT DE BRUME ET DE CENDRES</small></span><span class="edition">PROLOGUE · LES TERRES ÉGARÉES</span></header><section class="title-copy"><div class="eyebrow"><span></span> UN TACTICAL RPG NARRATIF</div><h1>LES TERRES<br><em>ÉGARÉES</em></h1><p class="tagline">Deux expéditions. Deux histoires.<br>Un même piège.</p><div class="title-actions">${button("Nouvelle aventure <span>→</span>", "new", "primary")}${button("Continuer <span>→</span>", "continue", "quiet", !localStorage.getItem("lte-save"))}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${prototypeTools ? `<div class="dev-entry"><small>OUTILS DU PROTOTYPE · DÉVELOPPEMENT</small>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</div>` : ""}</div><div class="title-note"><span class="small-diamond">◇</span> UNE AVENTURE SOLO · DEUX DESTINS À GUIDER</div></section><aside class="chapter-card"><span class="eyebrow">PROLOGUE / LES TERRES ÉGARÉES</span><h2>La brume n’oublie<br>aucun naufragé.</h2><p>Au-delà des cartes connues,<br>quelque chose vous attend.</p><div class="line"></div><span class="card-meta">STRATÉGIE AU TOUR PAR TOUR <span>✦</span> DARK FANTASY</span></aside><footer class="title-footer"><span>UNE TERRE INCONNUE. UNE ALLIANCE IMPROBABLE.</span><span>FRANÇAIS <i>◆</i> SAUVEGARDE LOCALE</span></footer><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
+}
+function modeChoice() {
+  screen = "mode";
+  app.innerHTML = `<main class="mode-screen"><button data-action="title">← Retour</button><section><h1>Nouvelle partie</h1><button class="primary" data-action="solo">Jouer solo</button><p>Vous contrôlez les deux équipes.</p><button disabled>Jouer avec un ami</button><small>Salons avec code — à venir</small></section></main>`;
 }
 function options() {
   const modal = document.createElement("div");
@@ -247,7 +252,6 @@ function startConfiguredCampaign() {
   origin = null;
   moved = false;
   battleUI();
-  save(true);
 }
 function configure() {
   introductionScene?.dispose();
@@ -390,7 +394,7 @@ function showPrologueTitle(s: Campaign) {
   const forest = s.chapter1?.pending?.id === "c1-title",
     titleId = s.chapter1!.pending!.id;
   app.innerHTML = `<main class="prologue-title" aria-label="${forest ? "Chapitre 1 — Pour ne pas oublier" : "Prologue — Les Terres Égarées"}"><div class="prologue-storm"></div><div class="prologue-mist mist-one"></div><div class="prologue-mist mist-two"></div><div class="prologue-perspectives">${owners.map((owner) => `<span>Joueur ${owner} · ${s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</span>`).join("")}</div><section><span>${forest ? "CHAPITRE 1" : "PROLOGUE"}</span><h1>${forest ? "Pour ne pas oublier" : "Les Terres Égarées"}</h1><i></i></section></main>`;
-  localStorage.setItem(saveKey(), E.encode(s));
+
   const token = ++prologueToken;
   setTimeout(() => {
     if (
@@ -403,7 +407,7 @@ function showPrologueTitle(s: Campaign) {
       id: titleId,
       page: 0,
     });
-    localStorage.setItem(saveKey(), E.encode(s));
+
     if (s.chapter1?.pending?.id === titleId) {
       app
         .querySelector("section")!
@@ -429,7 +433,7 @@ function chapterCinematic() {
   }
   if (["prologue", "c1-title"].includes(s.chapter1.pending.id)) {
     if (s.developmentTest && s.chapter1.pending.id === "c1-title")
-      localStorage.setItem("lte-chapter-one-start", E.encode(s));
+      chapterTestStart = E.encode(structuredClone(s));
     showPrologueTitle(s);
     return;
   }
@@ -452,14 +456,7 @@ function chapterCinematic() {
   hover = null;
   aim = null;
   app.innerHTML =
-    '<main class="chapter-screen"><canvas id="story-map" aria-label="Mise en scène sur la carte tactique"></canvas><div id="chapter-overlay"></div></main>';
-  const checkpoint = () => {
-    try {
-      localStorage.setItem(saveKey(), E.encode(s));
-    } catch {
-      /* retain last stable checkpoint */
-    }
-  };
+    '<main class="chapter-screen"><canvas id="story-map" aria-label="Mise en scène sur la carte tactique"></canvas><div id="chapter-overlay"></div><button class="story-save" data-action="story-save">Sauvegarder</button></main>';
   chapterDirector = new ChapterDirector(
     app.querySelector("#chapter-overlay")!,
     s,
@@ -472,12 +469,10 @@ function chapterCinematic() {
         { id: s.chapter1!.pending!.id, page: oldPage },
       );
       if (!finished && s.chapter1?.pending?.page === oldPage) {
-        checkpoint();
         return;
       }
       if (!finished) {
         chapterDirector!.refresh();
-        checkpoint();
         return;
       }
       chapterDirector?.dispose();
@@ -513,7 +508,6 @@ function chapterCinematic() {
           void fight(actor, target);
         else finishTurn();
       } else battleUI();
-      save(true);
     },
     (time, frame) => {
       chapterFrame = frame;
@@ -528,7 +522,6 @@ function chapterCinematic() {
     (owner, choice) => {
       if (!E.controlsOwner(owner)) return;
       const resolved = E.votePatrol(s, owner, choice);
-      checkpoint();
       if (resolved) cinematic();
       else chapterDirector!.refresh();
     },
@@ -537,12 +530,10 @@ function chapterCinematic() {
       if (owner === undefined ? view.mode !== "local" : !E.controlsOwner(owner))
         return;
       const done = E.confirmPatrol(s, owner, { choice, revision });
-      checkpoint();
       if (done) cinematic();
       else chapterDirector!.refresh();
     },
   );
-  checkpoint();
 }
 function cinematic() {
   if (state?.scene?.startsWith("chapter1:")) {
@@ -562,7 +553,6 @@ function cinematic() {
     s.scene = null;
     s.phase = "summary";
     summary();
-    save(true);
   } else {
     s.scene = null;
     s.phase = "battle";
@@ -586,11 +576,10 @@ function nextScene() {
         void fight(actor, target);
       else finishTurn();
     } else battleUI();
-    save(true);
   } else cinematic();
 }
 function portrait(u: Unit, large = false) {
-  return `<div class="portrait ${large ? "large" : ""}">${portraitMarkup(unitPortrait(state ?? undefined, u), u.name)}</div>`;
+  return `<div class="portrait ${large ? "large" : ""}">${portraitMarkup(unitPortrait(state ?? undefined, u), u.name, false, E.colorForOwner(state?.teamColors ?? E.defaultTeamColors, u.owner))}</div>`;
 }
 function canManageCharacter(u: Unit) {
   return (
@@ -821,7 +810,7 @@ function battleUI() {
   ${cardOpen && sel && E.seen(s, s.active, sel) ? `<section class="unit-window character-window" aria-label="Personnage · ${esc(characterHeading(sel))}"><button class="close-unit" data-action="close-unit" aria-label="Fermer le personnage">×</button>${unitCard(sel)}${sel.owner !== 0 ? promotionMarkup(sel) : ""}</section>` : ""}
   ${sel && own && sel.id === u?.id && moved && !busy && !targetingAttack && !cardOpen ? contextActions(u) : ""}
   </div></section></div></main>`;
-  initiativeCleanup = bindInitiative(app, s, () => save(true));
+  initiativeCleanup = bindInitiative(app, s, () => {});
   bindCanvas();
   positionContextMenu();
   document
@@ -2022,7 +2011,6 @@ function finishTurn() {
   selected = null;
   E.advance(state);
   battleUI();
-  if (!state.scene) save(true);
 }
 function preview(a: Unit, b: Unit) {
   if (!E.controlsOwner(a.owner) || a.owner !== state?.active) return;
@@ -2332,30 +2320,28 @@ async function enemyTurn() {
   if (target && E.canAttack(u, target)) await fight(u, target);
   else finishTurn();
 }
-function save(silent = false) {
+function loadCampaign(loaded: Campaign) {
+  chapterDirector?.dispose();
+  chapterDirector = undefined;
+  prologueToken++;
+  state = loaded;
+  selected = null;
+  aim = null;
+  origin = null;
+  busy = false;
+  moved = state.committedMove === E.current(state)?.id;
+  if (state.phase === "summary" || state.phase === "camp") summary();
+  else battleUI();
+}
+function save() {
   if (!state || busy || origin) {
-    if (!silent) toast("Terminez ou annulez l’action avant de sauvegarder.");
+    toast("Terminez ou annulez l’action avant de sauvegarder.");
     return;
   }
-  try {
-    localStorage.setItem(saveKey(), E.encode(state));
-    if (!silent) toast("Votre aventure a été sauvegardée.");
-  } catch {
-    if (!silent) toast("Sauvegarde impossible pendant cette transition.");
-  }
+  openSaveManager(state, loadCampaign);
 }
 function resume() {
-  try {
-    state = E.decode(localStorage.getItem("lte-save") || "");
-    selected = null;
-    aim = null;
-    origin = null;
-    moved = state.committedMove === E.current(state)?.id;
-    if (state.phase === "summary" || state.phase === "camp") summary();
-    else battleUI();
-  } catch {
-    toast("Cette sauvegarde est absente ou incompatible.");
-  }
+  openSaveManager(null, loadCampaign);
 }
 function summary() {
   initiativeCleanup?.();
@@ -2405,7 +2391,7 @@ function defeat() {
   initiativeCleanup?.();
   initiativeCleanup = undefined;
   screen = "defeat";
-  app.innerHTML = `<main class="defeat"><span class="eyebrow">LA BRUME A REPRIS SES DROITS</span><h1>Le dernier feu<br>s’est éteint.</h1><p>Une expédition a été anéantie. La partie est terminée.</p>${button("Reprendre la sauvegarde", "continue", "primary", !localStorage.getItem("lte-save"))}${button("Nouvelle aventure", "new")}</main>`;
+  app.innerHTML = `<main class="defeat"><span class="eyebrow">LA BRUME A REPRIS SES DROITS</span><h1>Le dernier feu<br>s’est éteint.</h1><p>Une expédition a été anéantie. La partie est terminée.</p>${button("Reprendre la sauvegarde", "continue", "primary")}${button("Nouvelle aventure", "new")}</main>`;
 }
 function pause() {
   const modal = document.createElement("div");
@@ -2418,6 +2404,10 @@ app.addEventListener("click", async (e) => {
   const el = (e.target as HTMLElement).closest<HTMLElement>("[data-action]");
   if (!el || el.hasAttribute("disabled")) return;
   const action = el.dataset.action!;
+  if (action === "story-save") {
+    if (state) openSaveManager(state, loadCampaign);
+    return;
+  }
   if (action === "narrative-plan") {
     screen = "plan";
     openNarrativePlan(app, title);
@@ -2435,11 +2425,8 @@ app.addEventListener("click", async (e) => {
     initiativeCleanup?.();
     if (action === "resume-chapter-one")
       state = E.decode(localStorage.getItem("lte-chapter-one-test") || "");
-    else if (
-      action === "restart-chapter-one" &&
-      localStorage.getItem("lte-chapter-one-start")
-    )
-      state = E.decode(localStorage.getItem("lte-chapter-one-start")!);
+    else if (action === "restart-chapter-one" && chapterTestStart)
+      state = E.decode(chapterTestStart!);
     else state = E.prepareChapterOneTest(E.createCampaign(["north", "knight"]));
     E.activateMap(state.mapId ?? "prologue");
     busy = false;
@@ -2476,7 +2463,7 @@ app.addEventListener("click", async (e) => {
     if (!owner || !E.controlsOwner(owner)) return;
     try {
       E.appointLeader(state!, owner, action.slice(14));
-      save(true);
+
       battleUI();
     } catch (error) {
       toast((error as Error).message);
@@ -2729,7 +2716,6 @@ app.addEventListener("click", async (e) => {
       document.querySelector(".team-colors-modal")?.remove();
       if (state && screen === "battle") {
         battleUI();
-        save(true);
       } else if (screen === "config")
         void paintCreatorSprites(app, heroDrafts, colors);
     } catch (error) {
@@ -2766,7 +2752,6 @@ app.addEventListener("click", async (e) => {
       E.equipWeapon(state!, E.current(state!)!, action.slice(6));
       aim = null;
       battleUI();
-      save(true);
     } catch (error) {
       toast((error as Error).message);
     }
@@ -2782,7 +2767,6 @@ app.addEventListener("click", async (e) => {
         E.promote(state!, u, classId);
       if (state!.phase === "summary") summary();
       else battleUI();
-      save(true);
     } catch (error) {
       toast((error as Error).message);
     }
@@ -2848,13 +2832,14 @@ app.addEventListener("click", async (e) => {
     pendingReward = null;
     done?.();
   } else if (action === "new") {
-    if (state) save(true);
     state = null;
     creationFlow = E.newCreationFlow();
+    modeChoice();
+  } else if (action === "solo") {
     configure();
   } else if (action === "title") {
     if (busy) return;
-    save(true);
+
     title();
   } else if (action === "continue") resume();
   else if (action === "options") options();
@@ -2918,7 +2903,6 @@ app.addEventListener("click", async (e) => {
         toast("Le seuil est sécurisé. Gardons nos positions.");
         finishTurn();
       }
-      save(true);
     } catch (error) {
       toast((error as Error).message);
     }
@@ -3038,7 +3022,7 @@ window.addEventListener("keydown", (e) => {
     updateHover(null);
   }
 });
-window.addEventListener("beforeunload", () => save(true));
+
 title();
 
 let creatorResizeFrame = 0;

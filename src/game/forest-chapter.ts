@@ -116,7 +116,7 @@ export function beginForestChapter(s: Campaign) {
       id === "geraud"
         ? "Géraud"
         : id === "valdren-captain"
-          ? "Capitaine de Valdren"
+          ? "Capitaine Aldric"
           : classes[cls].name,
       x,
       y,
@@ -137,7 +137,7 @@ export function beginForestChapter(s: Campaign) {
             ? 2
             : 1,
     });
-    u.hasPersonalName = id === "geraud";
+    u.hasPersonalName = id === "geraud" || id === "valdren-captain";
     if (id !== "geraud") u.factionLabel = "Valdren";
     u.potions = 0;
     const d = patrolDeployment.find((d) => d.id === id)!;

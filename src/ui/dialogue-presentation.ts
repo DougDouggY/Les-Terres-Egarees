@@ -1,3 +1,4 @@
+import { colorForOwner } from "../game/team-colors";
 import type { Campaign, Unit } from "../game/types";
 import type { DialogueLine } from "../data/prologue";
 import { storyUnit } from "../game/prologue";
@@ -9,6 +10,8 @@ export type DialoguePortrait = {
   asset: string;
   side: "left" | "right";
   active: boolean;
+  depth: "front" | "back";
+  teamColor?: string;
 };
 /** Only speakers already encountered in the scene are shown: no future reveal. */
 export function dialogueCast(
@@ -16,9 +19,7 @@ export function dialogueCast(
   lines: DialogueLine[],
   index: number,
 ): DialoguePortrait[] {
-  const slots: Partial<
-    Record<"left" | "right", Omit<DialoguePortrait, "active">>
-  > = {};
+  const slots: Record<string, Omit<DialoguePortrait, "active" | "depth">> = {};
   let current: string | undefined;
   for (let i = 0; i <= index; i++) {
     const l = lines[i];
@@ -39,21 +40,51 @@ export function dialogueCast(
     const existing = Object.values(slots).find((p) => p?.key === key);
     let side: "left" | "right" =
       existing?.side ??
-      (l.speaker === "north-companion" ||
-      l.speaker === "knight-chief" ||
-      l.speaker === "captain" ||
-      l.speaker === "geraud"
-        ? "right"
-        : "left");
-    if (!existing && slots[side] && !slots[side === "left" ? "right" : "left"])
+      (l.unitId && u
+        ? u.owner === 1
+          ? "left"
+          : "right"
+        : l.speaker === "north-companion" ||
+            l.speaker === "knight-chief" ||
+            l.speaker === "captain" ||
+            l.speaker === "geraud"
+          ? "right"
+          : "left");
+    if (
+      !existing &&
+      !l.unitId &&
+      Object.values(slots).some((p) => p.side === side) &&
+      !Object.values(slots).some((p) => p.side !== side)
+    )
       side = side === "left" ? "right" : "left";
-    slots[side] = { key, name: u?.name ?? "La sorcière", asset, side };
+    if (!existing) {
+      const same = Object.values(slots).filter((p) => p.side === side);
+      if (same.length >= 2) delete slots[same[0].key];
+    }
+    delete slots[key];
+    slots[key] = {
+      key,
+      name: u?.name ?? "La sorcière",
+      asset,
+      side,
+      teamColor: u ? colorForOwner(s.teamColors, u.owner) : undefined,
+    };
     if (i === index) current = key;
   }
   if (lines[index].speaker === "narrator") return [];
   return Object.values(slots).map((p) => ({
     ...p!,
     active: p!.key === current,
+    depth:
+      p!.key === current ||
+      (!Object.values(slots).some(
+        (q) => q.side === p!.side && q.key === current,
+      ) &&
+        Object.values(slots)
+          .filter((q) => q.side === p!.side)
+          .at(-1)?.key === p!.key)
+        ? "front"
+        : "back",
   }));
 }
 /** Visual pages preserve every original character and never advance the story early. */
