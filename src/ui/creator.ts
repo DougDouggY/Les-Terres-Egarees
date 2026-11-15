@@ -1,3 +1,5 @@
+import { resolveClip } from "../sprites/catalog";
+import { resourceRect } from "../sprites/geometry";
 import { anatomicalPlacement } from "../sprites/display-scale";
 import * as E from "../engine";
 import {
@@ -120,6 +122,15 @@ export async function paintCreatorSprites(
     );
     const profile = unitSpriteProfile(u);
     const body = 96 / Math.max(0.1, displayRatio);
+    const idle = resolveClip(profile, "idle"),
+      rect = idle && resourceRect(idle, 0);
+    const placement = rect
+      ? {
+          scale: body / (rect.bodyHeight ?? rect.height),
+          ground: rect.bodyGround ?? rect.y + rect.height,
+          anchorX: rect.anchorX,
+        }
+      : anatomicalPlacement(profile, "idle", body);
     const drawn = drawResourceFrame(
       ctx,
       profile,
@@ -132,7 +143,7 @@ export async function paintCreatorSprites(
       true,
       E.colorForOwner(colors, u.owner),
       "world",
-      anatomicalPlacement(profile, "idle", body),
+      placement,
     );
     canvas.dataset.loaded = String(drawn);
     canvas.dataset.bodyHeight = "96";

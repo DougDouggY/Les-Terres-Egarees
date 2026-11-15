@@ -1,10 +1,11 @@
+import { Mist } from "../fog";
 import { fittedBackdrop } from "./introduction-layout";
 import { resolveClip } from "../sprites/catalog";
 import * as E from "../engine";
 import { companionIntroductions } from "../data/companions";
 import { portraitAsset } from "../data/portraits";
 import { creationPortraits } from "../game/portraits";
-import { portraitMarkup } from "./portraits";
+import { dialoguePortraitMarkup as portraitMarkup } from "./portraits";
 import { maskDialoguePortraits } from "./portrait-mask";
 import { anatomicalPlacement } from "../sprites/display-scale";
 import {
@@ -50,7 +51,7 @@ export type IntroductionOptions = {
   back: () => void;
 };
 export function introductionMarkup(h: E.HeroConfig, index: number) {
-  return `<main class="introduction-scene" aria-label="Introduction ${h.faction === "north" ? "Viking" : "Chevalier"}" data-faction="${h.faction}" data-intro-owner="${index}" data-intro-phase="loading"><img class="intro-backdrop" src="${import.meta.env.BASE_URL + introductionBackdrops[h.faction]}" alt="${h.faction === "north" ? "Clairière avec le drakkar à gauche" : "Clairière au milieu de la forêt"}"><canvas class="intro-actors" aria-label="Personnages de la scène"></canvas><div class="intro-mist" aria-hidden="true"></div><div class="intro-interface"></div><button type="button" class="intro-back" data-intro-back>← Retour aux paramètres</button><span class="intro-loading" role="status">Chargement…</span></main>`;
+  return `<main class="introduction-scene" aria-label="Introduction ${h.faction === "north" ? "Viking" : "Chevalier"}" data-faction="${h.faction}" data-intro-owner="${index}" data-intro-phase="loading"><img class="intro-backdrop" src="${import.meta.env.BASE_URL + introductionBackdrops[h.faction]}" alt="${h.faction === "north" ? "Clairière avec le drakkar à gauche" : "Clairière au milieu de la forêt"}"><canvas class="intro-actors" aria-label="Personnages de la scène"></canvas><div class="intro-mist" aria-hidden="true"></div><div class="intro-interface"></div><span class="intro-loading" role="status">Chargement…</span></main>`;
 }
 /** A local presentation controller: no campaign units, map data, statistics or story state are changed. */
 export class IntroductionScene {
@@ -68,6 +69,14 @@ export class IntroductionScene {
   private recruitAssets: string[] = [];
   private recruitIndex = 0;
   private ready = false;
+  private mist = new Mist(32, 24);
+  private mistVisible = new Set(
+    Array.from({ length: 32 * 24 }, (_, k) => k).filter((k) => {
+      const x = k % 32,
+        y = Math.floor(k / 32);
+      return ((x - 18) / 13) ** 2 + ((y - 13) / 7) ** 2 < 1;
+    }),
+  );
   private motion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ? 0.12
     : 1;
@@ -156,9 +165,6 @@ export class IntroductionScene {
         this.enter("error");
         this.ui.innerHTML = `<p role="alert">${esc(String(error))}</p>`;
       });
-    root
-      .querySelector("[data-intro-back]")!
-      .addEventListener("click", () => options.back());
     root.addEventListener("click", this.click);
     window.addEventListener("keydown", this.key);
     this.raf = requestAnimationFrame(this.draw);
@@ -188,7 +194,7 @@ export class IntroductionScene {
     if (this.phase === "invite")
       html = this.bubble(E.recruitmentVoice(h.faction)[1]);
     if (this.phase === "face")
-      html = `<section class="intro-face-panel" aria-label="Choix du visage"><div class="intro-face-carousel"><button type="button" data-intro-face="-1" aria-label="Visage précédent">‹</button><div class="intro-face-image chapter-portrait" data-face-id="${h.portraitId ?? ""}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name, h.faction === "knight")}</div><button type="button" data-intro-face="1" aria-label="Visage suivant">›</button></div><button type="button" class="primary" data-intro-confirm-face>Valider</button></section>`;
+      html = `<section class="intro-face-panel" aria-label="Choix du visage"><div class="intro-face-controls"><button type="button" data-intro-face="-1" aria-label="Visage précédent">‹</button><button type="button" class="primary" data-intro-confirm-face>Valider</button><button type="button" data-intro-face="1" aria-label="Visage suivant">›</button></div><div class="intro-face-carousel"><div class="intro-face-image chapter-portrait" data-face-id="${h.portraitId ?? ""}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name, h.faction === "knight")}</div></div></section>`;
     if (this.phase === "recruit")
       html = `<section class="intro-recruit-panel" aria-label="Choix des compagnons"><h2>${h.faction === "north" ? "Vos compagnons" : "Votre compagnon"}</h2><div class="intro-candidates">${E.companionRoster
         .filter((c) => c.faction === h.faction)
@@ -207,7 +213,7 @@ export class IntroductionScene {
         )
         .map(
           (u, j) =>
-            `<div class="chapter-portrait ${j === this.recruitIndex ? "speaking" : "listening"}" data-intro-portrait="${j}">${portraitMarkup(this.recruitAssets[j], u.name, h.faction === "knight")}</div>`,
+            `<div class="chapter-portrait ${j === (this.phase === "arrival" ? this.recruitIndex - 1 : this.recruitIndex) ? "speaking" : "listening"}" data-intro-portrait="${j}">${portraitMarkup(this.recruitAssets[j], u.name, h.faction === "knight")}</div>`,
         )
         .join("")}</div>`;
       if (this.phase === "words")
@@ -230,11 +236,6 @@ export class IntroductionScene {
       html += `<div class="intro-hero-portrait chapter-portrait ${["words", "arrival"].includes(this.phase) ? "listening" : "speaking"}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name, h.faction === "north")}</div>`;
     this.ui.innerHTML = html;
     maskDialoguePortraits(this.ui);
-    this.root.querySelector<HTMLButtonElement>(".intro-back")!.hidden = [
-      "arrival",
-      "words",
-      "ending",
-    ].includes(this.phase);
   }
   private click = (event: MouseEvent) => {
     if (!E.controlsOwner(this.options.index + 1)) return;
@@ -478,6 +479,13 @@ export class IntroductionScene {
         );
         this.paint(this.recruits[j], p, entering && t < 1, !north, now, rect);
         if (entering && t >= 1) this.enter("words");
+      }
+      if (!north) {
+        this.ctx.save();
+        this.ctx.scale(box.width / (32 * 32), box.height / (24 * 32));
+        this.ctx.globalAlpha = 0.35;
+        this.mist.draw(this.ctx, this.mistVisible, 1, now);
+        this.ctx.restore();
       }
       this.canvas.dataset.heroX = String(this.heroPosition.x);
       this.canvas.dataset.heroFacing = facing ? "right" : "left";

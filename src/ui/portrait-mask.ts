@@ -133,6 +133,10 @@ export function maskDialoguePortraits(root: HTMLElement) {
     im.dataset.portraitSource = source;
     const apply = () => {
       if (!im.naturalWidth) return;
+      im.closest<HTMLElement>(".dialogue-portrait-identity")?.style.setProperty(
+        "--portrait-ratio",
+        String(im.naturalWidth / im.naturalHeight),
+      );
       const id = source.match(/\/([CVRN]\d\d)\.png/)?.[1];
       if (!id) return;
       const color = im.dataset.teamColor as

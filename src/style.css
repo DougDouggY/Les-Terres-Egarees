@@ -7092,3 +7092,330 @@ body:has(.aftermath-screen) .modal-back.rewards {
   padding: 0 0 6px;
   color: #e5d2a6;
 }
+/* Portraits always fit their frame; a grid item's intrinsic minimum must not overflow it. */
+.dialogue-portrait-identity {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  pointer-events: auto;
+  outline-offset: -3px;
+  cursor: help;
+}
+.introduction-scene .chapter-portrait {
+  display: block;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: visible;
+}
+.introduction-scene .chapter-portrait .identity-portrait,
+.fe-dialogue .chapter-portrait .identity-portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.introduction-scene .intro-face-panel {
+  bottom: 0;
+  width: min(510px, 46vw);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.introduction-scene .intro-face-carousel {
+  height: min(36vh, 26vw, 340px);
+  display: block;
+}
+.introduction-scene .intro-face-image.chapter-portrait {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.intro-face-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 0 6px;
+  pointer-events: auto;
+}
+.intro-face-controls button {
+  padding: 7px 16px;
+  min-height: 38px;
+}
+.intro-face-controls [data-intro-face] {
+  font-size: 28px;
+  line-height: 1;
+}
+.fe-dialogue .chapter-portrait.portrait-left {
+  left: 1vw;
+}
+.fe-dialogue .chapter-portrait.portrait-right {
+  right: 1vw;
+}
+.fe-dialogue .chapter-portrait.portrait-back {
+  bottom: 0;
+  height: min(36vh, 26vw, 340px);
+}
+.introduction-scene .intro-recruit-portraits .listening {
+  transform: none;
+  bottom: 0;
+}
+.introduction-scene .intro-recruit-panel {
+  top: 2vh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  max-height: none;
+  overflow: visible;
+  width: min(400px, 46vw);
+}
+.intro-recruit-panel h2 {
+  font-size: 18px;
+  margin: 0 0 6px;
+  text-shadow: 0 1px 3px #000;
+}
+.intro-recruit-panel .intro-candidates {
+  gap: 4px;
+}
+.intro-recruit-panel .intro-candidates button {
+  padding: 6px 10px;
+  grid-template-columns: 1fr auto;
+  gap: 2px;
+  background: #20352aef;
+}
+.intro-recruit-panel .intro-candidates strong {
+  font-size: 13px;
+}
+.intro-recruit-panel .intro-candidates span,
+.intro-recruit-panel .intro-candidates small {
+  font-size: 11px;
+}
+.intro-recruit-panel > button {
+  margin-top: 6px;
+  padding: 7px 16px;
+}
+.portrait-name-tooltip {
+  position: absolute;
+  bottom: 65%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 95%;
+  padding: 4px 9px;
+  border: 1px solid #8b704a;
+  border-radius: 3px;
+  background: #efe2bf;
+  color: #392c1b;
+  font: 14px var(--sans);
+  box-shadow: 0 2px 5px #0005;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  white-space: normal;
+  text-align: center;
+  z-index: 20;
+}
+.dialogue-portrait-identity:focus-visible .portrait-name-tooltip,
+.portrait-name-visible .portrait-name-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+@media (hover: hover) {
+  .dialogue-portrait-identity:hover .portrait-name-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+.character-portrait-slot,
+.companion-identity,
+.appearance-preview,
+.appearance-gallery button,
+.portrait {
+  background: transparent !important;
+  box-shadow: none;
+}
+.character-profile {
+  overflow: visible;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.character-profile .character-portrait-slot {
+  width: min(100%, 144px);
+  height: auto;
+  aspect-ratio: 1;
+  flex-shrink: 1;
+  min-height: 0;
+  margin: 0 auto;
+}
+.character-profile h2 {
+  font-size: clamp(18px, 2.6vw, 32px);
+  line-height: 1.06;
+  margin: 2px 0;
+  overflow-wrap: anywhere;
+}
+.character-profile .character-class {
+  font-size: clamp(12px, 1.6vw, 18px);
+  line-height: 1.15;
+  margin: 0;
+}
+.character-profile dl {
+  margin: 4px 0 0;
+  gap: 4px;
+}
+.character-profile dd {
+  font-size: clamp(20px, 2.4vw, 30px);
+}
+@media (max-width: 700px) {
+  .introduction-scene .intro-face-panel {
+    width: 65vw;
+    bottom: 0;
+  }
+  .introduction-scene .intro-face-carousel {
+    height: min(33vh, 42vw);
+  }
+  .introduction-scene .intro-face-image.chapter-portrait {
+    width: 100%;
+  }
+  .introduction-scene .intro-recruit-panel {
+    width: 68vw;
+  }
+  .intro-recruit-panel .intro-candidates {
+    gap: 3px;
+  }
+  .intro-recruit-panel .intro-candidates button {
+    padding: 5px 8px;
+  }
+}
+@media (max-height: 540px) {
+  .intro-recruit-panel .intro-candidates {
+    grid-template-columns: 1fr 1fr;
+  }
+  .intro-recruit-panel .intro-candidates button {
+    padding: 4px 6px;
+  }
+  .character-profile .character-portrait-slot {
+    width: min(100%, 100px);
+  }
+  .character-profile h2 {
+    font-size: 22px;
+  }
+  .character-profile .character-class {
+    font-size: 14px;
+  }
+  .character-profile dd {
+    font-size: 22px;
+  }
+}
+.character-profile {
+  container-type: inline-size;
+}
+.character-profile .character-portrait-slot {
+  width: min(84px, 100%);
+  max-height: 84px;
+  flex-shrink: 0;
+}
+.character-profile h2 {
+  font-size: clamp(14px, 16cqw, 24px);
+  line-height: 1.08;
+}
+.character-profile .character-class {
+  font-size: 13px;
+  line-height: 1.12;
+}
+.character-profile dd {
+  font-size: 22px;
+  line-height: 1.1;
+}
+.character-profile dt {
+  font-size: 11px;
+}
+.fe-dialogue .chapter-portrait,
+.introduction-scene .intro-hero-portrait.chapter-portrait {
+  width: min(42vw, 520px);
+}
+.fe-dialogue .portrait-left .identity-portrait,
+.introduction-scene[data-faction="north"]
+  .intro-hero-portrait
+  .identity-portrait,
+.introduction-scene[data-faction="knight"] .intro-face-image .identity-portrait,
+.introduction-scene[data-faction="knight"]
+  .intro-recruit-portraits
+  .identity-portrait {
+  object-position: left bottom;
+}
+.fe-dialogue .portrait-right .identity-portrait,
+.introduction-scene[data-faction="knight"]
+  .intro-hero-portrait
+  .identity-portrait,
+.introduction-scene[data-faction="north"] .intro-face-image .identity-portrait,
+.introduction-scene[data-faction="north"]
+  .intro-recruit-portraits
+  .identity-portrait {
+  object-position: right bottom;
+}
+.introduction-scene .intro-recruit-portraits {
+  width: min(50vw, 620px);
+}
+@keyframes join-knight {
+  from {
+    transform: translateX(calc(-94vw + min(42vw, 520px)));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes join-viking {
+  from {
+    transform: translateX(calc(94vw - min(42vw, 520px)));
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+/* Size the interactive identity to the actual bust rather than the empty frame. */
+.dialogue-portrait-identity {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: auto;
+  height: 100%;
+  max-width: 100%;
+  aspect-ratio: var(--portrait-ratio, 1.2);
+}
+.introduction-scene .intro-face-image.chapter-portrait {
+  position: relative;
+}
+.fe-dialogue .portrait-right .dialogue-portrait-identity,
+.introduction-scene[data-faction="knight"]
+  .intro-hero-portrait
+  .dialogue-portrait-identity,
+.introduction-scene[data-faction="north"]
+  .intro-face-image
+  .dialogue-portrait-identity,
+.introduction-scene[data-faction="north"]
+  .intro-recruit-portraits
+  .dialogue-portrait-identity {
+  right: 0;
+  left: auto;
+}
+/* Touch browsers can retain a synthetic hover/focus after lifting the finger. */
+.dialogue-portrait-identity.portrait-name-touch:not(.portrait-name-visible)
+  .portrait-name-tooltip {
+  opacity: 0;
+  visibility: hidden;
+}
+.portrait-touch-mode
+  .dialogue-portrait-identity:not(.portrait-name-visible)
+  .portrait-name-tooltip {
+  opacity: 0;
+  visibility: hidden;
+}

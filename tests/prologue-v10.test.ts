@@ -90,3 +90,14 @@ test("V10 Chamane : repos animé avec pieds fixes, sans affecter marche/attaque 
   assert.equal(tacticalIdleSway("shaman", "female", "attack", 1, 1), 0);
   assert.equal(tacticalIdleSway("shaman", "male", "idle", 1, 2), 0);
 });
+
+test("Guerrière du Nord : attente animée sur sa pose unique, pieds stables et autres animations intactes", () => {
+  const a = tacticalIdleSway("north_warrior", "female", "idle", 0, 1),
+    b = tacticalIdleSway("north_warrior", "female", "idle", 1, 1);
+  assert.notEqual(a, 0);
+  assert.equal(a, -b);
+  assert.equal(tacticalIdleSway("north_warrior", "female", "move", 1, 1), 0);
+  assert.equal(tacticalIdleSway("north_warrior", "female", "attack", 1, 1), 0);
+  assert.equal(tacticalIdleSway("north_warrior", "male", "idle", 1, 1), 0);
+  assert.equal(tacticalIdleSway("north_warrior", "female", "idle", 1, 2), 0);
+});

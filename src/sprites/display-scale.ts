@@ -13,7 +13,7 @@ export function anatomicalPlacement(
       : undefined;
   return reference ? { scale: bodyHeight / reference } : undefined;
 }
-/** Single-pose Chamane: small upper-body sway with invariant feet and no foreign pose. */
+/** Single-pose female Chamane / Guerrière du Nord: subtle idle sway, fixed feet, no foreign pose. */
 export function tacticalIdleSway(
   classId: string | undefined,
   gender: string | undefined,
@@ -21,7 +21,7 @@ export function tacticalIdleSway(
   frame: number,
   frameCount: number | undefined,
 ) {
-  return classId === "shaman" &&
+  return (classId === "shaman" || classId === "north_warrior") &&
     gender === "female" &&
     animation === "idle" &&
     frameCount === 1

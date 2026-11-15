@@ -1,7 +1,7 @@
 import { maskDialoguePortraits } from "./portrait-mask";
 import { dialogueCast, dialoguePages } from "./dialogue-presentation";
 import { ensurePortraits } from "../game/portraits";
-import { portraitMarkup } from "./portraits";
+import { dialoguePortraitMarkup as portraitMarkup } from "./portraits";
 import {
   PatrolStaging,
   PATROL_APPROACH_MS,
@@ -89,7 +89,11 @@ export class ChapterDirector {
     0,
   );
   private key = (e: KeyboardEvent) => {
-    if (document.querySelector(".save-manager")) return;
+    if (
+      document.querySelector(".save-manager") ||
+      (e.target as Element)?.closest?.(".dialogue-portrait-identity")
+    )
+      return;
     if (e.ctrlKey || e.metaKey) return;
     e.stopImmediatePropagation();
     if ([" ", "Enter"].includes(e.key)) {

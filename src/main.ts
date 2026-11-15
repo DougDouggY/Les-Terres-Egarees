@@ -3,7 +3,7 @@ import { installPortraitMasks } from "./ui/portrait-mask";
 import { IntroductionScene, introductionMarkup } from "./ui/introduction-scene";
 import { compatiblePortraits } from "./data/portraits";
 import { unitPortrait } from "./game/portraits";
-import { portraitMarkup } from "./ui/portraits";
+import { portraitMarkup, installPortraitNames } from "./ui/portraits";
 import { openNarrativePlan } from "./ui/narrative-plan";
 import {
   characterSheet,
@@ -169,6 +169,7 @@ function audio(type = "hit") {
 }
 let chapterTestStart: string | null = null;
 installPortraitMasks(app);
+installPortraitNames();
 function title() {
   introductionScene?.dispose();
   introductionScene = undefined;
