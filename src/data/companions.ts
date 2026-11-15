@@ -94,3 +94,16 @@ export function toggleCompanion(
   if (checked) next.push(id);
   return next.slice(-companionCount(f));
 }
+
+/** Creation-scene introductions only; campaign dialogue and recruitment rules are unchanged. */
+export const companionIntroductions: Record<string, string> = {
+  astrid: "Je garde un œil sur les traces. Vous pouvez compter sur moi.",
+  solveig: "Je veillerai sur vous pendant le voyage.",
+  bryn: "Je tiendrai ma place à vos côtés.",
+  runa: "Je suis prête. Allons-y.",
+  hakon: "Je protègerai les nôtres.",
+  gaspard: "Mon arbalète est prête.",
+  alix: "Je tiendrai la ligne.",
+  ysilde: "Ma garde ne faiblira pas.",
+  amaury: "Mon épée est à votre service.",
+};

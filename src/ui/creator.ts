@@ -1,6 +1,3 @@
-import { creationPortraits } from "../game/portraits";
-import { compatiblePortraits, portraitAsset } from "../data/portraits";
-import { portraitMarkup } from "./portraits";
 import { anatomicalPlacement } from "../sprites/display-scale";
 import * as E from "../engine";
 import {
@@ -16,22 +13,6 @@ const esc = (s: string) =>
         c
       ]!,
   );
-function faceChoice(
-  h: E.HeroConfig,
-  i: number,
-  flow: E.CreationFlow,
-  drafts: [E.HeroConfig, E.HeroConfig],
-) {
-  const options = compatiblePortraits(h.faction, h.gender, [
-    drafts[1 - i].portraitId ?? "",
-  ]);
-  const confirmed = flow.faceStage[i] === "confirmed";
-  return `<section class="face-choice" aria-label="Choix du visage du joueur ${i + 1}">
-    <aside class="creator-whisper" role="dialog" aria-label="Voix hors champ"><p>${confirmed ? esc(E.afterFaceLine(h.faction, h.gender)) : "Approche, enlève ta capuche."}</p></aside>
-    <div class="face-carousel">${!confirmed ? `<button type="button" data-action="creator-face-prev-${i}" aria-label="Visage précédent">‹</button>` : ""}<div class="face-preview" data-face-id="${h.portraitId ?? ""}">${portraitMarkup(h.portraitId ? portraitAsset(h.portraitId) : undefined, h.name)}</div>${!confirmed ? `<button type="button" data-action="creator-face-next-${i}" aria-label="Visage suivant">›</button>` : ""}</div>
-    ${confirmed ? `<button class="primary" data-action="creator-face-continue-${i}" ${flow.heroReady[i] ? "disabled" : ""}>${flow.heroReady[i] ? "Personnage validé ✓" : "Continuer"}</button>` : `<output class="face-counter" aria-live="polite">${options.findIndex((p) => p.id === h.portraitId) + 1} / ${options.length}</output><button class="primary" data-action="creator-face-confirm-${i}">Valider</button>`}
-    </section>`;
-}
 const classLabel = (id: string, gender: E.Gender) =>
   gender === "female"
     ? (E.classes[id].femaleName ?? E.classes[id].name)
@@ -42,38 +23,19 @@ export function creatorMarkup(
   colors: E.TeamColors,
   flow: E.CreationFlow,
 ) {
-  const identityPreviews = creationPortraits(
-    drafts,
-    companions,
-    E.companionRoster,
-  );
-  const companionPortrait = (i: number, id: string) => {
-    const selected = companions[i].includes(id)
-      ? companions[i]
-      : E.toggleCompanion(drafts[i].faction, companions[i], id, true);
-    const projected: [string[], string[]] = [...companions] as [
-      string[],
-      string[],
-    ];
-    projected[i] = selected;
-    const previews = companions[i].includes(id)
-      ? identityPreviews
-      : creationPortraits(drafts, projected, E.companionRoster);
-    return previews[`p${i + 1}${selected.indexOf(id) === 0 ? "b" : "c"}`];
-  };
-  const steps = ["Les expéditions", "Votre personnage", "Vos compagnons"];
+  const steps = ["Votre faction", "Votre personnage", "Votre groupe"];
   if (flow.step === 1)
     return `<main class="config-screen expedition-creator creator-factions"><header class="brand"><span>LES TERRES ÉGARÉES<small>PROLOGUE</small></span><button data-action="title">← Retour</button></header><section class="config-heading"><span class="eyebrow">ÉTAPE 1 / 3</span><h1>À chacun son expédition.</h1><p>Qui prendra la mer, et qui partira sur les routes ?</p></section><div class="creator-parties">${drafts.map((h, i) => `<section class="creator-party ${h.faction === "north" ? "north-party" : "knight-party"}"><h2>Joueur ${i + 1}</h2><div class="faction-choice-icon">${h.faction === "north" ? "ᚱ" : "✦"}</div><h3>${h.faction === "north" ? "Les Vikings" : "Les Chevaliers"}</h3><p>${h.faction === "north" ? "Le grand voyage vers l’ouest." : "Une mission à l’approche du convoi."}</p><div class="segmented"><button data-action="faction-${i + 1}-north" class="${h.faction === "north" ? "chosen" : ""}">Vikings</button><button data-action="faction-${i + 1}-knight" class="${h.faction === "knight" ? "chosen" : ""}">Chevaliers</button></div></section>`).join("")}</div><footer class="config-bottom creator-bottom"><button data-action="team-colors">Couleurs des équipes</button><button data-action="creator-factions-ready" class="primary">Créer nos personnages →</button></footer></main>`;
-  return `<main class="config-screen expedition-creator" data-creation-step="${flow.step}"><header class="brand"><span class="creator-rune" aria-hidden="true">ᛟ</span><span>LES TERRES ÉGARÉES<small>VOS EXPÉDITIONS</small></span><button data-action="title" class="back">← Retour</button></header><section class="config-heading"><span class="eyebrow">ÉTAPE ${flow.step} / 3 · ${steps[flow.step - 1]}</span><h1>${flow.step === 2 ? "Qui êtes-vous ?" : "Qui embarque à vos côtés ?"}</h1><p>${flow.step === 2 ? "Chaque joueur valide son personnage avant de poursuivre." : "Écoutez la voix, puis composez votre groupe."}</p></section><div class="creator-parties">${drafts
+  return `<main class="config-screen expedition-creator" data-creation-step="${flow.step}"><header class="brand"><span class="creator-rune" aria-hidden="true">ᛟ</span><span>LES TERRES ÉGARÉES<small>VOTRE AVENTURE</small></span><button data-action="title" class="back">← Retour</button></header><section class="config-heading"><span class="eyebrow">ÉTAPE ${flow.step} / 3 · ${steps[flow.step - 1]}</span><h1>${flow.step === 2 ? "Qui êtes-vous ?" : "Qui embarque à vos côtés ?"}</h1><p>${flow.step === 2 ? "Choisissez votre nom et votre classe." : "Écoutez la voix, puis composez votre groupe."}</p></section><div class="creator-parties">${drafts
     .map((h, i) => {
       const owner = (i + 1) as 1 | 2,
         north = h.faction === "north",
         rgb = E.teamPalette[E.colorForOwner(colors, owner)].rgb.join(",");
-      return `<section class="creator-party ${north ? "north-party" : "knight-party"}" style="--party-rgb:${rgb}" aria-label="Expédition ${owner} · ${north ? "Vikings" : "Chevaliers"}"><header class="creator-party-heading"><span class="faction-seal" aria-hidden="true">${north ? "ᚱ" : "✦"}</span><div><span class="eyebrow">EXPÉDITION ${owner}</span><h2>${north ? "Les Vikings" : "Les Chevaliers"}</h2><p>${north ? "Prêts pour le grand voyage vers l’ouest." : "Une mission sur la route du convoi."}</p></div><div hidden class="segmented"><button data-action="faction-${owner}-north" class="${north ? "chosen" : ""}">Vikings</button><button data-action="faction-${owner}-knight" class="${north ? "" : "chosen"}">Chevaliers</button></div></header>${
+      return `<section class="creator-party ${north ? "north-party" : "knight-party"}" style="--party-rgb:${rgb}" aria-label="Joueur ${owner} · ${north ? "Vikings" : "Chevaliers"}"><header class="creator-party-heading"><span class="faction-seal" aria-hidden="true">${north ? "ᚱ" : "✦"}</span><div><span class="eyebrow">JOUEUR ${owner}</span><h2>${north ? "Les Vikings" : "Les Chevaliers"}</h2><p>${north ? "Prêts pour le grand voyage vers l’ouest." : "Une mission sur la route du convoi."}</p></div><div hidden class="segmented"><button data-action="faction-${owner}-north" class="${north ? "chosen" : ""}">Vikings</button><button data-action="faction-${owner}-knight" class="${north ? "" : "chosen"}">Chevaliers</button></div></header>${
         flow.step === 2
-          ? flow.faceStage[i] !== "details"
-            ? faceChoice(h, i, flow, drafts)
-            : `<fieldset class="hero-validation" ${flow.heroReady[i] ? "disabled" : ""}><article class="creator-hero hero-form"><div class="creator-hero-visual"><canvas width="150" height="175" data-creator-hero="${i}" aria-label="Apparence du chef"></canvas><span>VOTRE CHEF</span><strong class="hero-display-name" data-hero-display="${i}">${esc(h.name)}</strong><small>Commandement · +1 Initiative</small></div><div class="creator-hero-fields"><label>Nom du héros — expédition ${owner}<input id="hero-name-${owner}" maxlength="32" value="${esc(h.name)}" required></label><div class="creator-fields-row"><label>Sexe — expédition ${owner}<select id="hero-gender-${owner}"><option value="male" ${h.gender === "male" ? "selected" : ""}>Homme</option><option value="female" ${h.gender === "female" ? "selected" : ""}>Femme</option></select></label><label>Classe — expédition ${owner}<select id="hero-class-${owner}">${E.startingHeroClasses(
+          ? flow.heroReady[i]
+            ? `<div class="creator-ready"><p>${esc(h.name)} · ${esc(classLabel(h.classId, h.gender))}</p><span>Groupe prêt ✓</span></div>`
+            : `<fieldset class="hero-validation" ${flow.heroReady[i] ? "disabled" : ""}><article class="creator-hero hero-form"><div class="creator-hero-visual"><canvas width="150" height="175" data-creator-hero="${i}" aria-label="Votre personnage sur la carte"></canvas><span>Vous</span><strong class="hero-display-name" data-hero-display="${i}">${esc(h.name)}</strong><small>Commandement · +1 Initiative</small></div><div class="creator-hero-fields"><label>Nom — joueur ${owner}<input id="hero-name-${owner}" maxlength="32" value="${esc(h.name)}" required></label><div class="creator-fields-row"><label>Sexe — joueur ${owner}<select id="hero-gender-${owner}"><option value="male" ${h.gender === "male" ? "selected" : ""}>Homme</option><option value="female" ${h.gender === "female" ? "selected" : ""}>Femme</option></select></label><label>Classe — joueur ${owner}<select id="hero-class-${owner}">${E.startingHeroClasses(
                 h.faction,
               )
                 .map(
@@ -82,17 +44,9 @@ export function creatorMarkup(
                 )
                 .join(
                   "",
-                )}</select></label></div><p class="creator-role">${esc(E.classes[h.classId].role)}</p>${h.classId === "raider" ? `<label>Arme initiale<select data-starter="${i}"><option value="axe_shield" ${h.weaponId !== "sword_shield" ? "selected" : ""}>Hache et bouclier</option><option value="sword_shield" ${h.weaponId === "sword_shield" ? "selected" : ""}>Épée et bouclier</option></select></label>` : ""}</div></article></fieldset><button class="hero-confirm primary" data-action="creator-hero-ready-${i}" ${flow.heroReady[i] ? "disabled" : ""}>${flow.heroReady[i] ? "Personnage validé ✓" : "Choisir mon visage"}</button>`
+                )}</select></label></div><p class="creator-role">${esc(E.classes[h.classId].role)}</p>${h.classId === "raider" ? `<label>Arme initiale<select data-starter="${i}"><option value="axe_shield" ${h.weaponId !== "sword_shield" ? "selected" : ""}>Hache et bouclier</option><option value="sword_shield" ${h.weaponId === "sword_shield" ? "selected" : ""}>Épée et bouclier</option></select></label>` : ""}</div></article></fieldset><button class="hero-confirm primary" data-action="creator-hero-ready-${i}" ${flow.heroReady[i] ? "disabled" : ""}>${flow.heroReady[i] ? "Personnage validé ✓" : "Continuer"}</button>`
           : `<p class="creator-chief-summary">${esc(h.name)} · ${esc(classLabel(h.classId, h.gender))}</p>`
-      }${flow.step === 3 && flow.introPage[i] < 2 ? `<aside class="creator-whisper" role="dialog" aria-label="Voix hors champ"><p>${esc(E.recruitmentVoice(h.faction)[flow.introPage[i]])}</p><button data-action="creator-intro-${i}">${north ? "Choisir mes compagnons" : "Choisir mon compagnon"}</button></aside>` : ""}<fieldset class="creator-companions" ${flow.step !== 3 || flow.introPage[i] < 2 ? "hidden" : ""} ${flow.partyReady[i] ? "disabled" : ""}><legend>${north ? "Vos compagnons" : "Votre compagnon"} <small data-companion-count="${i}">${companions[i].length} / ${E.companionCount(h.faction)} choisis</small></legend><div class="companion-cards">${E.companionRoster
-        .filter((c) => c.faction === h.faction)
-        .map(
-          (c) =>
-            `<label class="companion-card"><input type="checkbox" data-companion="${i}:${c.id}" ${companions[i].includes(c.id) ? "checked" : ""}><span class="companion-selected" aria-hidden="true">✓</span><div class="companion-identity">${portraitMarkup(companionPortrait(i, c.id), c.name)}</div><div><strong>${esc(c.name)}</strong><span>${esc(classLabel(c.classId, c.gender))}</span><small>${c.gender === "female" ? "Femme" : "Homme"}</small></div><p>${esc(E.classes[c.classId].role)}</p></label>`,
-        )
-        .join(
-          "",
-        )}</div></fieldset>${flow.step === 3 && flow.introPage[i] >= 2 ? `<button data-action="creator-party-ready-${i}" class="primary party-confirm" ${flow.partyReady[i] || companions[i].length !== E.companionCount(h.faction) ? "disabled" : ""}>${flow.partyReady[i] ? "Groupe prêt ✓" : "Valider mon groupe"}</button>` : ""}</section>`;
+      }</section>`;
     })
     .join(
       "",

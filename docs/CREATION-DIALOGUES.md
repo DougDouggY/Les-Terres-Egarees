@@ -46,3 +46,5 @@ Les longues répliques sont divisées en pages visuelles de deux à trois lignes
 - `npm run build`, `npm run build:prototype -- --base=/Les-Terres-Egarees/`, `npm run check:prototype`.
 
 Les cartes, classes, paramètres de combat, textes narratifs et conditions de recrutement ne sont pas modifiés.
+
+Évolution suivante : les voix hors champ de la création sont remplacées par un accueil avec sprite de carte sur les deux décors fournis, puis une sélection des compagnons sans visage préalable. Voir [INTRODUCTIONS.md](INTRODUCTIONS.md). Le catalogue des portraits et le style des dialogues narratifs restent conservés.

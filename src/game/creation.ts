@@ -5,6 +5,7 @@ export const startingHeroClasses = (faction: Faction) =>
   baseClasses(faction).filter((c) => c.id !== "sorcerer");
 export type CreationFlow = {
   step: 1 | 2 | 3;
+  activeScene?: 0 | 1;
   heroReady: [boolean, boolean];
   faceStage: [
     "details" | "choose" | "confirmed",
@@ -48,3 +49,12 @@ export const afterFaceLine = (faction: Faction, gender: "male" | "female") =>
   faction === "north"
     ? `${gender === "female" ? "Prête" : "Prêt"} pour le grand voyage à l'ouest ?`
     : recruitmentVoice("knight")[0];
+
+/** Capitalise only the initial letter; preserve the rest of a compound name verbatim. */
+export function capitaliseGivenName(name: string) {
+  return name.replace(
+    /^(\s*)(\p{L})/u,
+    (_, spaces: string, letter: string) =>
+      spaces + letter.toLocaleUpperCase("fr-FR"),
+  );
+}

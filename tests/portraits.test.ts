@@ -64,8 +64,8 @@ test("portraits : chevalier masculin et Viking féminine indépendants, fiches e
   const presented = Object.entries(s.portraits!.assignments)
     .filter(([id]) => id.startsWith("companion:"))
     .map(([, portrait]) => portrait);
-  assert.equal(presented.length, 9);
-  assert.equal(new Set(presented).size, 9);
+  assert.equal(presented.length, 3);
+  assert.equal(new Set(presented).size, 3);
   const preview = creationPortraits(
     heroes,
     [["gaspard"], ["astrid", "bryn"]],

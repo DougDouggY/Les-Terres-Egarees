@@ -1,3 +1,4 @@
+import { IntroductionScene, introductionMarkup } from "./ui/introduction-scene";
 import { compatiblePortraits } from "./data/portraits";
 import { unitPortrait } from "./game/portraits";
 import { portraitMarkup } from "./ui/portraits";
@@ -95,6 +96,7 @@ let isPanning = false;
 let developerCleanup: (() => void) | null = null;
 let developerRequest = 0;
 let chapterDirector: ChapterDirector | undefined;
+let introductionScene: IntroductionScene | undefined;
 let chapterFrame: ChapterMapFrame | null = null;
 let pendingReward: (() => void) | null = null;
 let toastTimer: ReturnType<typeof setTimeout>;
@@ -167,6 +169,8 @@ function saveKey() {
   return state?.developmentTest ? "lte-chapter-one-test" : "lte-save";
 }
 function title() {
+  introductionScene?.dispose();
+  introductionScene = undefined;
   developerRequest++;
   initiativeCleanup?.();
   initiativeCleanup = undefined;
@@ -221,7 +225,33 @@ function teamColorsModal() {
   second.addEventListener("change", sync);
   sync();
 }
+function startConfiguredCampaign() {
+  if (
+    creationFlow.step !== 3 ||
+    !creationFlow.heroReady.every(Boolean) ||
+    !creationFlow.partyReady.every(Boolean)
+  )
+    return;
+  try {
+    state = E.createCampaign(factions, heroDrafts, companionDrafts);
+    E.setPlayableTeamColors(state, readTeamPreferences());
+    E.beginPrologue(state);
+  } catch (error) {
+    toast((error as Error).message);
+    return;
+  }
+  mist.reset();
+  terrain.reset();
+  selected = null;
+  aim = null;
+  origin = null;
+  moved = false;
+  battleUI();
+  save(true);
+}
 function configure() {
+  introductionScene?.dispose();
+  introductionScene = undefined;
   heroDrafts.forEach((h, i) => {
     const available = compatiblePortraits(h.faction, h.gender, [
       heroDrafts[1 - i].portraitId ?? "",
@@ -230,6 +260,43 @@ function configure() {
       h.portraitId = available[0]?.id;
   });
   screen = "config";
+  if (creationFlow.activeScene !== undefined) {
+    const index = creationFlow.activeScene;
+    app.innerHTML = introductionMarkup(heroDrafts[index], index);
+    introductionScene = new IntroductionScene(
+      app.querySelector(".introduction-scene")!,
+      {
+        index,
+        heroes: heroDrafts,
+        companions: companionDrafts,
+        colors: readTeamPreferences(),
+        flow: creationFlow,
+        back: () => {
+          creationFlow.activeScene = undefined;
+          creationFlow.faceStage[index] = "details";
+          creationFlow.heroReady[index] = false;
+          creationFlow.partyReady[index] = false;
+          configure();
+        },
+        complete: () => {
+          introductionScene?.dispose();
+          introductionScene = undefined;
+          creationFlow.activeScene = undefined;
+          creationFlow.faceStage[index] = "confirmed";
+          creationFlow.heroReady[index] = true;
+          creationFlow.partyReady[index] = true;
+          if (
+            creationFlow.heroReady.every(Boolean) &&
+            creationFlow.partyReady.every(Boolean)
+          ) {
+            creationFlow.step = 3;
+            startConfiguredCampaign();
+          } else configure();
+        },
+      },
+    );
+    return;
+  }
   app.innerHTML = creatorMarkup(
     heroDrafts,
     companionDrafts,
@@ -281,7 +348,20 @@ function configure() {
     (app.querySelector(`#hero-name-${i}`) as HTMLInputElement).oninput = (
       e,
     ) => {
-      heroDrafts[i - 1].name = (e.target as HTMLInputElement).value;
+      const input = e.target as HTMLInputElement;
+      const original = input.value,
+        name = E.capitaliseGivenName(original);
+      if (name !== original) {
+        const start = input.selectionStart,
+          end = input.selectionEnd;
+        input.value = name;
+        if (start !== null && end !== null)
+          input.setSelectionRange(
+            start + name.length - original.length,
+            end + name.length - original.length,
+          );
+      }
+      heroDrafts[i - 1].name = name;
       const display = app.querySelector(`[data-hero-display="${i - 1}"]`);
       if (display) display.textContent = heroDrafts[i - 1].name;
     };
@@ -309,7 +389,7 @@ function showPrologueTitle(s: Campaign) {
     owners = view.mode === "coop" ? [view.owner] : [1, 2];
   const forest = s.chapter1?.pending?.id === "c1-title",
     titleId = s.chapter1!.pending!.id;
-  app.innerHTML = `<main class="prologue-title" aria-label="${forest ? "Chapitre 1 — Pour ne pas oublier" : "Prologue — Les Terres Égarées"}"><div class="prologue-storm"></div><div class="prologue-mist mist-one"></div><div class="prologue-mist mist-two"></div><div class="prologue-perspectives">${owners.map((owner) => `<span>Expédition ${owner} · ${s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</span>`).join("")}</div><section><span>${forest ? "CHAPITRE 1" : "PROLOGUE"}</span><h1>${forest ? "Pour ne pas oublier" : "Les Terres Égarées"}</h1><i></i></section></main>`;
+  app.innerHTML = `<main class="prologue-title" aria-label="${forest ? "Chapitre 1 — Pour ne pas oublier" : "Prologue — Les Terres Égarées"}"><div class="prologue-storm"></div><div class="prologue-mist mist-one"></div><div class="prologue-mist mist-two"></div><div class="prologue-perspectives">${owners.map((owner) => `<span>Joueur ${owner} · ${s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</span>`).join("")}</div><section><span>${forest ? "CHAPITRE 1" : "PROLOGUE"}</span><h1>${forest ? "Pour ne pas oublier" : "Les Terres Égarées"}</h1><i></i></section></main>`;
   localStorage.setItem(saveKey(), E.encode(s));
   const token = ++prologueToken;
   setTimeout(() => {
@@ -761,7 +841,7 @@ function showLeaderChoice() {
   const modal = document.createElement("div");
   modal.className = "modal-back leader-choice";
   const own = E.controlsOwner(owner);
-  modal.innerHTML = `<section class="modal wood-sheet" role="dialog" aria-modal="true" aria-label="Choisir le nouveau chef"><h2>Un nouveau chef</h2><p>${own ? `Expédition ${owner} · Qui prend le commandement ?` : "L’autre expédition choisit son nouveau chef…"}</p>${
+  modal.innerHTML = `<section class="modal wood-sheet" role="dialog" aria-modal="true" aria-label="Choisir le nouveau chef"><h2>Un nouveau chef</h2><p>${own ? `Joueur ${owner} · Qui prend le commandement ?` : "L’autre expédition choisit son nouveau chef…"}</p>${
     own
       ? s.units
           .filter((u) => u.owner === owner && u.hp > 0 && !u.summonedBy)
@@ -2331,7 +2411,7 @@ function pause() {
   const modal = document.createElement("div");
   if (document.querySelector(".pause-menu")) return;
   modal.className = "modal-back pause-menu";
-  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Expédition ${state!.active}</span>${E.canSwitchExpedition() ? [1, 2].map((p) => button(`Expédition ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("") + button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy) : ""}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${state!.developmentTest && state!.forestChapter ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div><section class="pause-commands"><h3>Commandes</h3><dl><dt>Échap</dt><dd>Ouvrir / fermer ce menu</dd><dt>D</dt><dd>Afficher / masquer les déplacements et attaques des ennemis visibles</dd><dt>Souris</dt><dd>Survoler un ennemi pour voir ses portées</dd><dt>Glisser</dt><dd>Déplacer la carte</dd><dt>Flèches</dt><dd>Déplacer la caméra</dd>${E.canSwitchExpedition() ? "<dt>Tab</dt><dd>Changer d’expédition</dd>" : ""}</dl></section></section>`;
+  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Joueur ${state!.active}</span>${E.canSwitchExpedition() ? [1, 2].map((p) => button(`Joueur ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("") + button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy) : ""}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${state!.developmentTest && state!.forestChapter ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div><section class="pause-commands"><h3>Commandes</h3><dl><dt>Échap</dt><dd>Ouvrir / fermer ce menu</dd><dt>D</dt><dd>Afficher / masquer les déplacements et attaques des ennemis visibles</dd><dt>Souris</dt><dd>Survoler un ennemi pour voir ses portées</dd><dt>Glisser</dt><dd>Déplacer la carte</dd><dt>Flèches</dt><dd>Déplacer la caméra</dd>${E.canSwitchExpedition() ? "<dt>Tab</dt><dd>Changer d’expédition</dd>" : ""}</dl></section></section>`;
   app.append(modal);
 }
 app.addEventListener("click", async (e) => {
@@ -2435,6 +2515,7 @@ app.addEventListener("click", async (e) => {
         return;
       }
       creationFlow.faceStage[owner] = "choose";
+      creationFlow.activeScene = owner as 0 | 1;
     } else if (
       action.startsWith("creator-face-prev-") ||
       action.startsWith("creator-face-next-")
@@ -2802,28 +2883,7 @@ app.addEventListener("click", async (e) => {
     companionDrafts = [[], []];
     configure();
   } else if (action === "begin") {
-    if (
-      creationFlow.step !== 3 ||
-      !creationFlow.heroReady.every(Boolean) ||
-      !creationFlow.partyReady.every(Boolean)
-    )
-      return;
-    try {
-      state = E.createCampaign(factions, heroDrafts, companionDrafts);
-      E.setPlayableTeamColors(state, readTeamPreferences());
-      E.beginPrologue(state);
-    } catch (error) {
-      toast((error as Error).message);
-      return;
-    }
-    mist.reset();
-    terrain.reset();
-    selected = null;
-    aim = null;
-    origin = null;
-    moved = false;
-    battleUI();
-    save(true);
+    startConfiguredCampaign();
   } else if (action === "next-scene") nextScene();
   else if (action.startsWith("perspective-")) {
     if (busy || !E.canSwitchExpedition()) return;

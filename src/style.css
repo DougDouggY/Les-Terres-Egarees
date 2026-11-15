@@ -6202,3 +6202,288 @@ body:has(.aftermath-screen) .modal-back.rewards {
     padding-left: 16px;
   }
 }
+
+/* Supplied introduction paintings remain intact below independent animated actors. */
+.introduction-scene {
+  position: fixed;
+  inset: 0;
+  overflow: clip;
+  background: #14221c;
+  isolation: isolate;
+}
+.intro-backdrop,
+.intro-actors {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.intro-backdrop {
+  object-fit: contain;
+  object-position: center;
+}
+.intro-actors {
+  z-index: 1;
+  pointer-events: none;
+}
+.intro-interface {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+.intro-interface button,
+.intro-interface [role="dialog"],
+.intro-recruit-panel {
+  pointer-events: auto;
+}
+.intro-back {
+  position: absolute;
+  z-index: 4;
+  bottom: 14px;
+  left: 14px;
+  padding: 7px 12px;
+  background: #172a24dd;
+}
+.intro-loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: #eee3c5;
+}
+.intro-bubble {
+  position: absolute;
+  left: 4vw;
+  top: 3vh;
+  width: min(650px, calc(100% - 8vw));
+  padding: 16px 22px 8px;
+  border: 4px double #796344;
+  border-radius: 8px;
+  background: linear-gradient(#f7efd6, #e5d6ae);
+  box-shadow: 0 4px 10px #0007;
+  color: #30291f;
+}
+.intro-bubble p {
+  margin: 0;
+  font: clamp(16px, 1.7vw, 24px)/1.5 var(--sans);
+}
+.intro-bubble::after {
+  content: "";
+  position: absolute;
+  bottom: -17px;
+  left: 78%;
+  width: 25px;
+  height: 25px;
+  background: #e5d6ae;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+}
+.intro-bubble button {
+  display: block;
+  margin: 5px 0 0 auto;
+  padding: 2px 0;
+  background: transparent;
+  border: 0;
+  color: #604c32;
+  font-size: 13px;
+}
+.intro-face-panel {
+  position: absolute;
+  right: 7vw;
+  top: 24vh;
+  width: min(510px, 80vw);
+  text-align: center;
+  pointer-events: auto;
+}
+.intro-face-carousel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  height: clamp(250px, 48vh, 500px);
+}
+.intro-face-carousel button {
+  width: 48px;
+  flex-shrink: 0;
+  font-size: 38px;
+  line-height: 1;
+  padding: 10px 0;
+  background: #e8d5a9;
+  color: #4e3e2c;
+}
+.introduction-scene .intro-face-image.chapter-portrait {
+  position: static;
+  display: block;
+  min-width: 0;
+  width: calc(100% - 128px);
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+.introduction-scene .chapter-portrait .identity-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+.intro-face-panel > button {
+  margin-top: 16px;
+  min-width: 150px;
+}
+.intro-recruit-panel {
+  position: absolute;
+  right: 3vw;
+  top: 15vh;
+  width: min(360px, 36vw);
+  padding: 16px;
+  background: #172c26f2;
+  border: 2px solid #b69c66;
+  border-radius: 6px;
+  box-shadow: 0 5px 20px #0008;
+}
+.intro-recruit-panel h2 {
+  margin: 0 0 10px;
+  font-size: 22px;
+}
+.intro-candidates {
+  display: grid;
+  gap: 7px;
+}
+.intro-candidates button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  text-align: left;
+  padding: 9px 10px;
+  background: #2a3c31;
+  border: 1px solid #716443;
+}
+.intro-candidates strong {
+  grid-column: 1/-1;
+  color: #f2dfac;
+}
+.intro-candidates span,
+.intro-candidates small {
+  font-size: 12px;
+  color: #d3cebc;
+}
+.intro-candidates [aria-pressed="true"] {
+  border-color: #efce7d;
+  background: #526047;
+  box-shadow: inset 3px 0 #edc775;
+}
+.intro-recruit-panel > button {
+  display: block;
+  margin: 12px 0 0 auto;
+  min-width: 120px;
+}
+.intro-recruit-portraits {
+  position: absolute;
+  right: 2vw;
+  bottom: 0;
+  width: min(57vw, 760px);
+  height: 44vh;
+  pointer-events: none;
+}
+.introduction-scene .intro-recruit-portraits .chapter-portrait {
+  position: absolute;
+  bottom: 0;
+  width: 46%;
+  min-width: 0;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  transition:
+    filter 0.2s,
+    transform 0.2s;
+}
+.intro-recruit-portraits .speaking {
+  left: 0;
+  right: auto;
+  z-index: 2;
+  filter: none;
+}
+.intro-recruit-portraits .listening {
+  right: 0;
+  left: auto;
+  z-index: 1;
+  filter: brightness(0.78) saturate(0.85);
+  transform: translateY(8px) scale(0.94);
+}
+.intro-ending {
+  animation: intro-fade 0.65s forwards;
+}
+@keyframes intro-fade {
+  to {
+    opacity: 0;
+  }
+}
+.creator-ready {
+  padding: 35px 20px;
+  color: #dfc995;
+}
+/* Keep complete busts inside the narrative viewport on both desktop and mobile. */
+.fe-dialogue .chapter-portrait.portrait-left {
+  left: max(18px, 3vw);
+}
+.fe-dialogue .chapter-portrait.portrait-right {
+  right: max(18px, 3vw);
+}
+@media (max-width: 650px) {
+  .intro-face-panel {
+    right: 4vw;
+    top: 30vh;
+    width: 92vw;
+  }
+  .intro-face-carousel {
+    height: 36vh;
+    gap: 10px;
+  }
+  .intro-recruit-panel {
+    right: 8px;
+    top: 12px;
+    width: min(200px, 51vw);
+    padding: 10px;
+  }
+  .intro-recruit-panel h2 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+  .intro-candidates {
+    gap: 4px;
+  }
+  .intro-candidates button {
+    padding: 6px;
+  }
+  .intro-candidates span,
+  .intro-candidates small {
+    font-size: 10px;
+  }
+  .intro-bubble {
+    left: 12px;
+    top: 16px;
+    width: calc(100% - 24px);
+    padding: 12px 15px 5px;
+  }
+  .intro-bubble p {
+    font-size: 16px;
+  }
+  .intro-recruit-portraits {
+    right: 8px;
+    width: 77vw;
+    height: 34vh;
+  }
+  .fe-dialogue .chapter-portrait {
+    width: 44vw;
+  }
+  .fe-dialogue .chapter-portrait.portrait-left {
+    left: 12px;
+  }
+  .fe-dialogue .chapter-portrait.portrait-right {
+    right: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .intro-ending {
+    animation-duration: 0.08s;
+  }
+}

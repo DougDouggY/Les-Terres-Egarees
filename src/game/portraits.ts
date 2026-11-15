@@ -1,4 +1,3 @@
-import { companionRoster } from "../data/companions";
 import { classes } from "../data/classes";
 import {
   compatiblePortraits,
@@ -152,29 +151,9 @@ export function unitPortrait(s: Campaign | undefined, u: Unit) {
   );
 }
 
-/** The named companions offered during creation keep their identities even if not recruited. */
+/** New parties allocate only confirmed recruits; existing save reservations stay untouched. */
 export function reserveCompanionPortraits(s: Campaign) {
-  s.portraits ??= { version: 1, assignments: {}, issues: [] };
-  const cast = companionRoster.map(
-    (c) =>
-      ({
-        id: `companion:${c.id}`,
-        portraitIdentity: `companion:${c.id}`,
-        name: c.name,
-        classId: c.classId,
-        gender: c.gender,
-        owner: (s.factions.indexOf(c.faction) + 1) as 1 | 2,
-        hasPersonalName: true,
-      }) as Unit,
-  );
-  ensurePortraits({
-    ...s,
-    units: [
-      ...s.units.filter((u) => u.leader),
-      ...cast,
-      ...s.units.filter((u) => !u.leader),
-    ],
-  });
+  ensurePortraits(s);
 }
 
 /** Same allocator and IDs as campaign creation, without constructing/changing a map. */
