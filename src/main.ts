@@ -180,7 +180,7 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Tests de combat", "dev-tests", "quiet")}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai Pillard contre Pillard", "contact-trial", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
 }
 function modeChoice() {
   screen = "mode";
@@ -2570,6 +2570,15 @@ app.addEventListener("click", async (e) => {
     !E.controlsOwner(E.current(state)?.owner ?? 0)
   )
     return;
+  if (action === "contact-trial") {
+    const request = ++developerRequest;
+    developerCleanup?.();
+    screen = "developer";
+    const preview = await import("./ui/contact-preview");
+    if (request !== developerRequest) return;
+    developerCleanup = preview.openContactPreview(app, title);
+    return;
+  }
   if (
     prototypeTools &&
     (action === "dev-sprites" ||

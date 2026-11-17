@@ -1,0 +1,83 @@
+.contact-preview {
+  height: 100dvh;
+  overflow: auto;
+  padding: 16px 24px;
+  background: #14231e;
+  color: #eee6cf;
+}
+.contact-preview header,
+.contact-controls,
+.contact-buttons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.contact-preview header {
+  justify-content: space-between;
+}
+.contact-preview h1 {
+  font-size: 28px;
+  margin: 0;
+}
+.contact-buttons button {
+  flex: 1 1 220px;
+}
+.contact-buttons button[aria-pressed="true"] {
+  outline: 2px solid #dfc787;
+}
+.contact-stage {
+  position: relative;
+  margin: 0 auto;
+  width: min(1100px, calc((100dvh - 290px) * 1.5), 100%);
+  height: auto;
+  aspect-ratio: 960/640;
+  overflow: hidden;
+  border: 3px solid #ab9964;
+}
+.contact-stage canvas {
+  width: 100%;
+  height: 75%;
+  display: block;
+  image-rendering: pixelated;
+}
+.contact-stage .duel-panels {
+  height: 25%;
+}
+.contact-preview [data-contact-status] {
+  font-weight: bold;
+}
+.contact-note {
+  font-size: 13px;
+  max-width: 1000px;
+  line-height: 1.5;
+}
+.contact-preview li {
+  opacity: 0.55;
+}
+.contact-preview li.contact-applied {
+  opacity: 1;
+  color: #ead49b;
+}
+@media (max-width: 600px) {
+  .contact-preview {
+    padding: 10px;
+  }
+  .contact-preview h1 {
+    font-size: 22px;
+  }
+  .contact-buttons {
+    gap: 6px;
+  }
+  .contact-buttons button {
+    flex-basis: 45%;
+    font-size: 12px;
+  }
+  .contact-stage {
+    min-height: 310px;
+  }
+  .contact-stage .duel-metrics {
+    font-size: 11px;
+  }
+}
