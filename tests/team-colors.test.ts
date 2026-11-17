@@ -54,14 +54,11 @@ test("masque de matière : peau, cheveux, métal, bois, transparence conservés 
   }
 });
 
-test("échantillon mutualisé : priorité explicite, deux sexes, repos et marche réels, animations historiques conservées", async () => {
-  const legacy = JSON.parse(
-    await readFile("src/assets/tactical/legacy.sprite.json", "utf8"),
-  );
+test("échantillon mutualisé : priorité explicite, deux sexes, repos et marche réels, aucune ancienne pose ajoutée", async () => {
   const sample = JSON.parse(
     await readFile("src/assets/tactical/team-sample.sprite.json", "utf8"),
   );
-  const registry = buildSpriteCatalog([legacy, sample]);
+  const registry = buildSpriteCatalog([sample]);
   assert.deepEqual(registry.errors, []);
   for (const id of ["raider", "man_at_arms"])
     for (const gender of ["male", "female"]) {
@@ -79,7 +76,7 @@ test("échantillon mutualisé : priorité explicite, deux sexes, repos et marche
     resolveClip(
       findProfile(registry.profiles, "raider", "male", "axe-shield", "default"),
       "evade",
-    )!.source,
-    "assets/sprites.png",
+    ),
+    undefined,
   );
 });

@@ -313,11 +313,11 @@ test("mobilité forestière, découverte progressive et migration du camp archiv
 });
 test("sprites réels et mutualisés : variantes exactes, frames valides et absence de remplacement", async () => {
   const data = JSON.parse(
-      await readFile("src/assets/tactical/legacy.sprite.json", "utf8"),
+      await readFile("src/assets/tactical/team-sample.sprite.json", "utf8"),
     ),
     catalog = buildSpriteCatalog([data]);
   assert.equal(catalog.errors.length, 0);
-  assert.equal(catalog.profiles.length, 5);
+  assert.equal(catalog.profiles.length, 4);
   const p = findProfile(
     catalog.profiles,
     "raider",
@@ -325,10 +325,16 @@ test("sprites réels et mutualisés : variantes exactes, frames valides et absen
     "axe-shield",
     "default",
   )!;
-  assert.equal(resolveClip(p, "idle")!.source, "assets/sprites.png");
+  assert.equal(resolveClip(p, "idle")!.source, "tactical/team-sample.png");
   assert.equal(resolveClip(p, "counter"), resolveClip(p, "attack"));
   assert.equal(
-    findProfile(catalog.profiles, "raider", "female", "axe-shield", "default"),
+    findProfile(
+      catalog.profiles,
+      "raider",
+      "female",
+      "sword-shield",
+      "default",
+    ),
     undefined,
   );
   assert.equal(
@@ -338,9 +344,14 @@ test("sprites réels et mutualisés : variantes exactes, frames valides et absen
   for (const p of catalog.profiles)
     for (const name of Object.keys(p.clips)) {
       const clip = resolveClip(p, name)!;
-      const img = await readFile("public/" + clip.source);
-      assert.equal(img.readUInt32BE(16) % clip.columns, 0);
-      assert.equal(img.readUInt32BE(20) % clip.rows, 0);
+      const img = await readFile("src/assets/" + clip.source);
+      // Modern atlases use rounded cell boundaries; their dimensions need not
+      // be divisible by the grid size as the retired pixel sheets were.
+      assert.ok(img.readUInt32BE(16) >= clip.columns);
+      assert.ok(img.readUInt32BE(20) >= clip.rows);
+      assert.ok(
+        clip.frames.every((frame) => frame >= 0 && frame < clip.columns),
+      );
     }
   const extended = buildSpriteCatalog([
     data,

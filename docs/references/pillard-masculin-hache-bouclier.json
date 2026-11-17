@@ -1,0 +1,372 @@
+{
+  "character": "raider:male:axe-shield:default",
+  "frames": [
+    {
+      "scope": "Carte",
+      "animation": "idle",
+      "index": 1,
+      "source": "tactical/team-sample.png",
+      "row": 0,
+      "column": 0,
+      "fps": 2
+    },
+    {
+      "scope": "Carte",
+      "animation": "idle",
+      "index": 2,
+      "source": "tactical/team-sample.png",
+      "row": 0,
+      "column": 1,
+      "fps": 2
+    },
+    {
+      "scope": "Carte",
+      "animation": "move",
+      "index": 1,
+      "source": "tactical/team-sample.png",
+      "row": 0,
+      "column": 2,
+      "fps": 6
+    },
+    {
+      "scope": "Carte",
+      "animation": "move",
+      "index": 2,
+      "source": "tactical/team-sample.png",
+      "row": 0,
+      "column": 3,
+      "fps": 6
+    },
+    {
+      "scope": "Combat",
+      "animation": "idle",
+      "index": 1,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 4,
+      "column": 0,
+      "fps": 2
+    },
+    {
+      "scope": "Combat",
+      "animation": "idle",
+      "index": 2,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 3,
+      "fps": 2
+    },
+    {
+      "scope": "Combat",
+      "animation": "move",
+      "index": 1,
+      "source": "tactical/combat-v3-motion1.png",
+      "row": 0,
+      "column": 0,
+      "fps": 14
+    },
+    {
+      "scope": "Combat",
+      "animation": "move",
+      "index": 2,
+      "source": "tactical/combat-v3-motion1.png",
+      "row": 0,
+      "column": 1,
+      "fps": 14
+    },
+    {
+      "scope": "Combat",
+      "animation": "move",
+      "index": 3,
+      "source": "tactical/combat-v3-motion1.png",
+      "row": 0,
+      "column": 2,
+      "fps": 14
+    },
+    {
+      "scope": "Combat",
+      "animation": "move",
+      "index": 4,
+      "source": "tactical/combat-v3-motion1.png",
+      "row": 0,
+      "column": 3,
+      "fps": 14
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack",
+      "index": 1,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 4,
+      "column": 0,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack",
+      "index": 2,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 4,
+      "column": 2,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack",
+      "index": 3,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 4,
+      "column": 3,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack",
+      "index": 4,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 0,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack",
+      "index": 5,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 1,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack",
+      "index": 6,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 2,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack",
+      "index": 7,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 3,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack",
+      "index": 8,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 4,
+      "column": 0,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "counter",
+      "index": 1,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 4,
+      "column": 0,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "counter",
+      "index": 2,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 4,
+      "column": 2,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "counter",
+      "index": 3,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 4,
+      "column": 3,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "counter",
+      "index": 4,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 0,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "counter",
+      "index": 5,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 1,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "counter",
+      "index": 6,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 2,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "counter",
+      "index": 7,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 3,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "counter",
+      "index": 8,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 4,
+      "column": 0,
+      "fps": 10
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack_again",
+      "index": 1,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 3,
+      "fps": 12
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack_again",
+      "index": 2,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 7,
+      "column": 0,
+      "fps": 12
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack_again",
+      "index": 3,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 7,
+      "column": 1,
+      "fps": 12
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack_again",
+      "index": 4,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 7,
+      "column": 2,
+      "fps": 12
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack_again",
+      "index": 5,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 2,
+      "fps": 12
+    },
+    {
+      "scope": "Combat",
+      "animation": "attack_again",
+      "index": 6,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 5,
+      "column": 3,
+      "fps": 12
+    },
+    {
+      "scope": "Combat",
+      "animation": "block",
+      "index": 1,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 6,
+      "column": 0,
+      "fps": 8
+    },
+    {
+      "scope": "Combat",
+      "animation": "block",
+      "index": 2,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 6,
+      "column": 1,
+      "fps": 8
+    },
+    {
+      "scope": "Combat",
+      "animation": "block",
+      "index": 3,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 6,
+      "column": 2,
+      "fps": 8
+    },
+    {
+      "scope": "Combat",
+      "animation": "block",
+      "index": 4,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "row": 6,
+      "column": 3,
+      "fps": 8
+    },
+    {
+      "scope": "Combat",
+      "animation": "damage",
+      "index": 1,
+      "source": "tactical/combat-v4-fixes.png",
+      "row": 0,
+      "column": 0,
+      "fps": 8
+    },
+    {
+      "scope": "Combat",
+      "animation": "damage",
+      "index": 2,
+      "source": "tactical/combat-v4-fixes.png",
+      "row": 0,
+      "column": 6,
+      "fps": 8
+    },
+    {
+      "scope": "Combat",
+      "animation": "damage",
+      "index": 3,
+      "source": "tactical/combat-v4-fixes.png",
+      "row": 0,
+      "column": 0,
+      "fps": 8
+    },
+    {
+      "scope": "Combat",
+      "animation": "death",
+      "index": 1,
+      "source": "tactical/team-sample-combat.png",
+      "row": 0,
+      "column": 3,
+      "fps": 2
+    }
+  ],
+  "missing": [
+    "evade"
+  ],
+  "optional": [
+    "critical distinct (sinon attaque réutilisée)",
+    "chute animée (mort actuelle à une pose)"
+  ]
+}

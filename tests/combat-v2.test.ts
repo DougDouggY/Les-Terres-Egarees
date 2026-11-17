@@ -115,10 +115,7 @@ test("tous les skins : identité stable, repos/attaque de même atlas, aucune po
       attack = resolveClip(skin.profile, "attack");
     if (idle && attack) assert.equal(idle.source, attack.source, skin.id);
     for (const n of Object.keys(skin.profile.clips))
-      assert.notEqual(
-        resolveClip(skin.profile, n)?.source,
-        "assets/sprites.png",
-      );
+      assert.ok(resolveClip(skin.profile, n)?.source.startsWith("tactical/"));
     if (skin.profile.equipment.includes("dual"))
       assert.ok(resolveClip(skin.profile, "attack_offhand"));
   }

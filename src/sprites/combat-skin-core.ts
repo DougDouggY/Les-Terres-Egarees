@@ -13,7 +13,6 @@ export type CombatSkin = {
   mounted: boolean;
   issues: { animation: string; reason: string }[];
 };
-const neverCombatSources = new Set(["assets/sprites.png", "sprites.png"]);
 /** Reviewed same-costume defence sheets; other foreign-sheet clips are quarantined. */
 const approvedCrossSheets = new Set([
   "raider:female:axe-shield:default:block",
@@ -44,12 +43,11 @@ export function buildCombatSkin(
     const c = resolveClip(p, name);
     if (!c) continue;
     if (
-      neverCombatSources.has(c.source) ||
-      (!replacement &&
-        name === "block" &&
-        primary &&
-        c.source !== primary.source &&
-        !approvedCrossSheets.has(id + ":" + name))
+      !replacement &&
+      name === "block" &&
+      primary &&
+      c.source !== primary.source &&
+      !approvedCrossSheets.has(id + ":" + name)
     ) {
       issues.push({
         animation: name,

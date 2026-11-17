@@ -784,25 +784,12 @@ h2 {
   border: 1px solid #92a08640;
   flex-shrink: 0;
 }
-.sprite-portrait {
-  width: 100%;
-  height: 100%;
-  background-image: url("/assets/sprites.png");
-  background-repeat: no-repeat;
-  background-size: 800% 500%;
-  background-position: 0 calc(var(--row) * 25%);
-  image-rendering: pixelated;
-  transform: scale(1.6);
-  transform-origin: 50% 10%;
-}
 .portrait.large {
   width: 92px;
   height: 100px;
   margin-bottom: 12px;
 }
-.portrait.large .sprite-portrait {
-  transform: scale(1.3);
-}
+
 .journal {
   margin-top: auto;
   padding-top: 35px;

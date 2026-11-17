@@ -1,5 +1,7 @@
 # Pillard hache-bouclier et ressources legacy
 
+> Cet audit décrit l’état avant nettoyage. Le nettoyage demandé a ensuite été réalisé : voir `nettoyage-legacy.md` et la fiche dans `references/`.
+
 Audit du 17 novembre 2026, après fusion des descriptions `*.sprite.json` puis application des remplacements `*.combat.json`, comme dans le jeu.
 
 ## Le montage fourni n'est pas une planche exhaustive à remplacer telle quelle
@@ -37,7 +39,7 @@ Le rendu de combat final ne reprend pas ces anciennes poses. Aucun profil actuel
 
 Un nettoyage est donc envisageable, en supprimant simultanément les références résiduelles, la règle CSS historique `.sprite-portrait`, les tests historiques qui attendent explicitement les anciennes ressources, le descripteur et les deux anciennes images publiques. Ces deux PNG pèsent environ 1,1 Mio au total. Ne pas confondre `team-sample`, encore actif pour la carte et la mort du Pillard, avec `legacy`.
 
-Aucune ressource legacy n'a été supprimée dans cette modification.
+Aucune ressource legacy n'avait été supprimée au moment de cet audit. Elles ont ensuite été retirées dans le nettoyage documenté séparément.
 
 ## Groupes d'accueil
 
