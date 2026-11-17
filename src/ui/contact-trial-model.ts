@@ -110,3 +110,23 @@ export function contactSample(id: ContactScenario, elapsed: number) {
     done: elapsed >= contactDuration(id),
   };
 }
+
+/** Presentation only: both melee actors meet centrally; a ranged actor stays put. */
+export function contactPositions(
+  progress: number,
+  gap: number,
+  first: 0 | 1,
+  attackerRanged = false,
+  defenderRanged = false,
+): [number, number] {
+  const positions: [number, number] = [270, 690];
+  if (attackerRanged) return positions;
+  const travel = Math.sin((Math.min(1, Math.max(0, progress)) * Math.PI) / 2);
+  const advance = (420 - gap) * travel;
+  if (defenderRanged) positions[first] += first === 0 ? advance : -advance;
+  else {
+    positions[0] += advance / 2;
+    positions[1] -= advance / 2;
+  }
+  return positions;
+}

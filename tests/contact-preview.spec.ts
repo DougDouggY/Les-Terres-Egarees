@@ -17,9 +17,9 @@ test("accueil : quatre essais, vitesse et pause, maintien au contact, attaque un
       .toBeGreaterThan(900);
     const left = await canvas.getAttribute("data-left-x"),
       right = await canvas.getAttribute("data-right-x");
-    if (id === "agility" || id === "dodges")
-      expect(Number(left)).toBeGreaterThan(270);
-    else expect(Number(right)).toBeLessThan(690);
+    expect(Number(left)).toBeGreaterThan(270);
+    expect(Number(right)).toBeLessThan(690);
+    expect(Number(left) + Number(right)).toBeCloseTo(960, 5);
     await page.locator("[data-contact-pause]").click();
     const paused = await canvas.getAttribute("data-elapsed");
     await page.waitForTimeout(180);
@@ -40,6 +40,11 @@ test("accueil : quatre essais, vitesse et pause, maintien au contact, attaque un
         "0 / 24 PV",
       );
   }
+  const stage = await page.locator(".contact-stage").boundingBox();
+  expect(stage!.width).toBeGreaterThan(900);
+  expect(stage!.y + stage!.height).toBeLessThanOrEqual(720);
+  await expect(page.locator("[data-contact-events]")).toBeHidden();
+  await expect(page.locator("[data-contact-status]")).toHaveCSS("width", "1px");
   await page.screenshot({ path: "/tmp/contact-preview.png", fullPage: true });
   await page.getByRole("button", { name: "Retour à l’accueil" }).click();
   await expect(

@@ -4,6 +4,7 @@ import {
   contactScenarios,
   contactSample,
   contactDuration,
+  contactPositions,
   type ContactScenario,
 } from "../src/ui/contact-trial-model";
 test("essai au contact : les quatre échanges imposés conservent ordre, parades, esquives et PV", () => {
@@ -35,4 +36,31 @@ test("essai au contact : les quatre échanges imposés conservent ordre, parades
     contactScenarios.dodges.events.map((e) => e.outcome),
     ["evade", "evade", "hit"],
   );
+});
+
+test("approche : mêlée au centre, attaquant seul contre une cible à distance, aucun mouvement pour un tir", () => {
+  assert.deepEqual(contactPositions(0, 100, 0), [270, 690]);
+  assert.deepEqual(contactPositions(1, 100, 0), [430, 530]);
+  assert.deepEqual(contactPositions(1, 100, 1), [430, 530]);
+  assert.deepEqual(contactPositions(1, 100, 0, false, true), [590, 690]);
+  assert.deepEqual(contactPositions(1, 100, 1, false, true), [270, 370]);
+  assert.deepEqual(contactPositions(1, 100, 0, true, false), [270, 690]);
+});
+
+test("course du Pillard : les quatre ancrages suivent les repères de pieds, sans alternance de 100 pixels", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const layouts = JSON.parse(
+    await readFile("src/assets/tactical/atlas-layout.json", "utf8"),
+  );
+  const anchors = JSON.parse(
+    await readFile("src/assets/tactical/combat-anchors.json", "utf8"),
+  );
+  const key = "tactical/combat-v3-motion1.png";
+  const frames = layouts[key].frames.filter((f: any) => f.row === 0);
+  assert.equal(frames.length, 4);
+  const local = frames.map((f: any) => {
+    assert.equal(f.anchorX, anchors[key][`0:${f.column}`].feetX);
+    return f.anchorX - (f.column * layouts[key].width) / layouts[key].columns;
+  });
+  assert.ok(Math.max(...local) - Math.min(...local) < 15);
 });

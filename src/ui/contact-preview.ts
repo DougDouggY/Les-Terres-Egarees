@@ -13,6 +13,7 @@ import {
   contactSample,
   contactDuration,
   contactApproach,
+  contactPositions,
   type ContactScenario,
 } from "./contact-trial-model";
 import "./combat-hud.css";
@@ -40,7 +41,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     last = performance.now();
   const background = new Image();
   background.src = import.meta.env.BASE_URL + "assets/battle-3.png";
-  app.innerHTML = `<main class="contact-preview"><header><h1>Pillard contre Pillard</h1><button data-contact-back>Retour à l’accueil</button></header><div class="contact-buttons">${Object.entries(
+  app.innerHTML = `<main class="contact-preview"><header><h1>Pillard contre Pillard</h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><div class="contact-buttons">${Object.entries(
     contactScenarios,
   )
     .map(
@@ -49,7 +50,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     )
     .join(
       "",
-    )}</div><div class="contact-controls"><label>Vitesse <select data-contact-speed>${[0.25, 0.5, 1, 1.5, 2, 4].map((n) => `<option value="${n}" ${n === 1 ? "selected" : ""}>×${String(n).replace(".", ",")}</option>`).join("")}</select></label><button data-contact-pause disabled>Pause</button><button data-contact-replay disabled>Rejouer</button></div><section class="contact-stage duel-stage">${combatHud(
+    )}</div><div class="contact-controls"><label>Vitesse <select data-contact-speed>${[0.25, 0.5, 1, 1.5, 2, 4].map((n) => `<option value="${n}" ${n === 1 ? "selected" : ""}>×${String(n).replace(".", ",")}</option>`).join("")}</select></label><button data-contact-pause disabled>Pause</button><button data-contact-replay disabled>Rejouer</button></div></aside><section class="contact-stage duel-stage">${combatHud(
     [
       {
         id: "contact-left",
@@ -72,7 +73,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         color: [255, 45, 161],
       },
     ],
-  )}<canvas width="960" height="480" aria-label="Échange au contact des deux Pillards" data-contact-canvas></canvas></section><p role="status" data-contact-status>Chargement des sprites…</p><ol data-contact-events></ol><p class="contact-note">Scénarios imposés pour observer les animations. Une seule approche, aucun retour entre les coups ; attaque classique réutilisée pour chaque frappe et riposte. L’esquive n’a pas encore de dessin dédié : elle est montrée par un mouvement de garde. Ces essais ne modifient ni votre partie ni ses règles.</p></main>`;
+  )}<canvas width="960" height="480" aria-label="Échange au contact des deux Pillards" data-contact-canvas></canvas></section><p role="status" data-contact-status class="contact-sr-only">Chargement des sprites…</p><ol data-contact-events hidden></ol><p class="contact-note contact-sr-only">Scénarios imposés pour observer les animations. Une seule approche, aucun retour entre les coups ; attaque classique réutilisée pour chaque frappe et riposte. L’esquive n’a pas encore de dessin dédié : elle est montrée par un mouvement de garde. Ces essais ne modifient ni votre partie ni ses règles.</p></main>`;
   const canvas = app.querySelector<HTMLCanvasElement>("[data-contact-canvas]")!,
     ctx = canvas.getContext("2d")!;
   const status = app.querySelector<HTMLElement>("[data-contact-status]")!;
@@ -136,13 +137,14 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     const clip =
       resolveClip(profile, animation) ?? resolveClip(profile, "idle")!;
     const name = resolveClip(profile, animation) ? animation : "idle";
+    const count =
+      animation === "block"
+        ? Math.min(3, clip.frames.length)
+        : clip.frames.length;
     const index =
       animation === "idle" || animation === "move"
         ? Math.floor(progress * clip.fps) % clip.frames.length
-        : Math.min(
-            clip.frames.length - 1,
-            Math.floor(progress * clip.frames.length),
-          );
+        : Math.min(count - 1, Math.floor(progress * count));
     const rect = resourceRect(clip, index)!;
     ctx.save();
     ctx.translate(x, 350);
@@ -197,17 +199,17 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         95,
         Math.min(210, meleeContactDistance(profile, "attack", 136, 3)),
       );
-      const positions = [270, 690];
-      const travel = Math.sin((sample.approach * Math.PI) / 2);
-      if (running || elapsed > 0)
-        positions[first] +=
-          first === 0 ? (420 - gap) * travel : -(420 - gap) * travel;
+      const positions = contactPositions(
+        running || elapsed > 0 ? sample.approach : 0,
+        gap,
+        first,
+      );
       const actions = ["idle", "idle"],
         progress = [elapsed / 1000, elapsed / 1000],
         offset = [0, 0];
       if (running && elapsed < contactApproach) {
-        actions[first] = "move";
-        progress[first] = elapsed / 1000;
+        actions[0] = actions[1] = "move";
+        progress[0] = progress[1] = elapsed / 1000;
       } else if ((running || elapsed > 0) && !sample.ending) {
         const { event: e, progress: p } = sample;
         actions[e.side] = p < 0.78 ? "attack" : "idle";
@@ -291,7 +293,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         !running && elapsed === 0
           ? "Choisissez un scénario"
           : sample.done
-            ? "Échange terminé · Rejouer pour recommencer"
+            ? "Échange terminé"
             : paused
               ? "Pause"
               : elapsed < contactApproach
