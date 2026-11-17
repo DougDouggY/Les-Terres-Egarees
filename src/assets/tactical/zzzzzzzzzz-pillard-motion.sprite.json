@@ -1,0 +1,102 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "raider",
+      "gender": "male",
+      "equipment": "axe-shield",
+      "state": "default",
+      "referenceHeights": {
+        "tactical/pillard-quickstep-dodge-v6.png": 282
+      },
+      "clips": {
+        "move": {
+          "source": "tactical/pillard-quickstep-dodge-v6.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Pas rapides au sol : contacts et passages bas alternés, poses aériennes exclues."
+        },
+        "combat_move": {
+          "source": "tactical/pillard-quickstep-dodge-v6.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Pas rapides au sol : contacts et passages bas alternés, poses aériennes exclues."
+        },
+        "evade": {
+          "source": "tactical/pillard-quickstep-dodge-v6.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            3
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Préparation, retrait et reprise ; pose accroupie exclue. Le moteur de présentation ajoute le pas arrière."
+        }
+      }
+    }
+  ]
+}

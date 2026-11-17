@@ -16,6 +16,7 @@ import {
   contactPositions,
   type ContactScenario,
 } from "./contact-trial-model";
+import { criticalImpact } from "./critical-impact";
 import "./combat-hud.css";
 import "./contact-preview.css";
 export function openContactPreview(app: HTMLElement, back: () => void) {
@@ -39,6 +40,9 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     disposed = false,
     raf = 0,
     last = performance.now();
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
   const background = new Image();
   background.src = import.meta.env.BASE_URL + "assets/battle-3.png";
   app.innerHTML = `<main class="contact-preview"><header><h1>Pillard contre Pillard</h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><div class="contact-buttons">${Object.entries(
@@ -73,7 +77,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         color: [255, 45, 161],
       },
     ],
-  )}<canvas width="960" height="480" aria-label="Échange au contact des deux Pillards" data-contact-canvas></canvas></section><p role="status" data-contact-status class="contact-sr-only">Chargement des sprites…</p><ol data-contact-events hidden></ol><p class="contact-note contact-sr-only">Scénarios imposés pour observer les animations. Une seule approche, aucun retour entre les coups ; attaque classique réutilisée pour chaque frappe et riposte. L’esquive n’a pas encore de dessin dédié : elle est montrée par un mouvement de garde. Ces essais ne modifient ni votre partie ni ses règles.</p></main>`;
+  )}<canvas width="960" height="480" aria-label="Échange au contact des deux Pillards" data-contact-canvas></canvas></section><p role="status" data-contact-status class="contact-sr-only">Chargement des sprites…</p><ol data-contact-events hidden></ol><p class="contact-note contact-sr-only">Scénarios imposés pour observer les animations. Une seule approche, aucun retour entre les coups ; attaque classique réutilisée pour chaque frappe et riposte. L’esquive utilise ses poses dédiées et un pas en arrière. Le dernier coup du quatrième scénario montre un critique par flash et secousse. Ces essais ne modifient ni votre partie ni ses règles.</p></main>`;
   const canvas = app.querySelector<HTMLCanvasElement>("[data-contact-canvas]")!,
     ctx = canvas.getContext("2d")!;
   const status = app.querySelector<HTMLElement>("[data-contact-status]")!;
@@ -184,7 +188,18 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         contactDuration(kind),
         elapsed + Math.min(100, dt) * speed,
       );
+    const sample = contactSample(kind, elapsed);
+    const effect = criticalImpact(
+      running || elapsed > 0
+        ? sample.event.critical
+          ? elapsed - (contactApproach + sample.index * 1150 + 480)
+          : -1
+        : -1,
+      reducedMotion,
+    );
     ctx.clearRect(0, 0, 960, 480);
+    ctx.save();
+    ctx.translate(effect.shakeX, effect.shakeY);
     ctx.imageSmoothingEnabled = false;
     if (background.complete && background.naturalWidth)
       ctx.drawImage(background, 0, 0, 960, 480);
@@ -193,8 +208,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       ctx.fillRect(0, 0, 960, 480);
     }
     if (ready) {
-      const sample = contactSample(kind, elapsed),
-        first = contactScenarios[kind].events[0].side;
+      const first = contactScenarios[kind].events[0].side;
       const gap = Math.max(
         95,
         Math.min(210, meleeContactDistance(profile, "attack", 136, 3)),
@@ -223,12 +237,13 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
           if (e.outcome === "hit") {
             actions[target] = sample.hp[target] === 0 ? "death" : "damage";
             progress[target] = (p - 0.42) / 0.4;
-          } else if (e.outcome === "evade") {
-            offset[target] =
-              (target === 0 ? -1 : 1) *
-              Math.sin(((p - 0.42) / 0.4) * Math.PI) *
-              24;
           }
+        }
+        if (e.outcome === "evade" && p >= 0.16 && p < 0.84) {
+          actions[target] = "evade";
+          progress[target] = (p - 0.16) / 0.68;
+          offset[target] =
+            (target === 0 ? -1 : 1) * Math.sin(progress[target] * Math.PI) * 60;
         }
       }
       for (const side of [0, 1] as const) {
@@ -281,6 +296,27 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         .forEach((li, i) =>
           li.classList.toggle("contact-applied", sample.applied.includes(i)),
         );
+      if (effect.active) {
+        ctx.fillStyle = `rgba(255,244,200,${effect.flash})`;
+        ctx.fillRect(0, 0, 960, 480);
+        ctx.strokeStyle = `rgba(255,220,125,${effect.strength})`;
+        ctx.lineWidth = 4;
+        const x = positions[1 - sample.event.side];
+        for (let i = 0; i < 8; i++) {
+          const angle = (i * Math.PI) / 4;
+          ctx.beginPath();
+          ctx.moveTo(x + Math.cos(angle) * 18, 280 + Math.sin(angle) * 18);
+          ctx.lineTo(x + Math.cos(angle) * 75, 280 + Math.sin(angle) * 75);
+          ctx.stroke();
+        }
+      }
+      canvas.dataset.critical = String(effect.active);
+      canvas.dataset.leftFrameSource =
+        resolveClip(profile, actions[0])?.source ?? "";
+      canvas.dataset.rightFrameSource =
+        resolveClip(profile, actions[1])?.source ?? "";
+      canvas.dataset.leftOffset = String(offset[0]);
+      canvas.dataset.rightOffset = String(offset[1]);
       canvas.dataset.elapsed = String(elapsed);
       canvas.dataset.leftX = String(positions[0]);
       canvas.dataset.rightX = String(positions[1]);
@@ -306,6 +342,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         pause.disabled = true;
       }
     }
+    ctx.restore();
     raf = requestAnimationFrame(draw);
   }
   async function load() {

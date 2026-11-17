@@ -3,6 +3,7 @@ export type ContactEvent = {
   side: 0 | 1;
   outcome: "hit" | "block" | "evade";
   damage: number;
+  critical?: boolean;
   label: string;
 };
 export const contactScenarios: Record<
@@ -74,7 +75,8 @@ export const contactScenarios: Record<
         side: 0,
         outcome: "hit",
         damage: 24,
-        label: "Votre seconde attaque · adversaire vaincu",
+        label: "Votre seconde attaque critique · adversaire vaincu",
+        critical: true,
       },
     ],
   },

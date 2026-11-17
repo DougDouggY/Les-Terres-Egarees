@@ -63,6 +63,10 @@ export function buildCombatSkin(
       c.source !== attack.source &&
       !/^tactical\/combat-v[34]-motion/.test(c.source) &&
       !(
+        id === "raider:male:axe-shield:default" &&
+        c.source === "tactical/pillard-quickstep-dodge-v6.png"
+      ) &&
+      !(
         p.classId === "mounted_spearman" &&
         c.source === "tactical/combat-v3-mounted.png"
       )

@@ -57,3 +57,61 @@ test("accueil : quatre essais, vitesse et pause, maintien au contact, attaque un
     saves,
   );
 });
+
+test("nouvelles poses : pas rapides, vrai retrait illustré des deux côtés et critique visible", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .click();
+  await expect(page.locator('[data-contact-scenario="dodges"]')).toBeEnabled();
+  await page.locator("[data-contact-speed]").selectOption("0.5");
+  await page.locator('[data-contact-scenario="dodges"]').click();
+  const c = page.locator("[data-contact-canvas]");
+  await page.waitForFunction(
+    () =>
+      Number(
+        document.querySelector<HTMLCanvasElement>("[data-contact-canvas]")!
+          .dataset.elapsed,
+      ) > 250,
+  );
+  await page.locator("[data-contact-pause]").click();
+  await expect(c).toHaveAttribute("data-left-action", "move");
+  await expect(c).toHaveAttribute(
+    "data-left-frame-source",
+    /pillard-quickstep-dodge-v6/,
+  );
+  await page.screenshot({ path: "/tmp/pillard-quickstep-v6.png" });
+  await page.locator("[data-contact-pause]").click();
+  await page.waitForFunction(() => {
+    const c = document.querySelector<HTMLCanvasElement>(
+      "[data-contact-canvas]",
+    )!;
+    return (
+      c.dataset.rightAction === "evade" && Number(c.dataset.rightOffset) > 40
+    );
+  });
+  await page.locator("[data-contact-pause]").click();
+  await page.screenshot({ path: "/tmp/pillard-backstep-v6.png" });
+  await expect(c).toHaveAttribute(
+    "data-right-frame-source",
+    /pillard-quickstep-dodge-v6/,
+  );
+  await page.locator("[data-contact-pause]").click();
+  await page.waitForFunction(() => {
+    const c = document.querySelector<HTMLCanvasElement>(
+      "[data-contact-canvas]",
+    )!;
+    return (
+      c.dataset.leftAction === "evade" && Number(c.dataset.leftOffset) < -40
+    );
+  });
+  await page.waitForFunction(
+    () =>
+      document.querySelector<HTMLCanvasElement>("[data-contact-canvas]")!
+        .dataset.critical === "true",
+  );
+  await page.locator("[data-contact-pause]").click();
+  await page.screenshot({ path: "/tmp/pillard-critical-v6.png" });
+});
