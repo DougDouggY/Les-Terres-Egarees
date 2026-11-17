@@ -20,6 +20,12 @@ export async function completeIntroduction(
     ),
   );
   await expect(scene).toHaveAttribute("data-intro-phase", "hood");
+  await expect(scene.locator(".intro-actors")).toHaveAttribute(
+    "data-welcoming-classes",
+    faction === "north"
+      ? "raider,north_warrior,hunter"
+      : "man_at_arms,spearman,crossbowman",
+  );
   await expect(scene.locator(".intro-bubble p")).toHaveText(
     "Approche, enlève ta capuche.",
   );

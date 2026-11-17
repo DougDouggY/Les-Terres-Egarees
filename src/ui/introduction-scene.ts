@@ -65,6 +65,7 @@ export class IntroductionScene {
   private phaseStarted = 0;
   private hero: Unit;
   private host: Unit;
+  private attendants: Unit[];
   private recruits: Unit[] = [];
   private recruitAssets: string[] = [];
   private recruitIndex = 0;
@@ -120,6 +121,22 @@ export class IntroductionScene {
       0,
       "male",
     );
+    this.attendants = (
+      h.faction === "north"
+        ? ["north_warrior", "hunter"]
+        : ["spearman", "crossbowman"]
+    ).map((classId, i) =>
+      E.makeClassUnit(
+        `creation-attendant-${i}`,
+        owner,
+        owner,
+        classId,
+        "",
+        0,
+        0,
+        "male",
+      ),
+    );
     this.start = { x: h.faction === "north" ? 0.9 : 0.12, y: 0.61 };
     this.stop = { x: h.faction === "north" ? 0.53 : 0.43, y: 0.53 };
     this.left = { x: h.faction === "north" ? 0.35 : 0.65, y: 0.55 };
@@ -152,7 +169,10 @@ export class IntroductionScene {
           });
     void Promise.all([
       loaded,
-      warmSprites([this.hero, this.host], options.colors, ["idle", "move"]),
+      warmSprites([this.hero, this.host, ...this.attendants], options.colors, [
+        "idle",
+        "move",
+      ]),
     ])
       .then(() => {
         if (this.disposed) return;
@@ -446,12 +466,12 @@ export class IntroductionScene {
       if (this.phase === "relocate") this.enter("recruit");
       const north = this.config.faction === "north";
       this.paint(this.host, this.hostPosition, false, north, now, rect);
-      for (const [dx, dy] of [
+      for (const [i, [dx, dy]] of [
         [north ? -0.09 : 0.1, 0.08],
         [north ? 0.07 : -0.04, -0.08],
-      ])
+      ].entries())
         this.paint(
-          this.host,
+          this.attendants[i],
           { x: this.hostPosition.x + dx, y: this.hostPosition.y + dy },
           false,
           north,
@@ -490,7 +510,10 @@ export class IntroductionScene {
       this.canvas.dataset.heroX = String(this.heroPosition.x);
       this.canvas.dataset.heroFacing = facing ? "right" : "left";
       this.canvas.dataset.hostFacing = north ? "right" : "left";
-      this.canvas.dataset.decorativeActors = "2";
+      this.canvas.dataset.decorativeActors = String(this.attendants.length);
+      this.canvas.dataset.welcomingClasses = [this.host, ...this.attendants]
+        .map((u) => u.classId)
+        .join(",");
       this.canvas.dataset.hostX = String(this.hostPosition.x);
     }
     this.raf = requestAnimationFrame(this.draw);
