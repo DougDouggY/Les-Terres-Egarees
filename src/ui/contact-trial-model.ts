@@ -57,7 +57,7 @@ export const contactScenarios: Record<
     ],
   },
   dodges: {
-    label: "4 · Deux esquives, puis coup mortel",
+    label: "4 · Esquives, puis critique mortel",
     events: [
       {
         side: 0,

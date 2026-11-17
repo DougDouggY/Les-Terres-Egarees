@@ -115,3 +115,62 @@ test("nouvelles poses : pas rapides, vrai retrait illustré des deux côtés et 
   await page.locator("[data-contact-pause]").click();
   await page.screenshot({ path: "/tmp/pillard-critical-v6.png" });
 });
+
+test("critique partagé : rendu du moteur pour plusieurs classes, HP inchangés et aucun effet sur une parade", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const results = await page.evaluate(async () => {
+    const E = await import(String("/src/engine.ts"));
+    const { CombatSceneV2 } = await import(String("/src/ui/combat-v2.ts"));
+    const rows = [];
+    for (const cls of ["raider", "man_at_arms", "spearman", "crossbowman"]) {
+      for (const blocked of [false, true]) {
+        const a = E.makeClassUnit("a", 1, 1, cls, "A", 0, 0, "male");
+        const b = E.makeClassUnit("b", 2, 2, "raider", "B", 1, 0, "male");
+        const hp = b.hp;
+        const scene = new CombatSceneV2(
+          [a, b],
+          [
+            {
+              attacker: a.id,
+              defender: b.id,
+              damage: blocked ? 0 : 3,
+              hpAfter: hp - (blocked ? 0 : 3),
+              hit: true,
+              blocked,
+              critical: true,
+            },
+          ],
+        );
+        await scene.prepare();
+        const c = document.createElement("canvas");
+        c.width = 960;
+        c.height = 600;
+        let impacts = 0;
+        const at = scene.timeline.beats[0].at;
+        for (const age of [-1, 35, 100, 350, 500])
+          scene.draw(c.getContext("2d")!, at + age, () => impacts++);
+        const before = c.toDataURL();
+        scene.draw(c.getContext("2d")!, at + 100);
+        rows.push({
+          cls,
+          blocked,
+          active: c.dataset.critical,
+          original: b.hp,
+          hp,
+          after: scene.actors[1].unit.hp,
+          impacts,
+          changed: before !== c.toDataURL(),
+        });
+      }
+    }
+    return rows;
+  });
+  for (const r of results) {
+    expect(r.active).toBe(String(!r.blocked));
+    expect(r.original).toBe(r.hp);
+    expect(r.after).toBe(r.hp - (r.blocked ? 0 : 3));
+    expect(r.impacts).toBe(1);
+  }
+});

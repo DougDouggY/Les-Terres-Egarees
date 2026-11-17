@@ -16,7 +16,7 @@ import {
   contactPositions,
   type ContactScenario,
 } from "./contact-trial-model";
-import { criticalImpact } from "./critical-impact";
+import { criticalImpact, drawCriticalImpact } from "./critical-impact";
 import "./combat-hud.css";
 import "./contact-preview.css";
 export function openContactPreview(app: HTMLElement, back: () => void) {
@@ -296,20 +296,16 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         .forEach((li, i) =>
           li.classList.toggle("contact-applied", sample.applied.includes(i)),
         );
-      if (effect.active) {
-        ctx.fillStyle = `rgba(255,244,200,${effect.flash})`;
-        ctx.fillRect(0, 0, 960, 480);
-        ctx.strokeStyle = `rgba(255,220,125,${effect.strength})`;
-        ctx.lineWidth = 4;
-        const x = positions[1 - sample.event.side];
-        for (let i = 0; i < 8; i++) {
-          const angle = (i * Math.PI) / 4;
-          ctx.beginPath();
-          ctx.moveTo(x + Math.cos(angle) * 18, 280 + Math.sin(angle) * 18);
-          ctx.lineTo(x + Math.cos(angle) * 75, 280 + Math.sin(angle) * 75);
-          ctx.stroke();
-        }
-      }
+      if (effect.active)
+        drawCriticalImpact(
+          ctx,
+          elapsed - (contactApproach + sample.index * 1150 + 480),
+          positions[1 - sample.event.side],
+          280,
+          960,
+          480,
+          reducedMotion,
+        );
       canvas.dataset.critical = String(effect.active);
       canvas.dataset.leftFrameSource =
         resolveClip(profile, actions[0])?.source ?? "";

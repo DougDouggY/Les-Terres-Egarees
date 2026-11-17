@@ -17,7 +17,7 @@ Commandes compactes dans une colonne à gauche, scène agrandie et journal d’i
 
 Vitesses : ×0,25, ×0,5, ×1, ×1,5, ×2 et ×4, réglables pendant la lecture. Pause/reprise, rejouer, retour à l’accueil. Aucune sauvegarde de campagne lue ou modifiée par l’écran. Le comportement des combats en partie reste inchangé.
 
-Vérifications : 196 tests avec `npm test`, parcours navigateur des quatre boutons (approches des deux côtés, maintien des positions, pause, événements et PV, retour et stockage inchangé), builds public et prototype et contrôles de séparation public/prototype. Test navigateur : `npx playwright test --config=playwright.contact.config.ts`.
+Vérifications : 196 tests avec `npm test`, parcours navigateur des quatre boutons (approches des deux côtés, maintien des positions, pause, événements et PV, retour et stockage inchangé), builds public et prototype et contrôles de séparation public/prototype. Trois tests navigateur couvrent également le nouvel effet partagé. Test navigateur : `npx playwright test --config=playwright.contact.config.ts`.
 
 ## Pas rapides, esquive et critique
 
@@ -25,6 +25,8 @@ Nouvelle planche transparente `pillard-quickstep-dodge-v6.png`, dessinée d’ap
 
 Le déplacement retient quatre poses basses de contact/passage alternés (lignes 0 et 1, colonnes 0 et 1) à six images par seconde ; les poses aériennes et les genoux hauts ne sont pas sélectionnés. L’esquive retient trois poses (ligne 2, colonnes 0, 1 et 3) ; le dessin profondément accroupi n’est pas sélectionné. Les repères de sol et de corps sont constants pour éviter une translation parasite entre les poses.
 
-Le dernier coup du scénario 4 est présenté comme critique : attaque normale, éclat lumineux, rayons et secousse de 280 ms. L’effet est indépendant du personnage, sans atlas de critique supplémentaire ; le mouvement réduit désactive la secousse et atténue le flash. Il reste une démonstration dans cet essai, sans modification des probabilités du moteur ou des résultats de campagne.
+Le dernier coup du scénario 4 est présenté comme critique : attaque normale, grande entaille lumineuse, bref contraste sombre, flash unique, éclats, mention « Critique » et secousse, sur une enveloppe de 480 ms. Aucun sprite de critique n’a été dessiné. L’effet est indépendant du personnage ; le mouvement réduit désactive la secousse et atténue le flash.
+
+Le même effet est aussi utilisé dans `CombatSceneV2` pour les coups déjà résolus comme critiques, réussis et non bloqués. Il fonctionne sans association à une classe ou un atlas particulier. Il ne change ni dégâts, ni probabilités, ni timing des impacts, ni nombre d’attaques. Les tests navigateur le vérifient pour le Pillard, l’homme d’armes, le lancier et l’arbalétrier, ainsi que pour un coup paré qui ne doit pas déclencher cet effet. La généralisation du déplacement au centre à toutes les classes reste une étape distincte ; elle n’est pas effectuée par cette modification.
 
 Aucune ancienne planche entière n’a été supprimée : les anciennes planches de mouvement restent partagées avec d’autres unités. Les sources et séquences de déplacement/esquive actives du Pillard ont été remplacées. La nouvelle planche conserve des propositions de poses qui ne sont pas sélectionnées dans les animations ; aucun de ces dessins n’est chargé dans une autre animation par hasard.

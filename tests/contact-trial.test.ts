@@ -100,8 +100,10 @@ test("pas rapides et esquive : poses basses, échelle constante et critique sans
 test("critique partagé : flash et secousse bornés, mouvement réduit respecté", async () => {
   const { criticalImpact } = await import("../src/ui/critical-impact");
   assert.equal(criticalImpact(-1).active, false);
-  assert.equal(criticalImpact(300).flash, 0);
+  assert.equal(criticalImpact(500).flash, 0);
   assert.ok(criticalImpact(30).flash > 0);
+  assert.equal(criticalImpact(350).active, true);
+  assert.equal(criticalImpact(500).active, false);
   assert.notEqual(criticalImpact(30).shakeX, 0);
   const reduced = criticalImpact(30, true);
   assert.equal(reduced.shakeX, 0);

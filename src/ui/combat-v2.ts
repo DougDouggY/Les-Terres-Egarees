@@ -1,3 +1,8 @@
+import {
+  criticalImpact,
+  drawCriticalImpact,
+  criticalImpactDuration,
+} from "./critical-impact";
 import type { Unit } from "../game/types";
 import { activeWeapon } from "../game/classes";
 import type { TeamColors } from "../game/team-colors";
@@ -342,6 +347,25 @@ export class CombatSceneV2 {
         }
         onImpact?.(beat.index);
       }
+    const criticalBeat = this.timeline.beats
+      .filter((b) => {
+        const hit = this.strikes[b.index];
+        return (
+          hit.critical &&
+          hit.hit &&
+          !hit.blocked &&
+          hit.damage > 0 &&
+          elapsed >= b.at &&
+          elapsed < b.at + criticalImpactDuration
+        );
+      })
+      .at(-1);
+    const reducedMotion =
+      typeof matchMedia === "function" &&
+      matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const criticalAge = criticalBeat ? elapsed - criticalBeat.at : -1;
+    const critical = criticalImpact(criticalAge, reducedMotion);
+    ctx.canvas.dataset.critical = String(critical.active);
     this.lastFrames = [];
     ctx.save();
     ctx.scale(
@@ -353,6 +377,7 @@ export class CombatSceneV2 {
       ctx.translate(960, 0);
       ctx.scale(-1, 1);
     }
+    ctx.translate(critical.shakeX, critical.shakeY);
     const homes = [250, 710],
       ground = 475;
     const visible = sample
@@ -660,7 +685,7 @@ export class CombatSceneV2 {
       }
       ctx.restore();
     }
-    if (flash) {
+    if (flash && !critical.active) {
       ctx.strokeStyle = "#ffe7a5";
       ctx.lineWidth = 2;
       for (let i = 0; i < 8; i++) {
@@ -692,6 +717,21 @@ export class CombatSceneV2 {
       );
       if (v && this.preview?.animation === "heal")
         drawHealing(ctx, elapsed, v.x, ground, 180);
+    }
+    if (criticalBeat) {
+      const victim = placements.find(
+        (v) => v.actor.unit.id === this.strikes[criticalBeat.index].defender,
+      );
+      if (victim)
+        drawCriticalImpact(
+          ctx,
+          criticalAge,
+          victim.x,
+          ground - victim.actor.height * 0.6,
+          960,
+          600,
+          reducedMotion,
+        );
     }
     ctx.restore();
     if (
