@@ -154,3 +154,51 @@ test("critique validé : deux griffures, flash et aucune particule triangulaire"
   assert.equal(lines, 0); // no straight-edged triangular particles
   assert.equal(rectangles, 2); // contrast and the single flash
 });
+
+test("Pillarde hache-bouclier : revue isolée, 26 poses, identité unique et repères stables", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const p = JSON.parse(
+    await readFile("src/assets/tactical/pillarde-axe.review.json", "utf8"),
+  );
+  const layouts = JSON.parse(
+    await readFile("src/assets/tactical/atlas-layout.json", "utf8"),
+  );
+  const { buildCombatSkin } = await import("../src/sprites/combat-skin-core");
+  const { resolveClip } = await import("../src/sprites/catalog");
+  const skin = buildCombatSkin(p, p)!.profile;
+  assert.equal(p.gender, "female");
+  assert.equal(p.equipment, "axe-shield");
+  const source = p.clips.move.source,
+    layout = layouts[source];
+  assert.equal(layout.frames.length, 26);
+  assert.equal(layout.columns, 4);
+  assert.equal(layout.rows, 7);
+  for (const name of [
+    "idle",
+    "move",
+    "attack",
+    "block",
+    "evade",
+    "damage",
+    "death",
+  ])
+    assert.equal(resolveClip(skin, name)!.source, source);
+  assert.equal(resolveClip(skin, "attack")!.frames.length, 8);
+  assert.equal(resolveClip(skin, "move")!.frames.length, 4);
+  assert.equal(resolveClip(skin, "move")!.fps, 6);
+  assert.equal(resolveClip(skin, "evade")!.frames.length, 3);
+  assert.deepEqual(
+    resolveClip(skin, "counter")!.cells,
+    resolveClip(skin, "attack")!.cells,
+  );
+  for (const r of layout.frames) {
+    assert.equal(r.bodyHeight, 183);
+    assert.equal(r.anchorX - r.column * 237, 126);
+    assert.ok(
+      r.x >= 0 &&
+        r.y >= 0 &&
+        r.x + r.width <= layout.width &&
+        r.y + r.height <= layout.height,
+    );
+  }
+});

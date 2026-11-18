@@ -48,3 +48,13 @@ La référence `docs/references/pillard-masculin-hache-bouclier.*` est mise à j
 Le guide `docs/references/guide-remplacement.md` liste les profils effectivement présents, les fantassins avec bouclier proches de ce modèle et les gestes spéciaux à préserver pour les autres familles. Il ne prétend pas que tous ces profils sont défectueux. Les deux Pillardes sont prioritaires. Aucune autre unité n'est redessinée dans cette modification.
 
 Une page autonome et ses téléchargements sont préparés sous `public/validation/pillard/`, pour l'URL `/Les-Terres-Egarees/validation/pillard/` après publication. Le jeu ne charge pas ces ressources documentaires pendant une partie.
+
+## Pillarde hache-bouclier — proposition à valider
+
+Le sélecteur « Personnage » de l'essai propose le Pillard masculin et la Pillarde hache-bouclier. Les cinq scénarios, les vitesses, Pause, Rejouer, les positions au contact et l'effet de critique sont communs. Changer de personnage remet la lecture à zéro et recharge ses seules ressources ; un chargement ancien ne peut pas réactiver un personnage sélectionné précédemment.
+
+Nouvelle planche `pillarde-axe-review-v1.png` : 26 poses de la Pillarde rousse, en grille 4 × 7, cases de 237 pixels, fond alpha réellement transparent. Deux cases sont laissées vides. Les pas rapides ont quatre poses à six images/s, l'esquive possède trois poses et un vrai déplacement arrière. Les repères de corps, les pieds et l'échelle sont normalisés dans les métadonnées ; les attaques utilisent huit poses dont la hache levée est redessinée. Le critique conserve l'effet partagé, sans pose spéciale.
+
+La définition `pillarde-axe.review.json` est volontairement réservée à cet essai. Elle n'est pas enregistrée parmi les descriptions de campagne `*.sprite.json` ou `*.combat.json`. Les dessins de la Pillarde en partie, la variante épée-bouclier et les autres unités attendent leur validation propre. Les anciennes planches encore actives ne sont pas supprimées.
+
+Vérifications : 198 tests habituels, deux parcours navigateur ciblés (Pillard existant et cinq scénarios de la Pillarde), transparence réelle, retour au masculin, sauvegardes inchangées et builds public/prototype. Les autres personnages seront examinés un par un : le catalogue contient des bases utilisables, mais présence d'une animation ne garantit pas des poses ou transitions satisfaisantes.

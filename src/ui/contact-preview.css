@@ -133,3 +133,15 @@
   margin-left: 8px;
   white-space: nowrap;
 }
+
+.contact-character {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 12px;
+}
+.contact-character select {
+  max-width: 100%;
+  font-size: 12px;
+  padding: 6px;
+}

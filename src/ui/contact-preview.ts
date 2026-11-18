@@ -5,6 +5,9 @@ import {
   drawResourceFrame,
 } from "../sprites/resources";
 import { combatSkin } from "../sprites/combat-skins";
+import { buildCombatSkin } from "../sprites/combat-skin-core";
+import type { SpriteProfile } from "../sprites/catalog";
+import femaleReview from "../assets/tactical/pillarde-axe.review.json";
 import { resolveClip } from "../sprites/catalog";
 import { resourceRect, meleeContactDistance } from "../sprites/geometry";
 import { combatHud } from "./combat-hud";
@@ -30,7 +33,13 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     0,
     "male",
   );
-  const profile = combatSkin(unitSpriteProfile(unit))!.profile;
+  const maleProfile = combatSkin(unitSpriteProfile(unit))!.profile;
+  const femaleProfile = buildCombatSkin(
+    femaleReview as SpriteProfile,
+    femaleReview as SpriteProfile,
+  )!.profile;
+  let profile = maleProfile,
+    loadingVersion = 0;
   let kind: ContactScenario = "agility",
     elapsed = 0,
     speed = 1,
@@ -45,7 +54,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   ).matches;
   const background = new Image();
   background.src = import.meta.env.BASE_URL + "assets/battle-3.png";
-  app.innerHTML = `<main class="contact-preview"><header><h1>Pillard contre Pillard <small class="contact-version">Critique V2</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><div class="contact-buttons">${Object.entries(
+  app.innerHTML = `<main class="contact-preview"><header><h1><span data-contact-title>Pillard contre Pillard</span> <small class="contact-version">Critique V2</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><label class="contact-character">Personnage<select data-contact-character><option value="male">Pillard · hache</option><option value="female">Pillarde · hache</option></select></label><div class="contact-buttons">${Object.entries(
     contactScenarios,
   )
     .map(
@@ -84,6 +93,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   const pause = app.querySelector<HTMLButtonElement>("[data-contact-pause]")!;
   const replay = app.querySelector<HTMLButtonElement>("[data-contact-replay]")!;
   function start(id: ContactScenario) {
+    if (!ready) return;
     kind = id;
     canvas.dataset.elapsed = "0";
     canvas.dataset.critical = "false";
@@ -110,6 +120,32 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       .map((e) => `<li>${e.label}</li>`)
       .join("");
   }
+  app.querySelector<HTMLSelectElement>("[data-contact-character]")!.onchange = (
+    e,
+  ) => {
+    const female = (e.target as HTMLSelectElement).value === "female";
+    profile = female ? femaleProfile : maleProfile;
+    running = false;
+    paused = false;
+    elapsed = 0;
+    pause.disabled = replay.disabled = true;
+    pause.textContent = "Pause";
+    canvas.dataset.character = female ? "female" : "male";
+    canvas.dataset.elapsed = "0";
+    canvas.dataset.critical = "false";
+    canvas.dataset.finished = "false";
+    app.querySelector("[data-contact-title]")!.textContent = female
+      ? "Pillarde contre Pillarde"
+      : "Pillard contre Pillard";
+    app
+      .querySelectorAll(".duel-nameplates strong")
+      .forEach(
+        (label, i) =>
+          (label.textContent = `${i === 0 ? "Vous" : "Adversaire"} · ${female ? "Pillarde" : "Pillard"}`),
+      );
+    app.querySelector("[data-contact-events]")!.replaceChildren();
+    void load();
+  };
   app.querySelector<HTMLButtonElement>("[data-contact-back]")!.onclick = () => {
     dispose();
     back();
@@ -314,6 +350,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         resolveClip(profile, actions[1])?.source ?? "";
       canvas.dataset.leftOffset = String(offset[0]);
       canvas.dataset.rightOffset = String(offset[1]);
+      canvas.dataset.profile = `${profile.classId}:${profile.gender}:${profile.equipment}`;
       canvas.dataset.elapsed = String(elapsed);
       canvas.dataset.leftX = String(positions[0]);
       canvas.dataset.rightX = String(positions[1]);
@@ -343,6 +380,12 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     raf = requestAnimationFrame(draw);
   }
   async function load() {
+    const version = ++loadingVersion;
+    ready = false;
+    status.textContent = "Chargement des sprites…";
+    app
+      .querySelectorAll<HTMLButtonElement>("[data-contact-scenario]")
+      .forEach((b) => (b.disabled = true));
     try {
       await Promise.all(
         [
@@ -361,12 +404,13 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
           if (!image.naturalWidth) throw Error(source);
         }),
       );
-      if (disposed) return;
+      if (disposed || version !== loadingVersion) return;
       ready = true;
       app
         .querySelectorAll<HTMLButtonElement>("[data-contact-scenario]")
         .forEach((b) => (b.disabled = false));
     } catch (error) {
+      if (disposed || version !== loadingVersion) return;
       status.textContent = `Chargement impossible : ${String(error)}`;
     }
   }

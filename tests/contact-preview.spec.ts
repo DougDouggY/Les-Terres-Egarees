@@ -211,3 +211,84 @@ test("critique seul V2 : accès direct, effet visible sans tuer, pause et rejeu"
     "false",
   );
 });
+
+test("Pillarde hache : cinq scénarios, source dédiée, tailles constantes, transparence et retour au Pillard", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const saves = await page.evaluate(() => JSON.stringify({ ...localStorage }));
+  await page
+    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .click();
+  await page.locator("[data-contact-character]").selectOption("female");
+  await expect(
+    page.locator('[data-contact-scenario="critical"]'),
+  ).toBeEnabled();
+  await expect(page.locator("[data-contact-title]")).toHaveText(
+    "Pillarde contre Pillarde",
+  );
+  await page.locator("[data-contact-speed]").selectOption("4");
+  const canvas = page.locator("[data-contact-canvas]");
+  for (const id of ["critical", "agility", "parry", "double-parry", "dodges"]) {
+    await page.locator(`[data-contact-scenario="${id}"]`).click();
+    await expect
+      .poll(async () => Number(await canvas.getAttribute("data-elapsed")))
+      .toBeGreaterThan(900);
+    await expect(canvas).toHaveAttribute(
+      "data-profile",
+      "raider:female:axe-shield",
+    );
+    await expect(canvas).toHaveAttribute(
+      "data-left-frame-source",
+      /pillarde-axe-review-v1/,
+    );
+    await expect(canvas).toHaveAttribute(
+      "data-right-frame-source",
+      /pillarde-axe-review-v1/,
+    );
+    const left = await canvas.getAttribute("data-left-x"),
+      right = await canvas.getAttribute("data-right-x");
+    expect(Number(left) + Number(right)).toBeCloseTo(960);
+    await expect(canvas).toHaveAttribute("data-finished", "true");
+    await expect(canvas).toHaveAttribute(
+      "data-applied",
+      id === "critical" ? "1" : id === "double-parry" ? "5" : "3",
+    );
+  }
+  const alpha = await page.evaluate(async () => {
+    const { spriteImage } = await import(String("/src/sprites/resources.ts"));
+    const im = spriteImage("tactical/pillarde-axe-review-v1.png");
+    const c = document.createElement("canvas");
+    c.width = im.naturalWidth;
+    c.height = im.naturalHeight;
+    const ctx = c.getContext("2d")!;
+    ctx.drawImage(im, 0, 0);
+    return [
+      ctx.getImageData(0, 0, 1, 1).data[3],
+      ctx.getImageData(900, 1100, 1, 1).data[3],
+    ];
+  });
+  expect(alpha).toEqual([0, 0]);
+  await page.locator("[data-contact-speed]").selectOption("0.5");
+  await page.locator('[data-contact-scenario="critical"]').click();
+  await page.waitForFunction(
+    () =>
+      document.querySelector<HTMLCanvasElement>("[data-contact-canvas]")!
+        .dataset.critical === "true",
+  );
+  await page.locator("[data-contact-pause]").click();
+  await page.screenshot({ path: "/tmp/pillarde-axe-review.png" });
+  await page.locator("[data-contact-character]").selectOption("male");
+  await expect(page.locator("[data-contact-title]")).toHaveText(
+    "Pillard contre Pillard",
+  );
+  await expect(page.locator('[data-contact-scenario="agility"]')).toBeEnabled();
+  await page.locator('[data-contact-scenario="agility"]').click();
+  await expect(canvas).toHaveAttribute(
+    "data-profile",
+    "raider:male:axe-shield",
+  );
+  expect(await page.evaluate(() => JSON.stringify({ ...localStorage }))).toBe(
+    saves,
+  );
+});
