@@ -9,6 +9,7 @@ import {
 } from "../src/ui/contact-trial-model";
 test("essai au contact : les quatre échanges imposés conservent ordre, parades, esquives et PV", () => {
   const expectations = {
+    critical: [24, 16],
     agility: [20, 16],
     parry: [24, 16],
     "double-parry": [24, 12],

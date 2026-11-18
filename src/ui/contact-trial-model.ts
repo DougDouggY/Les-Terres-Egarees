@@ -1,4 +1,5 @@
-export type ContactScenario = "agility" | "parry" | "double-parry" | "dodges";
+export type ContactScenario =
+  "agility" | "parry" | "double-parry" | "dodges" | "critical";
 export type ContactEvent = {
   side: 0 | 1;
   outcome: "hit" | "block" | "evade";
@@ -10,6 +11,18 @@ export const contactScenarios: Record<
   ContactScenario,
   { label: string; events: ContactEvent[] }
 > = {
+  critical: {
+    label: "Critique seul · V2",
+    events: [
+      {
+        side: 0,
+        outcome: "hit",
+        damage: 8,
+        critical: true,
+        label: "Critique · entaille V2",
+      },
+    ],
+  },
   agility: {
     label: "1 · Attaque, réponse, seconde attaque",
     events: [

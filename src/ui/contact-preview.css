@@ -126,3 +126,10 @@
     font-size: 10px;
   }
 }
+
+.contact-version {
+  font: 11px var(--sans, sans-serif);
+  color: #e5cd91;
+  margin-left: 8px;
+  white-space: nowrap;
+}

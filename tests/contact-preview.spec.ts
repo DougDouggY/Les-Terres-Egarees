@@ -174,3 +174,40 @@ test("critique partagé : rendu du moteur pour plusieurs classes, HP inchangés 
     expect(r.impacts).toBe(1);
   }
 });
+
+test("critique seul V2 : accès direct, effet visible sans tuer, pause et rejeu", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Critique seul · V2", exact: true }),
+  ).toBeEnabled();
+  await page.locator("[data-contact-speed]").selectOption("0.5");
+  await page
+    .getByRole("button", { name: "Critique seul · V2", exact: true })
+    .click();
+  await page.waitForFunction(() => {
+    const c = document.querySelector<HTMLCanvasElement>(
+      "[data-contact-canvas]",
+    )!;
+    return c.dataset.critical === "true" && Number(c.dataset.elapsed) > 1420;
+  });
+  await page.locator("[data-contact-pause]").click();
+  await expect(page.locator('[data-combat-value="1"]')).toHaveText(
+    "16 / 24 PV",
+  );
+  await expect(page.locator(".contact-version")).toHaveText("Critique V2");
+  await page.screenshot({ path: "/tmp/critique-v2-validation.png" });
+  await page.locator("[data-contact-replay]").click();
+  await expect(page.locator("[data-contact-canvas]")).toHaveAttribute(
+    "data-scenario",
+    "critical",
+  );
+  await expect(page.locator("[data-contact-canvas]")).toHaveAttribute(
+    "data-critical",
+    "false",
+  );
+});

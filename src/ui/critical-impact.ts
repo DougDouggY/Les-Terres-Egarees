@@ -42,20 +42,20 @@ export function drawCriticalImpact(
     [44, reach * 0.72],
   ]) {
     const end = span * reveal;
-    ctx.lineCap = "round";
-    for (const [lineWidth, color] of [
-      [26, "#351719"],
-      [17, "#f29235"],
-      [8, "#ffe5a2"],
+    for (const [thickness, color] of [
+      [24, "#3b2020"],
+      [17, "#f1a345"],
+      [8, "#ffe9ad"],
       [3, "#ffffff"],
     ] as const) {
       ctx.globalAlpha = opacity;
-      ctx.strokeStyle = color;
-      ctx.lineWidth = lineWidth;
+      ctx.fillStyle = color;
       ctx.beginPath();
       ctx.moveTo(-end, shift);
-      ctx.lineTo(end, shift);
-      ctx.stroke();
+      ctx.quadraticCurveTo(-end * 0.16, shift - thickness, end, shift);
+      ctx.quadraticCurveTo(end * 0.12, shift + thickness, -end, shift);
+      ctx.closePath();
+      ctx.fill();
     }
   }
   ctx.restore();

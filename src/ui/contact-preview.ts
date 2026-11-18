@@ -45,7 +45,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   ).matches;
   const background = new Image();
   background.src = import.meta.env.BASE_URL + "assets/battle-3.png";
-  app.innerHTML = `<main class="contact-preview"><header><h1>Pillard contre Pillard</h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><div class="contact-buttons">${Object.entries(
+  app.innerHTML = `<main class="contact-preview"><header><h1>Pillard contre Pillard <small class="contact-version">Critique V2</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><div class="contact-buttons">${Object.entries(
     contactScenarios,
   )
     .map(
@@ -86,6 +86,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   function start(id: ContactScenario) {
     kind = id;
     canvas.dataset.elapsed = "0";
+    canvas.dataset.critical = "false";
     canvas.dataset.finished = "false";
     canvas.dataset.scenario = id;
     elapsed = 0;

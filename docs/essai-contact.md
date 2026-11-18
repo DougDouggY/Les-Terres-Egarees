@@ -30,3 +30,11 @@ Le dernier coup du scénario 4 est présenté comme critique : attaque normale, 
 Le même effet est aussi utilisé dans `CombatSceneV2` pour les coups déjà résolus comme critiques, réussis et non bloqués. Il fonctionne sans association à une classe ou un atlas particulier. Il ne change ni dégâts, ni probabilités, ni timing des impacts, ni nombre d’attaques. Les tests navigateur le vérifient pour le Pillard, l’homme d’armes, le lancier et l’arbalétrier, ainsi que pour un coup paré qui ne doit pas déclencher cet effet. La généralisation du déplacement au centre à toutes les classes reste une étape distincte ; elle n’est pas effectuée par cette modification.
 
 Aucune ancienne planche entière n’a été supprimée : les anciennes planches de mouvement restent partagées avec d’autres unités. Les sources et séquences de déplacement/esquive actives du Pillard ont été remplacées. La nouvelle planche conserve des propositions de poses qui ne sont pas sélectionnées dans les animations ; aucun de ces dessins n’est chargé dans une autre animation par hasard.
+
+## Validation isolée du critique V2
+
+Le bouton « Critique seul · V2 » lance une seule approche suivie d'un critique non mortel : huit PV retirés, afin de voir l'impact sans confondre l'effet avec la disparition d'une unité. Le titre affiche « Critique V2 » pour identifier cette version. Pause et Rejouer permettent de revoir uniquement ce coup. Les quatre scénarios précédents restent disponibles.
+
+L'effet partagé conserve contraste, flash unique, éclats et secousse ; les deux traits sont désormais effilés en entailles plutôt qu'en barres arrondies. Aucun sprite ni fichier image supplémentaire n'a été créé. Le style reste à valider par le joueur avant la reprise des personnages. La publication distante ne peut pas être vérifiée depuis cet environnement (accès GitHub refusé en HTTP 403).
+
+Vérifications de cette révision : 196 tests habituels, deux tests navigateur ciblés (moteur partagé et critique isolé), builds public et prototype.
