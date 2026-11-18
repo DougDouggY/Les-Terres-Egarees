@@ -58,3 +58,13 @@ Nouvelle planche `pillarde-axe-review-v1.png` : 26 poses de la Pillarde rousse, 
 La définition `pillarde-axe.review.json` est volontairement réservée à cet essai. Elle n'est pas enregistrée parmi les descriptions de campagne `*.sprite.json` ou `*.combat.json`. Les dessins de la Pillarde en partie, la variante épée-bouclier et les autres unités attendent leur validation propre. Les anciennes planches encore actives ne sont pas supprimées.
 
 Vérifications : 198 tests habituels, deux parcours navigateur ciblés (Pillard existant et cinq scénarios de la Pillarde), transparence réelle, retour au masculin, sauvegardes inchangées et builds public/prototype. Les autres personnages seront examinés un par un : le catalogue contient des bases utilisables, mais présence d'une animation ne garantit pas des poses ou transitions satisfaisantes.
+
+## Révision du gabarit de la Pillarde — 18 novembre 2026
+
+La proposition rousse tirée de la planche envoyée par le joueur est abandonnée à sa demande. La nouvelle proposition blonde utilise le gabarit plus élancé de la Lame nordique féminine (jambes plus longues, taille et épaules affinées, tête moins massive), avec la tenue nordique, la hache et le bouclier rond inspirés du Pillard masculin. Les images de référence de ces deux classes ne sont pas modifiées.
+
+La planche `combat-v4-pillarde-slim-v2.png` remplace la proposition de revue précédente ; cette ancienne copie PNG et ses métadonnées devenues inutilisées sont retirées. Le fichier de revue conserve 26 poses, les cinq scénarios et l'isolation des campagnes. L'échelle anatomique reste constante par source (202 pixels de référence). Les poses d'attente et de marche ont leurs ancrages ajustés pour éviter un glissement horizontal. Les très faibles résidus de matte des références sont écartés du rendu par les contours `maskRuns`, selon le mécanisme déjà utilisé pour les autres planches V4.
+
+La largeur de la première garde rapportée à sa hauteur de référence passe d'environ 0,90 à 0,67 ; le test contrôle que le nouveau gabarit n'est plus celui, trapu, de la proposition précédente. Les dimensions du corps restent constantes pendant l'attaque, y compris la hache levée.
+
+Vérifications : 198 tests habituels, deux tests navigateur ciblés (Pillard inchangé et cinq scénarios de la Pillarde révisée), contrôle visuel du nouveau gabarit et de ses contours, builds public/prototype et contrôles de séparation. Le remplacement visuel en campagne attend toujours la validation de cette proposition.

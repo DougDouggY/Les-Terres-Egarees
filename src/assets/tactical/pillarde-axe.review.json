@@ -3,13 +3,13 @@
   "gender": "female",
   "equipment": "axe-shield",
   "state": "default",
-  "note": "Proposition rousse hache-bouclier réservée à l’essai, sans changement des campagnes.",
+  "note": "Pillarde blonde élancée : proportions de la Lame nordique, tenue et équipement inspirés du Pillard masculin. Proposition réservée à l’essai.",
   "referenceHeights": {
-    "tactical/pillarde-axe-review-v1.png": 183
+    "tactical/combat-v4-pillarde-slim-v2.png": 202
   },
   "clips": {
     "idle": {
-      "source": "tactical/pillarde-axe-review-v1.png",
+      "source": "tactical/combat-v4-pillarde-slim-v2.png",
       "columns": 4,
       "rows": 7,
       "row": 0,
@@ -34,7 +34,7 @@
       "status": "functional"
     },
     "combat_idle": {
-      "source": "tactical/pillarde-axe-review-v1.png",
+      "source": "tactical/combat-v4-pillarde-slim-v2.png",
       "columns": 4,
       "rows": 7,
       "row": 0,
@@ -59,7 +59,7 @@
       "status": "functional"
     },
     "move": {
-      "source": "tactical/pillarde-axe-review-v1.png",
+      "source": "tactical/combat-v4-pillarde-slim-v2.png",
       "columns": 4,
       "rows": 7,
       "row": 1,
@@ -94,7 +94,7 @@
       "status": "functional"
     },
     "attack": {
-      "source": "tactical/pillarde-axe-review-v1.png",
+      "source": "tactical/combat-v4-pillarde-slim-v2.png",
       "columns": 4,
       "rows": 7,
       "row": 2,
@@ -156,7 +156,7 @@
       "reuse": "attack"
     },
     "block": {
-      "source": "tactical/pillarde-axe-review-v1.png",
+      "source": "tactical/combat-v4-pillarde-slim-v2.png",
       "columns": 4,
       "rows": 7,
       "row": 4,
@@ -187,7 +187,7 @@
       "impactFrame": 1
     },
     "evade": {
-      "source": "tactical/pillarde-axe-review-v1.png",
+      "source": "tactical/combat-v4-pillarde-slim-v2.png",
       "columns": 4,
       "rows": 7,
       "row": 5,
@@ -218,7 +218,7 @@
       "impactFrame": 1
     },
     "damage": {
-      "source": "tactical/pillarde-axe-review-v1.png",
+      "source": "tactical/combat-v4-pillarde-slim-v2.png",
       "columns": 4,
       "rows": 7,
       "row": 6,
@@ -249,7 +249,7 @@
       "impactFrame": 1
     },
     "death": {
-      "source": "tactical/pillarde-axe-review-v1.png",
+      "source": "tactical/combat-v4-pillarde-slim-v2.png",
       "columns": 4,
       "rows": 7,
       "row": 6,

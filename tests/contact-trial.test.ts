@@ -171,6 +171,12 @@ test("Pillarde hache-bouclier : revue isolée, 26 poses, identité unique et rep
   const source = p.clips.move.source,
     layout = layouts[source];
   assert.equal(layout.frames.length, 26);
+  const guard = layout.frames.find((r: any) => r.row === 0 && r.column === 0);
+  assert.ok(
+    guard.width / guard.bodyHeight < 0.75,
+    "gabarit élancé, sans corps trapu",
+  );
+  assert.equal(source, "tactical/combat-v4-pillarde-slim-v2.png");
   assert.equal(layout.columns, 4);
   assert.equal(layout.rows, 7);
   for (const name of [
@@ -192,8 +198,10 @@ test("Pillarde hache-bouclier : revue isolée, 26 poses, identité unique et rep
     resolveClip(skin, "attack")!.cells,
   );
   for (const r of layout.frames) {
-    assert.equal(r.bodyHeight, 183);
-    assert.equal(r.anchorX - r.column * 237, 126);
+    assert.equal(r.bodyHeight, 202);
+    assert.ok(
+      r.anchorX - r.column * 237 >= 120 && r.anchorX - r.column * 237 <= 150,
+    );
     assert.ok(
       r.x >= 0 &&
         r.y >= 0 &&

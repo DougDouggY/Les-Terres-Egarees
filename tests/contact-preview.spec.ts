@@ -227,6 +227,7 @@ test("Pillarde hache : cinq scénarios, source dédiée, tailles constantes, tra
   await expect(page.locator("[data-contact-title]")).toHaveText(
     "Pillarde contre Pillarde",
   );
+  await page.screenshot({ path: "/tmp/pillarde-slim-gabarit.png" });
   await page.locator("[data-contact-speed]").selectOption("4");
   const canvas = page.locator("[data-contact-canvas]");
   for (const id of ["critical", "agility", "parry", "double-parry", "dodges"]) {
@@ -240,11 +241,11 @@ test("Pillarde hache : cinq scénarios, source dédiée, tailles constantes, tra
     );
     await expect(canvas).toHaveAttribute(
       "data-left-frame-source",
-      /pillarde-axe-review-v1/,
+      /combat-v4-pillarde-slim-v2/,
     );
     await expect(canvas).toHaveAttribute(
       "data-right-frame-source",
-      /pillarde-axe-review-v1/,
+      /combat-v4-pillarde-slim-v2/,
     );
     const left = await canvas.getAttribute("data-left-x"),
       right = await canvas.getAttribute("data-right-x");
@@ -257,7 +258,7 @@ test("Pillarde hache : cinq scénarios, source dédiée, tailles constantes, tra
   }
   const alpha = await page.evaluate(async () => {
     const { spriteImage } = await import(String("/src/sprites/resources.ts"));
-    const im = spriteImage("tactical/pillarde-axe-review-v1.png");
+    const im = spriteImage("tactical/combat-v4-pillarde-slim-v2.png");
     const c = document.createElement("canvas");
     c.width = im.naturalWidth;
     c.height = im.naturalHeight;
