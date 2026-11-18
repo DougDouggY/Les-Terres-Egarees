@@ -13,7 +13,7 @@ export function criticalImpact(age: number, reducedMotion = false) {
     strength,
   };
 }
-/** High contrast slash and fragments, shared by every appearance and weapon. */
+/** High contrast slashes, shared by every appearance and weapon. */
 export function drawCriticalImpact(
   ctx: CanvasRenderingContext2D,
   age: number,
@@ -61,19 +61,6 @@ export function drawCriticalImpact(
   ctx.restore();
   ctx.save();
   ctx.globalAlpha = opacity;
-  for (let i = 0; i < 12; i++) {
-    const angle = i * 2.39996,
-      distance = 35 + (reducedMotion ? 25 : age * (0.22 + (i % 3) * 0.06)),
-      px = x + Math.cos(angle) * distance,
-      py = y + Math.sin(angle) * distance * 0.6;
-    ctx.fillStyle = i % 2 ? "#fff4c7" : "#f8a94e";
-    ctx.beginPath();
-    ctx.moveTo(px, py - 8);
-    ctx.lineTo(px + 5, py + 3);
-    ctx.lineTo(px - 4, py + 7);
-    ctx.closePath();
-    ctx.fill();
-  }
   ctx.textAlign = "center";
   ctx.font = "bold 30px sans-serif";
   ctx.lineWidth = 5;

@@ -1,372 +1,1184 @@
 {
   "character": "raider:male:axe-shield:default",
-  "frames": [
+  "edition": "18 novembre 2026 · critique validé sans triangles",
+  "atlas": {
+    "file": "pillard-modele-atlas.png",
+    "columns": 8,
+    "rows": 8,
+    "cellWidth": 320,
+    "cellHeight": 320,
+    "width": 2560,
+    "height": 2560,
+    "baseline": 280,
+    "bodyHeight": 176,
+    "transparentUnusedCells": true
+  },
+  "animations": [
     {
-      "scope": "Carte",
-      "animation": "idle",
-      "index": 1,
-      "source": "tactical/team-sample.png",
       "row": 0,
-      "column": 0,
+      "name": "idle",
+      "label": "Attente sur la carte",
+      "scope": "Carte",
+      "frames": 2,
       "fps": 2
     },
     {
-      "scope": "Carte",
-      "animation": "idle",
-      "index": 2,
-      "source": "tactical/team-sample.png",
-      "row": 0,
-      "column": 1,
+      "row": 1,
+      "name": "idle",
+      "label": "Garde de combat",
+      "scope": "Combat",
+      "frames": 2,
       "fps": 2
     },
     {
-      "scope": "Carte",
-      "animation": "move",
-      "index": 1,
-      "source": "tactical/team-sample.png",
-      "row": 0,
-      "column": 2,
+      "row": 2,
+      "name": "move",
+      "label": "Pas rapides / approche",
+      "scope": "Carte et combat",
+      "frames": 4,
       "fps": 6
     },
     {
-      "scope": "Carte",
-      "animation": "move",
-      "index": 2,
-      "source": "tactical/team-sample.png",
-      "row": 0,
-      "column": 3,
+      "row": 3,
+      "name": "attack",
+      "label": "Attaque · aussi riposte et seconde attaque",
+      "scope": "Combat",
+      "frames": 8,
+      "fps": 10
+    },
+    {
+      "row": 4,
+      "name": "block",
+      "label": "Parade · trois poses retenues dans l’essai",
+      "scope": "Combat",
+      "frames": 3,
+      "fps": 8
+    },
+    {
+      "row": 5,
+      "name": "evade",
+      "label": "Esquive · pas en arrière",
+      "scope": "Combat",
+      "frames": 3,
       "fps": 6
     },
     {
+      "row": 6,
+      "name": "damage",
+      "label": "Dégâts",
       "scope": "Combat",
-      "animation": "idle",
-      "index": 1,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 4,
-      "column": 0,
-      "fps": 2
+      "frames": 3,
+      "fps": 8
     },
     {
-      "scope": "Combat",
-      "animation": "idle",
-      "index": 2,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 3,
-      "fps": 2
-    },
-    {
-      "scope": "Combat",
-      "animation": "move",
-      "index": 1,
-      "source": "tactical/combat-v3-motion1.png",
-      "row": 0,
-      "column": 0,
-      "fps": 14
-    },
-    {
-      "scope": "Combat",
-      "animation": "move",
-      "index": 2,
-      "source": "tactical/combat-v3-motion1.png",
-      "row": 0,
-      "column": 1,
-      "fps": 14
-    },
-    {
-      "scope": "Combat",
-      "animation": "move",
-      "index": 3,
-      "source": "tactical/combat-v3-motion1.png",
-      "row": 0,
-      "column": 2,
-      "fps": 14
-    },
-    {
-      "scope": "Combat",
-      "animation": "move",
-      "index": 4,
-      "source": "tactical/combat-v3-motion1.png",
-      "row": 0,
-      "column": 3,
-      "fps": 14
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack",
-      "index": 1,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 4,
-      "column": 0,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack",
-      "index": 2,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 4,
-      "column": 2,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack",
-      "index": 3,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 4,
-      "column": 3,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack",
-      "index": 4,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 0,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack",
-      "index": 5,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 1,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack",
-      "index": 6,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 2,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack",
-      "index": 7,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 3,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack",
-      "index": 8,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 4,
-      "column": 0,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "counter",
-      "index": 1,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 4,
-      "column": 0,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "counter",
-      "index": 2,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 4,
-      "column": 2,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "counter",
-      "index": 3,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 4,
-      "column": 3,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "counter",
-      "index": 4,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 0,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "counter",
-      "index": 5,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 1,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "counter",
-      "index": 6,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 2,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "counter",
-      "index": 7,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 3,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "counter",
-      "index": 8,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 4,
-      "column": 0,
-      "fps": 10
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack_again",
-      "index": 1,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 3,
-      "fps": 12
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack_again",
-      "index": 2,
-      "source": "tactical/combat-pair-reference-v2.png",
       "row": 7,
-      "column": 0,
-      "fps": 12
-    },
-    {
+      "name": "death",
+      "label": "Mort",
       "scope": "Combat",
-      "animation": "attack_again",
-      "index": 3,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 7,
-      "column": 1,
-      "fps": 12
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack_again",
-      "index": 4,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 7,
-      "column": 2,
-      "fps": 12
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack_again",
-      "index": 5,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 2,
-      "fps": 12
-    },
-    {
-      "scope": "Combat",
-      "animation": "attack_again",
-      "index": 6,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 5,
-      "column": 3,
-      "fps": 12
-    },
-    {
-      "scope": "Combat",
-      "animation": "block",
-      "index": 1,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 6,
-      "column": 0,
-      "fps": 8
-    },
-    {
-      "scope": "Combat",
-      "animation": "block",
-      "index": 2,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 6,
-      "column": 1,
-      "fps": 8
-    },
-    {
-      "scope": "Combat",
-      "animation": "block",
-      "index": 3,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 6,
-      "column": 2,
-      "fps": 8
-    },
-    {
-      "scope": "Combat",
-      "animation": "block",
-      "index": 4,
-      "source": "tactical/combat-pair-reference-v2.png",
-      "row": 6,
-      "column": 3,
-      "fps": 8
-    },
-    {
-      "scope": "Combat",
-      "animation": "damage",
-      "index": 1,
-      "source": "tactical/combat-v4-fixes.png",
-      "row": 0,
-      "column": 0,
-      "fps": 8
-    },
-    {
-      "scope": "Combat",
-      "animation": "damage",
-      "index": 2,
-      "source": "tactical/combat-v4-fixes.png",
-      "row": 0,
-      "column": 6,
-      "fps": 8
-    },
-    {
-      "scope": "Combat",
-      "animation": "damage",
-      "index": 3,
-      "source": "tactical/combat-v4-fixes.png",
-      "row": 0,
-      "column": 0,
-      "fps": 8
-    },
-    {
-      "scope": "Combat",
-      "animation": "death",
-      "index": 1,
-      "source": "tactical/team-sample-combat.png",
-      "row": 0,
-      "column": 3,
+      "frames": 1,
       "fps": 2
     }
   ],
-  "missing": [
-    "evade"
+  "frames": [
+    {
+      "animation": "idle",
+      "scope": "Carte",
+      "row": 0,
+      "column": 0,
+      "source": "tactical/team-sample.png",
+      "sourceRow": 0,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "idle",
+      "scope": "Carte",
+      "row": 0,
+      "column": 1,
+      "source": "tactical/team-sample.png",
+      "sourceRow": 0,
+      "sourceColumn": 1
+    },
+    {
+      "animation": "idle",
+      "scope": "Combat",
+      "row": 1,
+      "column": 0,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 4,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "idle",
+      "scope": "Combat",
+      "row": 1,
+      "column": 1,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 5,
+      "sourceColumn": 3
+    },
+    {
+      "animation": "move",
+      "scope": "Carte et combat",
+      "row": 2,
+      "column": 0,
+      "source": "tactical/pillard-quickstep-dodge-v6.png",
+      "sourceRow": 0,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "move",
+      "scope": "Carte et combat",
+      "row": 2,
+      "column": 1,
+      "source": "tactical/pillard-quickstep-dodge-v6.png",
+      "sourceRow": 0,
+      "sourceColumn": 1
+    },
+    {
+      "animation": "move",
+      "scope": "Carte et combat",
+      "row": 2,
+      "column": 2,
+      "source": "tactical/pillard-quickstep-dodge-v6.png",
+      "sourceRow": 1,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "move",
+      "scope": "Carte et combat",
+      "row": 2,
+      "column": 3,
+      "source": "tactical/pillard-quickstep-dodge-v6.png",
+      "sourceRow": 1,
+      "sourceColumn": 1
+    },
+    {
+      "animation": "attack",
+      "scope": "Combat",
+      "row": 3,
+      "column": 0,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 4,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "attack",
+      "scope": "Combat",
+      "row": 3,
+      "column": 1,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 4,
+      "sourceColumn": 2
+    },
+    {
+      "animation": "attack",
+      "scope": "Combat",
+      "row": 3,
+      "column": 2,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 4,
+      "sourceColumn": 3
+    },
+    {
+      "animation": "attack",
+      "scope": "Combat",
+      "row": 3,
+      "column": 3,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 5,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "attack",
+      "scope": "Combat",
+      "row": 3,
+      "column": 4,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 5,
+      "sourceColumn": 1
+    },
+    {
+      "animation": "attack",
+      "scope": "Combat",
+      "row": 3,
+      "column": 5,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 5,
+      "sourceColumn": 2
+    },
+    {
+      "animation": "attack",
+      "scope": "Combat",
+      "row": 3,
+      "column": 6,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 5,
+      "sourceColumn": 3
+    },
+    {
+      "animation": "attack",
+      "scope": "Combat",
+      "row": 3,
+      "column": 7,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 4,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "block",
+      "scope": "Combat",
+      "row": 4,
+      "column": 0,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 6,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "block",
+      "scope": "Combat",
+      "row": 4,
+      "column": 1,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 6,
+      "sourceColumn": 1
+    },
+    {
+      "animation": "block",
+      "scope": "Combat",
+      "row": 4,
+      "column": 2,
+      "source": "tactical/combat-pair-reference-v2.png",
+      "sourceRow": 6,
+      "sourceColumn": 2
+    },
+    {
+      "animation": "evade",
+      "scope": "Combat",
+      "row": 5,
+      "column": 0,
+      "source": "tactical/pillard-quickstep-dodge-v6.png",
+      "sourceRow": 2,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "evade",
+      "scope": "Combat",
+      "row": 5,
+      "column": 1,
+      "source": "tactical/pillard-quickstep-dodge-v6.png",
+      "sourceRow": 2,
+      "sourceColumn": 1
+    },
+    {
+      "animation": "evade",
+      "scope": "Combat",
+      "row": 5,
+      "column": 2,
+      "source": "tactical/pillard-quickstep-dodge-v6.png",
+      "sourceRow": 2,
+      "sourceColumn": 3
+    },
+    {
+      "animation": "damage",
+      "scope": "Combat",
+      "row": 6,
+      "column": 0,
+      "source": "tactical/combat-v4-fixes.png",
+      "sourceRow": 0,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "damage",
+      "scope": "Combat",
+      "row": 6,
+      "column": 1,
+      "source": "tactical/combat-v4-fixes.png",
+      "sourceRow": 0,
+      "sourceColumn": 6
+    },
+    {
+      "animation": "damage",
+      "scope": "Combat",
+      "row": 6,
+      "column": 2,
+      "source": "tactical/combat-v4-fixes.png",
+      "sourceRow": 0,
+      "sourceColumn": 0
+    },
+    {
+      "animation": "death",
+      "scope": "Combat",
+      "row": 7,
+      "column": 0,
+      "source": "tactical/team-sample-combat.png",
+      "sourceRow": 0,
+      "sourceColumn": 3
+    }
   ],
-  "optional": [
-    "critical distinct (sinon attaque réutilisée)",
-    "chute animée (mort actuelle à une pose)"
-  ]
+  "aliases": {
+    "counter": "attack",
+    "followUp": "attack",
+    "critical": "attack + effet partagé (deux griffures, flash et secousse)"
+  },
+  "missing": [],
+  "groups": {
+    "sameShield": [
+      {
+        "id": "raider",
+        "label": "Pillard",
+        "gender": "male",
+        "equipment": "axe-shield",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "raider",
+        "label": "Pillard",
+        "gender": "female",
+        "equipment": "axe-shield",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "man_at_arms",
+        "label": "Homme d’armes",
+        "gender": "male",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "man_at_arms",
+        "label": "Homme d’armes",
+        "gender": "female",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "raider",
+        "label": "Pillard",
+        "gender": "male",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "sans_guard",
+        "label": "Garde en armure",
+        "gender": "any",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "huscarl",
+        "label": "Huscarl",
+        "gender": "male",
+        "equipment": "axe-shield",
+        "state": "default",
+        "skills": [
+          "parry",
+          "intercept"
+        ]
+      },
+      {
+        "id": "clan_healer",
+        "label": "Guérisseur du clan",
+        "gender": "male",
+        "equipment": "axe-shield",
+        "state": "default",
+        "skills": [
+          "bandage"
+        ]
+      },
+      {
+        "id": "honor_guard",
+        "label": "Garde d’honneur",
+        "gender": "any",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": [
+          "parry",
+          "defense_aura"
+        ]
+      },
+      {
+        "id": "guard_knight",
+        "label": "Chevalier de la garde",
+        "gender": "any",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": [
+          "parry"
+        ]
+      },
+      {
+        "id": "clan_healer",
+        "label": "Guérisseur du clan",
+        "gender": "male",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": [
+          "bandage"
+        ]
+      },
+      {
+        "id": "huscarl",
+        "label": "Huscarl",
+        "gender": "male",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": [
+          "parry",
+          "intercept"
+        ]
+      },
+      {
+        "id": "huscarl",
+        "label": "Huscarl",
+        "gender": "female",
+        "equipment": "axe-shield",
+        "state": "default",
+        "skills": [
+          "parry",
+          "intercept"
+        ]
+      },
+      {
+        "id": "huscarl",
+        "label": "Huscarl",
+        "gender": "female",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": [
+          "parry",
+          "intercept"
+        ]
+      },
+      {
+        "id": "clan_healer",
+        "label": "Guérisseur du clan",
+        "gender": "female",
+        "equipment": "axe-shield",
+        "state": "default",
+        "skills": [
+          "bandage"
+        ]
+      },
+      {
+        "id": "clan_healer",
+        "label": "Guérisseur du clan",
+        "gender": "female",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": [
+          "bandage"
+        ]
+      },
+      {
+        "id": "raider",
+        "label": "Pillard",
+        "gender": "female",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": []
+      }
+    ],
+    "otherMelee": [
+      {
+        "id": "sans_rider",
+        "label": "Cavalier spectral",
+        "gender": "any",
+        "equipment": "lance",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "ironbreaker",
+        "label": "Brise-fer",
+        "gender": "male",
+        "equipment": "great-axe",
+        "state": "default",
+        "skills": [
+          "pierce"
+        ]
+      },
+      {
+        "id": "north_warrior",
+        "label": "Guerrier du Nord",
+        "gender": "male",
+        "equipment": "axe",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "nordic_blade",
+        "label": "Lame nordique",
+        "gender": "male",
+        "equipment": "sword",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "spearman",
+        "label": "Lancier",
+        "gender": "any",
+        "equipment": "lance",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "swordsman",
+        "label": "Épéiste",
+        "gender": "any",
+        "equipment": "sword",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "sans_axe",
+        "label": "Squelette hacheur",
+        "gender": "any",
+        "equipment": "axe",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "sans_spear",
+        "label": "Squelette lancier",
+        "gender": "any",
+        "equipment": "lance",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "royal_guard",
+        "label": "Garde royal",
+        "gender": "any",
+        "equipment": "lance-shield",
+        "state": "default",
+        "skills": [
+          "parry"
+        ]
+      },
+      {
+        "id": "tracker",
+        "label": "Traqueur",
+        "gender": "male",
+        "equipment": "axe",
+        "state": "default",
+        "skills": [
+          "forest_move"
+        ]
+      },
+      {
+        "id": "ranger",
+        "label": "Rôdeur",
+        "gender": "male",
+        "equipment": "sword",
+        "state": "default",
+        "skills": [
+          "forest_move"
+        ]
+      },
+      {
+        "id": "north_warrior",
+        "label": "Guerrier du Nord",
+        "gender": "female",
+        "equipment": "axe",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "nordic_blade",
+        "label": "Lame nordique",
+        "gender": "female",
+        "equipment": "sword",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "ironbreaker",
+        "label": "Brise-fer",
+        "gender": "female",
+        "equipment": "great-axe",
+        "state": "default",
+        "skills": [
+          "pierce"
+        ]
+      },
+      {
+        "id": "tracker",
+        "label": "Traqueur",
+        "gender": "female",
+        "equipment": "axe",
+        "state": "default",
+        "skills": [
+          "forest_move"
+        ]
+      },
+      {
+        "id": "ranger",
+        "label": "Rôdeur",
+        "gender": "female",
+        "equipment": "sword",
+        "state": "default",
+        "skills": [
+          "forest_move"
+        ]
+      }
+    ],
+    "special": [
+      {
+        "id": "cavalry",
+        "label": "Cavalier",
+        "gender": "any",
+        "equipment": "sword-shield",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "mounted_spearman",
+        "label": "Lancier monté",
+        "gender": "any",
+        "equipment": "lance",
+        "state": "default",
+        "skills": [
+          "charge"
+        ]
+      },
+      {
+        "id": "standard_bearer",
+        "label": "Porte-étendard",
+        "gender": "male",
+        "equipment": "banner",
+        "state": "carried",
+        "skills": [
+          "banner"
+        ]
+      },
+      {
+        "id": "standard_bearer",
+        "label": "Porte-étendard",
+        "gender": "male",
+        "equipment": "sword",
+        "state": "planted",
+        "skills": [
+          "banner"
+        ]
+      },
+      {
+        "id": "pavise_crossbowman",
+        "label": "Arbalétrier à pavois",
+        "gender": "male",
+        "equipment": "crossbow",
+        "state": "default",
+        "skills": [
+          "fortify"
+        ]
+      },
+      {
+        "id": "pavise_crossbowman",
+        "label": "Arbalétrier à pavois",
+        "gender": "male",
+        "equipment": "crossbow",
+        "state": "fortified",
+        "skills": [
+          "fortify"
+        ]
+      },
+      {
+        "id": "executioner",
+        "label": "Exécuteur",
+        "gender": "any",
+        "equipment": "great-sword",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "berserker",
+        "label": "Berserker",
+        "gender": "male",
+        "equipment": "dual-axes",
+        "state": "default",
+        "skills": [
+          "dual"
+        ]
+      },
+      {
+        "id": "drengr",
+        "label": "Drengr",
+        "gender": "male",
+        "equipment": "dual-swords",
+        "state": "default",
+        "skills": [
+          "dual"
+        ]
+      },
+      {
+        "id": "hunter",
+        "label": "Chasseur",
+        "gender": "female",
+        "equipment": "bow",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "crossbowman",
+        "label": "Arbalétrier",
+        "gender": "male",
+        "equipment": "crossbow",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "shaman",
+        "label": "Chaman",
+        "gender": "male",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal"
+        ]
+      },
+      {
+        "id": "sorcerer",
+        "label": "Sorcier",
+        "gender": "male",
+        "equipment": "spell",
+        "state": "default",
+        "skills": [
+          "heal"
+        ]
+      },
+      {
+        "id": "skeleton",
+        "label": "Squelette épéiste",
+        "gender": "any",
+        "equipment": "rusty-sword",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "sans_archer",
+        "label": "Archer décharné",
+        "gender": "any",
+        "equipment": "bow",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "sans_crossbow",
+        "label": "Arbalétrier décharné",
+        "gender": "any",
+        "equipment": "crossbow",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "sans_necromancer",
+        "label": "Nécromancien ennemi",
+        "gender": "any",
+        "equipment": "spell",
+        "state": "default",
+        "skills": [
+          "summon"
+        ]
+      },
+      {
+        "id": "necromancer",
+        "label": "Nécromancien",
+        "gender": "male",
+        "equipment": "spell",
+        "state": "default",
+        "skills": [
+          "heal",
+          "summon"
+        ]
+      },
+      {
+        "id": "archmage",
+        "label": "Archimage",
+        "gender": "male",
+        "equipment": "spell",
+        "state": "default",
+        "skills": [
+          "heal",
+          "area"
+        ]
+      },
+      {
+        "id": "master_hunter",
+        "label": "Grand chasseur",
+        "gender": "female",
+        "equipment": "bow",
+        "state": "default",
+        "skills": [
+          "long_range"
+        ]
+      },
+      {
+        "id": "tracker",
+        "label": "Traqueur",
+        "gender": "male",
+        "equipment": "bow",
+        "state": "default",
+        "skills": [
+          "forest_move"
+        ]
+      },
+      {
+        "id": "ranger",
+        "label": "Rôdeur",
+        "gender": "male",
+        "equipment": "crossbow",
+        "state": "default",
+        "skills": [
+          "forest_move"
+        ]
+      },
+      {
+        "id": "duelist",
+        "label": "Duelliste",
+        "gender": "male",
+        "equipment": "dual-swords",
+        "state": "default",
+        "skills": [
+          "dual"
+        ]
+      },
+      {
+        "id": "young_viking",
+        "label": "Jeune Viking",
+        "gender": "male",
+        "equipment": "training-axe",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "squire",
+        "label": "Écuyer",
+        "gender": "male",
+        "equipment": "training-sword",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "sorcerer",
+        "label": "Sorcier",
+        "gender": "male",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal"
+        ]
+      },
+      {
+        "id": "necromancer",
+        "label": "Nécromancien",
+        "gender": "male",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal",
+          "summon"
+        ]
+      },
+      {
+        "id": "archmage",
+        "label": "Archimage",
+        "gender": "male",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal",
+          "area"
+        ]
+      },
+      {
+        "id": "volva",
+        "label": "Völva",
+        "gender": "male",
+        "equipment": "spell",
+        "state": "default",
+        "skills": [
+          "heal",
+          "buff"
+        ]
+      },
+      {
+        "id": "volva",
+        "label": "Völva",
+        "gender": "male",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal",
+          "buff"
+        ]
+      },
+      {
+        "id": "hamrammr",
+        "label": "Hamrammr",
+        "gender": "male",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal",
+          "transform"
+        ]
+      },
+      {
+        "id": "hamrammr",
+        "label": "Hamrammr",
+        "gender": "any",
+        "equipment": "claws",
+        "state": "bear",
+        "skills": [
+          "heal",
+          "transform"
+        ]
+      },
+      {
+        "id": "shaman",
+        "label": "Chaman",
+        "gender": "female",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal"
+        ]
+      },
+      {
+        "id": "sorcerer",
+        "label": "Sorcier",
+        "gender": "female",
+        "equipment": "spell",
+        "state": "default",
+        "skills": [
+          "heal"
+        ]
+      },
+      {
+        "id": "sorcerer",
+        "label": "Sorcier",
+        "gender": "female",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal"
+        ]
+      },
+      {
+        "id": "necromancer",
+        "label": "Nécromancien",
+        "gender": "female",
+        "equipment": "spell",
+        "state": "default",
+        "skills": [
+          "heal",
+          "summon"
+        ]
+      },
+      {
+        "id": "necromancer",
+        "label": "Nécromancien",
+        "gender": "female",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal",
+          "summon"
+        ]
+      },
+      {
+        "id": "archmage",
+        "label": "Archimage",
+        "gender": "female",
+        "equipment": "spell",
+        "state": "default",
+        "skills": [
+          "heal",
+          "area"
+        ]
+      },
+      {
+        "id": "archmage",
+        "label": "Archimage",
+        "gender": "female",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal",
+          "area"
+        ]
+      },
+      {
+        "id": "volva",
+        "label": "Völva",
+        "gender": "female",
+        "equipment": "spell",
+        "state": "default",
+        "skills": [
+          "heal",
+          "buff"
+        ]
+      },
+      {
+        "id": "volva",
+        "label": "Völva",
+        "gender": "female",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal",
+          "buff"
+        ]
+      },
+      {
+        "id": "hamrammr",
+        "label": "Hamrammr",
+        "gender": "female",
+        "equipment": "healing",
+        "state": "default",
+        "skills": [
+          "heal",
+          "transform"
+        ]
+      },
+      {
+        "id": "berserker",
+        "label": "Berserker",
+        "gender": "female",
+        "equipment": "dual-axes",
+        "state": "default",
+        "skills": [
+          "dual"
+        ]
+      },
+      {
+        "id": "drengr",
+        "label": "Drengr",
+        "gender": "female",
+        "equipment": "dual-swords",
+        "state": "default",
+        "skills": [
+          "dual"
+        ]
+      },
+      {
+        "id": "duelist",
+        "label": "Duelliste",
+        "gender": "female",
+        "equipment": "dual-swords",
+        "state": "default",
+        "skills": [
+          "dual"
+        ]
+      },
+      {
+        "id": "young_viking",
+        "label": "Jeune Viking",
+        "gender": "female",
+        "equipment": "training-axe",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "crossbowman",
+        "label": "Arbalétrier",
+        "gender": "female",
+        "equipment": "crossbow",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "pavise_crossbowman",
+        "label": "Arbalétrier à pavois",
+        "gender": "female",
+        "equipment": "crossbow",
+        "state": "default",
+        "skills": [
+          "fortify"
+        ]
+      },
+      {
+        "id": "pavise_crossbowman",
+        "label": "Arbalétrier à pavois",
+        "gender": "female",
+        "equipment": "crossbow",
+        "state": "fortified",
+        "skills": [
+          "fortify"
+        ]
+      },
+      {
+        "id": "tracker",
+        "label": "Traqueur",
+        "gender": "female",
+        "equipment": "bow",
+        "state": "default",
+        "skills": [
+          "forest_move"
+        ]
+      },
+      {
+        "id": "ranger",
+        "label": "Rôdeur",
+        "gender": "female",
+        "equipment": "crossbow",
+        "state": "default",
+        "skills": [
+          "forest_move"
+        ]
+      },
+      {
+        "id": "standard_bearer",
+        "label": "Porte-étendard",
+        "gender": "female",
+        "equipment": "banner",
+        "state": "carried",
+        "skills": [
+          "banner"
+        ]
+      },
+      {
+        "id": "standard_bearer",
+        "label": "Porte-étendard",
+        "gender": "female",
+        "equipment": "sword",
+        "state": "planted",
+        "skills": [
+          "banner"
+        ]
+      },
+      {
+        "id": "squire",
+        "label": "Écuyer",
+        "gender": "female",
+        "equipment": "training-sword",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "hunter",
+        "label": "Chasseur",
+        "gender": "male",
+        "equipment": "bow",
+        "state": "default",
+        "skills": []
+      },
+      {
+        "id": "master_hunter",
+        "label": "Grand chasseur",
+        "gender": "male",
+        "equipment": "bow",
+        "state": "default",
+        "skills": [
+          "long_range"
+        ]
+      }
+    ]
+  }
 }

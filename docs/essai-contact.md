@@ -38,3 +38,13 @@ Le bouton « Critique seul · V2 » lance une seule approche suivie d'un critiqu
 L'effet partagé conserve contraste, flash unique, éclats et secousse ; les deux traits sont désormais effilés en entailles plutôt qu'en barres arrondies. Aucun sprite ni fichier image supplémentaire n'a été créé. Le style reste à valider par le joueur avant la reprise des personnages. La publication distante ne peut pas être vérifiée depuis cet environnement (accès GitHub refusé en HTTP 403).
 
 Vérifications de cette révision : 196 tests habituels, deux tests navigateur ciblés (moteur partagé et critique isolé), builds public et prototype.
+
+## Effet validé et modèle de remplacement — 18 novembre 2026
+
+Le joueur retient les deux griffures, le flash et la secousse. Suppression des douze particules triangulaires orange et blanches. Aucun portrait en bandeau n'est ajouté à cette étape. Le rendu partagé sert au test et aux critiques réels déjà résolus par le moteur.
+
+La référence `docs/references/pillard-masculin-hache-bouclier.*` est mise à jour : 26 poses, pas rapides et esquive actuels, trois poses de parade, aucune ligne de riposte ou seconde attaque en double. Le nouveau `pillard-modele-atlas.png` présente les mêmes poses dans une grille transparente 8 × 8 de cases carrées de 320 pixels, avec manifeste de découpe, contrôle des bords et repère de sol commun. Les cellules non utilisées restent vides. Ce modèle est un export documentaire pour préparer les futurs remplacements ; il ne remplace pas automatiquement les atlas du jeu.
+
+Le guide `docs/references/guide-remplacement.md` liste les profils effectivement présents, les fantassins avec bouclier proches de ce modèle et les gestes spéciaux à préserver pour les autres familles. Il ne prétend pas que tous ces profils sont défectueux. Les deux Pillardes sont prioritaires. Aucune autre unité n'est redessinée dans cette modification.
+
+Une page autonome et ses téléchargements sont préparés sous `public/validation/pillard/`, pour l'URL `/Les-Terres-Egarees/validation/pillard/` après publication. Le jeu ne charge pas ces ressources documentaires pendant une partie.

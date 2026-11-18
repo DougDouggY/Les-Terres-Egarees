@@ -111,3 +111,46 @@ test("critique partagé : flash et secousse bornés, mouvement réduit respecté
   assert.equal(reduced.shakeY, 0);
   assert.ok(reduced.flash < 0.12);
 });
+
+test("critique validé : deux griffures, flash et aucune particule triangulaire", async () => {
+  const { drawCriticalImpact } = await import("../src/ui/critical-impact");
+  let quadratics = 0,
+    lines = 0,
+    rectangles = 0;
+  const ctx = {
+    save() {},
+    restore() {},
+    fillRect() {
+      rectangles++;
+    },
+    translate() {},
+    rotate() {},
+    scale() {},
+    beginPath() {},
+    moveTo() {},
+    quadraticCurveTo() {
+      quadratics++;
+    },
+    lineTo() {
+      lines++;
+    },
+    closePath() {},
+    fill() {},
+    strokeText() {},
+    fillText() {},
+    getTransform() {
+      return { a: 1 };
+    },
+  };
+  drawCriticalImpact(
+    ctx as unknown as CanvasRenderingContext2D,
+    20,
+    480,
+    280,
+    960,
+    480,
+  );
+  assert.equal(quadratics, 16); // two slashes, four visual layers, two curves per layer
+  assert.equal(lines, 0); // no straight-edged triangular particles
+  assert.equal(rectangles, 2); // contrast and the single flash
+});
