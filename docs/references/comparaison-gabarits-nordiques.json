@@ -1,0 +1,82 @@
+[
+  {
+    "label": "Pillard masculin",
+    "animation": "idle",
+    "frame": 0,
+    "source": "tactical/combat-pair-reference-v2.png",
+    "bodyReference": 193,
+    "renderScale": 1.1398963730569949,
+    "visibleWidth": 195,
+    "visibleHeight": 220
+  },
+  {
+    "label": "Guerrier du Nord masculin",
+    "animation": "idle",
+    "frame": 0,
+    "source": "tactical/complete-north.png",
+    "bodyReference": 185,
+    "renderScale": 1.1891891891891893,
+    "visibleWidth": 200,
+    "visibleHeight": 220
+  },
+  {
+    "label": "Lame nordique féminine",
+    "animation": "idle",
+    "frame": 0,
+    "source": "tactical/combat-v4-warriors.png",
+    "bodyReference": 116,
+    "renderScale": 1.896551724137931,
+    "visibleWidth": 169,
+    "visibleHeight": 218
+  },
+  {
+    "label": "Pillarde élancée (essai)",
+    "animation": "idle",
+    "frame": 0,
+    "source": "tactical/combat-v4-pillarde-axe-v3.png",
+    "bodyReference": 202,
+    "renderScale": 1.0891089108910892,
+    "visibleWidth": 163,
+    "visibleHeight": 215
+  },
+  {
+    "label": "Pillard masculin",
+    "animation": "attack",
+    "frame": 2,
+    "source": "tactical/combat-pair-reference-v2.png",
+    "bodyReference": 193,
+    "renderScale": 1.1398963730569949,
+    "visibleWidth": 189,
+    "visibleHeight": 246
+  },
+  {
+    "label": "Guerrier du Nord masculin",
+    "animation": "attack",
+    "frame": 1,
+    "source": "tactical/complete-north.png",
+    "bodyReference": 185,
+    "renderScale": 1.1891891891891893,
+    "visibleWidth": 182,
+    "visibleHeight": 238
+  },
+  {
+    "label": "Lame nordique féminine",
+    "animation": "attack",
+    "frame": 1,
+    "source": "tactical/combat-v4-warriors.png",
+    "bodyReference": 116,
+    "renderScale": 1.896551724137931,
+    "visibleWidth": 154,
+    "visibleHeight": 258
+  },
+  {
+    "label": "Pillarde élancée (essai)",
+    "animation": "attack",
+    "frame": 2,
+    "source": "tactical/combat-v4-pillarde-axe-v3.png",
+    "bodyReference": 202,
+    "renderScale": 1.0891089108910892,
+    "visibleWidth": 165,
+    "visibleHeight": 236
+  }
+]

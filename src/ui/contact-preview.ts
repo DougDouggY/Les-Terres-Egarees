@@ -20,6 +20,7 @@ import {
   type ContactScenario,
 } from "./contact-trial-model";
 import { criticalImpact, drawCriticalImpact } from "./critical-impact";
+import { drawParryImpact, parryImpactDuration } from "./parry-impact";
 import "./combat-hud.css";
 import "./contact-preview.css";
 export function openContactPreview(app: HTMLElement, back: () => void) {
@@ -54,7 +55,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   ).matches;
   const background = new Image();
   background.src = import.meta.env.BASE_URL + "assets/battle-3.png";
-  app.innerHTML = `<main class="contact-preview"><header><h1><span data-contact-title>Pillard contre Pillard</span> <small class="contact-version">Critique V2</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><label class="contact-character">Personnage<select data-contact-character><option value="male">Pillard · hache</option><option value="female">Pillarde · hache (élancée)</option></select></label><div class="contact-buttons">${Object.entries(
+  app.innerHTML = `<main class="contact-preview"><header><h1><span data-contact-title>Pillard contre Pillard</span> <small class="contact-version">Critique V2</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><label class="contact-character">Personnage<select data-contact-character><option value="male">Pillard · hache</option><option value="female">Pillarde · hache (élancée)</option></select></label><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/gabarits/index.html" target="_blank" rel="noopener">Comparer les gabarits ↗</a><div class="contact-buttons">${Object.entries(
     contactScenarios,
   )
     .map(
@@ -343,6 +344,24 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
           480,
           reducedMotion,
         );
+      const parryAge = elapsed - (contactApproach + sample.index * 1150 + 480);
+      const parrying =
+        (running || elapsed > 0) &&
+        sample.event.outcome === "block" &&
+        parryAge >= 0 &&
+        parryAge < parryImpactDuration;
+      if (parrying) {
+        const side = 1 - sample.event.side;
+        drawParryImpact(
+          ctx,
+          parryAge,
+          positions[side] + (side === 0 ? 18 : -18),
+          280,
+          110,
+          reducedMotion,
+        );
+      }
+      canvas.dataset.parry = String(parrying);
       canvas.dataset.critical = String(effect.active);
       canvas.dataset.leftFrameSource =
         resolveClip(profile, actions[0])?.source ?? "";

@@ -116,7 +116,7 @@ test("nouvelles poses : pas rapides, vrai retrait illustré des deux côtés et 
   await page.screenshot({ path: "/tmp/pillard-critical-v6.png" });
 });
 
-test("critique partagé : rendu du moteur pour plusieurs classes, HP inchangés et aucun effet sur une parade", async ({
+test("critique partagé : rendu du moteur pour plusieurs classes, HP inchangés et aucun critique sur une parade", async ({
   page,
 }) => {
   await page.goto("/");
@@ -157,6 +157,7 @@ test("critique partagé : rendu du moteur pour plusieurs classes, HP inchangés 
           cls,
           blocked,
           active: c.dataset.critical,
+          parry: c.dataset.parry,
           original: b.hp,
           hp,
           after: scene.actors[1].unit.hp,
@@ -169,6 +170,7 @@ test("critique partagé : rendu du moteur pour plusieurs classes, HP inchangés 
   });
   for (const r of results) {
     expect(r.active).toBe(String(!r.blocked));
+    expect(r.parry).toBe(String(r.blocked));
     expect(r.original).toBe(r.hp);
     expect(r.after).toBe(r.hp - (r.blocked ? 0 : 3));
     expect(r.impacts).toBe(1);
@@ -241,11 +243,11 @@ test("Pillarde hache : cinq scénarios, source dédiée, tailles constantes, tra
     );
     await expect(canvas).toHaveAttribute(
       "data-left-frame-source",
-      /combat-v4-pillarde-slim-v2/,
+      /combat-v4-pillarde-axe-v3/,
     );
     await expect(canvas).toHaveAttribute(
       "data-right-frame-source",
-      /combat-v4-pillarde-slim-v2/,
+      /combat-v4-pillarde-axe-v3/,
     );
     const left = await canvas.getAttribute("data-left-x"),
       right = await canvas.getAttribute("data-right-x");
@@ -258,7 +260,7 @@ test("Pillarde hache : cinq scénarios, source dédiée, tailles constantes, tra
   }
   const alpha = await page.evaluate(async () => {
     const { spriteImage } = await import(String("/src/sprites/resources.ts"));
-    const im = spriteImage("tactical/combat-v4-pillarde-slim-v2.png");
+    const im = spriteImage("tactical/combat-v4-pillarde-axe-v3.png");
     const c = document.createElement("canvas");
     c.width = im.naturalWidth;
     c.height = im.naturalHeight;
@@ -292,4 +294,39 @@ test("Pillarde hache : cinq scénarios, source dédiée, tailles constantes, tra
   expect(await page.evaluate(() => JSON.stringify({ ...localStorage }))).toBe(
     saves,
   );
+});
+
+test("parade lumineuse : bouclier superposé au défenseur à l’impact et dégâts nuls", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .click();
+  await expect(page.locator('[data-contact-scenario="parry"]')).toBeEnabled();
+  await page.locator("[data-contact-speed]").selectOption("0.5");
+  await page.locator('[data-contact-scenario="parry"]').click();
+  const c = page.locator("[data-contact-canvas]");
+  await page.waitForFunction(() => {
+    const c = document.querySelector<HTMLCanvasElement>(
+      "[data-contact-canvas]",
+    )!;
+    return c.dataset.parry === "true" && Number(c.dataset.elapsed) > 1400;
+  });
+  await page.locator("[data-contact-pause]").click();
+  await expect(page.locator('[data-combat-value="0"]')).toHaveText(
+    "24 / 24 PV",
+  );
+  await expect(c).toHaveAttribute("data-critical", "false");
+  await page.screenshot({ path: "/tmp/parade-bouclier-lumineux.png" });
+  await page.locator("[data-contact-pause]").click();
+  await page.locator("[data-contact-speed]").selectOption("4");
+  await expect(c).toHaveAttribute("data-finished", "true");
+  await expect(c).toHaveAttribute("data-parry", "false");
+  const [comparison] = await Promise.all([
+    page.waitForEvent("popup"),
+    page.getByRole("link", { name: "Comparer les gabarits ↗" }).click(),
+  ]);
+  await expect(comparison).toHaveTitle("Comparaison des gabarits nordiques");
+  await comparison.close();
 });

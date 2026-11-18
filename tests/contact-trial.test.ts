@@ -176,7 +176,7 @@ test("Pillarde hache-bouclier : revue isolée, 26 poses, identité unique et rep
     guard.width / guard.bodyHeight < 0.75,
     "gabarit élancé, sans corps trapu",
   );
-  assert.equal(source, "tactical/combat-v4-pillarde-slim-v2.png");
+  assert.equal(source, "tactical/combat-v4-pillarde-axe-v3.png");
   assert.equal(layout.columns, 4);
   assert.equal(layout.rows, 7);
   for (const name of [
@@ -209,4 +209,17 @@ test("Pillarde hache-bouclier : revue isolée, 26 poses, identité unique et rep
         r.y + r.height <= layout.height,
     );
   }
+});
+
+test("parade partagée : apparition, croissance, éclatement bref et mouvement réduit", async () => {
+  const { parryImpact, parryImpactDuration } =
+    await import("../src/ui/parry-impact");
+  assert.equal(parryImpact(-1).active, false);
+  assert.ok(parryImpact(80).scale > parryImpact(20).scale);
+  assert.equal(parryImpact(80).burst, 0);
+  assert.ok(parryImpact(200).burst > 0);
+  assert.equal(parryImpact(parryImpactDuration).active, false);
+  assert.equal(parryImpact(parryImpactDuration).opacity, 0);
+  assert.equal(parryImpact(80, true).scale, 1);
+  assert.equal(parryImpact(200, true).burst, 0);
 });

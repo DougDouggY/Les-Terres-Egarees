@@ -68,3 +68,13 @@ La planche `combat-v4-pillarde-slim-v2.png` remplace la proposition de revue pr�
 La largeur de la première garde rapportée à sa hauteur de référence passe d'environ 0,90 à 0,67 ; le test contrôle que le nouveau gabarit n'est plus celui, trapu, de la proposition précédente. Les dimensions du corps restent constantes pendant l'attaque, y compris la hache levée.
 
 Vérifications : 198 tests habituels, deux tests navigateur ciblés (Pillard inchangé et cinq scénarios de la Pillarde révisée), contrôle visuel du nouveau gabarit et de ses contours, builds public/prototype et contrôles de séparation. Le remplacement visuel en campagne attend toujours la validation de cette proposition.
+
+## Comparaison et parade lumineuse — 18 novembre 2026
+
+Le lien « Comparer les gabarits » ouvre une vue côte à côte du Pillard masculin, du Guerrier du Nord masculin, de la Lame nordique féminine et de la Pillarde en revue. Le même repère de sol et la même hauteur de corps de référence (220 pixels dans cette vue agrandie, contre 136 dans l'essai) sont utilisés. Les mesures d'encombrement incluent les armes, le bouclier et la cape ; elles ne constituent pas des mesures du torse. La Pillarde est effectivement plus fine que les deux personnages masculins et se rapproche surtout de la Lame nordique féminine. Les garde et préparation d'attaque sont comparées dans `docs/references/comparaison-gabarits-nordiques.*`, et la page est exportée sous `public/validation/gabarits/`.
+
+La hache est retouchée dans `combat-v4-pillarde-axe-v3.png`, notamment la lame de la pose levée. La nouvelle proposition conserve le gabarit élancé, les 26 poses et l'isolation de l'essai. Les ancrages sont conservés ; les contours de rendu écartent les faibles résidus de matte et les petits débordements d'une cellule voisine. La précédente copie V2, désormais inutilisée, est retirée. Le Pillard masculin, le Guerrier du Nord et la Lame nordique ne sont pas redessinés.
+
+L'effet `parry-impact.ts` est partagé par l'essai et le moteur : bouclier cyan/blanc superposé au corps du défenseur à l'impact, croissance rapide, puis fragmentation du contour. Durée 300 ms, synchronisée sur le blocage déjà résolu ; aucun jet, PV ou coup supplémentaire n'est créé. Le mouvement réduit remplace l'expansion et la fragmentation par un bouclier fixe qui s'estompe. Aucun nouveau son n'est ajouté.
+
+Vérifications : 199 tests habituels ; trois tests navigateur ciblés (effets du moteur sur plusieurs classes, cinq scénarios de la Pillarde et bouclier lumineux à dégâts nuls) ; contrôle visuel de la comparaison et du bouclier ; builds public et prototype.

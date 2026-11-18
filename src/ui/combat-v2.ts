@@ -1,3 +1,4 @@
+import { drawParryImpact, parryImpactDuration } from "./parry-impact";
 import {
   criticalImpact,
   drawCriticalImpact,
@@ -360,6 +361,15 @@ export class CombatSceneV2 {
         );
       })
       .at(-1);
+    const parryBeat = this.timeline.beats
+      .filter(
+        (b) =>
+          this.strikes[b.index].blocked &&
+          elapsed >= b.at &&
+          elapsed < b.at + parryImpactDuration,
+      )
+      .at(-1);
+    ctx.canvas.dataset.parry = String(!!parryBeat);
     const reducedMotion =
       typeof matchMedia === "function" &&
       matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -717,6 +727,20 @@ export class CombatSceneV2 {
       );
       if (v && this.preview?.animation === "heal")
         drawHealing(ctx, elapsed, v.x, ground, 180);
+    }
+    if (parryBeat) {
+      const victim = placements.find(
+        (v) => v.actor.unit.id === this.strikes[parryBeat.index].defender,
+      );
+      if (victim)
+        drawParryImpact(
+          ctx,
+          elapsed - parryBeat.at,
+          victim.x + (victim.side === 0 ? 1 : -1) * victim.actor.height * 0.14,
+          ground - victim.actor.height * 0.55,
+          victim.actor.height * 0.8,
+          reducedMotion,
+        );
     }
     if (criticalBeat) {
       const victim = placements.find(
