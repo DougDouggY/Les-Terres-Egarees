@@ -197,6 +197,7 @@ function event(s: Campaign, id: string) {
 }
 export function encounter(s: Campaign) {
   visibility(s);
+  if (s.unitReview) return false;
   if (s.forestChapter) return forestEncounter(s);
   if (chapterEnabled(s)) return chapterEncounter(s);
   if (
@@ -229,6 +230,14 @@ export function merge(s: Campaign) {
 export function advance(s: Campaign) {
   delete s.committedMove;
   finishActivationSkills(s);
+  if (s.unitReview) {
+    stepInitiative(s);
+    const next = current(s);
+    if (next) next.movedDistance = 0;
+    checkEnd(s);
+    visibility(s);
+    return;
+  }
   activateDetectedGroups(s);
   stepInitiative(s);
   const r = front(s).round;
@@ -260,6 +269,12 @@ export function advance(s: Campaign) {
   checkEnd(s);
 }
 export function checkEnd(s: Campaign) {
+  if (s.unitReview) {
+    s.unitReview.finished =
+      !alive(s).some((u) => u.owner === 1) ||
+      !alive(s).some((u) => u.owner === 0);
+    return;
+  }
   if (
     !s.sandbox &&
     ([1, 2] as const).some(
@@ -286,6 +301,7 @@ export function checkEnd(s: Campaign) {
 /** Temporary review shortcut: only an expedition physically near the village can use it. */
 export function canFinishBattleForTest(s: Campaign) {
   return (
+    !s.unitReview &&
     !s.forestChapter &&
     s.phase === "battle" &&
     !s.scene &&

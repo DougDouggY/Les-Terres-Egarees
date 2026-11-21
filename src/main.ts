@@ -171,7 +171,18 @@ function audio(type = "hit") {
 let chapterTestStart: string | null = null;
 installPortraitMasks(app);
 installPortraitNames();
+let reviewFogBefore: boolean | undefined;
+function configureReviewFog(review: boolean) {
+  if (review) {
+    reviewFogBefore ??= fogEnabled;
+    fogEnabled = false;
+  } else if (reviewFogBefore !== undefined) {
+    fogEnabled = reviewFogBefore;
+    reviewFogBefore = undefined;
+  }
+}
 function title() {
+  configureReviewFog(false);
   introductionScene?.dispose();
   introductionScene = undefined;
   developerRequest++;
@@ -181,7 +192,7 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${button("Essai sur carte · temporaire", "unit-review", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
 }
 function modeChoice() {
   screen = "mode";
@@ -799,8 +810,8 @@ function battleUI() {
   }
   clampCamera(s.active);
   initiativeCleanup?.();
-  app.innerHTML = `<main class="battle-screen compact-battle">
-  <div class="mission-objective">${s.forestChapter ? "Éliminer tous les ennemis" : s.merged ? (E.chapterEnabled(s) ? (E.preparedExpeditions(s).length ? "Tenez l’entrée sécurisée" : "Sécurisez l’entrée · Chefs : préparez-vous à rentrer") : "Repoussez les morts-vivants") : E.chapterEnabled(s) ? (E.chapterBeacon(s, s.active) ? "Rejoignez le sanctuaire en ruines" : "Trouvez un abri") : "Rejoignez le village des Veilleurs"}</div>
+  app.innerHTML = `<main class="battle-screen compact-battle" ${s.unitReview ? `data-unit-review="${s.unitReview.faction}"` : ""}>
+  <div class="mission-objective">${s.unitReview ? `Essai temporaire · ${s.unitReview.faction === "north" ? "Vikings" : "Chevaliers"} · Niveau 1${s.unitReview.finished ? " · Combat terminé" : ""} <span class="unit-review-controls">${button("Recommencer", "review-restart", "", busy)}${button(s.unitReview.faction === "north" ? "Jouer les Chevaliers" : "Jouer les Vikings", "review-swap", "", busy)}</span>` : s.forestChapter ? "Éliminer tous les ennemis" : s.merged ? (E.chapterEnabled(s) ? (E.preparedExpeditions(s).length ? "Tenez l’entrée sécurisée" : "Sécurisez l’entrée · Chefs : préparez-vous à rentrer") : "Repoussez les morts-vivants") : E.chapterEnabled(s) ? (E.chapterBeacon(s, s.active) ? "Rejoignez le sanctuaire en ruines" : "Trouvez un abri") : "Rejoignez le village des Veilleurs"}</div>
   ${initiativeMarkup(s)}<div class="battle-layout"><section class="map-section">
   <div class="canvas-wrap ${observer ? "observing" : ""}"><canvas id="map" width="1920" height="1280" aria-label="Carte tactique. Glissez pour explorer, cliquez pour sélectionner ou déplacer." tabindex="0"></canvas>${observer ? '<canvas id="map2" width="1920" height="1280" aria-label="Vue de l’autre expédition en observation"></canvas>' : ""}
   <div id="map-tooltip" class="map-tooltip" hidden></div>
@@ -817,7 +828,7 @@ function battleUI() {
     .querySelector('[data-action="toggle-fog"]')
     ?.setAttribute("aria-pressed", String(!fogEnabled));
   if (!busy && showLeaderChoice()) return;
-  if (u?.owner === 0 && !busy) void enemyTurn();
+  if (u?.owner === 0 && !busy && !s.unitReview?.finished) void enemyTurn();
   else warmUpcomingCombat();
 }
 function showLeaderChoice() {
@@ -2311,12 +2322,13 @@ function renderCombat(time: number) {
 }
 
 async function enemyTurn() {
-  if (!state || busy || state.scene) return;
+  if (!state || busy || state.scene || state.unitReview?.finished) return;
   const s = state,
     u = E.current(s);
   if (!u || u.owner !== 0) return;
   busy = true;
   await new Promise((r) => setTimeout(r, 400 / speed));
+  if (s.unitReview && state !== s) return;
   busy = false;
   const plan = E.ai(s, u);
   if (u.x !== plan.x || u.y !== plan.y) await animateMove(u, plan.x, plan.y);
@@ -2334,6 +2346,8 @@ function loadCampaign(loaded: Campaign) {
   chapterDirector = undefined;
   prologueToken++;
   state = loaded;
+  configureReviewFog(!!loaded.unitReview);
+  if (loaded.unitReview) observer = false;
   selected = null;
   aim = null;
   origin = null;
@@ -2406,7 +2420,7 @@ function pause() {
   const modal = document.createElement("div");
   if (document.querySelector(".pause-menu")) return;
   modal.className = "modal-back pause-menu";
-  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Joueur ${state!.active}</span>${E.canSwitchExpedition() ? [1, 2].map((p) => button(`Joueur ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("") + button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy) : ""}${button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${state!.developmentTest && state!.forestChapter ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div><section class="pause-commands"><h3>Commandes</h3><dl><dt>Échap</dt><dd>Ouvrir / fermer ce menu</dd><dt>D</dt><dd>Afficher / masquer les déplacements et attaques des ennemis visibles</dd><dt>Souris</dt><dd>Survoler un ennemi pour voir ses portées</dd><dt>Glisser</dt><dd>Déplacer la carte</dd><dt>Flèches</dt><dd>Déplacer la caméra</dd>${E.canSwitchExpedition() ? "<dt>Tab</dt><dd>Changer d’expédition</dd>" : ""}</dl></section></section>`;
+  modal.innerHTML = `<section class="modal"><span class="eyebrow">UNE HALTE DANS LA BRUME</span><h2>Votre aventure</h2><div class="pause-actions">${button("Reprendre", "close-modal", "primary")}<div class="pause-map-controls"><span>Carte · Joueur ${state!.active}</span>${!state!.unitReview && E.canSwitchExpedition() ? [1, 2].map((p) => button(`Joueur ${p}`, `perspective-${p}`, state!.active === p ? "active" : "", busy)).join("") + button(observer ? "Vue simple" : "Deux expéditions côte à côte", "observer", "", busy) : ""}${state!.unitReview ? "" : button(fogEnabled ? "Retirer la brume (test)" : "Rétablir la brume", "toggle-fog", "", busy)}${state!.developmentTest && state!.forestChapter ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${button("Recentrer la carte", "recenter")}${E.canFinishBattleForTest(state!) ? button("Terminer le combat (test)", "finish-battle-test", "", busy) : ""}</div>${button("Sauvegarder", "save", "", busy || !!origin)}${button("Options", "options")}${button("Couleurs des équipes", "team-colors")}${button("Menu principal", "title")}</div><section class="pause-commands"><h3>Commandes</h3><dl><dt>Échap</dt><dd>Ouvrir / fermer ce menu</dd><dt>D</dt><dd>Afficher / masquer les déplacements et attaques des ennemis visibles</dd><dt>Souris</dt><dd>Survoler un ennemi pour voir ses portées</dd><dt>Glisser</dt><dd>Déplacer la carte</dd><dt>Flèches</dt><dd>Déplacer la caméra</dd>${!state!.unitReview && E.canSwitchExpedition() ? "<dt>Tab</dt><dd>Changer d’expédition</dd>" : ""}</dl></section></section>`;
   app.append(modal);
 }
 app.addEventListener("click", async (e) => {
@@ -2575,6 +2589,32 @@ app.addEventListener("click", async (e) => {
     !E.controlsOwner(E.current(state)?.owner ?? 0)
   )
     return;
+  if (["unit-review", "review-restart", "review-swap"].includes(action)) {
+    if ((state && busy) || (action !== "unit-review" && !state?.unitReview))
+      return;
+    const faction =
+      action === "review-swap"
+        ? state!.unitReview!.faction === "north"
+          ? "knight"
+          : "north"
+        : (state?.unitReview?.faction ?? "north");
+    const request = ++developerRequest;
+    const { createUnitReview } = await import("./game/unit-review");
+    if (request !== developerRequest) return;
+    introductionScene?.dispose();
+    introductionScene = undefined;
+    developerCleanup?.();
+    developerCleanup = null;
+    initiativeCleanup?.();
+    chapterFrame = null;
+    observer = false;
+    cardOpen = false;
+    targetingAttack = false;
+    focusToken = "";
+    E.setSessionView({ mode: "local" });
+    loadCampaign(createUnitReview(faction));
+    return;
+  }
   if (action === "contact-trial") {
     const request = ++developerRequest;
     developerCleanup?.();
@@ -2840,6 +2880,7 @@ app.addEventListener("click", async (e) => {
     E.finishBattleForTest(state);
     cinematic();
   } else if (action === "toggle-fog") {
+    if (state?.unitReview) return;
     fogEnabled = !fogEnabled;
     battleUI();
   } else if (action === "toggle-grid") {
@@ -2890,7 +2931,7 @@ app.addEventListener("click", async (e) => {
     startConfiguredCampaign();
   } else if (action === "next-scene") nextScene();
   else if (action.startsWith("perspective-")) {
-    if (busy || !E.canSwitchExpedition()) return;
+    if (busy || state?.unitReview || !E.canSwitchExpedition()) return;
     cancel();
     state!.active = Number(action.split("-")[1]) as 1 | 2;
     battleUI();
@@ -2906,7 +2947,7 @@ app.addEventListener("click", async (e) => {
       if (friend) focusUnit(friend);
     }
   } else if (action === "observer") {
-    if (!E.canSwitchExpedition()) return;
+    if (state?.unitReview || !E.canSwitchExpedition()) return;
     observer = !observer;
     battleUI();
   } else if (action === "prepare-entry") {
@@ -3038,6 +3079,7 @@ window.addEventListener("keydown", (e) => {
   }
   if (
     e.key === "Tab" &&
+    !state?.unitReview &&
     E.canSwitchExpedition() &&
     screen === "battle" &&
     !busy &&

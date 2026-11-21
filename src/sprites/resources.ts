@@ -4,7 +4,7 @@ import { groundedIdle, idleBreath } from "./idle-motion";
 import atlasLayouts from "../assets/tactical/atlas-layout.json";
 import combatAnchors from "../assets/tactical/combat-anchors.json";
 import { visualClasses } from "./visual-classes";
-import { recoloredImage } from "./recolor";
+import { recoloredImage, recolorSettings } from "./recolor";
 import {
   colorForOwner,
   type TeamColor,
@@ -86,6 +86,10 @@ export function spriteImage(source: string) {
   }
   return img;
 }
+// Keep small tactical silhouettes, rather than recoloring whole combat atlases
+// again when a large roster exceeds the shared 64 MiB atlas cache.
+const tacticalFrames = new Map<string, HTMLCanvasElement>();
+let tacticalFrameBytes = 0;
 const maskedFrames = new WeakMap<object, Map<string, HTMLCanvasElement>>();
 function extractedFrame(
   source: HTMLImageElement | HTMLCanvasElement,
@@ -188,8 +192,6 @@ export function drawResourceFrame(
     left = Math.round(column * sw),
     sourceRow = c.cells?.[indexInClip]?.row ?? c.row,
     top = Math.round(sourceRow * sh);
-  const source = placement?.preparedImage ?? prepareSpriteSource(c, color);
-  if (!source) return false;
   ctx.save();
   ctx.imageSmoothingEnabled = !pixelArt;
   if (
@@ -249,11 +251,64 @@ export function drawResourceFrame(
             >
           )[c.source]?.[`${sourceRow}:${column}`]?.maskRuns
         : undefined);
-    const masked = runs?.length
-      ? extractedFrame(source, rect, runs)
-      : undefined;
+    const frameKey =
+      !placement?.preparedImage && !placement?.maskRuns
+        ? JSON.stringify([
+            c.source,
+            color,
+            c.recolor,
+            c.recolorEdges,
+            rect.x,
+            rect.y,
+            rect.width,
+            rect.height,
+            recolorSettings(),
+          ])
+        : undefined;
+    let masked = frameKey ? tacticalFrames.get(frameKey) : undefined;
+    let source: HTMLImageElement | HTMLCanvasElement | undefined;
+    if (masked && frameKey) {
+      tacticalFrames.delete(frameKey);
+      tacticalFrames.set(frameKey, masked);
+    } else {
+      source = placement?.preparedImage ?? prepareSpriteSource(c, color);
+      if (!source) {
+        ctx.restore();
+        return false;
+      }
+      masked = runs?.length ? extractedFrame(source, rect, runs) : undefined;
+      if (frameKey) {
+        const compact = document.createElement("canvas");
+        compact.width = rect.width;
+        compact.height = rect.height;
+        compact
+          .getContext("2d")!
+          .drawImage(
+            masked ?? source,
+            masked ? 0 : rect.x,
+            masked ? 0 : rect.y,
+            rect.width,
+            rect.height,
+            0,
+            0,
+            rect.width,
+            rect.height,
+          );
+        masked = compact;
+        tacticalFrames.set(frameKey, compact);
+        tacticalFrameBytes += compact.width * compact.height * 4;
+        while (
+          tacticalFrameBytes > 16 * 1024 * 1024 &&
+          tacticalFrames.size > 1
+        ) {
+          const [key, old] = tacticalFrames.entries().next().value!;
+          tacticalFrames.delete(key);
+          tacticalFrameBytes -= old.width * old.height * 4;
+        }
+      }
+    }
     ctx.drawImage(
-      masked ?? source,
+      masked ?? source!,
       masked ? 0 : rect.x,
       masked ? 0 : rect.y,
       rect.width,
@@ -263,7 +318,12 @@ export function drawResourceFrame(
       rect.width * scale,
       rect.height * scale,
     );
-  } else
+  } else {
+    const source = placement?.preparedImage ?? prepareSpriteSource(c, color);
+    if (!source) {
+      ctx.restore();
+      return false;
+    }
     ctx.drawImage(
       source,
       left,
@@ -275,6 +335,7 @@ export function drawResourceFrame(
       width,
       height,
     );
+  }
   ctx.restore();
   return true;
 }

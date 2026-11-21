@@ -7552,3 +7552,23 @@ body:has(.aftermath-screen) .modal-back.rewards {
     animation: none;
   }
 }
+
+/* Temporary tactical review: compact controls beside the usual initiative. */
+.unit-review-controls {
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 6px;
+}
+.unit-review-controls button {
+  padding: 4px 6px;
+  min-height: 28px;
+  font-size: 11px;
+}
+@media (max-width: 700px) {
+  .unit-review-controls button {
+    font-size: 9px;
+    padding: 3px;
+  }
+}

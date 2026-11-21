@@ -128,6 +128,7 @@ export type Campaign = {
   encounterContinuation?: { actorId: string; targetId?: string };
   previousInitiative?: Front;
   sandbox?: boolean;
+  unitReview?: { faction: Faction; finished?: boolean };
   sandboxFlat?: boolean;
   recruitmentClaims?: Record<string, 1 | 2>;
   chapterMode?: "cooperative" | "separate";

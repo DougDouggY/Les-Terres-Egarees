@@ -70,9 +70,11 @@ export class ManualSaves {
   private snapshot(state: Campaign) {
     return {
       payload: encode(structuredClone(state)),
-      chapter: state.forestChapter
-        ? "Chapitre 1 — Pour ne pas oublier"
-        : "Prologue — Les Terres Égarées",
+      chapter: state.unitReview
+        ? "Essai temporaire des unités"
+        : state.forestChapter
+          ? "Chapitre 1 — Pour ne pas oublier"
+          : "Prologue — Les Terres Égarées",
       progression: `Tour ${state.common.round} · ${state.phase} · ${state.forestChapter?.stage ?? state.chapter1?.pending?.id ?? "Carte tactique"}`,
     };
   }
