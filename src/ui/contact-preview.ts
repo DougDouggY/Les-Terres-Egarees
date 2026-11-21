@@ -6,6 +6,7 @@ import {
   drawResourceFrame,
 } from "../sprites/resources";
 import { combatSkin } from "../sprites/combat-skins";
+import { dodgeReaction, shieldReaction } from "./combat-reactions";
 import { illustratedWeaponPoint } from "../sprites/weapon-point";
 import { resolveClip } from "../sprites/catalog";
 import { resourceRect, anatomicalContactGap } from "../sprites/geometry";
@@ -412,10 +413,34 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         const { event: e, progress: p } = sample;
         actions[e.side] = p < 0.78 ? "attack" : "idle";
         progress[e.side] = p / 0.78;
+        if (selected.cls === "spearman" && p < 0.78) {
+          const c = resolveClip(profile, "attack")!;
+          const peak = c.impactFrame ?? 2;
+          const index =
+            p < 0.42
+              ? Math.floor((p / 0.42) * peak)
+              : p < 0.55
+                ? peak
+                : Math.min(
+                    c.frames.length - 1,
+                    peak +
+                      1 +
+                      Math.floor(
+                        ((p - 0.55) / 0.23) * (c.frames.length - peak - 1),
+                      ),
+                  );
+          progress[e.side] = (index + 0.01) / c.frames.length;
+        }
         const target = 1 - e.side;
-        if (e.outcome === "block" && p > 0.12 && p < 0.83) {
+        const shieldPhase =
+          selected.cls === "man_at_arms"
+            ? shieldReaction(p)
+            : p > 0.12 && p < 0.83
+              ? (p - 0.12) / 0.71
+              : undefined;
+        if (e.outcome === "block" && shieldPhase !== undefined) {
           actions[target] = "block";
-          progress[target] = (p - 0.12) / 0.71;
+          progress[target] = shieldPhase;
         }
         if (p >= 0.42 && p < 0.82) {
           if (e.outcome === "hit") {
@@ -423,11 +448,17 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
             progress[target] = (p - 0.42) / 0.4;
           }
         }
-        if (e.outcome === "evade" && p >= 0.16 && p < 0.84) {
+        const dodge = dodgeReaction(
+          p,
+          ["bow", "crossbow"].includes(selected.category),
+          0.42,
+          0.16,
+          0.84,
+        );
+        if (e.outcome === "evade" && dodge) {
           actions[target] = "evade";
-          progress[target] = (p - 0.16) / 0.68;
-          offset[target] =
-            (target === 0 ? -1 : 1) * Math.sin(progress[target] * Math.PI) * 60;
+          progress[target] = dodge.phase;
+          offset[target] = (target === 0 ? -1 : 1) * dodge.retreat * 60;
         }
       }
       for (const side of [0, 1] as const) {
@@ -461,7 +492,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
           ctx,
           ((sample.progress - 0.3) / 0.12) * 100 - 100,
           { x: positions[from], y: 285 },
-          { x: positions[to] + offset[to], y: 285 },
+          { x: positions[to], y: 285 },
         );
       }
       if (

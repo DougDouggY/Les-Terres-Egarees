@@ -139,8 +139,12 @@ test("planches complémentaires : séquences complètes, seconde main et harmoni
     const p = profiles.find((p) => p.classId === id)!;
     const c = resolveClip(p, "attack")!;
     const refreshed = id === "north_warrior" || id === "hunter";
-    assert.equal(c.frames.length, refreshed || id === "spearman" ? 8 : 7, id);
-    assert.equal(c.impactFrame, 3, id);
+    assert.equal(
+      c.frames.length,
+      id === "spearman" ? 6 : refreshed ? 8 : 7,
+      id,
+    );
+    assert.equal(c.impactFrame, id === "spearman" ? 2 : 3, id);
     assert.equal(c.loop, false, id);
     for (const animation of ["damage", "evade", "death"])
       assert.equal(

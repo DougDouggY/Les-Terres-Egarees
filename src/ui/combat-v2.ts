@@ -6,6 +6,7 @@ import {
 } from "./critical-impact";
 import type { Unit } from "../game/types";
 import { activeWeapon } from "../game/classes";
+import { dodgeReaction, shieldReaction } from "./combat-reactions";
 import type { TeamColors } from "../game/team-colors";
 import { colorForOwner } from "../game/team-colors";
 import {
@@ -473,25 +474,33 @@ export class CombatSceneV2 {
         a.name = name;
         a.index = Math.max(0, (c?.impactFrame ?? 2) - 1);
       }
-      if (!hit.hit && p >= 0.46 && p < 0.86) {
+      const projectileTargetX = d.x;
+      const arrow = ["bow", "crossbow"].includes(
+        activeWeapon(a.actor.unit).category,
+      );
+      const dodge = dodgeReaction(p, arrow, 0.58, 0.46, 0.86);
+      const shieldKnight = d.actor.skin?.profile.classId === "man_at_arms";
+      const shieldPhase = shieldReaction(p, 0.58);
+      if (!hit.hit && !hit.blocked && dodge) {
         d.name = "evade";
-        d.index = this.frame(d.actor, "evade", (p - 0.46) / 0.4);
-        d.x -=
-          direction *
-          Math.sin(((p - 0.46) / 0.4) * Math.PI) *
-          d.actor.height *
-          0.28;
-      } else if (hit.blocked && p >= 0.48) {
+        d.index = this.frame(d.actor, "evade", dodge.phase);
+        d.x -= direction * dodge.retreat * d.actor.height * 0.28;
+      } else if (
+        hit.blocked &&
+        (shieldKnight ? shieldPhase !== undefined : p >= 0.48)
+      ) {
         d.name = "block";
         d.index = this.frame(
           d.actor,
           "block",
-          p < 0.58
-            ? resolveClip(d.actor.skin?.profile, "block")?.status ===
-              "provisional"
-              ? 0
-              : ((p - 0.48) / 0.1) * 0.5
-            : 0.5 + Math.min(0.49, (p - 0.58) / 0.25),
+          shieldKnight
+            ? shieldPhase!
+            : p < 0.58
+              ? resolveClip(d.actor.skin?.profile, "block")?.status ===
+                "provisional"
+                ? 0
+                : ((p - 0.48) / 0.1) * 0.5
+              : 0.5 + Math.min(0.49, (p - 0.58) / 0.25),
         );
       } else if (hit.hit && p >= 0.58 && p < 0.82) {
         d.name = d.actor.unit.hp <= 0 ? "death" : "damage";
@@ -537,7 +546,8 @@ export class CombatSceneV2 {
         direction,
       );
       const target = {
-        x: d.x - direction * d.actor.height * 0.18,
+        x:
+          (arrow ? projectileTargetX : d.x) - direction * d.actor.height * 0.18,
         y: ground - d.actor.height * 0.56,
       };
       const impact = block.beats[0].at;

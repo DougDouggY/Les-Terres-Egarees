@@ -340,19 +340,106 @@ test("Lanciers : nouveaux pas et fente ample partagés, riposte et agilité réu
   assert.equal(p.gender, "any");
   assert.equal(move.frames.length, 4);
   assert.equal(move.fps, 6);
-  assert.equal(attack.frames.length, 8);
-  assert.equal(attack.impactFrame, 3);
+  assert.equal(attack.frames.length, 6);
+  assert.equal(attack.impactFrame, 2);
   assert.equal(resolveClip(p, "counter")!.source, attack.source);
   assert.equal(resolveClip(p, "attack_again")!.source, attack.source);
   const ready = resourceRect(attack, 0)!,
-    lunge = resourceRect(attack, 3)!;
+    lunge = resourceRect(attack, 2)!;
   assert.ok(
-    lunge.width > ready.width * 1.6,
+    lunge.width > ready.width * 1.15 && lunge.width < ready.width * 1.4,
     "bras, corps et hampe nettement projetés en avant",
   );
-  assert.ok(lunge.height < ready.height * 0.92, "buste penché en fente");
+  assert.ok(lunge.height < ready.height, "buste penché en fente");
   const reach =
     (lunge.x + lunge.width - lunge.anchorX) /
     profileMetrics(p).references.get(attack.source)!;
-  assert.ok(reach > 0.9, "pointe largement devant l appui");
+  assert.ok(reach > 0.6 && reach < 1.7, "pointe largement devant l appui");
+});
+
+test("esquive des projectiles : après le départ, retrait maximal à l arrivée ; bouclier tenu à l impact", async () => {
+  const { dodgeReaction, shieldReaction } =
+    await import("../src/ui/combat-reactions");
+  for (const impact of [0.42, 0.58]) {
+    assert.equal(
+      dodgeReaction(impact - 0.1, true, impact, 0.16, 0.84),
+      undefined,
+    );
+    const dodge = dodgeReaction(impact, true, impact, 0.16, 0.84)!;
+    assert.equal(dodge.phase, 0.5);
+    assert.equal(dodge.retreat, 1);
+    assert.equal(
+      dodgeReaction(impact + 0.3, true, impact, 0.16, 0.84),
+      undefined,
+    );
+    assert.equal(shieldReaction(impact, impact), 0.5);
+  }
+  assert.ok(
+    dodgeReaction(0.2, false, 0.42, 0.16, 0.84),
+    "esquive de mêlée approuvée conservée",
+  );
+});
+
+test("distance : Hommes d armes davantage séparés, femmes légèrement, Épéistes rapprochés sans changer les Vikings", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { anatomicalContactGap } = await import("../src/sprites/geometry");
+  const profiles = JSON.parse(
+    await readFile(
+      "src/assets/tactical/zzzzzzzzzzzz-knight-refresh.combat.json",
+      "utf8",
+    ),
+  ).profiles;
+  const male = profiles.find(
+    (p: any) => p.classId === "man_at_arms" && p.gender === "male",
+  );
+  const female = profiles.find(
+    (p: any) => p.classId === "man_at_arms" && p.gender === "female",
+  );
+  const mg = anatomicalContactGap(male, male, 136),
+    fg = anatomicalContactGap(female, female, 136);
+  assert.ok(mg >= 127 && fg >= 112 && mg > fg + 8);
+  assert.ok(Math.abs(anatomicalContactGap(male, male, 272) - mg * 2) < 1e-8);
+  for (const p of profiles.filter((p: any) => p.classId === "swordsman")) {
+    const base = { ...p, classId: "reference" };
+    const reduction =
+      anatomicalContactGap(base, base, 136) - anatomicalContactGap(p, p, 136);
+    assert.ok(reduction > 4 && reduction < 7);
+  }
+});
+
+test("pas du Lancier : axe du buste stable entre appuis alternés et aucune fente excessive dans l estoc", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { resolveClip } = await import("../src/sprites/catalog");
+  const p = JSON.parse(
+    await readFile(
+      "src/assets/tactical/zzzzzzzzzzzzzz-lance-v2.sprite.json",
+      "utf8",
+    ),
+  ).profiles[0];
+  const c = resolveClip(p, "move")!;
+  assert.match(c.source, /lance-steps-v3/);
+  const annotations = JSON.parse(
+    await readFile("src/assets/tactical/combat-anchors.json", "utf8"),
+  )[c.source];
+  const offsets = Object.values(annotations).map((a: any) => {
+    const [, y, , h] = a.bounds;
+    const pixels: number[] = [];
+    for (const [x, ry, n] of a.maskRuns)
+      if (ry < y + h * 0.22) for (let k = 0; k < n; k++) pixels.push(x + k);
+    pixels.sort((a, b) => a - b);
+    const median = pixels[Math.floor(pixels.length / 2)];
+    return (median - a.feetX) / a.bodyHeight;
+  });
+  assert.ok(
+    Math.max(...offsets) - Math.min(...offsets) < 0.015,
+    "le buste ne saute plus d un pied à l autre",
+  );
+  assert.deepEqual(resolveClip(p, "attack")!.cells, [
+    { row: 2, column: 0 },
+    { row: 2, column: 1 },
+    { row: 2, column: 2 },
+    { row: 2, column: 1 },
+    { row: 2, column: 0 },
+    { row: 0, column: 2 },
+  ]);
 });

@@ -17,11 +17,9 @@
             0,
             1,
             2,
-            3,
-            0,
             1,
-            2,
-            3
+            0,
+            2
           ],
           "cells": [
             {
@@ -38,23 +36,15 @@
             },
             {
               "row": 2,
-              "column": 3
-            },
-            {
-              "row": 3,
-              "column": 0
-            },
-            {
-              "row": 3,
               "column": 1
             },
             {
-              "row": 3,
-              "column": 2
+              "row": 2,
+              "column": 0
             },
             {
-              "row": 3,
-              "column": 3
+              "row": 0,
+              "column": 2
             }
           ],
           "fps": 8,
@@ -62,7 +52,8 @@
           "recolor": "blue",
           "recolorEdges": true,
           "status": "functional",
-          "impactFrame": 3
+          "impactFrame": 2,
+          "note": "Estoc modéré puis récupération avec les mêmes dessins : aucune lance amincie ni fente excessive."
         },
         "counter": {
           "reuse": "attack"
@@ -180,10 +171,10 @@
           "status": "functional"
         },
         "move": {
-          "source": "tactical/combat-v4-refinements-lance-v2.png",
+          "source": "tactical/combat-v4-refinements-lance-steps-v3.png",
           "columns": 4,
-          "rows": 4,
-          "row": 1,
+          "rows": 1,
+          "row": 0,
           "frames": [
             0,
             1,
@@ -192,19 +183,19 @@
           ],
           "cells": [
             {
-              "row": 1,
+              "row": 0,
               "column": 0
             },
             {
-              "row": 1,
+              "row": 0,
               "column": 1
             },
             {
-              "row": 1,
+              "row": 0,
               "column": 2
             },
             {
-              "row": 1,
+              "row": 0,
               "column": 3
             }
           ],
@@ -246,12 +237,13 @@
           "reuse": "move"
         }
       },
-      "note": "Lance : pas rapides au sol et estoc ample, buste penché, bras et hampe projetés en avant. Variante partagée homme/femme.",
+      "note": "Pas rapides calqués sur la référence validée, buste stabilisé ; estoc limité à la troisième pose.",
       "referenceHeights": {
         "tactical/lot2-knights.png": 220,
         "tactical/combat-v4-refinements-spear.png": 285,
         "tactical/complete-knights.png": 171,
-        "tactical/combat-v4-refinements-lance-v2.png": 203
+        "tactical/combat-v4-refinements-lance-v2.png": 203,
+        "tactical/combat-v4-refinements-lance-steps-v3.png": 364
       },
       "allowMixedSources": true
     }

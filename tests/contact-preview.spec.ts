@@ -617,3 +617,93 @@ test("attentes des 22 variantes : respiration visible, pieds ancrés et pose de 
     );
   }
 });
+
+test("arcs et arbalètes homme/femme : la cible attend le vol puis esquive à l arrivée", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Essai des animations", exact: true })
+    .click();
+  await page.locator("[data-contact-speed]").selectOption("0.5");
+  for (const id of [
+    "hunter-male-bow",
+    "huntress",
+    "crossbowman-male-crossbow",
+    "crossbowman-female-crossbow",
+  ]) {
+    await page.locator("[data-contact-character]").selectOption(id);
+    await expect(page.locator("[data-contact-play-animation]")).toBeEnabled();
+    await page.locator('[data-contact-scenario="dodges"]').click();
+    const early = await page.waitForFunction(() => {
+      const c = document.querySelector<HTMLCanvasElement>(
+        "[data-contact-canvas]",
+      )!;
+      const p = (Number(c.dataset.elapsed) - 850) / 1150;
+      return p >= 0.305 && p < 0.335
+        ? {
+            action: c.dataset.rightAction,
+            offset: Number(c.dataset.rightOffset),
+          }
+        : false;
+    });
+    expect(await early.jsonValue(), id).toEqual({ action: "idle", offset: 0 });
+    const late = await page.waitForFunction(() => {
+      const c = document.querySelector<HTMLCanvasElement>(
+        "[data-contact-canvas]",
+      )!;
+      const p = (Number(c.dataset.elapsed) - 850) / 1150;
+      return p >= 0.405 && p < 0.435
+        ? {
+            action: c.dataset.rightAction,
+            offset: Number(c.dataset.rightOffset),
+          }
+        : false;
+    });
+    const reaction = (await late.jsonValue()) as {
+      action: string;
+      offset: number;
+    };
+    expect(reaction.action, id).toBe("evade");
+    expect(reaction.offset, id).toBeGreaterThan(45);
+    await page.locator("[data-contact-pause]").click();
+  }
+});
+
+test("Hommes d armes homme/femme : bouclier visible à l impact, dégâts nuls et espacement distinct", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Essai des animations", exact: true })
+    .click();
+  const gaps: number[] = [];
+  for (const gender of ["male", "female"]) {
+    await page
+      .locator("[data-contact-character]")
+      .selectOption(`man_at_arms-${gender}-sword_shield`);
+    await expect(page.locator("[data-contact-play-animation]")).toBeEnabled();
+    await page.locator('[data-contact-scenario="parry"]').click();
+    const value = await page.waitForFunction(() => {
+      const c = document.querySelector<HTMLCanvasElement>(
+        "[data-contact-canvas]",
+      )!;
+      return c.dataset.parry === "true"
+        ? {
+            action: c.dataset.leftAction,
+            gap: Number(c.dataset.rightX) - Number(c.dataset.leftX),
+          }
+        : false;
+    });
+    const result = (await value.jsonValue()) as { action: string; gap: number };
+    expect(result.action).toBe("block");
+    gaps.push(result.gap);
+    await expect(page.locator('[data-combat-value="0"]')).toHaveText(
+      "24 / 24 PV",
+    );
+    await page.locator("[data-contact-pause]").click();
+  }
+  expect(gaps[0]).toBeGreaterThan(127);
+  expect(gaps[1]).toBeGreaterThan(112);
+  expect(gaps[0] - gaps[1]).toBeGreaterThan(8);
+});

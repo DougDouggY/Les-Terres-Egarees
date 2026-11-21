@@ -206,8 +206,20 @@ export function anatomicalContactGap(
   // anatomical (scales with bodies), leaving the approved Viking contact intact.
   const shieldKnight =
     attacker?.classId === "man_at_arms" || defender?.classId === "man_at_arms";
-  return Math.max(
+  const base = Math.max(
     shieldKnight ? (attackerBody + defenderBody) * 0.39 : attackerBody * 0.36,
     reach + target - attackerBody * 0.015,
+  );
+  const shieldClearance = (p: SpriteProfile | undefined, body: number) =>
+    p?.classId === "man_at_arms"
+      ? body * (p.gender === "male" ? 0.08 : 0.025)
+      : 0;
+  const swordAdjustment =
+    attacker?.classId === "swordsman" ? attackerBody * 0.04 : 0;
+  return (
+    base +
+    shieldClearance(attacker, attackerBody) +
+    shieldClearance(defender, defenderBody) -
+    swordAdjustment
   );
 }

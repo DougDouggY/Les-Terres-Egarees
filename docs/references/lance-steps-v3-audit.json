@@ -1,0 +1,50 @@
+{
+  "source": "tactical/combat-v4-refinements-lance-steps-v3.png",
+  "referenceHeight": 364,
+  "frames": [
+    {
+      "row": 0,
+      "column": 0,
+      "bounds": [
+        80,
+        191,
+        415,
+        350
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "bounds": [
+        613,
+        189,
+        413,
+        351
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "bounds": [
+        1158,
+        193,
+        421,
+        349
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "bounds": [
+        1699,
+        193,
+        412,
+        348
+      ],
+      "edgeContact": false
+    }
+  ]
+}

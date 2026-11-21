@@ -34008,5 +34008,65 @@
         "ambiguous": false
       }
     ]
+  },
+  "tactical/combat-v4-refinements-lance-steps-v3.png": {
+    "width": 2172,
+    "height": 724,
+    "columns": 4,
+    "rows": 1,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "x": 80,
+        "y": 191,
+        "width": 415,
+        "height": 350,
+        "ground": 541,
+        "anchorX": 247.26,
+        "bodyGround": 541,
+        "bodyHeight": 364,
+        "ambiguous": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "x": 613,
+        "y": 189,
+        "width": 413,
+        "height": 351,
+        "ground": 540,
+        "anchorX": 771.26,
+        "bodyGround": 540,
+        "bodyHeight": 364,
+        "ambiguous": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "x": 1158,
+        "y": 193,
+        "width": 421,
+        "height": 349,
+        "ground": 542,
+        "anchorX": 1329.26,
+        "bodyGround": 542,
+        "bodyHeight": 364,
+        "ambiguous": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "x": 1699,
+        "y": 193,
+        "width": 412,
+        "height": 348,
+        "ground": 541,
+        "anchorX": 1855.26,
+        "bodyGround": 541,
+        "bodyHeight": 364,
+        "ambiguous": false
+      }
+    ]
   }
 }
