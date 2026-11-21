@@ -1,0 +1,302 @@
+{
+  "classes": [
+    "north_warrior",
+    "raider",
+    "nordic_blade",
+    "hunter",
+    "shaman"
+  ],
+  "groups": [
+    {
+      "group": 1,
+      "classId": "north_warrior",
+      "weapon": "axe"
+    },
+    {
+      "group": 2,
+      "classId": "raider",
+      "weapon": "axe_shield"
+    },
+    {
+      "group": 3,
+      "classId": "raider",
+      "weapon": "sword_shield"
+    },
+    {
+      "group": 4,
+      "classId": "nordic_blade",
+      "weapon": "sword"
+    },
+    {
+      "group": 5,
+      "classId": "hunter",
+      "weapon": "bow"
+    },
+    {
+      "group": 6,
+      "classId": "shaman",
+      "weapon": "healing_focus"
+    }
+  ],
+  "entries": [
+    {
+      "id": "H1",
+      "classId": "north_warrior",
+      "gender": "male",
+      "weapon": "axe",
+      "combatSource": "tactical/complete-north.png",
+      "mapSource": "tactical/lot2-north.png",
+      "bodyReference": 185,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 159,
+      "visibleHeight": 176,
+      "review": false
+    },
+    {
+      "id": "F1",
+      "classId": "north_warrior",
+      "gender": "female",
+      "weapon": "axe",
+      "combatSource": "tactical/combat-v4-warriors.png",
+      "mapSource": "tactical/combat-v4-warriors.png",
+      "bodyReference": 118,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 148,
+      "visibleHeight": 176,
+      "review": false
+    },
+    {
+      "id": "H2",
+      "classId": "raider",
+      "gender": "male",
+      "weapon": "axe_shield",
+      "combatSource": "tactical/combat-pair-reference-v2.png",
+      "mapSource": "tactical/team-sample.png",
+      "bodyReference": 193,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 156,
+      "visibleHeight": 176,
+      "review": false
+    },
+    {
+      "id": "F2",
+      "classId": "raider",
+      "gender": "female",
+      "weapon": "axe_shield",
+      "combatSource": "tactical/combat-v4-raider-female.png",
+      "mapSource": "tactical/combat-v4-raider-female.png",
+      "bodyReference": 215,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 162,
+      "visibleHeight": 177,
+      "review": false
+    },
+    {
+      "id": "H3",
+      "classId": "raider",
+      "gender": "male",
+      "weapon": "sword_shield",
+      "combatSource": "tactical/combat-v3-swordsb.png",
+      "mapSource": "tactical/lot2-magic.png",
+      "bodyReference": 128,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 159,
+      "visibleHeight": 176,
+      "review": false
+    },
+    {
+      "id": "F3",
+      "classId": "raider",
+      "gender": "female",
+      "weapon": "sword_shield",
+      "combatSource": "tactical/combat-v4-shields.png",
+      "mapSource": "tactical/combat-v4-shields.png",
+      "bodyReference": 76,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 174,
+      "visibleHeight": 176,
+      "review": false
+    },
+    {
+      "id": "H4",
+      "classId": "nordic_blade",
+      "gender": "male",
+      "weapon": "sword",
+      "combatSource": "tactical/combat-v3-swordsa.png",
+      "mapSource": "tactical/lot2-north.png",
+      "bodyReference": 130,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 142,
+      "visibleHeight": 176,
+      "review": false
+    },
+    {
+      "id": "F4",
+      "classId": "nordic_blade",
+      "gender": "female",
+      "weapon": "sword",
+      "combatSource": "tactical/combat-v4-warriors.png",
+      "mapSource": "tactical/combat-v4-warriors.png",
+      "bodyReference": 116,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 135,
+      "visibleHeight": 174,
+      "review": false
+    },
+    {
+      "id": "H5",
+      "classId": "hunter",
+      "gender": "male",
+      "weapon": "bow",
+      "combatSource": "tactical/combat-v4-mixed.png",
+      "mapSource": "tactical/combat-v4-mixed.png",
+      "bodyReference": 128,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 133,
+      "visibleHeight": 177,
+      "review": false
+    },
+    {
+      "id": "F5",
+      "classId": "hunter",
+      "gender": "female",
+      "weapon": "bow",
+      "combatSource": "tactical/complete-north.png",
+      "mapSource": "tactical/lot2-north.png",
+      "bodyReference": 161,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 131,
+      "visibleHeight": 175,
+      "review": false
+    },
+    {
+      "id": "H6",
+      "classId": "shaman",
+      "gender": "male",
+      "weapon": "healing_focus",
+      "combatSource": "tactical/combat-v2-support.png",
+      "mapSource": "tactical/lot2-magic.png",
+      "bodyReference": 204,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 157,
+      "visibleHeight": 196,
+      "review": false
+    },
+    {
+      "id": "F6",
+      "classId": "shaman",
+      "gender": "female",
+      "weapon": "healing_focus",
+      "combatSource": "tactical/combat-v4-casters.png",
+      "mapSource": "tactical/combat-v4-casters.png",
+      "bodyReference": 139,
+      "bodyDisplayReference": 176,
+      "visibleWidth": 131,
+      "visibleHeight": 201,
+      "review": false
+    }
+  ],
+  "proposal": {
+    "id": "P",
+    "classId": "raider",
+    "gender": "female",
+    "weapon": "axe_shield",
+    "combatSource": "tactical/combat-v4-pillarde-axe-v3.png",
+    "mapSource": "tactical/combat-v4-pillarde-axe-v3.png",
+    "bodyReference": 202,
+    "bodyDisplayReference": 176,
+    "visibleWidth": 131,
+    "visibleHeight": 172,
+    "review": true,
+    "replaces": "F2",
+    "reviewOnly": true
+  },
+  "terrain": {
+    "map": "prologue",
+    "camera": {
+      "x": 22,
+      "y": 12,
+      "cols": 20,
+      "rows": 14
+    },
+    "positions": [
+      {
+        "id": "H1",
+        "x": 24,
+        "y": 16,
+        "terrain": "road"
+      },
+      {
+        "id": "F1",
+        "x": 24,
+        "y": 20,
+        "terrain": "grass"
+      },
+      {
+        "id": "H2",
+        "x": 27,
+        "y": 14,
+        "terrain": "road"
+      },
+      {
+        "id": "F2",
+        "x": 27,
+        "y": 20,
+        "terrain": "road"
+      },
+      {
+        "id": "H3",
+        "x": 30,
+        "y": 15,
+        "terrain": "grass"
+      },
+      {
+        "id": "F3",
+        "x": 30,
+        "y": 20,
+        "terrain": "road"
+      },
+      {
+        "id": "H4",
+        "x": 33,
+        "y": 15,
+        "terrain": "grass"
+      },
+      {
+        "id": "F4",
+        "x": 33,
+        "y": 20,
+        "terrain": "road"
+      },
+      {
+        "id": "H5",
+        "x": 35,
+        "y": 16,
+        "terrain": "grass"
+      },
+      {
+        "id": "F5",
+        "x": 36,
+        "y": 20,
+        "terrain": "road"
+      },
+      {
+        "id": "H6",
+        "x": 40,
+        "y": 15,
+        "terrain": "grass"
+      },
+      {
+        "id": "F6",
+        "x": 39,
+        "y": 20,
+        "terrain": "road"
+      }
+    ],
+    "tileSize": 32,
+    "spriteFrameSize": 38,
+    "worldBodyHeight": 28.12
+  },
+  "mapUntouched": true,
+  "savesUntouched": true
+}

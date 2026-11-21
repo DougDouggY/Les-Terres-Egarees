@@ -78,3 +78,15 @@ La hache est retouchée dans `combat-v4-pillarde-axe-v3.png`, notamment la lame 
 L'effet `parry-impact.ts` est partagé par l'essai et le moteur : bouclier cyan/blanc superposé au corps du défenseur à l'impact, croissance rapide, puis fragmentation du contour. Durée 300 ms, synchronisée sur le blocage déjà résolu ; aucun jet, PV ou coup supplémentaire n'est créé. Le mouvement réduit remplace l'expansion et la fragmentation par un bouclier fixe qui s'estompe. Aucun nouveau son n'est ajouté.
 
 Vérifications : 199 tests habituels ; trois tests navigateur ciblés (effets du moteur sur plusieurs classes, cinq scénarios de la Pillarde et bouclier lumineux à dégâts nuls) ; contrôle visuel de la comparaison et du bouclier ; builds public et prototype.
+
+## Harmonisation des six variantes vikings — validation de la Pillarde
+
+La Pillarde hache/bouclier élancée est désormais validée et enregistrée pour les campagnes, sur la carte comme en combat. Cette décision remplace les mentions précédentes d’isolation dans l’essai. Cinq nouvelles planches reprennent son style et un gabarit moins trapu : Guerrier du Nord masculin, Pillard masculin hache/bouclier, Pillard masculin épée/bouclier, Pillarde épée/bouclier et Chasseuse.
+
+Chaque variante dispose de 26 poses : deux attentes tactiques, deux gardes de combat, quatre pas rapides, huit poses d’attaque, trois défenses, trois esquives, trois réactions aux dégâts et une pose finale de mort. Riposte et seconde attaque réutilisent l’attaque. Le critique et la parade conservent leurs effets partagés. Les esquives conservent le déplacement arrière du moteur. La Chasseuse reste à distance dans l’essai.
+
+Le sélecteur de l’essai offre les six variantes. Les identifiants de classe, sexe, équipement et état ne changent pas : les sauvegardes retrouvent les nouvelles ressources sans migration. Les caractéristiques, règles de combat et cartes sont inchangées. Les anciens atlas partagés sont conservés pour leurs autres utilisateurs.
+
+Les contours et les ancrages sont mesurés sur les silhouettes complètes, sans découpage arbitraire des pieds aux limites nominales de la grille. Les masques de rendu écartent les résidus de matte rouges/jaunes ; les PNG sources ne sont pas retouchés par les scripts. `register-north-refresh.py` enregistre uniquement les métadonnées. Le moteur conserve une référence anatomique constante par personnage, y compris lors des attaques avec arme levée.
+
+La comparaison publique `/validation/vikings/` propose le terrain avant/après aux mêmes coordonnées et un lien vers les six fiches de 26 poses. Les ressources visuelles sont exportées par les vrais outils de rendu du jeu, sans modifier une campagne ni le stockage local.

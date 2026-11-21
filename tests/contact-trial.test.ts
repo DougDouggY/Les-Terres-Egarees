@@ -155,7 +155,7 @@ test("critique validé : deux griffures, flash et aucune particule triangulaire"
   assert.equal(rectangles, 2); // contrast and the single flash
 });
 
-test("Pillarde hache-bouclier : revue isolée, 26 poses, identité unique et repères stables", async () => {
+test("Pillarde hache-bouclier : référence validée, 26 poses, identité unique et repères stables", async () => {
   const { readFile } = await import("node:fs/promises");
   const p = JSON.parse(
     await readFile("src/assets/tactical/pillarde-axe.review.json", "utf8"),

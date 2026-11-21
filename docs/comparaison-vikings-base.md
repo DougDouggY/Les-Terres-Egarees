@@ -1,5 +1,7 @@
 # Comparaison des classes vikings de base
 
+Les sections initiales documentent le constat avant harmonisation. La dernière section décrit les ressources désormais intégrées et leurs vérifications.
+
 La page `public/validation/vikings/index.html`, accessible depuis « Comparer les gabarits » dans l’essai de combat, présente les cinq classes de base : Guerrier du Nord, Pillard, Lame nordique, Chasseur et Chaman. Les deux équipements du Pillard donnent six paires homme/femme, soit douze variantes actuelles. La nouvelle Pillarde hache/bouclier est présentée séparément comme proposition réservée à l’essai.
 
 ## Constats visuels
@@ -21,3 +23,11 @@ Le sélecteur de carte remplace seulement la Pillarde hache/bouclier par la prop
 ## Vérifications réalisées
 
 Export des douze variantes réussi ; carte et stockage local inchangés pendant l’export. Vérification navigateur : douze variantes présentes, images chargées, bascule actuel/proposition sans double affichage, zoom ×3 et affichage à largeur mobile de 390 pixels.
+
+## Mise à jour après validation
+
+La Pillarde hache/bouclier est intégrée en campagne. Les cinq variantes demandées ont de nouvelles planches : H1 (Guerrier du Nord), H2 et H3 (Pillard hache/épée), F3 (Pillarde épée) et F5 (Chasseuse). F2 reprend exactement la source validée. Les autres classes restent inchangées.
+
+La comparaison antérieure est conservée dans `vikings-base-avant-gabarits.png`, son manifeste et son image de terrain. La page principale présente maintenant les ressources après harmonisation et une bascule avant/après de la carte, à coordonnées et zoom identiques. Un lien ouvre les six fiches de 26 poses. Les constats visuels plus haut décrivent l’état initial ; la Pillarde à l’épée floue a depuis été remplacée.
+
+Vérifications après intégration : 200 tests automatisés réussis (51 visuels et 149 systèmes), compilation publique, contrôle de séparation de la version publique, navigation navigateur des six variantes, sources chargées, tir de la Chasseuse sans déplacement, stockage local inchangé et comparaison à largeur mobile. Les six variantes ont aussi été chargées et dessinées dans `CombatSceneV2`, de l’approche à la fin du combat. Les tests portent sur le rendu et les liaisons de ressources ; l’acceptation artistique reste visible dans les comparaisons.

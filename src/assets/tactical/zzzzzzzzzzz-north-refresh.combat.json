@@ -1,0 +1,1673 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "raider",
+      "gender": "female",
+      "equipment": "axe-shield",
+      "state": "default",
+      "note": "Pillarde hache/bouclier élancée validée ; carte et combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-pillarde-axe-v3.png": 202
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-pillarde-axe-v3.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-pillarde-axe-v3.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-pillarde-axe-v3.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-pillarde-axe-v3.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v4-pillarde-axe-v3.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-pillarde-axe-v3.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-pillarde-axe-v3.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-pillarde-axe-v3.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      }
+    },
+    {
+      "classId": "north_warrior",
+      "gender": "male",
+      "equipment": "axe",
+      "state": "default",
+      "note": "Harmonisation nordique : même identité et équipement sur carte et en combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-north-refresh-north-warrior.png": 220
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-north-refresh-north-warrior.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-north-refresh-north-warrior.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-north-refresh-north-warrior.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-north-refresh-north-warrior.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v4-north-refresh-north-warrior.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-north-refresh-north-warrior.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-north-refresh-north-warrior.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-north-refresh-north-warrior.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "male",
+      "equipment": "axe-shield",
+      "state": "default",
+      "note": "Harmonisation nordique : même identité et équipement sur carte et en combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-north-refresh-male-axe.png": 217
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-north-refresh-male-axe.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-north-refresh-male-axe.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-north-refresh-male-axe.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-north-refresh-male-axe.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v4-north-refresh-male-axe.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-north-refresh-male-axe.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-north-refresh-male-axe.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-north-refresh-male-axe.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Harmonisation nordique : même identité et équipement sur carte et en combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-north-refresh-male-sword.png": 211
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-north-refresh-male-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-north-refresh-male-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-north-refresh-male-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-north-refresh-male-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v4-north-refresh-male-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-north-refresh-male-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-north-refresh-male-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-north-refresh-male-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      }
+    },
+    {
+      "classId": "raider",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Harmonisation nordique : même identité et équipement sur carte et en combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-north-refresh-female-sword.png": 214
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-north-refresh-female-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-north-refresh-female-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-north-refresh-female-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-north-refresh-female-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v4-north-refresh-female-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-north-refresh-female-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-north-refresh-female-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-north-refresh-female-sword.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      }
+    },
+    {
+      "classId": "hunter",
+      "gender": "female",
+      "equipment": "bow",
+      "state": "default",
+      "note": "Harmonisation nordique : même identité et équipement sur carte et en combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-north-refresh-huntress.png": 229
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-north-refresh-huntress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-north-refresh-huntress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-north-refresh-huntress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-north-refresh-huntress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v4-north-refresh-huntress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-north-refresh-huntress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-north-refresh-huntress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-north-refresh-huntress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      }
+    }
+  ]
+}

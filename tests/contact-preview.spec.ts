@@ -1,4 +1,59 @@
 import { test, expect } from "@playwright/test";
+test("harmonisation nordique : six variantes testables, sources de campagne et tir immobile", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const saves = await page.evaluate(() => JSON.stringify({ ...localStorage }));
+  await page
+    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .click();
+  const canvas = page.locator("[data-contact-canvas]");
+  await page.locator("[data-contact-speed]").selectOption("4");
+  for (const [id, source] of [
+    ["male", "combat-v4-north-refresh-male-axe"],
+    ["female", "combat-v4-pillarde-axe-v3"],
+    ["male-sword", "combat-v4-north-refresh-male-sword"],
+    ["female-sword", "combat-v4-north-refresh-female-sword"],
+    ["north-warrior", "combat-v4-north-refresh-north-warrior"],
+    ["huntress", "combat-v4-north-refresh-huntress"],
+  ]) {
+    await page.locator("[data-contact-character]").selectOption(id);
+    await expect(
+      page.locator('[data-contact-scenario="critical"]'),
+    ).toBeEnabled();
+    await page.locator('[data-contact-scenario="critical"]').click();
+    await expect(canvas).toHaveAttribute(
+      "data-left-frame-source",
+      new RegExp(source),
+    );
+    await expect(canvas).toHaveAttribute(
+      "data-right-frame-source",
+      new RegExp(source),
+    );
+    if (id === "huntress") {
+      await expect
+        .poll(async () => Number(await canvas.getAttribute("data-elapsed")))
+        .toBeGreaterThan(950);
+      await expect(canvas).toHaveAttribute("data-left-x", "270");
+      await expect(canvas).toHaveAttribute("data-right-x", "690");
+      await expect(page.locator(".duel-weapon > strong").first()).toHaveText(
+        "Arc",
+      );
+    }
+    await expect(canvas).toHaveAttribute("data-finished", "true");
+  }
+  expect(await page.evaluate(() => JSON.stringify({ ...localStorage }))).toBe(
+    saves,
+  );
+  await page.goto("/validation/vikings/index.html");
+  await expect(page.locator("[data-variant]")).toHaveCount(12);
+  await expect(page.locator("#map-proposal")).toBeHidden();
+  await page.selectOption("#appearance", "proposal");
+  await expect(page.locator("#map-current")).toBeHidden();
+  await expect(page.locator("#map-proposal")).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator("h1")).toBeVisible();
+});
 test("accueil : quatre essais, vitesse et pause, maintien au contact, attaque unique et sauvegardes inchangées", async ({
   page,
 }) => {
@@ -80,7 +135,7 @@ test("nouvelles poses : pas rapides, vrai retrait illustré des deux côtés et 
   await expect(c).toHaveAttribute("data-left-action", "move");
   await expect(c).toHaveAttribute(
     "data-left-frame-source",
-    /pillard-quickstep-dodge-v6/,
+    /combat-v4-north-refresh-male-axe/,
   );
   await page.screenshot({ path: "/tmp/pillard-quickstep-v6.png" });
   await page.locator("[data-contact-pause]").click();
@@ -96,7 +151,7 @@ test("nouvelles poses : pas rapides, vrai retrait illustré des deux côtés et 
   await page.screenshot({ path: "/tmp/pillard-backstep-v6.png" });
   await expect(c).toHaveAttribute(
     "data-right-frame-source",
-    /pillard-quickstep-dodge-v6/,
+    /combat-v4-north-refresh-male-axe/,
   );
   await page.locator("[data-contact-pause]").click();
   await page.waitForFunction(() => {

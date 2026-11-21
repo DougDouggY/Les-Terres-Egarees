@@ -125,7 +125,7 @@ test("couverture visuelle complète, neutre ou sexe explicite ; pose statique ja
     }
 });
 
-test("planches complémentaires : séquences complètes et seconde main explicite, protagonistes validés conservés", async () => {
+test("planches complémentaires : séquences complètes, seconde main et harmonisation nordique", async () => {
   const { strikeAnimation } = await import("../src/sprites/catalog");
   const { profiles } = await library();
   for (const id of [
@@ -138,17 +138,25 @@ test("planches complémentaires : séquences complètes et seconde main explicit
   ]) {
     const p = profiles.find((p) => p.classId === id)!;
     const c = resolveClip(p, "attack")!;
-    assert.equal(c.frames.length, 7, id);
+    const refreshed =
+      id === "north_warrior" || (id === "hunter" && p.gender === "female");
+    assert.equal(c.frames.length, refreshed ? 8 : 7, id);
     assert.equal(c.impactFrame, 3, id);
     assert.equal(c.loop, false, id);
     for (const animation of ["damage", "evade", "death"])
-      assert.equal(resolveClip(p, animation)!.frames.length, 2, id + animation);
+      assert.equal(
+        resolveClip(p, animation)!.frames.length,
+        refreshed ? (animation === "death" ? 1 : 3) : 2,
+        id + animation,
+      );
   }
   for (const id of ["raider", "man_at_arms"]) {
     const p = profiles.find((p) => p.classId === id && p.gender === "male")!;
     assert.equal(
       resolveClip(p, "attack")!.source,
-      "tactical/combat-pair-reference-v2.png",
+      id === "raider"
+        ? "tactical/combat-v4-north-refresh-male-axe.png"
+        : "tactical/combat-pair-reference-v2.png",
     );
   }
   const dual = profiles.find((p) => p.classId === "duelist")!;
@@ -172,6 +180,90 @@ test("planches complémentaires : séquences complètes et seconde main explicit
         p.equipment === "claws",
     ),
   );
+});
+
+test("harmonisation : six identités stables sur carte et au combat, 26 poses complètes sans mélange de planches", async () => {
+  const { profiles, errors } = await library();
+  assert.deepEqual(errors, []);
+  const { buildCombatSkin } = await import("../src/sprites/combat-skin-core");
+  const layouts = JSON.parse(
+    await readFile("src/assets/tactical/atlas-layout.json", "utf8"),
+  );
+  const replacements = JSON.parse(
+    await readFile(
+      "src/assets/tactical/zzzzzzzzzzz-north-refresh.combat.json",
+      "utf8",
+    ),
+  );
+  assert.equal(replacements.profiles.length, 6);
+  const sourceNames = new Set<string>();
+  for (const replacement of replacements.profiles) {
+    const p = profiles.find(
+      (p) =>
+        p.classId === replacement.classId &&
+        p.gender === replacement.gender &&
+        p.equipment === replacement.equipment &&
+        p.state === replacement.state,
+    )!;
+    assert.ok(p);
+    const combat = buildCombatSkin(p, replacement)!;
+    assert.deepEqual(combat.issues, []);
+    const source = resolveClip(p, "idle")!.source;
+    sourceNames.add(source);
+    assert.equal(layouts[source].frames.length, 26);
+    const reference = p.referenceHeights![source];
+    for (const [name, count] of Object.entries({
+      idle: 2,
+      move: 4,
+      attack: 8,
+      counter: 8,
+      attack_again: 8,
+      block: 3,
+      evade: 3,
+      damage: 3,
+      death: 1,
+    })) {
+      for (const profile of [p, combat.profile]) {
+        const c = resolveClip(profile, name)!;
+        assert.equal(c.source, source, `${p.classId}:${p.gender}:${name}`);
+        assert.equal(c.frames.length, count);
+        for (let i = 0; i < count; i++) {
+          const cell = c.cells![i],
+            r = layouts[source].frames.find(
+              (r: any) => r.row === cell.row && r.column === cell.column,
+            );
+          assert.ok(r);
+          assert.equal(r.bodyHeight, reference);
+          assert.ok(
+            r.x >= 0 &&
+              r.y >= 0 &&
+              r.x + r.width <= layouts[source].width &&
+              r.y + r.height <= layouts[source].height,
+          );
+        }
+      }
+    }
+    assert.deepEqual(
+      resolveClip(p, "attack")!.cells,
+      resolveClip(p, "counter")!.cells,
+    );
+    assert.deepEqual(
+      resolveClip(p, "attack")!.cells,
+      resolveClip(p, "attack_again")!.cells,
+    );
+    assert.equal(
+      resolveClip(p, "critical"),
+      undefined,
+      "le critique reste un effet partagé",
+    );
+    assert.equal(resolveClip(p, "attack")!.impactFrame, 3);
+    assert.equal(
+      new Set(resolveClip(p, "move")!.cells!.map((c) => `${c.row}:${c.column}`))
+        .size,
+      4,
+    );
+  }
+  assert.equal(sourceNames.size, 6);
 });
 
 test("taille anatomique commune : les planches d’attaque et de repos ne redimensionnent plus le corps", async () => {

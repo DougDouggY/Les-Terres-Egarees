@@ -3,7 +3,7 @@
   "gender": "female",
   "equipment": "axe-shield",
   "state": "default",
-  "note": "Pillarde élancée, gabarit conservé ; hache retouchée, proposition réservée à l’essai.",
+  "note": "Pillarde élancée, gabarit conservé ; hache retouchée, source validée pour la carte et le combat.",
   "referenceHeights": {
     "tactical/combat-v4-pillarde-axe-v3.png": 202
   },
