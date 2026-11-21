@@ -24,7 +24,7 @@ const stories: Record<string, string> = {
   Armand:
     "Lancier de la compagnie, il veille à garder la ligne auprès de ses compagnons.",
   Ysilde:
-    "Femme d’armes de la compagnie, elle oppose sa garde aux dangers du chemin.",
+    "Homme d’armes de la compagnie, cette combattante oppose sa garde aux dangers du chemin.",
   Amaury:
     "Épéiste de la compagnie, il fait confiance à son adresse et à sa lame.",
   Maëlys:
@@ -214,5 +214,5 @@ export function characterSheet(
   campaign?: E.Campaign,
 ) {
   const playable = u.owner !== 0 && u.statRole !== "ordinary";
-  return `<div class="character-sheet" data-character-unit="${esc(u.id)}" data-character-tab="inventory"><aside class="character-profile"><div class="character-portrait-slot">${portraitMarkup(unitPortrait(campaign, u), u.name, false, E.colorForOwner(campaign?.teamColors ?? E.defaultTeamColors, u.owner))}</div><h2>${tip(biography(u, campaign), esc(characterHeading(u)))}</h2><p class="character-class">${tip(classDescription(u), esc(E.className(u)))}</p><dl><div><dt>NIV</dt><dd>${u.level}</dd></div>${playable ? `<div><dt>EXP</dt><dd>${String(u.xp).padStart(2, "0")}</dd></div>` : ""}<div class="character-health"><dt>PV</dt><dd>${u.hp}<small>/${u.maxHp}</small></dd></div></dl></aside><section class="character-pages">${characterPage(u, "inventory", undefined, canManage, campaign)}</section></div>`;
+  return `<div class="character-sheet" data-character-unit="${esc(u.id)}" data-character-tab="inventory"><aside class="character-profile"><div class="character-portrait-slot">${portraitMarkup(unitPortrait(campaign, u), u.name, false, E.colorForOwner(campaign?.teamColors ?? E.defaultTeamColors, u.owner))}</div><h2>${tip(biography(u, campaign), esc(characterHeading(u)))}</h2><p class="character-class">${tip(classDescription(u), esc(E.className(u) + (E.unitClass(u).id === "man_at_arms" && u.gender === "female" ? " · Femme" : "")))}</p><dl><div><dt>NIV</dt><dd>${u.level}</dd></div>${playable ? `<div><dt>EXP</dt><dd>${String(u.xp).padStart(2, "0")}</dd></div>` : ""}<div class="character-health"><dt>PV</dt><dd>${u.hp}<small>/${u.maxHp}</small></dd></div></dl></aside><section class="character-pages">${characterPage(u, "inventory", undefined, canManage, campaign)}</section></div>`;
 }

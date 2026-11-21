@@ -26,7 +26,7 @@ try {
     let y = 70;
     for (const [cls, gender, weapon, title] of [
       ["man_at_arms", "male", "sword_shield", "Homme d’armes"],
-      ["man_at_arms", "female", "sword_shield", "Femme d’armes"],
+      ["man_at_arms", "female", "sword_shield", "Homme d’armes · Femme"],
       ["swordsman", "male", "sword", "Épéiste homme"],
       ["swordsman", "female", "sword", "Épéiste femme"],
       ["crossbowman", "female", "crossbow", "Arbalétrière"],

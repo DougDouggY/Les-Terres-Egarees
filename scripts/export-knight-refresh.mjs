@@ -22,7 +22,7 @@ try {
         "man_at_arms",
         "female",
         "sword_shield",
-        "Femme d’armes",
+        "Homme d’armes · Femme",
       ],
       ["swordsman-male", "swordsman", "male", "sword", "Épéiste homme"],
       ["swordsman-female", "swordsman", "female", "sword", "Épéiste femme"],

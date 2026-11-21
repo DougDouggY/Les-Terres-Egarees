@@ -3,7 +3,7 @@
     "cls": "man_at_arms",
     "gender": "male",
     "weapon": "sword_shield",
-    "gap": 80.82857142857142,
+    "gap": 151.72,
     "shield": true,
     "block": true
   },
@@ -11,7 +11,7 @@
     "cls": "man_at_arms",
     "gender": "female",
     "weapon": "sword_shield",
-    "gap": 80.408547008547,
+    "gap": 151.80273504273507,
     "shield": true,
     "block": true
   },
@@ -19,7 +19,7 @@
     "cls": "swordsman",
     "gender": "male",
     "weapon": "sword",
-    "gap": 77.48542372881356,
+    "gap": 98.47348837209302,
     "shield": false,
     "block": false
   },
@@ -27,7 +27,7 @@
     "cls": "swordsman",
     "gender": "female",
     "weapon": "sword",
-    "gap": 70.71720164609053,
+    "gap": 77.72481927710842,
     "shield": false,
     "block": false
   },
@@ -43,7 +43,7 @@
     "cls": "sorcerer",
     "gender": "female",
     "weapon": "spell",
-    "gap": 95.74761061946901,
+    "gap": 98.18456591639871,
     "shield": false,
     "block": false
   }

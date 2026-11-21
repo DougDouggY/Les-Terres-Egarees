@@ -670,7 +670,7 @@ test("arcs et arbalètes homme/femme : la cible attend le vol puis esquive à l 
   }
 });
 
-test("Hommes d armes homme/femme : bouclier visible à l impact, dégâts nuls et espacement distinct", async ({
+test("Hommes d armes homme/femme : bouclier visible à l impact, dégâts nuls et espace pour le coup complet", async ({
   page,
 }) => {
   await page.goto("/");
@@ -703,7 +703,7 @@ test("Hommes d armes homme/femme : bouclier visible à l impact, dégâts nuls e
     );
     await page.locator("[data-contact-pause]").click();
   }
-  expect(gaps[0]).toBeGreaterThan(127);
-  expect(gaps[1]).toBeGreaterThan(112);
-  expect(gaps[0] - gaps[1]).toBeGreaterThan(8);
+  expect(gaps[0]).toBeGreaterThan(145);
+  expect(gaps[1]).toBeGreaterThan(145);
+  expect(Math.max(...gaps)).toBeLessThan(190);
 });

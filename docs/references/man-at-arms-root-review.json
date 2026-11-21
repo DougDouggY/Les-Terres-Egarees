@@ -1,0 +1,344 @@
+[
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 0,
+    "column": 0,
+    "pelvisX": 115,
+    "rootX": 102,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 0,
+    "column": 1,
+    "pelvisX": 352,
+    "rootX": 339,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 0,
+    "column": 2,
+    "pelvisX": 582,
+    "rootX": 569,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 0,
+    "column": 3,
+    "pelvisX": 824,
+    "rootX": 811,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 1,
+    "column": 0,
+    "pelvisX": 112,
+    "rootX": 99,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 1,
+    "column": 1,
+    "pelvisX": 352,
+    "rootX": 339,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 1,
+    "column": 2,
+    "pelvisX": 590,
+    "rootX": 577,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 1,
+    "column": 3,
+    "pelvisX": 834,
+    "rootX": 821,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 2,
+    "column": 0,
+    "pelvisX": 110,
+    "rootX": 97,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 2,
+    "column": 1,
+    "pelvisX": 352,
+    "rootX": 339,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 2,
+    "column": 2,
+    "pelvisX": 584,
+    "rootX": 571,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 2,
+    "column": 3,
+    "pelvisX": 821,
+    "rootX": 808,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 3,
+    "column": 0,
+    "pelvisX": 110,
+    "rootX": 97,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 3,
+    "column": 1,
+    "pelvisX": 353,
+    "rootX": 340,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 3,
+    "column": 2,
+    "pelvisX": 584,
+    "rootX": 571,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 3,
+    "column": 3,
+    "pelvisX": 819,
+    "rootX": 806,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 4,
+    "column": 0,
+    "pelvisX": 111,
+    "rootX": 98,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 4,
+    "column": 1,
+    "pelvisX": 348,
+    "rootX": 335,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 4,
+    "column": 2,
+    "pelvisX": 586,
+    "rootX": 573,
+    "pelvisOffset": 13,
+    "reference": 238
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 0,
+    "column": 0,
+    "pelvisX": 119,
+    "rootX": 101,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 0,
+    "column": 1,
+    "pelvisX": 357,
+    "rootX": 339,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 0,
+    "column": 2,
+    "pelvisX": 588,
+    "rootX": 570,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 0,
+    "column": 3,
+    "pelvisX": 831,
+    "rootX": 813,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 1,
+    "column": 0,
+    "pelvisX": 114,
+    "rootX": 96,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 1,
+    "column": 1,
+    "pelvisX": 354,
+    "rootX": 336,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 1,
+    "column": 2,
+    "pelvisX": 592,
+    "rootX": 574,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 1,
+    "column": 3,
+    "pelvisX": 835,
+    "rootX": 817,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 2,
+    "column": 0,
+    "pelvisX": 113,
+    "rootX": 95,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 2,
+    "column": 1,
+    "pelvisX": 355,
+    "rootX": 337,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 2,
+    "column": 2,
+    "pelvisX": 584,
+    "rootX": 566,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 2,
+    "column": 3,
+    "pelvisX": 828,
+    "rootX": 810,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 3,
+    "column": 0,
+    "pelvisX": 113,
+    "rootX": 95,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 3,
+    "column": 1,
+    "pelvisX": 352,
+    "rootX": 334,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 3,
+    "column": 2,
+    "pelvisX": 588,
+    "rootX": 570,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 3,
+    "column": 3,
+    "pelvisX": 822,
+    "rootX": 804,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 4,
+    "column": 0,
+    "pelvisX": 110,
+    "rootX": 92,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 4,
+    "column": 1,
+    "pelvisX": 350,
+    "rootX": 332,
+    "pelvisOffset": 18,
+    "reference": 234
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 4,
+    "column": 2,
+    "pelvisX": 588,
+    "rootX": 570,
+    "pelvisOffset": 18,
+    "reference": 234
+  }
+]

@@ -183,25 +183,45 @@ export function anatomicalContactGap(
     name: string,
     body: number,
     impact: boolean,
+    frame?: number,
   ) => {
     const c = resolveClip(p, name);
     if (!p || !c) return body * 0.2;
     const r = resourceRect(
       c,
-      impact ? (c.impactFrame ?? Math.floor(c.frames.length / 2)) : 0,
+      frame ??
+        (impact ? (c.impactFrame ?? Math.floor(c.frames.length / 2)) : 0),
     );
     const ref = profileMetrics(p).references.get(c.source);
     return r && ref
       ? Math.max(0, ((r.x + r.width - r.anchorX) * body) / ref)
       : body * 0.2;
   };
-  const reach = front(attacker, attackName, attackerBody, true);
-  const target = blocked
-    ? front(defender, "block", defenderBody, true)
-    : Math.min(
-        defenderBody * 0.29,
-        front(defender, "idle", defenderBody, false),
-      );
+  const envelope = (
+    p: SpriteProfile | undefined,
+    name: string,
+    body: number,
+  ) => {
+    const c = resolveClip(p, name);
+    return c
+      ? Math.max(...c.frames.map((_, i) => front(p, name, body, true, i)))
+      : body * 0.2;
+  };
+  // A shield fighter's follow-through can extend beyond the declared impact.
+  // Reserve room for the whole swing and for the raised shield throughout it.
+  const reach =
+    attacker?.classId === "man_at_arms"
+      ? envelope(attacker, attackName, attackerBody)
+      : front(attacker, attackName, attackerBody, true);
+  const target =
+    defender?.classId === "man_at_arms"
+      ? envelope(defender, "block", defenderBody)
+      : blocked
+        ? front(defender, "block", defenderBody, true)
+        : Math.min(
+            defenderBody * 0.29,
+            front(defender, "idle", defenderBody, false),
+          );
   // Broad shield-and-armour silhouettes need room for both torsos. This is
   // anatomical (scales with bodies), leaving the approved Viking contact intact.
   const shieldKnight =
@@ -216,10 +236,13 @@ export function anatomicalContactGap(
       : 0;
   const swordAdjustment =
     attacker?.classId === "swordsman" ? attackerBody * 0.04 : 0;
+  const lanceAdjustment =
+    attacker?.classId === "spearman" ? attackerBody * 0.07 : 0;
   return (
     base +
     shieldClearance(attacker, attackerBody) +
     shieldClearance(defender, defenderBody) -
-    swordAdjustment
+    swordAdjustment -
+    lanceAdjustment
   );
 }

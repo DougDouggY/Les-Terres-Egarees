@@ -24,7 +24,7 @@ const names: Record<string, string> = {
   raider: "Pillarde",
   hunter: "Chasseuse",
   shaman: "Chamane",
-  man_at_arms: "Femme d’armes",
+  man_at_arms: "Homme d’armes",
   spearman: "Lancière",
   crossbowman: "Arbalétrière",
   swordsman: "Épéiste",
@@ -58,7 +58,7 @@ for (const faction of ["north", "knight"] as const)
           gender,
           weapon,
           name,
-          label: `${name} · ${gender === "male" ? "H" : "F"} · ${weaponCatalog[weapon].name}`,
+          label: `${name} · ${cls.id === "man_at_arms" ? (gender === "male" ? "Homme" : "Femme") : gender === "male" ? "H" : "F"} · ${weaponCatalog[weapon].name}`,
           status:
             faction === "north"
               ? (cls.id === "hunter" && gender === "male") ||

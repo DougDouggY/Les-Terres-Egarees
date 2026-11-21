@@ -1,0 +1,268 @@
+[
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 0,
+    "column": 0,
+    "anchorX": 102.0,
+    "feetX": 102.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 0,
+    "column": 1,
+    "anchorX": 364.0,
+    "feetX": 364.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 0,
+    "column": 2,
+    "anchorX": 542.0,
+    "feetX": 542.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 0,
+    "column": 3,
+    "anchorX": 778.0,
+    "feetX": 778.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 2,
+    "column": 0,
+    "anchorX": 121.0,
+    "feetX": 121.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 2,
+    "column": 1,
+    "anchorX": 282.0,
+    "feetX": 282.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 2,
+    "column": 2,
+    "anchorX": 512.0,
+    "feetX": 512.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 2,
+    "column": 3,
+    "anchorX": 866.0,
+    "feetX": 866.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 3,
+    "column": 0,
+    "anchorX": 39.0,
+    "feetX": 39.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 3,
+    "column": 1,
+    "anchorX": 280.0,
+    "feetX": 280.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 3,
+    "column": 2,
+    "anchorX": 531.5,
+    "feetX": 531.5
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 3,
+    "column": 3,
+    "anchorX": 818.0,
+    "feetX": 818.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 4,
+    "column": 0,
+    "anchorX": 63.0,
+    "feetX": 63.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 4,
+    "column": 1,
+    "anchorX": 287.0,
+    "feetX": 287.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 4,
+    "column": 2,
+    "anchorX": 542.0,
+    "feetX": 542.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 0,
+    "column": 0,
+    "anchorX": 101.0,
+    "feetX": 101.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 0,
+    "column": 1,
+    "anchorX": 373.0,
+    "feetX": 373.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 0,
+    "column": 2,
+    "anchorX": 539.0,
+    "feetX": 539.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 0,
+    "column": 3,
+    "anchorX": 776.0,
+    "feetX": 776.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 2,
+    "column": 0,
+    "anchorX": 149.0,
+    "feetX": 149.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 2,
+    "column": 1,
+    "anchorX": 402.0,
+    "feetX": 402.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 2,
+    "column": 2,
+    "anchorX": 620.0,
+    "feetX": 620.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 2,
+    "column": 3,
+    "anchorX": 864.0,
+    "feetX": 864.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 3,
+    "column": 0,
+    "anchorX": 38.0,
+    "feetX": 38.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 3,
+    "column": 1,
+    "anchorX": 297.0,
+    "feetX": 297.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 3,
+    "column": 2,
+    "anchorX": 540.0,
+    "feetX": 540.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 3,
+    "column": 3,
+    "anchorX": 779.0,
+    "feetX": 779.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 4,
+    "column": 0,
+    "anchorX": 146.0,
+    "feetX": 146.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 4,
+    "column": 1,
+    "anchorX": 304.0,
+    "feetX": 304.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 4,
+    "column": 2,
+    "anchorX": 605.0,
+    "feetX": 605.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 1,
+    "column": 0,
+    "anchorX": 152.0,
+    "feetX": 152.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 1,
+    "column": 1,
+    "anchorX": 380.0,
+    "feetX": 380.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 1,
+    "column": 2,
+    "anchorX": 646.0,
+    "feetX": 646.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "row": 1,
+    "column": 3,
+    "anchorX": 836.0,
+    "feetX": 836.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 1,
+    "column": 0,
+    "anchorX": 153.0,
+    "feetX": 153.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 1,
+    "column": 1,
+    "anchorX": 378.0,
+    "feetX": 378.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 1,
+    "column": 2,
+    "anchorX": 634.0,
+    "feetX": 634.0
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "row": 1,
+    "column": 3,
+    "anchorX": 849.5,
+    "feetX": 849.5
+  }
+]

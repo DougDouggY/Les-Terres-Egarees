@@ -30349,7 +30349,7 @@
         "width": 142,
         "height": 238,
         "ground": 256,
-        "anchorX": 102.0,
+        "anchorX": 102,
         "bodyGround": 256,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30362,7 +30362,7 @@
         "width": 142,
         "height": 236,
         "ground": 255,
-        "anchorX": 364.0,
+        "anchorX": 339,
         "bodyGround": 255,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30375,7 +30375,7 @@
         "width": 167,
         "height": 223,
         "ground": 254,
-        "anchorX": 542.0,
+        "anchorX": 569,
         "bodyGround": 254,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30388,7 +30388,7 @@
         "width": 180,
         "height": 207,
         "ground": 254,
-        "anchorX": 778.0,
+        "anchorX": 811,
         "bodyGround": 254,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30401,7 +30401,7 @@
         "width": 150,
         "height": 222,
         "ground": 497,
-        "anchorX": 152.0,
+        "anchorX": 99,
         "bodyGround": 497,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30414,7 +30414,7 @@
         "width": 143,
         "height": 227,
         "ground": 497,
-        "anchorX": 380.0,
+        "anchorX": 339,
         "bodyGround": 497,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30427,7 +30427,7 @@
         "width": 179,
         "height": 220,
         "ground": 497,
-        "anchorX": 646.0,
+        "anchorX": 577,
         "bodyGround": 497,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30440,7 +30440,7 @@
         "width": 162,
         "height": 218,
         "ground": 497,
-        "anchorX": 836.0,
+        "anchorX": 821,
         "bodyGround": 497,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30453,7 +30453,7 @@
         "width": 148,
         "height": 229,
         "ground": 746,
-        "anchorX": 121.0,
+        "anchorX": 97,
         "bodyGround": 746,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30466,7 +30466,7 @@
         "width": 209,
         "height": 230,
         "ground": 749,
-        "anchorX": 282.0,
+        "anchorX": 339,
         "bodyGround": 749,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30479,7 +30479,7 @@
         "width": 166,
         "height": 238,
         "ground": 748,
-        "anchorX": 512.0,
+        "anchorX": 571,
         "bodyGround": 748,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30492,7 +30492,7 @@
         "width": 230,
         "height": 210,
         "ground": 746,
-        "anchorX": 866.0,
+        "anchorX": 808,
         "bodyGround": 746,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30505,7 +30505,7 @@
         "width": 228,
         "height": 202,
         "ground": 980,
-        "anchorX": 39.0,
+        "anchorX": 97,
         "bodyGround": 980,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30518,7 +30518,7 @@
         "width": 164,
         "height": 212,
         "ground": 981,
-        "anchorX": 280.0,
+        "anchorX": 340,
         "bodyGround": 981,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30531,7 +30531,7 @@
         "width": 152,
         "height": 213,
         "ground": 981,
-        "anchorX": 531.5,
+        "anchorX": 571,
         "bodyGround": 981,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30544,7 +30544,7 @@
         "width": 166,
         "height": 214,
         "ground": 981,
-        "anchorX": 818.0,
+        "anchorX": 806,
         "bodyGround": 981,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30557,7 +30557,7 @@
         "width": 167,
         "height": 208,
         "ground": 1208,
-        "anchorX": 63.0,
+        "anchorX": 98,
         "bodyGround": 1208,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30570,7 +30570,7 @@
         "width": 161,
         "height": 208,
         "ground": 1209,
-        "anchorX": 287.0,
+        "anchorX": 335,
         "bodyGround": 1209,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30583,7 +30583,7 @@
         "width": 160,
         "height": 208,
         "ground": 1208,
-        "anchorX": 542.0,
+        "anchorX": 573,
         "bodyGround": 1208,
         "bodyHeight": 238,
         "ambiguous": false
@@ -30695,7 +30695,7 @@
         "width": 153,
         "height": 234,
         "ground": 263,
-        "anchorX": 101.0,
+        "anchorX": 101,
         "bodyGround": 263,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30708,7 +30708,7 @@
         "width": 153,
         "height": 233,
         "ground": 263,
-        "anchorX": 373.0,
+        "anchorX": 339,
         "bodyGround": 263,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30721,7 +30721,7 @@
         "width": 176,
         "height": 220,
         "ground": 263,
-        "anchorX": 539.0,
+        "anchorX": 570,
         "bodyGround": 263,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30734,7 +30734,7 @@
         "width": 189,
         "height": 212,
         "ground": 262,
-        "anchorX": 776.0,
+        "anchorX": 813,
         "bodyGround": 262,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30747,7 +30747,7 @@
         "width": 157,
         "height": 230,
         "ground": 525,
-        "anchorX": 153.0,
+        "anchorX": 96,
         "bodyGround": 525,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30760,7 +30760,7 @@
         "width": 158,
         "height": 229,
         "ground": 523,
-        "anchorX": 378.0,
+        "anchorX": 336,
         "bodyGround": 523,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30773,7 +30773,7 @@
         "width": 188,
         "height": 225,
         "ground": 521,
-        "anchorX": 634.0,
+        "anchorX": 574,
         "bodyGround": 521,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30786,7 +30786,7 @@
         "width": 181,
         "height": 225,
         "ground": 523,
-        "anchorX": 849.5,
+        "anchorX": 817,
         "bodyGround": 523,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30799,7 +30799,7 @@
         "width": 170,
         "height": 222,
         "ground": 778,
-        "anchorX": 149.0,
+        "anchorX": 95,
         "bodyGround": 778,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30812,7 +30812,7 @@
         "width": 227,
         "height": 218,
         "ground": 778,
-        "anchorX": 402.0,
+        "anchorX": 337,
         "bodyGround": 778,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30825,7 +30825,7 @@
         "width": 177,
         "height": 250,
         "ground": 779,
-        "anchorX": 620.0,
+        "anchorX": 566,
         "bodyGround": 779,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30838,7 +30838,7 @@
         "width": 227,
         "height": 213,
         "ground": 778,
-        "anchorX": 864.0,
+        "anchorX": 810,
         "bodyGround": 778,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30851,7 +30851,7 @@
         "width": 231,
         "height": 209,
         "ground": 1019,
-        "anchorX": 38.0,
+        "anchorX": 95,
         "bodyGround": 1019,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30864,7 +30864,7 @@
         "width": 170,
         "height": 211,
         "ground": 1020,
-        "anchorX": 297.0,
+        "anchorX": 334,
         "bodyGround": 1020,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30877,7 +30877,7 @@
         "width": 167,
         "height": 213,
         "ground": 1018,
-        "anchorX": 540.0,
+        "anchorX": 570,
         "bodyGround": 1018,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30890,7 +30890,7 @@
         "width": 166,
         "height": 215,
         "ground": 1018,
-        "anchorX": 779.0,
+        "anchorX": 804,
         "bodyGround": 1018,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30903,7 +30903,7 @@
         "width": 164,
         "height": 209,
         "ground": 1240,
-        "anchorX": 146.0,
+        "anchorX": 92,
         "bodyGround": 1240,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30916,7 +30916,7 @@
         "width": 179,
         "height": 205,
         "ground": 1243,
-        "anchorX": 304.0,
+        "anchorX": 332,
         "bodyGround": 1243,
         "bodyHeight": 234,
         "ambiguous": false
@@ -30929,7 +30929,7 @@
         "width": 161,
         "height": 212,
         "ground": 1244,
-        "anchorX": 605.0,
+        "anchorX": 570,
         "bodyGround": 1244,
         "bodyHeight": 234,
         "ambiguous": false

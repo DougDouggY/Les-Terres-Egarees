@@ -16,9 +16,11 @@ const esc = (s: string) =>
       ]!,
   );
 const classLabel = (id: string, gender: E.Gender) =>
-  gender === "female"
-    ? (E.classes[id].femaleName ?? E.classes[id].name)
-    : E.classes[id].name;
+  id === "man_at_arms" && gender === "female"
+    ? "Homme d’armes · Femme"
+    : gender === "female"
+      ? (E.classes[id].femaleName ?? E.classes[id].name)
+      : E.classes[id].name;
 export function creatorMarkup(
   drafts: [E.HeroConfig, E.HeroConfig],
   companions: [string[], string[]],

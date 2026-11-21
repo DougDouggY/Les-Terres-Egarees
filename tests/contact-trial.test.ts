@@ -380,7 +380,7 @@ test("esquive des projectiles : après le départ, retrait maximal à l arrivée
   );
 });
 
-test("distance : Hommes d armes davantage séparés, femmes légèrement, Épéistes rapprochés sans changer les Vikings", async () => {
+test("distance : Hommes d armes séparés pendant le coup complet, Épéistes rapprochés sans changer les Vikings", async () => {
   const { readFile } = await import("node:fs/promises");
   const { anatomicalContactGap } = await import("../src/sprites/geometry");
   const profiles = JSON.parse(
@@ -397,7 +397,7 @@ test("distance : Hommes d armes davantage séparés, femmes légèrement, Épéi
   );
   const mg = anatomicalContactGap(male, male, 136),
     fg = anatomicalContactGap(female, female, 136);
-  assert.ok(mg >= 127 && fg >= 112 && mg > fg + 8);
+  assert.ok(mg >= 145 && fg >= 145);
   assert.ok(Math.abs(anatomicalContactGap(male, male, 272) - mg * 2) < 1e-8);
   for (const p of profiles.filter((p: any) => p.classId === "swordsman")) {
     const base = { ...p, classId: "reference" };
@@ -442,4 +442,83 @@ test("pas du Lancier : axe du buste stable entre appuis alternés et aucune fent
     { row: 2, column: 0 },
     { row: 0, column: 2 },
   ]);
+});
+
+test("Hommes d armes : bassin aligné en garde, attaque et parade sans saut au changement d appui", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const review = JSON.parse(
+    await readFile("docs/references/man-at-arms-root-review.json", "utf8"),
+  );
+  const layouts = JSON.parse(
+    await readFile("src/assets/tactical/atlas-layout.json", "utf8"),
+  );
+  const anchors = JSON.parse(
+    await readFile("src/assets/tactical/combat-anchors.json", "utf8"),
+  );
+  const before = JSON.parse(
+    await readFile(
+      "docs/art-archive/man-at-arms-roots-before-alignment.json",
+      "utf8",
+    ),
+  );
+  assert.equal(review.length, 38);
+  for (const source of new Set<string>(review.map((r: any) => r.source))) {
+    const poses = review.filter((r: any) => r.source === source),
+      oldX: number[] = [],
+      newX: number[] = [];
+    for (const pose of poses) {
+      const f = layouts[source].frames.find(
+        (f: any) => f.row === pose.row && f.column === pose.column,
+      );
+      const a = anchors[source][`${pose.row}:${pose.column}`];
+      assert.equal(
+        f.anchorX,
+        a.feetX,
+        "même repère dans la carte et le combat",
+      );
+      newX.push(((pose.pelvisX - f.anchorX) / pose.reference) * 136);
+      const old = before.find(
+        (r: any) =>
+          r.source === source && r.row === pose.row && r.column === pose.column,
+      );
+      oldX.push(((pose.pelvisX - old.anchorX) / pose.reference) * 136);
+    }
+    assert.ok(
+      Math.max(...oldX) - Math.min(...oldX) > 40,
+      "régression reproduite sur les anciens repères",
+    );
+    assert.ok(
+      Math.max(...newX) - Math.min(...newX) < 1,
+      "le bassin reste à la même abscisse pendant les actions",
+    );
+  }
+});
+
+test("Lancier : un petit pas supplémentaire sans modifier l estoc validé", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { anatomicalContactGap } = await import("../src/sprites/geometry");
+  const p = JSON.parse(
+    await readFile(
+      "src/assets/tactical/zzzzzzzzzzzzzz-lance-v2.combat.json",
+      "utf8",
+    ),
+  ).profiles[0];
+  const reference = { ...p, classId: "reference" };
+  const delta =
+    anatomicalContactGap(reference, reference, 136) -
+    anatomicalContactGap(p, p, 136);
+  assert.ok(
+    delta >= 8 && delta <= 11,
+    "rapprochement léger, pas une nouvelle fente",
+  );
+});
+
+test("nom de classe : Homme d armes pour les deux sexes, sexe explicite dans l essai", async () => {
+  const { contactRoster } = await import("../src/ui/contact-roster");
+  const entries = contactRoster.filter((v) => v.cls === "man_at_arms");
+  assert.equal(entries.length, 2);
+  for (const v of entries) {
+    assert.equal(v.name, "Homme d’armes");
+    assert.ok(v.label.includes(v.gender === "female" ? "Femme" : "Homme"));
+  }
 });
