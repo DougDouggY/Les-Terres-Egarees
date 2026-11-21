@@ -206,33 +206,37 @@ try {
     }
     function tactical(useProposal) {
       const canvas = document.createElement("canvas");
-      canvas.width = camera.cols * 32;
-      canvas.height = camera.rows * 32;
+      const worldWidth = camera.cols * 32,
+        worldHeight = camera.rows * 32;
+      canvas.width = worldWidth * 2;
+      canvas.height = worldHeight * 2;
       const ctx = canvas.getContext("2d");
+      ctx.scale(2, 2);
+      ctx.imageSmoothingEnabled = false;
       ctx.drawImage(
         surface,
         camera.x * 64,
         camera.y * 64,
-        canvas.width * 2,
-        canvas.height * 2,
+        worldWidth * 2,
+        worldHeight * 2,
         0,
         0,
-        canvas.width,
-        canvas.height,
+        worldWidth,
+        worldHeight,
       );
       ctx.imageSmoothingEnabled = false;
       ctx.strokeStyle = "#dce1d21f";
       ctx.lineWidth = 0.5;
-      for (let x = 0; x <= canvas.width; x += 32) {
+      for (let x = 0; x <= worldWidth; x += 32) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
+        ctx.lineTo(x, worldHeight);
         ctx.stroke();
       }
-      for (let y = 0; y <= canvas.height; y += 32) {
+      for (let y = 0; y <= worldHeight; y += 32) {
         ctx.beginPath();
         ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
+        ctx.lineTo(worldWidth, y);
         ctx.stroke();
       }
       for (const e of entries) {
@@ -302,7 +306,7 @@ try {
       })
       .join(
         "",
-      )}</div><p><a href="avant-gabarits.png">Voir la comparaison avant harmonisation</a> · <a href="animations/index.html">Voir les six planches d’animations</a> · <a href="couleurs-equipes.png">Comparer les couleurs bleu / rose</a> · Les cinq variantes refaites et la Pillarde à la hache validée sont maintenant utilisées en campagne, sur carte et en combat. Le menu d’essai permet de les observer en animation.</p><h2>Sur le véritable terrain tactique du prologue</h2><p>Les unités sont posées sur des cases praticables de la vraie carte, sans déplacer une équipe existante. Les facteurs de rendu sont ceux du jeu : case de 32 pixels, cadre de sprite de 38 pixels et échelle de corps calculée par le moteur. Les identifiants ajoutés servent uniquement à la comparaison.</p><div class="controls"><label>Apparences sur la carte<select id="appearance"><option value="current">Après harmonisation</option><option value="proposal">Avant harmonisation</option></select></label><label>Zoom<select id="zoom"><option value="1">×1 · case 32 px</option><option value="2" selected>×2 · case 64 px</option><option value="3">×3 · case 96 px</option></select></label></div><div class="map-viewport"><img id="map-current" src="${current}" alt="Douze variantes sur la carte tactique actuelle"><img id="map-proposal" src="${previousTerrain}" alt="Même terrain et mêmes positions avant harmonisation" hidden></div><div class="legend">${groups
+      )}</div><p><a href="avant-gabarits.png">Voir la comparaison avant harmonisation</a> · <a href="animations/index.html">Voir les six planches d’animations</a> · <a href="couleurs-equipes.png">Comparer les couleurs bleu / rose</a> · Les variantes vikings validées visuellement sont utilisées en campagne, sur carte et en combat ; leurs animations restent à essayer en situation. Le menu d’essai permet de les observer en animation.</p><h2>Sur le véritable terrain tactique du prologue</h2><p>Les unités sont posées sur des cases praticables de la vraie carte, sans déplacer une équipe existante. L’aperçu est rendu directement en double résolution, sans agrandir une miniature. Les facteurs de rendu sont ceux du jeu : case de 32 pixels, cadre de sprite de 38 pixels et échelle de corps calculée par le moteur. Les identifiants ajoutés servent uniquement à la comparaison.</p><div class="controls"><label>Apparences sur la carte<select id="appearance"><option value="current">Après harmonisation</option><option value="proposal">Avant harmonisation</option></select></label><label>Zoom<select id="zoom"><option value="1">×1 · case 32 px</option><option value="2" selected>×2 · case 64 px</option><option value="3">×3 · case 96 px</option></select></label></div><div class="map-viewport"><img id="map-current" src="${current}" alt="Douze variantes sur la carte tactique actuelle"><img id="map-proposal" src="${previousTerrain}" alt="Même terrain et mêmes positions avant harmonisation" hidden></div><div class="legend">${groups
       .map((g) => {
         const e = entries.find((e) => e.group === g.group);
         return `<p><strong>H${g.group} / F${g.group}</strong> — ${esc(e.className)}<br>${esc(e.weaponName)} · H = homme, F = femme</p>`;

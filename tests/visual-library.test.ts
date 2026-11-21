@@ -156,7 +156,7 @@ test("planches complémentaires : séquences complètes, seconde main et harmoni
       resolveClip(p, "attack")!.source,
       id === "raider"
         ? "tactical/combat-v4-north-refresh-male-axe.png"
-        : "tactical/combat-pair-reference-v2.png",
+        : "tactical/combat-v4-knight-refresh-man-arms-male.png",
     );
   }
   const dual = profiles.find((p) => p.classId === "duelist")!;
@@ -273,39 +273,32 @@ test("harmonisation : sept identités stables sur carte et au combat, poses comp
   assert.equal(sourceNames.size, 7);
 });
 
-test("comparaisons de base : nouvelle Guerrière, un seul ancien modèle, trois références et tous les Chevaliers", async () => {
+test("comparaisons actuelles : douze Vikings et dix Chevaliers, six reprises et positions praticables", async () => {
   const E = await import("../src/engine");
   const north = JSON.parse(
-    await readFile("docs/references/vikings-a-revoir-inventaire.json", "utf8"),
+    await readFile("docs/references/vikings-base-inventaire.json", "utf8"),
   );
   const knight = JSON.parse(
     await readFile("docs/references/chevaliers-inventaire.json", "utf8"),
   );
-  assert.equal(north.entries.length, 5);
+  assert.equal(north.entries.length, 12);
+  assert.equal(knight.entries.length, 10);
   assert.equal(
-    north.entries.filter((p: any) => p.status === "Nouveau").length,
-    1,
+    knight.entries.filter((p: any) => p.status.startsWith("Nouveau")).length,
+    6,
   );
   assert.equal(
-    north.entries.filter((p: any) => p.status.startsWith("Ancien")).length,
-    1,
+    knight.entries.filter((p: any) => p.status.startsWith("Référence")).length,
+    4,
+  );
+  const fresh = north.entries.find(
+    (p: any) => p.classId === "north_warrior" && p.gender === "female",
   );
   assert.equal(
-    north.entries.filter((p: any) => p.status === "Référence validée").length,
-    3,
-  );
-  const fresh = north.entries.find((p: any) => p.status === "Nouveau");
-  assert.equal(fresh.cls, "north_warrior");
-  assert.equal(fresh.gender, "female");
-  assert.equal(
-    fresh.source,
+    fresh.combatSource,
     "tactical/combat-v4-north-refresh-north-warrior-female.png",
   );
-  assert.equal(fresh.mapSource, fresh.source);
-  assert.ok(
-    fresh.reference >
-      north.entries.find((p: any) => p.status.startsWith("Ancien")).reference,
-  );
+  assert.equal(fresh.mapSource, fresh.combatSource);
   const expected = E.baseClasses("knight")
     .flatMap((c) => [`${c.id}:male`, `${c.id}:female`])
     .sort();
@@ -313,15 +306,95 @@ test("comparaisons de base : nouvelle Guerrière, un seul ancien modèle, trois 
     knight.entries.map((p: any) => `${p.cls}:${p.gender}`).sort(),
     expected,
   );
-  assert.equal(knight.entries.length, 10);
   for (const report of [north, knight]) {
     assert.equal(report.mapUntouched, true);
     assert.equal(report.savesUntouched, true);
+    const positions = report.positions ?? report.terrain.positions;
     assert.equal(
-      new Set(report.positions.map((p: any) => `${p.x}:${p.y}`)).size,
+      new Set(positions.map((p: any) => `${p.x}:${p.y}`)).size,
       report.entries.length,
     );
-    for (const p of report.positions) assert.equal(E.cell(p.x, p.y)?.walk, true);
+    for (const p of positions) assert.equal(E.cell(p.x, p.y)?.walk, true);
+  }
+  assert.ok(
+    JSON.parse(
+      await readFile("docs/art-archive/knights-before-refresh.json", "utf8"),
+    ),
+  );
+});
+
+test("reprises chevalières : six identités, sexes prioritaires, défense réservée aux boucliers et séquences spéciales", async () => {
+  const { profiles, errors } = await library();
+  assert.deepEqual(errors, []);
+  const { findProfile } = await import("../src/sprites/catalog");
+  const { buildCombatSkin } = await import("../src/sprites/combat-skin-core");
+  const descriptions = JSON.parse(
+    await readFile(
+      "src/assets/tactical/zzzzzzzzzzzz-knight-refresh.combat.json",
+      "utf8",
+    ),
+  ).profiles;
+  const layouts = JSON.parse(
+    await readFile("src/assets/tactical/atlas-layout.json", "utf8"),
+  );
+  assert.equal(descriptions.length, 6);
+  for (const p of descriptions) {
+    const active = findProfile(
+      profiles,
+      p.classId,
+      p.gender,
+      p.equipment,
+      p.state,
+    )!;
+    assert.equal(
+      active.gender,
+      p.gender,
+      "un ancien profil partagé ne masque pas les nouveaux sexes",
+    );
+    const combat = buildCombatSkin(active, p)!;
+    assert.deepEqual(combat.issues, []);
+    const source = resolveClip(combat.profile, "idle")!.source;
+    assert.ok(source.startsWith("tactical/combat-v4-knight-refresh-"));
+    const special =
+      p.classId === "crossbowman"
+        ? "reload"
+        : p.classId === "sorcerer"
+          ? "heal"
+          : undefined;
+    assert.equal(
+      layouts[source].frames.length,
+      p.equipment === "sword-shield" ? 26 : special ? 27 : 23,
+    );
+    for (const name of ["idle", "move", "attack", "evade", "damage", "death"]) {
+      assert.equal(resolveClip(active, name)!.source, source);
+      assert.equal(resolveClip(combat.profile, name)!.source, source);
+    }
+    assert.equal(
+      !!resolveClip(combat.profile, "block"),
+      p.equipment === "sword-shield",
+    );
+    assert.equal(resolveClip(combat.profile, "attack")!.frames.length, 8);
+    assert.deepEqual(
+      resolveClip(combat.profile, "counter")!.cells,
+      resolveClip(combat.profile, "attack")!.cells,
+    );
+    if (special) {
+      assert.equal(resolveClip(combat.profile, special)!.frames.length, 4);
+      assert.equal(resolveClip(combat.profile, special)!.source, source);
+    }
+  }
+});
+
+test("essai : toutes les classes de base, 12 Vikings et 10 Chevaliers, sans anciens modèles ni promotions", async () => {
+  const { contactRoster } = await import("../src/ui/contact-roster");
+  const E = await import("../src/engine");
+  assert.equal(contactRoster.length, 22);
+  assert.equal(new Set(contactRoster.map((v) => v.id)).size, 22);
+  assert.equal(contactRoster.filter((v) => v.faction === "north").length, 12);
+  assert.equal(contactRoster.filter((v) => v.faction === "knight").length, 10);
+  for (const v of contactRoster) {
+    assert.ok(!v.id.startsWith("old-"));
+    assert.equal(E.classes[v.cls].stage, "base");
   }
 });
 

@@ -99,7 +99,7 @@ test("tous les skins : identité stable, repos/attaque de même atlas, aucune po
       .flatMap((f) => JSON.parse(readFileSync(dir + f, "utf8")).profiles)
       .map((p) => [profileKey(p), p]),
   );
-  assert.equal(profiles.length, 89);
+  assert.equal(profiles.length, 91);
   const old = JSON.parse(
     readFileSync(dir + "zz-v3.combat.json", "utf8"),
   ).profiles;

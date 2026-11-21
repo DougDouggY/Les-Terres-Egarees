@@ -303,6 +303,7 @@ export class CombatSceneV2 {
     const source = resolveClip(a.skin?.profile, "attack")?.source ?? "";
     if (
       source.startsWith("tactical/combat-v4-north-refresh-") ||
+      source.startsWith("tactical/combat-v4-knight-refresh-") ||
       source === "tactical/combat-v4-pillarde-axe-v3.png"
     )
       return anatomicalContactGap(

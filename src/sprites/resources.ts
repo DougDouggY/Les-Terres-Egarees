@@ -47,7 +47,15 @@ export function unitSpriteProfile(u: Unit) {
     bound.equipment === activeWeapon(u).visual &&
     bound.state === visualState(u)
   )
-    return bound;
+    return bound.gender === "any"
+      ? (findProfile(
+          spriteCatalog.profiles,
+          bound.classId,
+          u.gender ?? "male",
+          bound.equipment,
+          bound.state,
+        ) ?? bound)
+      : bound;
   const exact = findProfile(
     spriteCatalog.profiles,
     unitClass(u).id,
@@ -126,6 +134,7 @@ export function prepareSpriteSource(c: Clip, color?: TeamColor) {
         c.recolorEdges,
         c.recolor === "blue" ? 215 : undefined,
         c.source.startsWith("tactical/combat-v4-north-refresh-") ||
+          c.source.startsWith("tactical/combat-v4-knight-refresh-") ||
           c.source === "tactical/combat-v4-pillarde-axe-v3.png",
       );
     } catch (error) {

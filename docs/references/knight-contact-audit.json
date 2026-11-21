@@ -1,0 +1,50 @@
+[
+  {
+    "cls": "man_at_arms",
+    "gender": "male",
+    "weapon": "sword_shield",
+    "gap": 80.82857142857142,
+    "shield": true,
+    "block": true
+  },
+  {
+    "cls": "man_at_arms",
+    "gender": "female",
+    "weapon": "sword_shield",
+    "gap": 80.408547008547,
+    "shield": true,
+    "block": true
+  },
+  {
+    "cls": "swordsman",
+    "gender": "male",
+    "weapon": "sword",
+    "gap": 77.48542372881356,
+    "shield": false,
+    "block": false
+  },
+  {
+    "cls": "swordsman",
+    "gender": "female",
+    "weapon": "sword",
+    "gap": 70.71720164609053,
+    "shield": false,
+    "block": false
+  },
+  {
+    "cls": "crossbowman",
+    "gender": "female",
+    "weapon": "crossbow",
+    "gap": 81.35094650205761,
+    "shield": false,
+    "block": false
+  },
+  {
+    "cls": "sorcerer",
+    "gender": "female",
+    "weapon": "spell",
+    "gap": 95.74761061946901,
+    "shield": false,
+    "block": false
+  }
+]

@@ -106,3 +106,7 @@ Vérification de ce correctif : 202 tests automatisés réussis, les sept parcou
 ## Revue suivante : uniquement les classes de base
 
 La Guerrière du Nord a maintenant une nouvelle planche à 23 poses, avec une hache à une lame, sur carte et en combat. Elle remplace donc l’ancienne ressource évoquée plus haut. L’essai est recentré sur la nouvelle Guerrière, une ancienne version isolée pour comparaison et trois références validées. Le bouton d’accueil porte le nom « Essai des animations ». Les comparaisons ciblées sont disponibles à `/validation/vikings-a-revoir/` et `/validation/chevaliers/`. Voir `revue-classes-base.md` pour le périmètre, les constats et les vérifications. Les classes avancées attendent leur propre revue.
+
+## Essai de toutes les bases et reprises chevalières
+
+Le sélecteur restreint de la revue précédente est remplacé par toutes les bases : douze variantes vikings et dix variantes chevalières. Six dessins de Chevaliers sont repris ; les autres références sont conservées. La hache levée de la Guerrière du Nord est corrigée à nouveau pour ne laisser aucun prolongement métallique du côté opposé à la lame. Les soins et rechargements peuvent être observés séparément, sans inventer une attaque pour les unités soigneuses. Voir `reprises-chevaliers-base.md` pour les ressources, les archives et les vérifications.

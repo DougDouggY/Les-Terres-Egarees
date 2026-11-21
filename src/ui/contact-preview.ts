@@ -1,7 +1,5 @@
 import * as E from "../engine";
 import { contactRoster } from "./contact-roster";
-import previousNorth from "../assets/tactical/north-female-before.reference.json";
-import type { SpriteProfile } from "../sprites/catalog";
 import {
   unitSpriteProfile,
   spriteImage,
@@ -21,7 +19,12 @@ import {
 } from "./contact-trial-model";
 import { criticalImpact, drawCriticalImpact } from "./critical-impact";
 import { drawParryImpact, parryImpactDuration } from "./parry-impact";
-import { drawArrow } from "./combat-effects";
+import {
+  drawArrow,
+  drawSpell,
+  drawHealing,
+  preloadEffects,
+} from "./combat-effects";
 import "./combat-hud.css";
 import "./contact-preview.css";
 export function openContactPreview(app: HTMLElement, back: () => void) {
@@ -41,19 +44,20 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     E.syncWeapon(u);
     return {
       ...v,
-      profile:
-        v.id === "old-north-warrior-female"
-          ? (previousNorth.combat as SpriteProfile)
-          : combatSkin(unitSpriteProfile(u))!.profile,
+      profile: combatSkin(unitSpriteProfile(u))!.profile,
       weaponName: E.activeWeapon(u).name,
       shield: E.hasShield(u),
-      ranged: ["bow", "crossbow"].includes(E.activeWeapon(u).category),
+      ranged: ["bow", "crossbow", "magic", "healing"].includes(
+        E.activeWeapon(u).category,
+      ),
+      category: E.activeWeapon(u).category,
     };
   }
   const choices = variants.map(prepare);
   let selected = choices[0],
     profile = selected.profile,
     loadingVersion = 0;
+  let demo: string | undefined;
   let kind: ContactScenario = "agility",
     elapsed = 0,
     speed = 1,
@@ -68,16 +72,28 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   ).matches;
   const background = new Image();
   background.src = import.meta.env.BASE_URL + "assets/battle-3.png";
-  app.innerHTML = `<main class="contact-preview"><header><h1><span data-contact-title>${selected.name} contre ${selected.name}</span> <small class="contact-version">Revue nordique</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><label class="contact-character">Personnage<select data-contact-character>${choices.map((v) => `<option value="${v.id}">${v.label}</option>`).join("")}</select></label><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/vikings-a-revoir/index.html" target="_blank" rel="noopener">Comparer les gabarits ↗</a><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/chevaliers/index.html" target="_blank" rel="noopener">Comparer les Chevaliers ↗</a><div class="contact-buttons">${Object.entries(
+  app.innerHTML = `<main class="contact-preview"><header><h1><span data-contact-title>${selected.name} contre ${selected.name}</span> <small class="contact-version">Classes de base</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><label class="contact-character">Personnage<select data-contact-character>${(
+    ["north", "knight"] as const
+  )
+    .map(
+      (f) =>
+        `<optgroup label="${f === "north" ? "Vikings de base" : "Chevaliers de base"}">${choices
+          .filter((v) => v.faction === f)
+          .map((v) => `<option value="${v.id}">${v.label}</option>`)
+          .join("")}</optgroup>`,
+    )
+    .join(
+      "",
+    )}</select></label><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/vikings/index.html" target="_blank" rel="noopener">Comparer les gabarits ↗</a><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/chevaliers/index.html" target="_blank" rel="noopener">Comparer les Chevaliers ↗</a><div class="contact-buttons">${Object.entries(
     contactScenarios,
   )
     .map(
       ([id, s]) =>
-        `<button data-contact-scenario="${id}" ${!selected.shield && ["parry", "double-parry"].includes(id) ? "hidden" : ""} disabled>${s.label}</button>`,
+        `<button data-contact-scenario="${id}" ${selected.category === "healing" || (!selected.shield && ["parry", "double-parry"].includes(id)) ? "hidden" : ""} disabled>${s.label}</button>`,
     )
     .join(
       "",
-    )}</div><div class="contact-controls"><label>Vitesse <select data-contact-speed>${[0.25, 0.5, 1, 1.5, 2, 4].map((n) => `<option value="${n}" ${n === 1 ? "selected" : ""}>×${String(n).replace(".", ",")}</option>`).join("")}</select></label><button data-contact-pause disabled>Pause</button><button data-contact-replay disabled>Rejouer</button></div></aside><section class="contact-stage duel-stage">${combatHud(
+    )}</div><div class="contact-controls"><label>Animation isolée <select data-contact-animation></select></label><button data-contact-play-animation disabled>Voir l’animation</button><label>Vitesse <select data-contact-speed>${[0.25, 0.5, 1, 1.5, 2, 4].map((n) => `<option value="${n}" ${n === 1 ? "selected" : ""}>×${String(n).replace(".", ",")}</option>`).join("")}</select></label><button data-contact-pause disabled>Pause</button><button data-contact-replay disabled>Rejouer</button></div></aside><section class="contact-stage duel-stage">${combatHud(
     [
       {
         id: "contact-left",
@@ -100,15 +116,24 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         color: [255, 45, 161],
       },
     ],
-  )}<canvas width="960" height="480" aria-label="Échange au contact des deux Pillards" data-contact-canvas></canvas></section><p role="status" data-contact-status class="contact-sr-only">Chargement des sprites…</p><ol data-contact-events hidden></ol><p class="contact-note contact-sr-only">Scénarios imposés pour observer les animations. Une seule approche, aucun retour entre les coups ; attaque classique réutilisée pour chaque frappe et riposte. L’esquive utilise ses poses dédiées et un pas en arrière. Le dernier coup du quatrième scénario montre un critique par flash et secousse. Ces essais ne modifient ni votre partie ni ses règles.</p></main>`;
+  )}<canvas width="960" height="480" aria-label="Animations des classes de base" data-contact-canvas></canvas></section><p role="status" data-contact-status class="contact-sr-only">Chargement des sprites…</p><ol data-contact-events hidden></ol><p class="contact-note contact-sr-only">Scénarios imposés pour observer les animations. Une seule approche, aucun retour entre les coups ; attaque classique réutilisée pour chaque frappe et riposte. L’esquive utilise ses poses dédiées et un pas en arrière. Le dernier coup du quatrième scénario montre un critique par flash et secousse. Ces essais ne modifient ni votre partie ni ses règles.</p></main>`;
   const canvas = app.querySelector<HTMLCanvasElement>("[data-contact-canvas]")!,
     ctx = canvas.getContext("2d")!;
   const status = app.querySelector<HTMLElement>("[data-contact-status]")!;
   const pause = app.querySelector<HTMLButtonElement>("[data-contact-pause]")!;
   const replay = app.querySelector<HTMLButtonElement>("[data-contact-replay]")!;
   function start(id: ContactScenario) {
-    if (!ready || (!selected.shield && ["parry", "double-parry"].includes(id)))
+    if (
+      !ready ||
+      selected.category === "healing" ||
+      (!selected.shield && ["parry", "double-parry"].includes(id))
+    )
       return;
+    demo = undefined;
+    app.querySelector("[data-contact-title]")!.textContent =
+      `${selected.name} contre ${selected.name}`;
+    app.querySelectorAll(".duel-nameplates strong")[1].textContent =
+      `Adversaire · ${selected.name}`;
     kind = id;
     canvas.dataset.elapsed = "0";
     canvas.dataset.critical = "false";
@@ -142,14 +167,16 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       (v) => v.id === (e.target as HTMLSelectElement).value,
     )!;
     profile = selected.profile;
+    demo = undefined;
     if (!selected.shield && ["parry", "double-parry"].includes(kind))
       kind = "agility";
     app
       .querySelectorAll<HTMLButtonElement>("[data-contact-scenario]")
       .forEach((b) => {
         b.hidden =
-          !selected.shield &&
-          ["parry", "double-parry"].includes(b.dataset.contactScenario!);
+          selected.category === "healing" ||
+          (!selected.shield &&
+            ["parry", "double-parry"].includes(b.dataset.contactScenario!));
         b.setAttribute("aria-pressed", "false");
       });
     running = false;
@@ -173,6 +200,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       .querySelectorAll(".duel-weapon > strong")
       .forEach((label) => (label.textContent = selected.weaponName));
     app.querySelector("[data-contact-events]")!.replaceChildren();
+    refreshAnimations();
     void load();
   };
   app.querySelector<HTMLButtonElement>("[data-contact-back]")!.onclick = () => {
@@ -196,7 +224,60 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     last = performance.now();
     pause.textContent = paused ? "Reprendre" : "Pause";
   };
-  replay.onclick = () => start(kind);
+  replay.onclick = () => (demo ? playAnimation(demo) : start(kind));
+  const extra = app.querySelector<HTMLSelectElement>(
+    "[data-contact-animation]",
+  )!;
+  const extraPlay = app.querySelector<HTMLButtonElement>(
+    "[data-contact-play-animation]",
+  )!;
+  function refreshAnimations() {
+    const labels: Record<string, string> = {
+      idle: "Attente",
+      move: "Pas rapides",
+      attack: "Attaque",
+      block: "Parade",
+      evade: "Esquive",
+      damage: "Blessure",
+      death: "Chute",
+      reload: "Rechargement",
+      heal: "Soins",
+    };
+    extra.innerHTML = Object.entries(labels)
+      .filter(
+        ([name]) =>
+          !!resolveClip(profile, name) &&
+          (name !== "block" || selected.shield) &&
+          (name !== "attack" || selected.category !== "healing"),
+      )
+      .map(([name, label]) => `<option value="${name}">${label}</option>`)
+      .join("");
+    if (selected.category === "healing") extra.value = "heal";
+    else if (resolveClip(profile, "reload")) extra.value = "reload";
+  }
+  function playAnimation(name: string) {
+    if (!ready || !resolveClip(profile, name)) return;
+    demo = name;
+    app.querySelectorAll(".duel-nameplates strong")[1].textContent =
+      `${name === "heal" ? "Allié" : "Adversaire"} · ${selected.name}`;
+    app.querySelector("[data-contact-title]")!.textContent =
+      name === "heal"
+        ? `${selected.name} · soins`
+        : `${selected.name} · animation isolée`;
+    elapsed = 0;
+    running = true;
+    paused = false;
+    last = performance.now();
+    pause.disabled = false;
+    replay.disabled = false;
+    pause.textContent = "Pause";
+    app.querySelector("[data-contact-events]")!.replaceChildren();
+    app
+      .querySelectorAll("[data-contact-scenario]")
+      .forEach((b) => b.setAttribute("aria-pressed", "false"));
+  }
+  extraPlay.onclick = () => playAnimation(extra.value);
+  refreshAnimations();
   function actor(
     side: 0 | 1,
     x: number,
@@ -251,10 +332,27 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     last = now;
     if (ready && running && !paused)
       elapsed = Math.min(
-        contactDuration(kind),
+        demo ? 2400 : contactDuration(kind),
         elapsed + Math.min(100, dt) * speed,
       );
     const sample = contactSample(kind, elapsed);
+    if (demo) {
+      sample.hp =
+        demo === "heal"
+          ? [24, elapsed >= 1200 ? 20 : 12]
+          : demo === "damage"
+            ? [elapsed >= 900 ? 20 : 24, 24]
+            : demo === "death"
+              ? [elapsed >= 900 ? 0 : 24, 24]
+              : [24, 24];
+      sample.event = { side: 0, outcome: "hit", damage: 0, label: demo };
+      sample.approach = 0;
+      sample.index = 0;
+      sample.progress = Math.min(1, Math.max(0, (elapsed - 250) / 1600));
+      sample.ending = elapsed >= 2100;
+      sample.done = elapsed >= 2400;
+      sample.applied = [];
+    }
     const effect = criticalImpact(
       running || elapsed > 0
         ? sample.event.critical
@@ -286,7 +384,11 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       const actions = ["idle", "idle"],
         progress = [elapsed / 1000, elapsed / 1000],
         offset = [0, 0];
-      if (running && elapsed < contactApproach) {
+      if (demo) {
+        actions[0] = demo === "death" || !sample.ending ? demo : "idle";
+        progress[0] =
+          demo === "idle" || demo === "move" ? elapsed / 1000 : sample.progress;
+      } else if (running && elapsed < contactApproach) {
         if (!selected.ranged) actions[0] = actions[1] = "move";
         progress[0] = progress[1] = elapsed / 1000;
       } else if ((running || elapsed > 0) && !sample.ending) {
@@ -313,7 +415,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       }
       for (const side of [0, 1] as const) {
         let alpha = 1;
-        if (sample.hp[side] === 0) {
+        if (sample.hp[side] === 0 && !demo) {
           actions[side] = "death";
           progress[side] = Math.max(
             0,
@@ -330,7 +432,8 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         );
       }
       if (
-        selected.ranged &&
+        !demo &&
+        ["bow", "crossbow"].includes(selected.category) &&
         running &&
         elapsed >= contactApproach &&
         !sample.ending
@@ -345,6 +448,26 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         );
       }
       if (
+        selected.category === "magic" &&
+        !demo &&
+        running &&
+        elapsed >= contactApproach &&
+        !sample.ending
+      ) {
+        const from = sample.event.side,
+          to = 1 - from;
+        drawSpell(
+          ctx,
+          "fire",
+          sample.progress * 1150 - 480,
+          { x: positions[from], y: 285 },
+          { x: positions[to] + offset[to], y: 285 },
+        );
+      }
+      if (demo === "heal" && running)
+        drawHealing(ctx, elapsed - 500, positions[1], 350);
+      if (
+        !demo &&
         running &&
         elapsed >= contactApproach &&
         !sample.ending &&
@@ -419,7 +542,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       canvas.dataset.rightAction = actions[1];
       canvas.dataset.applied = String(sample.applied.length);
       canvas.dataset.finished = String(sample.done);
-      canvas.dataset.scenario = kind;
+      canvas.dataset.scenario = demo ? `pose-${demo}` : kind;
       status.textContent =
         !running && elapsed === 0
           ? "Choisissez un scénario"
@@ -443,6 +566,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   async function load() {
     const version = ++loadingVersion;
     ready = false;
+    extraPlay.disabled = true;
     status.textContent = "Chargement des sprites…";
     app
       .querySelectorAll<HTMLButtonElement>("[data-contact-scenario]")
@@ -467,6 +591,9 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       );
       if (disposed || version !== loadingVersion) return;
       ready = true;
+      extraPlay.disabled = false;
+      await preloadEffects();
+      if (disposed || version !== loadingVersion) return;
       app
         .querySelectorAll<HTMLButtonElement>("[data-contact-scenario]")
         .forEach((b) => (b.disabled = b.hidden));

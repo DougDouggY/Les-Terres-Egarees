@@ -1,5 +1,5 @@
 import type { Unit } from "../game/types";
-import { profileKey, type SpriteProfile } from "./catalog";
+import { profileKey, findProfile, type SpriteProfile } from "./catalog";
 import { buildCombatSkin, type CombatSkin } from "./combat-skin-core";
 export type { CombatSkin } from "./combat-skin-core";
 const additions = import.meta.glob("../assets/tactical/*.combat.json", {
@@ -22,8 +22,18 @@ export function combatSkin(p: SpriteProfile | undefined) {
 }
 
 export function skinForUnit(unit: Unit, profiles: SpriteProfile[]) {
-  if (unit.combatSkinId)
+  if (unit.combatSkinId) {
+    const bound = profiles.find((p) => profileKey(p) === unit.combatSkinId);
     return combatSkin(
-      profiles.find((p) => profileKey(p) === unit.combatSkinId),
+      bound?.gender === "any"
+        ? (findProfile(
+            profiles,
+            bound.classId,
+            unit.gender ?? "male",
+            bound.equipment,
+            bound.state,
+          ) ?? bound)
+        : bound,
     );
+  }
 }

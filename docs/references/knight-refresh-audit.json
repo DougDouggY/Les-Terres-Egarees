@@ -1,0 +1,1734 @@
+[
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+    "classId": "man_at_arms",
+    "gender": "male",
+    "equipment": "sword-shield",
+    "referenceHeight": 238,
+    "poses": 26,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          35,
+          18,
+          142,
+          238
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          273,
+          19,
+          142,
+          236
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          495,
+          31,
+          167,
+          223
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          741,
+          47,
+          180,
+          207
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          32,
+          275,
+          150,
+          222
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          275,
+          270,
+          143,
+          227
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          488,
+          277,
+          179,
+          220
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          742,
+          279,
+          162,
+          218
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          21,
+          517,
+          148,
+          229
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          219,
+          519,
+          209,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          488,
+          510,
+          166,
+          238
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          712,
+          536,
+          230,
+          210
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "bounds": [
+          14,
+          778,
+          228,
+          202
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "bounds": [
+          260,
+          769,
+          164,
+          212
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "bounds": [
+          498,
+          768,
+          152,
+          213
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "bounds": [
+          731,
+          767,
+          166,
+          214
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "bounds": [
+          17,
+          1000,
+          167,
+          208
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "bounds": [
+          257,
+          1001,
+          161,
+          208
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 2,
+        "bounds": [
+          494,
+          1000,
+          160,
+          208
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 0,
+        "bounds": [
+          17,
+          1224,
+          157,
+          205
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 1,
+        "bounds": [
+          245,
+          1229,
+          184,
+          200
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 2,
+        "bounds": [
+          489,
+          1227,
+          164,
+          202
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 0,
+        "bounds": [
+          14,
+          1450,
+          164,
+          196
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 1,
+        "bounds": [
+          241,
+          1451,
+          178,
+          195
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 2,
+        "bounds": [
+          476,
+          1467,
+          160,
+          179
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 3,
+        "bounds": [
+          678,
+          1551,
+          251,
+          90
+        ],
+        "edgeContact": false
+      }
+    ]
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+    "classId": "man_at_arms",
+    "gender": "female",
+    "equipment": "sword-shield",
+    "referenceHeight": 234,
+    "poses": 26,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          38,
+          29,
+          153,
+          234
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          273,
+          30,
+          153,
+          233
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          495,
+          43,
+          176,
+          220
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          729,
+          50,
+          189,
+          212
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          31,
+          295,
+          157,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          272,
+          294,
+          158,
+          229
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          484,
+          296,
+          188,
+          225
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          727,
+          298,
+          181,
+          225
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          19,
+          556,
+          170,
+          222
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          211,
+          560,
+          227,
+          218
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          482,
+          529,
+          177,
+          250
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          711,
+          565,
+          227,
+          213
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "bounds": [
+          17,
+          810,
+          231,
+          209
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "bounds": [
+          263,
+          809,
+          170,
+          211
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "bounds": [
+          493,
+          805,
+          167,
+          213
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "bounds": [
+          734,
+          803,
+          166,
+          215
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "bounds": [
+          28,
+          1031,
+          164,
+          209
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "bounds": [
+          251,
+          1038,
+          179,
+          205
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 2,
+        "bounds": [
+          495,
+          1032,
+          161,
+          212
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 0,
+        "bounds": [
+          21,
+          1258,
+          168,
+          204
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 1,
+        "bounds": [
+          248,
+          1263,
+          187,
+          195
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 2,
+        "bounds": [
+          486,
+          1263,
+          174,
+          198
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 0,
+        "bounds": [
+          18,
+          1473,
+          162,
+          184
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 1,
+        "bounds": [
+          250,
+          1476,
+          181,
+          181
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 2,
+        "bounds": [
+          476,
+          1490,
+          161,
+          164
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 3,
+        "bounds": [
+          678,
+          1563,
+          255,
+          81
+        ],
+        "edgeContact": false
+      }
+    ]
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-swordsman-male.png",
+    "classId": "swordsman",
+    "gender": "male",
+    "equipment": "sword",
+    "referenceHeight": 236,
+    "poses": 23,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          40,
+          17,
+          142,
+          236
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          303,
+          17,
+          135,
+          236
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          543,
+          27,
+          179,
+          226
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          782,
+          45,
+          207,
+          207
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          48,
+          277,
+          161,
+          228
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          295,
+          277,
+          152,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          530,
+          281,
+          190,
+          224
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          796,
+          285,
+          175,
+          221
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          30,
+          540,
+          164,
+          224
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          233,
+          543,
+          229,
+          221
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          531,
+          523,
+          188,
+          243
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          771,
+          555,
+          241,
+          211
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "bounds": [
+          13,
+          812,
+          244,
+          206
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "bounds": [
+          278,
+          807,
+          182,
+          212
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "bounds": [
+          536,
+          797,
+          171,
+          222
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "bounds": [
+          788,
+          800,
+          195,
+          221
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "bounds": [
+          19,
+          1046,
+          167,
+          227
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "bounds": [
+          274,
+          1046,
+          195,
+          227
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 2,
+        "bounds": [
+          536,
+          1051,
+          175,
+          223
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 0,
+        "bounds": [
+          18,
+          1299,
+          180,
+          225
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 1,
+        "bounds": [
+          258,
+          1300,
+          209,
+          223
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 2,
+        "bounds": [
+          517,
+          1313,
+          169,
+          210
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 3,
+        "bounds": [
+          727,
+          1419,
+          275,
+          99
+        ],
+        "edgeContact": false
+      }
+    ]
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-swordsman-female.png",
+    "classId": "swordsman",
+    "gender": "female",
+    "equipment": "sword",
+    "referenceHeight": 243,
+    "poses": 23,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          50,
+          12,
+          146,
+          243
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          308,
+          12,
+          145,
+          243
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          543,
+          27,
+          178,
+          228
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          789,
+          37,
+          206,
+          218
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          51,
+          278,
+          148,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          312,
+          278,
+          141,
+          231
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          532,
+          279,
+          185,
+          229
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          815,
+          285,
+          167,
+          223
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          33,
+          537,
+          170,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          237,
+          538,
+          242,
+          229
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          534,
+          526,
+          188,
+          241
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          781,
+          550,
+          230,
+          217
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "bounds": [
+          13,
+          804,
+          233,
+          214
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "bounds": [
+          283,
+          802,
+          181,
+          216
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "bounds": [
+          543,
+          794,
+          172,
+          225
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "bounds": [
+          804,
+          794,
+          169,
+          225
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "bounds": [
+          29,
+          1037,
+          167,
+          236
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "bounds": [
+          275,
+          1034,
+          210,
+          239
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 2,
+        "bounds": [
+          543,
+          1038,
+          169,
+          235
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 0,
+        "bounds": [
+          23,
+          1294,
+          188,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 1,
+        "bounds": [
+          271,
+          1295,
+          215,
+          228
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 2,
+        "bounds": [
+          523,
+          1309,
+          169,
+          215
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 3,
+        "bounds": [
+          730,
+          1414,
+          279,
+          98
+        ],
+        "edgeContact": false
+      }
+    ]
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-crossbow-female.png",
+    "classId": "crossbowman",
+    "gender": "female",
+    "equipment": "crossbow",
+    "referenceHeight": 243,
+    "poses": 27,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          42,
+          22,
+          167,
+          243
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          273,
+          21,
+          172,
+          243
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          500,
+          32,
+          184,
+          232
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          724,
+          32,
+          200,
+          231
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          34,
+          285,
+          165,
+          239
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          278,
+          288,
+          158,
+          239
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          512,
+          288,
+          161,
+          238
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          754,
+          287,
+          163,
+          240
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          27,
+          545,
+          169,
+          234
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          258,
+          550,
+          178,
+          227
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          483,
+          556,
+          195,
+          221
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          720,
+          555,
+          204,
+          222
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "bounds": [
+          31,
+          796,
+          165,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "bounds": [
+          258,
+          799,
+          179,
+          229
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "bounds": [
+          498,
+          798,
+          174,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "bounds": [
+          740,
+          798,
+          167,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "bounds": [
+          35,
+          1043,
+          168,
+          199
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "bounds": [
+          265,
+          1045,
+          176,
+          195
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 2,
+        "bounds": [
+          500,
+          1046,
+          160,
+          192
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 0,
+        "bounds": [
+          27,
+          1256,
+          167,
+          189
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 1,
+        "bounds": [
+          252,
+          1251,
+          174,
+          194
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 2,
+        "bounds": [
+          471,
+          1279,
+          165,
+          163
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 3,
+        "bounds": [
+          666,
+          1345,
+          256,
+          92
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 0,
+        "bounds": [
+          40,
+          1460,
+          153,
+          198
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 1,
+        "bounds": [
+          268,
+          1462,
+          161,
+          196
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 2,
+        "bounds": [
+          503,
+          1464,
+          162,
+          194
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 3,
+        "bounds": [
+          735,
+          1460,
+          168,
+          198
+        ],
+        "edgeContact": false
+      }
+    ]
+  },
+  {
+    "source": "tactical/combat-v4-knight-refresh-sorceress.png",
+    "classId": "sorcerer",
+    "gender": "female",
+    "equipment": "spell",
+    "referenceHeight": 226,
+    "poses": 27,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          39,
+          19,
+          143,
+          226
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          278,
+          19,
+          150,
+          226
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          518,
+          18,
+          142,
+          227
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          747,
+          19,
+          168,
+          226
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          34,
+          260,
+          148,
+          221
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          278,
+          260,
+          143,
+          222
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          500,
+          260,
+          160,
+          220
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          751,
+          261,
+          142,
+          222
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          43,
+          502,
+          139,
+          218
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          271,
+          502,
+          154,
+          218
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          487,
+          490,
+          189,
+          229
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          735,
+          508,
+          194,
+          211
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "bounds": [
+          24,
+          744,
+          198,
+          210
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "bounds": [
+          259,
+          743,
+          180,
+          211
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "bounds": [
+          509,
+          743,
+          151,
+          211
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "bounds": [
+          747,
+          743,
+          144,
+          211
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "bounds": [
+          32,
+          981,
+          153,
+          199
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "bounds": [
+          258,
+          982,
+          176,
+          197
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 2,
+        "bounds": [
+          502,
+          990,
+          155,
+          190
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 0,
+        "bounds": [
+          29,
+          1207,
+          153,
+          195
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 1,
+        "bounds": [
+          256,
+          1209,
+          163,
+          192
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 2,
+        "bounds": [
+          492,
+          1212,
+          142,
+          190
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 3,
+        "bounds": [
+          678,
+          1317,
+          259,
+          77
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 0,
+        "bounds": [
+          40,
+          1421,
+          141,
+          226
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 1,
+        "bounds": [
+          265,
+          1421,
+          141,
+          226
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 2,
+        "bounds": [
+          495,
+          1421,
+          164,
+          226
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 6,
+        "column": 3,
+        "bounds": [
+          732,
+          1422,
+          140,
+          225
+        ],
+        "edgeContact": false
+      }
+    ]
+  }
+]

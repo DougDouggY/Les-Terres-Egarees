@@ -1,0 +1,5525 @@
+{
+  "src/assets/tactical/team-sample.sprite.json": [
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        },
+        "move": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta"
+        },
+        "attack": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            2
+          ],
+          "fps": 3,
+          "recolor": "magenta"
+        },
+        "death": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            3
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        }
+      }
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        },
+        "move": {
+          "source": "tactical/team-sample.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta"
+        },
+        "attack": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            2
+          ],
+          "fps": 3,
+          "recolor": "magenta"
+        },
+        "death": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 3,
+          "frames": [
+            3
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        }
+      }
+    }
+  ],
+  "src/assets/tactical/zz-production.sprite.json": [
+    {
+      "classId": "crossbowman",
+      "equipment": "crossbow",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour à la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "swordsman",
+      "equipment": "sword",
+      "state": "default",
+      "gender": "any",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour à la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        }
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "equipment": "spell",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 5,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour à la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "heal": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "equipment": "healing",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour à la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "heal": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        }
+      },
+      "note": "Même ressource de classe, livre et bâton conservés pendant les soins."
+    }
+  ],
+  "src/assets/tactical/zzzz-combat-extra.sprite.json": [
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-extra-eight.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-extra-eight.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Huit poses : garde, anticipation, levée, frappe diagonale, suivi et retour en garde. Riposte : même séquence réutilisée."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      }
+    }
+  ],
+  "src/assets/tactical/zzzzz-pair-reference.sprite.json": [
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Essai de deux combattants, poses refaites d’après la mise en scène du kit. En attente de validation visuelle.",
+      "clips": {
+        "combat_idle": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Deux gardes de combat ; pieds ancrés.",
+          "recolorEdges": true
+        },
+        "combat_move": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Pas d’approche et retour sans rejouer la frappe.",
+          "recolorEdges": true
+        },
+        "attack": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider.",
+          "impactFrame": 3,
+          "recolorEdges": true
+        },
+        "counter": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 1,
+          "frames": [
+            3,
+            0,
+            1,
+            2,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Riposte dessinée : préparation courte, frappe horizontale et retrait. Aucun recul avant la riposte.",
+          "impactFrame": 2,
+          "recolorEdges": true
+        },
+        "attack_again": {
+          "reuse": "counter",
+          "note": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double."
+        },
+        "block": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade.",
+          "recolorEdges": true
+        },
+        "combat_damage": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 3,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "provisional",
+          "note": "Réaction dessinée unique ; animation de dégâts encore provisoire.",
+          "recolorEdges": true
+        }
+      }
+    }
+  ],
+  "src/assets/tactical/zzzzzz-complete.sprite.json": [
+    {
+      "classId": "crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 197.0,
+            "height": 194.625
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197.0,
+            "height": 194.625
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197.0,
+            "height": 194.625
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197.0,
+            "height": 194.625
+          }
+        }
+      }
+    },
+    {
+      "classId": "swordsman",
+      "gender": "any",
+      "equipment": "sword",
+      "state": "default",
+      "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours.",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 5
+            },
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            },
+            {
+              "row": 4,
+              "column": 3
+            },
+            {
+              "row": 4,
+              "column": 4
+            },
+            {
+              "row": 4,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 199.0,
+            "height": 208.167
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199.0,
+            "height": 208.167
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199.0,
+            "height": 208.167
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199.0,
+            "height": 208.167
+          }
+        }
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "note": "Séquence spécifique : reload",
+      "clips": {
+        "reload": {
+          "source": "tactical/complete-reload.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 280.0,
+            "height": 252.958
+          }
+        }
+      }
+    }
+  ],
+  "src/assets/tactical/zzzzzzzzz-v4.sprite.json": [
+    {
+      "classId": "sorcerer",
+      "gender": "female",
+      "equipment": "spell",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "female",
+      "equipment": "healing",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "female",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-ranged.png": 127
+      }
+    }
+  ],
+  "src/assets/tactical/v2-shields-c.combat.json": [
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Atlas V2 cohérent, référence de peau et d’équipement stable ; esquive et marche spécifiques encore manquantes.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            5,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    }
+  ],
+  "src/assets/tactical/v2-support.combat.json": [
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "spell",
+      "state": "default",
+      "note": "Atlas V2 cohérent pour ce skin et cet équipement ; poses communes redessinées.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "heal": {
+          "reuse": "attack",
+          "note": "Même incantation, effet de soin distinct du projectile offensif."
+        }
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "healing",
+      "state": "default",
+      "note": "Atlas V2 cohérent pour ce skin et cet équipement ; poses communes redessinées.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        }
+      }
+    }
+  ],
+  "src/assets/tactical/zz-v3.combat.json": [
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "block": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            5,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion1.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack",
+          "note": "Seconde activation d’agilité : même arme, même skin."
+        }
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "reload": {
+          "source": "tactical/combat-v3-reload.png",
+          "columns": 4,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "idle": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          },
+          "note": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion1.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack",
+          "note": "Seconde activation d’agilité : même arme, même skin."
+        }
+      },
+      "lot": 2,
+      "note": "Séquence spécifique : reload"
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider.",
+          "impactFrame": 3,
+          "recolorEdges": true
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "damage": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            2
+          ],
+          "fps": 3,
+          "recolor": "magenta"
+        },
+        "death": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            3
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        },
+        "attack_again": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 1,
+          "frames": [
+            3,
+            0,
+            1,
+            2,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double.",
+          "impactFrame": 2,
+          "recolorEdges": true
+        },
+        "block": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade.",
+          "recolorEdges": true
+        },
+        "idle": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Deux gardes de combat ; pieds ancrés.",
+          "recolorEdges": true
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion2.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      },
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte."
+    },
+    {
+      "classId": "swordsman",
+      "equipment": "sword",
+      "state": "default",
+      "gender": "any",
+      "lot": 2,
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-v3-swordsa.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 4
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199,
+            "height": 208.167
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199,
+            "height": 208.167
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199,
+            "height": 208.167
+          }
+        },
+        "idle": {
+          "source": "tactical/combat-v3-swordsa.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 12,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion4.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        }
+      },
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte."
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "spell",
+      "state": "default",
+      "note": "Atlas V2 cohérent pour ce skin et cet équipement ; poses communes redessinées.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "heal": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2,
+          "note": "Même incantation, effet de soin distinct du projectile offensif."
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion4.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack",
+          "note": "Seconde activation d’agilité : même arme, même skin."
+        }
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "healing",
+      "state": "default",
+      "note": "Atlas V2 cohérent pour ce skin et cet équipement ; poses communes redessinées.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion9.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    }
+  ],
+  "src/assets/tactical/zz-v4.combat.json": [
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "block": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            5,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion1.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack",
+          "note": "Seconde activation d’agilité : même arme, même skin."
+        }
+      },
+      "referenceHeights": {}
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "reload": {
+          "source": "tactical/combat-v3-reload.png",
+          "columns": 4,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "idle": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          },
+          "note": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion1.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack",
+          "note": "Seconde activation d’agilité : même arme, même skin."
+        }
+      },
+      "lot": 2,
+      "note": "Séquence spécifique : reload",
+      "referenceHeights": {}
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider.",
+          "impactFrame": 3,
+          "recolorEdges": true
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "damage": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            2
+          ],
+          "fps": 3,
+          "recolor": "magenta"
+        },
+        "death": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            3
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        },
+        "attack_again": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 1,
+          "frames": [
+            3,
+            0,
+            1,
+            2,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double.",
+          "impactFrame": 2,
+          "recolorEdges": true
+        },
+        "block": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade.",
+          "recolorEdges": true
+        },
+        "idle": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Deux gardes de combat ; pieds ancrés.",
+          "recolorEdges": true
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion2.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      },
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte.",
+      "referenceHeights": {}
+    },
+    {
+      "classId": "swordsman",
+      "equipment": "sword",
+      "state": "default",
+      "gender": "any",
+      "lot": 2,
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-v3-swordsa.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 4
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199,
+            "height": 208.167
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199,
+            "height": 208.167
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199,
+            "height": 208.167
+          }
+        },
+        "idle": {
+          "source": "tactical/combat-v3-swordsa.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 12,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion4.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        }
+      },
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte.",
+      "referenceHeights": {}
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "spell",
+      "state": "default",
+      "note": "Atlas V2 cohérent pour ce skin et cet équipement ; poses communes redessinées.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "heal": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2,
+          "note": "Même incantation, effet de soin distinct du projectile offensif."
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion4.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack",
+          "note": "Seconde activation d’agilité : même arme, même skin."
+        }
+      },
+      "referenceHeights": {}
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "healing",
+      "state": "default",
+      "note": "Atlas V2 cohérent pour ce skin et cet équipement ; poses communes redessinées.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion9.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      },
+      "referenceHeights": {}
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "female",
+      "equipment": "spell",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "female",
+      "equipment": "healing",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "female",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "death": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-ranged.png": 127
+      }
+    }
+  ],
+  "src/assets/tactical/zz-v5.combat.json": [
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "block": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            4,
+            5,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "damage": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v2-shields-c.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion1.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack",
+          "note": "Seconde activation d’agilité : même arme, même skin."
+        }
+      },
+      "referenceHeights": {}
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "male",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          }
+        },
+        "reload": {
+          "source": "tactical/combat-v3-reload.png",
+          "columns": 4,
+          "rows": 5,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "idle": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "provisional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 197,
+            "height": 194.625
+          },
+          "note": "Garde extraite du même atlas que l’attaque, aucune substitution de skin."
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion1.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack",
+          "note": "Seconde activation d’agilité : même arme, même skin."
+        }
+      },
+      "lot": 2,
+      "note": "Séquence spécifique : reload",
+      "referenceHeights": {}
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            },
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "fps": 10,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Anticipation, arme levée, frappe diagonale, suivi, retrait et retour en garde. Poses proposées à valider.",
+          "impactFrame": 3,
+          "recolorEdges": true
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "damage": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            2
+          ],
+          "fps": 3,
+          "recolor": "magenta"
+        },
+        "death": {
+          "source": "tactical/team-sample-combat.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            3
+          ],
+          "fps": 2,
+          "recolor": "magenta"
+        },
+        "attack_again": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 1,
+          "frames": [
+            3,
+            0,
+            1,
+            2,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Seconde frappe simple : variante horizontale réutilisée de la riposte ; aucune arme double.",
+          "impactFrame": 2,
+          "recolorEdges": true
+        },
+        "block": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Levée du bouclier, blocage, recul du buste et retour en garde. Arme basse pendant la parade.",
+          "recolorEdges": true
+        },
+        "idle": {
+          "source": "tactical/combat-pair-reference-v2.png",
+          "columns": 4,
+          "rows": 8,
+          "row": 0,
+          "frames": [
+            0,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "magenta",
+          "status": "functional",
+          "note": "Deux gardes de combat ; pieds ancrés.",
+          "recolorEdges": true
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion2.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      },
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte.",
+      "referenceHeights": {}
+    },
+    {
+      "classId": "swordsman",
+      "equipment": "sword",
+      "state": "default",
+      "gender": "any",
+      "lot": 2,
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-v3-swordsa.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 4
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199,
+            "height": 208.167
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 4
+            },
+            {
+              "row": 5,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199,
+            "height": 208.167
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 2
+            },
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 199,
+            "height": 208.167
+          }
+        },
+        "idle": {
+          "source": "tactical/combat-v3-swordsa.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0
+          ],
+          "fps": 12,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion4.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        }
+      },
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte.",
+      "referenceHeights": {}
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "spell",
+      "state": "default",
+      "note": "Atlas V2 cohérent pour ce skin et cet équipement ; poses communes redessinées.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "heal": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2,
+          "note": "Même incantation, effet de soin distinct du projectile offensif."
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion4.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack",
+          "note": "Seconde activation d’agilité : même arme, même skin."
+        }
+      },
+      "referenceHeights": {}
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "male",
+      "equipment": "healing",
+      "state": "default",
+      "note": "Atlas V2 cohérent pour ce skin et cet équipement ; poses communes redessinées.",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 7,
+          "loop": true,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            4,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            5,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            7
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "heal": {
+          "source": "tactical/combat-v2-support.png",
+          "columns": 8,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion9.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      },
+      "referenceHeights": {}
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "female",
+      "equipment": "spell",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "reuse": "idle",
+          "status": "provisional",
+          "note": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "female",
+      "equipment": "healing",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "reuse": "idle",
+          "status": "provisional",
+          "note": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+        },
+        "death": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "heal": {
+          "source": "tactical/combat-v4-casters.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-casters.png": 155
+      }
+    },
+    {
+      "classId": "crossbowman",
+      "gender": "female",
+      "equipment": "crossbow",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "move": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            1,
+            2
+          ],
+          "fps": 8,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "damage": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            6,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 1
+        },
+        "evade": {
+          "reuse": "idle",
+          "status": "provisional",
+          "note": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+        },
+        "death": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            6,
+            7
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "attack": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            3,
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+          "impactFrame": 2
+        },
+        "reload": {
+          "source": "tactical/combat-v4-ranged.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            4,
+            5,
+            0
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "provisional",
+          "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+        },
+        "counter": {
+          "reuse": "attack"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-ranged.png": 127
+      }
+    }
+  ]
+}

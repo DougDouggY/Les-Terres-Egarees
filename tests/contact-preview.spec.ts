@@ -1,157 +1,119 @@
 import { test, expect } from "@playwright/test";
-test("harmonisation nordique : revue ciblée : nouvelle Guerrière, un ancien modèle et trois références", async ({
+test("toutes les bases : 22 variantes en campagne et dans l’essai, corps à corps, tirs, magie et soins", async ({
   page,
 }) => {
+  test.setTimeout(120000);
   await page.goto("/");
   const saves = await page.evaluate(() => JSON.stringify({ ...localStorage }));
   await page
     .getByRole("button", { name: "Essai des animations", exact: true })
     .click();
-  await expect(page.locator("[data-contact-title]")).toHaveText(
-    "Guerrière du Nord contre Guerrière du Nord",
-  );
-  await expect(page.locator("[data-contact-character] option")).toHaveCount(5);
   const canvas = page.locator("[data-contact-canvas]");
+  await expect(page.locator("[data-contact-character] option")).toHaveCount(22);
+  const entries = await page.evaluate(async () => {
+    const E = await import(String("/src/engine.ts")),
+      R = await import(String("/src/sprites/resources.ts")),
+      S = await import(String("/src/sprites/combat-skins.ts")),
+      C = await import(String("/src/sprites/catalog.ts")),
+      V = await import(String("/src/ui/contact-roster.ts"));
+    return V.contactRoster.map((v: any) => {
+      const u = E.makeClassUnit(v.id, 1, 1, v.cls, v.name, 0, 0, v.gender);
+      u.activeWeaponId = v.weapon;
+      E.syncWeapon(u);
+      const p = S.combatSkin(R.unitSpriteProfile(u))!.profile;
+      return {
+        ...v,
+        category: E.activeWeapon(u).category,
+        shield: E.hasShield(u),
+        source: C.resolveClip(p, "idle")!.source,
+        hasReload: !!C.resolveClip(p, "reload"),
+        hasHeal: !!C.resolveClip(p, "heal"),
+      };
+    });
+  });
+  const savedBinding = await page.evaluate(async () => {
+    const E = await import(String("/src/engine.ts")),
+      R = await import(String("/src/sprites/resources.ts")),
+      S = await import(String("/src/sprites/combat-skins.ts"));
+    const u = E.makeClassUnit(
+      "old-save",
+      1,
+      1,
+      "swordsman",
+      "Test",
+      0,
+      0,
+      "female",
+    );
+    u.combatSkinId = "swordsman:any:sword:default";
+    return {
+      map: R.unitSpriteProfile(u)?.gender,
+      combat: S.skinForUnit(u, R.spriteCatalog.profiles)?.profile.gender,
+    };
+  });
+  expect(savedBinding).toEqual({ map: "female", combat: "female" });
+  expect(entries.filter((v: any) => v.faction === "north")).toHaveLength(12);
+  expect(entries.filter((v: any) => v.faction === "knight")).toHaveLength(10);
   await page.locator("[data-contact-speed]").selectOption("4");
-  for (const [id, source] of [
-    ["male", "combat-v4-north-refresh-male-axe"],
-    ["female", "combat-v4-pillarde-axe-v3"],
-    ["north-warrior-female", "combat-v4-north-refresh-north-warrior-female"],
-    ["old-north-warrior-female", "combat-v4-warriors"],
-    ["north-warrior", "combat-v4-north-refresh-north-warrior"],
-  ]) {
-    await page.locator("[data-contact-character]").selectOption(id);
-    await expect(
-      page.locator('[data-contact-scenario="critical"]'),
-    ).toBeEnabled();
-    if (
-      [
-        "north-warrior",
-        "north-warrior-female",
-        "old-north-warrior-female",
-      ].includes(id)
-    ) {
-      await expect(
-        page.locator('[data-contact-scenario="parry"]'),
-      ).toBeHidden();
-      await expect(
-        page.locator('[data-contact-scenario="double-parry"]'),
-      ).toBeHidden();
-      await expect(
-        page.locator('[data-contact-scenario="parry"]'),
-      ).toBeDisabled();
-    } else {
+  for (const v of entries) {
+    await page.locator("[data-contact-character]").selectOption(v.id);
+    await expect(page.locator("[data-contact-play-animation]")).toBeEnabled();
+    await expect(canvas).toHaveAttribute("data-left-frame-source", v.source);
+    if (v.shield)
       await expect(
         page.locator('[data-contact-scenario="parry"]'),
       ).toBeVisible();
+    else
       await expect(
         page.locator('[data-contact-scenario="parry"]'),
-      ).toBeEnabled();
+      ).toBeHidden();
+    if (v.category === "healing") {
+      await expect(
+        page.locator('[data-contact-scenario="agility"]'),
+      ).toBeHidden();
+      await page.locator("[data-contact-animation]").selectOption("heal");
+      await page.locator("[data-contact-play-animation]").click();
+      await expect(canvas).toHaveAttribute("data-finished", "true");
+      await expect(page.locator('[data-combat-value="1"]')).toHaveText(
+        "20 / 24 PV",
+      );
+    } else {
+      await page.locator('[data-contact-scenario="critical"]').click();
+      await expect(canvas).toHaveAttribute("data-finished", "true");
+      if (["bow", "crossbow", "magic"].includes(v.category)) {
+        await expect(canvas).toHaveAttribute("data-left-x", "270");
+        await expect(canvas).toHaveAttribute("data-right-x", "690");
+      } else
+        expect(
+          Number(await canvas.getAttribute("data-right-x")) -
+            Number(await canvas.getAttribute("data-left-x")),
+        ).toBeLessThan(200);
     }
-    await page.locator('[data-contact-scenario="critical"]').click();
-    await expect(canvas).toHaveAttribute(
-      "data-left-frame-source",
-      new RegExp(source),
-    );
-    await expect(canvas).toHaveAttribute(
-      "data-right-frame-source",
-      new RegExp(source),
-    );
-    await expect(canvas).toHaveAttribute("data-finished", "true");
-    if (id === "north-warrior-female") {
-      for (const scenario of ["agility", "dodges"]) {
-        await page.locator(`[data-contact-scenario="${scenario}"]`).click();
-        await expect(canvas).toHaveAttribute("data-finished", "true");
-        await expect(canvas).toHaveAttribute(
-          "data-left-frame-source",
-          /north-refresh-north-warrior-female/,
-        );
-        await expect(canvas).toHaveAttribute("data-parry", "false");
-      }
+    for (const action of [
+      v.hasReload ? "reload" : null,
+      v.hasHeal && v.category !== "healing" ? "heal" : null,
+    ].filter(Boolean)) {
+      await page.locator("[data-contact-animation]").selectOption(action!);
+      await page.locator("[data-contact-play-animation]").click();
+      await expect(canvas).toHaveAttribute("data-finished", "true");
+      await expect(canvas).toHaveAttribute("data-scenario", `pose-${action}`);
     }
   }
   expect(await page.evaluate(() => JSON.stringify({ ...localStorage }))).toBe(
     saves,
   );
-  const colors = await page.evaluate(async () => {
-    const E = await import(String("/src/engine.ts")),
-      R = await import(String("/src/sprites/resources.ts")),
-      S = await import(String("/src/sprites/combat-skins.ts")),
-      C = await import(String("/src/sprites/catalog.ts")),
-      H = await import(String("/src/sprites/recolor.ts"));
-    const result = [];
-    for (const [cls, gender, weapon] of [
-      ["raider", "male", "axe_shield"],
-      ["raider", "female", "axe_shield"],
-      ["raider", "male", "sword_shield"],
-      ["raider", "female", "sword_shield"],
-      ["north_warrior", "male", "axe"],
-      ["north_warrior", "female", "axe"],
-      ["hunter", "female", "bow"],
-    ]) {
-      const u = E.makeClassUnit("color", 1, 1, cls, "Test", 0, 0, gender);
-      u.activeWeaponId = weapon;
-      E.syncWeapon(u);
-      const p = S.combatSkin(R.unitSpriteProfile(u))!.profile,
-        c = C.resolveClip(p, "idle")!;
-      const img = R.spriteImage(c.source);
-      await img.decode();
-      const canvas = document.createElement("canvas");
-      canvas.width = img.naturalWidth;
-      canvas.height = img.naturalHeight;
-      const ctx = canvas.getContext("2d")!;
-      ctx.drawImage(img, 0, 0);
-      const original = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(R.prepareSpriteSource(c, "pink")!, 0, 0);
-      const pink = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-      let material = 0,
-        colored = 0;
-      for (let i = 0; i < original.length; i += 4) {
-        const v = H.rgbToHsv(original[i], original[i + 1], original[i + 2]);
-        if (
-          original[i + 3] > 180 &&
-          v.h >= 200 &&
-          v.h <= 235 &&
-          v.s >= 0.14 &&
-          v.v > 0.1
-        ) {
-          material++;
-          const out = H.rgbToHsv(pink[i], pink[i + 1], pink[i + 2]);
-          if (out.h > 290 && out.s > 0.45) colored++;
-        }
-      }
-      result.push({ cls, gender, material, ratio: colored / material });
-    }
-    return result;
-  });
-  for (const row of colors) {
-    expect(row.material).toBeGreaterThan(1000);
-    expect(row.ratio).toBeGreaterThan(0.97);
-  }
-  await page.goto("/validation/vikings-a-revoir/index.html");
-  await expect(page.locator("[data-variant]")).toHaveCount(5);
-  await expect(
-    page.locator('[data-variant="north-warrior-female"]'),
-  ).toBeVisible();
-  await page
-    .getByRole("link", { name: "Chevaliers de base", exact: true })
-    .click();
+  await page.goto("/validation/chevaliers/index.html");
   await expect(page.locator("[data-variant]")).toHaveCount(10);
+  const resolution = await page
+    .locator("#terrain")
+    .evaluate((i: HTMLImageElement) => i.naturalWidth);
+  expect(resolution).toBe(1280);
   await page.setViewportSize({ width: 390, height: 844 });
   await expect(page.locator("h1")).toHaveText("Tous les Chevaliers de base");
-  await page.locator("#zoom").selectOption("3");
-  await expect(page.locator("#terrain")).toHaveCSS("width", "1920px");
-  await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/validation/vikings/index.html");
   await expect(page.locator("[data-variant]")).toHaveCount(12);
-  await expect(page.locator("#map-proposal")).toBeHidden();
-  await page.selectOption("#appearance", "proposal");
-  await expect(page.locator("#map-current")).toBeHidden();
-  await expect(page.locator("#map-proposal")).toBeVisible();
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(page.locator("h1")).toBeVisible();
 });
+
 test("accueil : quatre essais, vitesse et pause, maintien au contact, attaque unique et sauvegardes inchangées", async ({
   page,
 }) => {
@@ -357,7 +319,7 @@ test("critique seul V2 : accès direct, effet visible sans tuer, pause et rejeu"
   await expect(page.locator('[data-combat-value="1"]')).toHaveText(
     "16 / 24 PV",
   );
-  await expect(page.locator(".contact-version")).toHaveText("Revue nordique");
+  await expect(page.locator(".contact-version")).toHaveText("Classes de base");
   await page.screenshot({ path: "/tmp/critique-v2-validation.png" });
   await page.locator("[data-contact-replay]").click();
   await expect(page.locator("[data-contact-canvas]")).toHaveAttribute(

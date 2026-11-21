@@ -1484,17 +1484,17 @@
     "classId": "north_warrior",
     "gender": "female",
     "equipment": "axe",
-    "referenceHeight": 242,
+    "referenceHeight": 243,
     "poses": 23,
     "frames": [
       {
         "row": 0,
         "column": 0,
         "bounds": [
-          55,
+          51,
           12,
-          141,
-          242
+          145,
+          243
         ],
         "edgeContact": false
       },
@@ -1502,10 +1502,10 @@
         "row": 0,
         "column": 1,
         "bounds": [
-          313,
+          309,
           12,
-          139,
-          242
+          144,
+          243
         ],
         "edgeContact": false
       },
@@ -1515,8 +1515,8 @@
         "bounds": [
           545,
           29,
-          171,
-          225
+          172,
+          226
         ],
         "edgeContact": false
       },
@@ -1524,10 +1524,10 @@
         "row": 0,
         "column": 3,
         "bounds": [
-          791,
+          789,
           38,
-          202,
-          216
+          206,
+          217
         ],
         "edgeContact": false
       },
@@ -1535,10 +1535,10 @@
         "row": 1,
         "column": 0,
         "bounds": [
-          55,
+          54,
           278,
-          144,
-          228
+          146,
+          229
         ],
         "edgeContact": false
       },
@@ -1546,9 +1546,9 @@
         "row": 1,
         "column": 1,
         "bounds": [
-          319,
+          318,
           278,
-          136,
+          137,
           229
         ],
         "edgeContact": false
@@ -1557,10 +1557,10 @@
         "row": 1,
         "column": 2,
         "bounds": [
-          540,
+          537,
           282,
-          176,
-          224
+          179,
+          225
         ],
         "edgeContact": false
       },
@@ -1568,10 +1568,10 @@
         "row": 1,
         "column": 3,
         "bounds": [
-          819,
+          815,
           287,
-          139,
-          219
+          145,
+          220
         ],
         "edgeContact": false
       },
@@ -1579,9 +1579,9 @@
         "row": 2,
         "column": 0,
         "bounds": [
-          36,
+          35,
           539,
-          165,
+          167,
           226
         ],
         "edgeContact": false
@@ -1590,10 +1590,10 @@
         "row": 2,
         "column": 1,
         "bounds": [
-          263,
-          541,
-          210,
-          224
+          261,
+          540,
+          213,
+          225
         ],
         "edgeContact": false
       },
@@ -1601,10 +1601,10 @@
         "row": 2,
         "column": 2,
         "bounds": [
-          543,
-          515,
-          178,
-          250
+          540,
+          524,
+          182,
+          242
         ],
         "edgeContact": false
       },
@@ -1612,10 +1612,10 @@
         "row": 2,
         "column": 3,
         "bounds": [
-          783,
-          553,
-          209,
-          212
+          782,
+          554,
+          210,
+          211
         ],
         "edgeContact": false
       },
@@ -1623,10 +1623,10 @@
         "row": 3,
         "column": 0,
         "bounds": [
-          19,
+          18,
           805,
-          209,
-          211
+          210,
+          212
         ],
         "edgeContact": false
       },
@@ -1634,10 +1634,10 @@
         "row": 3,
         "column": 1,
         "bounds": [
-          289,
+          287,
           803,
-          174,
-          213
+          177,
+          214
         ],
         "edgeContact": false
       },
@@ -1645,9 +1645,9 @@
         "row": 3,
         "column": 2,
         "bounds": [
-          549,
-          796,
-          166,
+          547,
+          797,
+          167,
           220
         ],
         "edgeContact": false
@@ -1656,10 +1656,10 @@
         "row": 3,
         "column": 3,
         "bounds": [
-          807,
+          806,
           797,
-          164,
-          219
+          165,
+          220
         ],
         "edgeContact": false
       },
@@ -1667,9 +1667,9 @@
         "row": 4,
         "column": 0,
         "bounds": [
-          33,
+          31,
           1037,
-          162,
+          164,
           234
         ],
         "edgeContact": false
@@ -1678,10 +1678,10 @@
         "row": 4,
         "column": 1,
         "bounds": [
-          277,
+          274,
           1037,
-          201,
-          234
+          205,
+          235
         ],
         "edgeContact": false
       },
@@ -1689,9 +1689,9 @@
         "row": 4,
         "column": 2,
         "bounds": [
-          546,
-          1037,
-          164,
+          544,
+          1038,
+          166,
           234
         ],
         "edgeContact": false
@@ -1711,10 +1711,10 @@
         "row": 5,
         "column": 1,
         "bounds": [
-          273,
-          1299,
-          212,
-          224
+          270,
+          1298,
+          214,
+          225
         ],
         "edgeContact": false
       },
@@ -1722,10 +1722,10 @@
         "row": 5,
         "column": 2,
         "bounds": [
-          530,
-          1310,
-          161,
-          213
+          527,
+          1309,
+          166,
+          214
         ],
         "edgeContact": false
       },
@@ -1734,9 +1734,9 @@
         "column": 3,
         "bounds": [
           734,
-          1416,
-          274,
-          108
+          1415,
+          275,
+          109
         ],
         "edgeContact": false
       }

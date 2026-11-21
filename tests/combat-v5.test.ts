@@ -80,8 +80,8 @@ test("V5 initiative : niveau et arrivée ne reclassent pas les unités restantes
   const tied = s.units.map((u) => ({ ...u, initiative: 6 }));
   assert.deepEqual(initiativeOrder(tied), tied.map((u) => u.id).sort());
 });
-test("V5 blessures : les 89 profils utilisent un dessin distinct de leur garde, pas une translation", () => {
-  assert.equal(catalog.length, 89);
+test("V5 blessures : les 91 profils utilisent un dessin distinct de leur garde, pas une translation", () => {
+  assert.equal(catalog.length, 91);
   const cell = (c: any, i: number) =>
     [
       c.source,

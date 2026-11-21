@@ -1,12 +1,18 @@
 import { chromium } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
 
+// Older shared links lead to the current roster instead of a stale low-resolution review.
+await mkdir("public/validation/vikings-a-revoir", { recursive: true });
+await writeFile(
+  "public/validation/vikings-a-revoir/index.html",
+  '<!doctype html><html lang="fr"><meta charset="utf-8"><meta http-equiv="refresh" content="0;url=../vikings/index.html"><title>Comparaison des Vikings de base</title><a href="../vikings/index.html">Ouvrir la comparaison actuelle des Vikings</a></html>',
+);
 const browser = await chromium.launch({
   executablePath: "/usr/bin/chromium",
   args: ["--no-sandbox", "--disable-dev-shm-usage"],
 });
 try {
-  for (const kind of ["north-review", "knight"]) {
+  for (const kind of ["knight"]) {
     const directory = kind === "knight" ? "chevaliers" : "vikings-a-revoir";
     const out = `public/validation/${directory}`;
     await mkdir(out, { recursive: true });
@@ -39,7 +45,12 @@ try {
                   gender,
                   weapon,
                   label: `${cls.femaleName && gender === "female" ? cls.femaleName : cls.name} · ${gender === "male" ? "homme" : "femme"}`,
-                  status: "Ressource actuelle · comparaison",
+                  status:
+                    ["man_at_arms", "swordsman"].includes(cls.id) ||
+                    (gender === "female" &&
+                      ["crossbowman", "sorcerer"].includes(cls.id))
+                      ? "Nouveau · animations à tester"
+                      : "Référence conservée · animations à tester",
                 })),
               ),
             )
@@ -116,9 +127,10 @@ try {
         "knight",
       ]);
       const terrain = document.createElement("canvas");
-      terrain.width = 640;
-      terrain.height = 448;
+      terrain.width = 1280;
+      terrain.height = 896;
       const ctx = terrain.getContext("2d");
+      ctx.scale(2, 2);
       ctx.imageSmoothingEnabled = false;
       ctx.drawImage(
         layer,
@@ -197,7 +209,7 @@ try {
           : "Comparaison des gabarits nordiques";
       const intro =
         kind === "knight"
-          ? "Cinq classes de base, hommes et femmes : dix variantes. Le Sorcier conserve la même apparence pour la magie offensive et les soins. Aucun dessin de Chevalier n’est modifié."
+          ? "Cinq classes de base, hommes et femmes : dix variantes. Six nouveaux dessins à tester, quatre références conservées. Le Sorcier conserve la même apparence pour la magie offensive et les soins."
           : "La nouvelle Guerrière du Nord, une seule ancienne version et trois références vikings déjà validées. Les autres variantes restent disponibles dans les campagnes.";
       const esc = (s) =>
         String(s).replace(
@@ -212,7 +224,7 @@ try {
             })[c],
         );
       document.head.innerHTML = `<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>*{box-sizing:border-box}body{margin:0;background:#18212a;color:#eef2f6;font:16px Arial}main{max-width:1500px;margin:auto;padding:22px}h1{font-size:28px}a{color:#ead5a5}p{line-height:1.5}.cards{display:grid;grid-template-columns:repeat(${kind === "knight" ? 6 : 5},minmax(0,1fr));gap:10px}.card{padding:10px;background:#26333f;border:1px solid #536071}.card h2{font-size:16px;min-height:42px}.card p{font-size:13px;min-height:36px}.card img{width:100%;height:auto;image-rendering:pixelated}.card small{display:block;color:#c5d4df;line-height:1.5}.terrain{overflow:auto;max-width:100%;border:1px solid #536071}.terrain img{display:block;width:1280px;max-width:none;image-rendering:pixelated}.legend{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.legend p{padding:8px;background:#26333f;font-size:13px}.notice{padding:12px;background:#2b3a49;border-left:4px solid #d2b87d}@media(max-width:1000px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.legend{grid-template-columns:repeat(2,1fr)}}@media(max-width:600px){main{padding:10px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.legend{grid-template-columns:1fr}}</style>`;
-      document.body.innerHTML = `<main><h1>${title}</h1><p>${intro}</p><p><a href="../vikings-a-revoir/index.html">Vikings à revoir</a> · <a href="../chevaliers/index.html">Chevaliers de base</a> · <a href="../vikings/index.html">Toutes les bases vikings</a> · <a href="../vikings/animations/north-warrior-female.png">23 poses de la nouvelle Guerrière</a> · <a href="../../">Retour au jeu</a></p><p class="notice">Même hauteur anatomique de référence : 185 pixels, sans étirement. Les équipements peuvent dépasser ce repère. Les figurines sur le terrain utilisent les dimensions du jeu. Une ressource partagée entre les sexes est signalée, sans inventer de nouvelle apparence.</p><div class="cards">${rows.map((r, i) => `<article class="card" data-variant="${r.id}"><h2>${i + 1} · ${esc(r.label)}</h2><p>${esc(r.status)}<br>${esc(r.weaponName)}</p><img src="${r.image}" alt="${esc(r.label)}"><small>Définition de corps source : ${Math.round(r.reference)} px${r.shared ? "<br>Profil graphique partagé entre les sexes" : ""}${r.issues.length ? `<br>${r.issues.length} réserve(s) technique(s) du skin` : ""}</small></article>`).join("")}</div><h2>Sur le terrain tactique du prologue</h2><p>Mise en situation indépendante, sur les cases praticables de la vraie carte. Aucune équipe ni sauvegarde n’est déplacée. <label>Zoom <select id="zoom"><option value="1">×1</option><option value="2" selected>×2</option><option value="3">×3</option></select></label></p><div class="terrain"><img id="terrain" src="${terrainImage}" alt="Comparaison sur le terrain tactique"></div><div class="legend">${rows.map((r, i) => `<p>${i + 1} · ${esc(r.label)}<br>${esc(r.weaponName)}</p>`).join("")}</div><p><a href="comparaison.png">Télécharger cette comparaison</a> · <a href="terrain.png">Télécharger le terrain</a></p></main>`;
+      document.body.innerHTML = `<main><h1>${title}</h1><p>${intro}</p><p><a href="../vikings/index.html">Vikings de base</a> · <a href="../chevaliers/index.html">Chevaliers de base</a> · <a href="../vikings/index.html">Toutes les bases vikings</a> · <a href="animations/index.html">Planches d’animations des Chevaliers</a> · <a href="couleurs-equipes.png">Couleurs jaune / rose</a> · <a href="archives/avant.png">Comparaison avant les reprises</a> · <a href="../../">Retour au jeu</a></p><p class="notice">Même hauteur anatomique de référence : 185 pixels, sans étirement. Les équipements peuvent dépasser ce repère. Les figurines sur le terrain utilisent les dimensions du jeu. L’image est rendue directement en double résolution pour préserver les détails au zoom ×2. Une ressource partagée entre les sexes est signalée, sans inventer de nouvelle apparence.</p><div class="cards">${rows.map((r, i) => `<article class="card" data-variant="${r.id}"><h2>${i + 1} · ${esc(r.label)}</h2><p>${esc(r.status)}<br>${esc(r.weaponName)}</p><img src="${r.image}" alt="${esc(r.label)}"><small>Définition de corps source : ${Math.round(r.reference)} px${r.shared ? "<br>Profil graphique partagé entre les sexes" : ""}${r.issues.length ? `<br>${r.issues.length} réserve(s) technique(s) du skin` : ""}</small></article>`).join("")}</div><h2>Sur le terrain tactique du prologue</h2><p>Mise en situation indépendante, sur les cases praticables de la vraie carte. Aucune équipe ni sauvegarde n’est déplacée. <label>Zoom <select id="zoom"><option value="1">×1</option><option value="2" selected>×2</option><option value="3">×3</option></select></label></p><div class="terrain"><img id="terrain" src="${terrainImage}" alt="Comparaison sur le terrain tactique"></div><div class="legend">${rows.map((r, i) => `<p>${i + 1} · ${esc(r.label)}<br>${esc(r.weaponName)}</p>`).join("")}</div><p><a href="comparaison.png">Télécharger cette comparaison</a> · <a href="terrain.png">Télécharger le terrain</a></p></main>`;
       const script = document.createElement("script");
       script.textContent = `document.getElementById('zoom').onchange=e=>document.getElementById('terrain').style.width=(640*Number(e.target.value))+'px';`;
       document.body.append(script);

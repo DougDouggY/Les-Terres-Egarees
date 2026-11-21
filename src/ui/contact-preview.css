@@ -151,3 +151,12 @@
   color: #e5cd91;
   line-height: 1.35;
 }
+
+.contact-controls label:has([data-contact-animation]) {
+  flex-direction: column;
+  align-items: stretch;
+}
+.contact-controls select {
+  max-width: 100%;
+  min-width: 0;
+}

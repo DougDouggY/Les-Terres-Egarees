@@ -1614,7 +1614,7 @@
       "state": "default",
       "note": "Harmonisation nordique : même identité et équipement sur carte et en combat.",
       "referenceHeights": {
-        "tactical/combat-v4-north-refresh-north-warrior-female.png": 242
+        "tactical/combat-v4-north-refresh-north-warrior-female.png": 243
       },
       "clips": {
         "idle": {

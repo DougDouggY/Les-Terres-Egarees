@@ -179,12 +179,11 @@ export function findProfile(
   equipment: string,
   state: string,
 ) {
-  return profiles.find(
-    (p) =>
-      p.classId === classId &&
-      (p.gender === gender || p.gender === "any") &&
-      p.equipment === equipment &&
-      p.state === state,
+  const matches = (p: SpriteProfile) =>
+    p.classId === classId && p.equipment === equipment && p.state === state;
+  return (
+    profiles.find((p) => matches(p) && p.gender === gender) ??
+    profiles.find((p) => matches(p) && p.gender === "any")
   );
 }
 
