@@ -114,7 +114,10 @@ for name,cls,gender,full in MODELS:
             # A sword tip touches the sheet boundary in this one generated pose.
             # Do not import a clipped weapon; the neighbouring complete strike is used.
             if name in ['sword-f','spear']:cells.remove((1,3))
-            out['clips']['attack']=clip(cells,8,False,2 if name in ['sword-f','spear'] else 3)
+            # Keep the caster's spare hand empty throughout the casting cycle.
+            if name=='mage-f':
+                cells.remove((1,1));cells.remove((2,1))
+            out['clips']['attack']=clip(cells,8,False,2 if name in ['sword-f','spear','mage-f'] else 3)
             out['clips']['counter']={'reuse':'attack'}
             out['clips']['attack_again']={'reuse':'attack'}
             out['clips']['combat_idle']=clip([(0,2),(0,3)],2,True)

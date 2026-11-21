@@ -1485,11 +1485,9 @@
           "row": 1,
           "frames": [
             0,
-            1,
             2,
             3,
             0,
-            1,
             2,
             3
           ],
@@ -1497,10 +1495,6 @@
             {
               "row": 1,
               "column": 0
-            },
-            {
-              "row": 1,
-              "column": 1
             },
             {
               "row": 1,
@@ -1513,10 +1507,6 @@
             {
               "row": 2,
               "column": 0
-            },
-            {
-              "row": 2,
-              "column": 1
             },
             {
               "row": 2,
@@ -1532,7 +1522,7 @@
           "recolor": "blue",
           "recolorEdges": true,
           "status": "functional",
-          "impactFrame": 3
+          "impactFrame": 2
         },
         "counter": {
           "reuse": "attack"

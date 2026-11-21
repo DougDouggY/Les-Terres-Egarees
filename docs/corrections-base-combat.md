@@ -10,7 +10,7 @@
 
 ## Vérifications
 
-206 tests automatiques réussis (57 visuels et 149 systèmes). Sept parcours navigateur réussis : les 22 variantes de base, sélection et sources identiques à la campagne, vitesse/pause/rejeu, attaques et soins, parade réservée aux boucliers, affichage mobile et comparaisons. Un huitième test navigateur vérifie les deux Sorciers, le suivi de l’orbe, la croissance du projectile et l’explosion. Les tests de sauvegarde existants passent ; le test d’essai vérifie que les sauvegardes restent inchangées.
+206 tests automatiques réussis (57 visuels et 149 systèmes). Sept parcours navigateur réussis : les 22 variantes de base, sélection et sources identiques à la campagne, vitesse/pause/rejeu, attaques et soins, parade réservée aux boucliers, affichage mobile et comparaisons. Un huitième test navigateur vérifie les deux Sorciers, le suivi de l’orbe, la croissance du projectile et l’explosion. Un neuvième vérifie les introductions des deux factions et leur présentation sur téléphone. Les tests de sauvegarde existants passent ; le test d’essai vérifie que les sauvegardes restent inchangées.
 
 Les essais ne remplacent pas la validation visuelle en partie par le joueur. Aucune modification des règles de dégâts, classes, recrutements, cartes ou dialogues.
 
