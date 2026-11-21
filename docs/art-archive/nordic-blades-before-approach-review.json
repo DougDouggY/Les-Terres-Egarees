@@ -1,0 +1,870 @@
+[
+  {
+    "gender": "male",
+    "map": {
+      "classId": "nordic_blade",
+      "equipment": "sword",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-north.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            5,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 5
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 4
+            },
+            {
+              "row": 2,
+              "column": 5
+            }
+          ],
+          "fps": 9,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3,
+          "frameSize": {
+            "width": 246,
+            "height": 188.375
+          }
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même geste complet, déclenché en riposte ; retour à la garde sans nouvelle frappe."
+        },
+        "damage": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 246,
+            "height": 188.375
+          }
+        },
+        "death": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 246,
+            "height": 188.375
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 246,
+            "height": 188.375
+          }
+        }
+      },
+      "note": "Planches complémentaires : anticipation, armement, contact, récupération, dégâts, esquive et chute. Validation artistique en cours."
+    },
+    "combat": {
+      "classId": "nordic_blade",
+      "equipment": "sword",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "attack": {
+          "source": "tactical/combat-v3-swordsa.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 4
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "damage": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 246,
+            "height": 188.375
+          }
+        },
+        "death": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 4
+            },
+            {
+              "row": 3,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 246,
+            "height": 188.375
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-north.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 246,
+            "height": 188.375
+          }
+        },
+        "idle": {
+          "source": "tactical/combat-v3-swordsa.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0
+          ],
+          "fps": 12,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v3-motion4.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 14,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "source": "tactical/combat-v3-swordsa.png",
+          "columns": 8,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7
+          ],
+          "fps": 12,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 4
+        }
+      },
+      "note": "Corrections globales V3 : identité, gestes et déplacements vérifiés ; ressources de combat distinctes de la carte.",
+      "referenceHeights": {
+        "tactical/lot2-north.png": 245,
+        "tactical/complete-north.png": 168
+      }
+    },
+    "gap": 90.02153846153846
+  },
+  {
+    "gender": "female",
+    "map": {
+      "classId": "nordic_blade",
+      "gender": "female",
+      "equipment": "sword",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "evade": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 3,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-refinements-blade.png": 219
+      },
+      "note": "Harmonisation : une identité commune à la création, la carte et au combat."
+    },
+    "combat": {
+      "classId": "nordic_blade",
+      "gender": "female",
+      "equipment": "sword",
+      "state": "default",
+      "note": "Harmonisation : une identité commune à la création, la carte et au combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-refinements-blade.png": 219
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack",
+          "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+        },
+        "attack_again": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "evade": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 3,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    },
+    "gap": 111.60383561643836
+  }
+]

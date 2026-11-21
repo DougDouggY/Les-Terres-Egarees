@@ -62,6 +62,13 @@ try {
         "Nouvelle Lame nordique féminine",
       ],
     ];
+    variants.push([
+      "nordic-blade-male",
+      "nordic_blade",
+      "male",
+      "sword",
+      "Lame nordique — nouveaux pas",
+    ]);
     const results = [];
     for (const [id, cls, gender, weapon, title] of variants) {
       const unit = E.makeClassUnit(id, 1, 1, cls, title, 0, 0, gender);
@@ -125,7 +132,8 @@ try {
         for (const [p, name] of row)
           await R.spriteImage(C.resolveClip(p, name).source).decode();
       const canvas = document.createElement("canvas");
-      canvas.width = 1280;
+      const cellWidth = cls === "nordic_blade" ? 420 : 320;
+      canvas.width = cellWidth * 4;
       canvas.height = 95 + rows.length * 295;
       const ctx = canvas.getContext("2d");
       ctx.fillStyle = "#18212a";
@@ -145,26 +153,26 @@ try {
           const [p, name, i, label] = rows[row][col],
             clip = C.resolveClip(p, name),
             rect = G.resourceRect(clip, i);
-          const x = col * 320,
+          const x = col * cellWidth,
             y = 85 + row * 295,
             reference =
               p.referenceHeights?.[clip.source] ??
               G.profileMetrics(p).references.get(clip.source);
           ctx.fillStyle = "#26333f";
-          ctx.fillRect(x + 6, y + 3, 308, 287);
+          ctx.fillRect(x + 6, y + 3, cellWidth - 12, 287);
           ctx.strokeStyle = "#a5987866";
           ctx.beginPath();
           ctx.moveTo(x + 12, y + 258);
-          ctx.lineTo(x + 308, y + 258);
+          ctx.lineTo(x + cellWidth - 12, y + 258);
           ctx.stroke();
           R.drawResourceFrame(
             ctx,
             p,
             name,
             i,
-            x,
+            x - (cls === "nordic_blade" ? 30 : 0),
             y + 258 - 280 * 0.96,
-            320,
+            cellWidth,
             280,
             true,
             "blue",

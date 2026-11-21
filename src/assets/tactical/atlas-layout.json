@@ -32425,7 +32425,7 @@
         "width": 150,
         "height": 208,
         "ground": 500,
-        "anchorX": 90.0,
+        "anchorX": 169.0,
         "bodyGround": 500,
         "bodyHeight": 219,
         "ambiguous": false
@@ -32438,7 +32438,7 @@
         "width": 172,
         "height": 205,
         "ground": 498,
-        "anchorX": 338.0,
+        "anchorX": 433.0,
         "bodyGround": 498,
         "bodyHeight": 219,
         "ambiguous": false
@@ -32451,7 +32451,7 @@
         "width": 172,
         "height": 205,
         "ground": 500,
-        "anchorX": 662.0,
+        "anchorX": 689.0,
         "bodyGround": 500,
         "bodyHeight": 219,
         "ambiguous": false
@@ -32464,7 +32464,7 @@
         "width": 178,
         "height": 201,
         "ground": 500,
-        "anchorX": 873.0,
+        "anchorX": 943.0,
         "bodyGround": 500,
         "bodyHeight": 219,
         "ambiguous": false
@@ -34065,6 +34065,66 @@
         "anchorX": 1855.26,
         "bodyGround": 541,
         "bodyHeight": 364,
+        "ambiguous": false
+      }
+    ]
+  },
+  "tactical/combat-v4-refinements-nordic-male-steps.png": {
+    "width": 2172,
+    "height": 724,
+    "columns": 4,
+    "rows": 1,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "x": 45,
+        "y": 147,
+        "width": 404,
+        "height": 475,
+        "ground": 622,
+        "anchorX": 329.23,
+        "bodyGround": 622,
+        "bodyHeight": 500,
+        "ambiguous": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "x": 611,
+        "y": 145,
+        "width": 332,
+        "height": 473,
+        "ground": 618,
+        "anchorX": 863.23,
+        "bodyGround": 618,
+        "bodyHeight": 500,
+        "ambiguous": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "x": 1131,
+        "y": 153,
+        "width": 396,
+        "height": 467,
+        "ground": 620,
+        "anchorX": 1410.23,
+        "bodyGround": 620,
+        "bodyHeight": 500,
+        "ambiguous": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "x": 1712,
+        "y": 151,
+        "width": 322,
+        "height": 472,
+        "ground": 623,
+        "anchorX": 1951.23,
+        "bodyGround": 623,
+        "bodyHeight": 500,
         "ambiguous": false
       }
     ]

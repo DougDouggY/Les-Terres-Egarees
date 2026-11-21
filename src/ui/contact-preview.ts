@@ -6,7 +6,11 @@ import {
   drawResourceFrame,
 } from "../sprites/resources";
 import { combatSkin } from "../sprites/combat-skins";
-import { dodgeReaction, shieldReaction } from "./combat-reactions";
+import {
+  dodgeReaction,
+  shieldReaction,
+  synchronizeMeleeDodge,
+} from "./combat-reactions";
 import { illustratedWeaponPoint } from "../sprites/weapon-point";
 import { resolveClip } from "../sprites/catalog";
 import { resourceRect, anatomicalContactGap } from "../sprites/geometry";
@@ -385,8 +389,12 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     if (ready) {
       const first = contactScenarios[kind].events[0].side;
       const gap = anatomicalContactGap(profile, profile, 136);
+      const blade = selected.cls === "nordic_blade";
+      const approach = blade
+        ? Math.min(1, sample.approach / 0.78)
+        : sample.approach;
       const positions = contactPositions(
-        running || elapsed > 0 ? sample.approach : 0,
+        running || elapsed > 0 ? approach : 0,
         gap,
         first,
         selected.ranged,
@@ -407,13 +415,14 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
             ? elapsed / 1000
             : sample.progress;
       } else if (running && elapsed < contactApproach) {
-        if (!selected.ranged) actions[0] = actions[1] = "move";
+        if (!selected.ranged && (!blade || sample.approach < 0.78))
+          actions[0] = actions[1] = "move";
         progress[0] = progress[1] = elapsed / 1000;
       } else if ((running || elapsed > 0) && !sample.ending) {
         const { event: e, progress: p } = sample;
         actions[e.side] = p < 0.78 ? "attack" : "idle";
         progress[e.side] = p / 0.78;
-        if (selected.cls === "spearman" && p < 0.78) {
+        if (!selected.ranged && p < 0.78) {
           const c = resolveClip(profile, "attack")!;
           const peak = c.impactFrame ?? 2;
           const index =
@@ -450,10 +459,11 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         }
         const dodge = dodgeReaction(
           p,
-          ["bow", "crossbow"].includes(selected.category),
+          ["bow", "crossbow", "magic"].includes(selected.category),
           0.42,
           0.16,
           0.84,
+          synchronizeMeleeDodge(selected.cls, selected.gender),
         );
         if (e.outcome === "evade" && dodge) {
           actions[target] = "evade";
@@ -517,7 +527,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
             136,
             from === 0 ? 1 : -1,
           ),
-          { x: positions[to] + offset[to], y: 285 },
+          { x: positions[to], y: 285 },
           110,
           illustratedWeaponPoint(
             profile,
@@ -531,6 +541,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
             136,
             from === 0 ? 1 : -1,
           ),
+          sample.event.outcome !== "evade",
         );
       }
       if (demo === "heal" && running)

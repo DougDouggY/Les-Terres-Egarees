@@ -6,7 +6,11 @@ import {
 } from "./critical-impact";
 import type { Unit } from "../game/types";
 import { activeWeapon } from "../game/classes";
-import { dodgeReaction, shieldReaction } from "./combat-reactions";
+import {
+  dodgeReaction,
+  shieldReaction,
+  synchronizeMeleeDodge,
+} from "./combat-reactions";
 import type { TeamColors } from "../game/team-colors";
 import { colorForOwner } from "../game/team-colors";
 import {
@@ -305,6 +309,7 @@ export class CombatSceneV2 {
     const source = resolveClip(a.skin?.profile, "attack")?.source ?? "";
     if (
       source.startsWith("tactical/combat-v4-north-refresh-") ||
+      a.skin?.profile.classId === "nordic_blade" ||
       source.startsWith("tactical/combat-v4-knight-refresh-") ||
       source.startsWith("tactical/combat-v4-refinements-") ||
       source === "tactical/combat-v4-pillarde-axe-v3.png"
@@ -448,22 +453,34 @@ export class CombatSceneV2 {
       const keepMotion =
         ["ironbreaker", "berserker"].includes(a.actor.unit.classId ?? "") ||
         a.actor.skin?.profile.state === "bear";
+      const blade = a.actor.skin?.profile.classId === "nordic_blade";
+      const approachEnd = blade ? 0.28 : 0.35;
       const approach =
         !keepMotion && !block.ranged && !block.linked && p < 0.58
-          ? Math.sin((Math.min(1, p / 0.35) * Math.PI) / 2)
+          ? Math.sin((Math.min(1, p / approachEnd) * Math.PI) / 2)
           : travel;
       a.x += direction * approach * advance;
       Object.assign(a, this.attackPose(a.actor, hit, p, block.linked));
+      if (blade && !block.linked && p >= approachEnd && p < 0.35) {
+        a.name = "idle";
+        a.index = 0;
+      }
       const retreatAt = block.counterIndex !== undefined ? 0.88 : 0.78;
       if (
         !block.ranged &&
-        ((!block.linked && p < 0.35) || (!block.hold && p > retreatAt && p < 1))
+        ((!block.linked && p < approachEnd) ||
+          (!block.hold && p > retreatAt && p < 1))
       ) {
         const move = resolveClip(a.actor.skin?.profile, "move");
         if (move && move.frames.length > 1) {
           a.name = "move";
           const phase =
-            Math.floor(elapsed / (1000 / move.fps)) % move.frames.length;
+            blade && p < approachEnd
+              ? Math.min(
+                  move.frames.length - 1,
+                  Math.floor((p / approachEnd) * move.frames.length),
+                )
+              : Math.floor(elapsed / (1000 / move.fps)) % move.frames.length;
           a.index = p > retreatAt ? move.frames.length - 1 - phase : phase;
         }
       }
@@ -475,10 +492,17 @@ export class CombatSceneV2 {
         a.index = Math.max(0, (c?.impactFrame ?? 2) - 1);
       }
       const projectileTargetX = d.x;
-      const arrow = ["bow", "crossbow"].includes(
-        activeWeapon(a.actor.unit).category,
+      const dodge = dodgeReaction(
+        p,
+        block.ranged,
+        0.58,
+        0.46,
+        0.86,
+        synchronizeMeleeDodge(
+          d.actor.skin?.profile.classId,
+          d.actor.skin?.profile.gender,
+        ),
       );
-      const dodge = dodgeReaction(p, arrow, 0.58, 0.46, 0.86);
       const shieldKnight = d.actor.skin?.profile.classId === "man_at_arms";
       const shieldPhase = shieldReaction(p, 0.58);
       if (!hit.hit && !hit.blocked && dodge) {
@@ -547,7 +571,8 @@ export class CombatSceneV2 {
       );
       const target = {
         x:
-          (arrow ? projectileTargetX : d.x) - direction * d.actor.height * 0.18,
+          (block.ranged ? projectileTargetX : d.x) -
+          direction * d.actor.height * 0.18,
         y: ground - d.actor.height * 0.56,
       };
       const impact = block.beats[0].at;
@@ -575,6 +600,7 @@ export class CombatSceneV2 {
             target,
             100,
             this.weaponPoint(a.actor, a.name, a.index, a.x, ground, direction),
+            hit.hit || !!hit.blocked,
           );
         else if (p >= 0.4 && p < 0.58) {
           const f = (p - 0.4) / 0.18;

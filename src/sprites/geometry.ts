@@ -238,11 +238,13 @@ export function anatomicalContactGap(
     attacker?.classId === "swordsman" ? attackerBody * 0.04 : 0;
   const lanceAdjustment =
     attacker?.classId === "spearman" ? attackerBody * 0.07 : 0;
-  return (
+  const distance =
     base +
     shieldClearance(attacker, attackerBody) +
     shieldClearance(defender, defenderBody) -
     swordAdjustment -
-    lanceAdjustment
-  );
+    lanceAdjustment;
+  return attacker?.classId === "nordic_blade"
+    ? Math.max(distance, (attackerBody + defenderBody) * 0.36)
+    : distance;
 }

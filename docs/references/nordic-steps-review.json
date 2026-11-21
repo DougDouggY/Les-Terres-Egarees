@@ -1,0 +1,82 @@
+[
+  {
+    "gender": "male",
+    "source": "tactical/combat-v4-refinements-nordic-male-steps.png",
+    "row": 0,
+    "column": 0,
+    "headX": 310.0,
+    "rootX": 329.23,
+    "reference": 500,
+    "guardOffset": -0.038461538461538464
+  },
+  {
+    "gender": "male",
+    "source": "tactical/combat-v4-refinements-nordic-male-steps.png",
+    "row": 0,
+    "column": 1,
+    "headX": 844.0,
+    "rootX": 863.23,
+    "reference": 500,
+    "guardOffset": -0.038461538461538464
+  },
+  {
+    "gender": "male",
+    "source": "tactical/combat-v4-refinements-nordic-male-steps.png",
+    "row": 0,
+    "column": 2,
+    "headX": 1391.0,
+    "rootX": 1410.23,
+    "reference": 500,
+    "guardOffset": -0.038461538461538464
+  },
+  {
+    "gender": "male",
+    "source": "tactical/combat-v4-refinements-nordic-male-steps.png",
+    "row": 0,
+    "column": 3,
+    "headX": 1932.0,
+    "rootX": 1951.23,
+    "reference": 500,
+    "guardOffset": -0.038461538461538464
+  },
+  {
+    "gender": "female",
+    "source": "tactical/combat-v4-refinements-blade.png",
+    "row": 1,
+    "column": 0,
+    "headX": 146.0,
+    "rootX": 169.0,
+    "reference": 219,
+    "guardOffset": -0.1050228310502283
+  },
+  {
+    "gender": "female",
+    "source": "tactical/combat-v4-refinements-blade.png",
+    "row": 1,
+    "column": 1,
+    "headX": 410.0,
+    "rootX": 433.0,
+    "reference": 219,
+    "guardOffset": -0.1050228310502283
+  },
+  {
+    "gender": "female",
+    "source": "tactical/combat-v4-refinements-blade.png",
+    "row": 1,
+    "column": 2,
+    "headX": 666.0,
+    "rootX": 689.0,
+    "reference": 219,
+    "guardOffset": -0.1050228310502283
+  },
+  {
+    "gender": "female",
+    "source": "tactical/combat-v4-refinements-blade.png",
+    "row": 1,
+    "column": 3,
+    "headX": 920.0,
+    "rootX": 943.0,
+    "reference": 219,
+    "guardOffset": -0.1050228310502283
+  }
+]

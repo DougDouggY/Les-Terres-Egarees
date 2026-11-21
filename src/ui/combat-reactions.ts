@@ -5,12 +5,14 @@ export function dodgeReaction(
   impact: number,
   meleeStart: number,
   meleeEnd: number,
+  synchronizedMelee = false,
 ) {
-  const start = projectile ? impact - 0.075 : meleeStart;
-  const end = projectile ? impact + 0.3 : meleeEnd;
+  const timed = projectile || synchronizedMelee;
+  const start = timed ? impact - (projectile ? 0.075 : 0.035) : meleeStart;
+  const end = timed ? impact + 0.3 : meleeEnd;
   if (progress < start || progress >= end) return undefined;
   // A projectile dodge reaches its illustrated back step as the arrow arrives.
-  const phase = projectile
+  const phase = timed
     ? progress < impact
       ? ((progress - start) / (impact - start)) * 0.5
       : 0.5 + ((progress - impact) / (end - impact)) * 0.5
@@ -26,4 +28,8 @@ export function shieldReaction(progress: number, impact = 0.42) {
     : progress < 0.58
       ? 0.5
       : 0.67 + ((progress - 0.58) / 0.24) * 0.32;
+}
+
+export function synchronizeMeleeDodge(classId?: string, gender?: string) {
+  return !(classId === "nordic_blade" && gender === "female");
 }

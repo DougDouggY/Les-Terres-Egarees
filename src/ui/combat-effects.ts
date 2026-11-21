@@ -73,6 +73,7 @@ export function drawSpell(
   to: { x: number; y: number },
   size = 110,
   chargeFrom = from,
+  hit = true,
 ) {
   if (kind === "heal") return;
   const flip = to.x < from.x;
@@ -121,6 +122,21 @@ export function drawSpell(
       flip,
     );
   }
+  // A missed fireball passes the aim point without bursting on the dodge.
+  if (kind === "fire" && !hit && t >= 0 && t < 160) {
+    ctx.save();
+    ctx.globalAlpha *= 1 - t / 160;
+    drawEffectFrame(
+      ctx,
+      kind,
+      3,
+      to.x + ((to.x - from.x) * t) / 180,
+      to.y + ((to.y - from.y) * t) / 180,
+      size * 1.2,
+      flip,
+    );
+    ctx.restore();
+  }
   if (kind === "lightning" && t >= -80 && t < 100)
     drawEffectFrame(
       ctx,
@@ -154,7 +170,7 @@ export function drawSpell(
     );
     ctx.restore();
   }
-  if (t >= 0 && t < 280)
+  if (t >= 0 && t < 280 && (kind !== "fire" || hit))
     drawEffectFrame(
       ctx,
       kind,

@@ -625,7 +625,9 @@ test("arcs et arbalètes homme/femme : la cible attend le vol puis esquive à l 
   await page
     .getByRole("button", { name: "Essai des animations", exact: true })
     .click();
-  await page.locator("[data-contact-speed]").selectOption("0.5");
+  // At 0.25x even a capped 100 ms render frame advances only 25 ms,
+  // shorter than either observation window.
+  await page.locator("[data-contact-speed]").selectOption("0.25");
   for (const id of [
     "hunter-male-bow",
     "huntress",
@@ -706,4 +708,198 @@ test("Hommes d armes homme/femme : bouclier visible à l impact, dégâts nuls e
   expect(gaps[0]).toBeGreaterThan(145);
   expect(gaps[1]).toBeGreaterThan(145);
   expect(Math.max(...gaps)).toBeLessThan(190);
+});
+
+test("campagne : esquive de mêlée tardive et pose de frappe présente à l impact pour toutes les variantes concernées", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const rows = await page.evaluate(async () => {
+    const E = await import(String("/src/engine.ts")),
+      V = await import(String("/src/ui/contact-roster.ts")),
+      C = await import(String("/src/sprites/catalog.ts")),
+      { CombatSceneV2 } = await import(String("/src/ui/combat-v2.ts"));
+    const out = [];
+    for (const v of V.contactRoster) {
+      const a = E.makeClassUnit("a", 1, 1, v.cls, "A", 0, 0, v.gender),
+        b = E.makeClassUnit("b", 2, 2, v.cls, "B", 1, 0, v.gender);
+      for (const u of [a, b]) {
+        u.activeWeaponId = v.weapon;
+        E.syncWeapon(u);
+      }
+      if (!["sword", "axe", "lance"].includes(E.activeWeapon(a).category))
+        continue;
+      if (v.cls === "nordic_blade" && v.gender === "female") continue;
+      const scene = new CombatSceneV2(
+        [a, b],
+        [
+          {
+            attacker: "a",
+            defender: "b",
+            hit: false,
+            damage: 0,
+            hpAfter: b.hp,
+          },
+        ],
+      );
+      await scene.prepare();
+      const canvas = document.createElement("canvas");
+      canvas.width = 960;
+      canvas.height = 600;
+      const ctx = canvas.getContext("2d")!,
+        at = scene.timeline.beats[0].at;
+      scene.draw(ctx, at - 150);
+      const early = scene.lastFrames.find(
+        (r: any) => r.actorId === "b",
+      )!.animation;
+      scene.draw(ctx, at);
+      const target = scene.lastFrames.find((r: any) => r.actorId === "b")!,
+        attacker = scene.lastFrames.find((r: any) => r.actorId === "a")!;
+      out.push({
+        id: v.id,
+        early,
+        late: target.animation,
+        index: attacker.index,
+        impact: C.resolveClip(scene.actors[0].skin!.profile, "attack")!
+          .impactFrame,
+        hp: scene.actors[1].unit.hp,
+        original: b.hp,
+      });
+    }
+    return out;
+  });
+  expect(rows.length).toBeGreaterThanOrEqual(13);
+  for (const r of rows) {
+    expect(r.early, r.id).not.toBe("evade");
+    expect(r.late, r.id).toBe("evade");
+    expect(r.index, r.id).toBe(r.impact);
+    expect(r.hp, r.id).toBe(r.original);
+  }
+});
+
+test("boule de feu esquivée : poursuite du vol sans explosion, impacts conservés sur une touche", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const rows = await page.evaluate(async () => {
+    const E = await import(String("/src/engine.ts")),
+      { CombatSceneV2 } = await import(String("/src/ui/combat-v2.ts")),
+      FX = await import(String("/src/ui/combat-effects.ts"));
+    await FX.preloadEffects();
+    const out = [];
+    for (const hit of [false, true])
+      for (const gender of ["male", "female"]) {
+        const a = E.makeClassUnit("a", 1, 1, "sorcerer", "A", 0, 0, gender),
+          b = E.makeClassUnit("b", 2, 2, "raider", "B", 1, 0, "male");
+        a.activeWeaponId = "spell";
+        E.syncWeapon(a);
+        const scene = new CombatSceneV2(
+          [a, b],
+          [
+            {
+              attacker: "a",
+              defender: "b",
+              hit,
+              damage: hit ? 3 : 0,
+              hpAfter: b.hp - (hit ? 3 : 0),
+            },
+          ],
+        );
+        await scene.prepare();
+        const canvas = document.createElement("canvas");
+        canvas.width = 960;
+        canvas.height = 600;
+        const ctx = canvas.getContext("2d")!,
+          frames: number[] = [];
+        const draw = ctx.drawImage.bind(ctx);
+        ctx.drawImage = ((...args: any[]) => {
+          const im = args[0];
+          if (im instanceof HTMLImageElement && im.src.includes("combat-magic"))
+            frames.push(Math.round(args[1] / (im.naturalWidth / 6)));
+          (draw as any)(...args);
+        }) as typeof ctx.drawImage;
+        scene.draw(ctx, scene.timeline.beats[0].at + 50);
+        out.push({ hit, gender, frames });
+      }
+    return out;
+  });
+  for (const r of rows) {
+    expect(r.frames.length).toBeGreaterThan(0);
+    if (r.hit) expect(r.frames).toContain(4);
+    else {
+      expect(r.frames).toContain(3);
+      expect(r.frames).not.toContain(4);
+      expect(r.frames).not.toContain(5);
+    }
+  }
+});
+
+test("Lames nordiques : arrêt en garde sans dernier pas ni chevauchement", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Essai des animations", exact: true })
+    .click();
+  await page.locator("[data-contact-speed]").selectOption("0.5");
+  for (const gender of ["male", "female"]) {
+    await page
+      .locator("[data-contact-character]")
+      .selectOption(`nordic_blade-${gender}-sword`);
+    await expect(page.locator("[data-contact-play-animation]")).toBeEnabled();
+    await page.locator('[data-contact-scenario="agility"]').click();
+    const before = await page.waitForFunction(() => {
+      const c = document.querySelector<HTMLCanvasElement>(
+        "[data-contact-canvas]",
+      )!;
+      const t = Number(c.dataset.elapsed);
+      return t >= 590 && t < 650
+        ? {
+            action: c.dataset.leftAction,
+            x: Number(c.dataset.leftX),
+            source: c.dataset.leftFrameSource,
+          }
+        : false;
+    });
+    const moving = (await before.jsonValue()) as {
+      action: string;
+      x: number;
+      source: string;
+    };
+    expect(moving.action).toBe("move");
+    if (gender === "male") expect(moving.source).toContain("nordic-male-steps");
+    const settled = await page.waitForFunction(() => {
+      const c = document.querySelector<HTMLCanvasElement>(
+        "[data-contact-canvas]",
+      )!;
+      const t = Number(c.dataset.elapsed);
+      return t >= 690 && t < 755
+        ? {
+            action: c.dataset.leftAction,
+            x: Number(c.dataset.leftX),
+            gap: Number(c.dataset.rightX) - Number(c.dataset.leftX),
+          }
+        : false;
+    });
+    const guard = (await settled.jsonValue()) as {
+      action: string;
+      x: number;
+      gap: number;
+    };
+    expect(guard.action).toBe("idle");
+    expect(guard.x).toBeGreaterThanOrEqual(moving.x);
+    expect(guard.x - moving.x).toBeLessThan(4);
+    expect(guard.gap).toBeGreaterThan(97);
+    const end = await page.waitForFunction(() => {
+      const c = document.querySelector<HTMLCanvasElement>(
+        "[data-contact-canvas]",
+      )!;
+      const t = Number(c.dataset.elapsed);
+      return t >= 775 && t < 845
+        ? { action: c.dataset.leftAction, x: Number(c.dataset.leftX) }
+        : false;
+    });
+    expect(await end.jsonValue()).toEqual({ action: "idle", x: guard.x });
+    await page.locator("[data-contact-pause]").click();
+  }
 });

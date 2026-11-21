@@ -522,3 +522,67 @@ test("nom de classe : Homme d armes pour les deux sexes, sexe explicite dans l e
     assert.ok(v.label.includes(v.gender === "female" ? "Femme" : "Homme"));
   }
 });
+
+test("esquives de mêlée : brève réaction sur l impact, exception féminine nordique conservée", async () => {
+  const { dodgeReaction, synchronizeMeleeDodge } =
+    await import("../src/ui/combat-reactions");
+  const { contactRoster } = await import("../src/ui/contact-roster");
+  for (const v of contactRoster) {
+    const timed = synchronizeMeleeDodge(v.cls, v.gender);
+    if (v.cls === "nordic_blade" && v.gender === "female") {
+      assert.equal(timed, false);
+      assert.deepEqual(
+        dodgeReaction(0.3, false, 0.42, 0.16, 0.84, timed),
+        dodgeReaction(0.3, false, 0.42, 0.16, 0.84),
+      );
+    } else {
+      assert.equal(timed, true);
+      assert.equal(
+        dodgeReaction(0.3, false, 0.42, 0.16, 0.84, timed),
+        undefined,
+      );
+      assert.equal(
+        dodgeReaction(0.42, false, 0.42, 0.16, 0.84, timed)!.retreat,
+        1,
+      );
+    }
+  }
+});
+
+test("Lames nordiques : nouveaux pas masculins, axes stables et esquive féminine identique à la version validée", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const before = JSON.parse(
+    await readFile(
+      "docs/art-archive/nordic-blades-before-approach-review.json",
+      "utf8",
+    ),
+  );
+  const now = JSON.parse(
+    await readFile(
+      "src/assets/tactical/zzzzzzzzzzzzzzz-nordic-steps.combat.json",
+      "utf8",
+    ),
+  ).profiles;
+  const { resolveClip } = await import("../src/sprites/catalog");
+  const review = JSON.parse(
+    await readFile("docs/references/nordic-steps-review.json", "utf8"),
+  );
+  assert.equal(review.length, 8);
+  for (const p of now) {
+    const c = resolveClip(p, "move")!;
+    assert.equal(c.frames.length, 4);
+    assert.equal(c.fps, 6);
+    if (p.gender === "male") assert.match(c.source, /nordic-male-steps/);
+    for (const r of review.filter((r: any) => r.gender === p.gender)) {
+      assert.ok(
+        Math.abs((r.headX - r.rootX) / r.reference - r.guardOffset) < 0.0001,
+        "axe de marche raccordé à la garde",
+      );
+    }
+    if (p.gender === "female")
+      assert.deepEqual(
+        p.clips.evade,
+        before.find((x: any) => x.gender === "female").combat.clips.evade,
+      );
+  }
+});
