@@ -1,3 +1,4 @@
+import { inventoryIcon } from "./item-icons";
 import { unitPortrait } from "../game/portraits";
 import { portraitMarkup } from "./portraits";
 import * as E from "../engine";
@@ -118,8 +119,6 @@ export function characterItems(u: Unit) {
     ...(u.potions > 0 ? [{ id: "bandages", name: "Bandages" }] : []),
   ];
 }
-const icon = (category: string) =>
-  `<svg class="item-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${category === "bandages" ? "M4 8h16v8H4z M8 4v16 M16 4v16" : category === "bow" || category === "crossbow" ? "M5 3Q23 12 5 21L10 12z M3 12h18" : category === "magic" || category === "healing" ? "M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" : "M17 2l5 1-2 5-10 10-4-4z M5 12l7 7 M3 21l5-5"}"/></svg>`;
 export function characterPage(
   u: Unit,
   tab: CharacterTab,
@@ -205,7 +204,7 @@ export function characterPage(
   }
   return (
     header +
-    `<div class="character-item-list" role="group" aria-label="Objets transportés">${items.map((item) => `<button data-action="character-item-${esc(item.id)}" class="character-item ${chosen?.id === item.id ? "selected" : ""}" aria-pressed="${chosen?.id === item.id}"><span class="item-cursor" aria-hidden="true">${item.id === u.activeWeaponId ? "▸" : "·"}</span>${icon(item.id === "bandages" ? "bandages" : (E.weaponCatalog[item.id]?.category ?? "sword"))}<span>${esc(item.name)}</span>${item.id === "bandages" ? `<b>×${u.potions}</b>` : ""}</button>`).join("")}</div><section class="character-item-details" aria-label="Détails de l’objet" aria-live="polite">${details}</section>`
+    `<div class="character-item-list" role="group" aria-label="Objets transportés">${items.map((item) => `<button data-action="character-item-${esc(item.id)}" class="character-item ${chosen?.id === item.id ? "selected" : ""}" aria-pressed="${chosen?.id === item.id}"><span class="item-cursor" aria-hidden="true">${item.id === u.activeWeaponId ? "▸" : "·"}</span>${inventoryIcon(item.id)}<span>${esc(item.name)}</span>${item.id === "bandages" ? `<b>×${u.potions}</b>` : ""}</button>`).join("")}</div><section class="character-item-details" aria-label="Détails de l’objet" aria-live="polite">${details}</section>`
   );
 }
 export function characterSheet(

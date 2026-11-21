@@ -13,7 +13,12 @@ const baseClasses = new Set([
   "sorcerer",
 ]);
 export function groundedIdleClass(classId: string | undefined) {
-  return !!classId && baseClasses.has(classId);
+  return (
+    !!classId &&
+    (baseClasses.has(classId) ||
+      classId === "skeleton" ||
+      classId.startsWith("sans_"))
+  );
 }
 export function groundedIdle(profile: SpriteProfile | undefined) {
   return (
@@ -26,7 +31,7 @@ export function groundedIdle(profile: SpriteProfile | undefined) {
 export function idleBreath(time: number) {
   const phase = (time * Math.PI * 2) / 2200;
   return {
-    lean: Math.sin(phase) * 0.009,
-    height: 1 - (1 - Math.cos(phase)) * 0.008,
+    lean: Math.sin(phase) * 0.012,
+    height: 1 - (1 - Math.cos(phase)) * 0.012,
   };
 }

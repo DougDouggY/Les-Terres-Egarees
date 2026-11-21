@@ -1,3 +1,4 @@
+import { contactPositions } from "./contact-trial-model";
 import { drawParryImpact, parryImpactDuration } from "./parry-impact";
 import {
   criticalImpact,
@@ -160,7 +161,8 @@ export class CombatSceneV2 {
   ranged(id: string) {
     const u = this.actors.find((a) => a.unit.id === id)?.unit;
     return (
-      !!u && ["bow", "crossbow", "magic"].includes(activeWeapon(u).category)
+      !!u &&
+      ["bow", "crossbow", "magic", "healing"].includes(activeWeapon(u).category)
     );
   }
   async prepare(yieldWork = false) {
@@ -396,6 +398,7 @@ export class CombatSceneV2 {
       )
       .at(-1);
     ctx.canvas.dataset.parry = String(!!parryBeat);
+    ctx.canvas.dataset.presentation = "shared-contact";
     const reducedMotion =
       typeof matchMedia === "function" &&
       matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -414,7 +417,7 @@ export class CombatSceneV2 {
       ctx.scale(-1, 1);
     }
     ctx.translate(critical.shakeX, critical.shakeY);
-    const homes = [250, 710],
+    const homes: [number, number] = [250, 710],
       ground = 475;
     const visible = sample
       ? this.actors.filter((a) =>
@@ -432,58 +435,57 @@ export class CombatSceneV2 {
       index: a.unit.hp <= 0 ? 999 : 0,
       side: a.side,
     }));
+    // The first melee action establishes one engagement for the whole exchange.
+    // Both melee opponents approach together; a ranged defender stays at home.
+    const engagement = this.timeline.blocks.find((b) => !b.ranged);
+    let approaching = false;
+    if (engagement && elapsed >= engagement.start) {
+      const first = this.strikes[engagement.index];
+      const attacker = this.actors.find((a) => a.unit.id === first.attacker)!;
+      const defender = this.actors.find((a) => a.unit.id === first.defender)!;
+      const base = engagement.actionDuration - engagement.approachExtra;
+      const end =
+        attacker.skin?.profile.classId === "nordic_blade" ? 0.28 : 0.35;
+      const progress = clamp(
+        (elapsed - engagement.start) / (base * end + engagement.approachExtra),
+      );
+      const gap = this.contact(attacker, defender, first);
+      const positions = contactPositions(
+        progress,
+        gap,
+        attacker.side as 0 | 1,
+        false,
+        this.ranged(defender.unit.id),
+        homes,
+      );
+      for (const placement of placements) {
+        placement.x = positions[placement.side];
+        if (
+          progress < 1 &&
+          Math.abs(placement.x - homes[placement.side]) > 0.01
+        ) {
+          placement.name = "move";
+          const move = resolveClip(placement.actor.skin?.profile, "move");
+          placement.index = move
+            ? Math.min(
+                move.frames.length - 1,
+                Math.floor(progress * move.frames.length),
+              )
+            : 0;
+        }
+      }
+      approaching = progress < 1;
+    }
     if (sample) {
-      const { block, p, travel } = sample,
+      const { block, p } = sample,
         hit = this.strikes[block.index],
         a = placements.find((a) => a.actor.unit.id === hit.attacker)!,
         d = placements.find((a) => a.actor.unit.id === hit.defender)!;
-      const linkedHit = block.hold
-        ? this.strikes[block.index + 1]
-        : block.linked
-          ? this.strikes[block.index - 1]
-          : undefined;
-      const gap = linkedHit
-          ? Math.min(
-              this.contact(a.actor, d.actor, hit),
-              this.contact(a.actor, d.actor, linkedHit),
-            )
-          : this.contact(a.actor, d.actor, hit),
-        direction = a.side === 0 ? 1 : -1,
-        advance = Math.max(0, 460 - gap);
-      const keepMotion =
-        ["ironbreaker", "berserker"].includes(a.actor.unit.classId ?? "") ||
-        a.actor.skin?.profile.state === "bear";
-      const blade = a.actor.skin?.profile.classId === "nordic_blade";
-      const approachEnd = blade ? 0.28 : 0.35;
-      const approach =
-        !keepMotion && !block.ranged && !block.linked && p < 0.58
-          ? Math.sin((Math.min(1, p / approachEnd) * Math.PI) / 2)
-          : travel;
-      a.x += direction * approach * advance;
-      Object.assign(a, this.attackPose(a.actor, hit, p, block.linked));
-      if (blade && !block.linked && p >= approachEnd && p < 0.35) {
-        a.name = "idle";
-        a.index = 0;
-      }
-      const retreatAt = block.counterIndex !== undefined ? 0.88 : 0.78;
-      if (
-        !block.ranged &&
-        ((!block.linked && p < approachEnd) ||
-          (!block.hold && p > retreatAt && p < 1))
-      ) {
-        const move = resolveClip(a.actor.skin?.profile, "move");
-        if (move && move.frames.length > 1) {
-          a.name = "move";
-          const phase =
-            blade && p < approachEnd
-              ? Math.min(
-                  move.frames.length - 1,
-                  Math.floor((p / approachEnd) * move.frames.length),
-                )
-              : Math.floor(elapsed / (1000 / move.fps)) % move.frames.length;
-          a.index = p > retreatAt ? move.frames.length - 1 - phase : phase;
-        }
-      }
+      const direction = a.side === 0 ? 1 : -1;
+      // Approach poses were assigned jointly above. Subsequent strikes keep the
+      // same body positions; only the illustrated attack/reaction changes.
+      if (!approaching)
+        Object.assign(a, this.attackPose(a.actor, hit, p, block.linked));
       if (block.hold && p >= 0.78) {
         const next = this.strikes[block.index + 1],
           name = attackName(a.actor.unit, next),
@@ -534,16 +536,6 @@ export class CombatSceneV2 {
         const counter = this.strikes[block.counterIndex],
           replyStart = 0.69;
         if (p >= replyStart && p < 0.98) {
-          const replyGap = this.contact(d.actor, a.actor, counter),
-            currentGap = Math.abs(a.x - d.x),
-            extra = Math.max(0, currentGap - replyGap),
-            flow =
-              p < 0.77
-                ? Math.sin((clamp((p - 0.69) / 0.08) * Math.PI) / 2)
-                : p < 0.86
-                  ? 1
-                  : Math.max(0, 1 - (p - 0.86) / 0.12);
-          d.x -= direction * extra * flow;
           const q =
             p < 0.79
               ? 0.2 + ((p - 0.69) / 0.1) * 0.37

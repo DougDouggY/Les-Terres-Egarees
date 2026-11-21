@@ -133,11 +133,12 @@ export function contactPositions(
   first: 0 | 1,
   attackerRanged = false,
   defenderRanged = false,
+  homes: readonly [number, number] = [270, 690],
 ): [number, number] {
-  const positions: [number, number] = [270, 690];
+  const positions: [number, number] = [...homes];
   if (attackerRanged) return positions;
   const travel = Math.sin((Math.min(1, Math.max(0, progress)) * Math.PI) / 2);
-  const advance = (420 - gap) * travel;
+  const advance = Math.max(0, homes[1] - homes[0] - gap) * travel;
   if (defenderRanged) positions[first] += first === 0 ? advance : -advance;
   else {
     positions[0] += advance / 2;

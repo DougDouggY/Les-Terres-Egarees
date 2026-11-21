@@ -7572,3 +7572,23 @@ body:has(.aftermath-screen) .modal-back.rewards {
     padding: 3px;
   }
 }
+
+/* Distinct, transparent inventory art for each weapon and item. */
+.character-item {
+  grid-template-columns: 8px 32px minmax(0, 1fr) auto;
+}
+.item-icon {
+  display: block;
+  width: 32px;
+  height: 32px;
+  background-size: 500% 400%;
+  background-repeat: no-repeat;
+  image-rendering: auto;
+}
+.item-icon-unknown {
+  text-align: center;
+  color: #d3bd85;
+}
+.item-icon-standalone {
+  background-size: 100% 100%;
+}

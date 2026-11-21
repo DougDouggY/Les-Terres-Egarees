@@ -1319,6 +1319,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   canvas.dataset.storyActors = (story?.actors ?? [])
     .map((a) => a.unit.id)
     .join(",");
+  canvas.dataset.movingUnit = moveAnim?.id ?? "";
   canvas.dataset.cameraX = String(cam.x);
   canvas.dataset.cameraY = String(cam.y);
   canvas.dataset.viewCols = String(viewCols);
@@ -1561,9 +1562,10 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
   for (const u of E.alive(s).sort((a, b) => a.y - b.y)) {
     if (story?.hideUnits) continue;
     if (fogEnabled && !E.seen(s, p, u)) continue;
+    const displayUnit = moveAnim?.id === u.id ? { ...u, fortified: false } : u;
     let x = u.x * 32,
       y = u.y * 32,
-      frame = idleAnimationFrame(unitSpriteProfile(u), time);
+      frame = idleAnimationFrame(unitSpriteProfile(displayUnit), time);
     if (u.classId === "shaman" && u.gender === "female") {
       canvas.dataset.idleFrame = String(frame);
       canvas.dataset.idleTime = String(time);
@@ -1580,7 +1582,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
         b = E.map[moveAnim.steps[Math.min(i + 1, moveAnim.steps.length - 1)]];
       x = (a.x + (b.x - a.x) * (f - i)) * 32;
       y = (a.y + (b.y - a.y) * (f - i)) * 32;
-      const movement = resolveClip(unitSpriteProfile(u), "move");
+      const movement = resolveClip(unitSpriteProfile(displayUnit), "move");
       frame = Math.floor((time * (movement?.fps ?? 8)) / 1000);
     }
     const action = tacticalAction?.sprite.id === u.id ? tacticalAction : null;
@@ -1595,15 +1597,18 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
       ["banner", "fortify", "transform"].includes(action.animation) &&
       time - action.start > (action.durationMs ?? 1100) * 0.8;
     const mounted =
-      E.unitClass(u).mounted || unitSpriteProfile(u)?.classId === "sans_rider";
+      E.unitClass(u).mounted ||
+      unitSpriteProfile(displayUnit)?.classId === "sans_rider";
     const spriteSize = mounted ? 52 : 38;
     drawSprite(
       ctx,
-      finalCapability ? u : (action?.sprite ?? u),
+      finalCapability ? u : (action?.sprite ?? displayUnit),
       x + 16 - spriteSize / 2,
       y + 12 - spriteSize / 2 - 0.384 * (spriteSize - 38),
       spriteSize,
-      finalCapability ? idleAnimationFrame(unitSpriteProfile(u), time) : frame,
+      finalCapability
+        ? idleAnimationFrame(unitSpriteProfile(displayUnit), time)
+        : frame,
       false,
       false,
       finalCapability
@@ -1612,7 +1617,7 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
             action?.animation ??
             (moveAnim?.id === u.id ? "move" : "idle")),
       finalCapability
-        ? combatSkin(unitSpriteProfile(u))?.profile
+        ? combatSkin(unitSpriteProfile(displayUnit))?.profile
         : action?.profile,
     );
     if (u.id === cur?.id || selected === u.id) {
@@ -1825,6 +1830,13 @@ async function animateMove(u: Unit, x: number, y: number) {
   if (!plan || plan.cost > E.effectiveMove(u)) return false;
   const p = E.movementPrefix(s, u, plan);
   busy = true;
+  // The move clip can live on a different sheet from idle (notably lancers).
+  // Decode it before starting the clock, including for AI-controlled enemies.
+  await warmSprites([{ ...u, fortified: false }], s.teamColors, [
+    "idle",
+    "move",
+  ]);
+  if (state !== s) return false;
   moveAnim = {
     id: u.id,
     steps: p.steps,

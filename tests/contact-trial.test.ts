@@ -312,7 +312,7 @@ test("respiration commune : cycle continu, amplitude faible, aucune translation 
   for (let t = 0; t < 4400; t += 17) {
     const a = idleBreath(t),
       b = idleBreath(t + 1);
-    assert.ok(Math.abs(a.lean) <= 0.0091 && a.height >= 0.984 && a.height <= 1);
+    assert.ok(Math.abs(a.lean) <= 0.0121 && a.height >= 0.976 && a.height <= 1);
     assert.ok(
       Math.abs(a.lean - b.lean) < 0.0001,
       "pas de saut entre deux poses",
@@ -585,4 +585,36 @@ test("Lames nordiques : nouveaux pas masculins, axes stables et esquive féminin
         before.find((x: any) => x.gender === "female").combat.clips.evade,
       );
   }
+});
+
+test("icônes : chaque équipement et les bandages ont leur propre case d’atlas", async () => {
+  const { inventoryIconIds, inventoryIconPosition } =
+    await import("../src/ui/item-icons");
+  const { weaponCatalog } = await import("../src/data/weapons");
+  assert.deepEqual(
+    new Set(inventoryIconIds),
+    new Set([...Object.keys(weaponCatalog), "bandages"]),
+  );
+  const positions = inventoryIconIds.map((id) =>
+    JSON.stringify(inventoryIconPosition(id)),
+  );
+  assert.equal(new Set(positions).size, inventoryIconIds.length);
+  assert.equal(inventoryIconPosition("objet_inconnu"), undefined);
+});
+
+test("repos : respiration continue des Sans-Repos, sans modification de cadence", async () => {
+  const { groundedIdleClass, idleBreath } =
+    await import("../src/sprites/idle-motion");
+  for (const id of [
+    "skeleton",
+    "sans_axe",
+    "sans_spear",
+    "sans_archer",
+    "sans_guard",
+    "sans_rider",
+    "sans_necromancer",
+  ])
+    assert.equal(groundedIdleClass(id), true);
+  assert.ok(idleBreath(1100).height < 0.98);
+  assert.ok(Math.abs(idleBreath(0).height - idleBreath(2200).height) < 1e-10);
 });
