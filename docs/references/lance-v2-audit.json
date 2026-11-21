@@ -1,0 +1,183 @@
+{
+  "source": "tactical/combat-v4-refinements-lance-v2.png",
+  "poses": 16,
+  "referenceHeight": 203,
+  "frames": [
+    {
+      "row": 0,
+      "column": 0,
+      "bounds": [
+        133,
+        14,
+        165,
+        203
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "bounds": [
+        578,
+        14,
+        163,
+        203
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "bounds": [
+        993,
+        21,
+        212,
+        195
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "bounds": [
+        1440,
+        21,
+        211,
+        195
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "bounds": [
+        107,
+        242,
+        213,
+        195
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "bounds": [
+        551,
+        248,
+        208,
+        189
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "bounds": [
+        986,
+        250,
+        221,
+        187
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "bounds": [
+        1430,
+        250,
+        235,
+        186
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "bounds": [
+        75,
+        463,
+        228,
+        194
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "bounds": [
+        500,
+        469,
+        245,
+        188
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "bounds": [
+        906,
+        472,
+        281,
+        185
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 2,
+      "column": 3,
+      "bounds": [
+        1331,
+        484,
+        424,
+        173
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 3,
+      "column": 0,
+      "bounds": [
+        27,
+        709,
+        398,
+        168
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 3,
+      "column": 1,
+      "bounds": [
+        523,
+        696,
+        293,
+        181
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 3,
+      "column": 2,
+      "bounds": [
+        957,
+        687,
+        241,
+        190
+      ],
+      "edgeContact": false
+    },
+    {
+      "row": 3,
+      "column": 3,
+      "bounds": [
+        1409,
+        685,
+        226,
+        192
+      ],
+      "edgeContact": false
+    }
+  ]
+}

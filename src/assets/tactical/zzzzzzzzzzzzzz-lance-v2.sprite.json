@@ -1,0 +1,257 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "spearman",
+      "equipment": "lance",
+      "state": "default",
+      "gender": "any",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-refinements-lance-v2.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-refinements-lance-v2.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-lance-v2.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 195,
+            "height": 205.042
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 195,
+            "height": 205.042
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 195,
+            "height": 205.042
+          }
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-refinements-lance-v2.png",
+          "columns": 4,
+          "rows": 4,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        }
+      },
+      "note": "Lance : pas rapides au sol et estoc ample, buste penché, bras et hampe projetés en avant. Variante partagée homme/femme.",
+      "allowMixedSources": true,
+      "referenceHeights": {
+        "tactical/combat-v4-refinements-spear.png": 285,
+        "tactical/combat-v4-refinements-lance-v2.png": 203
+      }
+    }
+  ]
+}

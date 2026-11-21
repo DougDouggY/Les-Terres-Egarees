@@ -29,9 +29,9 @@
       "gender": "male",
       "weapon": "lance",
       "status": "Référence conservée · animations à tester",
-      "source": "tactical/combat-v4-refinements-spear.png",
-      "mapSource": "tactical/lot2-knights.png",
-      "reference": 285,
+      "source": "tactical/combat-v4-refinements-lance-v2.png",
+      "mapSource": "tactical/combat-v4-refinements-lance-v2.png",
+      "reference": 203,
       "shared": true
     },
     {
@@ -40,9 +40,9 @@
       "gender": "female",
       "weapon": "lance",
       "status": "Référence conservée · animations à tester",
-      "source": "tactical/combat-v4-refinements-spear.png",
-      "mapSource": "tactical/lot2-knights.png",
-      "reference": 285,
+      "source": "tactical/combat-v4-refinements-lance-v2.png",
+      "mapSource": "tactical/combat-v4-refinements-lance-v2.png",
+      "reference": 203,
       "shared": true
     },
     {

@@ -24,6 +24,8 @@ try {
     viewport: { width: 1680, height: 1000 },
     deviceScaleFactor: 1,
   });
+  // Public report writes must not reload the offscreen capture through Vite HMR.
+  await page.routeWebSocket(/.*/, () => {});
   await page.goto("http://127.0.0.1:5173/");
   const result = await page.evaluate(async (previousTerrain) => {
     const E = await import("/src/engine.ts"),
@@ -103,8 +105,8 @@ try {
         if (!image.naturalWidth) throw Error(c.source);
       }
     const metrics = [];
-    function portrait(entry) {
-      const p = entry.combat,
+    function portrait(entry, mode = "map") {
+      const p = mode === "map" ? entry.map : entry.combat,
         c = C.resolveClip(p, "idle"),
         r = G.resourceRect(c, 0),
         reference =
@@ -148,22 +150,27 @@ try {
           }
       if (right < 0 || left === 0 || top === 0 || right === 259)
         throw Error("Silhouette vide ou coupée " + entry.id);
-      metrics.push({
-        id: entry.id,
-        classId: entry.classId,
-        gender: entry.gender,
-        weapon: entry.weapon,
-        combatSource: c.source,
-        mapSource: C.resolveClip(entry.map, "idle").source,
-        bodyReference: reference,
-        bodyDisplayReference: 176,
-        visibleWidth: right - left + 1,
-        visibleHeight: bottom - top + 1,
-        review: entry.id === "P",
-      });
+      if (mode === "map")
+        metrics.push({
+          id: entry.id,
+          classId: entry.classId,
+          gender: entry.gender,
+          weapon: entry.weapon,
+          combatSource: C.resolveClip(entry.combat, "idle").source,
+          mapSource: C.resolveClip(entry.map, "idle").source,
+          bodyReference: reference,
+          bodyDisplayReference: 176,
+          visibleWidth: right - left + 1,
+          visibleHeight: bottom - top + 1,
+          review: entry.id === "P",
+        });
       return canvas.toDataURL();
     }
-    const cards = entries.map((e) => ({ ...e, image: portrait(e) }));
+    const cards = entries.map((e) => ({
+      ...e,
+      image: portrait(e),
+      combatImage: portrait(e, "combat"),
+    }));
     proposal.image = portrait(proposal);
     const atlas = new Image();
     atlas.src = "/assets/regional-tiles.png";
@@ -248,13 +255,7 @@ try {
         // Same two transforms, 38px frame, world scale and idle sway as main.ts drawSprite.
         ctx.save();
         ctx.translate(x + 16, y + 12);
-        const sway = D.tacticalIdleSway(
-          e.classId,
-          e.gender,
-          "idle",
-          0,
-          C.resolveClip(p, "idle").frames.length,
-        );
+        const sway = 0; // Same grounded neutral pose as the map at breath time zero.
         if (sway) ctx.transform(1, 0, sway, 1, -sway * (size * 0.384), 0);
         if (
           !R.drawResourceFrame(
@@ -299,10 +300,10 @@ try {
           })[c],
       );
     document.head.innerHTML = `<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Comparaison des gabarits nordiques</title><style>*{box-sizing:border-box}body{margin:0;background:#18212a;color:#eef2f6;font:15px Arial,sans-serif}main{max-width:1680px;margin:auto;padding:24px}h1{font-size:28px;margin:0 0 10px}h2{color:#ead5a5;font-size:22px;margin-top:24px}p{line-height:1.5}.notice{padding:13px;background:#2b3a49;border-left:4px solid #d2b87d}.cards{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.card{background:#26333f;border:1px solid #536071;padding:8px;min-width:0}.card h3{font-size:15px;line-height:1.3;height:40px;margin:0 0 3px}.card .sub{height:34px;font-size:12px;color:#c3d0e0}.card img{width:100%;height:auto;display:block;image-rendering:pixelated;background:linear-gradient(transparent 91.5%,#c4b48955 91.5%,#c4b48955 91.8%,transparent 91.8%)}.card small{display:block;color:#c3d0e0;line-height:1.4}.proposal{display:flex;align-items:center;gap:24px;flex-wrap:wrap;background:#253340;padding:16px}.proposal img{width:260px;height:360px;image-rendering:pixelated}.proposal>div{flex:1;min-width:230px}.controls{display:flex;gap:18px;flex-wrap:wrap;margin:16px 0}select{padding:8px}label{display:flex;gap:8px;align-items:center}.map-viewport{max-width:100%;max-height:950px;overflow:auto;border:1px solid #a69a70;background:#0e191c}.map-viewport img{display:block;width:1280px;height:auto;max-width:none;image-rendering:pixelated}.map-viewport img[hidden]{display:none}.legend{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}.legend p{margin:0;padding:8px;background:#26333f;font-size:13px}a{color:#ead39b}@media(max-width:1100px){.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.legend{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:600px){main{padding:10px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.legend{grid-template-columns:1fr}h1{font-size:23px}.card h3{font-size:13px}}</style>`;
-    document.body.innerHTML = `<main><h1>Toutes les classes vikings de base — hommes et femmes</h1><p>5 classes, 6 équipements, 12 variantes actuelles. Chaque paire présente homme puis femme. Le Pillard est montré avec hache/bouclier et épée/bouclier.</p><div class="notice">Les grands portraits de sprites utilisent une même hauteur de corps de référence de 176 px, sans déformation. Les largeurs incluent arme, bouclier et cape. Les images ci-dessous sont celles actuellement enregistrées dans le moteur.</div><h2>Gabarits de combat actuels</h2><div class="cards">${cards
+    document.body.innerHTML = `<main><h1>Toutes les classes vikings de base — hommes et femmes</h1><p>5 classes, 6 équipements, 12 variantes actuelles. Chaque paire présente homme puis femme. Le Pillard est montré avec hache/bouclier et épée/bouclier.</p><div class="notice">Les grands portraits de sprites utilisent une même hauteur de corps de référence de 176 px, sans déformation. Les largeurs incluent arme, bouclier et cape. Les images ci-dessous sont celles actuellement enregistrées dans le moteur.</div><h2>Apparences de création et de carte</h2><p>Image principale : pose utilisée en création et sur carte. Dépliez « Garde de combat » pour voir sa ressource de combat, qui peut provenir d’une autre planche existante.</p><div class="cards">${cards
       .map((e) => {
         const m = metrics.find((m) => m.id === e.id);
-        return `<article class="card" data-variant="${e.id}"><h3>${esc(e.className)} · ${e.gender === "male" ? "homme" : "femme"}</h3><div class="sub">${esc(e.weaponName)} · repère ${e.id}</div><img src="${e.image}" alt="${esc(e.className)} ${e.gender}"><small>Silhouette avec équipement : ${m.visibleWidth} × ${m.visibleHeight} px</small></article>`;
+        return `<article class="card" data-variant="${e.id}"><h3>${esc(e.className)} · ${e.gender === "male" ? "homme" : "femme"}</h3><div class="sub">${esc(e.weaponName)} · repère ${e.id}</div><img src="${e.image}" alt="${esc(e.className)} ${e.gender}"><details><summary>Garde de combat</summary><img src="${e.combatImage}" alt="Garde de combat ${esc(e.className)} ${e.gender}"></details><small>Silhouette avec équipement : ${m.visibleWidth} × ${m.visibleHeight} px</small></article>`;
       })
       .join(
         "",

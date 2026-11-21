@@ -301,3 +301,58 @@ test("Corrections de base : attente fixe, espacement des boucliers et armes comp
     }
   }
 });
+
+test("respiration commune : cycle continu, amplitude faible, aucune translation du sol", async () => {
+  const { idleBreath, groundedIdle } =
+    await import("../src/sprites/idle-motion");
+  const start = idleBreath(0),
+    end = idleBreath(2200);
+  assert.ok(Math.abs(start.lean - end.lean) < 1e-10);
+  assert.ok(Math.abs(start.height - end.height) < 1e-10);
+  for (let t = 0; t < 4400; t += 17) {
+    const a = idleBreath(t),
+      b = idleBreath(t + 1);
+    assert.ok(Math.abs(a.lean) <= 0.0091 && a.height >= 0.984 && a.height <= 1);
+    assert.ok(
+      Math.abs(a.lean - b.lean) < 0.0001,
+      "pas de saut entre deux poses",
+    );
+  }
+  assert.equal(
+    groundedIdle({ classId: "shaman", state: "bear" } as any),
+    false,
+  );
+});
+
+test("Lanciers : nouveaux pas et fente ample partagés, riposte et agilité réutilisent l estoc", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { resolveClip } = await import("../src/sprites/catalog");
+  const { resourceRect, profileMetrics } =
+    await import("../src/sprites/geometry");
+  const p = JSON.parse(
+    await readFile(
+      "src/assets/tactical/zzzzzzzzzzzzzz-lance-v2.sprite.json",
+      "utf8",
+    ),
+  ).profiles[0];
+  const move = resolveClip(p, "move")!,
+    attack = resolveClip(p, "attack")!;
+  assert.equal(p.gender, "any");
+  assert.equal(move.frames.length, 4);
+  assert.equal(move.fps, 6);
+  assert.equal(attack.frames.length, 8);
+  assert.equal(attack.impactFrame, 3);
+  assert.equal(resolveClip(p, "counter")!.source, attack.source);
+  assert.equal(resolveClip(p, "attack_again")!.source, attack.source);
+  const ready = resourceRect(attack, 0)!,
+    lunge = resourceRect(attack, 3)!;
+  assert.ok(
+    lunge.width > ready.width * 1.6,
+    "bras, corps et hampe nettement projetés en avant",
+  );
+  assert.ok(lunge.height < ready.height * 0.92, "buste penché en fente");
+  const reach =
+    (lunge.x + lunge.width - lunge.anchorX) /
+    profileMetrics(p).references.get(attack.source)!;
+  assert.ok(reach > 0.9, "pointe largement devant l appui");
+});

@@ -19,6 +19,8 @@ try {
     const page = await browser.newPage({
       viewport: { width: 1500, height: 1000 },
     });
+    // Public report writes must not reload the offscreen capture through Vite HMR.
+    await page.routeWebSocket(/.*/, () => {});
     await page.goto("http://127.0.0.1:5173/");
     const result = await page.evaluate(async (kind) => {
       const E = await import("/src/engine.ts"),
@@ -172,13 +174,7 @@ try {
           size = 38;
         ctx.save();
         ctx.translate(x + 16, y + 12);
-        const sway = D.tacticalIdleSway(
-          row.cls,
-          row.gender,
-          "idle",
-          0,
-          C.resolveClip(row.map, "idle").frames.length,
-        );
+        const sway = 0; // Same grounded neutral pose as the map at breath time zero.
         if (sway) ctx.transform(1, 0, sway, 1, -sway * size * 0.384, 0);
         R.drawResourceFrame(
           ctx,

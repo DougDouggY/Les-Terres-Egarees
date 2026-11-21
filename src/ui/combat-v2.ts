@@ -690,6 +690,7 @@ export class CombatSceneV2 {
           ground: a?.feetY,
           scale,
           maskRuns: a?.maskRuns,
+          idleTime: elapsed,
           preparedImage: c && v.actor.preparedSources.get(c.source),
         },
       );

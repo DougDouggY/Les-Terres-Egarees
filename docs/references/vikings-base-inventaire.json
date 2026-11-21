@@ -48,8 +48,8 @@
       "mapSource": "tactical/combat-v4-north-refresh-north-warrior.png",
       "bodyReference": 220,
       "bodyDisplayReference": 176,
-      "visibleWidth": 136,
-      "visibleHeight": 165,
+      "visibleWidth": 113,
+      "visibleHeight": 175,
       "review": false
     },
     {
@@ -61,8 +61,8 @@
       "mapSource": "tactical/combat-v4-north-refresh-north-warrior-female.png",
       "bodyReference": 243,
       "bodyDisplayReference": 176,
-      "visibleWidth": 124,
-      "visibleHeight": 163,
+      "visibleWidth": 105,
+      "visibleHeight": 175,
       "review": false
     },
     {
@@ -74,8 +74,8 @@
       "mapSource": "tactical/combat-v4-north-refresh-male-axe.png",
       "bodyReference": 217,
       "bodyDisplayReference": 176,
-      "visibleWidth": 134,
-      "visibleHeight": 165,
+      "visibleWidth": 120,
+      "visibleHeight": 174,
       "review": false
     },
     {
@@ -87,8 +87,8 @@
       "mapSource": "tactical/combat-v4-pillarde-axe-v3.png",
       "bodyReference": 202,
       "bodyDisplayReference": 176,
-      "visibleWidth": 131,
-      "visibleHeight": 172,
+      "visibleWidth": 122,
+      "visibleHeight": 177,
       "review": false
     },
     {
@@ -100,8 +100,8 @@
       "mapSource": "tactical/combat-v4-north-refresh-male-sword.png",
       "bodyReference": 211,
       "bodyDisplayReference": 176,
-      "visibleWidth": 130,
-      "visibleHeight": 164,
+      "visibleWidth": 122,
+      "visibleHeight": 174,
       "review": false
     },
     {
@@ -113,8 +113,8 @@
       "mapSource": "tactical/combat-v4-north-refresh-female-sword.png",
       "bodyReference": 214,
       "bodyDisplayReference": 176,
-      "visibleWidth": 127,
-      "visibleHeight": 167,
+      "visibleWidth": 120,
+      "visibleHeight": 174,
       "review": false
     },
     {
@@ -124,10 +124,10 @@
       "weapon": "sword",
       "combatSource": "tactical/combat-v3-swordsa.png",
       "mapSource": "tactical/lot2-north.png",
-      "bodyReference": 130,
+      "bodyReference": 245,
       "bodyDisplayReference": 176,
-      "visibleWidth": 142,
-      "visibleHeight": 176,
+      "visibleWidth": 116,
+      "visibleHeight": 177,
       "review": false
     },
     {
@@ -139,8 +139,8 @@
       "mapSource": "tactical/combat-v4-refinements-blade.png",
       "bodyReference": 219,
       "bodyDisplayReference": 176,
-      "visibleWidth": 146,
-      "visibleHeight": 165,
+      "visibleWidth": 114,
+      "visibleHeight": 176,
       "review": false
     },
     {
@@ -152,8 +152,8 @@
       "mapSource": "tactical/combat-v4-refinements-hunter.png",
       "bodyReference": 217,
       "bodyDisplayReference": 176,
-      "visibleWidth": 127,
-      "visibleHeight": 161,
+      "visibleWidth": 125,
+      "visibleHeight": 175,
       "review": false
     },
     {
@@ -165,8 +165,8 @@
       "mapSource": "tactical/combat-v4-north-refresh-huntress.png",
       "bodyReference": 229,
       "bodyDisplayReference": 176,
-      "visibleWidth": 118,
-      "visibleHeight": 167,
+      "visibleWidth": 104,
+      "visibleHeight": 176,
       "review": false
     },
     {
@@ -176,10 +176,10 @@
       "weapon": "healing_focus",
       "combatSource": "tactical/combat-v2-support.png",
       "mapSource": "tactical/lot2-magic.png",
-      "bodyReference": 204,
+      "bodyReference": 218,
       "bodyDisplayReference": 176,
-      "visibleWidth": 157,
-      "visibleHeight": 196,
+      "visibleWidth": 150,
+      "visibleHeight": 194,
       "review": false
     },
     {
@@ -205,8 +205,8 @@
     "mapSource": "tactical/combat-v4-pillarde-axe-v3.png",
     "bodyReference": 202,
     "bodyDisplayReference": 176,
-    "visibleWidth": 131,
-    "visibleHeight": 172,
+    "visibleWidth": 122,
+    "visibleHeight": 177,
     "review": true,
     "replaces": "F2",
     "reviewOnly": false

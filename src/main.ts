@@ -12,6 +12,7 @@ import {
   type CharacterTab,
 } from "./ui/character-sheet";
 import { tacticalIdleSway, idleAnimationFrame } from "./sprites/display-scale";
+import { groundedIdle } from "./sprites/idle-motion";
 import { creatorMarkup, paintCreatorSprites } from "./ui/creator";
 import {
   statSnapshot,
@@ -1064,13 +1065,15 @@ function drawSprite(
   ctx.save();
   ctx.translate(x + size / 2, y + size / 2);
   if (flip) ctx.scale(-1, 1);
-  const sway = tacticalIdleSway(
-    u.classId,
-    u.gender,
-    animation,
-    frame,
-    resolveClip(profile, "idle")?.frames.length,
-  );
+  const sway = groundedIdle(profile)
+    ? 0
+    : tacticalIdleSway(
+        u.classId,
+        u.gender,
+        animation,
+        frame,
+        resolveClip(profile, "idle")?.frames.length,
+      );
   if (sway) ctx.transform(1, 0, sway, 1, -sway * (size * 0.384), 0);
   if (
     !drawResourceFrame(
@@ -1085,6 +1088,7 @@ function drawSprite(
       true,
       E.colorForOwner(state?.teamColors, u.owner),
       "world",
+      { idleTime: performance.now() },
     )
   ) {
     ctx.fillStyle = "#e8d4ad";
@@ -1565,7 +1569,8 @@ function renderMap(canvas: HTMLCanvasElement, p: 1 | 2, time: number) {
         b = E.map[moveAnim.steps[Math.min(i + 1, moveAnim.steps.length - 1)]];
       x = (a.x + (b.x - a.x) * (f - i)) * 32;
       y = (a.y + (b.y - a.y) * (f - i)) * 32;
-      frame = Math.floor(time / 130) % 2;
+      const movement = resolveClip(unitSpriteProfile(u), "move");
+      frame = Math.floor((time * (movement?.fps ?? 8)) / 1000);
     }
     const action = tacticalAction?.sprite.id === u.id ? tacticalAction : null;
     if (action)

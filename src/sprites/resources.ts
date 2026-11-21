@@ -1,5 +1,6 @@
 import { steelWeaponSource } from "./weapon-material";
 import { resourceScale } from "./geometry";
+import { groundedIdle, idleBreath } from "./idle-motion";
 import atlasLayouts from "../assets/tactical/atlas-layout.json";
 import combatAnchors from "../assets/tactical/combat-anchors.json";
 import { visualClasses } from "./visual-classes";
@@ -161,6 +162,7 @@ export function drawResourceFrame(
   color?: TeamColor,
   scaleMode: "fit" | "world" = "fit",
   placement?: {
+    idleTime?: number;
     anchorX?: number;
     ground?: number;
     scale?: number;
@@ -175,9 +177,13 @@ export function drawResourceFrame(
   const sw = img.naturalWidth / c.columns,
     sh = img.naturalHeight / c.rows,
     indexInClip =
-      c.loop === false
-        ? Math.max(0, Math.min(c.frames.length - 1, index))
-        : ((index % c.frames.length) + c.frames.length) % c.frames.length,
+      animation === "idle" &&
+      placement?.idleTime !== undefined &&
+      groundedIdle(p)
+        ? 0
+        : c.loop === false
+          ? Math.max(0, Math.min(c.frames.length - 1, index))
+          : ((index % c.frames.length) + c.frames.length) % c.frames.length,
     column = c.cells?.[indexInClip]?.column ?? c.frames[indexInClip],
     left = Math.round(column * sw),
     sourceRow = c.cells?.[indexInClip]?.row ?? c.row,
@@ -186,6 +192,18 @@ export function drawResourceFrame(
   if (!source) return false;
   ctx.save();
   ctx.imageSmoothingEnabled = !pixelArt;
+  if (
+    animation === "idle" &&
+    placement?.idleTime !== undefined &&
+    groundedIdle(p)
+  ) {
+    const breath = idleBreath(placement.idleTime);
+    const ground = y + height * (scaleMode === "world" ? 0.96 : 0.9);
+    const centre = x + width / 2;
+    ctx.translate(centre, ground);
+    ctx.transform(1, 0, breath.lean, breath.height, 0, 0);
+    ctx.translate(-centre, -ground);
+  }
   const layout = (
     atlasLayouts as Record<
       string,

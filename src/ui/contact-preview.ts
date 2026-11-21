@@ -45,6 +45,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     E.syncWeapon(u);
     return {
       ...v,
+      mapProfile: unitSpriteProfile(u)!,
       profile: combatSkin(unitSpriteProfile(u))!.profile,
       weaponName: E.activeWeapon(u).name,
       shield: E.hasShield(u),
@@ -234,6 +235,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   )!;
   function refreshAnimations() {
     const labels: Record<string, string> = {
+      "map-idle": "Attente carte / introduction",
       idle: "Attente",
       move: "Pas rapides",
       attack: "Attaque",
@@ -247,7 +249,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     extra.innerHTML = Object.entries(labels)
       .filter(
         ([name]) =>
-          !!resolveClip(profile, name) &&
+          (name === "map-idle" || !!resolveClip(profile, name)) &&
           (name !== "block" || selected.shield) &&
           (name !== "attack" || selected.category !== "healing"),
       )
@@ -257,7 +259,13 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     else if (resolveClip(profile, "reload")) extra.value = "reload";
   }
   function playAnimation(name: string) {
-    if (!ready || !resolveClip(profile, name)) return;
+    if (
+      !ready ||
+      !(name === "map-idle"
+        ? resolveClip(selected.mapProfile, "idle")
+        : resolveClip(profile, name))
+    )
+      return;
     demo = name;
     app.querySelectorAll(".duel-nameplates strong")[1].textContent =
       `${name === "heal" ? "Allié" : "Adversaire"} · ${selected.name}`;
@@ -286,9 +294,10 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     progress: number,
     alpha = 1,
   ) {
+    const drawing = demo === "map-idle" ? selected.mapProfile : profile;
     const clip =
-      resolveClip(profile, animation) ?? resolveClip(profile, "idle")!;
-    const name = resolveClip(profile, animation) ? animation : "idle";
+      resolveClip(drawing, animation) ?? resolveClip(drawing, "idle")!;
+    const name = resolveClip(drawing, animation) ? animation : "idle";
     const count =
       animation === "block"
         ? Math.min(3, clip.frames.length)
@@ -304,13 +313,13 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     ctx.globalAlpha = alpha;
     // Constant anatomical size per source: raising the axe never shrinks the body.
     const reference =
-      profile.referenceHeights?.[clip.source] ??
+      drawing.referenceHeights?.[clip.source] ??
       resourceRect(clip, 0)?.bodyHeight ??
       rect.bodyHeight ??
       rect.height;
     drawResourceFrame(
       ctx,
-      profile,
+      drawing,
       name,
       index,
       -80,
@@ -320,7 +329,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       true,
       side === 0 ? "blue" : "pink",
       "world",
-      { scale: 136 / reference },
+      { scale: 136 / reference, idleTime: progress * 1000 },
     );
     ctx.restore();
   }
@@ -386,9 +395,16 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         progress = [elapsed / 1000, elapsed / 1000],
         offset = [0, 0];
       if (demo) {
-        actions[0] = demo === "death" || !sample.ending ? demo : "idle";
+        actions[0] =
+          demo === "map-idle"
+            ? "idle"
+            : demo === "death" || !sample.ending
+              ? demo
+              : "idle";
         progress[0] =
-          demo === "idle" || demo === "move" ? elapsed / 1000 : sample.progress;
+          demo === "idle" || demo === "map-idle" || demo === "move"
+            ? elapsed / 1000
+            : sample.progress;
       } else if (running && elapsed < contactApproach) {
         if (!selected.ranged) actions[0] = actions[1] = "move";
         progress[0] = progress[1] = elapsed / 1000;
@@ -551,9 +567,15 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       canvas.dataset.parry = String(parrying);
       canvas.dataset.critical = String(effect.active);
       canvas.dataset.leftFrameSource =
-        resolveClip(profile, actions[0])?.source ?? "";
+        resolveClip(
+          demo === "map-idle" ? selected.mapProfile : profile,
+          actions[0],
+        )?.source ?? "";
       canvas.dataset.rightFrameSource =
-        resolveClip(profile, actions[1])?.source ?? "";
+        resolveClip(
+          demo === "map-idle" ? selected.mapProfile : profile,
+          actions[1],
+        )?.source ?? "";
       canvas.dataset.leftOffset = String(offset[0]);
       canvas.dataset.rightOffset = String(offset[1]);
       canvas.dataset.profile = `${profile.classId}:${profile.gender}:${profile.equipment}`;
@@ -596,11 +618,12 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     try {
       await Promise.all(
         [
-          ...new Set(
-            Object.keys(profile.clips).map(
+          ...new Set([
+            resolveClip(selected.mapProfile, "idle")!.source,
+            ...Object.keys(profile.clips).map(
               (n) => resolveClip(profile, n)!.source,
             ),
-          ),
+          ]),
         ].map(async (source) => {
           const image = spriteImage(source);
           if (!image.complete)

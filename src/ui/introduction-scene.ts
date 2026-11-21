@@ -10,7 +10,6 @@ import { maskDialoguePortraits } from "./portrait-mask";
 import {
   anatomicalPlacement,
   idleAnimationFrame,
-  tacticalIdleSway,
 } from "../sprites/display-scale";
 import {
   unitSpriteProfile,
@@ -400,15 +399,6 @@ export class IntroductionScene {
     const frame = move
       ? Math.floor((now * (resolveClip(profile, animation)?.fps ?? 8)) / 1000)
       : idleAnimationFrame(profile, now);
-    // Feet stay on the same ground point during the restrained idle breath.
-    const sway = tacticalIdleSway(
-      u.classId,
-      u.gender,
-      animation,
-      frame,
-      resolveClip(profile, animation)?.frames.length,
-    );
-    this.ctx.transform(1, 0, sway, 1, 0, 0);
     drawResourceFrame(
       this.ctx,
       profile,
@@ -421,7 +411,7 @@ export class IntroductionScene {
       true,
       E.colorForOwner(this.options.colors, u.owner),
       "world",
-      anatomicalPlacement(profile, animation, body),
+      { ...anatomicalPlacement(profile, animation, body), idleTime: now },
     );
     this.ctx.restore();
   }

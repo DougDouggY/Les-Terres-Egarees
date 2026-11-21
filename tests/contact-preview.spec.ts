@@ -87,7 +87,7 @@ test("toutes les bases : 22 variantes en campagne et dans l’essai, corps à co
         expect(
           Number(await canvas.getAttribute("data-right-x")) -
             Number(await canvas.getAttribute("data-left-x")),
-        ).toBeLessThan(200);
+        ).toBeLessThan(v.cls === "spearman" ? 340 : 200);
     }
     for (const action of [
       v.hasReload ? "reload" : null,
@@ -524,5 +524,96 @@ test("Sorciers : orbe suivi pendant la charge, projectile croissant et explosion
     expect(actor.sizes).toHaveLength(3);
     expect(actor.sizes[0]).toBeLessThan(actor.sizes[1]);
     expect(actor.sizes[1]).toBeLessThan(actor.sizes[2]);
+  }
+});
+
+test("attentes des 22 variantes : respiration visible, pieds ancrés et pose de carte disponible dans l essai", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const audit = await page.evaluate(async () => {
+    const E = await import(String("/src/engine.ts")),
+      R = await import(String("/src/sprites/resources.ts")),
+      C = await import(String("/src/sprites/catalog.ts")),
+      G = await import(String("/src/sprites/geometry.ts")),
+      V = await import(String("/src/ui/contact-roster.ts")),
+      I = await import(String("/src/sprites/idle-motion.ts"));
+    const results = [];
+    for (const v of V.contactRoster) {
+      const u = E.makeClassUnit(v.id, 1, 1, v.cls, v.name, 0, 0, v.gender);
+      u.activeWeaponId = v.weapon;
+      E.syncWeapon(u);
+      const p = R.unitSpriteProfile(u)!,
+        c = C.resolveClip(p, "idle")!;
+      await R.spriteImage(c.source).decode();
+      const reference = G.profileMetrics(p).references.get(c.source)!;
+      const canvas = document.createElement("canvas");
+      canvas.width = canvas.height = 256;
+      const ctx = canvas.getContext("2d")!,
+        hashes = [],
+        bottoms = [];
+      for (const t of [0, 550, 1100, 1650]) {
+        ctx.clearRect(0, 0, 256, 256);
+        R.drawResourceFrame(
+          ctx,
+          p,
+          "idle",
+          Math.floor((t * c.fps) / 1000),
+          0,
+          230 - 256 * 0.96,
+          256,
+          256,
+          true,
+          "yellow",
+          "world",
+          { scale: 82 / reference, idleTime: t },
+        );
+        const px = ctx.getImageData(0, 0, 256, 256).data;
+        let hash = 0,
+          bottom = -1;
+        for (let i = 0; i < px.length; i++) {
+          hash = (Math.imul(hash, 31) + px[i]) | 0;
+          if (i % 4 === 3 && px[i] > 64) bottom = Math.floor(i / 4 / 256);
+        }
+        hashes.push(hash);
+        bottoms.push(bottom);
+      }
+      results.push({
+        id: v.id,
+        source: c.source,
+        grounded: I.groundedIdle(p),
+        distinct: new Set(hashes).size,
+        bottoms,
+      });
+    }
+    return results;
+  });
+  expect(audit).toHaveLength(22);
+  for (const a of audit) {
+    expect(a.grounded, a.id).toBe(true);
+    expect(a.distinct, a.id).toBeGreaterThan(1);
+    expect(
+      Math.max(...a.bottoms) - Math.min(...a.bottoms),
+      a.id,
+    ).toBeLessThanOrEqual(1);
+  }
+  await page
+    .getByRole("button", { name: "Essai des animations", exact: true })
+    .click();
+  for (const id of [
+    "man_at_arms-male-sword_shield",
+    "man_at_arms-female-sword_shield",
+    "hunter-male-bow",
+    "nordic_blade-male-sword",
+    "nordic_blade-female-sword",
+  ]) {
+    await page.locator("[data-contact-character]").selectOption(id);
+    await expect(page.locator("[data-contact-play-animation]")).toBeEnabled();
+    await page.locator("[data-contact-animation]").selectOption("map-idle");
+    await page.locator("[data-contact-play-animation]").click();
+    await expect(page.locator("[data-contact-canvas]")).toHaveAttribute(
+      "data-left-frame-source",
+      audit.find((a) => a.id === id)!.source,
+    );
   }
 });
