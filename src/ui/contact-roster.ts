@@ -1,0 +1,48 @@
+/** Focus the current review; the other approved skins stay in campaigns. */
+export const contactRoster = [
+  {
+    id: "north-warrior-female",
+    cls: "north_warrior",
+    gender: "female",
+    weapon: "axe",
+    label: "Nouveau · Guerrière du Nord",
+    name: "Guerrière du Nord",
+    status: "Nouveau",
+  },
+  {
+    id: "old-north-warrior-female",
+    cls: "north_warrior",
+    gender: "female",
+    weapon: "axe",
+    label: "Ancien · Guerrière du Nord",
+    name: "Guerrière du Nord (ancienne)",
+    status: "Ancien · comparaison uniquement",
+  },
+  {
+    id: "female",
+    cls: "raider",
+    gender: "female",
+    weapon: "axe_shield",
+    label: "Référence · Pillarde hache",
+    name: "Pillarde",
+    status: "Référence validée",
+  },
+  {
+    id: "male",
+    cls: "raider",
+    gender: "male",
+    weapon: "axe_shield",
+    label: "Référence · Pillard hache",
+    name: "Pillard",
+    status: "Référence validée",
+  },
+  {
+    id: "north-warrior",
+    cls: "north_warrior",
+    gender: "male",
+    weapon: "axe",
+    label: "Référence · Guerrier du Nord",
+    name: "Guerrier du Nord",
+    status: "Référence validée",
+  },
+] as const;

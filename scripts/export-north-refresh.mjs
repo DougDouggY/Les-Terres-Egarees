@@ -16,6 +16,13 @@ try {
       C = await import("/src/sprites/catalog.ts"),
       G = await import("/src/sprites/geometry.ts");
     const variants = [
+      [
+        "north-warrior-female",
+        "north_warrior",
+        "female",
+        "axe",
+        "Nouvelle Guerrière du Nord",
+      ],
       ["north-warrior", "north_warrior", "male", "axe", "Guerrier du Nord"],
       [
         "male-axe",
@@ -168,7 +175,7 @@ try {
     );
   await writeFile(
     `${out}/index.html`,
-    `<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Animations nordiques harmonisées</title><style>body{margin:24px;background:#18212a;color:#eef2f6;font:17px Arial}a{color:#ead5a5}img{max-width:100%;height:auto;image-rendering:pixelated}section{margin-bottom:40px}</style><h1>Les six variantes intégrées</h1><p><a href="../index.html">Comparaison des classes et terrain avant/après</a></p><p>Les poses sont celles du moteur. Pour les voir animées avec vitesse réglable, ouvrir l’essai de combat depuis l’accueil.</p>${result.map((r) => `<section><h2>${r.title}</h2><a href="${r.id}.png"><img loading="lazy" src="${r.id}.png" alt="Poses utilisées de ${r.title}"></a></section>`).join("")}</html>`,
+    `<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Animations nordiques harmonisées</title><style>body{margin:24px;background:#18212a;color:#eef2f6;font:17px Arial}a{color:#ead5a5}img{max-width:100%;height:auto;image-rendering:pixelated}section{margin-bottom:40px}</style><h1>Les variantes nordiques intégrées</h1><p><a href="../index.html">Comparaison des classes et terrain avant/après</a></p><p>Les poses sont celles du moteur. Pour les voir animées avec vitesse réglable, ouvrir l’essai de combat depuis l’accueil.</p>${result.map((r) => `<section><h2>${r.title}</h2><a href="${r.id}.png"><img loading="lazy" src="${r.id}.png" alt="Poses utilisées de ${r.title}"></a></section>`).join("")}</html>`,
   );
   console.log(
     `Exported ${result.length} animation boards, no parry for unshielded units.`,

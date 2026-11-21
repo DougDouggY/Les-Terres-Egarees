@@ -1478,5 +1478,268 @@
         "edgeContact": false
       }
     ]
+  },
+  {
+    "source": "tactical/combat-v4-north-refresh-north-warrior-female.png",
+    "classId": "north_warrior",
+    "gender": "female",
+    "equipment": "axe",
+    "referenceHeight": 242,
+    "poses": 23,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          55,
+          12,
+          141,
+          242
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          313,
+          12,
+          139,
+          242
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          545,
+          29,
+          171,
+          225
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          791,
+          38,
+          202,
+          216
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          55,
+          278,
+          144,
+          228
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          319,
+          278,
+          136,
+          229
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          540,
+          282,
+          176,
+          224
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          819,
+          287,
+          139,
+          219
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          36,
+          539,
+          165,
+          226
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          263,
+          541,
+          210,
+          224
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          543,
+          515,
+          178,
+          250
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          783,
+          553,
+          209,
+          212
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "bounds": [
+          19,
+          805,
+          209,
+          211
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "bounds": [
+          289,
+          803,
+          174,
+          213
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "bounds": [
+          549,
+          796,
+          166,
+          220
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "bounds": [
+          807,
+          797,
+          164,
+          219
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "bounds": [
+          33,
+          1037,
+          162,
+          234
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "bounds": [
+          277,
+          1037,
+          201,
+          234
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 2,
+        "bounds": [
+          546,
+          1037,
+          164,
+          234
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 0,
+        "bounds": [
+          24,
+          1295,
+          184,
+          228
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 1,
+        "bounds": [
+          273,
+          1299,
+          212,
+          224
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 2,
+        "bounds": [
+          530,
+          1310,
+          161,
+          213
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 3,
+        "bounds": [
+          734,
+          1416,
+          274,
+          108
+        ],
+        "edgeContact": false
+      }
+    ]
   }
 ]

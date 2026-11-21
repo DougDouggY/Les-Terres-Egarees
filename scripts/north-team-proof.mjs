@@ -15,10 +15,10 @@ try {
       G = await import("/src/sprites/geometry.ts");
     const canvas = document.createElement("canvas");
     canvas.width = 960;
-    canvas.height = 1880;
+    canvas.height = 2180;
     const ctx = canvas.getContext("2d");
     ctx.fillStyle = "#18212a";
-    ctx.fillRect(0, 0, 960, 1880);
+    ctx.fillRect(0, 0, 960, 2180);
     ctx.fillStyle = "#ead5a5";
     ctx.font = "bold 25px Arial";
     ctx.fillText("Couleurs d’équipe — ressources réellement utilisées", 20, 38);
@@ -30,6 +30,7 @@ try {
       ["raider", "male", "sword_shield", "Pillard · épée"],
       ["raider", "female", "sword_shield", "Pillarde · épée"],
       ["north_warrior", "male", "axe", "Guerrier du Nord"],
+      ["north_warrior", "female", "axe", "Nouvelle Guerrière du Nord"],
       ["hunter", "female", "bow", "Chasseuse"],
     ]) {
       const u = E.makeClassUnit("proof", 1, 1, cls, title, 0, 0, gender);

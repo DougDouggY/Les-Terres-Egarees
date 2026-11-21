@@ -1,0 +1,237 @@
+{
+  "map": {
+    "classId": "north_warrior",
+    "gender": "female",
+    "equipment": "axe",
+    "state": "default",
+    "clips": {
+      "idle": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          0
+        ],
+        "fps": 8,
+        "loop": true,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      "move": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          1,
+          2
+        ],
+        "fps": 8,
+        "loop": true,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      "damage": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          0,
+          6,
+          0
+        ],
+        "fps": 8,
+        "loop": false,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "impactFrame": 1
+      },
+      "evade": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          0,
+          6,
+          0
+        ],
+        "fps": 8,
+        "loop": false,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      "death": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          6,
+          7
+        ],
+        "fps": 8,
+        "loop": false,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      "attack": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          0,
+          3,
+          4,
+          5,
+          0
+        ],
+        "fps": 8,
+        "loop": false,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "impactFrame": 2
+      },
+      "counter": {
+        "reuse": "attack"
+      }
+    },
+    "referenceHeights": {
+      "tactical/combat-v4-warriors.png": 118
+    }
+  },
+  "combat": {
+    "classId": "north_warrior",
+    "gender": "female",
+    "equipment": "axe",
+    "state": "default",
+    "clips": {
+      "idle": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          0
+        ],
+        "fps": 8,
+        "loop": true,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      "move": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          1,
+          2
+        ],
+        "fps": 8,
+        "loop": true,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      "damage": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          0,
+          6,
+          0
+        ],
+        "fps": 8,
+        "loop": false,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "impactFrame": 1
+      },
+      "evade": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          0
+        ],
+        "fps": 8,
+        "loop": true,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Esquive en garde avec retrait ample, dessin de blessure explicitement exclu."
+      },
+      "death": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          6,
+          7
+        ],
+        "fps": 8,
+        "loop": false,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT."
+      },
+      "attack": {
+        "source": "tactical/combat-v4-warriors.png",
+        "columns": 8,
+        "rows": 6,
+        "row": 0,
+        "frames": [
+          0,
+          3,
+          4,
+          5,
+          0
+        ],
+        "fps": 8,
+        "loop": false,
+        "recolor": "blue",
+        "recolorEdges": true,
+        "status": "provisional",
+        "note": "Planche V4 : identité propre ; contrôle visuel documenté dans COMBAT-V4-REPORT.",
+        "impactFrame": 2
+      },
+      "counter": {
+        "reuse": "attack",
+        "note": "Même skin et même arme, événement de riposte fourni par le moteur."
+      },
+      "attack_again": {
+        "reuse": "attack",
+        "note": "Seconde activation d’agilité : même arme, même skin."
+      }
+    },
+    "referenceHeights": {
+      "tactical/combat-v4-warriors.png": 118
+    }
+  }
+}

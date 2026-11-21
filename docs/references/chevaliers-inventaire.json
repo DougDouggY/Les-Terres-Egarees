@@ -1,0 +1,169 @@
+{
+  "kind": "knight",
+  "entries": [
+    {
+      "id": "man_at_arms-sword_shield-male",
+      "cls": "man_at_arms",
+      "gender": "male",
+      "weapon": "sword_shield",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/combat-pair-reference-v2.png",
+      "mapSource": "tactical/team-sample.png",
+      "reference": 200,
+      "shared": false
+    },
+    {
+      "id": "man_at_arms-sword_shield-female",
+      "cls": "man_at_arms",
+      "gender": "female",
+      "weapon": "sword_shield",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/combat-v2-shields-c.png",
+      "mapSource": "tactical/team-sample.png",
+      "reference": 205,
+      "shared": false
+    },
+    {
+      "id": "spearman-lance-male",
+      "cls": "spearman",
+      "gender": "male",
+      "weapon": "lance",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/complete-knights.png",
+      "mapSource": "tactical/lot2-knights.png",
+      "reference": 171,
+      "shared": true
+    },
+    {
+      "id": "spearman-lance-female",
+      "cls": "spearman",
+      "gender": "female",
+      "weapon": "lance",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/complete-knights.png",
+      "mapSource": "tactical/lot2-knights.png",
+      "reference": 171,
+      "shared": true
+    },
+    {
+      "id": "crossbowman-crossbow-male",
+      "cls": "crossbowman",
+      "gender": "male",
+      "weapon": "crossbow",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/complete-knights.png",
+      "mapSource": "tactical/lot2-knights.png",
+      "reference": 174,
+      "shared": false
+    },
+    {
+      "id": "crossbowman-crossbow-female",
+      "cls": "crossbowman",
+      "gender": "female",
+      "weapon": "crossbow",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/combat-v4-ranged.png",
+      "mapSource": "tactical/combat-v4-ranged.png",
+      "reference": 127,
+      "shared": false
+    },
+    {
+      "id": "swordsman-sword-male",
+      "cls": "swordsman",
+      "gender": "male",
+      "weapon": "sword",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/combat-v3-swordsa.png",
+      "mapSource": "tactical/lot2-knights.png",
+      "reference": 125,
+      "shared": true
+    },
+    {
+      "id": "swordsman-sword-female",
+      "cls": "swordsman",
+      "gender": "female",
+      "weapon": "sword",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/combat-v3-swordsa.png",
+      "mapSource": "tactical/lot2-knights.png",
+      "reference": 125,
+      "shared": true
+    },
+    {
+      "id": "sorcerer-spell-male",
+      "cls": "sorcerer",
+      "gender": "male",
+      "weapon": "spell",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/combat-v2-support.png",
+      "mapSource": "tactical/lot2-magic.png",
+      "reference": 205,
+      "shared": false
+    },
+    {
+      "id": "sorcerer-spell-female",
+      "cls": "sorcerer",
+      "gender": "female",
+      "weapon": "spell",
+      "status": "Ressource actuelle · comparaison",
+      "source": "tactical/combat-v4-casters.png",
+      "mapSource": "tactical/combat-v4-casters.png",
+      "reference": 155,
+      "shared": false
+    }
+  ],
+  "positions": [
+    {
+      "id": "man_at_arms-sword_shield-male",
+      "x": 24,
+      "y": 16
+    },
+    {
+      "id": "man_at_arms-sword_shield-female",
+      "x": 24,
+      "y": 20
+    },
+    {
+      "id": "spearman-lance-male",
+      "x": 27,
+      "y": 14
+    },
+    {
+      "id": "spearman-lance-female",
+      "x": 27,
+      "y": 20
+    },
+    {
+      "id": "crossbowman-crossbow-male",
+      "x": 30,
+      "y": 15
+    },
+    {
+      "id": "crossbowman-crossbow-female",
+      "x": 30,
+      "y": 20
+    },
+    {
+      "id": "swordsman-sword-male",
+      "x": 33,
+      "y": 15
+    },
+    {
+      "id": "swordsman-sword-female",
+      "x": 33,
+      "y": 20
+    },
+    {
+      "id": "sorcerer-spell-male",
+      "x": 35,
+      "y": 16
+    },
+    {
+      "id": "sorcerer-spell-female",
+      "x": 36,
+      "y": 20
+    }
+  ],
+  "mapUntouched": true,
+  "savesUntouched": true
+}

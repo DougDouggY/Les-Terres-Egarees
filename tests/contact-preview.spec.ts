@@ -1,27 +1,36 @@
 import { test, expect } from "@playwright/test";
-test("harmonisation nordique : six variantes testables, sources de campagne et tir immobile", async ({
+test("harmonisation nordique : revue ciblée : nouvelle Guerrière, un ancien modèle et trois références", async ({
   page,
 }) => {
   await page.goto("/");
   const saves = await page.evaluate(() => JSON.stringify({ ...localStorage }));
   await page
-    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .getByRole("button", { name: "Essai des animations", exact: true })
     .click();
+  await expect(page.locator("[data-contact-title]")).toHaveText(
+    "Guerrière du Nord contre Guerrière du Nord",
+  );
+  await expect(page.locator("[data-contact-character] option")).toHaveCount(5);
   const canvas = page.locator("[data-contact-canvas]");
   await page.locator("[data-contact-speed]").selectOption("4");
   for (const [id, source] of [
     ["male", "combat-v4-north-refresh-male-axe"],
     ["female", "combat-v4-pillarde-axe-v3"],
-    ["male-sword", "combat-v4-north-refresh-male-sword"],
-    ["female-sword", "combat-v4-north-refresh-female-sword"],
+    ["north-warrior-female", "combat-v4-north-refresh-north-warrior-female"],
+    ["old-north-warrior-female", "combat-v4-warriors"],
     ["north-warrior", "combat-v4-north-refresh-north-warrior"],
-    ["huntress", "combat-v4-north-refresh-huntress"],
   ]) {
     await page.locator("[data-contact-character]").selectOption(id);
     await expect(
       page.locator('[data-contact-scenario="critical"]'),
     ).toBeEnabled();
-    if (["north-warrior", "huntress"].includes(id)) {
+    if (
+      [
+        "north-warrior",
+        "north-warrior-female",
+        "old-north-warrior-female",
+      ].includes(id)
+    ) {
       await expect(
         page.locator('[data-contact-scenario="parry"]'),
       ).toBeHidden();
@@ -48,17 +57,18 @@ test("harmonisation nordique : six variantes testables, sources de campagne et t
       "data-right-frame-source",
       new RegExp(source),
     );
-    if (id === "huntress") {
-      await expect
-        .poll(async () => Number(await canvas.getAttribute("data-elapsed")))
-        .toBeGreaterThan(950);
-      await expect(canvas).toHaveAttribute("data-left-x", "270");
-      await expect(canvas).toHaveAttribute("data-right-x", "690");
-      await expect(page.locator(".duel-weapon > strong").first()).toHaveText(
-        "Arc",
-      );
-    }
     await expect(canvas).toHaveAttribute("data-finished", "true");
+    if (id === "north-warrior-female") {
+      for (const scenario of ["agility", "dodges"]) {
+        await page.locator(`[data-contact-scenario="${scenario}"]`).click();
+        await expect(canvas).toHaveAttribute("data-finished", "true");
+        await expect(canvas).toHaveAttribute(
+          "data-left-frame-source",
+          /north-refresh-north-warrior-female/,
+        );
+        await expect(canvas).toHaveAttribute("data-parry", "false");
+      }
+    }
   }
   expect(await page.evaluate(() => JSON.stringify({ ...localStorage }))).toBe(
     saves,
@@ -76,6 +86,7 @@ test("harmonisation nordique : six variantes testables, sources de campagne et t
       ["raider", "male", "sword_shield"],
       ["raider", "female", "sword_shield"],
       ["north_warrior", "male", "axe"],
+      ["north_warrior", "female", "axe"],
       ["hunter", "female", "bow"],
     ]) {
       const u = E.makeClassUnit("color", 1, 1, cls, "Test", 0, 0, gender);
@@ -118,6 +129,20 @@ test("harmonisation nordique : six variantes testables, sources de campagne et t
     expect(row.material).toBeGreaterThan(1000);
     expect(row.ratio).toBeGreaterThan(0.97);
   }
+  await page.goto("/validation/vikings-a-revoir/index.html");
+  await expect(page.locator("[data-variant]")).toHaveCount(5);
+  await expect(
+    page.locator('[data-variant="north-warrior-female"]'),
+  ).toBeVisible();
+  await page
+    .getByRole("link", { name: "Chevaliers de base", exact: true })
+    .click();
+  await expect(page.locator("[data-variant]")).toHaveCount(10);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator("h1")).toHaveText("Tous les Chevaliers de base");
+  await page.locator("#zoom").selectOption("3");
+  await expect(page.locator("#terrain")).toHaveCSS("width", "1920px");
+  await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/validation/vikings/index.html");
   await expect(page.locator("[data-variant]")).toHaveCount(12);
   await expect(page.locator("#map-proposal")).toBeHidden();
@@ -133,8 +158,9 @@ test("accueil : quatre essais, vitesse et pause, maintien au contact, attaque un
   await page.goto("/");
   const saves = await page.evaluate(() => JSON.stringify({ ...localStorage }));
   await page
-    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .getByRole("button", { name: "Essai des animations", exact: true })
     .click();
+  await page.locator("[data-contact-character]").selectOption("male");
   const canvas = page.locator("[data-contact-canvas]");
   await expect(page.locator('[data-contact-scenario="agility"]')).toBeEnabled();
   await page.locator("[data-contact-speed]").selectOption("4");
@@ -177,7 +203,7 @@ test("accueil : quatre essais, vitesse et pause, maintien au contact, attaque un
   await page.getByRole("button", { name: "Retour à l’accueil" }).click();
   await expect(
     page.getByRole("button", {
-      name: "Essai Pillard contre Pillard",
+      name: "Essai des animations",
       exact: true,
     }),
   ).toBeVisible();
@@ -191,8 +217,9 @@ test("nouvelles poses : pas rapides, vrai retrait illustré des deux côtés et 
 }) => {
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .getByRole("button", { name: "Essai des animations", exact: true })
     .click();
+  await page.locator("[data-contact-character]").selectOption("male");
   await expect(page.locator('[data-contact-scenario="dodges"]')).toBeEnabled();
   await page.locator("[data-contact-speed]").selectOption("0.5");
   await page.locator('[data-contact-scenario="dodges"]').click();
@@ -310,8 +337,9 @@ test("critique seul V2 : accès direct, effet visible sans tuer, pause et rejeu"
 }) => {
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .getByRole("button", { name: "Essai des animations", exact: true })
     .click();
+  await page.locator("[data-contact-character]").selectOption("male");
   await expect(
     page.getByRole("button", { name: "Critique seul · V2", exact: true }),
   ).toBeEnabled();
@@ -329,7 +357,7 @@ test("critique seul V2 : accès direct, effet visible sans tuer, pause et rejeu"
   await expect(page.locator('[data-combat-value="1"]')).toHaveText(
     "16 / 24 PV",
   );
-  await expect(page.locator(".contact-version")).toHaveText("Critique V2");
+  await expect(page.locator(".contact-version")).toHaveText("Revue nordique");
   await page.screenshot({ path: "/tmp/critique-v2-validation.png" });
   await page.locator("[data-contact-replay]").click();
   await expect(page.locator("[data-contact-canvas]")).toHaveAttribute(
@@ -348,8 +376,9 @@ test("Pillarde hache : cinq scénarios, source dédiée, tailles constantes, tra
   await page.goto("/");
   const saves = await page.evaluate(() => JSON.stringify({ ...localStorage }));
   await page
-    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .getByRole("button", { name: "Essai des animations", exact: true })
     .click();
+  await page.locator("[data-contact-character]").selectOption("male");
   await page.locator("[data-contact-character]").selectOption("female");
   await expect(
     page.locator('[data-contact-scenario="critical"]'),
@@ -429,8 +458,9 @@ test("parade lumineuse : bouclier superposé au défenseur à l’impact et dég
 }) => {
   await page.goto("/");
   await page
-    .getByRole("button", { name: "Essai Pillard contre Pillard", exact: true })
+    .getByRole("button", { name: "Essai des animations", exact: true })
     .click();
+  await page.locator("[data-contact-character]").selectOption("male");
   await expect(page.locator('[data-contact-scenario="parry"]')).toBeEnabled();
   await page.locator("[data-contact-speed]").selectOption("0.5");
   await page.locator('[data-contact-scenario="parry"]').click();

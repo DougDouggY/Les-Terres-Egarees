@@ -18,6 +18,7 @@ MODELS = [
     ('male-sword', 'raider', 'male', 'sword-shield'),
     ('female-sword', 'raider', 'female', 'sword-shield'),
     ('huntress', 'hunter', 'female', 'bow'),
+    ('north-warrior-female', 'north_warrior', 'female', 'axe'),
 ]
 layouts = json.loads((ASSETS / 'atlas-layout.json').read_text())
 anchors = json.loads((ASSETS / 'combat-anchors.json').read_text())
@@ -43,8 +44,10 @@ for name, cls, gender, equipment in MODELS:
     labels, count = label(valid)
     sizes = np.bincount(labels.ravel()); sizes[0] = 0
     majors = [i for i in range(1,count+1) if sizes[i] > 1000]
-    if len(majors) != 26:
-        raise ValueError(f'{name}: expected26 complete figures, found{len(majors)}')
+    row_counts = [4,4,4,4,3,4] if name == "north-warrior-female" else [4,4,4,4,3,3,4]
+    expected = sum(row_counts)
+    if len(majors) != expected:
+        raise ValueError(f'{name}: expected{expected} complete figures, found{len(majors)}')
     parts = []
     for number in majors:
         yy, xx = np.where(labels == number)
@@ -54,7 +57,7 @@ for name, cls, gender, equipment in MODELS:
     # isolated figures, then assign logical row/column; never slice through feet.
     parts.sort(key=lambda p:p['cy'])
     ordered = []
-    for row, number in enumerate([4,4,4,4,3,3,4]):
+    for row, number in enumerate(row_counts):
         band = sorted(parts[:number],key=lambda p:p['cx']); parts=parts[number:]
         ordered.extend((row,col,part) for col,part in enumerate(band))
     reference = None
@@ -87,7 +90,7 @@ for name, cls, gender, equipment in MODELS:
             maskRuns=runs,foreignPixelsRemoved=int((region>0).sum()-own.sum()))
         frame_audit.append(dict(row=row,column=col,bounds=[x,y,w,h],
             edgeContact=bool(x==0 or y==0 or x+w==width or y+h==height)))
-    layouts[source] = dict(width=width,height=height,columns=4,rows=7,frames=frames)
+    layouts[source] = dict(width=width,height=height,columns=4,rows=len(row_counts),frames=frames)
     anchors[source] = source_anchors
     p = json.loads(json.dumps(template))
     p.update(classId=cls, gender=gender, equipment=equipment,
@@ -96,6 +99,11 @@ for name, cls, gender, equipment in MODELS:
     for clip in p['clips'].values():
         if 'source' in clip:
             clip['source'] = source
+            if len(row_counts) == 6:
+                clip['rows'] = 6
+                if clip['row'] >= 5: clip['row'] -= 1
+                for cell in clip.get('cells', []):
+                    if cell['row'] >= 5: cell['row'] -= 1
     p['clips']['combat_move'] = {'reuse': 'move'}
     p['clips']['combat_damage'] = {'reuse': 'damage'}
     if equipment in ["axe", "bow"]: p["clips"].pop("block", None)

@@ -40,6 +40,14 @@
     "block": false
   },
   {
+    "cls": "north_warrior",
+    "gender": "female",
+    "weapon": "axe",
+    "gap": 55.28231404958678,
+    "shield": false,
+    "block": false
+  },
+  {
     "cls": "hunter",
     "gender": "female",
     "weapon": "bow",

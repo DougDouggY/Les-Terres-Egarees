@@ -57,12 +57,12 @@
       "classId": "north_warrior",
       "gender": "female",
       "weapon": "axe",
-      "combatSource": "tactical/combat-v4-warriors.png",
-      "mapSource": "tactical/combat-v4-warriors.png",
-      "bodyReference": 118,
+      "combatSource": "tactical/combat-v4-north-refresh-north-warrior-female.png",
+      "mapSource": "tactical/combat-v4-north-refresh-north-warrior-female.png",
+      "bodyReference": 242,
       "bodyDisplayReference": 176,
-      "visibleWidth": 148,
-      "visibleHeight": 176,
+      "visibleWidth": 124,
+      "visibleHeight": 163,
       "review": false
     },
     {

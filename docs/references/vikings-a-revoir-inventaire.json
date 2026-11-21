@@ -1,0 +1,89 @@
+{
+  "kind": "north-review",
+  "entries": [
+    {
+      "id": "north-warrior-female",
+      "cls": "north_warrior",
+      "gender": "female",
+      "weapon": "axe",
+      "status": "Nouveau",
+      "source": "tactical/combat-v4-north-refresh-north-warrior-female.png",
+      "mapSource": "tactical/combat-v4-north-refresh-north-warrior-female.png",
+      "reference": 242,
+      "shared": false
+    },
+    {
+      "id": "old-north-warrior-female",
+      "cls": "north_warrior",
+      "gender": "female",
+      "weapon": "axe",
+      "status": "Ancien · comparaison uniquement",
+      "source": "tactical/combat-v4-warriors.png",
+      "mapSource": "tactical/combat-v4-warriors.png",
+      "reference": 118,
+      "shared": false
+    },
+    {
+      "id": "female",
+      "cls": "raider",
+      "gender": "female",
+      "weapon": "axe_shield",
+      "status": "Référence validée",
+      "source": "tactical/combat-v4-pillarde-axe-v3.png",
+      "mapSource": "tactical/combat-v4-pillarde-axe-v3.png",
+      "reference": 202,
+      "shared": false
+    },
+    {
+      "id": "male",
+      "cls": "raider",
+      "gender": "male",
+      "weapon": "axe_shield",
+      "status": "Référence validée",
+      "source": "tactical/combat-v4-north-refresh-male-axe.png",
+      "mapSource": "tactical/combat-v4-north-refresh-male-axe.png",
+      "reference": 217,
+      "shared": false
+    },
+    {
+      "id": "north-warrior",
+      "cls": "north_warrior",
+      "gender": "male",
+      "weapon": "axe",
+      "status": "Référence validée",
+      "source": "tactical/combat-v4-north-refresh-north-warrior.png",
+      "mapSource": "tactical/combat-v4-north-refresh-north-warrior.png",
+      "reference": 220,
+      "shared": false
+    }
+  ],
+  "positions": [
+    {
+      "id": "north-warrior-female",
+      "x": 24,
+      "y": 16
+    },
+    {
+      "id": "old-north-warrior-female",
+      "x": 24,
+      "y": 20
+    },
+    {
+      "id": "female",
+      "x": 27,
+      "y": 14
+    },
+    {
+      "id": "male",
+      "x": 27,
+      "y": 20
+    },
+    {
+      "id": "north-warrior",
+      "x": 30,
+      "y": 15
+    }
+  ],
+  "mapUntouched": true,
+  "savesUntouched": true
+}

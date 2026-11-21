@@ -182,7 +182,7 @@ test("planches complémentaires : séquences complètes, seconde main et harmoni
   );
 });
 
-test("harmonisation : six identités stables sur carte et au combat, 26 poses complètes sans mélange de planches", async () => {
+test("harmonisation : sept identités stables sur carte et au combat, poses complètes sans mélange de planches", async () => {
   const { profiles, errors } = await library();
   assert.deepEqual(errors, []);
   const { buildCombatSkin } = await import("../src/sprites/combat-skin-core");
@@ -195,7 +195,7 @@ test("harmonisation : six identités stables sur carte et au combat, 26 poses co
       "utf8",
     ),
   );
-  assert.equal(replacements.profiles.length, 6);
+  assert.equal(replacements.profiles.length, 7);
   const sourceNames = new Set<string>();
   for (const replacement of replacements.profiles) {
     const p = profiles.find(
@@ -210,7 +210,10 @@ test("harmonisation : six identités stables sur carte et au combat, 26 poses co
     assert.deepEqual(combat.issues, []);
     const source = resolveClip(p, "idle")!.source;
     sourceNames.add(source);
-    assert.equal(layouts[source].frames.length, 26);
+    assert.equal(
+      layouts[source].frames.length,
+      p.classId === "north_warrior" && p.gender === "female" ? 23 : 26,
+    );
     const reference = p.referenceHeights![source];
     for (const [name, count] of Object.entries({
       idle: 2,
@@ -267,7 +270,59 @@ test("harmonisation : six identités stables sur carte et au combat, 26 poses co
       4,
     );
   }
-  assert.equal(sourceNames.size, 6);
+  assert.equal(sourceNames.size, 7);
+});
+
+test("comparaisons de base : nouvelle Guerrière, un seul ancien modèle, trois références et tous les Chevaliers", async () => {
+  const E = await import("../src/engine");
+  const north = JSON.parse(
+    await readFile("docs/references/vikings-a-revoir-inventaire.json", "utf8"),
+  );
+  const knight = JSON.parse(
+    await readFile("docs/references/chevaliers-inventaire.json", "utf8"),
+  );
+  assert.equal(north.entries.length, 5);
+  assert.equal(
+    north.entries.filter((p: any) => p.status === "Nouveau").length,
+    1,
+  );
+  assert.equal(
+    north.entries.filter((p: any) => p.status.startsWith("Ancien")).length,
+    1,
+  );
+  assert.equal(
+    north.entries.filter((p: any) => p.status === "Référence validée").length,
+    3,
+  );
+  const fresh = north.entries.find((p: any) => p.status === "Nouveau");
+  assert.equal(fresh.cls, "north_warrior");
+  assert.equal(fresh.gender, "female");
+  assert.equal(
+    fresh.source,
+    "tactical/combat-v4-north-refresh-north-warrior-female.png",
+  );
+  assert.equal(fresh.mapSource, fresh.source);
+  assert.ok(
+    fresh.reference >
+      north.entries.find((p: any) => p.status.startsWith("Ancien")).reference,
+  );
+  const expected = E.baseClasses("knight")
+    .flatMap((c) => [`${c.id}:male`, `${c.id}:female`])
+    .sort();
+  assert.deepEqual(
+    knight.entries.map((p: any) => `${p.cls}:${p.gender}`).sort(),
+    expected,
+  );
+  assert.equal(knight.entries.length, 10);
+  for (const report of [north, knight]) {
+    assert.equal(report.mapUntouched, true);
+    assert.equal(report.savesUntouched, true);
+    assert.equal(
+      new Set(report.positions.map((p: any) => `${p.x}:${p.y}`)).size,
+      report.entries.length,
+    );
+    for (const p of report.positions) assert.equal(E.cell(p.x, p.y).walk, true);
+  }
 });
 
 test("taille anatomique commune : les planches d’attaque et de repos ne redimensionnent plus le corps", async () => {

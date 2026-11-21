@@ -1,4 +1,7 @@
 import * as E from "../engine";
+import { contactRoster } from "./contact-roster";
+import previousNorth from "../assets/tactical/north-female-before.reference.json";
+import type { SpriteProfile } from "../sprites/catalog";
 import {
   unitSpriteProfile,
   spriteImage,
@@ -22,56 +25,7 @@ import { drawArrow } from "./combat-effects";
 import "./combat-hud.css";
 import "./contact-preview.css";
 export function openContactPreview(app: HTMLElement, back: () => void) {
-  const variants = [
-    {
-      id: "male",
-      cls: "raider",
-      gender: "male",
-      weapon: "axe_shield",
-      label: "Pillard · hache",
-      name: "Pillard",
-    },
-    {
-      id: "female",
-      cls: "raider",
-      gender: "female",
-      weapon: "axe_shield",
-      label: "Pillarde · hache",
-      name: "Pillarde",
-    },
-    {
-      id: "male-sword",
-      cls: "raider",
-      gender: "male",
-      weapon: "sword_shield",
-      label: "Pillard · épée",
-      name: "Pillard à l’épée",
-    },
-    {
-      id: "female-sword",
-      cls: "raider",
-      gender: "female",
-      weapon: "sword_shield",
-      label: "Pillarde · épée",
-      name: "Pillarde à l’épée",
-    },
-    {
-      id: "north-warrior",
-      cls: "north_warrior",
-      gender: "male",
-      weapon: "axe",
-      label: "Guerrier du Nord",
-      name: "Guerrier du Nord",
-    },
-    {
-      id: "huntress",
-      cls: "hunter",
-      gender: "female",
-      weapon: "bow",
-      label: "Chasseuse",
-      name: "Chasseuse",
-    },
-  ] as const;
+  const variants = contactRoster;
   function prepare(v: (typeof variants)[number]) {
     const u = E.makeClassUnit(
       "contact-preview",
@@ -87,9 +41,13 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     E.syncWeapon(u);
     return {
       ...v,
-      profile: combatSkin(unitSpriteProfile(u))!.profile,
+      profile:
+        v.id === "old-north-warrior-female"
+          ? (previousNorth.combat as SpriteProfile)
+          : combatSkin(unitSpriteProfile(u))!.profile,
       weaponName: E.activeWeapon(u).name,
       shield: E.hasShield(u),
+      ranged: ["bow", "crossbow"].includes(E.activeWeapon(u).category),
     };
   }
   const choices = variants.map(prepare);
@@ -110,12 +68,12 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   ).matches;
   const background = new Image();
   background.src = import.meta.env.BASE_URL + "assets/battle-3.png";
-  app.innerHTML = `<main class="contact-preview"><header><h1><span data-contact-title>Pillard contre Pillard</span> <small class="contact-version">Critique V2</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><label class="contact-character">Personnage<select data-contact-character>${choices.map((v) => `<option value="${v.id}">${v.label}</option>`).join("")}</select></label><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/vikings/index.html" target="_blank" rel="noopener">Comparer les gabarits ↗</a><div class="contact-buttons">${Object.entries(
+  app.innerHTML = `<main class="contact-preview"><header><h1><span data-contact-title>${selected.name} contre ${selected.name}</span> <small class="contact-version">Revue nordique</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><label class="contact-character">Personnage<select data-contact-character>${choices.map((v) => `<option value="${v.id}">${v.label}</option>`).join("")}</select></label><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/vikings-a-revoir/index.html" target="_blank" rel="noopener">Comparer les gabarits ↗</a><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/chevaliers/index.html" target="_blank" rel="noopener">Comparer les Chevaliers ↗</a><div class="contact-buttons">${Object.entries(
     contactScenarios,
   )
     .map(
       ([id, s]) =>
-        `<button data-contact-scenario="${id}" disabled>${s.label}</button>`,
+        `<button data-contact-scenario="${id}" ${!selected.shield && ["parry", "double-parry"].includes(id) ? "hidden" : ""} disabled>${s.label}</button>`,
     )
     .join(
       "",
@@ -123,8 +81,8 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     [
       {
         id: "contact-left",
-        name: "Vous · Pillard",
-        weapon: "Hache et bouclier",
+        name: `Vous · ${selected.name}`,
+        weapon: selected.weaponName,
         hp: 24,
         maxHp: 24,
         hit: null,
@@ -133,8 +91,8 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       },
       {
         id: "contact-right",
-        name: "Adversaire · Pillard",
-        weapon: "Hache et bouclier",
+        name: `Adversaire · ${selected.name}`,
+        weapon: selected.weaponName,
         hp: 24,
         maxHp: 24,
         hit: null,
@@ -322,14 +280,14 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         running || elapsed > 0 ? sample.approach : 0,
         gap,
         first,
-        selected.weapon === "bow",
-        selected.weapon === "bow",
+        selected.ranged,
+        selected.ranged,
       );
       const actions = ["idle", "idle"],
         progress = [elapsed / 1000, elapsed / 1000],
         offset = [0, 0];
       if (running && elapsed < contactApproach) {
-        if (selected.weapon !== "bow") actions[0] = actions[1] = "move";
+        if (!selected.ranged) actions[0] = actions[1] = "move";
         progress[0] = progress[1] = elapsed / 1000;
       } else if ((running || elapsed > 0) && !sample.ending) {
         const { event: e, progress: p } = sample;
@@ -372,7 +330,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
         );
       }
       if (
-        selected.weapon === "bow" &&
+        selected.ranged &&
         running &&
         elapsed >= contactApproach &&
         !sample.ending

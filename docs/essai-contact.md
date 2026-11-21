@@ -102,3 +102,7 @@ Les scénarios de parade sont masqués et désactivés lorsque l’équipement n
 La Guerrière du Nord utilise encore `combat-v4-warriors.png`, une ancienne planche moins définie. Aucune nouvelle illustration n’est produite dans ce correctif.
 
 Vérification de ce correctif : 202 tests automatisés réussis, les sept parcours navigateur de l’essai réussis (dont couverture de la recoloration sur les six planches, boutons sans bouclier et stockage inchangé), compilations publique/prototype et contrôles de séparation réussis.
+
+## Revue suivante : uniquement les classes de base
+
+La Guerrière du Nord a maintenant une nouvelle planche à 23 poses, avec une hache à une lame, sur carte et en combat. Elle remplace donc l’ancienne ressource évoquée plus haut. L’essai est recentré sur la nouvelle Guerrière, une ancienne version isolée pour comparaison et trois références validées. Le bouton d’accueil porte le nom « Essai des animations ». Les comparaisons ciblées sont disponibles à `/validation/vikings-a-revoir/` et `/validation/chevaliers/`. Voir `revue-classes-base.md` pour le périmètre, les constats et les vérifications. Les classes avancées attendent leur propre revue.
