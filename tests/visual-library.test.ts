@@ -321,7 +321,7 @@ test("comparaisons de base : nouvelle Guerrière, un seul ancien modèle, trois 
       new Set(report.positions.map((p: any) => `${p.x}:${p.y}`)).size,
       report.entries.length,
     );
-    for (const p of report.positions) assert.equal(E.cell(p.x, p.y).walk, true);
+    for (const p of report.positions) assert.equal(E.cell(p.x, p.y)?.walk, true);
   }
 });
 
