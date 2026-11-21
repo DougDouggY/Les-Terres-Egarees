@@ -6,6 +6,7 @@ import {
   drawResourceFrame,
 } from "../sprites/resources";
 import { combatSkin } from "../sprites/combat-skins";
+import { illustratedWeaponPoint } from "../sprites/weapon-point";
 import { resolveClip } from "../sprites/catalog";
 import { resourceRect, anatomicalContactGap } from "../sprites/geometry";
 import { combatHud } from "./combat-hud";
@@ -460,8 +461,29 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
           ctx,
           "fire",
           sample.progress * 1150 - 480,
-          { x: positions[from], y: 285 },
+          illustratedWeaponPoint(
+            profile,
+            "attack",
+            resolveClip(profile, "attack")?.impactFrame ?? 3,
+            positions[from],
+            350,
+            136,
+            from === 0 ? 1 : -1,
+          ),
           { x: positions[to] + offset[to], y: 285 },
+          110,
+          illustratedWeaponPoint(
+            profile,
+            actions[from],
+            Math.floor(
+              progress[from] *
+                (resolveClip(profile, actions[from])?.frames.length ?? 1),
+            ),
+            positions[from],
+            350,
+            136,
+            from === 0 ? 1 : -1,
+          ),
         );
       }
       if (demo === "heal" && running)

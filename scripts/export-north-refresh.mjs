@@ -53,6 +53,14 @@ try {
         "Pillarde — épée et bouclier",
       ],
       ["huntress", "hunter", "female", "bow", "Chasseuse"],
+      ["hunter-male", "hunter", "male", "bow", "Nouveau Chasseur"],
+      [
+        "nordic-blade-female",
+        "nordic_blade",
+        "female",
+        "sword",
+        "Nouvelle Lame nordique féminine",
+      ],
     ];
     const results = [];
     for (const [id, cls, gender, weapon, title] of variants) {
@@ -108,6 +116,10 @@ try {
           [profile, "death", 0, "Mort"],
         ],
       ].filter((row) => row.every(([p, name]) => !!C.resolveClip(p, name)));
+      for (const row of rows)
+        for (let i = row.length - 1; i >= 0; i--)
+          if (row[i][2] >= C.resolveClip(row[i][0], row[i][1]).frames.length)
+            row.splice(i, 1);
       const poseCount = rows.reduce((n, row) => n + row.length, 0);
       for (const row of rows)
         for (const [p, name] of row)

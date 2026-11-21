@@ -28,6 +28,14 @@ try {
       ["swordsman-female", "swordsman", "female", "sword", "Épéiste femme"],
       ["crossbow-female", "crossbowman", "female", "crossbow", "Arbalétrière"],
       ["sorceress", "sorcerer", "female", "spell", "Sorcière"],
+      ["sorcerer-male", "sorcerer", "male", "spell", "Sorcier"],
+      [
+        "spearman",
+        "spearman",
+        "male",
+        "lance",
+        "Lanciers — estoc partagé homme/femme",
+      ],
     ];
     const results = [];
     for (const [id, cls, gender, weapon, title] of variants) {
@@ -95,6 +103,11 @@ try {
             ]),
           );
       }
+      // Only real frames: a seven-pose attack or a single idle isn't duplicated.
+      for (const row of rows)
+        for (let i = row.length - 1; i >= 0; i--)
+          if (row[i][2] >= C.resolveClip(row[i][0], row[i][1]).frames.length)
+            row.splice(i, 1);
       const poseCount = rows.reduce((n, row) => n + row.length, 0);
       for (const row of rows)
         for (const [p, name] of row)
@@ -162,7 +175,7 @@ try {
     );
   await writeFile(
     `${out}/index.html`,
-    `<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Animations des nouveaux Chevaliers</title><style>body{margin:24px;background:#18212a;color:#eef2f6;font:17px Arial}a{color:#ead5a5}img{max-width:100%;height:auto;image-rendering:pixelated}section{margin-bottom:40px}</style><h1>Les six variantes chevalières reprises</h1><p><a href="../index.html">Comparaison des classes et terrain avant/après</a></p><p>Les poses sont celles du moteur. Pour les voir animées avec vitesse réglable, ouvrir l’essai de combat depuis l’accueil.</p>${result.map((r) => `<section><h2>${r.title}</h2><a href="${r.id}.png"><img loading="lazy" src="${r.id}.png" alt="Poses utilisées de ${r.title}"></a></section>`).join("")}</html>`,
+    `<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Animations des nouveaux Chevaliers</title><style>body{margin:24px;background:#18212a;color:#eef2f6;font:17px Arial}a{color:#ead5a5}img{max-width:100%;height:auto;image-rendering:pixelated}section{margin-bottom:40px}</style><h1>Animations des Chevaliers — versions actuelles</h1><p><a href="../index.html">Comparaison des classes et terrain avant/après</a></p><p>Les poses sont celles du moteur. Pour les voir animées avec vitesse réglable, ouvrir l’essai de combat depuis l’accueil.</p>${result.map((r) => `<section><h2>${r.title}</h2><a href="${r.id}.png"><img loading="lazy" src="${r.id}.png" alt="Poses utilisées de ${r.title}"></a></section>`).join("")}</html>`,
   );
   console.log(
     `Exported ${result.length} animation boards, no parry for unshielded units.`,

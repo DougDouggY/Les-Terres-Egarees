@@ -138,10 +138,9 @@ test("planches complémentaires : séquences complètes, seconde main et harmoni
   ]) {
     const p = profiles.find((p) => p.classId === id)!;
     const c = resolveClip(p, "attack")!;
-    const refreshed =
-      id === "north_warrior" || (id === "hunter" && p.gender === "female");
+    const refreshed = id === "north_warrior" || id === "hunter";
     assert.equal(c.frames.length, refreshed ? 8 : 7, id);
-    assert.equal(c.impactFrame, 3, id);
+    assert.equal(c.impactFrame, id === "spearman" ? 2 : 3, id);
     assert.equal(c.loop, false, id);
     for (const animation of ["damage", "evade", "death"])
       assert.equal(
@@ -351,7 +350,9 @@ test("reprises chevalières : six identités, sexes prioritaires, défense rése
       p.gender,
       "un ancien profil partagé ne masque pas les nouveaux sexes",
     );
-    const combat = buildCombatSkin(active, p)!;
+    // Keep checking the complete archived refresh sheet; reviewed partial attacks
+    // now deliberately override it in the active catalogue.
+    const combat = buildCombatSkin(p, p)!;
     assert.deepEqual(combat.issues, []);
     const source = resolveClip(combat.profile, "idle")!.source;
     assert.ok(source.startsWith("tactical/combat-v4-knight-refresh-"));
@@ -366,7 +367,7 @@ test("reprises chevalières : six identités, sexes prioritaires, défense rése
       p.equipment === "sword-shield" ? 26 : special ? 27 : 23,
     );
     for (const name of ["idle", "move", "attack", "evade", "damage", "death"]) {
-      assert.equal(resolveClip(active, name)!.source, source);
+      assert.equal(resolveClip(p, name)!.source, source);
       assert.equal(resolveClip(combat.profile, name)!.source, source);
     }
     assert.equal(

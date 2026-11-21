@@ -72,16 +72,40 @@ export function drawSpell(
   from: { x: number; y: number },
   to: { x: number; y: number },
   size = 110,
+  chargeFrom = from,
 ) {
   if (kind === "heal") return;
   const flip = to.x < from.x;
+  if (kind === "fire" && t >= -320 && t < -100) {
+    ctx.save();
+    const radius = size * (0.1 + Math.min(1, (t + 320) / 140) * 0.15);
+    const glow = ctx.createRadialGradient(
+      chargeFrom.x,
+      chargeFrom.y,
+      0,
+      chargeFrom.x,
+      chargeFrom.y,
+      radius,
+    );
+    glow.addColorStop(0, "#fff4ce");
+    glow.addColorStop(0.25, "#ff582c");
+    glow.addColorStop(1, "#ed180000");
+    ctx.fillStyle = glow;
+    ctx.fillRect(
+      chargeFrom.x - radius,
+      chargeFrom.y - radius,
+      radius * 2,
+      radius * 2,
+    );
+    ctx.restore();
+  }
   if (kind === "fire" && t >= -320 && t < -180)
     drawEffectFrame(
       ctx,
       kind,
       t < -250 ? 0 : 1,
-      from.x,
-      from.y,
+      chargeFrom.x,
+      chargeFrom.y,
       size * 0.65,
       flip,
     );
@@ -93,7 +117,7 @@ export function drawSpell(
       t < -90 ? 2 : 3,
       from.x + (to.x - from.x) * p,
       from.y + (to.y - from.y) * p,
-      size,
+      size * (0.4 + p * 0.8),
       flip,
     );
   }
@@ -131,7 +155,15 @@ export function drawSpell(
     ctx.restore();
   }
   if (t >= 0 && t < 280)
-    drawEffectFrame(ctx, kind, t < 140 ? 4 : 5, to.x, to.y, size * 1.2, flip);
+    drawEffectFrame(
+      ctx,
+      kind,
+      t < 140 ? 4 : 5,
+      to.x,
+      to.y,
+      size * (kind === "fire" ? 1.5 : 1.2),
+      flip,
+    );
 }
 export function drawHealing(
   ctx: CanvasRenderingContext2D,

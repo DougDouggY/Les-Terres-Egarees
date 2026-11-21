@@ -450,3 +450,79 @@ test("parade lumineuse : bouclier superposé au défenseur à l’impact et dég
   await expect(comparison).toHaveTitle("Comparaison des gabarits nordiques");
   await comparison.close();
 });
+
+test("Sorciers : orbe suivi pendant la charge, projectile croissant et explosion commune au jeu", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const result = await page.evaluate(async () => {
+    const E = await import(String("/src/engine.ts")),
+      R = await import(String("/src/sprites/resources.ts")),
+      S = await import(String("/src/sprites/combat-skins.ts")),
+      C = await import(String("/src/sprites/catalog.ts")),
+      W = await import(String("/src/sprites/weapon-point.ts")),
+      FX = await import(String("/src/ui/combat-effects.ts"));
+    await FX.preloadEffects();
+    const canvas = document.createElement("canvas");
+    canvas.width = 960;
+    canvas.height = 480;
+    const ctx = canvas.getContext("2d")!;
+    const sizes: number[] = [],
+      glows: number[][] = [];
+    const draw = ctx.drawImage.bind(ctx),
+      gradient = ctx.createRadialGradient.bind(ctx);
+    ctx.drawImage = ((...args: any[]) => {
+      sizes.push(args[7]);
+      (draw as any)(...args);
+    }) as typeof ctx.drawImage;
+    ctx.createRadialGradient = ((...args: number[]) => {
+      glows.push(args);
+      return (gradient as any)(...args);
+    }) as typeof ctx.createRadialGradient;
+    const actors = ["male", "female"].map((gender) => {
+      const u = E.makeClassUnit(
+        "staff-test",
+        1,
+        1,
+        "sorcerer",
+        "Test",
+        0,
+        0,
+        gender,
+      );
+      u.activeWeaponId = "spell";
+      E.syncWeapon(u);
+      const p = S.combatSkin(R.unitSpriteProfile(u))!.profile,
+        c = C.resolveClip(p, "attack")!;
+      const from = W.illustratedWeaponPoint(
+        p,
+        "attack",
+        c.impactFrame!,
+        270,
+        350,
+        136,
+        1,
+      );
+      const charge = W.illustratedWeaponPoint(p, "attack", 0, 270, 350, 136, 1);
+      FX.drawSpell(ctx, "fire", -250, from, { x: 690, y: 285 }, 100, charge);
+      const at = glows.at(-1)!;
+      sizes.length = 0;
+      for (const t of [-175, -15, 50])
+        FX.drawSpell(ctx, "fire", t, from, { x: 690, y: 285 }, 100);
+      return {
+        sizes: [...sizes],
+        glow: [at[0], at[1]],
+        charge,
+        source: c.source,
+      };
+    });
+    return actors;
+  });
+  for (const actor of result) {
+    expect(actor.source).toContain("combat-v4-refinements-mage-");
+    expect(actor.glow).toEqual([actor.charge.x, actor.charge.y]);
+    expect(actor.sizes).toHaveLength(3);
+    expect(actor.sizes[0]).toBeLessThan(actor.sizes[1]);
+    expect(actor.sizes[1]).toBeLessThan(actor.sizes[2]);
+  }
+});

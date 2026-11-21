@@ -29,9 +29,9 @@
       "gender": "male",
       "weapon": "lance",
       "status": "Référence conservée · animations à tester",
-      "source": "tactical/complete-knights.png",
+      "source": "tactical/combat-v4-refinements-spear.png",
       "mapSource": "tactical/lot2-knights.png",
-      "reference": 171,
+      "reference": 285,
       "shared": true
     },
     {
@@ -40,9 +40,9 @@
       "gender": "female",
       "weapon": "lance",
       "status": "Référence conservée · animations à tester",
-      "source": "tactical/complete-knights.png",
+      "source": "tactical/combat-v4-refinements-spear.png",
       "mapSource": "tactical/lot2-knights.png",
-      "reference": 171,
+      "reference": 285,
       "shared": true
     },
     {
@@ -73,9 +73,9 @@
       "gender": "male",
       "weapon": "sword",
       "status": "Nouveau · animations à tester",
-      "source": "tactical/combat-v4-knight-refresh-swordsman-male.png",
+      "source": "tactical/combat-v4-refinements-sword-m.png",
       "mapSource": "tactical/combat-v4-knight-refresh-swordsman-male.png",
-      "reference": 236,
+      "reference": 301,
       "shared": false
     },
     {
@@ -84,9 +84,9 @@
       "gender": "female",
       "weapon": "sword",
       "status": "Nouveau · animations à tester",
-      "source": "tactical/combat-v4-knight-refresh-swordsman-female.png",
+      "source": "tactical/combat-v4-refinements-sword-f.png",
       "mapSource": "tactical/combat-v4-knight-refresh-swordsman-female.png",
-      "reference": 243,
+      "reference": 332,
       "shared": false
     },
     {
@@ -95,9 +95,9 @@
       "gender": "male",
       "weapon": "spell",
       "status": "Référence conservée · animations à tester",
-      "source": "tactical/combat-v2-support.png",
-      "mapSource": "tactical/lot2-magic.png",
-      "reference": 205,
+      "source": "tactical/combat-v4-refinements-mage-m.png",
+      "mapSource": "tactical/combat-v4-refinements-mage-m.png",
+      "reference": 308,
       "shared": false
     },
     {
@@ -106,9 +106,9 @@
       "gender": "female",
       "weapon": "spell",
       "status": "Nouveau · animations à tester",
-      "source": "tactical/combat-v4-knight-refresh-sorceress.png",
-      "mapSource": "tactical/combat-v4-knight-refresh-sorceress.png",
-      "reference": 226,
+      "source": "tactical/combat-v4-refinements-mage-f.png",
+      "mapSource": "tactical/combat-v4-refinements-mage-f.png",
+      "reference": 311,
       "shared": false
     }
   ],

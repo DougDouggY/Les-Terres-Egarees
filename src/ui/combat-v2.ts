@@ -27,6 +27,7 @@ import {
   anatomicalContactGap,
 } from "../sprites/geometry";
 import anchors from "../assets/tactical/combat-anchors.json";
+import { illustratedWeaponPoint } from "../sprites/weapon-point";
 import {
   buildV2Timeline,
   sampleV2Timeline,
@@ -304,6 +305,7 @@ export class CombatSceneV2 {
     if (
       source.startsWith("tactical/combat-v4-north-refresh-") ||
       source.startsWith("tactical/combat-v4-knight-refresh-") ||
+      source.startsWith("tactical/combat-v4-refinements-") ||
       source === "tactical/combat-v4-pillarde-axe-v3.png"
     )
       return anatomicalContactGap(
@@ -554,7 +556,16 @@ export class CombatSceneV2 {
         };
       if (block.ranged) {
         const magic = attackEffect(a.actor.unit);
-        if (magic) drawSpell(ctx, magic, elapsed - impact, origin, target, 100);
+        if (magic)
+          drawSpell(
+            ctx,
+            magic,
+            elapsed - impact,
+            origin,
+            target,
+            100,
+            this.weaponPoint(a.actor, a.name, a.index, a.x, ground, direction),
+          );
         else if (p >= 0.4 && p < 0.58) {
           const f = (p - 0.4) / 0.18;
           drawArrow(ctx, -100 + f * 100, origin, target);
@@ -792,6 +803,16 @@ export class CombatSceneV2 {
     ground: number,
     direction: number,
   ) {
+    if (actor.skin?.profile.classId === "sorcerer")
+      return illustratedWeaponPoint(
+        actor.skin.profile,
+        name,
+        index,
+        x,
+        ground,
+        actor.height,
+        direction,
+      );
     const c = resolveClip(actor.skin?.profile, name),
       a = c && anchor(c, index),
       scale = c ? (actor.scaleBySource.get(c.source) ?? 1) : 1;

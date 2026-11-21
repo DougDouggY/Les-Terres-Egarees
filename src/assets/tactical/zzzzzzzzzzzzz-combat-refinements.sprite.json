@@ -1,0 +1,2209 @@
+{
+  "override": true,
+  "profiles": [
+    {
+      "classId": "nordic_blade",
+      "gender": "female",
+      "equipment": "sword",
+      "state": "default",
+      "note": "Harmonisation : une identité commune à la création, la carte et au combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-refinements-blade.png": 219
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        },
+        "evade": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v4-refinements-blade.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 3,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "hunter",
+      "gender": "male",
+      "equipment": "bow",
+      "state": "default",
+      "note": "Harmonisation : une identité commune à la création, la carte et au combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-refinements-hunter.png": 217
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-refinements-hunter.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-refinements-hunter.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-refinements-hunter.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-hunter.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        },
+        "evade": {
+          "source": "tactical/combat-v4-refinements-hunter.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v4-refinements-hunter.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "death": {
+          "source": "tactical/combat-v4-refinements-hunter.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 3,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      }
+    },
+    {
+      "classId": "swordsman",
+      "gender": "male",
+      "equipment": "sword",
+      "state": "default",
+      "note": "Attaque corrigée ; déplacements, défenses et identité existants conservés après contrôle des sources.",
+      "referenceHeights": {
+        "tactical/combat-v4-knight-refresh-swordsman-male.png": 236,
+        "tactical/combat-v4-refinements-sword-m.png": 301
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-male.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-refinements-sword-m.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-male.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-sword-m.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "evade": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-male.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-male.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-male.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      },
+      "allowMixedSources": true
+    },
+    {
+      "classId": "swordsman",
+      "gender": "female",
+      "equipment": "sword",
+      "state": "default",
+      "note": "Attaque corrigée ; déplacements, défenses et identité existants conservés après contrôle des sources.",
+      "referenceHeights": {
+        "tactical/combat-v4-knight-refresh-swordsman-female.png": 243,
+        "tactical/combat-v4-refinements-sword-f.png": 332
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-female.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-refinements-sword-f.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-female.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-sword-f.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "evade": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-female.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-female.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-knight-refresh-swordsman-female.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 5,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      },
+      "allowMixedSources": true
+    },
+    {
+      "classId": "spearman",
+      "equipment": "lance",
+      "state": "default",
+      "gender": "any",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "fps": 2,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-knights.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-spear.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 195,
+            "height": 205.042
+          }
+        },
+        "death": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            4,
+            5
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 4
+            },
+            {
+              "row": 1,
+              "column": 5
+            }
+          ],
+          "fps": 4,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 195,
+            "height": 205.042
+          }
+        },
+        "evade": {
+          "source": "tactical/complete-knights.png",
+          "columns": 6,
+          "rows": 6,
+          "row": 1,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "magenta",
+          "recolorEdges": true,
+          "status": "functional",
+          "frameSize": {
+            "width": 195,
+            "height": 205.042
+          }
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-refinements-spear.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      },
+      "note": "Attaque corrigée ; déplacements, défenses et identité existants conservés après contrôle des sources.",
+      "allowMixedSources": true,
+      "referenceHeights": {
+        "tactical/combat-v4-refinements-spear.png": 285
+      }
+    },
+    {
+      "classId": "sorcerer",
+      "equipment": "spell",
+      "state": "default",
+      "gender": "male",
+      "lot": 2,
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-refinements-mage-m.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 2,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 6,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-mage-m.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "damage": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            0
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "cells": [
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 0
+            }
+          ],
+          "loop": false,
+          "note": "Recul puis retour à la pose de repos."
+        },
+        "death": {
+          "source": "tactical/lot2-magic.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 3,
+          "frames": [
+            2,
+            3
+          ],
+          "fps": 3,
+          "recolor": "magenta",
+          "status": "functional",
+          "loop": false,
+          "note": "Recul puis chute au sol, deux poses."
+        },
+        "heal": {
+          "source": "tactical/lot4-actions.png",
+          "columns": 4,
+          "rows": 6,
+          "row": 0,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "fps": 4,
+          "recolor": "magenta",
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-refinements-mage-m.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        }
+      },
+      "allowMixedSources": true,
+      "referenceHeights": {
+        "tactical/combat-v4-refinements-mage-m.png": 308
+      },
+      "note": "Attaque corrigée ; déplacements, défenses et identité existants conservés après contrôle des sources."
+    },
+    {
+      "classId": "sorcerer",
+      "gender": "female",
+      "equipment": "spell",
+      "state": "default",
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-refinements-mage-f.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            0,
+            1
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            },
+            {
+              "row": 0,
+              "column": 1
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-knight-refresh-sorceress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "damage": {
+          "source": "tactical/combat-v4-knight-refresh-sorceress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-knight-refresh-sorceress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-knight-refresh-sorceress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-refinements-mage-f.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            },
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "heal": {
+          "source": "tactical/combat-v4-knight-refresh-sorceress.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            },
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 5,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 2
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-refinements-mage-f.png",
+          "columns": 4,
+          "rows": 3,
+          "row": 0,
+          "frames": [
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            },
+            {
+              "row": 0,
+              "column": 3
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      },
+      "referenceHeights": {
+        "tactical/combat-v4-knight-refresh-sorceress.png": 226,
+        "tactical/combat-v4-refinements-mage-f.png": 311
+      },
+      "note": "Attaque corrigée ; déplacements, défenses et identité existants conservés après contrôle des sources.",
+      "allowMixedSources": true
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "male",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Harmonisation chevalière : même identité et équipement sur carte et en combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-knight-refresh-man-arms-male.png": 238
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "fps": 1,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "note": "Pieds fixes ; respiration légère partagée, sans alternance de grandes poses."
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            2
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-male.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      }
+    },
+    {
+      "classId": "man_at_arms",
+      "gender": "female",
+      "equipment": "sword-shield",
+      "state": "default",
+      "note": "Harmonisation chevalière : même identité et équipement sur carte et en combat.",
+      "referenceHeights": {
+        "tactical/combat-v4-knight-refresh-man-arms-female.png": 234
+      },
+      "clips": {
+        "idle": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            0
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 0
+            }
+          ],
+          "fps": 1,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "note": "Pieds fixes ; respiration légère partagée, sans alternance de grandes poses."
+        },
+        "combat_idle": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 0,
+          "frames": [
+            2
+          ],
+          "cells": [
+            {
+              "row": 0,
+              "column": 2
+            }
+          ],
+          "fps": 2,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "move": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 1,
+          "frames": [
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 1,
+              "column": 0
+            },
+            {
+              "row": 1,
+              "column": 1
+            },
+            {
+              "row": 1,
+              "column": 2
+            },
+            {
+              "row": 1,
+              "column": 3
+            }
+          ],
+          "fps": 6,
+          "loop": true,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "attack": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 2,
+          "frames": [
+            0,
+            1,
+            2,
+            3,
+            0,
+            1,
+            2,
+            3
+          ],
+          "cells": [
+            {
+              "row": 2,
+              "column": 0
+            },
+            {
+              "row": 2,
+              "column": 1
+            },
+            {
+              "row": 2,
+              "column": 2
+            },
+            {
+              "row": 2,
+              "column": 3
+            },
+            {
+              "row": 3,
+              "column": 0
+            },
+            {
+              "row": 3,
+              "column": 1
+            },
+            {
+              "row": 3,
+              "column": 2
+            },
+            {
+              "row": 3,
+              "column": 3
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 3
+        },
+        "counter": {
+          "reuse": "attack"
+        },
+        "attack_again": {
+          "reuse": "attack"
+        },
+        "block": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 4,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 4,
+              "column": 0
+            },
+            {
+              "row": 4,
+              "column": 1
+            },
+            {
+              "row": 4,
+              "column": 2
+            }
+          ],
+          "fps": 7,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "evade": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 5,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 5,
+              "column": 0
+            },
+            {
+              "row": 5,
+              "column": 1
+            },
+            {
+              "row": 5,
+              "column": 2
+            }
+          ],
+          "fps": 6,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "damage": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            0,
+            1,
+            2
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 0
+            },
+            {
+              "row": 6,
+              "column": 1
+            },
+            {
+              "row": 6,
+              "column": 2
+            }
+          ],
+          "fps": 8,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional",
+          "impactFrame": 1
+        },
+        "death": {
+          "source": "tactical/combat-v4-knight-refresh-man-arms-female.png",
+          "columns": 4,
+          "rows": 7,
+          "row": 6,
+          "frames": [
+            3
+          ],
+          "cells": [
+            {
+              "row": 6,
+              "column": 3
+            }
+          ],
+          "fps": 1,
+          "loop": false,
+          "recolor": "blue",
+          "recolorEdges": true,
+          "status": "functional"
+        },
+        "combat_move": {
+          "reuse": "move"
+        },
+        "combat_damage": {
+          "reuse": "damage"
+        }
+      }
+    }
+  ]
+}

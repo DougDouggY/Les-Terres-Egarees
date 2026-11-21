@@ -18,6 +18,8 @@ export type ClipDefinition =
   | Clip
   | { reuse: string; status?: "functional" | "provisional"; note?: string };
 export type SpriteProfile = {
+  /** Explicitly reviewed animation sheets with the same character and costume. */
+  allowMixedSources?: boolean;
   referenceHeights?: Record<string, number>;
   lot?: number;
   note?: string;

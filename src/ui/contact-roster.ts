@@ -47,7 +47,9 @@ for (const faction of ["north", "knight"] as const)
           gender === "female" ? (names[cls.id] ?? cls.name) : cls.name;
         const fresh =
           faction === "knight" &&
-          (["man_at_arms", "swordsman"].includes(cls.id) ||
+          (["man_at_arms", "swordsman", "spearman", "sorcerer"].includes(
+            cls.id,
+          ) ||
             (gender === "female" &&
               ["crossbowman", "sorcerer"].includes(cls.id)));
         contactRoster.push({
@@ -59,7 +61,10 @@ for (const faction of ["north", "knight"] as const)
           label: `${name} · ${gender === "male" ? "H" : "F"} · ${weaponCatalog[weapon].name}`,
           status:
             faction === "north"
-              ? "Visuel validé · animations à tester"
+              ? (cls.id === "hunter" && gender === "male") ||
+                (cls.id === "nordic_blade" && gender === "female")
+                ? "Nouveau · à tester"
+                : "Visuel validé · animations à tester"
               : fresh
                 ? "Nouveau · à tester"
                 : "Référence conservée · à tester",

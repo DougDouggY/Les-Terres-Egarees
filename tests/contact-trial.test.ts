@@ -251,3 +251,53 @@ test("parade partagée : apparition, croissance, éclatement bref et mouvement r
   assert.equal(parryImpact(80, true).scale, 1);
   assert.equal(parryImpact(200, true).burst, 0);
 });
+
+test("Corrections de base : attente fixe, espacement des boucliers et armes complètes", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { resolveClip } = await import("../src/sprites/catalog");
+  const { anatomicalContactGap, resourceRect } =
+    await import("../src/sprites/geometry");
+  const { illustratedWeaponPoint } =
+    await import("../src/sprites/weapon-point");
+  const data = JSON.parse(
+    await readFile(
+      "src/assets/tactical/zzzzzzzzzzzzz-combat-refinements.sprite.json",
+      "utf8",
+    ),
+  );
+  assert.equal(data.profiles.length, 9);
+  for (const p of data.profiles) {
+    if (p.classId === "man_at_arms") {
+      assert.equal(resolveClip(p, "idle")!.frames.length, 1);
+      assert.equal(resolveClip(p, "combat_idle")!.frames.length, 1);
+      const gap = anatomicalContactGap(p, p, 136);
+      assert.ok(gap >= 106);
+      assert.equal(anatomicalContactGap(p, p, 272), gap * 2);
+    } else {
+      const clip = resolveClip(p, "attack")!;
+      assert.match(clip.source, /combat-v4-refinements-/);
+      assert.equal(resolveClip(p, "counter")!.source, clip.source);
+      for (let i = 0; i < clip.frames.length; i++) {
+        const r = resourceRect(clip, i)!;
+        assert.ok(r && r.x > 0 && r.y > 0);
+      }
+    }
+    if (p.classId === "sorcerer") {
+      const c = resolveClip(p, "attack")!,
+        i = c.impactFrame!;
+      const left = illustratedWeaponPoint(p, "attack", i, 270, 350, 136, 1);
+      const right = illustratedWeaponPoint(p, "attack", i, 690, 350, 136, -1);
+      assert.ok(
+        left.x > 290 && left.y < 260,
+        "fire leaves the forward raised staff orb",
+      );
+      assert.ok(Math.abs(left.x - 270 - (690 - right.x)) < 1e-9);
+      assert.equal(left.y, right.y);
+      assert.equal(
+        resolveClip(p, "move")!.source.includes("refinements"),
+        false,
+        "approved movement retained deliberately, not silently quarantined",
+      );
+    }
+  }
+});

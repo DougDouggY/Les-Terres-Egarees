@@ -59,6 +59,7 @@ export function buildCombatSkin(
     // Guard/recovery and attack belong to one wardrobe, not to unrelated map art.
     if (
       ["idle", "move"].includes(name) &&
+      !p.allowMixedSources &&
       attack &&
       c.source !== attack.source &&
       !/^tactical\/combat-v[34]-motion/.test(c.source) &&

@@ -202,5 +202,12 @@ export function anatomicalContactGap(
         defenderBody * 0.29,
         front(defender, "idle", defenderBody, false),
       );
-  return Math.max(attackerBody * 0.36, reach + target - attackerBody * 0.015);
+  // Broad shield-and-armour silhouettes need room for both torsos. This is
+  // anatomical (scales with bodies), leaving the approved Viking contact intact.
+  const shieldKnight =
+    attacker?.classId === "man_at_arms" || defender?.classId === "man_at_arms";
+  return Math.max(
+    shieldKnight ? (attackerBody + defenderBody) * 0.39 : attackerBody * 0.36,
+    reach + target - attackerBody * 0.015,
+  );
 }

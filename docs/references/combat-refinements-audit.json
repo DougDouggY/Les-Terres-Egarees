@@ -1,0 +1,1238 @@
+[
+  {
+    "source": "tactical/combat-v4-refinements-blade.png",
+    "classId": "nordic_blade",
+    "gender": "female",
+    "referenceHeight": 219,
+    "poses": 23,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          52,
+          34,
+          142,
+          219
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          307,
+          34,
+          150,
+          219
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          556,
+          46,
+          182,
+          206
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          812,
+          50,
+          187,
+          202
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          40,
+          292,
+          150,
+          208
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          298,
+          293,
+          172,
+          205
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          555,
+          295,
+          172,
+          205
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          813,
+          299,
+          178,
+          201
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          40,
+          546,
+          151,
+          212
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          294,
+          548,
+          157,
+          209
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          538,
+          549,
+          170,
+          209
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          802,
+          557,
+          222,
+          202
+        ],
+        "edgeContact": true
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "bounds": [
+          28,
+          807,
+          258,
+          205
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "bounds": [
+          292,
+          802,
+          212,
+          211
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "bounds": [
+          543,
+          801,
+          191,
+          214
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "bounds": [
+          810,
+          801,
+          178,
+          214
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "bounds": [
+          35,
+          1052,
+          160,
+          214
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "bounds": [
+          281,
+          1057,
+          186,
+          204
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 2,
+        "bounds": [
+          536,
+          1069,
+          185,
+          195
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 0,
+        "bounds": [
+          20,
+          1310,
+          176,
+          201
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 1,
+        "bounds": [
+          265,
+          1315,
+          161,
+          196
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 2,
+        "bounds": [
+          483,
+          1372,
+          191,
+          137
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 3,
+        "bounds": [
+          721,
+          1431,
+          293,
+          75
+        ],
+        "edgeContact": false
+      }
+    ],
+    "fullReplacement": true
+  },
+  {
+    "source": "tactical/combat-v4-refinements-hunter.png",
+    "classId": "hunter",
+    "gender": "male",
+    "referenceHeight": 217,
+    "poses": 23,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          59,
+          21,
+          154,
+          217
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          310,
+          21,
+          152,
+          217
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          562,
+          39,
+          156,
+          199
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          812,
+          57,
+          166,
+          181
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          50,
+          293,
+          162,
+          197
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          311,
+          294,
+          157,
+          196
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          562,
+          299,
+          166,
+          192
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          823,
+          297,
+          161,
+          195
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          47,
+          547,
+          158,
+          205
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          292,
+          546,
+          179,
+          206
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          548,
+          528,
+          186,
+          224
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          798,
+          521,
+          197,
+          231
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "bounds": [
+          23,
+          778,
+          174,
+          230
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "bounds": [
+          283,
+          785,
+          175,
+          222
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "bounds": [
+          545,
+          807,
+          162,
+          200
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "bounds": [
+          812,
+          804,
+          152,
+          204
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 0,
+        "bounds": [
+          34,
+          1055,
+          149,
+          209
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 1,
+        "bounds": [
+          279,
+          1050,
+          152,
+          210
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 4,
+        "column": 2,
+        "bounds": [
+          544,
+          1069,
+          155,
+          195
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 0,
+        "bounds": [
+          22,
+          1312,
+          170,
+          203
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 1,
+        "bounds": [
+          267,
+          1319,
+          178,
+          196
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 2,
+        "bounds": [
+          525,
+          1364,
+          185,
+          147
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 5,
+        "column": 3,
+        "bounds": [
+          732,
+          1431,
+          273,
+          75
+        ],
+        "edgeContact": false
+      }
+    ],
+    "fullReplacement": true
+  },
+  {
+    "source": "tactical/combat-v4-refinements-sword-m.png",
+    "classId": "swordsman",
+    "gender": "male",
+    "referenceHeight": 301,
+    "poses": 12,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          96,
+          44,
+          220,
+          301
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          439,
+          44,
+          217,
+          301
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          776,
+          61,
+          232,
+          284
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          1120,
+          61,
+          234,
+          284
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          75,
+          397,
+          239,
+          292
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          417,
+          393,
+          247,
+          297
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          758,
+          401,
+          236,
+          289
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          1093,
+          404,
+          340,
+          286
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          62,
+          753,
+          309,
+          293
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          415,
+          751,
+          249,
+          295
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          762,
+          752,
+          245,
+          294
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          1120,
+          754,
+          236,
+          292
+        ],
+        "edgeContact": false
+      }
+    ],
+    "fullReplacement": false
+  },
+  {
+    "source": "tactical/combat-v4-refinements-sword-f.png",
+    "classId": "swordsman",
+    "gender": "female",
+    "referenceHeight": 332,
+    "poses": 12,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          63,
+          14,
+          216,
+          332
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          424,
+          14,
+          218,
+          332
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          775,
+          29,
+          265,
+          317
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          1137,
+          29,
+          264,
+          317
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          48,
+          384,
+          252,
+          325
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          406,
+          380,
+          265,
+          329
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          765,
+          384,
+          300,
+          325
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          1132,
+          388,
+          314,
+          320
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          54,
+          754,
+          308,
+          317
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          420,
+          754,
+          290,
+          317
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          780,
+          752,
+          229,
+          319
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          1137,
+          753,
+          270,
+          318
+        ],
+        "edgeContact": false
+      }
+    ],
+    "fullReplacement": false
+  },
+  {
+    "source": "tactical/combat-v4-refinements-spear.png",
+    "classId": "spearman",
+    "gender": "male",
+    "referenceHeight": 285,
+    "poses": 12,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          70,
+          49,
+          231,
+          285
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          430,
+          49,
+          228,
+          285
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          752,
+          61,
+          305,
+          273
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          1125,
+          60,
+          294,
+          274
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          33,
+          417,
+          301,
+          279
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          386,
+          423,
+          274,
+          273
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          737,
+          430,
+          323,
+          266
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          1090,
+          436,
+          354,
+          260
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          25,
+          793,
+          323,
+          265
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          393,
+          781,
+          296,
+          277
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          757,
+          779,
+          300,
+          279
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          1119,
+          780,
+          300,
+          278
+        ],
+        "edgeContact": false
+      }
+    ],
+    "fullReplacement": false
+  },
+  {
+    "source": "tactical/combat-v4-refinements-mage-m.png",
+    "classId": "sorcerer",
+    "gender": "male",
+    "referenceHeight": 308,
+    "poses": 12,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          62,
+          19,
+          218,
+          308
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          427,
+          19,
+          214,
+          308
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          786,
+          19,
+          213,
+          308
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          1144,
+          19,
+          233,
+          308
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          50,
+          387,
+          244,
+          301
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          406,
+          388,
+          245,
+          301
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          761,
+          387,
+          281,
+          302
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          1118,
+          375,
+          311,
+          313
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          32,
+          755,
+          269,
+          297
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          401,
+          756,
+          240,
+          296
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          770,
+          754,
+          240,
+          298
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          1134,
+          749,
+          240,
+          303
+        ],
+        "edgeContact": false
+      }
+    ],
+    "fullReplacement": false
+  },
+  {
+    "source": "tactical/combat-v4-refinements-mage-f.png",
+    "classId": "sorcerer",
+    "gender": "female",
+    "referenceHeight": 311,
+    "poses": 12,
+    "frames": [
+      {
+        "row": 0,
+        "column": 0,
+        "bounds": [
+          80,
+          17,
+          180,
+          311
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "bounds": [
+          443,
+          17,
+          177,
+          311
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "bounds": [
+          797,
+          41,
+          238,
+          288
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "bounds": [
+          1157,
+          41,
+          244,
+          287
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "bounds": [
+          68,
+          401,
+          249,
+          290
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "bounds": [
+          417,
+          401,
+          270,
+          290
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "bounds": [
+          762,
+          398,
+          293,
+          293
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "bounds": [
+          1125,
+          383,
+          312,
+          308
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "bounds": [
+          41,
+          748,
+          308,
+          305
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "bounds": [
+          413,
+          759,
+          276,
+          294
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "bounds": [
+          783,
+          765,
+          242,
+          288
+        ],
+        "edgeContact": false
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "bounds": [
+          1150,
+          764,
+          243,
+          289
+        ],
+        "edgeContact": false
+      }
+    ],
+    "fullReplacement": false
+  }
+]

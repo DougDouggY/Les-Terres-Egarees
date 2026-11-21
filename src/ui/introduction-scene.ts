@@ -7,7 +7,11 @@ import { portraitAsset } from "../data/portraits";
 import { creationPortraits } from "../game/portraits";
 import { dialoguePortraitMarkup as portraitMarkup } from "./portraits";
 import { maskDialoguePortraits } from "./portrait-mask";
-import { anatomicalPlacement } from "../sprites/display-scale";
+import {
+  anatomicalPlacement,
+  idleAnimationFrame,
+  tacticalIdleSway,
+} from "../sprites/display-scale";
 import {
   unitSpriteProfile,
   warmSprites,
@@ -393,11 +397,23 @@ export class IntroductionScene {
     if (!faceRight) this.ctx.scale(-1, 1);
     const profile = unitSpriteProfile(u),
       animation = move && resolveClip(profile, "move") ? "move" : "idle";
+    const frame = move
+      ? Math.floor((now * (resolveClip(profile, animation)?.fps ?? 8)) / 1000)
+      : idleAnimationFrame(profile, now);
+    // Feet stay on the same ground point during the restrained idle breath.
+    const sway = tacticalIdleSway(
+      u.classId,
+      u.gender,
+      animation,
+      frame,
+      resolveClip(profile, animation)?.frames.length,
+    );
+    this.ctx.transform(1, 0, sway, 1, 0, 0);
     drawResourceFrame(
       this.ctx,
       profile,
       animation,
-      Math.floor(now / (move ? 120 : 260)),
+      frame,
       -body,
       -body * 1.1,
       body * 2,
