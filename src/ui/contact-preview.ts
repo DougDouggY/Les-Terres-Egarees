@@ -55,7 +55,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   ).matches;
   const background = new Image();
   background.src = import.meta.env.BASE_URL + "assets/battle-3.png";
-  app.innerHTML = `<main class="contact-preview"><header><h1><span data-contact-title>Pillard contre Pillard</span> <small class="contact-version">Critique V2</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><label class="contact-character">Personnage<select data-contact-character><option value="male">Pillard · hache</option><option value="female">Pillarde · hache (élancée)</option></select></label><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/gabarits/index.html" target="_blank" rel="noopener">Comparer les gabarits ↗</a><div class="contact-buttons">${Object.entries(
+  app.innerHTML = `<main class="contact-preview"><header><h1><span data-contact-title>Pillard contre Pillard</span> <small class="contact-version">Critique V2</small></h1><button data-contact-back>Retour à l’accueil</button></header><aside class="contact-sidebar"><label class="contact-character">Personnage<select data-contact-character><option value="male">Pillard · hache</option><option value="female">Pillarde · hache (élancée)</option></select></label><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/vikings/index.html" target="_blank" rel="noopener">Comparer les gabarits ↗</a><div class="contact-buttons">${Object.entries(
     contactScenarios,
   )
     .map(
