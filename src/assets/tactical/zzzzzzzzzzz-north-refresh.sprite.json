@@ -436,37 +436,6 @@
         "attack_again": {
           "reuse": "attack"
         },
-        "block": {
-          "source": "tactical/combat-v4-north-refresh-north-warrior.png",
-          "columns": 4,
-          "rows": 7,
-          "row": 4,
-          "frames": [
-            0,
-            1,
-            2
-          ],
-          "cells": [
-            {
-              "row": 4,
-              "column": 0
-            },
-            {
-              "row": 4,
-              "column": 1
-            },
-            {
-              "row": 4,
-              "column": 2
-            }
-          ],
-          "fps": 7,
-          "loop": false,
-          "recolor": "blue",
-          "recolorEdges": true,
-          "status": "functional",
-          "impactFrame": 1
-        },
         "evade": {
           "source": "tactical/combat-v4-north-refresh-north-warrior.png",
           "columns": 4,
@@ -1547,37 +1516,6 @@
         },
         "attack_again": {
           "reuse": "attack"
-        },
-        "block": {
-          "source": "tactical/combat-v4-north-refresh-huntress.png",
-          "columns": 4,
-          "rows": 7,
-          "row": 4,
-          "frames": [
-            0,
-            1,
-            2
-          ],
-          "cells": [
-            {
-              "row": 4,
-              "column": 0
-            },
-            {
-              "row": 4,
-              "column": 1
-            },
-            {
-              "row": 4,
-              "column": 2
-            }
-          ],
-          "fps": 7,
-          "loop": false,
-          "recolor": "blue",
-          "recolorEdges": true,
-          "status": "functional",
-          "impactFrame": 1
         },
         "evade": {
           "source": "tactical/combat-v4-north-refresh-huntress.png",

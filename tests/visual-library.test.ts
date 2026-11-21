@@ -224,6 +224,10 @@ test("harmonisation : six identités stables sur carte et au combat, 26 poses co
       death: 1,
     })) {
       for (const profile of [p, combat.profile]) {
+        if (name === "block" && ["axe", "bow"].includes(p.equipment)) {
+          assert.equal(resolveClip(profile, name), undefined);
+          continue;
+        }
         const c = resolveClip(profile, name)!;
         assert.equal(c.source, source, `${p.classId}:${p.gender}:${name}`);
         assert.equal(c.frames.length, count);

@@ -90,3 +90,15 @@ Le sélecteur de l’essai offre les six variantes. Les identifiants de classe, 
 Les contours et les ancrages sont mesurés sur les silhouettes complètes, sans découpage arbitraire des pieds aux limites nominales de la grille. Les masques de rendu écartent les résidus de matte rouges/jaunes ; les PNG sources ne sont pas retouchés par les scripts. `register-north-refresh.py` enregistre uniquement les métadonnées. Le moteur conserve une référence anatomique constante par personnage, y compris lors des attaques avec arme levée.
 
 La comparaison publique `/validation/vikings/` propose le terrain avant/après aux mêmes coordonnées et un lien vers les six fiches de 26 poses. Les ressources visuelles sont exportées par les vrais outils de rendu du jeu, sans modifier une campagne ni le stockage local.
+
+## Correction du contact, des couleurs et des parades
+
+L’essai ne force plus un écart minimal de 95 pixels : le contact est calculé à partir de la portée de la pose d’impact et du corps adverse, à leur vraie échelle de dessin. La Pillarde hache conserve une proximité comparable à la version validée (environ 92 pixels entre ancrages) ; les autres corps à corps se rapprochent davantage (environ 59 à 77 pixels). Le même calcul s’applique aux six skins nordiques concernés dans le moteur de combat normal. La Chasseuse reste immobile pour tirer.
+
+Les six sources utilisent une calibration de leur matériau bleu grisé : les nuances peu saturées de cape, tunique et bouclier sont désormais recolorées, avec une saturation suffisante pour reconnaître le camp rose. Les réglages des anciens atlas restent inchangés. Les tests vérifient les pixels des véritables planches et la préservation de la peau, du cuir, du métal neutre et de l’alpha. La comparaison publique comprend `couleurs-equipes.png`.
+
+Les scénarios de parade sont masqués et désactivés lorsque l’équipement ne porte pas de bouclier, selon la fonction `hasShield` du jeu. Un scénario de parade précédemment sélectionné est réinitialisé lors du changement d’unité. Les clips de parade du Guerrier du Nord et de la Chasseuse sont retirés ; leurs fiches présentent 23 poses utilisées, contre 26 pour les Pillards avec bouclier. Le jeu normal exigeait déjà un bouclier : aucune probabilité ni mécanique n’est modifiée.
+
+La Guerrière du Nord utilise encore `combat-v4-warriors.png`, une ancienne planche moins définie. Aucune nouvelle illustration n’est produite dans ce correctif.
+
+Vérification de ce correctif : 202 tests automatisés réussis, les sept parcours navigateur de l’essai réussis (dont couverture de la recoloration sur les six planches, boutons sans bouclier et stockage inchangé), compilations publique/prototype et contrôles de séparation réussis.

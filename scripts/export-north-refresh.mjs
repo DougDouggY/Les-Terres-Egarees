@@ -100,13 +100,14 @@ try {
           ]),
           [profile, "death", 0, "Mort"],
         ],
-      ];
+      ].filter((row) => row.every(([p, name]) => !!C.resolveClip(p, name)));
+      const poseCount = rows.reduce((n, row) => n + row.length, 0);
       for (const row of rows)
         for (const [p, name] of row)
           await R.spriteImage(C.resolveClip(p, name).source).decode();
       const canvas = document.createElement("canvas");
       canvas.width = 1280;
-      canvas.height = 2160;
+      canvas.height = 95 + rows.length * 295;
       const ctx = canvas.getContext("2d");
       ctx.fillStyle = "#18212a";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -116,7 +117,7 @@ try {
       ctx.fillStyle = "#d1dce6";
       ctx.font = "16px Arial";
       ctx.fillText(
-        "Même échelle · 26 poses · riposte et seconde frappe = attaque · critique = effet partagé",
+        `Même échelle · ${poseCount} poses utilisées · riposte et seconde frappe = attaque · critique = effet partagé`,
         20,
         64,
       );
@@ -167,9 +168,11 @@ try {
     );
   await writeFile(
     `${out}/index.html`,
-    `<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Animations nordiques harmonisées</title><style>body{margin:24px;background:#18212a;color:#eef2f6;font:17px Arial}a{color:#ead5a5}img{max-width:100%;height:auto;image-rendering:pixelated}section{margin-bottom:40px}</style><h1>Les six variantes intégrées</h1><p><a href="../index.html">Comparaison des classes et terrain avant/après</a></p><p>Les poses sont celles du moteur. Pour les voir animées avec vitesse réglable, ouvrir l’essai de combat depuis l’accueil.</p>${result.map((r) => `<section><h2>${r.title}</h2><a href="${r.id}.png"><img loading="lazy" src="${r.id}.png" alt="26 poses de ${r.title}"></a></section>`).join("")}</html>`,
+    `<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Animations nordiques harmonisées</title><style>body{margin:24px;background:#18212a;color:#eef2f6;font:17px Arial}a{color:#ead5a5}img{max-width:100%;height:auto;image-rendering:pixelated}section{margin-bottom:40px}</style><h1>Les six variantes intégrées</h1><p><a href="../index.html">Comparaison des classes et terrain avant/après</a></p><p>Les poses sont celles du moteur. Pour les voir animées avec vitesse réglable, ouvrir l’essai de combat depuis l’accueil.</p>${result.map((r) => `<section><h2>${r.title}</h2><a href="${r.id}.png"><img loading="lazy" src="${r.id}.png" alt="Poses utilisées de ${r.title}"></a></section>`).join("")}</html>`,
   );
-  console.log(`Exported ${result.length} animation boards, 26 poses each.`);
+  console.log(
+    `Exported ${result.length} animation boards, no parry for unshielded units.`,
+  );
 } finally {
   await browser.close();
 }

@@ -125,6 +125,8 @@ export function prepareSpriteSource(c: Clip, color?: TeamColor) {
         color,
         c.recolorEdges,
         c.recolor === "blue" ? 215 : undefined,
+        c.source.startsWith("tactical/combat-v4-north-refresh-") ||
+          c.source === "tactical/combat-v4-pillarde-axe-v3.png",
       );
     } catch (error) {
       console.warn(

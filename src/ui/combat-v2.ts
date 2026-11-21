@@ -21,7 +21,11 @@ import {
   type CombatSkin,
 } from "../sprites/combat-skins";
 import { damageFrame, resolveClip, type Clip } from "../sprites/catalog";
-import { profileMetrics, resourceRect } from "../sprites/geometry";
+import {
+  profileMetrics,
+  resourceRect,
+  anatomicalContactGap,
+} from "../sprites/geometry";
 import anchors from "../assets/tactical/combat-anchors.json";
 import {
   buildV2Timeline,
@@ -296,6 +300,19 @@ export class CombatSceneV2 {
     );
   }
   private contact(a: CombatActor, d: CombatActor, hit: VisualStrike) {
+    const source = resolveClip(a.skin?.profile, "attack")?.source ?? "";
+    if (
+      source.startsWith("tactical/combat-v4-north-refresh-") ||
+      source === "tactical/combat-v4-pillarde-axe-v3.png"
+    )
+      return anatomicalContactGap(
+        a.skin?.profile,
+        d.skin?.profile,
+        a.height,
+        d.height,
+        attackName(a.unit, hit),
+        !!hit.blocked,
+      );
     const name = attackName(a.unit, hit),
       c =
         resolveClip(a.skin?.profile, name) ??

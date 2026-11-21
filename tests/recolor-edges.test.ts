@@ -8,8 +8,44 @@ import {
   recolorSettings,
   setRecolorSettings,
   defaultRecolorSettings,
+  slateBlueMaterialSettings,
 } from "../src/sprites/recolor";
 import { teamPalette, type TeamColor } from "../src/game/team-colors";
+
+test("tissus nordiques gris-bleu : cape, tunique et bouclier roses, métal et couleurs naturelles conservés", () => {
+  const cloth = [
+    [86, 95, 115, 253],
+    [58, 62, 73, 253],
+    [111, 120, 135, 253],
+    [130, 134, 150, 253],
+    [81, 93, 120, 253],
+  ];
+  const natural = [
+    [202, 160, 112, 253],
+    [124, 103, 85, 253],
+    [100, 105, 110, 253],
+    [190, 190, 190, 255],
+    [0, 0, 0, 0],
+  ];
+  const source = new Uint8ClampedArray([...cloth, ...natural].flat());
+  const out = recolorPixels(source.slice(), "pink", {
+    width: 10,
+    settings: {
+      ...defaultRecolorSettings,
+      hue: 215,
+      ...slateBlueMaterialSettings,
+    },
+    minimumSaturation: 0.75,
+  });
+  for (let n = 0; n < cloth.length; n++) {
+    const i = n * 4,
+      hsv = rgbToHsv(out[i], out[i + 1], out[i + 2]);
+    assert.ok(hsv.h > 290 && hsv.s > 0.5);
+    assert.equal(out[i + 3], cloth[n][3]);
+  }
+  assert.deepEqual([...out.slice(cloth.length * 4)], natural.flat());
+  assert.deepEqual([...source], [...cloth, ...natural].flat());
+});
 
 test("HSV : nuances sombres et claires, contours proches seulement, peau et métal préservés", () => {
   const colors = [

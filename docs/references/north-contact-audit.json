@@ -1,0 +1,50 @@
+[
+  {
+    "cls": "raider",
+    "gender": "male",
+    "weapon": "axe_shield",
+    "gap": 71.91391705069124,
+    "shield": true,
+    "block": true
+  },
+  {
+    "cls": "raider",
+    "gender": "female",
+    "weapon": "axe_shield",
+    "gap": 91.54415841584158,
+    "shield": true,
+    "block": true
+  },
+  {
+    "cls": "raider",
+    "gender": "male",
+    "weapon": "sword_shield",
+    "gap": 70.14957345971564,
+    "shield": true,
+    "block": true
+  },
+  {
+    "cls": "raider",
+    "gender": "female",
+    "weapon": "sword_shield",
+    "gap": 76.763738317757,
+    "shield": true,
+    "block": true
+  },
+  {
+    "cls": "north_warrior",
+    "gender": "male",
+    "weapon": "axe",
+    "gap": 59.160000000000004,
+    "shield": false,
+    "block": false
+  },
+  {
+    "cls": "hunter",
+    "gender": "female",
+    "weapon": "bow",
+    "gap": 48.96,
+    "shield": false,
+    "block": false
+  }
+]

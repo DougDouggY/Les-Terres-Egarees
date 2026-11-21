@@ -79,6 +79,14 @@ function hsvToRgb(h: number, s: number, v: number) {
 }
 const hueDistance = (a: number, b: number) =>
   Math.min(Math.abs(a - b), 360 - Math.abs(a - b));
+/** Desaturated blue cloth on the six reviewed northern sheets; not a global palette change. */
+export const slateBlueMaterialSettings = {
+  saturation: 0.12,
+  edgeSaturation: 0.1,
+  hueTolerance: 24,
+  edgeHueTolerance: 24,
+  edgeDistance: 2,
+};
 export function isTeamPixel(
   r: number,
   g: number,
@@ -113,6 +121,7 @@ export function recolorPixels(
     width?: number;
     softEdges?: boolean;
     settings?: RecolorSettings;
+    minimumSaturation?: number;
   } = {},
 ) {
   const settings = options.settings ?? currentSettings,
@@ -163,7 +172,8 @@ export function recolorPixels(
         target.h,
         target.s *
           Math.max(
-            color === "red" && mask[i / 4] === 2 ? 0.85 : 0,
+            options.minimumSaturation ??
+              (color === "red" && mask[i / 4] === 2 ? 0.85 : 0),
             Math.min(1, source.s / 0.75),
           ),
         target.v * source.v,
@@ -186,6 +196,7 @@ export function recoloredImage(
   color: TeamColor,
   softEdges = true,
   sourceHue?: number,
+  slateMaterial = false,
 ) {
   let colors = cache.get(image);
   if (!colors) {
@@ -206,7 +217,13 @@ export function recoloredImage(
               360) %
             360,
         };
-  const key = `${color}:${softEdges}:${JSON.stringify(settings)}`;
+  const materialSettings = slateMaterial
+    ? {
+        ...settings,
+        ...slateBlueMaterialSettings,
+      }
+    : settings;
+  const key = `${color}:${softEdges}:${slateMaterial}:${JSON.stringify(materialSettings)}`;
   let canvas = colors.get(key);
   if (canvas) {
     const entry = recent.get(canvas)!;
@@ -223,7 +240,8 @@ export function recoloredImage(
   recolorPixels(pixels.data, color, {
     width: canvas.width,
     softEdges,
-    settings,
+    settings: materialSettings,
+    minimumSaturation: slateMaterial ? 0.75 : undefined,
   });
   ctx.putImageData(pixels, 0, 0);
   colors.set(key, canvas);

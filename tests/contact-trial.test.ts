@@ -1,5 +1,33 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+test("distance au contact : portée à l’échelle anatomique réelle, sans plancher de 95 pixels", async () => {
+  const { readFile } = await import("node:fs/promises");
+  const { anatomicalContactGap } = await import("../src/sprites/geometry");
+  const profiles = JSON.parse(
+    await readFile(
+      "src/assets/tactical/zzzzzzzzzzz-north-refresh.combat.json",
+      "utf8",
+    ),
+  ).profiles;
+  const gaps = profiles
+    .filter((p: any) => p.equipment !== "bow")
+    .map((p: any) => ({ p, gap: anatomicalContactGap(p, p, 136) }));
+  const female = gaps.find(
+    ({ p }: any) => p.gender === "female" && p.equipment === "axe-shield",
+  )!;
+  assert.ok(
+    female.gap > 88 && female.gap < 96,
+    "la proximité de la Pillarde validée est conservée",
+  );
+  for (const { p, gap } of gaps) {
+    assert.ok(gap >= 48 && gap < 95);
+    assert.ok(
+      Math.abs(anatomicalContactGap(p, p, 272) - gap * 2) < 0.001,
+      "pas de distance fixe indépendante du dessin",
+    );
+    if (p !== female.p) assert.ok(gap < female.gap);
+  }
+});
 import {
   contactScenarios,
   contactSample,

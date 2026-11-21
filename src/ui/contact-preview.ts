@@ -6,7 +6,7 @@ import {
 } from "../sprites/resources";
 import { combatSkin } from "../sprites/combat-skins";
 import { resolveClip } from "../sprites/catalog";
-import { resourceRect, meleeContactDistance } from "../sprites/geometry";
+import { resourceRect, anatomicalContactGap } from "../sprites/geometry";
 import { combatHud } from "./combat-hud";
 import {
   contactScenarios,
@@ -89,6 +89,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       ...v,
       profile: combatSkin(unitSpriteProfile(u))!.profile,
       weaponName: E.activeWeapon(u).name,
+      shield: E.hasShield(u),
     };
   }
   const choices = variants.map(prepare);
@@ -148,7 +149,8 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
   const pause = app.querySelector<HTMLButtonElement>("[data-contact-pause]")!;
   const replay = app.querySelector<HTMLButtonElement>("[data-contact-replay]")!;
   function start(id: ContactScenario) {
-    if (!ready) return;
+    if (!ready || (!selected.shield && ["parry", "double-parry"].includes(id)))
+      return;
     kind = id;
     canvas.dataset.elapsed = "0";
     canvas.dataset.critical = "false";
@@ -182,6 +184,16 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       (v) => v.id === (e.target as HTMLSelectElement).value,
     )!;
     profile = selected.profile;
+    if (!selected.shield && ["parry", "double-parry"].includes(kind))
+      kind = "agility";
+    app
+      .querySelectorAll<HTMLButtonElement>("[data-contact-scenario]")
+      .forEach((b) => {
+        b.hidden =
+          !selected.shield &&
+          ["parry", "double-parry"].includes(b.dataset.contactScenario!);
+        b.setAttribute("aria-pressed", "false");
+      });
     running = false;
     paused = false;
     elapsed = 0;
@@ -305,10 +317,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     }
     if (ready) {
       const first = contactScenarios[kind].events[0].side;
-      const gap = Math.max(
-        95,
-        Math.min(210, meleeContactDistance(profile, "attack", 136, 3)),
-      );
+      const gap = anatomicalContactGap(profile, profile, 136);
       const positions = contactPositions(
         running || elapsed > 0 ? sample.approach : 0,
         gap,
@@ -502,7 +511,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
       ready = true;
       app
         .querySelectorAll<HTMLButtonElement>("[data-contact-scenario]")
-        .forEach((b) => (b.disabled = false));
+        .forEach((b) => (b.disabled = b.hidden));
     } catch (error) {
       if (disposed || version !== loadingVersion) return;
       status.textContent = `Chargement impossible : ${String(error)}`;

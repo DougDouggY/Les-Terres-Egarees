@@ -21,6 +21,24 @@ test("harmonisation nordique : six variantes testables, sources de campagne et t
     await expect(
       page.locator('[data-contact-scenario="critical"]'),
     ).toBeEnabled();
+    if (["north-warrior", "huntress"].includes(id)) {
+      await expect(
+        page.locator('[data-contact-scenario="parry"]'),
+      ).toBeHidden();
+      await expect(
+        page.locator('[data-contact-scenario="double-parry"]'),
+      ).toBeHidden();
+      await expect(
+        page.locator('[data-contact-scenario="parry"]'),
+      ).toBeDisabled();
+    } else {
+      await expect(
+        page.locator('[data-contact-scenario="parry"]'),
+      ).toBeVisible();
+      await expect(
+        page.locator('[data-contact-scenario="parry"]'),
+      ).toBeEnabled();
+    }
     await page.locator('[data-contact-scenario="critical"]').click();
     await expect(canvas).toHaveAttribute(
       "data-left-frame-source",
@@ -45,6 +63,61 @@ test("harmonisation nordique : six variantes testables, sources de campagne et t
   expect(await page.evaluate(() => JSON.stringify({ ...localStorage }))).toBe(
     saves,
   );
+  const colors = await page.evaluate(async () => {
+    const E = await import(String("/src/engine.ts")),
+      R = await import(String("/src/sprites/resources.ts")),
+      S = await import(String("/src/sprites/combat-skins.ts")),
+      C = await import(String("/src/sprites/catalog.ts")),
+      H = await import(String("/src/sprites/recolor.ts"));
+    const result = [];
+    for (const [cls, gender, weapon] of [
+      ["raider", "male", "axe_shield"],
+      ["raider", "female", "axe_shield"],
+      ["raider", "male", "sword_shield"],
+      ["raider", "female", "sword_shield"],
+      ["north_warrior", "male", "axe"],
+      ["hunter", "female", "bow"],
+    ]) {
+      const u = E.makeClassUnit("color", 1, 1, cls, "Test", 0, 0, gender);
+      u.activeWeaponId = weapon;
+      E.syncWeapon(u);
+      const p = S.combatSkin(R.unitSpriteProfile(u))!.profile,
+        c = C.resolveClip(p, "idle")!;
+      const img = R.spriteImage(c.source);
+      await img.decode();
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(img, 0, 0);
+      const original = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(R.prepareSpriteSource(c, "pink")!, 0, 0);
+      const pink = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let material = 0,
+        colored = 0;
+      for (let i = 0; i < original.length; i += 4) {
+        const v = H.rgbToHsv(original[i], original[i + 1], original[i + 2]);
+        if (
+          original[i + 3] > 180 &&
+          v.h >= 200 &&
+          v.h <= 235 &&
+          v.s >= 0.14 &&
+          v.v > 0.1
+        ) {
+          material++;
+          const out = H.rgbToHsv(pink[i], pink[i + 1], pink[i + 2]);
+          if (out.h > 290 && out.s > 0.45) colored++;
+        }
+      }
+      result.push({ cls, gender, material, ratio: colored / material });
+    }
+    return result;
+  });
+  for (const row of colors) {
+    expect(row.material).toBeGreaterThan(1000);
+    expect(row.ratio).toBeGreaterThan(0.97);
+  }
   await page.goto("/validation/vikings/index.html");
   await expect(page.locator("[data-variant]")).toHaveCount(12);
   await expect(page.locator("#map-proposal")).toBeHidden();

@@ -98,6 +98,7 @@ for name, cls, gender, equipment in MODELS:
             clip['source'] = source
     p['clips']['combat_move'] = {'reuse': 'move'}
     p['clips']['combat_damage'] = {'reuse': 'damage'}
+    if equipment in ["axe", "bow"]: p["clips"].pop("block", None)
     profiles.append(p)
     audit.append(dict(source=source, classId=cls,gender=gender,equipment=equipment,
                       referenceHeight=reference,poses=len(frames),frames=frame_audit))

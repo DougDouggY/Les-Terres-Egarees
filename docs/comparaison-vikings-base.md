@@ -31,3 +31,7 @@ La Pillarde hache/bouclier est intégrée en campagne. Les cinq variantes demand
 La comparaison antérieure est conservée dans `vikings-base-avant-gabarits.png`, son manifeste et son image de terrain. La page principale présente maintenant les ressources après harmonisation et une bascule avant/après de la carte, à coordonnées et zoom identiques. Un lien ouvre les six fiches de 26 poses. Les constats visuels plus haut décrivent l’état initial ; la Pillarde à l’épée floue a depuis été remplacée.
 
 Vérifications après intégration : 200 tests automatisés réussis (51 visuels et 149 systèmes), compilation publique, contrôle de séparation de la version publique, navigation navigateur des six variantes, sources chargées, tir de la Chasseuse sans déplacement, stockage local inchangé et comparaison à largeur mobile. Les six variantes ont aussi été chargées et dessinées dans `CombatSceneV2`, de l’approche à la fin du combat. Les tests portent sur le rendu et les liaisons de ressources ; l’acceptation artistique reste visible dans les comparaisons.
+
+## Corrections après essai
+
+La planche `couleurs-equipes.png` compare les six variantes en bleu et en rose, avec les nuances de leurs tissus correctement prises en compte. Les fiches d’animations du Guerrier du Nord et de la Chasseuse n’affichent plus de parade (23 poses utilisées). Les distances au contact sont recalculées à l’échelle réelle ; l’audit chiffré figure dans `docs/references/north-contact-audit.json`. Aucun dessin source n’est modifié dans ce correctif.

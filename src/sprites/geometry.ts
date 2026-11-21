@@ -168,3 +168,39 @@ export function meleeContactDistance(
     resourceScale(attacker, c, size, size, "world", index);
   return Math.max(size * 0.28, Math.min(size * 1.6, reach + size * 0.04));
 }
+
+/** Use the actual anatomical draw scale, not a preview box or fixed minimum gap. */
+export function anatomicalContactGap(
+  attacker: SpriteProfile | undefined,
+  defender: SpriteProfile | undefined,
+  attackerBody: number,
+  defenderBody = attackerBody,
+  attackName = "attack",
+  blocked = false,
+) {
+  const front = (
+    p: SpriteProfile | undefined,
+    name: string,
+    body: number,
+    impact: boolean,
+  ) => {
+    const c = resolveClip(p, name);
+    if (!p || !c) return body * 0.2;
+    const r = resourceRect(
+      c,
+      impact ? (c.impactFrame ?? Math.floor(c.frames.length / 2)) : 0,
+    );
+    const ref = profileMetrics(p).references.get(c.source);
+    return r && ref
+      ? Math.max(0, ((r.x + r.width - r.anchorX) * body) / ref)
+      : body * 0.2;
+  };
+  const reach = front(attacker, attackName, attackerBody, true);
+  const target = blocked
+    ? front(defender, "block", defenderBody, true)
+    : Math.min(
+        defenderBody * 0.29,
+        front(defender, "idle", defenderBody, false),
+      );
+  return Math.max(attackerBody * 0.36, reach + target - attackerBody * 0.015);
+}
