@@ -1,0 +1,1072 @@
+{
+  "classes": [
+    {
+      "id": "berserker",
+      "name": "Berserker",
+      "role": "Deux haches · attaques multiples",
+      "origin": "Guerrier du Nord"
+    },
+    {
+      "id": "ironbreaker",
+      "name": "Brise-fer",
+      "role": "Grande hache · pénétration d’armure",
+      "origin": "Guerrier du Nord"
+    },
+    {
+      "id": "huscarl",
+      "name": "Huscarl",
+      "role": "Parade · interception des attaques visant un allié adjacent",
+      "origin": "Pillard"
+    },
+    {
+      "id": "clan_healer",
+      "name": "Guérisseur du clan",
+      "role": "Bouclier · bandages non magiques",
+      "origin": "Pillard"
+    },
+    {
+      "id": "drengr",
+      "name": "Drengr",
+      "role": "Deux épées · attaques multiples",
+      "origin": "Lame nordique"
+    },
+    {
+      "id": "honor_guard",
+      "name": "Garde d’honneur",
+      "role": "Épée et bouclier · parade",
+      "origin": "Lame nordique"
+    },
+    {
+      "id": "master_hunter",
+      "name": "Grand chasseur",
+      "role": "Arc · précision supérieure · portée 2–3",
+      "origin": "Chasseur"
+    },
+    {
+      "id": "tracker",
+      "name": "Traqueur",
+      "role": "Arc et hache · vision et mobilité forestière",
+      "origin": "Chasseur"
+    },
+    {
+      "id": "volva",
+      "name": "Völva",
+      "role": "Magie offensive, soins et améliorations",
+      "origin": "Chaman"
+    },
+    {
+      "id": "hamrammr",
+      "name": "Hamrammr",
+      "role": "Soins humains et transformation temporaire en ours",
+      "origin": "Chaman"
+    }
+  ],
+  "rows": [
+    {
+      "id": "berserker-twin_axes-male",
+      "classId": "berserker",
+      "className": "Berserker",
+      "role": "Deux haches · attaques multiples",
+      "gender": "male",
+      "weapon": "twin_axes",
+      "weaponName": "Deux haches",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-dual.png",
+        "index": 0,
+        "file": "berserker-twin_axes-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-heavy.png",
+        "index": 0,
+        "file": "berserker-twin_axes-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-heavy.png",
+        "index": 3,
+        "file": "berserker-twin_axes-male-attack.png"
+      }
+    },
+    {
+      "id": "berserker-twin_axes-female",
+      "classId": "berserker",
+      "className": "Berserker",
+      "role": "Deux haches · attaques multiples",
+      "gender": "female",
+      "weapon": "twin_axes",
+      "weaponName": "Deux haches",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 0,
+        "file": "berserker-twin_axes-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 0,
+        "file": "berserker-twin_axes-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 2,
+        "file": "berserker-twin_axes-female-attack.png"
+      }
+    },
+    {
+      "id": "ironbreaker-great_axe-male",
+      "classId": "ironbreaker",
+      "className": "Brise-fer",
+      "role": "Grande hache · pénétration d’armure",
+      "gender": "male",
+      "weapon": "great_axe",
+      "weaponName": "Grande hache à deux mains",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-heavy.png",
+        "index": 0,
+        "file": "ironbreaker-great_axe-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-heavy.png",
+        "index": 0,
+        "file": "ironbreaker-great_axe-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-heavy.png",
+        "index": 4,
+        "file": "ironbreaker-great_axe-male-attack.png"
+      }
+    },
+    {
+      "id": "ironbreaker-great_axe-female",
+      "classId": "ironbreaker",
+      "className": "Brise-fer",
+      "role": "Grande hache · pénétration d’armure",
+      "gender": "female",
+      "weapon": "great_axe",
+      "weaponName": "Grande hache à deux mains",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 0,
+        "file": "ironbreaker-great_axe-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 0,
+        "file": "ironbreaker-great_axe-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 2,
+        "file": "ironbreaker-great_axe-female-attack.png"
+      }
+    },
+    {
+      "id": "huscarl-axe_shield-male",
+      "classId": "huscarl",
+      "className": "Huscarl",
+      "role": "Parade · interception des attaques visant un allié adjacent",
+      "gender": "male",
+      "weapon": "axe_shield",
+      "weaponName": "Hache et bouclier",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-north.png",
+        "index": 0,
+        "file": "huscarl-axe_shield-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-shields-a.png",
+        "index": 0,
+        "file": "huscarl-axe_shield-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-shields-a.png",
+        "index": 2,
+        "file": "huscarl-axe_shield-male-attack.png"
+      }
+    },
+    {
+      "id": "huscarl-axe_shield-female",
+      "classId": "huscarl",
+      "className": "Huscarl",
+      "role": "Parade · interception des attaques visant un allié adjacent",
+      "gender": "female",
+      "weapon": "axe_shield",
+      "weaponName": "Hache et bouclier",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 0,
+        "file": "huscarl-axe_shield-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 0,
+        "file": "huscarl-axe_shield-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 2,
+        "file": "huscarl-axe_shield-female-attack.png"
+      }
+    },
+    {
+      "id": "huscarl-sword_shield-male",
+      "classId": "huscarl",
+      "className": "Huscarl",
+      "role": "Parade · interception des attaques visant un allié adjacent",
+      "gender": "male",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-equipment.png",
+        "index": 0,
+        "file": "huscarl-sword_shield-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-shields-b.png",
+        "index": 0,
+        "file": "huscarl-sword_shield-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-shields-b.png",
+        "index": 2,
+        "file": "huscarl-sword_shield-male-attack.png"
+      }
+    },
+    {
+      "id": "huscarl-sword_shield-female",
+      "classId": "huscarl",
+      "className": "Huscarl",
+      "role": "Parade · interception des attaques visant un allié adjacent",
+      "gender": "female",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 0,
+        "file": "huscarl-sword_shield-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 0,
+        "file": "huscarl-sword_shield-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 2,
+        "file": "huscarl-sword_shield-female-attack.png"
+      }
+    },
+    {
+      "id": "clan_healer-axe_shield-male",
+      "classId": "clan_healer",
+      "className": "Guérisseur du clan",
+      "role": "Bouclier · bandages non magiques",
+      "gender": "male",
+      "weapon": "axe_shield",
+      "weaponName": "Hache et bouclier",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-north.png",
+        "index": 0,
+        "file": "clan_healer-axe_shield-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-shields-a.png",
+        "index": 0,
+        "file": "clan_healer-axe_shield-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-shields-a.png",
+        "index": 2,
+        "file": "clan_healer-axe_shield-male-attack.png"
+      }
+    },
+    {
+      "id": "clan_healer-axe_shield-female",
+      "classId": "clan_healer",
+      "className": "Guérisseur du clan",
+      "role": "Bouclier · bandages non magiques",
+      "gender": "female",
+      "weapon": "axe_shield",
+      "weaponName": "Hache et bouclier",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 0,
+        "file": "clan_healer-axe_shield-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 0,
+        "file": "clan_healer-axe_shield-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 2,
+        "file": "clan_healer-axe_shield-female-attack.png"
+      }
+    },
+    {
+      "id": "clan_healer-sword_shield-male",
+      "classId": "clan_healer",
+      "className": "Guérisseur du clan",
+      "role": "Bouclier · bandages non magiques",
+      "gender": "male",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-recruits.png",
+        "index": 0,
+        "file": "clan_healer-sword_shield-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-shields-b.png",
+        "index": 0,
+        "file": "clan_healer-sword_shield-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-shields-b.png",
+        "index": 2,
+        "file": "clan_healer-sword_shield-male-attack.png"
+      }
+    },
+    {
+      "id": "clan_healer-sword_shield-female",
+      "classId": "clan_healer",
+      "className": "Guérisseur du clan",
+      "role": "Bouclier · bandages non magiques",
+      "gender": "female",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 0,
+        "file": "clan_healer-sword_shield-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 0,
+        "file": "clan_healer-sword_shield-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-shields.png",
+        "index": 2,
+        "file": "clan_healer-sword_shield-female-attack.png"
+      }
+    },
+    {
+      "id": "drengr-twin_swords-male",
+      "classId": "drengr",
+      "className": "Drengr",
+      "role": "Deux épées · attaques multiples",
+      "gender": "male",
+      "weapon": "twin_swords",
+      "weaponName": "Deux épées",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-dual.png",
+        "index": 0,
+        "file": "drengr-twin_swords-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-heavy.png",
+        "index": 0,
+        "file": "drengr-twin_swords-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-heavy.png",
+        "index": 3,
+        "file": "drengr-twin_swords-male-attack.png"
+      }
+    },
+    {
+      "id": "drengr-twin_swords-female",
+      "classId": "drengr",
+      "className": "Drengr",
+      "role": "Deux épées · attaques multiples",
+      "gender": "female",
+      "weapon": "twin_swords",
+      "weaponName": "Deux épées",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 0,
+        "file": "drengr-twin_swords-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 0,
+        "file": "drengr-twin_swords-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 2,
+        "file": "drengr-twin_swords-female-attack.png"
+      }
+    },
+    {
+      "id": "honor_guard-sword_shield-male",
+      "classId": "honor_guard",
+      "className": "Garde d’honneur",
+      "role": "Épée et bouclier · parade",
+      "gender": "male",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-north.png",
+        "index": 0,
+        "file": "honor_guard-sword_shield-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-swordsa.png",
+        "index": 0,
+        "file": "honor_guard-sword_shield-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-swordsa.png",
+        "index": 4,
+        "file": "honor_guard-sword_shield-male-attack.png"
+      }
+    },
+    {
+      "id": "honor_guard-sword_shield-female",
+      "classId": "honor_guard",
+      "className": "Garde d’honneur",
+      "role": "Épée et bouclier · parade",
+      "gender": "female",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-north.png",
+        "index": 0,
+        "file": "honor_guard-sword_shield-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-swordsa.png",
+        "index": 0,
+        "file": "honor_guard-sword_shield-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-swordsa.png",
+        "index": 4,
+        "file": "honor_guard-sword_shield-female-attack.png"
+      }
+    },
+    {
+      "id": "master_hunter-bow-male",
+      "classId": "master_hunter",
+      "className": "Grand chasseur",
+      "role": "Arc · précision supérieure · portée 2–3",
+      "gender": "male",
+      "weapon": "bow",
+      "weaponName": "Arc",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 0,
+        "file": "master_hunter-bow-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 0,
+        "file": "master_hunter-bow-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 2,
+        "file": "master_hunter-bow-male-attack.png"
+      }
+    },
+    {
+      "id": "master_hunter-bow-female",
+      "classId": "master_hunter",
+      "className": "Grand chasseur",
+      "role": "Arc · précision supérieure · portée 2–3",
+      "gender": "female",
+      "weapon": "bow",
+      "weaponName": "Arc",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot4-hunters.png",
+        "index": 0,
+        "file": "master_hunter-bow-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-ranged.png",
+        "index": 0,
+        "file": "master_hunter-bow-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-ranged.png",
+        "index": 2,
+        "file": "master_hunter-bow-female-attack.png"
+      }
+    },
+    {
+      "id": "tracker-bow-male",
+      "classId": "tracker",
+      "className": "Traqueur",
+      "role": "Arc et hache · vision et mobilité forestière",
+      "gender": "male",
+      "weapon": "bow",
+      "weaponName": "Arc",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot4-hunters.png",
+        "index": 0,
+        "file": "tracker-bow-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-ranged.png",
+        "index": 0,
+        "file": "tracker-bow-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-ranged.png",
+        "index": 2,
+        "file": "tracker-bow-male-attack.png"
+      }
+    },
+    {
+      "id": "tracker-bow-female",
+      "classId": "tracker",
+      "className": "Traqueur",
+      "role": "Arc et hache · vision et mobilité forestière",
+      "gender": "female",
+      "weapon": "bow",
+      "weaponName": "Arc",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "tracker-bow-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "tracker-bow-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 2,
+        "file": "tracker-bow-female-attack.png"
+      }
+    },
+    {
+      "id": "tracker-axe-male",
+      "classId": "tracker",
+      "className": "Traqueur",
+      "role": "Arc et hache · vision et mobilité forestière",
+      "gender": "male",
+      "weapon": "axe",
+      "weaponName": "Hache",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        },
+        {
+          "animation": "attack",
+          "reason": "Séquence courte existante, anticipation/récupération détaillées encore manquantes."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-equipment.png",
+        "index": 0,
+        "file": "tracker-axe-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/lot4-equipment.png",
+        "index": 0,
+        "file": "tracker-axe-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/lot4-equipment.png",
+        "index": 1,
+        "file": "tracker-axe-male-attack.png"
+      }
+    },
+    {
+      "id": "tracker-axe-female",
+      "classId": "tracker",
+      "className": "Traqueur",
+      "role": "Arc et hache · vision et mobilité forestière",
+      "gender": "female",
+      "weapon": "axe",
+      "weaponName": "Hache",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "tracker-axe-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "tracker-axe-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 2,
+        "file": "tracker-axe-female-attack.png"
+      }
+    },
+    {
+      "id": "volva-spell-male",
+      "classId": "volva",
+      "className": "Völva",
+      "role": "Magie offensive, soins et améliorations",
+      "gender": "male",
+      "weapon": "spell",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 0,
+        "file": "volva-spell-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 0,
+        "file": "volva-spell-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 2,
+        "file": "volva-spell-male-attack.png"
+      }
+    },
+    {
+      "id": "volva-spell-female",
+      "classId": "volva",
+      "className": "Völva",
+      "role": "Magie offensive, soins et améliorations",
+      "gender": "female",
+      "weapon": "spell",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "volva-spell-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "volva-spell-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 2,
+        "file": "volva-spell-female-attack.png"
+      }
+    },
+    {
+      "id": "volva-healing_focus-male",
+      "classId": "volva",
+      "className": "Völva",
+      "role": "Magie offensive, soins et améliorations",
+      "gender": "male",
+      "weapon": "healing_focus",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 0,
+        "file": "volva-healing_focus-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 0,
+        "file": "volva-healing_focus-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 2,
+        "file": "volva-healing_focus-male-attack.png"
+      }
+    },
+    {
+      "id": "volva-healing_focus-female",
+      "classId": "volva",
+      "className": "Völva",
+      "role": "Magie offensive, soins et améliorations",
+      "gender": "female",
+      "weapon": "healing_focus",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "volva-healing_focus-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "volva-healing_focus-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 2,
+        "file": "volva-healing_focus-female-attack.png"
+      }
+    },
+    {
+      "id": "hamrammr-healing_focus-male",
+      "classId": "hamrammr",
+      "className": "Hamrammr",
+      "role": "Soins humains et transformation temporaire en ours",
+      "gender": "male",
+      "weapon": "healing_focus",
+      "weaponName": "Magie de soins",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 0,
+        "file": "hamrammr-healing_focus-male-map.png"
+      },
+      "action": "heal",
+      "guard": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 0,
+        "file": "hamrammr-healing_focus-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 2,
+        "file": "hamrammr-healing_focus-male-attack.png"
+      }
+    },
+    {
+      "id": "hamrammr-healing_focus-female",
+      "classId": "hamrammr",
+      "className": "Hamrammr",
+      "role": "Soins humains et transformation temporaire en ours",
+      "gender": "female",
+      "weapon": "healing_focus",
+      "weaponName": "Magie de soins",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "hamrammr-healing_focus-female-map.png"
+      },
+      "action": "heal",
+      "guard": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "hamrammr-healing_focus-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 2,
+        "file": "hamrammr-healing_focus-female-attack.png"
+      }
+    },
+    {
+      "id": "hamrammr-claws-male",
+      "classId": "hamrammr",
+      "className": "Hamrammr",
+      "role": "Soins humains et transformation temporaire en ours",
+      "gender": "male",
+      "weapon": "claws",
+      "weaponName": "Griffes",
+      "bear": true,
+      "shared": true,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "transform",
+          "reason": "Transition inverse illustrée non finalisée ; ancien humain masculin écarté du skin animal partagé."
+        }
+      ],
+      "map": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 0,
+        "file": "hamrammr-claws-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-bear.png",
+        "index": 0,
+        "file": "hamrammr-claws-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-bear.png",
+        "index": 3,
+        "file": "hamrammr-claws-male-attack.png"
+      }
+    },
+    {
+      "id": "hamrammr-claws-female",
+      "classId": "hamrammr",
+      "className": "Hamrammr",
+      "role": "Soins humains et transformation temporaire en ours",
+      "gender": "female",
+      "weapon": "claws",
+      "weaponName": "Griffes",
+      "bear": true,
+      "shared": true,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "transform",
+          "reason": "Transition inverse illustrée non finalisée ; ancien humain masculin écarté du skin animal partagé."
+        }
+      ],
+      "map": {
+        "source": "tactical/complete-shaman-forms.png",
+        "index": 0,
+        "file": "hamrammr-claws-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-bear.png",
+        "index": 0,
+        "file": "hamrammr-claws-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-bear.png",
+        "index": 3,
+        "file": "hamrammr-claws-female-attack.png"
+      }
+    },
+    {
+      "id": "raider-axe_shield-female",
+      "classId": "raider",
+      "className": "Pillard",
+      "role": "Hache ou épée · bouclier",
+      "gender": "female",
+      "weapon": "axe_shield",
+      "weaponName": "Hache et bouclier",
+      "bear": false,
+      "shared": false,
+      "reference": true,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-pillarde-axe-v3.png",
+        "index": 0,
+        "file": "raider-axe_shield-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-pillarde-axe-v3.png",
+        "index": 0,
+        "file": "raider-axe_shield-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-pillarde-axe-v3.png",
+        "index": 3,
+        "file": "raider-axe_shield-female-attack.png"
+      }
+    },
+    {
+      "id": "nordic_blade-sword-female",
+      "classId": "nordic_blade",
+      "className": "Lame nordique",
+      "role": "Épée",
+      "gender": "female",
+      "weapon": "sword",
+      "weaponName": "Épée",
+      "bear": false,
+      "shared": false,
+      "reference": true,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-refinements-blade.png",
+        "index": 0,
+        "file": "nordic_blade-sword-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-refinements-blade.png",
+        "index": 0,
+        "file": "nordic_blade-sword-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-refinements-blade.png",
+        "index": 3,
+        "file": "nordic_blade-sword-female-attack.png"
+      }
+    },
+    {
+      "id": "north_warrior-axe-female",
+      "classId": "north_warrior",
+      "className": "Guerrier du Nord",
+      "role": "Hache",
+      "gender": "female",
+      "weapon": "axe",
+      "weaponName": "Hache",
+      "bear": false,
+      "shared": false,
+      "reference": true,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-north-refresh-north-warrior-female.png",
+        "index": 0,
+        "file": "north_warrior-axe-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-north-refresh-north-warrior-female.png",
+        "index": 0,
+        "file": "north_warrior-axe-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-north-refresh-north-warrior-female.png",
+        "index": 3,
+        "file": "north_warrior-axe-female-attack.png"
+      }
+    }
+  ]
+}
