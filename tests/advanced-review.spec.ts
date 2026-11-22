@@ -19,17 +19,35 @@ for (const width of [390, 1280])
     await expect(page.locator("[data-class] .card:visible")).toHaveCount(4);
     await page.locator("#gender-filter").selectOption("female");
     await expect(page.locator("[data-class] .card:visible")).toHaveCount(2);
-    await page.locator(".zoom:visible").first().click();
-    await expect(page.getByRole("dialog")).toBeVisible();
-    await expect
-      .poll(() =>
-        page
-          .locator("dialog img")
-          .evaluate((i: HTMLImageElement) => i.complete && i.naturalWidth > 0),
-      )
-      .toBe(true);
-    await page.getByRole("button", { name: "Fermer ×" }).click();
-    await expect(page.getByRole("dialog")).not.toBeVisible();
+    const fresh = page.locator(".new-review-canvas:visible");
+    if (await fresh.count()) {
+      await fresh.first().click();
+      const dialog = page.getByRole("dialog", {
+        name: "Nouvelle animation agrandie",
+      });
+      await expect(dialog).toBeVisible();
+      await expect(dialog.locator("canvas")).toHaveAttribute(
+        "data-ready",
+        "true",
+      );
+      await dialog.getByRole("button", { name: "Fermer ×" }).click();
+      await expect(dialog).not.toBeVisible();
+    } else {
+      await page.locator(".zoom:visible").first().click();
+      const dialog = page.getByRole("dialog", { name: "Sprite agrandi" });
+      await expect(dialog).toBeVisible();
+      await expect
+        .poll(() =>
+          dialog
+            .locator("img")
+            .evaluate(
+              (i: HTMLImageElement) => i.complete && i.naturalWidth > 0,
+            ),
+        )
+        .toBe(true);
+      await dialog.getByRole("button", { name: "Fermer ×" }).click();
+      await expect(dialog).not.toBeVisible();
+    }
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth > innerWidth,

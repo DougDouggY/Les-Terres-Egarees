@@ -1,0 +1,62 @@
+[
+  {
+    "id": "berserker-twin_axes-male",
+    "source": "/workspace/generated_images/exec-4320aee2-189d-41f2-9aea-c2b749f156ef.png"
+  },
+  {
+    "id": "berserker-twin_axes-female",
+    "source": "/workspace/generated_images/exec-e3a15f87-d01f-4c46-8d42-7a37521ef932.png"
+  },
+  {
+    "id": "ironbreaker-great_axe-male",
+    "source": "/workspace/generated_images/exec-17efd051-a660-44d2-9679-f6f2ffb45b1f.png"
+  },
+  {
+    "id": "ironbreaker-great_axe-female",
+    "source": "/workspace/generated_images/exec-b13e74ee-09b9-401a-a4dc-ca7eda07db45.png"
+  },
+  {
+    "id": "huscarl-axe_shield-male",
+    "source": "/workspace/generated_images/exec-c13ca45f-f5d1-4c7a-af3b-4a61406cb522.png"
+  },
+  {
+    "id": "huscarl-axe_shield-female",
+    "source": "/workspace/generated_images/exec-eae9ddcc-93be-4d79-ada9-77e0b5890f06.png"
+  },
+  {
+    "id": "huscarl-sword_shield-male",
+    "source": "/workspace/generated_images/exec-8e1a9b75-5f40-4f0a-b664-7ae10d939802.png"
+  },
+  {
+    "id": "huscarl-sword_shield-female",
+    "source": "/workspace/generated_images/exec-db17dcaa-67e4-4637-af99-81edff2665b5.png"
+  },
+  {
+    "id": "drengr-twin_swords-male",
+    "source": "/workspace/generated_images/exec-1836f862-9fba-4b7b-aafa-1c2dac121121.png"
+  },
+  {
+    "id": "clan_healer-axe_shield-male",
+    "source": "/workspace/generated_images/exec-44e900a5-82af-4712-bc58-55c565fb41e5.png"
+  },
+  {
+    "id": "clan_healer-sword_shield-male",
+    "source": "/workspace/generated_images/exec-7641a0c7-af02-4f52-9cfe-705d1892018e.png"
+  },
+  {
+    "id": "clan_healer-axe_shield-female",
+    "source": "/workspace/generated_images/exec-659fa48b-0816-4f85-835d-2994313e6d5e.png"
+  },
+  {
+    "id": "clan_healer-sword_shield-female",
+    "source": "/workspace/generated_images/exec-d992e2c3-6138-4c32-9f64-6125ab1d0a17.png"
+  },
+  {
+    "id": "honor_guard-sword_shield-male",
+    "source": "/workspace/generated_images/exec-e6087f8e-a1d6-4b06-91d6-8c8433e0d886.png"
+  },
+  {
+    "id": "honor_guard-sword_shield-female",
+    "source": "/workspace/generated_images/exec-4846a1a5-041c-4e6d-b1b3-bc364f8e1be5.png"
+  }
+]
