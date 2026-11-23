@@ -49,3 +49,7 @@ Vérifications : 229 tests automatisés réussis ; quatre parcours du lecteur (3
 La hache portée à la ceinture de la Traqueuse à l’arc est corrigée, avec un manche continu, une seule lame et sans main supplémentaire. Les quatre variantes de Guérisseur perdent leur cape ; la petite capuche et le col restent, la tunique devient visible. Leur équipement médical est réduit à une sacoche, un petit rouleau et un bandage discret. Les poses et le système de combat ne sont pas retravaillés dans cette étape. Les cinq vues avant correction sont conservées pour comparaison.
 
 Contrôles de cette correction : 229 tests automatisés, quatre essais navigateur du lecteur et compilation/contrôle du prototype réussis. Vue agrandie de la Guérisseuse contrôlée à 390 pixels. Ces contrôles vérifient le chargement, les marges et le fonctionnement de la page ; ils ne valent pas validation artistique des attaques.
+
+## Guérisseurs sans fourrure
+
+Les quatre variantes de Guérisseur sont désormais sans fourrure et sans cape. Une sacoche médicale brune en bandoulière, avec un petit rouleau de bandage visible à l’ouverture, remplace le col de fourrure comme signe distinctif. Les bandages restent discrets. Les références avant cette correction sont conservées ; seules les apparences sont soumises à examen, les attaques restent à revoir.

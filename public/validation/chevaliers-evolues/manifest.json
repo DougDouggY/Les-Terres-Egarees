@@ -1,0 +1,1118 @@
+{
+  "classes": [
+    {
+      "id": "guard_knight",
+      "name": "Chevalier de la garde",
+      "role": "Parade · protection et défense",
+      "origin": "Homme d’armes"
+    },
+    {
+      "id": "cavalry",
+      "name": "Cavalier",
+      "role": "Épée et bouclier à cheval · déplacement 8",
+      "origin": "Homme d’armes"
+    },
+    {
+      "id": "royal_guard",
+      "name": "Garde royal",
+      "role": "Lance et bouclier · défense",
+      "origin": "Lancier"
+    },
+    {
+      "id": "mounted_spearman",
+      "name": "Lancier monté",
+      "role": "Lance à cheval · charge",
+      "origin": "Lancier"
+    },
+    {
+      "id": "standard_bearer",
+      "name": "Porte-étendard",
+      "role": "Bannière portée puis plantée · soutien de zone",
+      "origin": "Lancier"
+    },
+    {
+      "id": "ranger",
+      "name": "Rôdeur",
+      "role": "Arbalète et épée · vision et mobilité forestière",
+      "origin": "Arbalétrier"
+    },
+    {
+      "id": "pavise_crossbowman",
+      "name": "Arbalétrier à pavois",
+      "role": "Pavois personnel · tir et rechargement en position fortifiée",
+      "origin": "Arbalétrier"
+    },
+    {
+      "id": "duelist",
+      "name": "Duelliste",
+      "role": "Deux épées · attaques multiples",
+      "origin": "Épéiste"
+    },
+    {
+      "id": "executioner",
+      "name": "Exécuteur",
+      "role": "Grande épée à deux mains · coups puissants",
+      "origin": "Épéiste"
+    },
+    {
+      "id": "necromancer",
+      "name": "Nécromancien",
+      "role": "Magie, soins et invocations temporaires limitées",
+      "origin": "Sorcier"
+    },
+    {
+      "id": "archmage",
+      "name": "Archimage",
+      "role": "Magie, soins et attaques de zone",
+      "origin": "Sorcier"
+    }
+  ],
+  "rows": [
+    {
+      "id": "guard_knight-sword_shield-male",
+      "classId": "guard_knight",
+      "className": "Chevalier de la garde",
+      "role": "Parade · protection et défense",
+      "gender": "male",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "block",
+          "reason": "Découpage ambigu à contrôler : tactical/complete-knight-promotions.png"
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-knights.png",
+        "index": 0,
+        "file": "guard_knight-sword_shield-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-swordsa.png",
+        "index": 0,
+        "file": "guard_knight-sword_shield-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-swordsa.png",
+        "index": 4,
+        "file": "guard_knight-sword_shield-male-attack.png"
+      }
+    },
+    {
+      "id": "guard_knight-sword_shield-female",
+      "classId": "guard_knight",
+      "className": "Chevalier de la garde",
+      "role": "Parade · protection et défense",
+      "gender": "female",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "block",
+          "reason": "Découpage ambigu à contrôler : tactical/complete-knight-promotions.png"
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-knights.png",
+        "index": 0,
+        "file": "guard_knight-sword_shield-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-swordsa.png",
+        "index": 0,
+        "file": "guard_knight-sword_shield-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-swordsa.png",
+        "index": 4,
+        "file": "guard_knight-sword_shield-female-attack.png"
+      }
+    },
+    {
+      "id": "cavalry-sword_shield-male",
+      "classId": "cavalry",
+      "className": "Cavalier",
+      "role": "Épée et bouclier à cheval · déplacement 8",
+      "gender": "male",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-mounts.png",
+        "index": 0,
+        "file": "cavalry-sword_shield-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-mounted.png",
+        "index": 0,
+        "file": "cavalry-sword_shield-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-mounted.png",
+        "index": 2,
+        "file": "cavalry-sword_shield-male-attack.png"
+      }
+    },
+    {
+      "id": "cavalry-sword_shield-female",
+      "classId": "cavalry",
+      "className": "Cavalier",
+      "role": "Épée et bouclier à cheval · déplacement 8",
+      "gender": "female",
+      "weapon": "sword_shield",
+      "weaponName": "Épée et bouclier",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-mounts.png",
+        "index": 0,
+        "file": "cavalry-sword_shield-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-mounted.png",
+        "index": 0,
+        "file": "cavalry-sword_shield-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-mounted.png",
+        "index": 2,
+        "file": "cavalry-sword_shield-female-attack.png"
+      }
+    },
+    {
+      "id": "royal_guard-lance_shield-male",
+      "classId": "royal_guard",
+      "className": "Garde royal",
+      "role": "Lance et bouclier · défense",
+      "gender": "male",
+      "weapon": "lance_shield",
+      "weaponName": "Lance et bouclier",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-knights.png",
+        "index": 0,
+        "file": "royal_guard-lance_shield-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-shields-a.png",
+        "index": 0,
+        "file": "royal_guard-lance_shield-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-shields-a.png",
+        "index": 2,
+        "file": "royal_guard-lance_shield-male-attack.png"
+      }
+    },
+    {
+      "id": "royal_guard-lance_shield-female",
+      "classId": "royal_guard",
+      "className": "Garde royal",
+      "role": "Lance et bouclier · défense",
+      "gender": "female",
+      "weapon": "lance_shield",
+      "weaponName": "Lance et bouclier",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-knights.png",
+        "index": 0,
+        "file": "royal_guard-lance_shield-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-shields-a.png",
+        "index": 0,
+        "file": "royal_guard-lance_shield-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-shields-a.png",
+        "index": 2,
+        "file": "royal_guard-lance_shield-female-attack.png"
+      }
+    },
+    {
+      "id": "mounted_spearman-lance-male",
+      "classId": "mounted_spearman",
+      "className": "Lancier monté",
+      "role": "Lance à cheval · charge",
+      "gender": "male",
+      "weapon": "lance",
+      "weaponName": "Lance",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v3-mounted.png",
+        "index": 0,
+        "file": "mounted_spearman-lance-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-fixes.png",
+        "index": 0,
+        "file": "mounted_spearman-lance-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-fixes.png",
+        "index": 2,
+        "file": "mounted_spearman-lance-male-attack.png"
+      }
+    },
+    {
+      "id": "mounted_spearman-lance-female",
+      "classId": "mounted_spearman",
+      "className": "Lancier monté",
+      "role": "Lance à cheval · charge",
+      "gender": "female",
+      "weapon": "lance",
+      "weaponName": "Lance",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v3-mounted.png",
+        "index": 0,
+        "file": "mounted_spearman-lance-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-fixes.png",
+        "index": 0,
+        "file": "mounted_spearman-lance-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-fixes.png",
+        "index": 2,
+        "file": "mounted_spearman-lance-female-attack.png"
+      }
+    },
+    {
+      "id": "standard_bearer-banner_lance-male-carried",
+      "state": "carried",
+      "classId": "standard_bearer",
+      "className": "Porte-étendard",
+      "role": "Bannière portée puis plantée · soutien de zone",
+      "gender": "male",
+      "weapon": "banner_lance",
+      "weaponName": "Bannière portée",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-states.png",
+        "index": 0,
+        "file": "standard_bearer-banner_lance-male-carried-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-equipment.png",
+        "index": 0,
+        "file": "standard_bearer-banner_lance-male-carried-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-equipment.png",
+        "index": 4,
+        "file": "standard_bearer-banner_lance-male-carried-attack.png"
+      }
+    },
+    {
+      "id": "standard_bearer-banner_lance-female-carried",
+      "state": "carried",
+      "classId": "standard_bearer",
+      "className": "Porte-étendard",
+      "role": "Bannière portée puis plantée · soutien de zone",
+      "gender": "female",
+      "weapon": "banner_lance",
+      "weaponName": "Bannière portée",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 0,
+        "file": "standard_bearer-banner_lance-female-carried-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 0,
+        "file": "standard_bearer-banner_lance-female-carried-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 2,
+        "file": "standard_bearer-banner_lance-female-carried-attack.png"
+      }
+    },
+    {
+      "id": "standard_bearer-sword-male-planted",
+      "state": "planted",
+      "classId": "standard_bearer",
+      "className": "Porte-étendard",
+      "role": "Bannière portée puis plantée · soutien de zone",
+      "gender": "male",
+      "weapon": "sword",
+      "weaponName": "Épée",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-states.png",
+        "index": 0,
+        "file": "standard_bearer-sword-male-planted-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-equipment.png",
+        "index": 0,
+        "file": "standard_bearer-sword-male-planted-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-equipment.png",
+        "index": 4,
+        "file": "standard_bearer-sword-male-planted-attack.png"
+      }
+    },
+    {
+      "id": "standard_bearer-sword-female-planted",
+      "state": "planted",
+      "classId": "standard_bearer",
+      "className": "Porte-étendard",
+      "role": "Bannière portée puis plantée · soutien de zone",
+      "gender": "female",
+      "weapon": "sword",
+      "weaponName": "Épée",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 0,
+        "file": "standard_bearer-sword-female-planted-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 0,
+        "file": "standard_bearer-sword-female-planted-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 2,
+        "file": "standard_bearer-sword-female-planted-attack.png"
+      }
+    },
+    {
+      "id": "ranger-crossbow-male",
+      "classId": "ranger",
+      "className": "Rôdeur",
+      "role": "Arbalète et épée · vision et mobilité forestière",
+      "gender": "male",
+      "weapon": "crossbow",
+      "weaponName": "Arbalète",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot4-hunters.png",
+        "index": 0,
+        "file": "ranger-crossbow-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-ranged.png",
+        "index": 0,
+        "file": "ranger-crossbow-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-ranged.png",
+        "index": 2,
+        "file": "ranger-crossbow-male-attack.png"
+      }
+    },
+    {
+      "id": "ranger-crossbow-female",
+      "classId": "ranger",
+      "className": "Rôdeur",
+      "role": "Arbalète et épée · vision et mobilité forestière",
+      "gender": "female",
+      "weapon": "crossbow",
+      "weaponName": "Arbalète",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "ranger-crossbow-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "ranger-crossbow-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 2,
+        "file": "ranger-crossbow-female-attack.png"
+      }
+    },
+    {
+      "id": "ranger-sword-male",
+      "classId": "ranger",
+      "className": "Rôdeur",
+      "role": "Arbalète et épée · vision et mobilité forestière",
+      "gender": "male",
+      "weapon": "sword",
+      "weaponName": "Épée",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [
+        {
+          "animation": "evade",
+          "reason": "Dessin cohérent manquant ; aucune pose d’un autre personnage."
+        }
+      ],
+      "map": {
+        "source": "tactical/lot4-equipment.png",
+        "index": 0,
+        "file": "ranger-sword-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-swordsb.png",
+        "index": 0,
+        "file": "ranger-sword-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-swordsb.png",
+        "index": 4,
+        "file": "ranger-sword-male-attack.png"
+      }
+    },
+    {
+      "id": "ranger-sword-female",
+      "classId": "ranger",
+      "className": "Rôdeur",
+      "role": "Arbalète et épée · vision et mobilité forestière",
+      "gender": "female",
+      "weapon": "sword",
+      "weaponName": "Épée",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 0,
+        "file": "ranger-sword-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 0,
+        "file": "ranger-sword-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-mixed.png",
+        "index": 2,
+        "file": "ranger-sword-female-attack.png"
+      }
+    },
+    {
+      "id": "pavise_crossbowman-crossbow-male",
+      "classId": "pavise_crossbowman",
+      "className": "Arbalétrier à pavois",
+      "role": "Pavois personnel · tir et rechargement en position fortifiée",
+      "gender": "male",
+      "weapon": "crossbow",
+      "weaponName": "Arbalète",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-states.png",
+        "index": 0,
+        "file": "pavise_crossbowman-crossbow-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v2-support.png",
+        "index": 0,
+        "file": "pavise_crossbowman-crossbow-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v2-support.png",
+        "index": 2,
+        "file": "pavise_crossbowman-crossbow-male-attack.png"
+      }
+    },
+    {
+      "id": "pavise_crossbowman-crossbow-female",
+      "classId": "pavise_crossbowman",
+      "className": "Arbalétrier à pavois",
+      "role": "Pavois personnel · tir et rechargement en position fortifiée",
+      "gender": "female",
+      "weapon": "crossbow",
+      "weaponName": "Arbalète",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "pavise_crossbowman-crossbow-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "pavise_crossbowman-crossbow-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 2,
+        "file": "pavise_crossbowman-crossbow-female-attack.png"
+      }
+    },
+    {
+      "id": "duelist-twin_swords-male",
+      "classId": "duelist",
+      "className": "Duelliste",
+      "role": "Deux épées · attaques multiples",
+      "gender": "male",
+      "weapon": "twin_swords",
+      "weaponName": "Deux épées",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot4-knights.png",
+        "index": 0,
+        "file": "duelist-twin_swords-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v3-swordsb.png",
+        "index": 0,
+        "file": "duelist-twin_swords-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v3-swordsb.png",
+        "index": 3,
+        "file": "duelist-twin_swords-male-attack.png"
+      }
+    },
+    {
+      "id": "duelist-twin_swords-female",
+      "classId": "duelist",
+      "className": "Duelliste",
+      "role": "Deux épées · attaques multiples",
+      "gender": "female",
+      "weapon": "twin_swords",
+      "weaponName": "Deux épées",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 0,
+        "file": "duelist-twin_swords-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 0,
+        "file": "duelist-twin_swords-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-warriors.png",
+        "index": 2,
+        "file": "duelist-twin_swords-female-attack.png"
+      }
+    },
+    {
+      "id": "executioner-great_sword-male",
+      "classId": "executioner",
+      "className": "Exécuteur",
+      "role": "Grande épée à deux mains · coups puissants",
+      "gender": "male",
+      "weapon": "great_sword",
+      "weaponName": "Grande épée à deux mains",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-heavy.png",
+        "index": 0,
+        "file": "executioner-great_sword-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-fixes.png",
+        "index": 0,
+        "file": "executioner-great_sword-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-fixes.png",
+        "index": 4,
+        "file": "executioner-great_sword-male-attack.png"
+      }
+    },
+    {
+      "id": "executioner-great_sword-female",
+      "classId": "executioner",
+      "className": "Exécuteur",
+      "role": "Grande épée à deux mains · coups puissants",
+      "gender": "female",
+      "weapon": "great_sword",
+      "weaponName": "Grande épée à deux mains",
+      "bear": false,
+      "shared": true,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-heavy.png",
+        "index": 0,
+        "file": "executioner-great_sword-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-fixes.png",
+        "index": 0,
+        "file": "executioner-great_sword-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-fixes.png",
+        "index": 4,
+        "file": "executioner-great_sword-female-attack.png"
+      }
+    },
+    {
+      "id": "necromancer-spell-male",
+      "classId": "necromancer",
+      "className": "Nécromancien",
+      "role": "Magie, soins et invocations temporaires limitées",
+      "gender": "male",
+      "weapon": "spell",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot3-mages.png",
+        "index": 0,
+        "file": "necromancer-spell-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/complete-lot3-mages.png",
+        "index": 0,
+        "file": "necromancer-spell-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/complete-lot3-mages.png",
+        "index": 3,
+        "file": "necromancer-spell-male-attack.png"
+      }
+    },
+    {
+      "id": "necromancer-spell-female",
+      "classId": "necromancer",
+      "className": "Nécromancien",
+      "role": "Magie, soins et invocations temporaires limitées",
+      "gender": "female",
+      "weapon": "spell",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "necromancer-spell-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "necromancer-spell-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 2,
+        "file": "necromancer-spell-female-attack.png"
+      }
+    },
+    {
+      "id": "necromancer-healing_focus-male",
+      "classId": "necromancer",
+      "className": "Nécromancien",
+      "role": "Magie, soins et invocations temporaires limitées",
+      "gender": "male",
+      "weapon": "healing_focus",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot3-mages.png",
+        "index": 0,
+        "file": "necromancer-healing_focus-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/complete-lot3-mages.png",
+        "index": 0,
+        "file": "necromancer-healing_focus-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/complete-lot3-mages.png",
+        "index": 3,
+        "file": "necromancer-healing_focus-male-attack.png"
+      }
+    },
+    {
+      "id": "necromancer-healing_focus-female",
+      "classId": "necromancer",
+      "className": "Nécromancien",
+      "role": "Magie, soins et invocations temporaires limitées",
+      "gender": "female",
+      "weapon": "healing_focus",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "necromancer-healing_focus-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "necromancer-healing_focus-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 2,
+        "file": "necromancer-healing_focus-female-attack.png"
+      }
+    },
+    {
+      "id": "archmage-spell-male",
+      "classId": "archmage",
+      "className": "Archimage",
+      "role": "Magie, soins et attaques de zone",
+      "gender": "male",
+      "weapon": "spell",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot3-mages.png",
+        "index": 0,
+        "file": "archmage-spell-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/complete-lot3-mages.png",
+        "index": 0,
+        "file": "archmage-spell-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/complete-lot3-mages.png",
+        "index": 3,
+        "file": "archmage-spell-male-attack.png"
+      }
+    },
+    {
+      "id": "archmage-spell-female",
+      "classId": "archmage",
+      "className": "Archimage",
+      "role": "Magie, soins et attaques de zone",
+      "gender": "female",
+      "weapon": "spell",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "archmage-spell-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "archmage-spell-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 2,
+        "file": "archmage-spell-female-attack.png"
+      }
+    },
+    {
+      "id": "archmage-healing_focus-male",
+      "classId": "archmage",
+      "className": "Archimage",
+      "role": "Magie, soins et attaques de zone",
+      "gender": "male",
+      "weapon": "healing_focus",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot3-mages.png",
+        "index": 0,
+        "file": "archmage-healing_focus-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/complete-lot3-mages.png",
+        "index": 0,
+        "file": "archmage-healing_focus-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/complete-lot3-mages.png",
+        "index": 3,
+        "file": "archmage-healing_focus-male-attack.png"
+      }
+    },
+    {
+      "id": "archmage-healing_focus-female",
+      "classId": "archmage",
+      "className": "Archimage",
+      "role": "Magie, soins et attaques de zone",
+      "gender": "female",
+      "weapon": "healing_focus",
+      "weaponName": "Magie offensive",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "archmage-healing_focus-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 0,
+        "file": "archmage-healing_focus-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-casters.png",
+        "index": 2,
+        "file": "archmage-healing_focus-female-attack.png"
+      }
+    },
+    {
+      "id": "pavise_crossbowman-crossbow-male-fortified",
+      "state": "fortified",
+      "classId": "pavise_crossbowman",
+      "className": "Arbalétrier à pavois",
+      "role": "Pavois personnel · tir et rechargement en position fortifiée",
+      "gender": "male",
+      "weapon": "crossbow",
+      "weaponName": "Arbalète",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot1-heavy.png",
+        "index": 0,
+        "file": "pavise_crossbowman-crossbow-male-fortified-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/complete-lot1-heavy.png",
+        "index": 0,
+        "file": "pavise_crossbowman-crossbow-male-fortified-guard.png"
+      },
+      "attack": {
+        "source": "tactical/complete-lot1-heavy.png",
+        "index": 3,
+        "file": "pavise_crossbowman-crossbow-male-fortified-attack.png"
+      }
+    },
+    {
+      "id": "pavise_crossbowman-crossbow-female-fortified",
+      "state": "fortified",
+      "classId": "pavise_crossbowman",
+      "className": "Arbalétrier à pavois",
+      "role": "Pavois personnel · tir et rechargement en position fortifiée",
+      "gender": "female",
+      "weapon": "crossbow",
+      "weaponName": "Arbalète",
+      "bear": false,
+      "shared": false,
+      "reference": false,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "pavise_crossbowman-crossbow-female-fortified-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 0,
+        "file": "pavise_crossbowman-crossbow-female-fortified-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-ranged.png",
+        "index": 2,
+        "file": "pavise_crossbowman-crossbow-female-fortified-attack.png"
+      }
+    },
+    {
+      "id": "spearman-lance-male",
+      "classId": "spearman",
+      "className": "Lancier",
+      "role": "Lance",
+      "gender": "male",
+      "weapon": "lance",
+      "weaponName": "Lance",
+      "bear": false,
+      "shared": true,
+      "reference": true,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-refinements-lance-v2.png",
+        "index": 0,
+        "file": "spearman-lance-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-refinements-lance-v2.png",
+        "index": 0,
+        "file": "spearman-lance-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-refinements-lance-v2.png",
+        "index": 2,
+        "file": "spearman-lance-male-attack.png"
+      }
+    },
+    {
+      "id": "spearman-lance-female",
+      "classId": "spearman",
+      "className": "Lancier",
+      "role": "Lance",
+      "gender": "female",
+      "weapon": "lance",
+      "weaponName": "Lance",
+      "bear": false,
+      "shared": true,
+      "reference": true,
+      "issues": [],
+      "map": {
+        "source": "tactical/combat-v4-refinements-lance-v2.png",
+        "index": 0,
+        "file": "spearman-lance-female-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/combat-v4-refinements-lance-v2.png",
+        "index": 0,
+        "file": "spearman-lance-female-guard.png"
+      },
+      "attack": {
+        "source": "tactical/combat-v4-refinements-lance-v2.png",
+        "index": 2,
+        "file": "spearman-lance-female-attack.png"
+      }
+    },
+    {
+      "id": "crossbowman-crossbow-male",
+      "classId": "crossbowman",
+      "className": "Arbalétrier",
+      "role": "Arbalète",
+      "gender": "male",
+      "weapon": "crossbow",
+      "weaponName": "Arbalète",
+      "bear": false,
+      "shared": false,
+      "reference": true,
+      "issues": [],
+      "map": {
+        "source": "tactical/lot2-knights.png",
+        "index": 0,
+        "file": "crossbowman-crossbow-male-map.png"
+      },
+      "action": "attack",
+      "guard": {
+        "source": "tactical/complete-knights.png",
+        "index": 0,
+        "file": "crossbowman-crossbow-male-guard.png"
+      },
+      "attack": {
+        "source": "tactical/complete-knights.png",
+        "index": 3,
+        "file": "crossbowman-crossbow-male-attack.png"
+      }
+    }
+  ]
+}

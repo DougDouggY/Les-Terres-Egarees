@@ -1,6 +1,9 @@
 import { chromium } from "@playwright/test";
 import { mkdir, writeFile } from "node:fs/promises";
-const out = "public/validation/vikings-evolues";
+const faction = process.argv.includes("--faction=knight") ? "knight" : "north";
+const knight = faction === "knight";
+const title = knight ? "Chevaliers évolués" : "Vikings évolués";
+const out = `public/validation/${knight ? "chevaliers" : "vikings"}-evolues`;
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({
   executablePath: "/usr/bin/chromium",
@@ -12,7 +15,7 @@ try {
   });
   await page.routeWebSocket(/.*/, () => {});
   await page.goto("http://127.0.0.1:5173/");
-  const result = await page.evaluate(async () => {
+  const result = await page.evaluate(async (faction) => {
     const E = await import("/src/engine.ts"),
       R = await import("/src/sprites/resources.ts"),
       C = await import("/src/sprites/catalog.ts"),
@@ -21,17 +24,40 @@ try {
     const mapBefore = JSON.stringify(E.map),
       savesBefore = JSON.stringify({ ...localStorage });
     const inputs = Object.values(E.classes)
-      .filter((c) => c.faction === "north" && c.stage === "advanced")
+      .filter((c) => c.faction === faction && c.stage === "advanced")
       .flatMap((c) =>
         c.starter.flatMap((weapon) =>
-          ["male", "female"].map((gender) => ({ cls: c.id, weapon, gender })),
+          ["male", "female"].map((gender) => ({
+            cls: c.id,
+            weapon,
+            gender,
+            ...(faction === "knight" && c.id === "standard_bearer"
+              ? { state: weapon === "sword" ? "planted" : "carried" }
+              : {}),
+          })),
         ),
       );
-    const refs = [
-      { cls: "raider", weapon: "axe_shield", gender: "female" },
-      { cls: "nordic_blade", weapon: "sword", gender: "female" },
-      { cls: "north_warrior", weapon: "axe", gender: "female" },
-    ];
+    if (faction === "knight") {
+      const extras = inputs.filter((i) => i.cls === "pavise_crossbowman");
+      inputs.push(
+        ...extras.map((i) => ({
+          ...i,
+          state: "fortified",
+        })),
+      );
+    }
+    const refs =
+      faction === "knight"
+        ? [
+            { cls: "spearman", weapon: "lance", gender: "male" },
+            { cls: "spearman", weapon: "lance", gender: "female" },
+            { cls: "crossbowman", weapon: "crossbow", gender: "male" },
+          ]
+        : [
+            { cls: "raider", weapon: "axe_shield", gender: "female" },
+            { cls: "nordic_blade", weapon: "sword", gender: "female" },
+            { cls: "north_warrior", weapon: "axe", gender: "female" },
+          ];
     const rows = [];
     for (const [i, input] of [...inputs, ...refs].entries()) {
       const cls = E.classes[input.cls],
@@ -46,6 +72,8 @@ try {
           input.gender,
         );
       u.activeWeaponId = input.weapon;
+      if (input.state === "planted") u.bannerPlanted = true;
+      if (input.state === "fortified") u.fortified = true;
       if (input.cls === "hamrammr" && input.weapon === "claws")
         u.bearForm = true;
       E.syncWeapon(u);
@@ -95,7 +123,8 @@ try {
         return { image: canvas.toDataURL(), source: clip.source, index };
       };
       rows.push({
-        id: `${input.cls}-${input.weapon}-${input.gender}`,
+        id: `${input.cls}-${input.weapon}-${input.gender}${input.state ? "-" + input.state : ""}`,
+        state: input.state,
         classId: cls.id,
         className: cls.name,
         role: cls.role,
@@ -106,13 +135,17 @@ try {
         shared: map?.gender === "any",
         reference: i >= inputs.length,
         issues: skin?.issues ?? [],
-        map: await capture(map, "idle", 38 * 0.74, true),
+        map: await capture(map, "idle", (cls.mounted ? 52 : 38) * 0.74, true),
         action: E.activeWeapon(u).category === "healing" ? "heal" : "attack",
-        guard: await capture(combat, "idle", u.bearForm ? 148 : 136),
+        guard: await capture(
+          combat,
+          "idle",
+          skin?.mounted ? 190.4 : u.bearForm ? 148 : 136,
+        ),
         attack: await capture(
           combat,
           E.activeWeapon(u).category === "healing" ? "heal" : "attack",
-          u.bearForm ? 148 : 136,
+          skin?.mounted ? 190.4 : u.bearForm ? 148 : 136,
         ),
       });
     }
@@ -124,7 +157,7 @@ try {
     return {
       rows,
       classes: Object.values(E.classes)
-        .filter((c) => c.faction === "north" && c.stage === "advanced")
+        .filter((c) => c.faction === faction && c.stage === "advanced")
         .map((c) => ({
           id: c.id,
           name: c.name,
@@ -134,7 +167,7 @@ try {
           )?.name,
         })),
     };
-  });
+  }, faction);
   const rows = [];
   for (const row of result.rows) {
     const entry = { ...row };
@@ -165,8 +198,8 @@ try {
         })[c],
     );
   const card = (r) =>
-    `<article class="card" data-gender="${r.gender}" data-variant="${r.id}"><h3>${esc(r.className)} · ${r.gender === "male" ? "homme" : "femme"}${r.bear ? " · ours" : ""}</h3><p>${esc(r.weaponName)}</p><div class="poses">${["guard", "attack"].map((key, i) => `<figure><figcaption>${i ? (r.action === "heal" ? "Soins · geste" : "Frappe · impact") : "Garde de combat"}</figcaption>${r[key].file ? `<button class="zoom" data-image="${r[key].file}" aria-label="Agrandir ${i ? "la frappe" : "la garde"} · ${esc(r.className)}"><img src="${r[key].file}" alt="${esc(r.className)} ${r.gender === "male" ? "homme" : "femme"} · ${i ? "frappe" : "garde"}" loading="lazy" width="640" height="640"></button>` : `<p>Pose absente</p>`}</figure>`).join("")}</div><figure class="map-pose"><figcaption>Sur la carte · même échelle que le jeu</figcaption><img src="${r.map.file}" alt="Pose sur la carte" width="192" height="160" loading="lazy"></figure>${r.shared ? "<p class=notice>Apparence actuelle partagée entre homme et femme.</p>" : ""}<details><summary>Ressources et limites actuelles</summary><p>Repère : ${r.id}</p><p>Carte : ${esc(r.map.source)}</p><p>Combat : ${esc(r.guard.source)}</p>${r.issues.length ? `<ul>${r.issues.map((i) => `<li>${esc(i.animation)} : ${esc(i.reason)}</li>`).join("")}</ul>` : "<p>Aucune substitution signalée par le profil de combat.</p>"}</details></article>`;
-  const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vikings évolués · comparaison actuelle</title><style>*{box-sizing:border-box}body{margin:0;background:#17222c;color:#eee8da;font:16px system-ui,sans-serif}main{max-width:1250px;margin:auto;padding:16px}h1{font-size:25px}h2{color:#eed7a3}p{line-height:1.5}.filters{position:sticky;top:0;z-index:3;background:#17222cf5;padding:10px 0;display:flex;gap:10px;flex-wrap:wrap;border-bottom:1px solid #586573}label{display:flex;flex-direction:column;gap:4px;font-size:13px}select,button{font:inherit;min-height:44px;color:inherit;background:#2b3b49;border:1px solid #71808e;border-radius:5px;padding:8px}select{max-width:100%}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}.card{min-width:0;padding:12px;background:#24333f;border:1px solid #586573;border-radius:8px}.card h3{margin:0;font-size:18px}.card p{margin:7px 0;font-size:14px}.poses{display:grid;grid-template-columns:1fr 1fr;gap:4px}figure{margin:0;min-width:0}figcaption{font-size:12px;color:#cfdddc;min-height:30px}.zoom{border:0;background:none;padding:0;width:100%;display:block;cursor:zoom-in}.zoom img{display:block;width:100%;height:auto;background:linear-gradient(0deg,#14212c,#344857);border-radius:4px}.map-pose{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}.map-pose img{width:96px;height:80px;flex:none;background:#42594b}.map-pose figcaption{min-height:0}details{font-size:12px;margin-top:12px}details p{overflow-wrap:anywhere}.notice{background:#354451;padding:10px;border-left:3px solid #ddc58e}section{scroll-margin-top:130px;margin:26px 0}a{color:#e8ca8a}dialog{padding:12px;background:#24333f;color:#eee8da;border:1px solid #9b8c69;border-radius:8px;width:min(96vw,690px);max-height:95dvh}dialog::backdrop{background:#000c}dialog img{display:block;width:100%;height:auto;max-height:76dvh;object-fit:contain;background:#344857}dialog button{float:right}body:has(dialog[open]){overflow:hidden}[hidden]{display:none!important}@media(max-width:420px){main{padding:10px}.filters label{flex:1;min-width:0}.cards{grid-template-columns:1fr}h1{font-size:23px}}</style></head><body><main><h1>Classes évoluées vikings</h1><p>${result.classes.length} classes · ${rows.filter((r) => !r.reference).length} variantes actuelles, hommes et femmes, avec leurs équipements. Les nouvelles propositions sont signalées ; les versions précédentes restent disponibles pour comparer.</p><p class="notice">Même échelle corporelle pour les humains, proportions préservées. Touchez une grande image pour l’agrandir. « Garde », « Frappe » et « Soins » utilisent les ressources de combat actuelles ; la petite image montre la pose réellement utilisée sur la carte. Les références validées sont en bas.</p><nav class="filters" aria-label="Filtres de comparaison"><label>Classe<select id="class-filter"><option value="all">Toutes les classes</option>${result.classes.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></label><label>Afficher<select id="gender-filter"><option value="all">Hommes et femmes</option><option value="male">Hommes</option><option value="female">Femmes</option></select></label></nav>${result.classes
+    `<article class="card" data-gender="${r.gender}" data-variant="${r.id}"><h3>${esc(r.className)} · ${r.gender === "male" ? "homme" : "femme"}${r.bear ? " · ours" : ""}</h3><p>${esc(r.weaponName)}${r.state ? " · " + { planted: "bannière plantée", carried: "bannière portée", fortified: "pavois déployé" }[r.state] : ""}</p><div class="poses">${["guard", "attack"].map((key, i) => `<figure><figcaption>${i ? (r.action === "heal" ? "Soins · geste" : "Frappe · impact") : "Garde de combat"}</figcaption>${r[key].file ? `<button class="zoom" data-image="${r[key].file}" aria-label="Agrandir ${i ? "la frappe" : "la garde"} · ${esc(r.className)}"><img src="${r[key].file}" alt="${esc(r.className)} ${r.gender === "male" ? "homme" : "femme"} · ${i ? "frappe" : "garde"}" loading="lazy" width="640" height="640"></button>` : `<p>Pose absente</p>`}</figure>`).join("")}</div><figure class="map-pose"><figcaption>Sur la carte · même échelle que le jeu</figcaption><img src="${r.map.file}" alt="Pose sur la carte" width="192" height="160" loading="lazy"></figure>${r.shared ? "<p class=notice>Apparence actuelle partagée entre homme et femme.</p>" : ""}<details><summary>Ressources et limites actuelles</summary><p>Repère : ${r.id}</p><p>Carte : ${esc(r.map.source)}</p><p>Combat : ${esc(r.guard.source)}</p>${r.issues.length ? `<ul>${r.issues.map((i) => `<li>${esc(i.animation)} : ${esc(i.reason)}</li>`).join("")}</ul>` : "<p>Aucune substitution signalée par le profil de combat.</p>"}</details></article>`;
+  const html = `<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} · comparaison actuelle</title><style>*{box-sizing:border-box}body{margin:0;background:#17222c;color:#eee8da;font:16px system-ui,sans-serif}main{max-width:1250px;margin:auto;padding:16px}h1{font-size:25px}h2{color:#eed7a3}p{line-height:1.5}.filters{position:sticky;top:0;z-index:3;background:#17222cf5;padding:10px 0;display:flex;gap:10px;flex-wrap:wrap;border-bottom:1px solid #586573}label{display:flex;flex-direction:column;gap:4px;font-size:13px}select,button{font:inherit;min-height:44px;color:inherit;background:#2b3b49;border:1px solid #71808e;border-radius:5px;padding:8px}select{max-width:100%}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}.card{min-width:0;padding:12px;background:#24333f;border:1px solid #586573;border-radius:8px}.card h3{margin:0;font-size:18px}.card p{margin:7px 0;font-size:14px}.poses{display:grid;grid-template-columns:1fr 1fr;gap:4px}figure{margin:0;min-width:0}figcaption{font-size:12px;color:#cfdddc;min-height:30px}.zoom{border:0;background:none;padding:0;width:100%;display:block;cursor:zoom-in}.zoom img{display:block;width:100%;height:auto;background:linear-gradient(0deg,#14212c,#344857);border-radius:4px}.map-pose{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}.map-pose img{width:96px;height:80px;flex:none;background:#42594b}.map-pose figcaption{min-height:0}details{font-size:12px;margin-top:12px}details p{overflow-wrap:anywhere}.notice{background:#354451;padding:10px;border-left:3px solid #ddc58e}section{scroll-margin-top:130px;margin:26px 0}a{color:#e8ca8a}dialog{padding:12px;background:#24333f;color:#eee8da;border:1px solid #9b8c69;border-radius:8px;width:min(96vw,690px);max-height:95dvh}dialog::backdrop{background:#000c}dialog img{display:block;width:100%;height:auto;max-height:76dvh;object-fit:contain;background:#344857}dialog button{float:right}body:has(dialog[open]){overflow:hidden}[hidden]{display:none!important}@media(max-width:420px){main{padding:10px}.filters label{flex:1;min-width:0}.cards{grid-template-columns:1fr}h1{font-size:23px}}</style></head><body><main><h1>Classes évoluées ${knight ? "des Chevaliers" : "vikings"}</h1><p>${result.classes.length} classes · ${rows.filter((r) => !r.reference).length} variantes actuelles, hommes et femmes, avec leurs équipements. ${knight ? "Apparences actuelles à examiner avant toute modification. Les animations ne sont pas validées par cette page." : "Les nouvelles propositions sont signalées ; les versions précédentes restent disponibles pour comparer."}</p><p class="notice">Même échelle corporelle pour les unités à pied, proportions préservées. ${knight ? "Les montures gardent leur échelle de combat." : ""} Touchez une grande image pour l’agrandir. « Garde », « Frappe » et « Soins » utilisent les ressources de combat actuelles ; la petite image montre la pose réellement utilisée sur la carte. Les références validées sont en bas.</p><nav class="filters" aria-label="Filtres de comparaison"><label>Classe<select id="class-filter"><option value="all">Toutes les classes</option>${result.classes.map((c) => `<option value="${c.id}">${esc(c.name)}</option>`).join("")}</select></label><label>Afficher<select id="gender-filter"><option value="all">Hommes et femmes</option><option value="male">Hommes</option><option value="female">Femmes</option></select></label></nav>${result.classes
     .map(
       (c) =>
         `<section data-class="${c.id}"><h2>${esc(c.name)}</h2><p>Évolution de : ${esc(c.origin)} · ${esc(c.role)}</p><div class="cards">${rows
@@ -176,12 +209,12 @@ try {
     )
     .join(
       "",
-    )}<details id="references"><summary>Comparer avec trois Vikings de base déjà validés</summary><div class="cards">${rows
+    )}<details id="references"><summary>Comparer avec trois ${knight ? "Chevaliers" : "Vikings"} de base ${knight ? "de référence" : "déjà validés"}</summary><div class="cards">${rows
     .filter((r) => r.reference)
     .map(card)
     .join(
       "",
-    )}</div></details><p><a href="../../..">Retour au jeu</a> · <a href="../vikings/index.html">Vikings de base</a></p></main><dialog aria-label="Sprite agrandi"><button id="close">Fermer ×</button><img alt="Sprite agrandi"></dialog><script>const c=document.querySelector('#class-filter'),g=document.querySelector('#gender-filter'),d=document.querySelector('dialog');function filter(){document.querySelectorAll('[data-class]').forEach(s=>s.hidden=c.value!=='all'&&s.dataset.class!==c.value);document.querySelectorAll('[data-gender]').forEach(s=>s.hidden=g.value!=='all'&&s.dataset.gender!==g.value)}c.onchange=g.onchange=filter;document.querySelectorAll('[data-image]').forEach(b=>b.onclick=()=>{d.querySelector('img').src=b.dataset.image;d.querySelector('img').alt=b.querySelector('img').alt;d.showModal()});document.querySelector('#close').onclick=()=>d.close();d.onclick=e=>{if(e.target===d)d.close()};</script><script src="reprises/player.js" defer></script></body></html>`;
+    )}</div></details><p><a href="../../..">Retour au jeu</a> · <a href="../${knight ? "chevaliers" : "vikings"}/index.html">${knight ? "Chevaliers" : "Vikings"} de base</a> · <a href="../${knight ? "vikings" : "chevaliers"}-evolues/index.html">${knight ? "Vikings" : "Chevaliers"} évolués</a></p></main><dialog aria-label="Sprite agrandi"><button id="close">Fermer ×</button><img alt="Sprite agrandi"></dialog><script>const c=document.querySelector('#class-filter'),g=document.querySelector('#gender-filter'),d=document.querySelector('dialog');function filter(){document.querySelectorAll('[data-class]').forEach(s=>s.hidden=c.value!=='all'&&s.dataset.class!==c.value);document.querySelectorAll('[data-gender]').forEach(s=>s.hidden=g.value!=='all'&&s.dataset.gender!==g.value)}c.onchange=g.onchange=filter;document.querySelectorAll('[data-image]').forEach(b=>b.onclick=()=>{d.querySelector('img').src=b.dataset.image;d.querySelector('img').alt=b.querySelector('img').alt;d.showModal()});document.querySelector('#close').onclick=()=>d.close();d.onclick=e=>{if(e.target===d)d.close()};</script>${knight ? "" : '<script src="reprises/player.js" defer></script>'}</body></html>`;
   await writeFile(`${out}/index.html`, html);
   await writeFile(
     `${out}/manifest.json`,

@@ -66,7 +66,7 @@ def measure(entry, filename, count, attack=False):
 sources=json.loads((ROOT/'docs/references/advanced-review-sources.json').read_text())
 profiles={}
 ids=lambda r,columns:[r*4+c for c in columns]
-markers={'huscarl':'Cotte de mailles, fourrure sombre et bouclier renforcé.','honor_guard':'Armure et bouclier à larges finitions dorées.','clan_healer':'Sans cape ; sacoche médicale et bandages discrets.','tracker':'Hache mise en évidence, y compris avec l’arc.'}
+markers={'huscarl':'Cotte de mailles, fourrure sombre et bouclier renforcé.','honor_guard':'Armure et bouclier à larges finitions dorées.','clan_healer':'Sans cape ni fourrure ; sacoche à bandages en bandoulière.','tracker':'Hache mise en évidence, y compris avec l’arc.'}
 for entry in sources:
     identity=entry['id'];count=28 if identity.startswith('clan_healer-') else 24
     p=measure(entry,f'{identity}.png',count)

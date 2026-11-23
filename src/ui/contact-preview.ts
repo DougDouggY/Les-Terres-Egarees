@@ -91,7 +91,7 @@ export function openContactPreview(app: HTMLElement, back: () => void) {
     )
     .join(
       "",
-    )}</select></label><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/vikings/index.html" target="_blank" rel="noopener">Comparer les gabarits ↗</a><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/vikings-evolues/index.html" target="_blank" rel="noopener">Comparer les Vikings évolués ↗</a><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/chevaliers/index.html" target="_blank" rel="noopener">Comparer les Chevaliers ↗</a><div class="contact-buttons">${Object.entries(
+    )}</select></label><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/vikings/index.html" target="_blank" rel="noopener">Comparer les gabarits ↗</a><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/vikings-evolues/index.html" target="_blank" rel="noopener">Comparer les Vikings évolués ↗</a><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/chevaliers/index.html" target="_blank" rel="noopener">Comparer les Chevaliers ↗</a><a class="contact-compare" href="${import.meta.env.BASE_URL}validation/chevaliers-evolues/index.html" target="_blank" rel="noopener">Comparer les Chevaliers évolués ↗</a><div class="contact-buttons">${Object.entries(
     contactScenarios,
   )
     .map(
