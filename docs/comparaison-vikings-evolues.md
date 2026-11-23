@@ -25,3 +25,19 @@ Les fichiers PNG générés sont conservés tels quels dans `public/validation/v
 Le lecteur limite son cache d’images et de silhouettes et ne fait jouer qu’une animation à la fois pour ménager les téléphones. Il n’écrit aucune sauvegarde et n’active aucun profil de combat dans la partie.
 
 Vérifications de cette étape : 226 tests automatisés réussis ; trois parcours navigateur du lecteur réussis (ordinateur, téléphone, toutes les séquences des quinze variantes sans écriture en sauvegarde), et les deux parcours de comparaison précédents réussis. Compilation et contrôle du prototype réussis.
+
+## Corrections des attaques et identification des classes
+
+La comparaison propose désormais 26 variantes corrigées, avec 568 références de poses (552 figures distinctes, les Völva partageant leurs gestes de sort et de soin). Les Grands chasseurs et la forme ours restent les références précédentes. Les nouvelles silhouettes ne sont pas encore installées en campagne.
+
+- Berserker et Drengr H/F : huit poses d’attaque dédiées, bras alternés, enchaînement des deux coups sans remise en garde intermédiaire et deux impacts visuels. Les ripostes et les doubles frappes d’agilité ne nécessitent toujours pas de planche supplémentaire.
+- Brise-fer H/F : attaque lourde à deux mains, manche unique, préparation puis frappe et récupération. Une seule frappe visuelle.
+- Huscarl : cotte de mailles, fourrure sombre, casque et bouclier renforcé d’argent. Garde d’honneur : larges garnitures dorées, cape et bouclier à chevrons. Le gabarit élancé est conservé.
+- Guérisseurs : bandoulière et bandages de bras blancs, rouleaux et sacoche médicale. Traqueurs : haches dégagées et lisibles, également portées devant la hanche quand l’arc est actif.
+- Völva et Hamrammr humain H/F : huit poses de bâton tendu vers la cible. Le sort part de son extrémité ; le soin conserve son effet propre et les éléments existants ne changent pas. Le petit effet de trajet depuis le bâton est partagé avec le rendu de foudre de campagne, sans changer les décisions de combat.
+
+Les poses corrigées sont dans `reprises/corrections/`, avec provenance dans `docs/references/advanced-review-revisions.json`. Les poses d’attaque sont mesurées avec un point d’appui au pied arrière et une échelle constante fondée sur la récupération, pour éviter le recul involontaire et le rétrécissement à la levée des armes. La fenêtre propose une séquence « Double coup · enchaîné ». Les vues « Avant cette correction » conservent les silhouettes de la comparaison précédente lorsqu’elles existaient.
+
+Reconstruction : `python scripts/register-advanced-review.py`, puis `node scripts/export-review-staff-effect.mjs` après une modification de l’effet partagé. Les PNG originaux ne sont pas réécrits. Le script de captures avant correction est volontairement limité au manifeste précédent afin de ne pas écraser les références.
+
+Vérifications : 229 tests automatisés réussis ; quatre parcours du lecteur (390/1280 pixels, toutes les séquences, double impact et origine du bâton), ainsi que les deux parcours de comparaison précédents. Aucune écriture en sauvegarde pendant les essais. Compilation et contrôle du prototype réussis. La validation artistique finale reste à faire par le joueur.

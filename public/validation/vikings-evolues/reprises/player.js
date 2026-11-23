@@ -5,12 +5,21 @@
   );
   if (!response.ok) return;
   const { profiles } = await response.json();
+  const { sampleReview } = await import(
+    new URL("reprises/timeline.js", location.href)
+  );
+  const { drawStaffCast } = await import(
+    new URL("reprises/staff-cast.js", location.href)
+  );
   const names = {
     idle: "Attente",
     guard: "Garde",
     move: "Approche",
-    attack: "Attaque",
-    offhand: "Seconde arme",
+    attack: "Attaque · arme principale",
+    combo: "Double coup · enchaîné",
+    cast: "Sort · bâton en avant",
+    heal: "Soin · bâton en avant",
+    offhand: "Attaque · seconde arme",
     block: "Parade",
     evade: "Esquive",
     damage: "Dégâts",
@@ -38,8 +47,8 @@
     if (e.target === modal) modal.close();
   };
   modal.addEventListener("close", () => (zoom = null));
-  async function image(profile) {
-    const key = profile.id;
+  async function image(profile, source = profile.source, root = "reprises/") {
+    const key = root + source;
     let item = images.get(key);
     if (item) {
       images.delete(key);
@@ -47,7 +56,7 @@
       return item;
     }
     const img = new Image();
-    img.src = new URL("reprises/" + profile.source, location.href);
+    img.src = new URL(root + source, location.href);
     item = img.decode().then(() => img);
     images.set(key, item);
     while (images.size > 3) images.delete(images.keys().next().value);
@@ -62,7 +71,7 @@
       return result;
     }
     const f = profile.frames[index],
-      img = await image(profile),
+      img = await image(profile, f.source ?? profile.source),
       c = document.createElement("canvas");
     c.width = f.width;
     c.height = f.height;
@@ -82,33 +91,30 @@
   }
   async function draw(player, canvas, time) {
     const request = player.profile.id + ":" + player.clip;
-    const clip = player.profile.clips[player.clip],
-      fps = player.clip === "move" ? 6 : 8;
+    const clip = player.profile.clips[player.clip];
     const elapsed = player.paused
       ? player.stopped
       : Math.max(0, time - player.start) * player.speed;
-    const length = (clip.length * 1000) / fps,
-      phase = (elapsed % (length + 350)) / length;
-    const index =
-        clip[
-          Math.min(
-            clip.length - 1,
-            Math.floor(Math.min(1, phase) * clip.length),
-          )
-        ],
+    const sample = sampleReview(player.profile, player.clip, elapsed);
+    const index = sample.index,
       f = player.profile.frames[index];
-    const bitmap = await frame(player.profile, index);
+    const oldGuard =
+      player.profile.guardImage && ["idle", "guard"].includes(player.clip);
+    const bitmap = oldGuard
+      ? await image(player.profile, player.profile.guardImage, "")
+      : await frame(player.profile, index);
     if (canvas.dataset.request && canvas.dataset.request !== request) return;
     const ctx = canvas.getContext("2d"),
       unit = canvas.width / 320;
     ctx.setTransform(unit, 0, 0, unit, 0, 0);
     ctx.clearRect(0, 0, 320, 320);
     ctx.imageSmoothingEnabled = false;
-    let x = 160,
-      scale = 136 / player.profile.referenceHeight;
+    const casting = ["cast", "heal"].includes(player.clip);
+    let x = casting ? 92 : 160,
+      scale = 136 / (f.referenceHeight ?? player.profile.referenceHeight);
     const ground = 306;
     if (player.clip === "evade")
-      x -= 18 * Math.sin(Math.PI * Math.min(1, phase));
+      x -= 18 * Math.sin(Math.PI * Math.min(1, sample.phase));
     if (["idle", "guard"].includes(player.clip)) {
       const p = (elapsed * Math.PI * 2) / 2200;
       ctx.translate(x, ground);
@@ -122,13 +128,62 @@
       );
       ctx.translate(-x, -ground);
     }
-    ctx.drawImage(
-      bitmap,
-      x + (f.x - f.anchorX) * scale,
-      ground + (f.y - f.ground) * scale,
-      f.width * scale,
-      f.height * scale,
-    );
+    if (oldGuard) ctx.drawImage(bitmap, 0, 0, 320, 320);
+    else
+      ctx.drawImage(
+        bitmap,
+        x + (f.x - f.anchorX) * scale,
+        ground + (f.y - f.ground) * scale,
+        f.width * scale,
+        f.height * scale,
+      );
+    canvas.dataset.impactCount = String(sample.impactCount);
+    if (casting) {
+      const releaseSlot = player.profile.impacts?.[player.clip]?.[0] ?? 4;
+      const launch = player.profile.frames[clip[Math.max(0, releaseSlot - 1)]];
+      const point = (v) => {
+        const sc = 136 / (v.referenceHeight ?? player.profile.referenceHeight);
+        return {
+          x: x + (v.weaponTip.x - v.anchorX) * sc,
+          y: ground + (v.weaponTip.y - v.ground) * sc,
+        };
+      };
+      const origin = point(launch),
+        charge = point(f),
+        target = { x: 288, y: 246 };
+      drawStaffCast(
+        ctx,
+        player.profile.effect ?? "lightning",
+        sample.time - (sample.impacts[0] ?? 620),
+        origin,
+        target,
+        68,
+        true,
+        charge,
+      );
+      ctx.fillStyle = player.clip === "heal" ? "#9bd8ae" : "#d4c29a";
+      ctx.font = "7px system-ui";
+      ctx.textAlign = "center";
+      ctx.fillText(player.clip === "heal" ? "Allié" : "Cible", 288, 263);
+      canvas.dataset.staffOriginX = String(origin.x);
+      canvas.dataset.staffOriginY = String(origin.y);
+      canvas.dataset.staffChargeX = String(charge.x);
+      canvas.dataset.staffChargeY = String(charge.y);
+    } else if (sample.impactAge >= 0 && sample.impactAge < 90) {
+      const tip = f.weaponTip;
+      if (tip) {
+        ctx.fillStyle = "#f9e8b3";
+        ctx.beginPath();
+        ctx.arc(
+          x + (tip.x - f.anchorX) * scale,
+          ground + (tip.y - f.ground) * scale,
+          3 * (1 - sample.impactAge / 90),
+          0,
+          Math.PI * 2,
+        );
+        ctx.fill();
+      }
+    }
     canvas.dataset.profile = player.profile.id;
     canvas.dataset.animation = player.clip;
     canvas.dataset.frame = String(index);
@@ -152,10 +207,12 @@
     const old = card.querySelector(".poses"),
       oldImage = old.querySelector("img").cloneNode(true);
     oldImage.loading = "lazy";
+    if (profile.beforeImage)
+      oldImage.src = new URL("reprises/" + profile.beforeImage, location.href);
     const preview = document.createElement("section");
     preview.className = "new-review";
     preview.innerHTML =
-      '<p class="review-title"><strong>Nouvelle silhouette · à comparer</strong></p><div class="poses"><figure><figcaption>Ancienne version</figcaption><div class="old-reference"></div></figure><figure><figcaption>Nouvelle version · toucher pour agrandir</figcaption><canvas class="new-review-canvas" width="640" height="640" aria-label="Nouvelle animation ' +
+      '<p class="review-title"><strong>Nouvelle silhouette · à comparer</strong></p><div class="poses"><figure><figcaption>Avant cette correction</figcaption><div class="old-reference"></div></figure><figure><figcaption>Nouvelle version · toucher pour agrandir</figcaption><canvas class="new-review-canvas" width="640" height="640" aria-label="Nouvelle animation ' +
       card.querySelector("h3").textContent +
       '" tabindex="0" role="button"></canvas></figure></div><div class="review-controls"><select aria-label="Animation">' +
       Object.keys(profile.clips)
@@ -179,12 +236,27 @@
       background: "#344857",
       borderRadius: "4px",
     });
+    if (profile.roleMarker) {
+      const note = document.createElement("p");
+      note.className = "review-note";
+      note.textContent = profile.roleMarker;
+      preview.querySelector(".review-title").after(note);
+    }
     const link = document.createElement("a");
     link.href = new URL("reprises/" + profile.source, location.href);
     link.target = "_blank";
     link.rel = "noopener";
     link.textContent = "Planche complète · " + profile.frames.length + " poses";
     preview.querySelector(".review-controls").append(link);
+    if (profile.attackSheet) {
+      const attack = document.createElement("a");
+      attack.href = new URL("reprises/" + profile.attackSheet, location.href);
+      attack.target = "_blank";
+      attack.rel = "noopener";
+      attack.textContent = "Attaque corrigée · 8 poses";
+      preview.querySelector(".review-controls").append(attack);
+      link.textContent = "Autres gestes du modèle";
+    }
     const archive = document.createElement("details");
     archive.innerHTML = "<summary>Voir les anciennes poses de combat</summary>";
     old.replaceWith(preview);

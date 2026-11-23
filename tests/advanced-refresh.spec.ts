@@ -7,7 +7,7 @@ for (const width of [390, 1280])
     const errors: string[] = [];
     page.on("pageerror", (e) => errors.push(e.message));
     await page.goto("/validation/vikings-evolues/index.html");
-    await expect(page.locator(".new-review")).toHaveCount(15);
+    await expect(page.locator(".new-review")).toHaveCount(26);
     await page.locator("#class-filter").selectOption("huscarl");
     await page.locator("#gender-filter").selectOption("female");
     const review = page.locator(".new-review:visible").first(),
@@ -64,11 +64,11 @@ for (const width of [390, 1280])
     expect(errors).toEqual([]);
   });
 
-test("quinze nouvelles variantes : toutes les séquences dessinent une figure sans toucher aux sauvegardes", async ({
+test("vingt-six variantes corrigées : toutes les séquences dessinent une figure sans toucher aux sauvegardes", async ({
   page,
 }) => {
   await page.goto("/validation/vikings-evolues/index.html");
-  await expect(page.locator(".new-review")).toHaveCount(15);
+  await expect(page.locator(".new-review")).toHaveCount(26);
   const before = await page.evaluate(() => JSON.stringify({ ...localStorage }));
   const { profiles } = await (
     await page.request.get("/validation/vikings-evolues/reprises/manifest.json")
@@ -99,4 +99,26 @@ test("quinze nouvelles variantes : toutes les séquences dessinent une figure sa
   expect(await page.evaluate(() => JSON.stringify({ ...localStorage }))).toBe(
     before,
   );
+});
+
+test("double coup continu et bâton dirigé vers la cible", async ({ page }) => {
+  await page.goto("/validation/vikings-evolues/index.html");
+  await expect(page.locator(".new-review")).toHaveCount(26);
+  await page.locator("#class-filter").selectOption("berserker");
+  const dual = page.locator(".new-review:visible").first(),
+    dc = dual.locator("canvas");
+  await dual.getByLabel("Animation", { exact: true }).selectOption("combo");
+  await expect(dc).toHaveAttribute("data-impact-count", "2");
+  await page.locator("#class-filter").selectOption("volva");
+  const mage = page.locator('[data-variant="volva-spell-male"] .new-review'),
+    c = mage.locator("canvas");
+  await mage.scrollIntoViewIfNeeded();
+  await mage.getByLabel("Animation", { exact: true }).selectOption("cast");
+  await expect(c).toHaveAttribute("data-animation", "cast");
+  await expect
+    .poll(async () => Number(await c.getAttribute("data-staff-origin-x")))
+    .toBeGreaterThan(125);
+  expect(Number(await c.getAttribute("data-staff-origin-x"))).toBeLessThan(285);
+  expect(Number(await c.getAttribute("data-staff-origin-y"))).toBeLessThan(285);
+  await page.screenshot({ path: "/tmp/advanced-staff-review.png" });
 });

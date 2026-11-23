@@ -1,0 +1,60 @@
+[
+  {
+    "id": "berserker-twin_axes-male",
+    "kind": "attack",
+    "source": "/workspace/generated_images/exec-b9fffe5d-0858-4942-978b-22576f9cac61.png"
+  },
+  {
+    "id": "berserker-twin_axes-female",
+    "kind": "attack",
+    "source": "/workspace/generated_images/exec-6a7253d8-525f-48eb-bf50-db26f2fa3016.png"
+  },
+  {
+    "id": "drengr-twin_swords-male",
+    "kind": "attack",
+    "source": "/workspace/generated_images/exec-ea377278-beb3-4512-ae7c-07a16f318f54.png"
+  },
+  {
+    "id": "drengr-twin_swords-female",
+    "kind": "attack",
+    "source": "/workspace/generated_images/exec-4d894da0-91d4-42de-95dd-31ed5cd5f24c.png"
+  },
+  {
+    "id": "ironbreaker-great_axe-male",
+    "kind": "attack",
+    "source": "/workspace/generated_images/exec-b21a6b57-7feb-44e0-a708-1b5a76a39364.png"
+  },
+  {
+    "id": "ironbreaker-great_axe-female",
+    "kind": "attack",
+    "source": "/workspace/generated_images/exec-649b68e0-1b09-4203-8868-1155589af04f.png"
+  },
+  {
+    "id": "volva-spell-male",
+    "kind": "cast",
+    "source": "/workspace/generated_images/exec-178cb575-c963-435c-8eae-34ad909dd3c3.png",
+    "aliases": [
+      "volva-healing_focus-male"
+    ]
+  },
+  {
+    "id": "volva-spell-female",
+    "kind": "cast",
+    "source": "/workspace/generated_images/exec-6580a69a-cfc7-4e80-b978-d3986614ff6e.png",
+    "aliases": [
+      "volva-healing_focus-female"
+    ]
+  },
+  {
+    "id": "hamrammr-healing_focus-male",
+    "kind": "cast",
+    "source": "/workspace/generated_images/exec-cd62689c-e05f-4b09-bbb9-b10f262cb000.png",
+    "aliases": []
+  },
+  {
+    "id": "hamrammr-healing_focus-female",
+    "kind": "cast",
+    "source": "/workspace/generated_images/exec-5fa5a915-2ca1-4cd1-ac98-b6b14bcf3650.png",
+    "aliases": []
+  }
+]

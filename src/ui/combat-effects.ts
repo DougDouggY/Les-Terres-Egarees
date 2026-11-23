@@ -1,3 +1,4 @@
+import { drawStaffCast } from "./staff-cast";
 import cloudUrl from "../assets/effects/storm-cloud-v6.png?url";
 import effectsUrl from "../assets/effects/combat-magic.png?url";
 import type { Unit } from "../game/types";
@@ -76,6 +77,8 @@ export function drawSpell(
   hit = true,
 ) {
   if (kind === "heal") return;
+  if (kind === "lightning")
+    drawStaffCast(ctx, kind, t, from, to, size, hit, chargeFrom);
   const flip = to.x < from.x;
   if (kind === "fire" && t >= -320 && t < -100) {
     ctx.save();

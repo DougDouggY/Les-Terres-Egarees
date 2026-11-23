@@ -17,19 +17,19 @@
   },
   {
     "id": "huscarl-axe_shield-male",
-    "source": "/workspace/generated_images/exec-c13ca45f-f5d1-4c7a-af3b-4a61406cb522.png"
+    "source": "/workspace/generated_images/exec-7a6e24e4-6308-4a91-a38b-63834f5ea107.png"
   },
   {
     "id": "huscarl-axe_shield-female",
-    "source": "/workspace/generated_images/exec-eae9ddcc-93be-4d79-ada9-77e0b5890f06.png"
+    "source": "/workspace/generated_images/exec-bc078066-7d8a-4cfd-ad73-f1d70d821417.png"
   },
   {
     "id": "huscarl-sword_shield-male",
-    "source": "/workspace/generated_images/exec-8e1a9b75-5f40-4f0a-b664-7ae10d939802.png"
+    "source": "/workspace/generated_images/exec-fd14394b-96e7-456a-b199-62c064f64606.png"
   },
   {
     "id": "huscarl-sword_shield-female",
-    "source": "/workspace/generated_images/exec-db17dcaa-67e4-4637-af99-81edff2665b5.png"
+    "source": "/workspace/generated_images/exec-a497297d-80a5-4f7b-b941-b32eccb4ddb0.png"
   },
   {
     "id": "drengr-twin_swords-male",
@@ -37,26 +37,42 @@
   },
   {
     "id": "clan_healer-axe_shield-male",
-    "source": "/workspace/generated_images/exec-44e900a5-82af-4712-bc58-55c565fb41e5.png"
+    "source": "/workspace/generated_images/exec-6dd0b277-8210-4234-9359-3e977c2c83a7.png"
   },
   {
     "id": "clan_healer-sword_shield-male",
-    "source": "/workspace/generated_images/exec-7641a0c7-af02-4f52-9cfe-705d1892018e.png"
+    "source": "/workspace/generated_images/exec-a24b6f82-969f-4680-883c-add8bc546c9f.png"
   },
   {
     "id": "clan_healer-axe_shield-female",
-    "source": "/workspace/generated_images/exec-659fa48b-0816-4f85-835d-2994313e6d5e.png"
+    "source": "/workspace/generated_images/exec-85d0a4fd-17bd-4e8d-9677-0bc5e7e594d0.png"
   },
   {
     "id": "clan_healer-sword_shield-female",
-    "source": "/workspace/generated_images/exec-d992e2c3-6138-4c32-9f64-6125ab1d0a17.png"
+    "source": "/workspace/generated_images/exec-87442af9-dec4-44c9-9db3-d17fca651970.png"
   },
   {
     "id": "honor_guard-sword_shield-male",
-    "source": "/workspace/generated_images/exec-e6087f8e-a1d6-4b06-91d6-8c8433e0d886.png"
+    "source": "/workspace/generated_images/exec-3f13f6b1-228b-4dc7-95e6-4ea95fc17bbf.png"
   },
   {
     "id": "honor_guard-sword_shield-female",
-    "source": "/workspace/generated_images/exec-4846a1a5-041c-4e6d-b1b3-bc364f8e1be5.png"
+    "source": "/workspace/generated_images/exec-df688196-1442-48db-8d12-a1c105ed7931.png"
+  },
+  {
+    "id": "tracker-bow-male",
+    "source": "/workspace/generated_images/exec-9577f478-e4c5-4910-b095-ee05ec9fa938.png"
+  },
+  {
+    "id": "tracker-axe-male",
+    "source": "/workspace/generated_images/exec-95f47543-dd8b-4fec-926f-3787fe582969.png"
+  },
+  {
+    "id": "tracker-bow-female",
+    "source": "/workspace/generated_images/exec-72e5c7c5-cd3f-440e-bdfa-d32e1312bfbb.png"
+  },
+  {
+    "id": "tracker-axe-female",
+    "source": "/workspace/generated_images/exec-9afee9a7-1d4e-4848-9fce-126478b02ec6.png"
   }
 ]
