@@ -212,7 +212,7 @@
     const preview = document.createElement("section");
     preview.className = "new-review";
     preview.innerHTML =
-      '<p class="review-title"><strong>Nouvelle silhouette · à comparer</strong></p><div class="poses"><figure><figcaption>Avant cette correction</figcaption><div class="old-reference"></div></figure><figure><figcaption>Nouvelle version · toucher pour agrandir</figcaption><canvas class="new-review-canvas" width="640" height="640" aria-label="Nouvelle animation ' +
+      '<p class="review-title"><strong>Apparence · à valider</strong></p><div class="poses"><figure><figcaption>Avant cette correction</figcaption><div class="old-reference"></div></figure><figure><figcaption>Nouvelle version · toucher pour agrandir</figcaption><canvas class="new-review-canvas" width="640" height="640" aria-label="Nouvelle animation ' +
       card.querySelector("h3").textContent +
       '" tabindex="0" role="button"></canvas></figure></div><div class="review-controls"><select aria-label="Animation">' +
       Object.keys(profile.clips)
@@ -227,7 +227,7 @@
             "</option>",
         )
         .join("") +
-      '</select><select aria-label="Vitesse"><option value="0.25">×0,25</option><option value="0.5">×0,5</option><option value="1" selected>×1</option></select><button type="button" data-review-pause>Jouer</button><button type="button" data-review-replay>Rejouer</button></div><p class="review-note">Planche et poses nouvelles. Riposte et seconde frappe reprennent l’attaque ; critique : effet commun conservé.</p>';
+      '</select><select aria-label="Vitesse"><option value="0.25">×0,25</option><option value="0.5">×0,5</option><option value="1" selected>×1</option></select><button type="button" data-review-pause>Jouer</button><button type="button" data-review-replay>Rejouer</button></div><p class="review-note">Validation des apparences uniquement. Les animations de combat restent à revoir.</p>';
     preview.querySelector(".old-reference").append(oldImage);
     Object.assign(oldImage.style, {
       width: "100%",
@@ -253,7 +253,7 @@
       attack.href = new URL("reprises/" + profile.attackSheet, location.href);
       attack.target = "_blank";
       attack.rel = "noopener";
-      attack.textContent = "Attaque corrigée · 8 poses";
+      attack.textContent = "Animation à revoir · 8 poses";
       preview.querySelector(".review-controls").append(attack);
       link.textContent = "Autres gestes du modèle";
     }
@@ -349,7 +349,7 @@
   notice.className = "notice";
   notice.textContent =
     profiles.length +
-    " nouvelles variantes sont comparables ci-dessous avec leurs animations. Les classes déjà jugées élancées sont conservées comme références. Les anciennes ressources restent actives en campagne pendant cette comparaison.";
+    " apparences à comparer. Pour cette étape, seuls les skins sont à valider ; les animations de combat restent à revoir. Les anciennes ressources restent actives en campagne pendant cette comparaison.";
   document.querySelector("nav.filters").before(notice);
   function tick(time) {
     requestAnimationFrame(tick);

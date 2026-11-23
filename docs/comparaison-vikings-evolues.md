@@ -41,3 +41,11 @@ Les poses corrigées sont dans `reprises/corrections/`, avec provenance dans `do
 Reconstruction : `python scripts/register-advanced-review.py`, puis `node scripts/export-review-staff-effect.mjs` après une modification de l’effet partagé. Les PNG originaux ne sont pas réécrits. Le script de captures avant correction est volontairement limité au manifeste précédent afin de ne pas écraser les références.
 
 Vérifications : 229 tests automatisés réussis ; quatre parcours du lecteur (390/1280 pixels, toutes les séquences, double impact et origine du bâton), ainsi que les deux parcours de comparaison précédents. Aucune écriture en sauvegarde pendant les essais. Compilation et contrôle du prototype réussis. La validation artistique finale reste à faire par le joueur.
+
+## Validation des apparences uniquement
+
+À la demande du joueur, la validation des animations est reportée : des défauts d’attaque restent signalés et les séquences ne sont pas considérées comme approuvées. La page le précise, présente d’abord la garde statique et conserve les commandes d’animation pour une reprise ultérieure.
+
+La hache portée à la ceinture de la Traqueuse à l’arc est corrigée, avec un manche continu, une seule lame et sans main supplémentaire. Les quatre variantes de Guérisseur perdent leur cape ; la petite capuche et le col restent, la tunique devient visible. Leur équipement médical est réduit à une sacoche, un petit rouleau et un bandage discret. Les poses et le système de combat ne sont pas retravaillés dans cette étape. Les cinq vues avant correction sont conservées pour comparaison.
+
+Contrôles de cette correction : 229 tests automatisés, quatre essais navigateur du lecteur et compilation/contrôle du prototype réussis. Vue agrandie de la Guérisseuse contrôlée à 390 pixels. Ces contrôles vérifient le chargement, les marges et le fonctionnement de la page ; ils ne valent pas validation artistique des attaques.
