@@ -112,7 +112,8 @@ if patchfile.exists():
                 if patch.get('guardFromSheet'):
                     p.pop('guardImage',None)
                     p['guardFromSheet']=True
-                    p['roleMarker']='Peau d’ours brune sur les épaules et dans le dos, en remplacement de la cape.'
+                    p['roleMarker']='Cape en peau d’ours avec tête d’ours portée en capuche, visage humain visible.'
+                    if (OUT/'avant'/f'{target}-guard.png').exists():p['beforeImage']=f'avant/{target}-guard.png'
 
 (OUT/'manifest.json').write_text(json.dumps(dict(profiles=list(profiles.values())),ensure_ascii=False,separators=(',',':'))+'\n')
 print(json.dumps([dict(id=p['id'],frames=len(p['frames']),kind=p['kind']) for p in profiles.values()],ensure_ascii=False))

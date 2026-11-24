@@ -48,14 +48,14 @@
   {
     "id": "hamrammr-healing_focus-male",
     "kind": "cast",
-    "source": "/workspace/generated_images/exec-890901cd-3ec7-4e96-8551-1f4717ca8cc7.png",
+    "source": "/workspace/generated_images/exec-e1df72bf-b07a-4134-9095-4b54e1727f09.png",
     "aliases": [],
     "guardFromSheet": true
   },
   {
     "id": "hamrammr-healing_focus-female",
     "kind": "cast",
-    "source": "/workspace/generated_images/exec-1e1c7cc9-480b-4bb4-8dc7-91098ae89a3c.png",
+    "source": "/workspace/generated_images/exec-bf3a63d0-4f68-4429-918e-c47e08fe17e7.png",
     "aliases": [],
     "guardFromSheet": true
   }

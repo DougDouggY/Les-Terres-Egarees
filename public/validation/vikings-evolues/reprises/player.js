@@ -1,7 +1,7 @@
 /* Review only: generated figures are never installed as live campaign profiles. */
 (async () => {
   const revision =
-    new URLSearchParams(location.search).get("v") ?? "hamrammr-pelt-1";
+    new URLSearchParams(location.search).get("v") ?? "hamrammr-bearhood-1";
   const assetURL = (path) => {
     const url = new URL(path, location.href);
     url.searchParams.set("v", revision);
