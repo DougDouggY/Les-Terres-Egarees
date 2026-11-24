@@ -11,3 +11,10 @@ Filtres par classe/sexe, garde, pose d’impact ou de soin, miniature de carte e
 Régénération : démarrer Vite au port 5173, puis `node scripts/compare-viking-advanced.mjs --faction=knight`. Sans cet argument, le script conserve son comportement de comparaison des Vikings. Le manifeste trace les classes, équipements, états et sources effectivement utilisés.
 
 Contrôles : 229 tests automatisés et huit essais navigateur réussis (comparaisons Vikings/Chevaliers à 390 et 1280 pixels, lecteur des nouvelles apparences). Les 105 captures ont une silhouette non vide et sans contact avec les bords. Compilation et contrôle du prototype réussis. Aucune modification des sauvegardes pendant les comparaisons.
+
+## Animations à reprendre après validation des skins
+
+- Garde royal, Lancier monté et Porte-étendard H/F : remplacer le coup de lance par un estoc réaliste, selon le modèle retenu pour les Lanciers de base.
+- Duelliste H/F : garder les deux épées visibles et leurs positions cohérentes pendant les frappes.
+
+Ces corrections sont consignées, sans modification des animations à cette étape.

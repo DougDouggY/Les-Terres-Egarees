@@ -96,7 +96,14 @@ test("bâton : départ à son extrémité, trajet vers la cible et absence d’e
   for (const p of profiles.filter((p: any) => p.kind === "cast-only")) {
     const healing = p.id.includes("healing_focus");
     assert.equal(p.effect, healing ? "heal" : "lightning");
-    assert.ok(p.guardImage);
+    if (p.id.startsWith("hamrammr-")) {
+      assert.equal(p.guardFromSheet, true);
+      assert.equal(
+        p.guardImage,
+        undefined,
+        "la garde montre le nouveau skin, pas l’ancienne cape",
+      );
+    } else assert.ok(p.guardImage);
     assert.ok(p.clips[healing ? "heal" : "cast"]);
   }
 });

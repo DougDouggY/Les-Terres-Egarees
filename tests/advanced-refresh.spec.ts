@@ -122,3 +122,42 @@ test("double coup continu et bâton dirigé vers la cible", async ({ page }) => 
   expect(Number(await c.getAttribute("data-staff-origin-y"))).toBeLessThan(285);
   await page.screenshot({ path: "/tmp/advanced-staff-review.png" });
 });
+
+test("Hamrammr : nouvelle garde en peau d’ours et ressources de la version demandée", async ({
+  page,
+}) => {
+  const images: string[] = [];
+  page.on("request", (r) => {
+    if (
+      r.url().includes("hamrammr-healing_focus-") &&
+      r.url().includes("-cast.png")
+    )
+      images.push(r.url());
+  });
+  await page.goto(
+    "/validation/vikings-evolues/index.html?v=skin-pelt-check#hamrammr",
+  );
+  await page.locator("#class-filter").selectOption("hamrammr");
+  const manifest = await (
+    await page.request.get("/validation/vikings-evolues/reprises/manifest.json")
+  ).json();
+  for (const gender of ["male", "female"]) {
+    const id = "hamrammr-healing_focus-" + gender,
+      p = manifest.profiles.find((p: any) => p.id === id);
+    expect(p.guardFromSheet).toBe(true);
+    expect(p.guardImage).toBeUndefined();
+    const card = page.locator(`[data-variant="${id}"] .new-review`);
+    await card.scrollIntoViewIfNeeded();
+    await expect(card.locator("canvas")).toHaveAttribute(
+      "data-animation",
+      "guard",
+    );
+    await expect(card.locator("canvas")).toHaveAttribute("data-ready", "true");
+  }
+  expect(images.length).toBeGreaterThanOrEqual(2);
+  expect(
+    images.every(
+      (url) => new URL(url).searchParams.get("v") === "skin-pelt-check",
+    ),
+  ).toBe(true);
+});

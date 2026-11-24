@@ -1,8 +1,15 @@
 /* Review only: generated figures are never installed as live campaign profiles. */
 (async () => {
-  const response = await fetch(
-    new URL("reprises/manifest.json", location.href),
-  );
+  const revision =
+    new URLSearchParams(location.search).get("v") ?? "hamrammr-pelt-1";
+  const assetURL = (path) => {
+    const url = new URL(path, location.href);
+    url.searchParams.set("v", revision);
+    return url;
+  };
+  const response = await fetch(assetURL("reprises/manifest.json"), {
+    cache: "no-cache",
+  });
   if (!response.ok) return;
   const { profiles } = await response.json();
   const { sampleReview } = await import(
@@ -56,7 +63,7 @@
       return item;
     }
     const img = new Image();
-    img.src = new URL(root + source, location.href);
+    img.src = assetURL(root + source);
     item = img.decode().then(() => img);
     images.set(key, item);
     while (images.size > 3) images.delete(images.keys().next().value);
@@ -208,7 +215,7 @@
       oldImage = old.querySelector("img").cloneNode(true);
     oldImage.loading = "lazy";
     if (profile.beforeImage)
-      oldImage.src = new URL("reprises/" + profile.beforeImage, location.href);
+      oldImage.src = assetURL("reprises/" + profile.beforeImage);
     const preview = document.createElement("section");
     preview.className = "new-review";
     preview.innerHTML =

@@ -109,6 +109,10 @@ if patchfile.exists():
                 p['timings'][action]=[150,160,150,160,100,180,160,160];p['impacts'][action]=[4]
                 p['castSheet']=filename;p['effect']='heal' if healing else 'lightning'
                 p['roleMarker']='Bâton tendu vers la cible ; magie émise depuis son extrémité.'
+                if patch.get('guardFromSheet'):
+                    p.pop('guardImage',None)
+                    p['guardFromSheet']=True
+                    p['roleMarker']='Peau d’ours brune sur les épaules et dans le dos, en remplacement de la cape.'
 
 (OUT/'manifest.json').write_text(json.dumps(dict(profiles=list(profiles.values())),ensure_ascii=False,separators=(',',':'))+'\n')
 print(json.dumps([dict(id=p['id'],frames=len(p['frames']),kind=p['kind']) for p in profiles.values()],ensure_ascii=False))

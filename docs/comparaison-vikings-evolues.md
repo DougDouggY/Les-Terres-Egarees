@@ -53,3 +53,11 @@ Contrôles de cette correction : 229 tests automatisés, quatre essais navigateu
 ## Guérisseurs sans fourrure
 
 Les quatre variantes de Guérisseur sont désormais sans fourrure et sans cape. Une sacoche médicale brune en bandoulière, avec un petit rouleau de bandage visible à l’ouverture, remplace le col de fourrure comme signe distinctif. Les bandages restent discrets. Les références avant cette correction sont conservées ; seules les apparences sont soumises à examen, les attaques restent à revoir.
+
+## Hamrammr : peau d’ours et corrections reportées
+
+La cape textile des Hamrammr humains H/F est remplacée par une peau d’ours brune portée sur les épaules et dans le dos. Les identités, le bâton, la tenue de dessous et les poses sont conservés. La garde de comparaison utilise désormais la nouvelle planche, afin que la peau soit visible dès l’ouverture de la fiche. La forme ours reste inchangée. L’installation globale des nouveaux skins en campagne attend leur validation visuelle.
+
+Corrections de combat notées pour une étape ultérieure : Garde royal, Lancier monté et Porte-étendard H/F, revoir le coup de lance pour un estoc réaliste ; Duelliste H/F, maintenir la visibilité et la cohérence des deux épées pendant chaque frappe. Aucun remaniement de ces animations n’est effectué ici.
+
+Contrôles Hamrammr : 229 tests automatisés et cinq essais du lecteur réussis. La garde H/F emploie la nouvelle peau d’ours, les ressources suivent la version demandée dans le lien pour éviter un ancien aperçu en cache, et la vue agrandie féminine a été contrôlée à 390 pixels. Compilation et contrôle du prototype réussis.
