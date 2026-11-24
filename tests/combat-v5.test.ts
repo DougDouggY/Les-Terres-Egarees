@@ -80,8 +80,8 @@ test("V5 initiative : niveau et arrivée ne reclassent pas les unités restantes
   const tied = s.units.map((u) => ({ ...u, initiative: 6 }));
   assert.deepEqual(initiativeOrder(tied), tied.map((u) => u.id).sort());
 });
-test("V5 blessures : les 91 profils utilisent un dessin distinct de leur garde, pas une translation", () => {
-  assert.equal(catalog.length, 91);
+test("V5 blessures : les 93 profils utilisent un dessin distinct de leur garde, pas une translation", () => {
+  assert.equal(catalog.length, 93);
   const cell = (c: any, i: number) =>
     [
       c.source,
@@ -185,8 +185,8 @@ test("V5 animations approuvées : ours, Berserker et Brise-fer inchangés", () =
     const n = replacements.get(profileKey(p))!;
     for (const name of ["move", "attack", "attack_again", "attack_offhand"])
       assert.deepEqual(
-        n.clips[name],
-        p.clips[name],
+        resolveClip(n, name),
+        resolveClip(buildCombatSkin(p, p)!.profile, name),
         profileKey(p) + ":" + name,
       );
   }

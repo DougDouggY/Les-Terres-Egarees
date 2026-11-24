@@ -404,9 +404,10 @@ function showPrologueTitle(s: Campaign) {
   busy = true;
   const view = E.sessionView(),
     owners = view.mode === "coop" ? [view.owner] : [1, 2];
+  const second = s.chapter1?.pending?.id === "c2-title";
   const forest = s.chapter1?.pending?.id === "c1-title",
     titleId = s.chapter1!.pending!.id;
-  app.innerHTML = `<main class="prologue-title" aria-label="${forest ? "Chapitre 1 — Pour ne pas oublier" : "Prologue — Les Terres Égarées"}"><div class="prologue-storm"></div><div class="prologue-mist mist-one"></div><div class="prologue-mist mist-two"></div><div class="prologue-perspectives">${owners.map((owner) => `<span>Joueur ${owner} · ${s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</span>`).join("")}</div><section><span>${forest ? "CHAPITRE 1" : "PROLOGUE"}</span><h1>${forest ? "Pour ne pas oublier" : "Les Terres Égarées"}</h1><i></i></section></main>`;
+  app.innerHTML = `<main class="prologue-title" aria-label="${second ? "Chapitre II — Un ennemi commun" : forest ? "Chapitre 1 — Pour ne pas oublier" : "Prologue — Les Terres Égarées"}"><div class="prologue-storm"></div><div class="prologue-mist mist-one"></div><div class="prologue-mist mist-two"></div><div class="prologue-perspectives">${owners.map((owner) => `<span>Joueur ${owner} · ${s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</span>`).join("")}</div><section><span>${second ? "CHAPITRE II" : forest ? "CHAPITRE 1" : "PROLOGUE"}</span><h1>${second ? "Un ennemi commun" : forest ? "Pour ne pas oublier" : "Les Terres Égarées"}</h1><i></i></section></main>`;
 
   const token = ++prologueToken;
   setTimeout(() => {
@@ -444,7 +445,7 @@ function chapterCinematic() {
     battleUI();
     return;
   }
-  if (["prologue", "c1-title"].includes(s.chapter1.pending.id)) {
+  if (["prologue", "c1-title", "c2-title"].includes(s.chapter1.pending.id)) {
     if (s.developmentTest && s.chapter1.pending.id === "c1-title")
       chapterTestStart = E.encode(structuredClone(s));
     showPrologueTitle(s);
@@ -2384,7 +2385,7 @@ function summary() {
   screen = "summary";
   const s = state!;
   s.phase = "summary";
-  app.innerHTML = `<main class="summary-screen"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>PROTOTYPE · BILAN TACTIQUE</small></span></header><section><h1>${s.forestChapter?.stage === "complete" ? "Chapitre 1 — Pour ne pas oublier" : s.chapter1?.complete ? "Prologue — Les Terres Égarées" : "Fin du test tactique"}</h1><p>${s.forestChapter?.stage === "complete" ? "Les recherches de la sorcière sont à l’abri. Les survivants ont récupéré leurs PV et se préparent à rencontrer les Écorcheurs. À suivre au chapitre 2." : s.chapter1?.complete ? "Les expéditions suivent la sorcière vers un autre lieu. Leur alliance reste fragile ; leur objectif est commun : comprendre les tempêtes rouges et trouver le chemin du retour. La route vers sa cachette forestière est ouverte." : "Les unités et leur progression sont conservées. Enregistrez ce bilan ou retournez au menu."}</p><div class="summary-units">${s.units
+  app.innerHTML = `<main class="summary-screen"><header class="brand">${mark}<span>LES TERRES ÉGARÉES<small>PROTOTYPE · BILAN TACTIQUE</small></span></header><section><h1>${s.chapter2 ? "Chapitre II — Un ennemi commun" : s.forestChapter?.stage === "complete" ? "Chapitre 1 — Pour ne pas oublier" : s.chapter1?.complete ? "Prologue — Les Terres Égarées" : "Fin du test tactique"}</h1><p>${s.chapter2 ? "Le groupe a quitté la grotte avec ses alliés Écorcheurs. Ensemble, ils prennent la route du camp du Royaume. À suivre. Votre progression est conservée." : s.forestChapter?.stage === "complete" ? "Les recherches de la sorcière sont à l’abri. Les survivants ont récupéré leurs PV et se préparent à rencontrer les Écorcheurs. À suivre au chapitre 2." : s.chapter1?.complete ? "Les expéditions suivent la sorcière vers un autre lieu. Leur alliance reste fragile ; leur objectif est commun : comprendre les tempêtes rouges et trouver le chemin du retour. La route vers sa cachette forestière est ouverte." : "Les unités et leur progression sont conservées. Enregistrez ce bilan ou retournez au menu."}</p><div class="summary-units">${s.units
     .filter((u) => u.owner !== 0 && !u.summonedBy)
     .map(
       (u) =>
@@ -2392,7 +2393,7 @@ function summary() {
     )
     .join(
       "",
-    )}</div>${s.chapter1?.complete && !s.forestChapter ? button("Poursuivre · Chapitre 1", "continue-chapter-one", "primary") : ""}${s.developmentTest ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${button("Sauvegarder", "save", "primary")}${button("Menu principal", "title")}</section></main>`;
+    )}</div>${s.forestChapter?.stage === "complete" && !s.chapter2 ? button("Poursuivre · Chapitre II", "continue-chapter-two", "primary") : ""}${s.chapter1?.complete && !s.forestChapter ? button("Poursuivre · Chapitre 1", "continue-chapter-one", "primary") : ""}${s.developmentTest ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${button("Sauvegarder", "save", "primary")}${button("Menu principal", "title")}</section></main>`;
 }
 function playerKnowledge() {
   const s = state!,
@@ -2472,6 +2473,14 @@ app.addEventListener("click", async (e) => {
     cardOpen = false;
     if (state.scene) cinematic();
     else battleUI();
+    return;
+  }
+  if (action === "continue-chapter-two") {
+    if (!state || state.forestChapter?.stage !== "complete" || state.chapter2)
+      return;
+    E.beginChapterTwo(state);
+    busy = false;
+    cinematic();
     return;
   }
   if (action === "continue-chapter-one") {

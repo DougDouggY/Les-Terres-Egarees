@@ -1,3 +1,8 @@
+import { colorForOwner, teamPalette } from "../game/team-colors";
+import { CombatSceneV2 } from "./combat-v2";
+import { combatHud } from "./combat-hud";
+import { maelysAmbush } from "../game/forest-chapter";
+import { weaponName } from "../game/classes";
 import { maskDialoguePortraits } from "./portrait-mask";
 import { dialogueCast, dialoguePages } from "./dialogue-presentation";
 import { ensurePortraits } from "../game/portraits";
@@ -19,9 +24,14 @@ import {
   temporaryRuinsCells,
 } from "../game/prologue";
 import { type DialogueLine } from "../data/prologue";
-import { village } from "../game/active-map";
+import { village, map, distance } from "../game/active-map";
+import { path } from "../game/pathfinding";
 import { makeClassUnit } from "../game/units";
-import { unitSpriteProfile, warmSprites } from "../sprites/resources";
+import {
+  drawResourceFrame,
+  unitSpriteProfile,
+  warmSprites,
+} from "../sprites/resources";
 import { resolveClip } from "../sprites/catalog";
 export type ChapterMapFrame = {
   owner: 1 | 2;
@@ -55,6 +65,15 @@ const esc = (s: string) =>
   );
 /** A disposable presentation layer. It never adds units, changes PV or writes visibility. */
 export class ChapterDirector {
+  private ambush?: {
+    scene: CombatSceneV2;
+    guard: Unit;
+    witch: Unit;
+    ready: boolean;
+    start?: number;
+    sent: boolean;
+    route: { x: number; y: number }[];
+  };
   private staging?: PatrolStaging;
   private autoplaySent = false;
   private lines: DialogueLine[];
@@ -65,6 +84,7 @@ export class ChapterDirector {
   private textStarted = performance.now();
   private ready = false;
   private cueStarted: number | undefined;
+  private caveStarted?: number;
   private patrolElapsed = 0;
   private patrolLast?: number;
   private from: { x: number; y: number };
@@ -128,9 +148,51 @@ export class ChapterDirector {
     ) => void,
   ) {
     const p = s.chapter1!.pending!;
-    if (s.forestChapter?.stagingVersion) this.staging = new PatrolStaging(s);
+    if (
+      s.forestChapter?.stagingVersion &&
+      [
+        "c1-warning",
+        "c1-approach",
+        "c1-captain",
+        "c1-travelers",
+        "c1-storm",
+        "c1-deploy",
+        "c1-ambush",
+      ].includes(p.id)
+    )
+      this.staging = new PatrolStaging(s);
     this.witch.owner = chapterOwnerForFaction(s, "knight");
     this.witch.front = this.witch.owner;
+    if (p.id === "c1-ambush") {
+      const a = maelysAmbush(s);
+      const route = map
+        .filter(
+          (c) =>
+            c.walk &&
+            distance(c, a.witch) === 1 &&
+            !s.units.some(
+              (u) =>
+                u.hp > 0 && u.id !== a.guard.id && u.x === c.x && u.y === c.y,
+            ),
+        )
+        .map((c) => path(s, a.guard, c.x, c.y))
+        .filter((p): p is NonNullable<typeof p> => !!p)
+        .sort((a, b) => a.cost - b.cost)[0];
+      this.ambush = {
+        route: route?.steps.map((k) => ({ x: map[k].x, y: map[k].y })) ?? [
+          { x: a.guard.x, y: a.guard.y },
+        ],
+        scene: new CombatSceneV2([a.guard, a.witch], a.strikes, s.teamColors),
+        guard: a.guard,
+        witch: a.witch,
+        ready: false,
+        sent: false,
+      };
+      this.ambush.scene.groundedStage = true;
+      void this.ambush.scene.prepare().then(() => {
+        if (this.ambush) this.ambush.ready = true;
+      });
+    }
     this.lines = chapterLines(s, p.id);
     this.camera = this.group();
     this.from = { ...this.camera };
@@ -138,7 +200,7 @@ export class ChapterDirector {
     this.refresh();
     window.addEventListener("keydown", this.key, true);
     void warmSprites(
-      [...s.units, this.witch, this.monster],
+      [...s.units, ...(s.chapter2?.visitors ?? []), this.witch, this.monster],
       s.teamColors,
       s.forestChapter ? ["idle", "move"] : ["idle", "move", "attack"],
     ).then(() => {
@@ -172,6 +234,10 @@ export class ChapterDirector {
   refresh() {
     const p = this.s.chapter1!.pending!;
     this.lines = chapterLines(this.s, p.id);
+    if (p.id === "c1-ambush") {
+      this.renderAmbush();
+      return;
+    }
     const l = this.lines[p.page];
     this.autoplaySent = !!this.reader && !!p.readBy?.includes(this.reader);
     if (p.id === "c1-choice") {
@@ -190,6 +256,7 @@ export class ChapterDirector {
         ? ruinsCenter
         : this.group();
     this.cueStarted = undefined;
+    this.caveStarted = undefined;
     this.started = performance.now();
     this.patrolElapsed = 0;
     this.patrolLast = undefined;
@@ -215,7 +282,15 @@ export class ChapterDirector {
         if (!(e.target as Element).closest("button")) this.next();
       });
     maskDialoguePortraits(this.root);
-    this.root.classList.toggle("cave-scene", p.id === "c1-cave");
+    this.root.classList.toggle(
+      "cave-scene",
+      ["c1-cave", "c2-cave", "c2-visitors", "c2-depart"].includes(p.id),
+    );
+    if (p.id.startsWith("c2-") && p.id !== "c2-title")
+      this.root.insertAdjacentHTML(
+        "afterbegin",
+        '<canvas class="cave-actors" width="1280" height="720" aria-label="Le groupe dans la grotte"></canvas>',
+      );
     this.root.querySelector<HTMLElement>(".chapter-dialogue")!.hidden = [
       "c1-deploy",
       "c1-approach",
@@ -257,7 +332,7 @@ export class ChapterDirector {
     const shownRevision = this.s.forestChapter!.voteRevision ?? 0,
       shownChoice = votes[1];
     this.root.classList.remove("cave-scene");
-    this.root.innerHTML = `<section class="patrol-choice" role="dialog" aria-modal="true" aria-label="Choix commun face à Valdren"><h2>Que répondez-vous ?</h2><p class="patrol-hint">Mettez-vous d’accord.</p><div class="patrol-voters">${owners.map((owner) => `<section aria-label="Choix du joueur ${owner}"><h3>Joueur ${owner} · ${this.s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</h3>${(["travelers", "storm"] as const).map((choice) => `<button data-patrol-owner="${owner}" data-patrol-choice="${choice}" aria-pressed="${votes[owner] === choice}" ${controlsOwner(owner) ? "" : "disabled"}>${choice === "travelers" ? "Nous sommes des voyageurs." : "Nous sommes arrivés par une tempête rouge."}</button>`).join("")}</section>`).join("")}</div><p class="patrol-status ${disagree ? "disagree" : ""}" role="status">${disagree ? "Vous n’êtes pas d’accord. Chacun peut modifier son choix." : agreed ? (confirmed ? "En attente de la confirmation de l’autre joueur…" : "Accord trouvé. Cliquez sur Valider.") : Object.keys(votes).length ? "En attente du choix de l’autre joueur…" : "Choisissez votre réponse."}</p><button class="primary patrol-confirm" data-patrol-confirm ${!agreed || confirmed ? "disabled" : ""}>Valider</button></section>`;
+    this.root.innerHTML = `<section class="patrol-choice" role="dialog" aria-modal="true" aria-label="Choix commun face à Valdren"><h2>Que répondez-vous ?</h2><p class="patrol-hint">Mettez-vous d’accord.</p><div class="patrol-voters">${owners.map((owner) => `<section aria-label="Choix du joueur ${owner}"><h3>Joueur ${owner} · ${this.s.factions[owner - 1] === "north" ? "Vikings" : "Chevaliers"}</h3>${(["travelers", "storm"] as const).map((choice) => `<button data-patrol-owner="${owner}" data-patrol-choice="${choice}" aria-pressed="${votes[owner] === choice}" ${controlsOwner(owner) ? "" : "disabled"}>${choice === "travelers" ? "Nous sommes de simples vagabonds." : "Nous sommes arrivés par une tempête rouge."}</button>`).join("")}</section>`).join("")}</div><p class="patrol-status ${disagree ? "disagree" : ""}" role="status">${disagree ? "Vous n’êtes pas d’accord. Chacun peut modifier son choix." : agreed ? (confirmed ? "En attente de la confirmation de l’autre joueur…" : "Accord trouvé. Cliquez sur Valider.") : Object.keys(votes).length ? "En attente du choix de l’autre joueur…" : "Choisissez votre réponse."}</p><button class="primary patrol-confirm" data-patrol-confirm ${!agreed || confirmed ? "disabled" : ""}>Valider</button></section>`;
     this.root
       .querySelectorAll<HTMLButtonElement>("[data-patrol-choice]")
       .forEach((b) =>
@@ -283,7 +358,8 @@ export class ChapterDirector {
     this.syncSplit();
   }
   private next() {
-    if (this.s.chapter1!.pending!.id === "c1-choice") return;
+    if (["c1-choice", "c1-ambush"].includes(this.s.chapter1!.pending!.id))
+      return;
     const l = this.lines[this.s.chapter1!.pending!.page];
     if (this.reader && this.s.chapter1!.pending!.readBy?.includes(this.reader))
       return;
@@ -315,6 +391,7 @@ export class ChapterDirector {
   }
   private lock(l: DialogueLine) {
     const p = this.s.chapter1?.pending;
+    if (p?.id === "c2-depart") return 2300;
     if (p?.id === "c1-deploy")
       return patrolDuration(this.s, "deployment") + 2800;
     if (p?.id === "c1-approach") return patrolDuration(this.s, "approach");
@@ -336,6 +413,10 @@ export class ChapterDirector {
   tick(time: number) {
     const pending = this.s.chapter1?.pending;
     if (!pending) return;
+    if (pending.id === "c1-ambush") {
+      this.tickAmbush(time);
+      return;
+    }
     if (pending.id === "c1-choice") {
       this.syncSplit();
       this.root.dataset.ready = String(this.ready);
@@ -416,7 +497,10 @@ export class ChapterDirector {
       owner: pending.owner,
       center: this.camera,
       reveal: [],
-      hideUnits: !this.ready || this.staged() || pending.id === "c1-cave",
+      hideUnits:
+        !this.ready ||
+        this.staged() ||
+        ["c1-cave", "c2-cave", "c2-visitors", "c2-depart"].includes(pending.id),
       actors: [],
       glow: this.staged() || pending.id.startsWith("ruins"),
       zoom:
@@ -630,6 +714,141 @@ export class ChapterDirector {
     }
     if (!this.ready) frame.actors = [];
     this.draw(time, frame);
+    this.caveActors(time);
+  }
+  private renderAmbush() {
+    const a = this.ambush!;
+    this.root.classList.remove("cave-scene");
+    this.root.innerHTML = `<section class="story-ambush-duel combat-screen" hidden data-scripted-combat="maelys"><div class="duel-stage game-duel" style="--battle-art:url('${import.meta.env.BASE_URL}assets/battle-2.png')"><div class="combat-hud">${combatHud([a.guard, a.witch].map((u) => ({ id: u.id, name: u.name, weapon: weaponName(u), hp: u.hp, maxHp: u.maxHp, hit: null, damage: null, crit: null, color: teamPalette[colorForOwner(this.s.teamColors, u.owner)].rgb })) as unknown as Parameters<typeof combatHud>[0])}</div><canvas id="combat" width="960" height="600" aria-label="Le garde attaque Maëlys"></canvas><div class="scripted-result" aria-live="polite"></div></div></section>`;
+  }
+  private tickAmbush(time: number) {
+    const a = this.ambush!;
+    if (a.ready && this.ready) a.start ??= time;
+    const elapsed = a.start === undefined ? 0 : time - a.start;
+    const actors =
+      this.staging?.actors("approach", Infinity) ??
+      this.s.units
+        .filter((u) => u.hp > 0)
+        .map((unit) => ({
+          unit,
+          x: unit.x,
+          y: unit.y,
+          animation: "idle",
+          frame: 0,
+        }));
+    const actor = actors.find((t) => t.unit.id === a.guard.id);
+    if (actor) {
+      const t = ease(elapsed / 800),
+        progress = t * (a.route.length - 1),
+        at = Math.floor(progress),
+        from = a.route[at],
+        to = a.route[Math.min(a.route.length - 1, at + 1)];
+      actor.x = from.x + (to.x - from.x) * (progress - at);
+      actor.y = from.y + (to.y - from.y) * (progress - at);
+      actor.animation = t < 1 && a.route.length > 1 ? "move" : "idle";
+      actor.frame = Math.floor(elapsed / 120);
+    }
+    this.draw(time, {
+      owner: this.s.chapter1!.pending!.owner,
+      center: { x: a.witch.x + 0.5, y: a.witch.y + 0.5 },
+      reveal: [],
+      hideUnits: true,
+      actors,
+      glow: false,
+    });
+    this.root.dataset.ready = String(a.ready && this.ready);
+    const box = this.root.querySelector<HTMLElement>(".story-ambush-duel")!;
+    box.hidden = elapsed < 850;
+    if (box.hidden) return;
+    const canvas = box.querySelector("canvas")!;
+    const bounds = canvas.getBoundingClientRect();
+    const width = Math.max(
+      960,
+      Math.round((600 * bounds.width) / Math.max(1, bounds.height)),
+    );
+    if (canvas.width !== width) canvas.width = width;
+    a.scene.presentationWidth = width;
+    const ctx = canvas.getContext("2d")!;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    a.scene.draw(
+      ctx,
+      elapsed - 850,
+      (i) => {
+        const hit = a.scene.strikes[i];
+        const unit = hit.defender === a.guard.id ? a.guard : a.witch;
+        const value = box.querySelector<HTMLElement>(
+          `#value-${CSS.escape(unit.id)}`,
+        );
+        const bar = box.querySelector<HTMLElement>(
+          `#hp-${CSS.escape(unit.id)}`,
+        );
+        if (value) value.textContent = `${hit.hpAfter} / ${unit.maxHp} PV`;
+        if (bar) bar.style.width = `${(100 * hit.hpAfter) / unit.maxHp}%`;
+
+        box.querySelector(".scripted-result")!.textContent = hit.critical
+          ? "CRITIQUE"
+          : hit.hit
+            ? ""
+            : "ESQUIVE";
+      },
+      () => {
+        if (a.sent) return;
+        a.sent = true;
+        this.advance();
+      },
+    );
+  }
+  private caveActors(time: number) {
+    const canvas = this.root.querySelector<HTMLCanvasElement>(".cave-actors");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d")!;
+    ctx.clearRect(0, 0, 1280, 720);
+    const allies = this.s.units.filter(
+      (u) => u.owner !== 0 && u.hp > 0 && !u.summonedBy,
+    );
+    if (!this.ready) return;
+    this.caveStarted ??= time;
+    const guests = this.s.chapter2?.visitors ?? [];
+    const pending = this.s.chapter1?.pending;
+    const departure =
+      pending?.id === "c2-depart"
+        ? ease((time - (this.cueStarted ?? this.caveStarted)) / 2200)
+        : 0;
+    canvas.dataset.visitors = String(guests.length);
+    canvas.dataset.departure = String(departure);
+    for (const [i, u] of [...allies, ...guests].entries()) {
+      const guest = i >= allies.length,
+        j = guest ? i - allies.length : i;
+      const arrival =
+        pending?.id === "c2-visitors" && pending.page === 0
+          ? ease((time - this.caveStarted) / 1500)
+          : 1;
+      const x =
+          (guest ? 940 + (1 - arrival) * 400 : 160 + j * 95) + departure * 1800,
+        y = guest ? 320 + j * 60 : 350 + (j % 2) * 70;
+      const moving = (guest && arrival < 1) || (departure > 0 && departure < 1);
+      const flip = guest && departure === 0;
+      ctx.save();
+      if (flip) {
+        ctx.translate(x + 90, y);
+        ctx.scale(-1, 1);
+      } else ctx.translate(x, y);
+      drawResourceFrame(
+        ctx,
+        unitSpriteProfile(u),
+        moving ? "move" : "idle",
+        moving ? Math.floor(time / 140) : 0,
+        0,
+        0,
+        90,
+        120,
+        true,
+        colorForOwner(this.s.teamColors, u.owner),
+        "world",
+        { idleTime: time },
+      );
+      ctx.restore();
+    }
   }
   dispose() {
     window.removeEventListener("keydown", this.key, true);

@@ -1,3 +1,4 @@
+import official from "../assets/tactical/official-advanced-layouts.json";
 import layouts from "../assets/tactical/atlas-layout.json";
 import { resolveClip, type SpriteProfile, type Clip } from "./catalog";
 type Frame = {
@@ -19,7 +20,7 @@ type Layout = {
   rows: number;
   frames: Frame[];
 };
-const data = layouts as Record<string, Layout>;
+const data = { ...layouts, ...official.layouts } as Record<string, Layout>;
 export function resourceRect(c: Clip, index: number) {
   const i =
     c.loop === false

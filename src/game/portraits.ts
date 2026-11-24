@@ -63,7 +63,7 @@ export function ensurePortraits(s: Campaign) {
       throw Error("Portrait réservé à un personnage du scénario");
   }
   // Heroes are allocated before companions, even in legacy saves.
-  for (const u of [...s.units].sort(
+  for (const u of [...s.units, ...(s.chapter2?.visitors ?? [])].sort(
     (a, b) => Number(b.leader) - Number(a.leader),
   )) {
     const identity = u.portraitIdentity ?? u.id;

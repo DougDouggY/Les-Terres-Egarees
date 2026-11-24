@@ -24,6 +24,7 @@ export function rewardVisible(
 export function sharedChapterScene(id: string) {
   return (
     id.startsWith("c1-") ||
+    id.startsWith("c2-") ||
     id === "prologue" ||
     id === "meeting" ||
     id === "alliance"

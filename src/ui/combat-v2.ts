@@ -1,3 +1,4 @@
+import official from "../assets/tactical/official-advanced-layouts.json";
 import { contactPositions } from "./contact-trial-model";
 import { drawParryImpact, parryImpactDuration } from "./parry-impact";
 import {
@@ -53,7 +54,10 @@ type Anchor = {
   bodyHeight: number;
   maskRuns?: number[][];
 };
-const annotations = anchors as Record<string, Record<string, Anchor>>;
+const annotations = { ...anchors, ...official.anchors } as Record<
+  string,
+  Record<string, Anchor>
+>;
 export type CombatActor = {
   unit: Unit;
   skin?: CombatSkin;

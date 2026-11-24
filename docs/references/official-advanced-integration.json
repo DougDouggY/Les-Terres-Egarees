@@ -1,0 +1,172 @@
+{
+  "variants": [
+    {
+      "id": "berserker-twin_axes-male",
+      "source": "tactical/combat-v4-official-advanced-berserker-twin_axes-male.png",
+      "sourceSheet": "berserker-twin_axes-male.png",
+      "oldMap": "tactical/complete-lot1-dual.png",
+      "oldCombat": "tactical/combat-v3-heavy.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "berserker-twin_axes-female",
+      "source": "tactical/combat-v4-official-advanced-berserker-twin_axes-female.png",
+      "sourceSheet": "berserker-twin_axes-female.png",
+      "oldMap": "tactical/combat-v4-warriors.png",
+      "oldCombat": "tactical/combat-v4-warriors.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "ironbreaker-great_axe-male",
+      "source": "tactical/combat-v4-official-advanced-ironbreaker-great_axe-male.png",
+      "sourceSheet": "ironbreaker-great_axe-male.png",
+      "oldMap": "tactical/complete-lot1-heavy.png",
+      "oldCombat": "tactical/combat-v3-heavy.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "ironbreaker-great_axe-female",
+      "source": "tactical/combat-v4-official-advanced-ironbreaker-great_axe-female.png",
+      "sourceSheet": "ironbreaker-great_axe-female.png",
+      "oldMap": "tactical/combat-v4-warriors.png",
+      "oldCombat": "tactical/combat-v4-warriors.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "huscarl-axe_shield-male",
+      "source": "tactical/combat-v4-official-advanced-huscarl-axe_shield-male.png",
+      "sourceSheet": "huscarl-axe_shield-male.png",
+      "oldMap": "tactical/complete-north-promotions.png",
+      "oldCombat": "tactical/combat-v2-shields-a.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "huscarl-axe_shield-female",
+      "source": "tactical/combat-v4-official-advanced-huscarl-axe_shield-female.png",
+      "sourceSheet": "huscarl-axe_shield-female.png",
+      "oldMap": "tactical/combat-v4-shields.png",
+      "oldCombat": "tactical/combat-v4-shields.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "huscarl-sword_shield-male",
+      "source": "tactical/combat-v4-official-advanced-huscarl-sword_shield-male.png",
+      "sourceSheet": "huscarl-sword_shield-male.png",
+      "oldMap": "tactical/lot4-equipment.png",
+      "oldCombat": "tactical/combat-v2-shields-b.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "huscarl-sword_shield-female",
+      "source": "tactical/combat-v4-official-advanced-huscarl-sword_shield-female.png",
+      "sourceSheet": "huscarl-sword_shield-female.png",
+      "oldMap": "tactical/combat-v4-shields.png",
+      "oldCombat": "tactical/combat-v4-shields.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "drengr-twin_swords-male",
+      "source": "tactical/combat-v4-official-advanced-drengr-twin_swords-male.png",
+      "sourceSheet": "drengr-twin_swords-male.png",
+      "oldMap": "tactical/complete-lot1-dual.png",
+      "oldCombat": "tactical/combat-v3-heavy.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "clan_healer-axe_shield-male",
+      "source": "tactical/combat-v4-official-advanced-clan_healer-axe_shield-male.png",
+      "sourceSheet": "clan_healer-axe_shield-male.png",
+      "oldMap": "tactical/complete-north-promotions.png",
+      "oldCombat": "tactical/combat-v2-shields-a.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "clan_healer-sword_shield-male",
+      "source": "tactical/combat-v4-official-advanced-clan_healer-sword_shield-male.png",
+      "sourceSheet": "clan_healer-sword_shield-male.png",
+      "oldMap": "tactical/lot4-recruits.png",
+      "oldCombat": "tactical/combat-v2-shields-b.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "clan_healer-axe_shield-female",
+      "source": "tactical/combat-v4-official-advanced-clan_healer-axe_shield-female.png",
+      "sourceSheet": "clan_healer-axe_shield-female.png",
+      "oldMap": "tactical/combat-v4-shields.png",
+      "oldCombat": "tactical/combat-v4-shields.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "clan_healer-sword_shield-female",
+      "source": "tactical/combat-v4-official-advanced-clan_healer-sword_shield-female.png",
+      "sourceSheet": "clan_healer-sword_shield-female.png",
+      "oldMap": "tactical/combat-v4-shields.png",
+      "oldCombat": "tactical/combat-v4-shields.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "honor_guard-sword_shield-male",
+      "source": "tactical/combat-v4-official-advanced-honor_guard-sword_shield-male.png",
+      "sourceSheet": "honor_guard-sword_shield-male.png",
+      "oldMap": "tactical/complete-north-promotions.png",
+      "oldCombat": "tactical/combat-v3-swordsa.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "honor_guard-sword_shield-female",
+      "source": "tactical/combat-v4-official-advanced-honor_guard-sword_shield-female.png",
+      "sourceSheet": "honor_guard-sword_shield-female.png",
+      "oldMap": "tactical/complete-north-promotions.png",
+      "oldCombat": "tactical/combat-v3-swordsa.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "tracker-bow-male",
+      "source": "tactical/combat-v4-official-advanced-tracker-bow-male.png",
+      "sourceSheet": "tracker-bow-male.png",
+      "oldMap": "tactical/lot4-hunters.png",
+      "oldCombat": "tactical/combat-v2-ranged.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "tracker-axe-male",
+      "source": "tactical/combat-v4-official-advanced-tracker-axe-male.png",
+      "sourceSheet": "tracker-axe-male.png",
+      "oldMap": "tactical/lot4-equipment.png",
+      "oldCombat": "tactical/lot4-equipment.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "tracker-bow-female",
+      "source": "tactical/combat-v4-official-advanced-tracker-bow-female.png",
+      "sourceSheet": "tracker-bow-female.png",
+      "oldMap": "tactical/combat-v4-ranged.png",
+      "oldCombat": "tactical/combat-v4-ranged.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "tracker-axe-female",
+      "source": "tactical/combat-v4-official-advanced-tracker-axe-female.png",
+      "sourceSheet": "tracker-axe-female.png",
+      "oldMap": "tactical/combat-v4-ranged.png",
+      "oldCombat": "tactical/combat-v4-ranged.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "hamrammr-healing_focus-male",
+      "source": "tactical/combat-v4-official-advanced-hamrammr-healing_focus-male.png",
+      "sourceSheet": "corrections/hamrammr-healing_focus-male-cast.png",
+      "oldMap": "tactical/complete-shaman-forms.png",
+      "oldCombat": "tactical/complete-shaman-forms.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    },
+    {
+      "id": "hamrammr-healing_focus-female",
+      "source": "tactical/combat-v4-official-advanced-hamrammr-healing_focus-female.png",
+      "sourceSheet": "corrections/hamrammr-healing_focus-female-cast.png",
+      "oldMap": "tactical/combat-v4-casters.png",
+      "oldCombat": "tactical/combat-v4-casters.png",
+      "policy": "Nouvelle garde carte/combat ; déplacements et actions précédents conservés."
+    }
+  ]
+}

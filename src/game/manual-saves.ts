@@ -72,10 +72,20 @@ export class ManualSaves {
       payload: encode(structuredClone(state)),
       chapter: state.unitReview
         ? "Essai temporaire des unités"
-        : state.forestChapter
-          ? "Chapitre 1 — Pour ne pas oublier"
-          : "Prologue — Les Terres Égarées",
-      progression: `Tour ${state.common.round} · ${state.phase} · ${state.forestChapter?.stage ?? state.chapter1?.pending?.id ?? "Carte tactique"}`,
+        : state.chapter2
+          ? "Chapitre II — Un ennemi commun"
+          : state.forestChapter
+            ? "Chapitre 1 — Pour ne pas oublier"
+            : "Prologue — Les Terres Égarées",
+      progression: state.chapter2
+        ? {
+            introduction: "Présentation du chapitre II",
+            cave: "Dans la grotte de Maëlys",
+            visitors: "Rencontre des Écorcheurs",
+            departure: "Départ de la grotte",
+            "awaiting-battle": "En route avec les Écorcheurs",
+          }[state.chapter2.stage]
+        : `Tour ${state.common.round} · ${state.phase} · ${state.forestChapter?.stage ?? state.chapter1?.pending?.id ?? "Carte tactique"}`,
     };
   }
   load(id: string) {

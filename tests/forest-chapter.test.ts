@@ -21,8 +21,7 @@ function battle(choice: E.PatrolChoice = "storm", swapped = false) {
   E.votePatrol(s, 1, choice);
   E.votePatrol(s, 2, choice);
   E.confirmPatrol(s);
-  finish(s);
-  finish(s);
+  while (s.chapter1?.pending) finish(s);
   return s;
 }
 test("Chapitre 1 : transition réelle, survivants conservés, morts non ressuscités, carte distincte sans brouillard", () => {
@@ -177,24 +176,19 @@ for (const spent of [false, true])
       back.common.queue.slice(back.common.index).includes(g.id) === !spent,
     );
   });
-test("Victoire, grotte, deux lecteurs et fin propre sans chapitre 2 ; défaite de toute une équipe", () => {
+test("Victoire et transition commune vers le chapitre II, deux lecteurs, arrêt avant le camp", () => {
   const s = battle("travelers");
   for (const u of s.units) if (u.owner === 0) u.hp = 0;
   E.checkEnd(s);
-  assert.equal(s.scene, "chapter1:c1-cave");
-  const lines = E.chapterLines(s, "c1-cave");
-  assert.ok(lines.some((l) => l.text.includes("six mois")));
-  assert.ok(!lines.some((l) => l.text.includes("sert désormais")));
+  assert.equal(s.scene, "chapter1:c1-after-travelers");
   const back = E.decode(E.encode(s));
   finish(back, 1);
+  assert.equal(back.scene, "chapter1:c2-title");
+  while (back.chapter1?.pending) finish(back, 1);
   assert.equal(back.phase, "summary");
-  assert.equal(back.forestChapter?.stage, "complete");
+  assert.equal(back.chapter2?.stage, "awaiting-battle");
+  assert.equal(back.mapId, "forest-compact");
   assert.equal(back.scene, null);
-  assert.ok(
-    back.units
-      .filter((u) => u.owner !== 0 && u.hp > 0)
-      .every((u) => u.hp === u.maxHp),
-  );
   const lost = battle();
   for (const u of lost.units) if (u.owner === 1) u.hp = 0;
   E.checkEnd(lost);

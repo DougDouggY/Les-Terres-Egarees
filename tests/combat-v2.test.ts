@@ -99,7 +99,7 @@ test("tous les skins : identité stable, repos/attaque de même atlas, aucune po
       .flatMap((f) => JSON.parse(readFileSync(dir + f, "utf8")).profiles)
       .map((p) => [profileKey(p), p]),
   );
-  assert.equal(profiles.length, 91);
+  assert.equal(profiles.length, 93);
   const old = JSON.parse(
     readFileSync(dir + "zz-v3.combat.json", "utf8"),
   ).profiles;
@@ -113,7 +113,8 @@ test("tous les skins : identité stable, repos/attaque de même atlas, aucune po
     assert.equal(skin.id, profileKey(p));
     const idle = resolveClip(skin.profile, "idle"),
       attack = resolveClip(skin.profile, "attack");
-    if (idle && attack) assert.equal(idle.source, attack.source, skin.id);
+    if (idle && attack && !skin.profile.allowMixedSources)
+      assert.equal(idle.source, attack.source, skin.id);
     for (const n of Object.keys(skin.profile.clips))
       assert.ok(resolveClip(skin.profile, n)?.source.startsWith("tactical/"));
     if (skin.profile.equipment.includes("dual"))

@@ -32,9 +32,9 @@ const replacements = new Map(
     .flatMap((f) => json(f).profiles)
     .map((p) => [profileKey(p), p]),
 );
-test("91 profils : registre sans collision, ressources et cellules accessibles, échelle unique par source", () => {
+test("93 profils : registre sans collision, ressources et cellules accessibles, échelle unique par source", () => {
   assert.deepEqual(catalog.errors, []);
-  assert.equal(catalog.profiles.length, 91);
+  assert.equal(catalog.profiles.length, 93);
   for (const p of catalog.profiles) {
     const skin = buildCombatSkin(p, replacements.get(profileKey(p)))!,
       refs = profileMetrics(skin.profile).references;

@@ -117,6 +117,7 @@ export type Campaign = {
   portraits?: import("./portraits").PortraitState;
   enemyGroups?: Record<string, import("./enemy-activation").EnemyGroup>;
   mapId?: import("./active-map").MapId;
+  chapter2?: import("./chapter2").ChapterTwoProgress;
   forestChapter?: import("./forest-chapter").ForestProgress;
   developmentTest?: "chapter-one";
   chapter1RulesVersion?: 2 | 3;

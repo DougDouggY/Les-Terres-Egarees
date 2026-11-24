@@ -8,9 +8,11 @@ export type Speaker =
   | "unknown"
   | "narrator"
   | "captain"
-  | "geraud";
+  | "geraud"
+  | "flayer";
 export type ChapterSceneId =
   | import("./forest-chapter").ForestSceneId
+  | import("./chapter2").ChapterTwoSceneId
   | "prologue"
   | "arrival-1"
   | "arrival-2"

@@ -38,3 +38,5 @@ export * from "./game/enemy-fields";
 export * from "./game/forest-chapter";
 
 export * from "./game/enemy-activation";
+
+export * from "./game/chapter2";

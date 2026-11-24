@@ -237,6 +237,7 @@ test("V12 coop : le déploiement est acquitté une seule fois par lecteur, aucun
   E.votePatrol(s, 2, "travelers");
   E.confirmPatrol(s);
   finish(s);
+  if (s.chapter1?.pending?.id === "c1-ambush") finish(s);
   const c = s.units.find((u) => u.id === "valdren-captain")!;
   const before = [c.x, c.y];
   E.advanceChapterLine(s, 1, { id: "c1-deploy", page: 0 });

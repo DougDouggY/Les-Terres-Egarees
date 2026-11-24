@@ -1,3 +1,5 @@
+import { chapterTwoLines, type ChapterTwoSceneId } from "../data/chapter2";
+import { finishChapterTwoScene } from "./chapter2";
 import { forestLines, type ForestSceneId } from "../data/forest-chapter";
 import { beginForestChapter, finishForestScene } from "./forest-chapter";
 import { globalInitiative } from "./initiative";
@@ -34,6 +36,13 @@ export type PrologueProgress = {
   complete?: boolean;
 };
 export const chapterScenes: ChapterSceneId[] = [
+  "c2-title",
+  "c2-cave",
+  "c2-visitors",
+  "c2-depart",
+  "c1-ambush",
+  "c1-after-storm",
+  "c1-after-travelers",
   "c1-approach",
   "c1-captain",
   "c1-deploy",
@@ -63,6 +72,8 @@ export function chapterOwnerForFaction(
   return (s.factions.indexOf(faction) + 1) as 1 | 2;
 }
 export function storyUnit(s: Campaign, speaker: Speaker): Unit | undefined {
+  if (speaker === "flayer")
+    return s.chapter2?.visitors.find((u) => u.id === "c2-flayer-0");
   if (speaker === "witch")
     return s.units.find((u) => u.id === "story-witch" && u.hp > 0);
   if (speaker === "captain")
@@ -80,6 +91,7 @@ export function storyUnit(s: Campaign, speaker: Speaker): Unit | undefined {
     : (group.find((u) => u.leader) ?? group[0]);
 }
 function allChapterLines(s: Campaign, id: ChapterSceneId): DialogueLine[] {
+  if (id.startsWith("c2-")) return chapterTwoLines(id as ChapterTwoSceneId);
   if (id === "c1-warning" && s.forestChapter?.stagingVersion === 3)
     return forestLines(id).slice(0, 2);
   if (id.startsWith("c1-")) return forestLines(id as ForestSceneId);
@@ -219,6 +231,7 @@ export function advanceChapterLine(
     beginForestChapter(s);
   }
   if (id.startsWith("c1-")) finishForestScene(s, id as ForestSceneId);
+  if (id.startsWith("c2-")) finishChapterTwoScene(s, id as ChapterTwoSceneId);
   return id;
 }
 export function temporaryRuinsCells() {

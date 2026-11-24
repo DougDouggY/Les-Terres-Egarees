@@ -1,3 +1,4 @@
+import { beginChapterTwo } from "./chapter2";
 import { ensurePortraits } from "./portraits";
 import { generateStatistics } from "./progression";
 import { patrolDeployment, commitPatrol } from "./patrol-staging";
@@ -22,6 +23,8 @@ import { claimRecruit, ownerForFaction } from "./recruitment";
 import { visibility } from "./vision";
 export type PatrolChoice = "travelers" | "storm";
 export type ForestProgress = {
+  ambushGuardId?: string;
+  ambushResolved?: boolean;
   stagingVersion?: 2 | 3;
   confirmedBy?: (1 | 2)[];
   voteRevision?: number;
@@ -259,7 +262,35 @@ export function finishForestScene(s: Campaign, id: ForestSceneId) {
     commitPatrol(s, "approach");
     f.stage = "choice";
     forestScene(s, "c1-choice");
-  } else if (id === "c1-travelers" || id === "c1-storm") {
+  } else if (id === "c1-travelers") {
+    const guard = s.units.find(
+      (u) => u.id === "valdren-1" && u.owner === 0 && u.hp > 0,
+    );
+    const witch = s.units.find((u) => u.id === "story-witch" && u.hp > 0);
+    if (guard && witch) {
+      f.ambushGuardId = guard.id;
+      forestScene(s, "c1-ambush");
+    } else {
+      f.stage = "deployment";
+      forestScene(s, "c1-deploy");
+    }
+  } else if (id === "c1-ambush") {
+    const guard = s.units.find((u) => u.id === f.ambushGuardId);
+    if (guard) {
+      guard.hp = 0;
+      for (const q of [s.common, ...s.fronts]) {
+        const at = q.queue.indexOf(guard.id);
+        if (at >= 0) {
+          q.queue.splice(at, 1);
+          if (at < q.index) q.index--;
+          q.index = Math.max(0, Math.min(q.index, q.queue.length - 1));
+        }
+      }
+    }
+    f.ambushResolved = true;
+    f.stage = "deployment";
+    forestScene(s, "c1-deploy");
+  } else if (id === "c1-storm") {
     if (f.stagingVersion) {
       f.stage = "deployment";
       forestScene(s, "c1-deploy");
@@ -286,10 +317,9 @@ export function finishForestScene(s: Campaign, id: ForestSceneId) {
     f.stage = "battle";
     discoverUnit(s, g, true);
     visibility(s);
-  } else if (id === "c1-cave") {
+  } else if (["c1-cave", "c1-after-storm", "c1-after-travelers"].includes(id)) {
     f.stage = "complete";
-    s.phase = "summary";
-    for (const u of s.units) if (u.owner !== 0 && u.hp > 0) u.hp = u.maxHp;
+    beginChapterTwo(s);
   }
 }
 export function forestEncounter(s: Campaign) {
@@ -298,7 +328,10 @@ export function forestEncounter(s: Campaign) {
     return false;
   if (s.units.some((u) => u.owner === 0 && u.hp > 0)) return false;
   f.stage = "cave";
-  forestScene(s, "c1-cave");
+  forestScene(
+    s,
+    f.choice === "storm" ? "c1-after-storm" : "c1-after-travelers",
+  );
   return true;
 }
 /** Isolated test state: no persistence or normal-save writes occur in this helper. */
@@ -322,4 +355,37 @@ export function prepareChapterOneTest(s: Campaign) {
   for (const u of s.units) if (u.owner === 0) u.hp = 0;
   forestScene(s, "alliance"); // legacy prologue finale uses the shared director
   return s;
+}
+
+/** A resolved story exchange; never rolls RNG or grants combat XP. State commits after both readers finish. */
+export function maelysAmbush(s: Campaign) {
+  const guard = s.units.find((u) => u.id === s.forestChapter?.ambushGuardId);
+  const witch = s.units.find((u) => u.id === "story-witch");
+  if (!guard || !witch)
+    throw Error("Interlocuteurs de la scène de Maëlys absents");
+  return {
+    guard,
+    witch,
+    strikes: [
+      {
+        attacker: guard.id,
+        defender: witch.id,
+        damage: 0,
+        hpAfter: witch.hp,
+        hit: false,
+        blocked: false,
+        critical: false,
+      },
+      {
+        attacker: witch.id,
+        defender: guard.id,
+        damage: guard.hp,
+        hpAfter: 0,
+        hit: true,
+        blocked: false,
+        critical: true,
+        counter: true,
+      },
+    ],
+  };
 }

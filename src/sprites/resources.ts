@@ -1,8 +1,11 @@
+import official from "../assets/tactical/official-advanced-layouts.json";
+const atlasLayouts = { ...baseAtlasLayouts, ...official.layouts };
+const combatAnchors = { ...baseCombatAnchors, ...official.anchors };
 import { steelWeaponSource } from "./weapon-material";
 import { resourceScale } from "./geometry";
 import { groundedIdle, idleBreath } from "./idle-motion";
-import atlasLayouts from "../assets/tactical/atlas-layout.json";
-import combatAnchors from "../assets/tactical/combat-anchors.json";
+import baseAtlasLayouts from "../assets/tactical/atlas-layout.json";
+import baseCombatAnchors from "../assets/tactical/combat-anchors.json";
 import { visualClasses } from "./visual-classes";
 import { recoloredImage, recolorSettings } from "./recolor";
 import {
@@ -138,7 +141,8 @@ export function prepareSpriteSource(c: Clip, color?: TeamColor) {
         color,
         c.recolorEdges,
         c.recolor === "blue" ? 215 : undefined,
-        c.source.startsWith("tactical/combat-v4-north-refresh-") ||
+        c.source.startsWith("tactical/combat-v4-official-advanced-") ||
+          c.source.startsWith("tactical/combat-v4-north-refresh-") ||
           c.source.startsWith("tactical/combat-v4-knight-refresh-") ||
           c.source.startsWith("tactical/combat-v4-refinements-") ||
           c.source === "tactical/combat-v4-pillarde-axe-v3.png",

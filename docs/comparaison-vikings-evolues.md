@@ -1,5 +1,7 @@
 # Comparaison des Vikings évolués
 
+État courant : les 21 nouvelles gardes disponibles sont maintenant actives dans la campagne. Les actions avancées antérieures restent provisoires. Voir le [compte rendu d’intégration](mise-a-jour-chapitres-I-II.md) ; les étapes de création de la comparaison ci-dessous constituent son historique.
+
 Page publiée : `validation/vikings-evolues/index.html`. Elle est aussi accessible depuis « Essai des animations » → « Comparer les Vikings évolués ».
 
 Dix classes actuelles : Berserker, Brise-fer, Huscarl, Guérisseur du clan, Drengr, Garde d’honneur, Grand chasseur, Traqueur, Völva et Hamrammr. La page couvre trente variantes : hommes et femmes, chaque équipement de départ et les formes humaine/ours du Hamrammr. Trois Vikings de base déjà validés servent de références supplémentaires.

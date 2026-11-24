@@ -7592,3 +7592,40 @@ body:has(.aftermath-screen) .modal-back.rewards {
 .item-icon-standalone {
   background-size: 100% 100%;
 }
+
+.story-ambush-duel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: #08120c66;
+  z-index: 3;
+}
+.story-ambush-duel[hidden] {
+  display: none;
+}
+
+.scripted-result {
+  position: absolute;
+  top: 56%;
+  width: 100%;
+  text-align: center;
+  color: #fff2be;
+  font-size: 28px;
+  text-shadow: 0 2px 4px #000;
+}
+.cave-actors {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+.cave-scene .chapter-dialogue {
+  z-index: 2;
+}
+
+.chapter-screen:has(.story-ambush-duel:not([hidden])) .story-save {
+  display: none;
+}

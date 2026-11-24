@@ -11,7 +11,10 @@ export type ForestSceneId =
   | "c1-travelers"
   | "c1-storm"
   | "c1-recruit"
-  | "c1-cave";
+  | "c1-cave"
+  | "c1-ambush"
+  | "c1-after-storm"
+  | "c1-after-travelers";
 const l = (speaker: DialogueLine["speaker"], text: string): DialogueLine => ({
   speaker,
   text,
@@ -62,7 +65,52 @@ export function forestLines(id: ForestSceneId): DialogueLine[] {
           "captain",
           "Des voyageurs, dites-vous ? Alors expliquez-moi ce que font ces Écorcheurs en votre compagnie.",
         ),
-        ...challenge,
+        l(
+          "captain",
+          "Et depuis quand de simples vagabonds voyagent-ils avec des chiens d’Écorcheurs ?",
+        ),
+        l(
+          "witch",
+          "Vous faites erreur. Nous ne sommes que de simples vagabonds, tous autant que nous sommes. Je comprends que leurs tenues puissent vous induire en erreur, mais je vous assure que nous n’avons rien à voir avec les Écorcheurs.",
+        ),
+        l("captain", "Tu nous prends pour des imbéciles ?!"),
+        l(
+          "witch",
+          "Écoutez, nous ne cherchons aucun ennui. Si vous nous laissez simplement poursuivre notre…",
+        ),
+      ];
+    case "c1-ambush":
+      return [l("narrator", "")];
+    case "c1-after-storm":
+      return [
+        l(
+          "witch",
+          "Je vous avais pourtant déconseillé de leur parler des tempêtes rouges !",
+        ),
+        l(
+          "knight-chief",
+          "Comment étions-nous censés savoir qu’ils réagiraient de cette manière ?",
+        ),
+        l(
+          "witch",
+          "Le Royaume pourchasse et emprisonne ceux qui prétendent avoir vu ces tempêtes. Rien que le fait d’en parler suffit à vous attirer des ennuis.",
+        ),
+        l(
+          "witch",
+          "Je vous en dirai davantage une fois à l’abri. Suivez-moi, ma grotte n’est plus très loin.",
+        ),
+      ];
+    case "c1-after-travelers":
+      return [
+        l(
+          "north-chief",
+          "Quelqu’un peut m’expliquer pourquoi ces hommes nous ont traités d’Écorcheurs ?",
+        ),
+        l(
+          "witch",
+          "Je vous expliquerai tout, mais nous ne pouvons pas rester ici. D’autres soldats pourraient arriver.",
+        ),
+        l("witch", "Suivez-moi, ma grotte n’est plus très loin."),
       ];
     case "c1-storm":
       return [
@@ -114,81 +162,6 @@ export function forestLines(id: ForestSceneId): DialogueLine[] {
         ),
       ];
     case "c1-cave":
-      return [
-        l(
-          "narrator",
-          "À l’abri de la patrouille, Maëlys conduit les survivants dans une grotte aménagée au cœur de la forêt. Cartes, notes et parchemins couvrent les tables.",
-        ),
-        l("north-chief", "C’est quoi, tout ce bazar ?"),
-        l(
-          "witch",
-          "Six mois de recherches. Chaque marque rouge représente une tempête que j’ai observée, ou dont on m’a parlé.",
-        ),
-        l("knight-chief", "Et ces chiffres ?"),
-        l(
-          "witch",
-          "Le nombre de personnes qui en sont sorties. Parfois une seule. Parfois des dizaines.",
-        ),
-        l(
-          "north-chief",
-          "Mais où sont passés nos compagnons ? On était bien plus nombreux avant cette tempête !",
-        ),
-        l("knight-chief", "Nous aussi. Plusieurs des nôtres ont disparu."),
-        l("witch", "C’est justement ce que je ne comprends pas…"),
-        l(
-          "witch",
-          "Mais il y a quelque chose de plus inquiétant. Les gens qui arrivent ici… finissent par oublier d’où ils viennent.",
-        ),
-        l("knight-chief", "Oublier ? Comment ça ?"),
-        l(
-          "witch",
-          "Les noms, les visages, les lieux… Tout s’efface peu à peu. C’est pour ça que j’écris autant. Je relis mes notes chaque jour.",
-        ),
-        l("north-chief", "Et ça marche ?"),
-        l("witch", "Ça ralentit les choses. Je crois."),
-        l(
-          "narrator",
-          narrativeNames.knightKing
-            ? `Le chef des Chevaliers remarque un nom écrit sur un parchemin : ${narrativeNames.knightKing}.`
-            : "Le chef des Chevaliers remarque un nom écrit sur un parchemin.",
-        ),
-        l("knight-chief", "Attendez… Pourquoi avez-vous écrit ce nom ?"),
-        l(
-          "witch",
-          "Je l’ignore. Ça fait partie des choses que j’ai oubliées. C’est peut-être la ville où j’habitais…",
-        ),
-        l("knight-chief", "Une ville ? Mais c’est le nom de notre roi !"),
-        l(
-          "witch",
-          "Votre roi ? Alors… peut-être que nous venons du même endroit.",
-        ),
-        l(
-          "witch",
-          "Je suis arrivée ici il y a six mois, avec ma sœur. Valdren l’a capturée un mois plus tard.",
-        ),
-        l("knight-chief", "Vous savez où elle se trouve ?"),
-        l(
-          "witch",
-          "Oui. Mais je ne peux pas affronter seule les forces du royaume. J’essaie de réunir assez de combattants pour aller la libérer.",
-        ),
-        l("north-chief", "Et nous, on ferait quoi ?"),
-        l(
-          "witch",
-          "Je commerce avec un groupe d’Écorcheurs. Ils préparent une attaque contre un petit avant-poste de Valdren, mais ils manquent d’hommes.",
-        ),
-        l(
-          "witch",
-          "Avec vous, ils auraient peut-être assez de combattants. Allons les rencontrer. Nous pourrons nous entraider.",
-        ),
-        l(
-          "knight-chief",
-          "Alors allons leur parler. Nous vous devons au moins cela.",
-        ),
-        l("north-chief", "D’accord. Et on n’oubliera pas ceux qu’on cherche."),
-        l(
-          "narrator",
-          "Les survivants prennent le temps de soigner leurs blessures. Leur prochaine étape : rencontrer les Écorcheurs. À suivre au chapitre 2.",
-        ),
-      ];
+      return [l("narrator", "Maëlys conduit le groupe vers son refuge.")];
   }
 }

@@ -87,6 +87,55 @@ export function decode(raw: string): Campaign {
       throw Error("Progression du chapitre invalide");
   } else if (s.mapId === "forest" || s.mapId === "forest-compact")
     throw Error("Chapitre absent");
+  if (s.chapter1?.pending?.id?.startsWith("c2-") && !s.chapter2)
+    throw Error("Chapitre II absent");
+  if (
+    s.chapter1?.pending?.id === "c1-ambush" &&
+    (s.forestChapter?.choice !== "travelers" ||
+      s.forestChapter.ambushResolved ||
+      !s.units.some(
+        (u: any) => u.id === s.forestChapter.ambushGuardId && u.hp > 0,
+      ))
+  )
+    throw Error("Scène de Maëlys invalide");
+  if (s.chapter2) {
+    const c = s.chapter2;
+    if (
+      !s.forestChapter ||
+      ![
+        "introduction",
+        "cave",
+        "visitors",
+        "departure",
+        "awaiting-battle",
+      ].includes(c.stage) ||
+      (c.temporaryAlliance !== undefined &&
+        typeof c.temporaryAlliance !== "boolean") ||
+      !Array.isArray(c.completed) ||
+      c.completed.some(
+        (id: unknown) =>
+          !["c2-title", "c2-cave", "c2-visitors", "c2-depart"].includes(
+            id as string,
+          ),
+      ) ||
+      !Array.isArray(c.visitors) ||
+      c.visitors.some(
+        (u: any) =>
+          !u || typeof u.id !== "string" || !u.id.startsWith("c2-flayer-"),
+      )
+    )
+      throw Error("Progression du chapitre II invalide");
+  }
+  if (s.chapter1?.pending?.id === "c1-cave") {
+    s.chapter1.pending.id =
+      s.forestChapter?.choice === "storm"
+        ? "c1-after-storm"
+        : "c1-after-travelers";
+    s.chapter1.pending.page = 0;
+    s.chapter1.pending.readBy = [];
+    s.scene = "chapter1:" + s.chapter1.pending.id;
+    s.scenePage = 0;
+  }
   // Convert positions and exploration indices before applying revision-5 collisions.
   if ((s.mapRevision ?? 1) < 5) {
     for (const u of s.units) {

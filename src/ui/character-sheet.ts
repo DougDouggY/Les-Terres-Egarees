@@ -62,7 +62,9 @@ export function biography(u: Unit, campaign?: E.Campaign) {
       : "Ancien écuyer de Valdren, il apprend encore le maniement des armes. Il se souvient des tempêtes rouges et croit toujours à leur existence.";
   if (u.id === "story-witch") {
     if (campaign?.forestChapter?.completed.includes("c1-cave"))
-      return "Sorcière étudiant les tempêtes rouges, elle combat l’oubli grâce à ses notes. Sa sœur est prisonnière de Valdren.";
+      return "Sorcière étudiant les tempêtes rouges, elle combat l’oubli grâce à ses notes. Sa sœur est prisonnière du Royaume.";
+    if (campaign?.chapter2?.completed.includes("c2-cave"))
+      return "Sorcière arrivée avec sa sœur il y a six mois. Elle cherche à la retrouver et à la libérer des mains du Royaume.";
     if (campaign?.chapter1?.witchNamed || campaign?.forestChapter)
       return "Sorcière qui enquête sur les tempêtes rouges et cherche un moyen de quitter ces terres.";
     return "Une sorcière rencontrée près du sanctuaire, qui semble en savoir davantage sur ces terres.";

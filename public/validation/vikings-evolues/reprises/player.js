@@ -1,7 +1,7 @@
 /* Review only: generated figures are never installed as live campaign profiles. */
 (async () => {
   const revision =
-    new URLSearchParams(location.search).get("v") ?? "hamrammr-bearhood-1";
+    new URLSearchParams(location.search).get("v") ?? "official-story-1";
   const assetURL = (path) => {
     const url = new URL(path, location.href);
     url.searchParams.set("v", revision);
@@ -219,7 +219,7 @@
     const preview = document.createElement("section");
     preview.className = "new-review";
     preview.innerHTML =
-      '<p class="review-title"><strong>Apparence · à valider</strong></p><div class="poses"><figure><figcaption>Avant cette correction</figcaption><div class="old-reference"></div></figure><figure><figcaption>Nouvelle version · toucher pour agrandir</figcaption><canvas class="new-review-canvas" width="640" height="640" aria-label="Nouvelle animation ' +
+      '<p class="review-title"><strong>Apparence · comparaison</strong></p><div class="poses"><figure><figcaption>Avant cette correction</figcaption><div class="old-reference"></div></figure><figure><figcaption>Nouvelle version · toucher pour agrandir</figcaption><canvas class="new-review-canvas" width="640" height="640" aria-label="Nouvelle animation ' +
       card.querySelector("h3").textContent +
       '" tabindex="0" role="button"></canvas></figure></div><div class="review-controls"><select aria-label="Animation">' +
       Object.keys(profile.clips)
@@ -234,7 +234,7 @@
             "</option>",
         )
         .join("") +
-      '</select><select aria-label="Vitesse"><option value="0.25">×0,25</option><option value="0.5">×0,5</option><option value="1" selected>×1</option></select><button type="button" data-review-pause>Jouer</button><button type="button" data-review-replay>Rejouer</button></div><p class="review-note">Validation des apparences uniquement. Les animations de combat restent à revoir.</p>';
+      '</select><select aria-label="Vitesse"><option value="0.25">×0,25</option><option value="0.5">×0,5</option><option value="1" selected>×1</option></select><button type="button" data-review-pause>Jouer</button><button type="button" data-review-replay>Rejouer</button></div><p class="review-note">Gardes intégrées pour les nouveaux skins disponibles. Les animations avancées restent provisoires.</p>';
     preview.querySelector(".old-reference").append(oldImage);
     Object.assign(oldImage.style, {
       width: "100%",
@@ -275,7 +275,7 @@
         "Ancienne apparence partagée",
       );
     card.querySelector(".map-pose figcaption").textContent =
-      "Carte actuelle · ancienne version";
+      profile.integratedGuard ? "Carte avant intégration" : "Carte actuelle";
     const canvas = preview.querySelector("canvas"),
       player = {
         profile,
@@ -356,7 +356,7 @@
   notice.className = "notice";
   notice.textContent =
     profiles.length +
-    " apparences à comparer. Pour cette étape, seuls les skins sont à valider ; les animations de combat restent à revoir. Les anciennes ressources restent actives en campagne pendant cette comparaison.";
+    " apparences à comparer. Les 21 nouvelles gardes disponibles sont intégrées en campagne. Les animations avancées précédentes sont conservées en attendant leur reprise.";
   document.querySelector("nav.filters").before(notice);
   function tick(time) {
     requestAnimationFrame(tick);

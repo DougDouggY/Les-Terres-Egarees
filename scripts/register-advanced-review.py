@@ -115,5 +115,12 @@ if patchfile.exists():
                     p['roleMarker']='Cape en peau d’ours avec tête d’ours portée en capuche, visage humain visible.'
                     if (OUT/'avant'/f'{target}-guard.png').exists():p['beforeImage']=f'avant/{target}-guard.png'
 
+official_file=ROOT/'docs/references/official-advanced-integration.json'
+if official_file.exists():
+    integrated={p['id'] for p in json.loads(official_file.read_text())['variants']}
+    for p in profiles.values():
+        p['integratedGuard']=p['id'] in integrated
+        p['status']='Garde intégrée en campagne · actions avancées précédentes provisoires' if p['integratedGuard'] else 'Apparence actuelle conservée'
+
 (OUT/'manifest.json').write_text(json.dumps(dict(profiles=list(profiles.values())),ensure_ascii=False,separators=(',',':'))+'\n')
 print(json.dumps([dict(id=p['id'],frames=len(p['frames']),kind=p['kind']) for p in profiles.values()],ensure_ascii=False))
