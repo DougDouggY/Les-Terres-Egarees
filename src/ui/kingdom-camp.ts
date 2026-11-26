@@ -4,8 +4,7 @@ import {
   CAMP_W,
   CAMP_H,
   campStart,
-  campLandmarks,
-  campBuildings,
+  campVillage,
 } from "../data/kingdom-camp-map";
 import { gridPath } from "../game/grid-path";
 import { CampTerrainRenderer } from "./kingdom-camp-renderer";
@@ -15,159 +14,280 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
   const previous = currentMapId;
   activateMap("kingdom-camp");
   let disposed = false,
-    zoom = 1,
-    grid = true,
-    labels = true;
+    zoom = 2,
+    grid = true;
+  const camera = {
+    x: (campVillage.x + 1.5) * 32,
+    y: (campVillage.y + 1.5) * 32,
+  };
   let selected = campStart.y * CAMP_W + campStart.x;
   const start = selected;
-  host.innerHTML = `<main class="camp-preview"><header><div><small>CHAPITRE II · PROPOSITION DE TERRAIN</small><h1>Le camp du Royaume</h1></div><button data-camp-back>Retour</button></header><nav aria-label="Affichage de la carte"><button data-camp-fit>Vue entière</button><button data-camp-zoom="-" aria-label="Dézoomer">−</button><output data-camp-scale></output><button data-camp-zoom="+" aria-label="Zoomer">+</button><label><input type="checkbox" data-camp-grid checked> Grille</label><label><input type="checkbox" data-camp-labels checked> Repères</label><select aria-label="Aller à un lieu" data-camp-place>${campLandmarks.map((p, i) => `<option value="${i}">${p.name}</option>`).join("")}</select></nav><section class="camp-scroll"><canvas width="1280" height="896" data-camp-canvas aria-label="Carte du camp du Royaume, 40 colonnes et 28 lignes. Touchez une case pour vérifier le passage."></canvas></section><footer><p data-camp-status role="status">Chargement du terrain…</p><p>Carte de terrain à valider · touchez une case pour tester le passage depuis l’arrivée. Village en bois : les défenseurs en sortiront, puis le groupe y entrera après la victoire. Armées et bataille à définir.</p></footer></main>`;
+  let route = gridPath(W, H, start, selected, (k) =>
+    map[k].walk ? map[k].cost : null,
+  );
+  host.innerHTML = `<main class="camp-preview"><header><div><small>CHAPITRE II · TERRAIN</small><h1>Aux abords du village</h1></div><button data-camp-back>Retour</button></header><nav aria-label="Affichage de la carte"><button data-camp-fit>Vue entière</button><button data-camp-village>Voir le village</button><button data-camp-zoom="-" aria-label="Dézoomer">−</button><output data-camp-scale></output><button data-camp-zoom="+" aria-label="Zoomer">+</button><label><input type="checkbox" data-camp-grid checked> Grille</label></nav><section class="camp-scroll"><canvas data-camp-canvas tabindex="0" aria-label="Carte du chapitre 2. Glissez pour déplacer la vue ; molette ou pincement pour zoomer."></canvas></section><footer><p data-camp-status role="status"></p><p>Glisser : déplacer · Molette / pincer : zoomer · Toucher une case : numéro et passage</p></footer></main>`;
   const canvas = host.querySelector<HTMLCanvasElement>("[data-camp-canvas]")!,
     ctx = canvas.getContext("2d")!;
-  const viewport = host.querySelector<HTMLElement>(".camp-scroll")!;
-  const atlas = new Image();
+  const viewport = host.querySelector<HTMLElement>(".camp-scroll")!,
+    status = host.querySelector<HTMLElement>("[data-camp-status]")!;
+  const atlas = new Image(),
+    architecture = new Image();
   atlas.src = import.meta.env.BASE_URL + "assets/regional-tiles.png?v=1";
-  const architecture = new Image();
   architecture.src = import.meta.env.BASE_URL + campTileset.source;
   const renderer = new CampTerrainRenderer(atlas, architecture);
-  const status = host.querySelector<HTMLElement>("[data-camp-status]")!;
   let layer: HTMLCanvasElement | null = null;
-  const description = (k: number) => {
-    const c = map[k];
-    const building = campBuildings.find(
-      (b) => c.x >= b.x && c.x < b.x + b.w && c.y >= b.y && c.y < b.y + b.h,
-    );
-    return `Case ${k + 1} · (${c.x + 1}, ${c.y + 1}) · ${building?.name ?? ({ wall: "Palissade", earth: "Terre", road: "Chemin", grass: "Herbe", forest: "Lisière", tree: "Bois dense", rock: "Montagne", water: "Rivière", sand: "Rive", floor: "Entrée du village" } as Record<string, string>)[c.terrain] ?? c.terrain} · ${c.walk ? "Praticable" : "Infranchissable"}`;
+  const size = () => ({ w: viewport.clientWidth, h: viewport.clientHeight });
+  const fitZoom = () => {
+    const { w, h } = size();
+    return Math.min(w / (CAMP_W * 32), h / (CAMP_H * 32));
   };
+  const describe = (k: number) => {
+    const c = map[k];
+    return `Case ${k + 1} · (${c.x + 1}, ${c.y + 1}) · ${c.villagePart ? "Village" : (({ water: "Eau", sand: "Rive", grass: "Herbe", road: "Chemin", forest: "Lisière", tree: "Forêt", rock: "Montagne" } as Record<string, string>)[c.terrain] ?? c.terrain)} · ${c.walk ? "Praticable" : "Infranchissable"}`;
+  };
+  function clamp() {
+    const { w, h } = size();
+    for (const [axis, extent, view] of [
+      ["x", CAMP_W * 32, w / zoom],
+      ["y", CAMP_H * 32, h / zoom],
+    ] as const)
+      camera[axis] =
+        view >= extent
+          ? extent / 2
+          : Math.max(view / 2, Math.min(extent - view / 2, camera[axis]));
+  }
   function paint() {
-    if (disposed || !layer) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(layer, 0, 0, canvas.width, canvas.height);
-    if (grid) {
-      ctx.strokeStyle = "#ede1ae30";
-      ctx.lineWidth = 0.6;
-      ctx.beginPath();
-      for (let x = 0; x <= CAMP_W; x++) {
-        ctx.moveTo(x * 32, 0);
-        ctx.lineTo(x * 32, CAMP_H * 32);
-      }
-      for (let y = 0; y <= CAMP_H; y++) {
-        ctx.moveTo(0, y * 32);
-        ctx.lineTo(CAMP_W * 32, y * 32);
-      }
-      ctx.stroke();
+    if (disposed) return;
+    clamp();
+    const { w, h } = size(),
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const pw = Math.round(w * dpr),
+      ph = Math.round(h * dpr);
+    if (canvas.width !== pw || canvas.height !== ph) {
+      canvas.width = pw;
+      canvas.height = ph;
     }
-    if (labels) {
-      ctx.font = "bold 12px sans-serif";
-      ctx.textAlign = "center";
-      for (const p of campLandmarks) {
-        const x = (p.x + 0.5) * 32,
-          y = (p.y + 0.5) * 32;
-        ctx.fillStyle = "#111d1de8";
-        const width = ctx.measureText(p.name).width + 14;
-        ctx.fillRect(x - width / 2, y - 24, width, 20);
-        ctx.fillStyle = "#f6e9be";
-        ctx.fillText(p.name, x, y - 10);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.fillStyle = "#0d1511";
+    ctx.fillRect(0, 0, w, h);
+    if (layer) {
+      ctx.save();
+      ctx.translate(w / 2, h / 2);
+      ctx.scale(zoom, zoom);
+      ctx.translate(-camera.x, -camera.y);
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+      ctx.drawImage(layer, 0, 0, CAMP_W * 32, CAMP_H * 32);
+      if (grid) {
+        ctx.strokeStyle = "#ede1ae40";
+        ctx.lineWidth = 0.7 / zoom;
+        ctx.beginPath();
+        for (let x = 0; x <= CAMP_W; x++) {
+          ctx.moveTo(x * 32, 0);
+          ctx.lineTo(x * 32, CAMP_H * 32);
+        }
+        for (let y = 0; y <= CAMP_H; y++) {
+          ctx.moveTo(0, y * 32);
+          ctx.lineTo(CAMP_W * 32, y * 32);
+        }
+        ctx.stroke();
       }
+      if (route) {
+        ctx.strokeStyle = "#70d3cf";
+        ctx.lineWidth = 2 / zoom;
+        ctx.beginPath();
+        route.steps.forEach((k, i) => {
+          const x = ((k % CAMP_W) + 0.5) * 32,
+            y = (Math.floor(k / CAMP_W) + 0.5) * 32;
+          i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
+        });
+        ctx.stroke();
+      }
+      const c = map[selected];
+      ctx.strokeStyle = route ? "#b3ffff" : "#ff9c7c";
+      ctx.lineWidth = 2 / zoom;
+      ctx.strokeRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
+      ctx.restore();
     }
-    const c = map[selected];
-    const path = c.walk
+    status.textContent =
+      describe(selected) +
+      (route
+        ? ` · Passage accessible (${Math.max(0, route.steps.length - 1)} cases)`
+        : " · Aucun passage depuis l’arrivée");
+    host.querySelector("[data-camp-scale]")!.textContent =
+      `${Math.round(zoom * 100)} %`;
+    Object.assign(canvas.dataset, {
+      selected: String(selected + 1),
+      reachable: String(!!route),
+      grid: String(grid),
+      zoom: String(zoom),
+      cameraX: String(camera.x),
+      cameraY: String(camera.y),
+      cellSize: String(32 * zoom),
+    });
+  }
+  function local(e: { clientX: number; clientY: number }) {
+    const r = canvas.getBoundingClientRect();
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+  function world(p: { x: number; y: number }) {
+    const { w, h } = size();
+    return {
+      x: camera.x + (p.x - w / 2) / zoom,
+      y: camera.y + (p.y - h / 2) / zoom,
+    };
+  }
+  function zoomAt(next: number, point: { x: number; y: number }) {
+    const anchor = world(point),
+      { w, h } = size();
+    zoom = Math.max(Math.min(fitZoom(), 0.2), Math.min(6, next));
+    camera.x = anchor.x - (point.x - w / 2) / zoom;
+    camera.y = anchor.y - (point.y - h / 2) / zoom;
+    paint();
+  }
+  function select(p: { x: number; y: number }) {
+    const a = world(p),
+      x = Math.floor(a.x / 32),
+      y = Math.floor(a.y / 32);
+    if (x < 0 || y < 0 || x >= CAMP_W || y >= CAMP_H) return;
+    selected = y * CAMP_W + x;
+    route = map[selected].walk
       ? gridPath(W, H, start, selected, (k) =>
           map[k].walk ? map[k].cost : null,
         )
       : null;
-    if (path) {
-      ctx.strokeStyle = "#70d3cf";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      for (const [i, k] of [start, ...path.steps].entries()) {
-        const x = ((k % CAMP_W) + 0.5) * 32,
-          y = (Math.floor(k / CAMP_W) + 0.5) * 32;
-        i ? ctx.lineTo(x, y) : ctx.moveTo(x, y);
-      }
-      ctx.stroke();
-    }
-    ctx.strokeStyle = path ? "#b3ffff" : "#ff9c7c";
-    ctx.lineWidth = 3;
-    ctx.strokeRect(c.x * 32 + 2, c.y * 32 + 2, 28, 28);
-    status.textContent =
-      description(selected) +
-      (path
-        ? ` · Passage accessible (${path.steps.length} cases)`
-        : " · Aucun passage depuis l’arrivée");
-    canvas.dataset.selected = String(selected + 1);
-    canvas.dataset.reachable = String(!!path);
-    canvas.dataset.grid = String(grid);
-  }
-  function resize(fit = false) {
-    if (fit)
-      zoom = Math.min(
-        (viewport.clientWidth - 16) / 1280,
-        (viewport.clientHeight - 16) / 896,
-        1,
-      );
-    zoom = Math.max(0.2, Math.min(2, zoom));
-    canvas.style.width = `${1280 * zoom}px`;
-    canvas.style.height = `${896 * zoom}px`;
-    host.querySelector("[data-camp-scale]")!.textContent =
-      `${Math.round(zoom * 100)} %`;
+    paint();
   }
   host.querySelector("[data-camp-back]")!.addEventListener("click", back);
-  host
-    .querySelector("[data-camp-fit]")!
-    .addEventListener("click", () => resize(true));
+  host.querySelector("[data-camp-fit]")!.addEventListener("click", () => {
+    zoom = fitZoom();
+    camera.x = CAMP_W * 16;
+    camera.y = CAMP_H * 16;
+    paint();
+  });
+  host.querySelector("[data-camp-village]")!.addEventListener("click", () => {
+    zoom = 2;
+    camera.x = (campVillage.x + 1.5) * 32;
+    camera.y = (campVillage.y + 1.5) * 32;
+    paint();
+  });
   for (const b of Array.from(
     host.querySelectorAll<HTMLButtonElement>("[data-camp-zoom]"),
   ))
     b.onclick = () => {
-      zoom *= b.dataset.campZoom === "+" ? 1.3 : 1 / 1.3;
-      resize();
+      const { w, h } = size();
+      zoomAt(zoom * (b.dataset.campZoom === "+" ? 1.3 : 1 / 1.3), {
+        x: w / 2,
+        y: h / 2,
+      });
     };
   host.querySelector<HTMLInputElement>("[data-camp-grid]")!.onchange = (e) => {
     grid = (e.target as HTMLInputElement).checked;
     paint();
   };
-  host.querySelector<HTMLInputElement>("[data-camp-labels]")!.onchange = (
-    e,
-  ) => {
-    labels = (e.target as HTMLInputElement).checked;
-    paint();
-  };
-  host.querySelector<HTMLSelectElement>("[data-camp-place]")!.onchange = (
-    e,
-  ) => {
-    const p = campLandmarks[Number((e.target as HTMLSelectElement).value)];
-    selected = p.y * CAMP_W + p.x;
-    paint();
-    viewport.scrollTo({
-      left: (p.x + 0.5) * 32 * zoom - viewport.clientWidth / 2,
-      top: (p.y + 0.5) * 32 * zoom - viewport.clientHeight / 2,
-      behavior: "smooth",
-    });
-  };
-  const point = (e: PointerEvent) => {
-    const r = canvas.getBoundingClientRect();
-    const x = Math.floor(((e.clientX - r.left) / r.width) * CAMP_W),
-      y = Math.floor(((e.clientY - r.top) / r.height) * CAMP_H);
-    return x >= 0 && y >= 0 && x < CAMP_W && y < CAMP_H ? y * CAMP_W + x : null;
+  canvas.addEventListener(
+    "wheel",
+    (e) => {
+      e.preventDefault();
+      zoomAt(zoom * Math.exp(-e.deltaY * 0.0015), local(e));
+    },
+    { passive: false },
+  );
+  const pointers = new Map<number, { x: number; y: number }>();
+  let moved = false,
+    dragDistance = 0;
+  canvas.onpointerdown = (e) => {
+    if (e.button !== 0 && e.pointerType === "mouse") return;
+    if (!pointers.size) {
+      moved = false;
+      dragDistance = 0;
+    }
+    pointers.set(e.pointerId, local(e));
+    canvas.setPointerCapture(e.pointerId);
+    if (pointers.size > 1) moved = true;
   };
   canvas.onpointermove = (e) => {
-    const k = point(e);
-    if (k !== null) canvas.title = description(k);
-  };
-  canvas.onpointerup = (e) => {
-    const k = point(e);
-    if (k !== null) {
-      selected = k;
+    const p = local(e),
+      old = pointers.get(e.pointerId);
+    if (!old) {
+      if (e.pointerType === "mouse") {
+        const a = world(p),
+          x = Math.floor(a.x / 32),
+          y = Math.floor(a.y / 32);
+        canvas.title =
+          x >= 0 && y >= 0 && x < CAMP_W && y < CAMP_H
+            ? describe(y * CAMP_W + x)
+            : "";
+      }
+      return;
+    }
+    if (pointers.size === 1) {
+      const dx = p.x - old.x,
+        dy = p.y - old.y;
+      dragDistance += Math.hypot(dx, dy);
+      if (dragDistance > 4) moved = true;
+      camera.x -= dx / zoom;
+      camera.y -= dy / zoom;
+      pointers.set(e.pointerId, p);
+      paint();
+    } else {
+      const other = Array.from(pointers.entries()).find(
+        ([id]) => id !== e.pointerId,
+      )![1];
+      const oldMid = { x: (old.x + other.x) / 2, y: (old.y + other.y) / 2 },
+        newMid = { x: (p.x + other.x) / 2, y: (p.y + other.y) / 2 };
+      const anchor = world(oldMid),
+        distance = Math.hypot(old.x - other.x, old.y - other.y);
+      const { w, h } = size();
+      if (distance > 1) {
+        zoom = Math.max(
+          Math.min(fitZoom(), 0.2),
+          Math.min(
+            6,
+            (zoom * Math.hypot(p.x - other.x, p.y - other.y)) / distance,
+          ),
+        );
+        camera.x = anchor.x - (newMid.x - w / 2) / zoom;
+        camera.y = anchor.y - (newMid.y - h / 2) / zoom;
+      }
+      pointers.set(e.pointerId, p);
+      moved = true;
       paint();
     }
   };
-  const observer = new ResizeObserver(() => resize(true));
+  canvas.onpointerup = (e) => {
+    if (!pointers.has(e.pointerId)) return;
+    const tap = !moved && pointers.size === 1;
+    pointers.delete(e.pointerId);
+    if (tap) select(local(e));
+  };
+  canvas.onpointercancel = (e) => {
+    pointers.delete(e.pointerId);
+    moved = true;
+  };
+  const key = (e: KeyboardEvent) => {
+    const dir = (
+      {
+        ArrowLeft: [-1, 0],
+        ArrowRight: [1, 0],
+        ArrowUp: [0, -1],
+        ArrowDown: [0, 1],
+      } as Record<string, number[]>
+    )[e.key];
+    if (!dir) return;
+    e.preventDefault();
+    camera.x += (dir[0] * 96) / zoom;
+    camera.y += (dir[1] * 96) / zoom;
+    paint();
+  };
+  canvas.addEventListener("keydown", key);
+  const observer = new ResizeObserver(paint);
   observer.observe(viewport);
+  paint();
   void Promise.all([atlas.decode(), architecture.decode()])
     .then(() => {
       if (disposed) return;
       layer = renderer.layer("regional", ["north", "knight"]);
-      resize(true);
       paint();
       canvas.dataset.ready = "true";
       canvas.dataset.tileset = campTileset.source;
@@ -181,6 +301,7 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
     if (disposed) return;
     disposed = true;
     observer.disconnect();
+    pointers.clear();
     activateMap(previous);
   };
 }

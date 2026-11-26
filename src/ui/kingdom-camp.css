@@ -46,7 +46,7 @@
   font-size: 12px;
 }
 .camp-scroll {
-  overflow: auto;
+  overflow: hidden;
   background: #0d1511;
   border: 1px solid #9d8c6066;
   min-width: 0;
@@ -55,8 +55,15 @@
 }
 .camp-scroll canvas {
   display: block;
-  margin: auto;
-  touch-action: pan-x pan-y;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  touch-action: none;
+  cursor: grab;
+}
+.camp-scroll canvas:active {
+  cursor: grabbing;
 }
 .camp-preview footer p {
   margin: 2px 0;
@@ -82,6 +89,9 @@
   .camp-preview select {
     padding: 6px 9px;
     font-size: 12px;
+  }
+  .camp-scroll canvas:active {
+    cursor: grabbing;
   }
   .camp-preview footer p {
     font-size: 10px;

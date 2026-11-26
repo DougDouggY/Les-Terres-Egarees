@@ -216,13 +216,28 @@ for (const choice of ["storm", "travelers"] as const)
     assert.equal(E.decode(E.encode(s)).chapter2?.stage, "awaiting-battle");
   });
 
-test("camp proposé : passages connectés, bâtiments bloqués, enclos vide et grille stable", async () => {
+test("terrain naturel : passages connectés, village bloqué et grille stable", async () => {
   const C = await import("../src/data/kingdom-camp-map");
   const { gridPath } = await import("../src/game/grid-path");
   const a = C.kingdomCampMap(),
     b = C.kingdomCampMap();
   assert.deepEqual(a, b);
   assert.equal(a.cells.length, C.CAMP_W * C.CAMP_H);
+  assert.deepEqual(
+    C.campBuildings.map((b) => b.id),
+    ["village"],
+  );
+  assert.ok(
+    a.cells.filter((c) => ["forest", "tree"].includes(c.terrain)).length > 100,
+  );
+  assert.ok(a.cells.filter((c) => c.terrain === "rock").length > 30);
+  assert.ok(
+    a.cells.filter((c) => c.terrain === "wall").every((c) => !!c.villagePart),
+  );
+  assert.equal(
+    a.cells.some((c) => c.terrain === "earth"),
+    false,
+  );
   const start = C.campStart.y * C.CAMP_W + C.campStart.x;
   for (const p of C.campLandmarks) {
     const k = p.y * C.CAMP_W + p.x;
