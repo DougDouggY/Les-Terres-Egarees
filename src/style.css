@@ -5074,7 +5074,8 @@ body:has(.aftermath-screen) .modal-back.rewards {
   opacity: 0.75;
 }
 #chapter-overlay.cave-scene {
-  background: radial-gradient(ellipse at 30% 50%, #3d3328ee, #0e1717fa 70%);
+  background: #241f1c url("./assets/ui/maelys-cave-research.png") center / cover
+    no-repeat;
 }
 .cave-scene .chapter-context::after {
   content: "LA GROTTE · SIX MOIS DE RECHERCHES";
@@ -7614,13 +7615,9 @@ body:has(.aftermath-screen) .modal-back.rewards {
   font-size: 28px;
   text-shadow: 0 2px 4px #000;
 }
-.cave-actors {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  pointer-events: none;
+.chapter-screen:has(.cave-scene) #story-map,
+.chapter-screen:has(.cave-scene) #story-map-peer {
+  visibility: hidden;
 }
 .cave-scene .chapter-dialogue {
   z-index: 2;

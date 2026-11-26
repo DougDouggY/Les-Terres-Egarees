@@ -105,7 +105,12 @@ test("chapitre II : titre avant la grotte, portraits des vrais héros, Écorcheu
   await expect(page.locator(".cave-actors")).toHaveCount(0);
   await page.clock.runFor(4000);
   await expect(page.locator('[data-story-scene="c2-cave"]')).toHaveCount(1);
-  await expect(page.locator(".cave-actors")).toBeVisible();
+  await expect(page.locator(".cave-actors")).toHaveCount(0);
+  await expect(page.locator("#chapter-overlay")).toHaveCSS(
+    "background-image",
+    /maelys-cave-research/,
+  );
+  await expect(page.locator("#story-map")).toBeHidden();
   await expect(page.locator("#chapter-overlay")).toHaveAttribute(
     "data-ready",
     "true",
@@ -120,10 +125,8 @@ test("chapitre II : titre avant la grotte, portraits des vrais héros, Écorcheu
     await page.clock.fastForward(9000);
     if (await page.locator('[data-story-scene="c2-visitors"]').count()) {
       if (!sawVisitor) {
-        await expect(page.locator(".cave-actors")).toHaveAttribute(
-          "data-visitors",
-          "3",
-        );
+        await expect(page.locator(".cave-actors")).toHaveCount(0);
+        await expect(page.locator("#story-map")).toBeHidden();
         await page.screenshot({ path: "/tmp/story-cave-visitors.png" });
       }
       sawVisitor = true;
@@ -268,16 +271,19 @@ test("téléphone : départ du chapitre II, sauvegarde manuelle et reprise du bi
   await page.setViewportSize({ width: 390, height: 844 });
   await page.clock.install();
   await fixture(page, "c2-depart");
-  await expect(page.locator(".cave-actors")).toBeVisible();
+  await expect(page.locator(".cave-actors")).toHaveCount(0);
+  await expect(page.locator("#chapter-overlay")).toHaveCSS(
+    "background-image",
+    /maelys-cave-research/,
+  );
+  await expect(page.locator("#story-map")).toBeHidden();
   await expect(page.locator("#chapter-overlay")).toHaveAttribute(
     "data-ready",
     "true",
   );
   await page.clock.fastForward(9000);
-  await expect(page.locator(".cave-actors")).toHaveAttribute(
-    "data-departure",
-    "1",
-  );
+  await expect(page.locator(".cave-actors")).toHaveCount(0);
+  await expect(page.locator("#story-map")).toBeHidden();
   await page.screenshot({ path: "/tmp/story-cave-mobile.png" });
   for (
     let i = 0;

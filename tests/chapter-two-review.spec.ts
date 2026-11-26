@@ -60,6 +60,24 @@ for (const choice of ["storm", "travelers"] as const)
     );
     await page.clock.runFor(4000);
     await expect(page.locator('[data-story-scene="c2-cave"]')).toHaveCount(1);
+    await expect(page.locator(".cave-actors")).toHaveCount(0);
+    await expect(page.locator("#story-map")).toBeHidden();
+    const backdrop = await page
+      .locator("#chapter-overlay")
+      .evaluate(async (el) => {
+        const url = getComputedStyle(el).backgroundImage.match(
+          /url\(["']?(.*?)["']?\)/,
+        )?.[1];
+        if (!url) throw Error("Décor de grotte absent");
+        const image = new Image();
+        image.src = url;
+        await image.decode();
+        return { url, width: image.naturalWidth, height: image.naturalHeight };
+      });
+    expect(backdrop.url).toContain("maelys-cave-research");
+    expect(backdrop.width).toBeGreaterThan(1200);
+    expect(backdrop.height).toBeGreaterThan(700);
+    await page.screenshot({ path: `/tmp/maelys-cave-${choice}.png` });
     const seen = new Set<string>();
     for (
       let i = 0;

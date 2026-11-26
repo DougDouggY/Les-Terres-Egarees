@@ -44,6 +44,16 @@ Vérifications de cette addition : **239 tests automatisés réussis**, dont deu
 
 Fichiers de cette addition : `src/main.ts`, `src/game/chapter-two-review.ts`, `tests/chapter2-integration.test.ts`, `tests/chapter-two-review.spec.ts`, `playwright.story-update.config.ts` et ce compte rendu.
 
+## Décor de grotte — correction du 26 novembre 2026
+
+À la demande du joueur, les scènes dans la grotte utilisent désormais une illustration de fond générée : `src/assets/ui/maelys-cave-research.png` (1672 × 941, proportions préservées). Elle montre le refuge de Maëlys, son bureau, les livres, cartes et recherches sur les tempêtes rouges. Le fond s’adapte à l’écran sans étirement ; le centre conserve les recherches visibles sur téléphone.
+
+La couche de personnages tactiques de la grotte est supprimée. Les cartes tactiques sous-jacentes sont masquées pendant ces dialogues. Seuls les portraits et fenêtres de discussion se superposent au décor. L’arrivée des Écorcheurs et le départ se poursuivent par les dialogues existants ; les données des figurants et leurs portraits restent conservés. Aucun terrain de bataille du chapitre II n’a été créé.
+
+Vérifications : 239 tests automatisés, quatre parcours navigateur (les deux branches depuis l’accueil, les scènes de grotte avec portraits et la sauvegarde/reprise mobile), compilation du prototype et contrôle des ressources réussis. Le chargement réel de l’image et l’absence de carte/sprites visibles sont contrôlés sur ordinateur et téléphone.
+
+Cette correction remplace la présentation précédente de la grotte avec les sprites d’arrivée et de départ. L’image source générée est conservée séparément dans l’espace de travail ; son export PNG est inclus dans les ressources du jeu.
+
 ## Reproduction
 
 - `npm test`

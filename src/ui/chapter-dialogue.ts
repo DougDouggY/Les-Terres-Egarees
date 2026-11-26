@@ -84,7 +84,6 @@ export class ChapterDirector {
   private textStarted = performance.now();
   private ready = false;
   private cueStarted: number | undefined;
-  private caveStarted?: number;
   private patrolElapsed = 0;
   private patrolLast?: number;
   private from: { x: number; y: number };
@@ -256,7 +255,6 @@ export class ChapterDirector {
         ? ruinsCenter
         : this.group();
     this.cueStarted = undefined;
-    this.caveStarted = undefined;
     this.started = performance.now();
     this.patrolElapsed = 0;
     this.patrolLast = undefined;
@@ -286,11 +284,6 @@ export class ChapterDirector {
       "cave-scene",
       ["c1-cave", "c2-cave", "c2-visitors", "c2-depart"].includes(p.id),
     );
-    if (p.id.startsWith("c2-") && p.id !== "c2-title")
-      this.root.insertAdjacentHTML(
-        "afterbegin",
-        '<canvas class="cave-actors" width="1280" height="720" aria-label="Le groupe dans la grotte"></canvas>',
-      );
     this.root.querySelector<HTMLElement>(".chapter-dialogue")!.hidden = [
       "c1-deploy",
       "c1-approach",
@@ -714,7 +707,6 @@ export class ChapterDirector {
     }
     if (!this.ready) frame.actors = [];
     this.draw(time, frame);
-    this.caveActors(time);
   }
   private renderAmbush() {
     const a = this.ambush!;
@@ -797,58 +789,6 @@ export class ChapterDirector {
         this.advance();
       },
     );
-  }
-  private caveActors(time: number) {
-    const canvas = this.root.querySelector<HTMLCanvasElement>(".cave-actors");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d")!;
-    ctx.clearRect(0, 0, 1280, 720);
-    const allies = this.s.units.filter(
-      (u) => u.owner !== 0 && u.hp > 0 && !u.summonedBy,
-    );
-    if (!this.ready) return;
-    this.caveStarted ??= time;
-    const guests = this.s.chapter2?.visitors ?? [];
-    const pending = this.s.chapter1?.pending;
-    const departure =
-      pending?.id === "c2-depart"
-        ? ease((time - (this.cueStarted ?? this.caveStarted)) / 2200)
-        : 0;
-    canvas.dataset.visitors = String(guests.length);
-    canvas.dataset.departure = String(departure);
-    for (const [i, u] of [...allies, ...guests].entries()) {
-      const guest = i >= allies.length,
-        j = guest ? i - allies.length : i;
-      const arrival =
-        pending?.id === "c2-visitors" && pending.page === 0
-          ? ease((time - this.caveStarted) / 1500)
-          : 1;
-      const x =
-          (guest ? 940 + (1 - arrival) * 400 : 160 + j * 95) + departure * 1800,
-        y = guest ? 320 + j * 60 : 350 + (j % 2) * 70;
-      const moving = (guest && arrival < 1) || (departure > 0 && departure < 1);
-      const flip = guest && departure === 0;
-      ctx.save();
-      if (flip) {
-        ctx.translate(x + 90, y);
-        ctx.scale(-1, 1);
-      } else ctx.translate(x, y);
-      drawResourceFrame(
-        ctx,
-        unitSpriteProfile(u),
-        moving ? "move" : "idle",
-        moving ? Math.floor(time / 140) : 0,
-        0,
-        0,
-        90,
-        120,
-        true,
-        colorForOwner(this.s.teamColors, u.owner),
-        "world",
-        { idleTime: time },
-      );
-      ctx.restore();
-    }
   }
   dispose() {
     window.removeEventListener("keydown", this.key, true);
