@@ -179,3 +179,39 @@ test("attaque scénarisée : résultat indépendant des statistiques, sans XP ni
     before,
   );
 });
+
+for (const choice of ["storm", "travelers"] as const)
+  test(`raccourci accueil : fin de bataille ${choice}, puis chapitre II entier`, async () => {
+    const { createChapterTwoReview } =
+      await import("../src/game/chapter-two-review");
+    let s = createChapterTwoReview(choice);
+    assert.equal(s.chapter1?.pending?.id, `c1-after-${choice}`);
+    assert.equal(s.chapter1?.pending?.page, 0);
+    assert.equal(s.chapter2, undefined);
+    assert.equal(s.developmentTest, undefined);
+    assert.equal(s.forestChapter?.choice, choice);
+    assert.ok(s.units.filter((u) => u.owner === 0).every((u) => u.hp === 0));
+    assert.equal(s.forestChapter?.geraudRecruited === true, choice === "storm");
+    assert.equal(
+      s.units.find((u) => u.id === "geraud")!.owner !== 0,
+      choice === "storm",
+    );
+    const roster = JSON.stringify(s.units.filter((u) => u.owner !== 0));
+    s = E.decode(E.encode(s));
+    const scenes: string[] = [];
+    for (let i = 0; s.chapter1?.pending && i < 12; i++) {
+      scenes.push(s.chapter1.pending.id);
+      finish(s);
+    }
+    assert.deepEqual(scenes, [
+      `c1-after-${choice}`,
+      "c2-title",
+      "c2-cave",
+      "c2-visitors",
+      "c2-depart",
+    ]);
+    assert.equal(s.phase, "summary");
+    assert.equal(s.chapter2?.stage, "awaiting-battle");
+    assert.equal(JSON.stringify(s.units.filter((u) => u.owner !== 0)), roster);
+    assert.equal(E.decode(E.encode(s)).chapter2?.stage, "awaiting-battle");
+  });

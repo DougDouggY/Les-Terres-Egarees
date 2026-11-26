@@ -192,7 +192,7 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${button("Essai sur carte · temporaire", "unit-review", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${button("Essai sur carte · temporaire", "unit-review", "quiet")}${button("Tester chapitre 2", "chapter-two-review", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
 }
 function modeChoice() {
   screen = "mode";
@@ -2442,6 +2442,41 @@ app.addEventListener("click", async (e) => {
   const action = el.dataset.action!;
   if (action === "story-save") {
     if (state) openSaveManager(state, loadCampaign);
+    return;
+  }
+  if (action === "chapter-two-review") {
+    if (screen !== "title") return;
+    const modal = document.createElement("div");
+    modal.className = "modal-back";
+    modal.innerHTML = `<section class="modal" role="dialog" aria-modal="true" aria-labelledby="chapter-two-review-title"><h2 id="chapter-two-review-title">Tester chapitre 2</h2><p>Commencez après la victoire du chapitre 1 : dialogues de fin, puis chapitre 2 jusqu’au départ de la grotte.</p><p>Une équipe de test est créée. Vos sauvegardes restent intactes.</p>${button("Tempêtes rouges · avec Géraud", "chapter-two-review-storm", "primary")}${button("Vagabonds", "chapter-two-review-travelers")}${button("Annuler", "close-modal")}</section>`;
+    app.append(modal);
+    modal.querySelector<HTMLButtonElement>("button")?.focus();
+    return;
+  }
+  if (
+    action === "chapter-two-review-storm" ||
+    action === "chapter-two-review-travelers"
+  ) {
+    if (screen !== "title") return;
+    const request = ++developerRequest;
+    const { createChapterTwoReview } =
+      await import("./game/chapter-two-review");
+    if (request !== developerRequest) return;
+    E.setSessionView({ mode: "local" });
+    try {
+      const preview = createChapterTwoReview(
+        action === "chapter-two-review-storm" ? "storm" : "travelers",
+      );
+      preview.teamColors = readTeamPreferences();
+      chapterFrame = null;
+      observer = false;
+      cardOpen = false;
+      targetingAttack = false;
+      focusToken = "";
+      loadCampaign(preview);
+    } catch (error) {
+      toast((error as Error).message);
+    }
     return;
   }
   if (action === "narrative-plan") {

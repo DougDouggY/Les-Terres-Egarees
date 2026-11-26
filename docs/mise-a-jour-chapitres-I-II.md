@@ -34,6 +34,16 @@ Les gardes sont exportées à leur résolution native, sans étirement, avec hui
 
 La coopération a été vérifiée sur deux vues recevant des snapshots et sur les barrières d’acquittement du moteur, y compris la sauvegarde à mi-acquittement. **Aucune connexion distante réelle ni serveur multijoueur n’a été vérifié** : le projet expose un adaptateur de session et de réception de snapshots, pas un transport réseau authentifié complet. La lecture des animations reste locale et la progression attend les deux joueurs.
 
+## Raccourci de test ajouté le 26 novembre 2026
+
+Le bouton **Tester chapitre 2** est directement visible sur l’accueil. Il propose **Tempêtes rouges · avec Géraud** et **Vagabonds**. Une campagne de test indépendante est préparée par les transitions officielles ; elle s’ouvre à la première réplique après la victoire du chapitre I, avant le titre du chapitre II. Le premier parcours a recruté Géraud ; le second conserve son absence. Les dialogues se poursuivent normalement jusqu’au départ de la grotte et au bilan « À suivre ».
+
+Le raccourci ne lit ni n’écrit les sauvegardes existantes. Le gestionnaire habituel reste disponible pour enregistrer volontairement le test dans un nouvel emplacement.
+
+Vérifications de cette addition : **239 tests automatisés réussis**, dont deux nouveaux parcours du raccourci avec sauvegarde/rechargement ; **deux parcours navigateur réussis** depuis le bouton (Tempêtes rouges sur ordinateur, Vagabonds sur téléphone), avec contrôle de l’annulation, des dialogues de fin, du titre, des trois scènes du chapitre II, de Géraud, du retour à l’accueil et de la conservation des emplacements existants. Compilation du prototype et contrôle des ressources réussis.
+
+Fichiers de cette addition : `src/main.ts`, `src/game/chapter-two-review.ts`, `tests/chapter2-integration.test.ts`, `tests/chapter-two-review.spec.ts`, `playwright.story-update.config.ts` et ce compte rendu.
+
 ## Reproduction
 
 - `npm test`
