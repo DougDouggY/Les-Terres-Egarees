@@ -101,3 +101,13 @@
     font-size: 9px;
   }
 }
+
+.camp-preview nav a {
+  color: #f0d397;
+  font-size: 13px;
+  padding: 5px;
+}
+.camp-preview nav details {
+  font-size: 13px;
+  max-width: 100%;
+}

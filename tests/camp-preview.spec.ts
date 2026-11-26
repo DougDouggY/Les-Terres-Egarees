@@ -203,12 +203,12 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
       T = await import(String("/src/data/village-tileset.ts"));
     const ground = new Image(),
       art = new Image(),
-      castle = new Image();
+      construction = new Image();
     ground.src = "/assets/regional-tiles.png";
     art.src = "/" + T.villageTileset.source;
-    castle.src = "/assets/material-tests/castle-atlas.png";
-    await Promise.all([ground.decode(), art.decode(), castle.decode()]);
-    const renderer = new R.CampTerrainRenderer(ground, art, castle);
+    construction.src = "/assets/future-terrain/camp.png";
+    await Promise.all([ground.decode(), art.decode(), construction.decode()]);
+    const renderer = new R.CampTerrainRenderer(ground, art, construction);
     const buildings = D.campBuildings.map((b: any) => {
       const a = renderer.buildingLayers(b, false),
         o = renderer.buildingLayers(b, true);
@@ -250,14 +250,33 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
           const i = (py * o.walls.width + doorX + dx) * 4 + 3;
           if (opened[i] !== 255 || closed[i] !== 255) gapsAtJambs++;
         }
-      // Both full side columns, including all four corners, use matching caps.
-      for (let py = 0; py < b.h * 64; py++)
+      // Both side columns and their north corners use matching caps; south corners are facades.
+      for (let py = 0; py < (b.h - 1) * 64; py++)
         for (let px = 0; px < 64; px++)
           for (let k = 0; k < 4; k++) {
             const left = (py * o.walls.width + px) * 4 + k;
             const right = (py * o.walls.width + (b.w - 1) * 64 + px) * 4 + k;
             if (opened[left] !== opened[right]) unequalSideCaps++;
           }
+      let wrongSouthCornerPixels = 0;
+      for (const [sourceX, destinationX] of [
+        [512, 0],
+        [768, (b.w - 1) * 64],
+      ]) {
+        const expected = document.createElement("canvas");
+        expected.width = expected.height = 64;
+        expected
+          .getContext("2d")!
+          .drawImage(construction, sourceX, 256, 256, 256, 0, 0, 64, 64);
+        const pixels = expected
+          .getContext("2d")!
+          .getImageData(0, 0, 64, 64).data;
+        const actual = o.walls
+          .getContext("2d")!
+          .getImageData(destinationX, (b.h - 1) * 64, 64, 64).data;
+        for (let i = 0; i < pixels.length; i++)
+          if (pixels[i] !== actual[i]) wrongSouthCornerPixels++;
+      }
       const roofPixels = a.roof
         .getContext("2d")!
         .getImageData(0, 0, a.roof.width, (b.h - 1) * 64).data;
@@ -274,6 +293,7 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
         floorUnderWalls,
         changedWalls,
         minWallCoverage,
+        wrongSouthCornerPixels,
         gapsAtJambs,
         unequalSideCaps,
         uncoveredRoofPixels,
@@ -298,6 +318,7 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
     expect(b.floorUnderWalls, b.id).toBe(0);
     expect(b.changedWalls, b.id).toBe(0);
     expect(b.minWallCoverage, b.id).toBeGreaterThan(0.7);
+    expect(b.wrongSouthCornerPixels, b.id).toBe(0);
     expect(b.gapsAtJambs, b.id).toBe(0);
     expect(b.unequalSideCaps, b.id).toBe(0);
     expect(b.uncoveredRoofPixels, b.id).toBe(0);

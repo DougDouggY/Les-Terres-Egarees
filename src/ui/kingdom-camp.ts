@@ -35,12 +35,12 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
     status = host.querySelector<HTMLElement>("[data-camp-status]")!;
   const atlas = new Image(),
     architecture = new Image(),
-    castle = new Image();
+    construction = new Image();
   atlas.src = import.meta.env.BASE_URL + "assets/regional-tiles.png?v=1";
   architecture.src = import.meta.env.BASE_URL + campTileset.source;
-  castle.src =
-    import.meta.env.BASE_URL + "assets/material-tests/castle-atlas.png";
-  const renderer = new CampTerrainRenderer(atlas, architecture, castle);
+  construction.src =
+    import.meta.env.BASE_URL + "assets/future-terrain/camp.png";
+  const renderer = new CampTerrainRenderer(atlas, architecture, construction);
   let layer: HTMLCanvasElement | null = null;
   const opened = new Set<string>();
   const doorButton = host.querySelector<HTMLButtonElement>("[data-camp-door]")!;
@@ -316,7 +316,11 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
   const observer = new ResizeObserver(paint);
   observer.observe(viewport);
   paint();
-  void Promise.all([atlas.decode(), architecture.decode(), castle.decode()])
+  void Promise.all([
+    atlas.decode(),
+    architecture.decode(),
+    construction.decode(),
+  ])
     .then(() => {
       if (disposed) return;
       layer = renderer.layer("regional", ["north", "knight"]);

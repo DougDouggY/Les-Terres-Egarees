@@ -235,7 +235,7 @@ function title() {
   tacticalAction = null;
   chapterDirector?.dispose();
   chapterDirector = undefined;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${button("Essai sur carte · temporaire", "unit-review", "quiet")}${button("Tester chapitre 2", "chapter-two-review", "quiet")}${button("Carte du chapitre 2", "kingdom-camp", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div><p class="title-version">Aperçu actuel : campement · quatre bâtiments</p></section><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${button("Essai sur carte · temporaire", "unit-review", "quiet")}${button("Tester chapitre 2", "chapter-two-review", "quiet")}${button("Carte du chapitre 2", "kingdom-camp", "quiet")}${button("Cartes suivantes · essais", "future-terrain", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div><p class="title-version">Aperçu actuel : campement · quatre bâtiments</p></section><div class="grain"></div></main>`;
 }
 function modeChoice() {
   screen = "mode";
@@ -2485,6 +2485,21 @@ app.addEventListener("click", async (e) => {
   const action = el.dataset.action!;
   if (action === "story-save") {
     if (state) openSaveManager(state, loadCampaign);
+    return;
+  }
+  if (action === "future-terrain") {
+    if (screen !== "title") return;
+    await menuLoad(el, async () => {
+      const request = ++developerRequest;
+      const { openFutureTerrain } = await import("./ui/future-terrain");
+      if (request !== developerRequest) return;
+      screen = "developer";
+      developerCleanup = openFutureTerrain(app, () => {
+        developerCleanup?.();
+        developerCleanup = null;
+        title();
+      });
+    });
     return;
   }
   if (action === "kingdom-camp") {

@@ -352,3 +352,29 @@ test("tileset rapproché : vrais fichiers, toits indépendants, seize murs/acces
     assert.ok(h.x + h.w <= T.columns && h.y + h.h <= T.rows);
   }
 });
+
+test("terrains suivants : deux plans indépendants et chemins traversables", async () => {
+  const { futureTerrainMaps } = await import("../src/data/future-terrain-maps");
+  const { gridPath } = await import("../src/game/grid-path");
+  const first = futureTerrainMaps(),
+    second = futureTerrainMaps();
+  assert.equal(first.length, 2);
+  assert.deepEqual(first, second);
+  for (const m of first) {
+    assert.equal(m.tiles.length, m.width * m.height);
+    assert.equal(m.blocked.length, m.tiles.length);
+    assert.ok(m.tiles.every((t) => Number.isInteger(t) && t >= 0 && t <= 16));
+    assert.ok(
+      gridPath(
+        m.width,
+        m.height,
+        m.start[1] * m.width + m.start[0],
+        m.destination[1] * m.width + m.destination[0],
+        (k) => (m.blocked[k] ? null : 1),
+      ),
+      m.id,
+    );
+  }
+  first[0].tiles[0] = 15;
+  assert.notEqual(first[0].tiles[0], second[0].tiles[0]);
+});

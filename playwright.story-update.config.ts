@@ -7,6 +7,7 @@ export default defineConfig({
     "cooperative-story-update.spec.ts",
     "chapter-two-review.spec.ts",
     "camp-preview.spec.ts",
+    "future-terrain.spec.ts",
   ],
   timeout: 120000,
   expect: { timeout: 20000 },
