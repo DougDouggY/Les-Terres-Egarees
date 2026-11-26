@@ -112,6 +112,18 @@ for (const choice of ["storm", "travelers"] as const)
     expect(errors).toEqual([]);
     await page.screenshot({ path: `/tmp/chapter-two-review-${choice}.png` });
     await page
+      .getByRole("button", { name: "Voir la carte du camp", exact: true })
+      .click();
+    await expect(page.locator("[data-camp-canvas]")).toHaveAttribute(
+      "data-ready",
+      "true",
+      { timeout: 30000 },
+    );
+    await page.getByRole("button", { name: "Retour", exact: true }).click();
+    await expect(page.locator(".summary-screen h1")).toHaveText(
+      "Chapitre II — Un ennemi commun",
+    );
+    await page
       .getByRole("button", { name: "Menu principal", exact: true })
       .click();
     await expect(

@@ -215,3 +215,46 @@ for (const choice of ["storm", "travelers"] as const)
     assert.equal(JSON.stringify(s.units.filter((u) => u.owner !== 0)), roster);
     assert.equal(E.decode(E.encode(s)).chapter2?.stage, "awaiting-battle");
   });
+
+test("camp proposé : passages connectés, bâtiments bloqués, enclos vide et grille stable", async () => {
+  const C = await import("../src/data/kingdom-camp-map");
+  const { gridPath } = await import("../src/game/grid-path");
+  const a = C.kingdomCampMap(),
+    b = C.kingdomCampMap();
+  assert.deepEqual(a, b);
+  assert.equal(a.cells.length, C.CAMP_W * C.CAMP_H);
+  const start = C.campStart.y * C.CAMP_W + C.campStart.x;
+  for (const p of C.campLandmarks) {
+    const k = p.y * C.CAMP_W + p.x;
+    assert.ok(
+      gridPath(C.CAMP_W, C.CAMP_H, start, k, (i) =>
+        a.cells[i].walk ? a.cells[i].cost : null,
+      ),
+      p.name,
+    );
+  }
+  for (const building of C.campBuildings)
+    for (let y = building.y; y < building.y + building.h; y++)
+      for (let x = building.x; x < building.x + building.w; x++)
+        assert.equal(a.cells[y * C.CAMP_W + x].walk, false);
+  for (const c of a.cells) {
+    assert.equal(c.y * C.CAMP_W + c.x, a.cells.indexOf(c));
+    if (c.terrain === "wall") assert.equal(c.walk, false);
+  }
+});
+
+test("aperçu du camp : restaurer exactement le terrain précédent", async () => {
+  for (const id of ["prologue", "forest-compact"] as const) {
+    E.activateMap(id);
+    const before = JSON.stringify(E.map),
+      width = E.W,
+      height = E.H;
+    E.activateMap("kingdom-camp");
+    assert.equal(E.W, 40);
+    assert.equal(E.H, 28);
+    E.activateMap(id);
+    assert.equal(E.W, width);
+    assert.equal(E.H, height);
+    assert.equal(JSON.stringify(E.map), before);
+  }
+});

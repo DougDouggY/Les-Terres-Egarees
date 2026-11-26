@@ -192,7 +192,7 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${button("Essai sur carte · temporaire", "unit-review", "quiet")}${button("Tester chapitre 2", "chapter-two-review", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${button("Essai sur carte · temporaire", "unit-review", "quiet")}${button("Tester chapitre 2", "chapter-two-review", "quiet")}${button("Carte du chapitre 2", "kingdom-camp", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
 }
 function modeChoice() {
   screen = "mode";
@@ -2393,7 +2393,7 @@ function summary() {
     )
     .join(
       "",
-    )}</div>${s.forestChapter?.stage === "complete" && !s.chapter2 ? button("Poursuivre · Chapitre II", "continue-chapter-two", "primary") : ""}${s.chapter1?.complete && !s.forestChapter ? button("Poursuivre · Chapitre 1", "continue-chapter-one", "primary") : ""}${s.developmentTest ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${button("Sauvegarder", "save", "primary")}${button("Menu principal", "title")}</section></main>`;
+    )}</div>${s.forestChapter?.stage === "complete" && !s.chapter2 ? button("Poursuivre · Chapitre II", "continue-chapter-two", "primary") : ""}${s.chapter1?.complete && !s.forestChapter ? button("Poursuivre · Chapitre 1", "continue-chapter-one", "primary") : ""}${s.developmentTest ? button("Recommencer la rencontre (test)", "restart-chapter-one") : ""}${s.chapter2?.stage === "awaiting-battle" ? button("Voir la carte du camp", "kingdom-camp") : ""}${button("Sauvegarder", "save", "primary")}${button("Menu principal", "title")}</section></main>`;
 }
 function playerKnowledge() {
   const s = state!,
@@ -2442,6 +2442,22 @@ app.addEventListener("click", async (e) => {
   const action = el.dataset.action!;
   if (action === "story-save") {
     if (state) openSaveManager(state, loadCampaign);
+    return;
+  }
+  if (action === "kingdom-camp") {
+    if (screen !== "title" && !(screen === "summary" && state?.chapter2))
+      return;
+    const fromSummary = screen === "summary";
+    const request = ++developerRequest;
+    const { openKingdomCamp } = await import("./ui/kingdom-camp");
+    if (request !== developerRequest) return;
+    screen = "developer";
+    developerCleanup = openKingdomCamp(app, () => {
+      developerCleanup?.();
+      developerCleanup = null;
+      if (fromSummary && state) summary();
+      else title();
+    });
     return;
   }
   if (action === "chapter-two-review") {

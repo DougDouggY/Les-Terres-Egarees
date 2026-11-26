@@ -1,3 +1,4 @@
+import { kingdomCampMap, CAMP_W, CAMP_H } from "../data/kingdom-camp-map";
 import { compactForestMap } from "../data/compact-forest-map";
 import * as prologue from "./map";
 import { forestMap } from "../data/forest-map";
@@ -7,7 +8,7 @@ export * from "./map";
 const template = structuredClone(prologue.map);
 const routes = structuredClone(prologue.roadRoutes);
 export let roadRoutes = prologue.roadRoutes;
-export type MapId = "prologue" | "forest" | "forest-compact";
+export type MapId = "prologue" | "forest" | "forest-compact" | "kingdom-camp";
 export let W = prologue.W,
   H = prologue.H;
 export const key = (x: number, y: number) => y * W + x;
@@ -19,13 +20,20 @@ export let currentMapId: MapId = "prologue";
 export function activateMap(id: MapId = "prologue") {
   if (id === currentMapId) return;
   const board =
-    id === "forest-compact"
-      ? compactForestMap()
-      : id === "forest"
-        ? forestMap(prologue.W, prologue.H)
-        : { cells: structuredClone(template), routes: structuredClone(routes) };
-  W = id === "forest-compact" ? 34 : prologue.W;
-  H = id === "forest-compact" ? 20 : prologue.H;
+    id === "kingdom-camp"
+      ? kingdomCampMap()
+      : id === "forest-compact"
+        ? compactForestMap()
+        : id === "forest"
+          ? forestMap(prologue.W, prologue.H)
+          : {
+              cells: structuredClone(template),
+              routes: structuredClone(routes),
+            };
+  W =
+    id === "kingdom-camp" ? CAMP_W : id === "forest-compact" ? 34 : prologue.W;
+  H =
+    id === "kingdom-camp" ? CAMP_H : id === "forest-compact" ? 20 : prologue.H;
   prologue.map.splice(0, prologue.map.length, ...board.cells);
   roadRoutes = board.routes;
   currentMapId = id;
