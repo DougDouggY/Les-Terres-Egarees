@@ -42,6 +42,7 @@ export class CampTerrainRenderer {
   constructor(
     private ground: HTMLImageElement,
     private architecture: HTMLImageElement,
+    private castle: HTMLImageElement,
   ) {}
   private tile(
     c: CanvasRenderingContext2D,
@@ -110,78 +111,42 @@ export class CampTerrainRenderer {
     };
     const width = b.w * 32,
       height = b.h * 32;
-    const side = (
-      points: number[][],
-      x: number,
-      y: number,
-      angle: number,
-      length: number,
-    ) => {
-      w.save();
-      w.beginPath();
-      points.forEach(([px, py], i) =>
-        i ? w.lineTo(px, py) : w.moveTo(px, py),
-      );
-      w.closePath();
-      w.clip();
-      w.translate(x, y);
-      w.rotate(angle);
-      w.drawImage(band(length), 0, 0, length, 32);
-      w.restore();
-    };
-    // Mitred corners join the rotated side copings to the back wall, with no
-    // north/south corner substitutions. Side-wall material follows the wall axis.
-    side(
-      [
-        [0, 0],
-        [width, 0],
-        [width - 32, 32],
-        [32, 32],
-      ],
-      0,
-      0,
-      0,
-      width,
-    );
-    side(
-      [
-        [width, 0],
-        [width, height],
-        [width - 32, height - 32],
-        [width - 32, 32],
-      ],
-      width,
-      0,
-      Math.PI / 2,
-      height,
-    );
-    side(
-      [
-        [0, height],
-        [0, 0],
-        [32, 32],
-        [32, height - 32],
-      ],
-      0,
-      height,
-      -Math.PI / 2,
-      height,
-    );
-    side(
-      [
-        [0, height],
-        [32, height - 32],
-        [width - 32, height - 32],
-        [width, height],
-      ],
-      0,
-      height - 32,
-      0,
-      width,
-    );
+    // The rear face stays upright. Only its two corners and the full side
+    // columns become wooden coping, just as the castle separates face and cap.
+    w.drawImage(band(width), 0, 0, width, 32);
+    w.drawImage(band(width), 0, height - 32, width, 32);
+    const cap = document.createElement("canvas");
+    cap.width = 64;
+    cap.height = b.h * 64;
+    const cc = cap.getContext("2d")!;
+    cc.fillStyle = "#705439";
+    cc.fillRect(0, 0, cap.width, cap.height);
+    // Use only the timber beam above the face: no plaster or stone on the caps.
+    for (let y = 0, i = 0; y < cap.height; y += 48, i++) {
+      cc.save();
+      cc.translate(0, y + (i % 2 ? 48 : 0));
+      cc.scale(1, i % 2 ? -1 : 1);
+      cc.translate(64, 0);
+      cc.rotate(Math.PI / 2);
+      cc.drawImage(this.architecture, 8, 12 * 64 + 1, 48, 10, 0, 0, 48, 64);
+      cc.restore();
+    }
+    w.drawImage(cap, 0, 0, 32, height);
+    w.drawImage(cap, width - 32, 0, 32, height);
+    // Continuous inner/outer edges, never a separate outline around each cell.
+    w.fillStyle = "#342a20";
+    w.fillRect(0, 0, 1, height);
+    w.fillRect(31, 0, 1, height);
+    w.fillRect(width - 32, 0, 1, height);
+    w.fillRect(width - 1, 0, 1, height);
     // A door replaces precisely its south-wall cell, never its neighbours.
     const doorX = (b.entry.x - b.x) * 32;
     w.clearRect(doorX, height - 32, 32, 32);
+    // Opaque frame backing closes the transparent gaps at the jambs. The open
+    // central doorway remains transparent over its threshold.
+    w.fillStyle = "#705439";
+    w.fillRect(doorX, height - 32, 32, 32);
+    if (open) w.clearRect(doorX + 8, height - 25, 16, 25);
     this.tile(
       w,
       open ? tiles.walls.doorOpen : tiles.walls.doorClosed,
@@ -207,24 +172,13 @@ export class CampTerrainRenderer {
       );
     }
     if (!open) {
-      const frame = tiles.roofs[b.variant];
-      // The castle covers every hidden cell with an opaque roof base. Alpha
-      // margins of the roof illustration must never reveal floor or furniture.
-      r.fillStyle = "#66533d";
-      r.fillRect(0, 0, b.w * 32, (b.h - 1) * 32);
-      // Use the solid inner roof surface, excluding the transparent silhouette.
-      // Its outer rim is the building footprint, exactly as for castle coverage.
-      r.drawImage(
-        this.architecture,
-        frame.x * 64 + 64,
-        frame.y * 64 + 80,
-        448,
-        260,
-        0,
-        0,
-        b.w * 32,
-        (b.h - 1) * 32,
-      );
+      // Reuse the exact approved castle roof, one complete texture per cell.
+      // No enlarged single illustration, perspective silhouette or alpha gaps.
+      r.fillStyle = "#22364a";
+      r.fillRect(0, 0, width, height - 32);
+      for (let y = 0; y < b.h - 1; y++)
+        for (let x = 0; x < b.w; x++)
+          r.drawImage(this.castle, 633, 320, 303, 300, x * 32, y * 32, 32, 32);
     }
     return { floor, walls, furniture, roof };
   }
@@ -293,8 +247,26 @@ export class CampTerrainRenderer {
           32,
         );
     for (const item of campProps)
-      if (item.type === "garden")
-        prop(item.type, item.x, item.y, item.w, item.h);
+      if (item.type === "garden") {
+        // Crop away each sample's enclosing soil border; adjacent crop cells
+        // share one continuous field, rather than four framed garden patches.
+        const frame = tiles.props.garden;
+        c.save();
+        c.translate((item.x + (item.x % 2)) * 32, (item.y + (item.y % 2)) * 32);
+        c.scale(item.x % 2 ? -1 : 1, item.y % 2 ? -1 : 1);
+        c.drawImage(
+          this.architecture,
+          frame[0] * 64 + 7,
+          frame[1] * 64 + 7,
+          50,
+          50,
+          0,
+          0,
+          32,
+          32,
+        );
+        c.restore();
+      }
     for (const b of campBuildings) {
       const layers = this.buildingLayers(b, opened.has(b.id));
       for (const piece of [

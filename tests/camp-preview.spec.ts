@@ -202,11 +202,13 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
       R = await import(String("/src/ui/kingdom-camp-renderer.ts")),
       T = await import(String("/src/data/village-tileset.ts"));
     const ground = new Image(),
-      art = new Image();
+      art = new Image(),
+      castle = new Image();
     ground.src = "/assets/regional-tiles.png";
     art.src = "/" + T.villageTileset.source;
-    await Promise.all([ground.decode(), art.decode()]);
-    const renderer = new R.CampTerrainRenderer(ground, art);
+    castle.src = "/assets/material-tests/castle-atlas.png";
+    await Promise.all([ground.decode(), art.decode(), castle.decode()]);
+    const renderer = new R.CampTerrainRenderer(ground, art, castle);
     const buildings = D.campBuildings.map((b: any) => {
       const a = renderer.buildingLayers(b, false),
         o = renderer.buildingLayers(b, true);
@@ -240,6 +242,22 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
             }
           minWallCoverage = Math.min(minWallCoverage, opaque / 4096);
         }
+      let gapsAtJambs = 0,
+        unequalSideCaps = 0;
+      const doorX = (b.entry.x - b.x) * 64;
+      for (let py = (b.h - 1) * 64; py < b.h * 64; py++)
+        for (const dx of [0, 1, 2, 3, 60, 61, 62, 63]) {
+          const i = (py * o.walls.width + doorX + dx) * 4 + 3;
+          if (opened[i] !== 255 || closed[i] !== 255) gapsAtJambs++;
+        }
+      // Both full side columns, including all four corners, use matching caps.
+      for (let py = 0; py < b.h * 64; py++)
+        for (let px = 0; px < 64; px++)
+          for (let k = 0; k < 4; k++) {
+            const left = (py * o.walls.width + px) * 4 + k;
+            const right = (py * o.walls.width + (b.w - 1) * 64 + px) * 4 + k;
+            if (opened[left] !== opened[right]) unequalSideCaps++;
+          }
       const roofPixels = a.roof
         .getContext("2d")!
         .getImageData(0, 0, a.roof.width, (b.h - 1) * 64).data;
@@ -256,6 +274,8 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
         floorUnderWalls,
         changedWalls,
         minWallCoverage,
+        gapsAtJambs,
+        unequalSideCaps,
         uncoveredRoofPixels,
         closedRoof: alpha(a.roof),
         openRoof: alpha(o.roof),
@@ -278,6 +298,8 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
     expect(b.floorUnderWalls, b.id).toBe(0);
     expect(b.changedWalls, b.id).toBe(0);
     expect(b.minWallCoverage, b.id).toBeGreaterThan(0.7);
+    expect(b.gapsAtJambs, b.id).toBe(0);
+    expect(b.unequalSideCaps, b.id).toBe(0);
     expect(b.uncoveredRoofPixels, b.id).toBe(0);
     expect(b.closedRoof, b.id).toBe(true);
     expect(b.openRoof, b.id).toBe(false);
