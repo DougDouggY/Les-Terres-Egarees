@@ -222,7 +222,16 @@ test("village rapproché : rues connectées, maisons et accessoires sur des case
   const a = C.kingdomCampMap();
   assert.deepEqual(a, C.kingdomCampMap());
   assert.equal(a.cells.length, 32 * 26);
-  assert.equal(C.campBuildings.length, 5);
+  assert.equal(C.campBuildings.length, 4);
+  assert.deepEqual(
+    C.campBuildings.map((b) => b.kind),
+    ["house", "warehouse", "barracks", "cells"],
+  );
+  assert.ok(
+    C.campBuildings
+      .slice(1)
+      .every((b) => b.w * b.h > C.campBuildings[0].w * C.campBuildings[0].h),
+  );
   assert.equal(
     a.cells.some((c) => c.terrain === "rock" || c.villagePart),
     false,
@@ -263,7 +272,7 @@ test("maisons rapprochées : ouvrir, entrer par la porte et refermer sans touche
     start = C.campStart.y * C.CAMP_W + C.campStart.x;
   for (const b of C.campBuildings) {
     const door = b.entry.y * C.CAMP_W + b.entry.x,
-      inside = (b.y + 2) * C.CAMP_W + b.x + 2;
+      inside = (b.y + b.h - 2) * C.CAMP_W + b.entry.x;
     assert.equal(a.cells[door].walk, false);
     C.setCampHouseOpen(a.cells, b.id, true);
     assert.equal(a.cells[door].walk, true);
@@ -277,7 +286,19 @@ test("maisons rapprochées : ouvrir, entrer par la porte et refermer sans touche
         a.cells[other.entry.y * C.CAMP_W + other.entry.x].walk,
         false,
       );
-    assert.equal(a.cells[(b.y + 1) * C.CAMP_W + b.x + 1].walk, false);
+    for (const item of C.campFurniture(b))
+      for (let y = item.y; y < item.y + item.h; y++)
+        for (let x = item.x; x < item.x + item.w; x++)
+          assert.equal(a.cells[y * C.CAMP_W + x].walk, false);
+    for (let y = b.y; y < b.y + b.h; y++)
+      for (let x = b.x; x < b.x + b.w; x++)
+        if (
+          !C.isCampInterior(b, x, y) &&
+          !(x === b.entry.x && y === b.entry.y)
+        ) {
+          assert.equal(a.cells[y * C.CAMP_W + x].walk, false);
+          assert.equal(a.cells[y * C.CAMP_W + x].terrain, "wall");
+        }
     C.setCampHouseOpen(a.cells, b.id, false);
     assert.deepEqual(a.cells, before);
   }
@@ -308,18 +329,19 @@ test("aperçu rapproché : ancienne carte restaurée, toits fermés à la réouv
   }
 });
 
-test("tileset rapproché : vrais fichiers, quatre maisons 5×5 et neuf ressources de décor", async () => {
+test("tileset rapproché : vrais fichiers, toits indépendants, seize murs/accessoires et neuf ressources de décor", async () => {
   const { readFile } = await import("node:fs/promises"),
     { villageTileset: T } = await import("../src/data/village-tileset");
   const raw = await readFile("public/" + T.source);
   assert.equal(raw.toString("ascii", 1, 4), "PNG");
   assert.equal(raw.readUInt32BE(16), T.columns * T.cell);
   assert.equal(raw.readUInt32BE(20), T.rows * T.cell);
-  assert.equal(T.houses.length, 4);
+  assert.equal(T.roofs.length, 4);
   assert.equal(Object.keys(T.props).length, 9);
-  for (const h of T.houses) {
-    assert.equal(h.w, 5);
-    assert.equal(h.h, 5);
+  assert.equal(Object.keys(T.walls).length, 16);
+  for (const h of T.roofs) {
+    assert.equal(h.w, 9);
+    assert.equal(h.h, 6);
     assert.ok(h.x + h.w <= T.columns && h.y + h.h <= T.rows);
   }
 });

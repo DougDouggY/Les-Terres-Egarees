@@ -28,7 +28,7 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
   let route = gridPath(W, H, start, selected, (k) =>
     map[k].walk ? map[k].cost : null,
   );
-  host.innerHTML = `<main class="camp-preview"><header><div><small>CHAPITRE II · TERRAIN</small><h1>Les rues du village</h1></div><button data-camp-back>Retour</button></header><nav aria-label="Affichage de la carte"><button data-camp-fit>Vue entière</button><button data-camp-village>Voir le village</button><button data-camp-zoom="-" aria-label="Dézoomer">−</button><output data-camp-scale></output><button data-camp-zoom="+" aria-label="Zoomer">+</button><label><input type="checkbox" data-camp-grid checked> Grille</label><button data-camp-door hidden>Ouvrir la porte</button></nav><section class="camp-scroll"><canvas data-camp-canvas tabindex="0" aria-label="Carte du chapitre 2. Glissez pour déplacer la vue ; molette ou pincement pour zoomer."></canvas></section><footer><p data-camp-status role="status"></p><p>Glisser : déplacer · Molette / pincer : zoomer · Toucher une case : numéro et passage</p></footer></main>`;
+  host.innerHTML = `<main class="camp-preview"><header><div><small>CHAPITRE II · TERRAIN</small><h1>Le petit campement</h1></div><button data-camp-back>Retour</button></header><nav aria-label="Affichage de la carte"><button data-camp-fit>Vue entière</button><button data-camp-village>Voir les bâtiments</button><button data-camp-zoom="-" aria-label="Dézoomer">−</button><output data-camp-scale></output><button data-camp-zoom="+" aria-label="Zoomer">+</button><label><input type="checkbox" data-camp-grid checked> Grille</label><button data-camp-door hidden>Ouvrir la porte</button></nav><section class="camp-scroll"><canvas data-camp-canvas tabindex="0" aria-label="Carte du chapitre 2. Glissez pour déplacer la vue ; molette ou pincement pour zoomer."></canvas></section><footer><p data-camp-status role="status"></p><p>Glisser : déplacer · Molette / pincer : zoomer · Toucher une case : numéro et passage</p></footer></main>`;
   const canvas = host.querySelector<HTMLCanvasElement>("[data-camp-canvas]")!,
     ctx = canvas.getContext("2d")!;
   const viewport = host.querySelector<HTMLElement>(".camp-scroll")!,
@@ -122,7 +122,7 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
         : "Ouvrir la porte";
     canvas.dataset.openHouses = String(opened.size);
     canvas.dataset.buildingCount = String(campBuildings.length);
-    canvas.dataset.scale = "village-streets";
+    canvas.dataset.scale = "camp-layered-buildings";
     status.textContent =
       describe(selected) +
       (route

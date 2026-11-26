@@ -10,7 +10,9 @@ for (const mobile of [false, true])
     await page.evaluate(() =>
       localStorage.setItem("lte-save", "sauvegarde à conserver"),
     );
-    await expect(page.locator(".title-version")).toContainText("cinq maisons");
+    await expect(page.locator(".title-version")).toContainText(
+      "quatre bâtiments",
+    );
     for (let i = 0; i < 2; i++) {
       await page
         .getByRole("button", { name: "Carte du chapitre 2", exact: true })
@@ -21,9 +23,9 @@ for (const mobile of [false, true])
       );
       await expect(page.locator("[data-camp-canvas]")).toHaveAttribute(
         "data-building-count",
-        "5",
+        "4",
       );
-      await expect(page.locator("h1")).toHaveText("Les rues du village");
+      await expect(page.locator("h1")).toHaveText("Le petit campement");
       await page.getByRole("button", { name: "Retour", exact: true }).click();
     }
     for (let i = 0; i < 2; i++) {

@@ -20,7 +20,7 @@ export default defineConfig({
           fileName: "release.json",
           source: JSON.stringify({
             revision,
-            edition: "village-streets",
+            edition: "camp-layered-buildings",
             builtAt: new Date().toISOString(),
           }),
         });

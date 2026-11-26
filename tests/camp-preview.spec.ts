@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 for (const mobile of [false, true])
-  test(`village rapproché : ${mobile ? "téléphone, pincement" : "ordinateur, molette"}, caméra et cases`, async ({
+  test(`campement : ${mobile ? "téléphone, pincement" : "ordinateur, molette"}, caméra et cases`, async ({
     page,
   }) => {
     await page.setViewportSize(
@@ -94,7 +94,7 @@ for (const mobile of [false, true])
     );
     await expect.poll(zoom).toBeCloseTo(savedZoom, 5);
     await page
-      .getByRole("button", { name: "Voir le village", exact: true })
+      .getByRole("button", { name: "Voir les bâtiments", exact: true })
       .click();
     const clickCell = async (x: number, y: number) => {
       const r = await canvas.boundingBox(),
@@ -107,19 +107,22 @@ for (const mobile of [false, true])
         },
       });
     };
-    await expect(page.locator("h1")).toHaveText("Les rues du village");
-    await expect(canvas).toHaveAttribute("data-scale", "village-streets");
-    await expect(canvas).toHaveAttribute("data-building-count", "5");
+    await expect(page.locator("h1")).toHaveText("Le petit campement");
+    await expect(canvas).toHaveAttribute(
+      "data-scale",
+      "camp-layered-buildings",
+    );
+    await expect(canvas).toHaveAttribute("data-building-count", "4");
     const assets = await page.evaluate(async () => {
       const image = new Image();
-      image.src = "/assets/kingdom-camp/streets-tileset.png";
+      image.src = "/assets/kingdom-camp/buildings-layered.png";
       await image.decode();
       const c = document.createElement("canvas");
-      c.width = 2560;
-      c.height = 768;
+      c.width = 1152;
+      c.height = 1024;
       const t = c.getContext("2d")!;
       t.drawImage(image, 0, 0);
-      const alpha = t.getImageData(0, 640, 128, 128).data;
+      const alpha = t.getImageData(4 * 64, 12 * 64, 64, 64).data;
       return {
         w: image.width,
         h: image.height,
@@ -128,26 +131,26 @@ for (const mobile of [false, true])
       };
     });
     expect(assets).toEqual({
-      w: 2560,
-      h: 768,
+      w: 1152,
+      h: 1024,
       transparent: true,
       opaque: true,
     });
-    await clickCell(16, 7);
+    await clickCell(6, 8);
     await expect(canvas).toHaveAttribute("data-reachable", "false");
     await expect(page.locator("[data-camp-status]")).toContainText(
-      "Maison commune",
+      "Petite maison",
     );
     await page
       .getByRole("button", { name: "Ouvrir la porte", exact: true })
       .click();
     await expect(canvas).toHaveAttribute("data-open-houses", "1");
     await expect(canvas).toHaveAttribute("data-reachable", "true");
-    await clickCell(16, 5);
+    await clickCell(6, 7);
     await expect(canvas).toHaveAttribute("data-reachable", "true");
     await expect(canvas).toHaveAttribute(
       "data-selected",
-      String(5 * 32 + 16 + 1),
+      String(7 * 32 + 6 + 1),
     );
     await page.screenshot({
       path: `/tmp/streets-interior-${mobile ? "mobile" : "desktop"}.png`,
@@ -182,3 +185,97 @@ for (const mobile of [false, true])
       page.getByRole("button", { name: "Nouvelle partie" }),
     ).toBeVisible();
   });
+
+test("couches réelles : quatre murs permanents, aucun plancher sous leur emprise et chemins raccordés", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Carte du chapitre 2", exact: true })
+    .click();
+  await expect(page.locator("[data-camp-canvas]")).toHaveAttribute(
+    "data-ready",
+    "true",
+  );
+  const results = await page.evaluate(async () => {
+    const D = await import(String("/src/data/kingdom-camp-map.ts")),
+      R = await import(String("/src/ui/kingdom-camp-renderer.ts")),
+      T = await import(String("/src/data/village-tileset.ts"));
+    const ground = new Image(),
+      art = new Image();
+    ground.src = "/assets/regional-tiles.png";
+    art.src = "/" + T.villageTileset.source;
+    await Promise.all([ground.decode(), art.decode()]);
+    const renderer = new R.CampTerrainRenderer(ground, art);
+    const buildings = D.campBuildings.map((b: any) => {
+      const a = renderer.buildingLayers(b, false),
+        o = renderer.buildingLayers(b, true);
+      const floor = o.floor
+        .getContext("2d")!
+        .getImageData(0, 0, o.floor.width, o.floor.height).data;
+      const closed = a.walls
+        .getContext("2d")!
+        .getImageData(0, 0, a.walls.width, a.walls.height).data;
+      const opened = o.walls
+        .getContext("2d")!
+        .getImageData(0, 0, o.walls.width, o.walls.height).data;
+      let floorUnderWalls = 0,
+        changedWalls = 0,
+        minWallCoverage = 1;
+      for (let y = 0; y < b.h; y++)
+        for (let x = 0; x < b.w; x++) {
+          if (
+            D.isCampInterior(b, b.x + x, b.y + y) ||
+            (b.x + x === b.entry.x && b.y + y === b.entry.y)
+          )
+            continue;
+          let opaque = 0;
+          for (let py = 0; py < 64; py++)
+            for (let px = 0; px < 64; px++) {
+              const i = ((y * 64 + py) * o.floor.width + x * 64 + px) * 4;
+              if (floor[i + 3]) floorUnderWalls++;
+              if (opened[i + 3] > 200) opaque++;
+              for (let k = 0; k < 4; k++)
+                if (closed[i + k] !== opened[i + k]) changedWalls++;
+            }
+          minWallCoverage = Math.min(minWallCoverage, opaque / 4096);
+        }
+      const alpha = (c: HTMLCanvasElement) =>
+        c
+          .getContext("2d")!
+          .getImageData(0, 0, c.width, c.height)
+          .data.some((v, i) => i % 4 === 3 && v > 0);
+      return {
+        id: b.id,
+        floorUnderWalls,
+        changedWalls,
+        minWallCoverage,
+        closedRoof: alpha(a.roof),
+        openRoof: alpha(o.roof),
+      };
+    });
+    const mask = R.campRoadMask(),
+      c = mask.getContext("2d")!;
+    const a = (x: number, y: number) => c.getImageData(x, y, 1, 1).data[3];
+    return {
+      buildings,
+      road: {
+        inside: a(15 * 64 + 32, 18 * 64 + 32),
+        edge: a(15 * 64, 18 * 64 + 32),
+        outside: a(15 * 64 - 32, 18 * 64 + 32),
+      },
+    };
+  });
+  expect(results.buildings).toHaveLength(4);
+  for (const b of results.buildings) {
+    expect(b.floorUnderWalls, b.id).toBe(0);
+    expect(b.changedWalls, b.id).toBe(0);
+    expect(b.minWallCoverage, b.id).toBeGreaterThan(0.7);
+    expect(b.closedRoof, b.id).toBe(true);
+    expect(b.openRoof, b.id).toBe(false);
+  }
+  expect(results.road.inside).toBe(255);
+  expect(results.road.outside).toBe(0);
+  expect(results.road.edge).toBeGreaterThan(0);
+  expect(results.road.edge).toBeLessThan(255);
+});
