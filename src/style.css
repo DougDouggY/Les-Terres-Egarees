@@ -7626,3 +7626,43 @@ body:has(.aftermath-screen) .modal-back.rewards {
 .chapter-screen:has(.story-ambush-duel:not([hidden])) .story-save {
   display: none;
 }
+
+.title-loading,
+.title-version {
+  font-size: 12px;
+  color: #e7d39d;
+  margin-top: 12px;
+}
+.title-version {
+  opacity: 0.8;
+}
+.release-update {
+  position: fixed;
+  z-index: 100000;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  background: #20342f;
+  color: #f4e9cb;
+  border: 1px solid #c4ac75;
+  box-shadow: 0 4px 20px #0008;
+}
+.release-update p {
+  font-size: 13px;
+}
+.release-update button {
+  flex: none;
+  padding: 9px 12px;
+  background: #d9c38c;
+  color: #14201c;
+}
+@media (max-width: 600px) {
+  .release-update {
+    flex-wrap: wrap;
+  }
+}

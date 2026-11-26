@@ -1,4 +1,7 @@
 import { test, expect } from "@playwright/test";
+test.beforeEach(async ({ page }) => {
+  await page.routeWebSocket(/.*/, () => {});
+});
 for (const mobile of [false, true])
   test(`essai tactique : entrée, camps, sauvegarde et retour ${mobile ? "mobile" : "ordinateur"}`, async ({
     page,

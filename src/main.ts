@@ -1,3 +1,4 @@
+import { installReleaseUpdates } from "./ui/release-updates";
 import { openSaveManager } from "./ui/save-manager";
 import { installPortraitMasks } from "./ui/portrait-mask";
 import { IntroductionScene, introductionMarkup } from "./ui/introduction-scene";
@@ -181,6 +182,44 @@ function configureReviewFog(review: boolean) {
     reviewFogBefore = undefined;
   }
 }
+let menuLoading = false;
+async function menuLoad(trigger: HTMLElement, work: () => Promise<void>) {
+  if (menuLoading) return;
+  menuLoading = true;
+  const root = app.querySelector<HTMLElement>(".title-screen");
+  const originalLabel = trigger.innerHTML;
+  const originalDisabled = (trigger as HTMLButtonElement).disabled;
+  const buttons = Array.from(
+    root?.querySelectorAll<HTMLButtonElement>("button") ?? [],
+  );
+  const disabled = buttons.map((b) => b.disabled);
+  for (const b of buttons) b.disabled = true;
+  const feedback = document.createElement("p");
+  feedback.className = "title-loading";
+  feedback.setAttribute("role", "status");
+  feedback.textContent = "Chargement…";
+  root?.querySelector(".title-copy")?.append(feedback);
+  root?.setAttribute("aria-busy", "true");
+  trigger.setAttribute("aria-busy", "true");
+  (trigger as HTMLButtonElement).disabled = true;
+  trigger.textContent = "Chargement…";
+  try {
+    await work();
+  } catch {
+    toast(
+      "Le chargement a échoué. Réessayez ou actualisez le jeu depuis l’accueil.",
+    );
+    void releaseUpdates.check();
+  } finally {
+    menuLoading = false;
+    buttons.forEach((b, i) => (b.disabled = disabled[i]));
+    trigger.removeAttribute("aria-busy");
+    trigger.innerHTML = originalLabel;
+    (trigger as HTMLButtonElement).disabled = originalDisabled;
+    root?.removeAttribute("aria-busy");
+    feedback.remove();
+  }
+}
 function title() {
   configureReviewFog(false);
   introductionScene?.dispose();
@@ -192,7 +231,11 @@ function title() {
   developerCleanup = null;
   screen = "title";
   state = null;
-  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${button("Essai sur carte · temporaire", "unit-review", "quiet")}${button("Tester chapitre 2", "chapter-two-review", "quiet")}${button("Carte du chapitre 2", "kingdom-camp", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div></section><div class="grain"></div></main>`;
+  busy = false;
+  tacticalAction = null;
+  chapterDirector?.dispose();
+  chapterDirector = undefined;
+  app.innerHTML = `<main class="title-screen"><div class="title-art"></div><div class="mist mist-a"></div><div class="mist mist-b"></div><section class="title-copy"><h1>LES TERRES<br><em>ÉGARÉES</em></h1><div class="title-actions">${button("Nouvelle partie <span>→</span>", "new", "primary")}${button("Charger une partie", "continue", "quiet")}${button("Options <span>≡</span>", "options", "quiet")}${button("Le Plan", "narrative-plan", "quiet")}${button("Essai des animations", "contact-trial", "quiet")}${button("Essai sur carte · temporaire", "unit-review", "quiet")}${button("Tester chapitre 2", "chapter-two-review", "quiet")}${button("Carte du chapitre 2", "kingdom-camp", "quiet")}${prototypeTools ? `<details class="dev-entry"><summary>Outils du prototype</summary>${button("Tester chapitre 1", "dev-chapter-one", "quiet")}${localStorage.getItem("lte-chapter-one-test") ? button("Reprendre le test du chapitre 1", "resume-chapter-one", "quiet") : ""}${button("Classes et systèmes", "dev-systems", "quiet")}${button("Galerie des sprites", "dev-sprites", "quiet")}</details>` : ""}</div><p class="title-version">Aperçu actuel : rues du village · cinq maisons</p></section><div class="grain"></div></main>`;
 }
 function modeChoice() {
   screen = "mode";
@@ -2447,21 +2490,24 @@ app.addEventListener("click", async (e) => {
   if (action === "kingdom-camp") {
     if (screen !== "title" && !(screen === "summary" && state?.chapter2))
       return;
-    const fromSummary = screen === "summary";
-    const request = ++developerRequest;
-    const { openKingdomCamp } = await import("./ui/kingdom-camp");
-    if (request !== developerRequest) return;
-    screen = "developer";
-    developerCleanup = openKingdomCamp(app, () => {
-      developerCleanup?.();
-      developerCleanup = null;
-      if (fromSummary && state) summary();
-      else title();
+    await menuLoad(el, async () => {
+      const fromSummary = screen === "summary";
+      const request = ++developerRequest;
+      const { openKingdomCamp } = await import("./ui/kingdom-camp");
+      if (request !== developerRequest) return;
+      screen = "developer";
+      developerCleanup = openKingdomCamp(app, () => {
+        developerCleanup?.();
+        developerCleanup = null;
+        if (fromSummary && state) summary();
+        else title();
+      });
     });
     return;
   }
   if (action === "chapter-two-review") {
     if (screen !== "title") return;
+    if (app.querySelector("#chapter-two-review-title")) return;
     const modal = document.createElement("div");
     modal.className = "modal-back";
     modal.innerHTML = `<section class="modal" role="dialog" aria-modal="true" aria-labelledby="chapter-two-review-title"><h2 id="chapter-two-review-title">Tester chapitre 2</h2><p>Commencez après la victoire du chapitre 1 : dialogues de fin, puis chapitre 2 jusqu’au départ de la grotte.</p><p>Une équipe de test est créée. Vos sauvegardes restent intactes.</p>${button("Tempêtes rouges · avec Géraud", "chapter-two-review-storm", "primary")}${button("Vagabonds", "chapter-two-review-travelers")}${button("Annuler", "close-modal")}</section>`;
@@ -2474,25 +2520,27 @@ app.addEventListener("click", async (e) => {
     action === "chapter-two-review-travelers"
   ) {
     if (screen !== "title") return;
-    const request = ++developerRequest;
-    const { createChapterTwoReview } =
-      await import("./game/chapter-two-review");
-    if (request !== developerRequest) return;
-    E.setSessionView({ mode: "local" });
-    try {
-      const preview = createChapterTwoReview(
-        action === "chapter-two-review-storm" ? "storm" : "travelers",
-      );
-      preview.teamColors = readTeamPreferences();
-      chapterFrame = null;
-      observer = false;
-      cardOpen = false;
-      targetingAttack = false;
-      focusToken = "";
-      loadCampaign(preview);
-    } catch (error) {
-      toast((error as Error).message);
-    }
+    await menuLoad(el, async () => {
+      const request = ++developerRequest;
+      const { createChapterTwoReview } =
+        await import("./game/chapter-two-review");
+      if (request !== developerRequest) return;
+      E.setSessionView({ mode: "local" });
+      try {
+        const preview = createChapterTwoReview(
+          action === "chapter-two-review-storm" ? "storm" : "travelers",
+        );
+        preview.teamColors = readTeamPreferences();
+        chapterFrame = null;
+        observer = false;
+        cardOpen = false;
+        targetingAttack = false;
+        focusToken = "";
+        loadCampaign(preview);
+      } catch (error) {
+        toast((error as Error).message);
+      }
+    });
     return;
   }
   if (action === "narrative-plan") {
@@ -2664,36 +2712,40 @@ app.addEventListener("click", async (e) => {
   if (["unit-review", "review-restart", "review-swap"].includes(action)) {
     if ((state && busy) || (action !== "unit-review" && !state?.unitReview))
       return;
-    const faction =
-      action === "review-swap"
-        ? state!.unitReview!.faction === "north"
-          ? "knight"
-          : "north"
-        : (state?.unitReview?.faction ?? "north");
-    const request = ++developerRequest;
-    const { createUnitReview } = await import("./game/unit-review");
-    if (request !== developerRequest) return;
-    introductionScene?.dispose();
-    introductionScene = undefined;
-    developerCleanup?.();
-    developerCleanup = null;
-    initiativeCleanup?.();
-    chapterFrame = null;
-    observer = false;
-    cardOpen = false;
-    targetingAttack = false;
-    focusToken = "";
-    E.setSessionView({ mode: "local" });
-    loadCampaign(createUnitReview(faction));
+    await menuLoad(el, async () => {
+      const faction =
+        action === "review-swap"
+          ? state!.unitReview!.faction === "north"
+            ? "knight"
+            : "north"
+          : (state?.unitReview?.faction ?? "north");
+      const request = ++developerRequest;
+      const { createUnitReview } = await import("./game/unit-review");
+      if (request !== developerRequest) return;
+      introductionScene?.dispose();
+      introductionScene = undefined;
+      developerCleanup?.();
+      developerCleanup = null;
+      initiativeCleanup?.();
+      chapterFrame = null;
+      observer = false;
+      cardOpen = false;
+      targetingAttack = false;
+      focusToken = "";
+      E.setSessionView({ mode: "local" });
+      loadCampaign(createUnitReview(faction));
+    });
     return;
   }
   if (action === "contact-trial") {
-    const request = ++developerRequest;
-    developerCleanup?.();
-    screen = "developer";
-    const preview = await import("./ui/contact-preview");
-    if (request !== developerRequest) return;
-    developerCleanup = preview.openContactPreview(app, title);
+    await menuLoad(el, async () => {
+      const request = ++developerRequest;
+      developerCleanup?.();
+      const preview = await import("./ui/contact-preview");
+      if (request !== developerRequest) return;
+      screen = "developer";
+      developerCleanup = preview.openContactPreview(app, title);
+    });
     return;
   }
   if (
@@ -3187,6 +3239,11 @@ window.addEventListener("keydown", (e) => {
   }
 });
 
+const releaseUpdates = installReleaseUpdates({
+  revision: import.meta.env.VITE_APP_REVISION || "local",
+  base: import.meta.env.BASE_URL,
+  canReload: () => screen === "title" && !state,
+});
 title();
 
 let creatorResizeFrame = 0;
