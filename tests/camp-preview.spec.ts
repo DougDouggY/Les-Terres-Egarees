@@ -136,7 +136,7 @@ for (const mobile of [false, true])
       transparent: true,
       opaque: true,
     });
-    await clickCell(6, 8);
+    await clickCell(6, 12);
     await expect(canvas).toHaveAttribute("data-reachable", "false");
     await expect(page.locator("[data-camp-status]")).toContainText(
       "Petite maison",
@@ -146,11 +146,11 @@ for (const mobile of [false, true])
       .click();
     await expect(canvas).toHaveAttribute("data-open-houses", "1");
     await expect(canvas).toHaveAttribute("data-reachable", "true");
-    await clickCell(6, 7);
+    await clickCell(6, 11);
     await expect(canvas).toHaveAttribute("data-reachable", "true");
     await expect(canvas).toHaveAttribute(
       "data-selected",
-      String(7 * 32 + 6 + 1),
+      String(11 * 32 + 6 + 1),
     );
     await page.screenshot({
       path: `/tmp/streets-interior-${mobile ? "mobile" : "desktop"}.png`,
@@ -240,6 +240,12 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
             }
           minWallCoverage = Math.min(minWallCoverage, opaque / 4096);
         }
+      const roofPixels = a.roof
+        .getContext("2d")!
+        .getImageData(0, 0, a.roof.width, (b.h - 1) * 64).data;
+      let uncoveredRoofPixels = 0;
+      for (let i = 3; i < roofPixels.length; i += 4)
+        if (roofPixels[i] !== 255) uncoveredRoofPixels++;
       const alpha = (c: HTMLCanvasElement) =>
         c
           .getContext("2d")!
@@ -250,6 +256,7 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
         floorUnderWalls,
         changedWalls,
         minWallCoverage,
+        uncoveredRoofPixels,
         closedRoof: alpha(a.roof),
         openRoof: alpha(o.roof),
       };
@@ -260,9 +267,9 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
     return {
       buildings,
       road: {
-        inside: a(15 * 64 + 32, 18 * 64 + 32),
-        edge: a(15 * 64, 18 * 64 + 32),
-        outside: a(15 * 64 - 32, 18 * 64 + 32),
+        inside: a(17 * 64 + 32, 18 * 64 + 32),
+        edge: a(17 * 64, 18 * 64 + 32),
+        outside: a(17 * 64 - 32, 18 * 64 + 32),
       },
     };
   });
@@ -271,6 +278,7 @@ test("couches réelles : quatre murs permanents, aucun plancher sous leur empris
     expect(b.floorUnderWalls, b.id).toBe(0);
     expect(b.changedWalls, b.id).toBe(0);
     expect(b.minWallCoverage, b.id).toBeGreaterThan(0.7);
+    expect(b.uncoveredRoofPixels, b.id).toBe(0);
     expect(b.closedRoof, b.id).toBe(true);
     expect(b.openRoof, b.id).toBe(false);
   }

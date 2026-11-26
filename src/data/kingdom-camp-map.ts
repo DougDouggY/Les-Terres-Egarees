@@ -8,7 +8,7 @@ export const campBuildings = [
     id: "house",
     name: "Petite maison",
     x: 3,
-    y: 4,
+    y: 8,
     w: 6,
     h: 5,
     variant: 0,
@@ -17,8 +17,8 @@ export const campBuildings = [
   {
     id: "warehouse",
     name: "Entrepôt",
-    x: 19,
-    y: 3,
+    x: 15,
+    y: 2,
     w: 9,
     h: 7,
     variant: 1,
@@ -27,8 +27,8 @@ export const campBuildings = [
   {
     id: "barracks",
     name: "Dortoir des soldats",
-    x: 3,
-    y: 15,
+    x: 5,
+    y: 17,
     w: 9,
     h: 7,
     variant: 2,
@@ -37,8 +37,8 @@ export const campBuildings = [
   {
     id: "cells",
     name: "Bâtiment des cellules",
-    x: 19,
-    y: 15,
+    x: 21,
+    y: 13,
     w: 9,
     h: 7,
     variant: 3,
@@ -104,25 +104,25 @@ export const campProps: {
   w: number;
   h: number;
 }[] = [
-  { type: "well", x: 16, y: 12, w: 1, h: 1 },
-  { type: "crate", x: 28, y: 5, w: 1, h: 1 },
-  { type: "barrel", x: 28, y: 7, w: 1, h: 1 },
+  { type: "well", x: 15, y: 13, w: 2, h: 2 },
+  { type: "crate", x: 25, y: 5, w: 1, h: 1 },
+  { type: "barrel", x: 25, y: 7, w: 1, h: 1 },
   ...[
     [1, 1],
     [1, 22],
     [28, 1],
-    [28, 22],
+    [27, 22],
     [13, 1],
   ].map(([x, y]) => ({ type: "tree" as const, x, y, w: 2, h: 2 })),
   ...[
     [1, 6],
-    [1, 10],
+    [1, 12],
     [10, 4],
     [11, 5],
-    [16, 2],
-    [28, 12],
-    [27, 13],
-    [12, 23],
+    [12, 3],
+    [29, 10],
+    [27, 11],
+    [14, 23],
     [19, 24],
     [1, 17],
     [13, 8],
@@ -204,13 +204,15 @@ export function kingdomCampMap() {
         tile: terrain === "road" ? 2 : terrain === "water" ? 4 : 0,
       });
   }
-  for (let y = 9; y <= 25; y++) for (const x of [15, 16]) set(x, y, "road");
-  for (let x = 6; x <= 24; x++) for (const y of [11, 12]) set(x, y, "road");
-  for (let y = 10; y <= 13; y++)
-    for (let x = 14; x <= 17; x++) set(x, y, "road");
-  for (let y = 9; y <= 11; y++) for (const x of [6, 7]) set(x, y, "road");
-  for (let y = 10; y <= 11; y++) for (const x of [23, 24]) set(x, y, "road");
-  for (let x = 7; x <= 24; x++) for (const y of [23, 24]) set(x, y, "road");
+  // Winding two-cell lanes follow the staggered buildings rather than a central cross.
+  for (let y = 10; y <= 25; y++) for (const x of [17, 18]) set(x, y, "road");
+  for (let x = 6; x <= 18; x++) for (const y of [14, 15]) set(x, y, "road");
+  for (let y = 13; y <= 14; y++) for (const x of [6, 7]) set(x, y, "road");
+  for (let x = 17; x <= 25; x++) for (const y of [10, 11]) set(x, y, "road");
+  for (let y = 9; y <= 10; y++) for (const x of [19, 20]) set(x, y, "road");
+  for (let x = 17; x <= 25; x++) for (const y of [21, 22]) set(x, y, "road");
+  for (let y = 20; y <= 21; y++) for (const x of [25, 26]) set(x, y, "road");
+  for (let x = 9; x <= 18; x++) for (const y of [24, 25]) set(x, y, "road");
   for (const b of campBuildings) set(b.entry.x, b.entry.y + 1, "road");
   for (let y = 0; y < CAMP_H; y++)
     for (const x of [30, 31]) set(x, y, "water", false, false);

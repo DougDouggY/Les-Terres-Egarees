@@ -89,31 +89,105 @@ export class CampTerrainRenderer {
         this.tile(f, tiles.walls.floor, x * 32, y * 32);
     if (open)
       this.tile(f, tiles.walls.floor, (b.entry.x - b.x) * 32, (b.h - 1) * 32);
-    for (let y = 0; y < b.h; y++)
-      for (let x = 0; x < b.w; x++) {
-        if (x !== 0 && x !== b.w - 1 && y !== 0 && y !== b.h - 1) continue;
-        const door = b.x + x === b.entry.x && b.y + y === b.entry.y;
-        const frame = door
-          ? open
-            ? tiles.walls.doorOpen
-            : tiles.walls.doorClosed
-          : y === 0
-            ? x === 0
-              ? tiles.walls.nw
-              : x === b.w - 1
-                ? tiles.walls.ne
-                : tiles.walls.north
-            : y === b.h - 1
-              ? x === 0
-                ? tiles.walls.sw
-                : x === b.w - 1
-                  ? tiles.walls.se
-                  : tiles.walls.south
-              : x === 0
-                ? tiles.walls.west
-                : tiles.walls.east;
-        this.tile(w, frame, x * 32, y * 32);
+    // As in the castle, adjoining wall cells form continuous runs. The old
+    // individually framed panels (and their mismatched corner sprites) are not used.
+    const band = (length: number) => {
+      const canvas = document.createElement("canvas");
+      canvas.width = length * 2;
+      canvas.height = 64;
+      const c = canvas.getContext("2d")!;
+      c.fillStyle = "#665039";
+      c.fillRect(0, 0, canvas.width, 64);
+      // Exclude both end posts; mirror the inner material at each join.
+      for (let x = 0, i = 0; x < canvas.width; x += 48, i++) {
+        c.save();
+        c.translate(x + (i % 2 ? 48 : 0), 0);
+        c.scale(i % 2 ? -1 : 1, 1);
+        c.drawImage(this.architecture, 8, 12 * 64, 48, 64, 0, 0, 48, 64);
+        c.restore();
       }
+      return canvas;
+    };
+    const width = b.w * 32,
+      height = b.h * 32;
+    const side = (
+      points: number[][],
+      x: number,
+      y: number,
+      angle: number,
+      length: number,
+    ) => {
+      w.save();
+      w.beginPath();
+      points.forEach(([px, py], i) =>
+        i ? w.lineTo(px, py) : w.moveTo(px, py),
+      );
+      w.closePath();
+      w.clip();
+      w.translate(x, y);
+      w.rotate(angle);
+      w.drawImage(band(length), 0, 0, length, 32);
+      w.restore();
+    };
+    // Mitred corners join the rotated side copings to the back wall, with no
+    // north/south corner substitutions. Side-wall material follows the wall axis.
+    side(
+      [
+        [0, 0],
+        [width, 0],
+        [width - 32, 32],
+        [32, 32],
+      ],
+      0,
+      0,
+      0,
+      width,
+    );
+    side(
+      [
+        [width, 0],
+        [width, height],
+        [width - 32, height - 32],
+        [width - 32, 32],
+      ],
+      width,
+      0,
+      Math.PI / 2,
+      height,
+    );
+    side(
+      [
+        [0, height],
+        [0, 0],
+        [32, 32],
+        [32, height - 32],
+      ],
+      0,
+      height,
+      -Math.PI / 2,
+      height,
+    );
+    side(
+      [
+        [0, height],
+        [32, height - 32],
+        [width - 32, height - 32],
+        [width, height],
+      ],
+      0,
+      height - 32,
+      0,
+      width,
+    );
+    // A door replaces precisely its south-wall cell, never its neighbours.
+    const doorX = (b.entry.x - b.x) * 32;
+    w.clearRect(doorX, height - 32, 32, 32);
+    this.tile(
+      w,
+      open ? tiles.walls.doorOpen : tiles.walls.doorClosed,
+      doorX,
+      height - 32,
+    );
     for (const item of campFurniture(b)) {
       const frame =
         item.type === "bed"
@@ -134,12 +208,18 @@ export class CampTerrainRenderer {
     }
     if (!open) {
       const frame = tiles.roofs[b.variant];
+      // The castle covers every hidden cell with an opaque roof base. Alpha
+      // margins of the roof illustration must never reveal floor or furniture.
+      r.fillStyle = "#66533d";
+      r.fillRect(0, 0, b.w * 32, (b.h - 1) * 32);
+      // Use the solid inner roof surface, excluding the transparent silhouette.
+      // Its outer rim is the building footprint, exactly as for castle coverage.
       r.drawImage(
         this.architecture,
-        frame.x * 64,
-        frame.y * 64,
-        frame.w * 64,
-        frame.h * 64,
+        frame.x * 64 + 64,
+        frame.y * 64 + 80,
+        448,
+        260,
         0,
         0,
         b.w * 32,

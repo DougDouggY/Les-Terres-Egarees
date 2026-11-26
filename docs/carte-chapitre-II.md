@@ -4,13 +4,15 @@ Version du 26 novembre 2026. L’aperçu conserve la carte rapprochée de 32 × 
 
 ## Bâtiments et chemins
 
+Les bâtiments sont disposés de manière décalée, avec des façades sur quatre lignes différentes et des chemins coudés plutôt que quatre coins réguliers. Le puits occupe 2 × 2 cases, visuellement et pour le passage.
+
 Les cinq maisons sont remplacées par quatre bâtiments : petite maison (6 × 5 cases), entrepôt, dortoir des soldats et bâtiment des cellules (9 × 7 cases chacun). L’entrepôt contient des caisses et tonneaux, le dortoir des couchages et la détention des cloisons et portes de cellules vides. Aucun prisonnier ni recrutement n’est ajouté.
 
 Les chemins utilisent la texture du chapitre I, sur deux cases de large, avec son masque de transition adouci vers l’herbe. La petite place, les accès, le cours d’eau et la végétation sont conservés.
 
 ## Ouverture
 
-Chaque bâtiment comporte des couches indépendantes : plancher intérieur, mobilier, quatre murs permanents et toit amovible. Ouvrir la porte masque seulement le toit et change l’état de la porte. Les murs périphériques restent présents et bloquants ; aucune clôture ne les remplace. Le plancher ne couvre pas les cases de murs. Le seuil devient praticable lorsque la porte est ouverte. Le mobilier bloque le passage. Fermer restaure exactement les cases initiales.
+Chaque bâtiment comporte des couches indépendantes : plancher intérieur, mobilier, quatre murs permanents et toit amovible. Le rendu reprend les principes du château : couverture opaque de toutes les cases cachées et murs composés en lignes continues. Les panneaux isolés et leurs anciens angles sont remplacés par des bandes raccordées, avec des angles en onglet. Les côtés sont orientés suivant leur axe. Ouvrir la porte masque seulement le toit et change l’état de la porte. Les murs périphériques restent présents et bloquants ; aucune clôture ne les remplace. Le plancher ne couvre pas les cases de murs. Le seuil devient praticable lorsque la porte est ouverte. Le mobilier bloque le passage. Fermer restaure exactement les cases initiales.
 
 Cette commande reste une inspection libre de l’aperçu, sans action de combat ni écriture dans les sauvegardes. Aucune armée, condition de victoire, récompense ou nouvelle règle de campagne n’est créée. Quitter l’aperçu restaure la carte précédente.
 
@@ -27,6 +29,6 @@ Sources de cette version dans l’espace de travail :
 
 ## Vérifications
 
-243 tests automatisés réussis. Cinq parcours navigateur réussis : carte sur ordinateur et téléphone, zoom, pincement, déplacement, ouverture, passage intérieur, retours et deux branches narratives sans altérer les sauvegardes. Les comparaisons des pixels des quatre bâtiments vérifient l’absence de plancher sous les murs, la permanence des murs hors porte et la disparition du toit uniquement à l’ouverture. Le masque des chemins est vérifié sur son centre et ses bords. Compilation et contrôle des ressources réussis.
+243 tests automatisés réussis. Cinq parcours navigateur réussis : carte sur ordinateur et téléphone, zoom, pincement, déplacement, ouverture, passage intérieur, retours et deux branches narratives sans altérer les sauvegardes. Les comparaisons des pixels des quatre bâtiments vérifient l’absence de plancher sous les murs, la permanence des murs hors porte et la disparition du toit uniquement à l’ouverture et une couverture entièrement opaque de chaque toit fermé. Le puits bloque ses quatre cases et les emprises restent sans chevauchement. Le masque des chemins est vérifié sur son centre et ses bords. Compilation et contrôle des ressources réussis.
 
 Les fichiers concernés sont les données du camp et du tileset, le rendu et l’interface du camp, l’atlas et son script d’assemblage, l’indication de version de l’accueil et les tests associés. Les règles de combat et le scénario ne sont pas modifiés.

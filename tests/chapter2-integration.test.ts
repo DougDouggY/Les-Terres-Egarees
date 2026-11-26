@@ -254,6 +254,13 @@ test("village rapproché : rues connectées, maisons et accessoires sur des case
       .filter((p) => p.type === "bush")
       .every((p) => p.w === 1 && p.h === 1),
   );
+  const well = C.campProps.find((p) => p.type === "well")!;
+  assert.deepEqual([well.w, well.h], [2, 2]);
+  for (let dy = 0; dy < 2; dy++)
+    for (let dx = 0; dx < 2; dx++)
+      assert.equal(a.cells[(well.y + dy) * C.CAMP_W + well.x + dx].walk, false);
+  // No four corners of a regular rectangle: every facade has its own row.
+  assert.equal(new Set(C.campBuildings.map((b) => b.entry.y)).size, 4);
   const start = C.campStart.y * C.CAMP_W + C.campStart.x;
   for (const p of C.campLandmarks)
     assert.ok(
