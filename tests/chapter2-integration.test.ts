@@ -226,17 +226,18 @@ test("camp proposé : passages connectés, bâtiments bloqués, enclos vide et g
   const start = C.campStart.y * C.CAMP_W + C.campStart.x;
   for (const p of C.campLandmarks) {
     const k = p.y * C.CAMP_W + p.x;
-    assert.ok(
-      gridPath(C.CAMP_W, C.CAMP_H, start, k, (i) =>
-        a.cells[i].walk ? a.cells[i].cost : null,
-      ),
-      p.name,
+    const path = gridPath(C.CAMP_W, C.CAMP_H, start, k, (i) =>
+      a.cells[i].walk ? a.cells[i].cost : null,
     );
+    assert.equal(!!path, a.cells[k].walk, p.name);
   }
   for (const building of C.campBuildings)
-    for (let y = building.y; y < building.y + building.h; y++)
-      for (let x = building.x; x < building.x + building.w; x++)
-        assert.equal(a.cells[y * C.CAMP_W + x].walk, false);
+    for (let y: number = building.y; y < building.y + building.h; y++)
+      for (let x: number = building.x; x < building.x + building.w; x++)
+        assert.equal(
+          a.cells[y * C.CAMP_W + x].walk,
+          x === C.campVillage.entry.x && y === C.campVillage.entry.y,
+        );
   for (const c of a.cells) {
     assert.equal(c.y * C.CAMP_W + c.x, a.cells.indexOf(c));
     if (c.terrain === "wall") assert.equal(c.walk, false);
@@ -257,4 +258,23 @@ test("aperçu du camp : restaurer exactement le terrain précédent", async () =
     assert.equal(E.H, height);
     assert.equal(JSON.stringify(E.map), before);
   }
+});
+
+test("village en bois : neuf cases liées, porte au sud et trois cases devant", async () => {
+  const C = await import("../src/data/kingdom-camp-map");
+  const b = C.kingdomCampMap();
+  const parts = b.cells.filter((c) => c.villagePart);
+  assert.equal(parts.length, 9);
+  assert.equal(parts.filter((c) => c.walk).length, 1);
+  const entry =
+    b.cells[C.campVillage.entry.y * C.CAMP_W + C.campVillage.entry.x];
+  assert.equal(entry.walk, true);
+  assert.equal(entry.terrain, "floor");
+  assert.deepEqual(entry.villagePart, { dx: 1, dy: 2 });
+  for (let dx = -1; dx <= 1; dx++)
+    assert.equal(b.cells[(entry.y + 1) * C.CAMP_W + entry.x + dx].walk, true);
+  const water = b.cells.filter((c) => c.terrain === "water");
+  assert.ok(water.length >= C.CAMP_H * 2);
+  assert.ok(water.every((c) => !c.walk && !c.opaque));
+  assert.ok(b.cells.some((c) => c.terrain === "rock" && !c.walk && c.opaque));
 });

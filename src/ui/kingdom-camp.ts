@@ -1,3 +1,4 @@
+import { campTileset } from "../data/camp-tileset";
 import { activateMap, currentMapId, map, W, H } from "../game/active-map";
 import {
   CAMP_W,
@@ -19,13 +20,15 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
     labels = true;
   let selected = campStart.y * CAMP_W + campStart.x;
   const start = selected;
-  host.innerHTML = `<main class="camp-preview"><header><div><small>CHAPITRE II · PROPOSITION DE TERRAIN</small><h1>Le camp du Royaume</h1></div><button data-camp-back>Retour</button></header><nav aria-label="Affichage de la carte"><button data-camp-fit>Vue entière</button><button data-camp-zoom="-" aria-label="Dézoomer">−</button><output data-camp-scale></output><button data-camp-zoom="+" aria-label="Zoomer">+</button><label><input type="checkbox" data-camp-grid checked> Grille</label><label><input type="checkbox" data-camp-labels checked> Repères</label><select aria-label="Aller à un lieu" data-camp-place>${campLandmarks.map((p, i) => `<option value="${i}">${p.name}</option>`).join("")}</select></nav><section class="camp-scroll"><canvas width="1280" height="896" data-camp-canvas aria-label="Carte du camp du Royaume, 40 colonnes et 28 lignes. Touchez une case pour vérifier le passage."></canvas></section><footer><p data-camp-status role="status">Chargement du terrain…</p><p>Carte de terrain à valider · touchez une case pour tester le passage depuis l’arrivée. Enclos vide ; unités, objectifs et événements à définir.</p></footer></main>`;
+  host.innerHTML = `<main class="camp-preview"><header><div><small>CHAPITRE II · PROPOSITION DE TERRAIN</small><h1>Le camp du Royaume</h1></div><button data-camp-back>Retour</button></header><nav aria-label="Affichage de la carte"><button data-camp-fit>Vue entière</button><button data-camp-zoom="-" aria-label="Dézoomer">−</button><output data-camp-scale></output><button data-camp-zoom="+" aria-label="Zoomer">+</button><label><input type="checkbox" data-camp-grid checked> Grille</label><label><input type="checkbox" data-camp-labels checked> Repères</label><select aria-label="Aller à un lieu" data-camp-place>${campLandmarks.map((p, i) => `<option value="${i}">${p.name}</option>`).join("")}</select></nav><section class="camp-scroll"><canvas width="1280" height="896" data-camp-canvas aria-label="Carte du camp du Royaume, 40 colonnes et 28 lignes. Touchez une case pour vérifier le passage."></canvas></section><footer><p data-camp-status role="status">Chargement du terrain…</p><p>Carte de terrain à valider · touchez une case pour tester le passage depuis l’arrivée. Village en bois : les défenseurs en sortiront, puis le groupe y entrera après la victoire. Armées et bataille à définir.</p></footer></main>`;
   const canvas = host.querySelector<HTMLCanvasElement>("[data-camp-canvas]")!,
     ctx = canvas.getContext("2d")!;
   const viewport = host.querySelector<HTMLElement>(".camp-scroll")!;
   const atlas = new Image();
   atlas.src = import.meta.env.BASE_URL + "assets/regional-tiles.png?v=1";
-  const renderer = new CampTerrainRenderer(atlas);
+  const architecture = new Image();
+  architecture.src = import.meta.env.BASE_URL + campTileset.source;
+  const renderer = new CampTerrainRenderer(atlas, architecture);
   const status = host.querySelector<HTMLElement>("[data-camp-status]")!;
   let layer: HTMLCanvasElement | null = null;
   const description = (k: number) => {
@@ -33,7 +36,7 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
     const building = campBuildings.find(
       (b) => c.x >= b.x && c.x < b.x + b.w && c.y >= b.y && c.y < b.y + b.h,
     );
-    return `Case ${k + 1} · (${c.x + 1}, ${c.y + 1}) · ${building?.name ?? ({ wall: "Palissade", earth: "Terre", road: "Chemin", grass: "Herbe", forest: "Lisière", tree: "Bois dense", rock: "Roche" } as Record<string, string>)[c.terrain] ?? c.terrain} · ${c.walk ? "Praticable" : "Infranchissable"}`;
+    return `Case ${k + 1} · (${c.x + 1}, ${c.y + 1}) · ${building?.name ?? ({ wall: "Palissade", earth: "Terre", road: "Chemin", grass: "Herbe", forest: "Lisière", tree: "Bois dense", rock: "Montagne", water: "Rivière", sand: "Rive", floor: "Entrée du village" } as Record<string, string>)[c.terrain] ?? c.terrain} · ${c.walk ? "Praticable" : "Infranchissable"}`;
   };
   function paint() {
     if (disposed || !layer) return;
@@ -160,14 +163,14 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
   };
   const observer = new ResizeObserver(() => resize(true));
   observer.observe(viewport);
-  void atlas
-    .decode()
+  void Promise.all([atlas.decode(), architecture.decode()])
     .then(() => {
       if (disposed) return;
       layer = renderer.layer("regional", ["north", "knight"]);
       resize(true);
       paint();
       canvas.dataset.ready = "true";
+      canvas.dataset.tileset = campTileset.source;
     })
     .catch(() => {
       if (!disposed)

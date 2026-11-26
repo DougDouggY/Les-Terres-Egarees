@@ -2,10 +2,18 @@ import type { Cell, Terrain } from "../game/types";
 export const CAMP_W = 40,
   CAMP_H = 28;
 export const campStart = { x: 4, y: 24 };
+export const campVillage = {
+  x: 28,
+  y: 7,
+  w: 3,
+  h: 3,
+  name: "Village en bois",
+  entry: { x: 29, y: 9 },
+} as const;
 export const campBuildings = [
   { id: "barracks", name: "Baraquement", x: 12, y: 7, w: 6, h: 4 },
   { id: "store", name: "Réserve", x: 12, y: 15, w: 5, h: 3 },
-  { id: "command", name: "Tente de commandement", x: 26, y: 7, w: 7, h: 4 },
+  { id: "village", ...campVillage },
   { id: "tower-sw", name: "Tour de garde", x: 9, y: 21, w: 2, h: 2 },
   { id: "tower-se", name: "Tour de garde", x: 15, y: 21, w: 2, h: 2 },
 ] as const;
@@ -15,7 +23,9 @@ export const campLandmarks = [
   { name: "Cour centrale", x: 22, y: 13 },
   { name: "Passage secondaire", x: 9, y: 17 },
   { name: "Enclos vide", x: 29, y: 18 },
-  { name: "Commandement", x: 29, y: 11 },
+  { name: "Entrée du village", x: 29, y: 10 },
+  { name: "Rivière", x: 2, y: 12 },
+  { name: "Montagnes", x: 37, y: 1 },
 ];
 export function kingdomCampMap() {
   const cells: Cell[] = Array.from({ length: CAMP_W * CAMP_H }, (_, i) => ({
@@ -31,7 +41,8 @@ export function kingdomCampMap() {
   }));
   function set(x: number, y: number, terrain: Terrain) {
     if (x < 0 || y < 0 || x >= CAMP_W || y >= CAMP_H) return;
-    const blocked = terrain === "wall" || terrain === "rock";
+    const blocked =
+      terrain === "wall" || terrain === "rock" || terrain === "water";
     Object.assign(cells[y * CAMP_W + x], {
       terrain,
       walk: !blocked,
@@ -43,10 +54,12 @@ export function kingdomCampMap() {
             ? 2
             : 1,
       defense: ["forest", "tree"].includes(terrain) ? 2 : 0,
-      opaque: blocked || terrain === "tree",
+      opaque: (blocked && terrain !== "water") || terrain === "tree",
       tile:
         (
           {
+            water: 4,
+            sand: 3,
             grass: 0,
             road: 2,
             forest: 5,
@@ -113,5 +126,37 @@ export function kingdomCampMap() {
   for (const y of [18, 19]) set(26, y, "earth");
   for (let x = 27; x <= 32; x++)
     for (let y = 17; y <= 20; y++) set(x, y, "earth");
+  // The nine village cells form one landmark, with the southern middle as its gate.
+  for (let dy = 0; dy < 3; dy++)
+    for (let dx = 0; dx < 3; dx++) {
+      const c = cells[(campVillage.y + dy) * CAMP_W + campVillage.x + dx];
+      c.villagePart = { dx, dy };
+    }
+  set(campVillage.entry.x, campVillage.entry.y, "floor");
+  cells[campVillage.entry.y * CAMP_W + campVillage.entry.x].defense = 3;
+  // River and mountain art is reused unchanged from the prologue atlas.
+  for (let y = 0; y < CAMP_H; y++) {
+    const x = Math.max(0, Math.round(1 + Math.sin(y / 4) * 0.7));
+    for (const dx of [0, 1]) set(x + dx, y, "water");
+  }
+  for (let y = 0; y < CAMP_H; y++)
+    for (let x = 0; x < 5; x++) {
+      const c = cells[y * CAMP_W + x];
+      if (
+        c.terrain !== "water" &&
+        c.terrain !== "road" &&
+        [
+          [1, 0],
+          [-1, 0],
+          [0, 1],
+          [0, -1],
+        ].some(
+          ([dx, dy]) => cells[(y + dy) * CAMP_W + x + dx]?.terrain === "water",
+        )
+      )
+        set(x, y, "sand");
+    }
+  for (let y = 0; y < 3; y++)
+    for (let x = 34 + y; x < CAMP_W; x++) set(x, y, "rock");
   return { cells, routes: [] as number[][][], width: CAMP_W, height: CAMP_H };
 }

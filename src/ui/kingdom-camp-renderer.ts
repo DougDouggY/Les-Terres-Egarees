@@ -1,10 +1,15 @@
 import { TerrainRenderer, type TerrainStyle } from "../terrain";
 import { map, W, H, currentMapId } from "../game/active-map";
 import type { Faction } from "../game/types";
-import { campBuildings } from "../data/kingdom-camp-map";
+import { campTileset } from "../data/camp-tileset";
+import { campBuildings, campVillage } from "../data/kingdom-camp-map";
 import type { Cell } from "../game/types";
 /** Pixel-aligned architectural overlay on the game's existing regional terrain. */
-export function paintKingdomCamp(ctx: CanvasRenderingContext2D, cells: Cell[]) {
+export function paintKingdomCamp(
+  ctx: CanvasRenderingContext2D,
+  cells: Cell[],
+  tiles: HTMLImageElement,
+) {
   const rect = (x: number, y: number, w: number, h: number, color: string) => {
     ctx.fillStyle = color;
     ctx.fillRect(x, y, w, h);
@@ -17,7 +22,8 @@ export function paintKingdomCamp(ctx: CanvasRenderingContext2D, cells: Cell[]) {
     ctx.fill();
   };
   ctx.save();
-  ctx.imageSmoothingEnabled = false;
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   for (const c of cells) {
     if (
       c.terrain !== "wall" ||
@@ -26,31 +32,53 @@ export function paintKingdomCamp(ctx: CanvasRenderingContext2D, cells: Cell[]) {
       )
     )
       continue;
-    const x = c.x * 32,
-      y = c.y * 32;
-    const cage = c.x >= 26 && c.x <= 33 && c.y >= 16 && c.y <= 21;
-    rect(x + 3, y + 25, 32, 10, "#18231a66");
-    for (let i = 0; i < 5; i++) {
-      const px = x + i * 6 + 1,
-        height = cage ? 23 : 27;
-      rect(px, y + 31 - height, 5, height, "#574130");
-      polygon(
-        [
-          [px, y + 31 - height],
-          [px + 2, y + 26 - height],
-          [px + 5, y + 31 - height],
-        ],
-        "#b99563",
+    const wall = (x: number, y: number) =>
+      cells[y * W + x]?.terrain === "wall" &&
+      !campBuildings.some(
+        (b) => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h,
       );
-      rect(px + 1, y + 32 - height, 2, height - 2, "#9d794a");
-      rect(px + 4, y + 32 - height, 1, height - 2, "#352c25");
-    }
-    rect(x, y + 12, 32, 3, "#c09d66");
-    rect(x, y + 15, 32, 3, "#45382b");
-    rect(x, y + 24, 32, 3, "#7d5c39");
-    for (const px of [4, 26]) rect(x + px, y + 13, 2, 2, "#b5b0a0");
+    const west = wall(c.x - 1, c.y),
+      east = wall(c.x + 1, c.y),
+      north = wall(c.x, c.y - 1),
+      south = wall(c.x, c.y + 1);
+    const key =
+      west && east
+        ? "horizontal"
+        : north && south
+          ? "vertical"
+          : west && south
+            ? "westSouth"
+            : east && south
+              ? "eastSouth"
+              : west && north
+                ? "westNorth"
+                : east && north
+                  ? "eastNorth"
+                  : west
+                    ? "west"
+                    : east
+                      ? "east"
+                      : north
+                        ? "north"
+                        : south
+                          ? "south"
+                          : "horizontal";
+    const [sx, sy] = campTileset.palisade[key];
+    ctx.drawImage(
+      tiles,
+      sx * 128,
+      sy * 128,
+      128,
+      128,
+      c.x * 32,
+      c.y * 32,
+      32,
+      32,
+    );
   }
+
   for (const b of campBuildings) {
+    if (b.id === "village") continue;
     const x = b.x * 32,
       y = b.y * 32,
       w = b.w * 32,
@@ -76,7 +104,7 @@ export function paintKingdomCamp(ctx: CanvasRenderingContext2D, cells: Cell[]) {
       continue;
     }
     // Full-cell rectangular footprints; roofs never imply an accessible interior.
-    const command = b.id === "command";
+    const command: boolean = false;
     rect(x + 4, y + 21, w - 8, h - 21, command ? "#c5b58a" : "#80613e");
     for (let k = 8; k < w - 8; k += 10)
       rect(x + k, y + 24, 2, h - 25, command ? "#a49777" : "#b08a58");
@@ -124,25 +152,28 @@ export function paintKingdomCamp(ctx: CanvasRenderingContext2D, cells: Cell[]) {
       rect(x + w * t, y + h * 0.7 + 6, 18, 2, "#b5a179");
     }
   }
-  // Kingdom pennants distinguish the command tent without introducing a unit.
-  rect(25 * 32 + 12, 8 * 32, 3, 75, "#b0a17e");
-  polygon(
-    [
-      [25 * 32 + 15, 8 * 32],
-      [25 * 32 + 36, 8 * 32 + 5],
-      [25 * 32 + 31, 8 * 32 + 27],
-      [25 * 32 + 15, 8 * 32 + 22],
-    ],
-    "#a08b38",
+  const v = campTileset.village;
+  ctx.drawImage(
+    tiles,
+    v.x * 128,
+    v.y * 128,
+    v.w * 128,
+    v.h * 128,
+    campVillage.x * 32,
+    campVillage.y * 32,
+    96,
+    96,
   );
-  rect(25 * 32 + 20, 8 * 32 + 7, 3, 11, "#e9d994");
   ctx.restore();
 }
 
 /** Extends the existing regional terrain without changing its protected renderer. */
 export class CampTerrainRenderer extends TerrainRenderer {
   private campLayer: HTMLCanvasElement | null = null;
-  constructor(private campAtlas: HTMLImageElement) {
+  constructor(
+    private campAtlas: HTMLImageElement,
+    private architecture: HTMLImageElement,
+  ) {
     super(campAtlas);
   }
   override layer(style: TerrainStyle, factions: readonly Faction[]) {
@@ -184,7 +215,16 @@ export class CampTerrainRenderer extends TerrainRenderer {
       ctx.fillRect(0, 0, W * 32, H * 32);
       ctx.restore();
     }
-    paintKingdomCamp(ctx, map);
+    // Use the real atlas mountain art here, rather than the legacy symbolic peaks.
+    ctx.save();
+    ctx.beginPath();
+    for (const c of map)
+      if (c.terrain === "rock") ctx.rect(c.x * 32, c.y * 32, 32, 32);
+    ctx.clip();
+    for (const x of [34, 37])
+      ctx.drawImage(this.architecture, 7 * 128, 0, 128, 128, x * 32, 0, 96, 96);
+    ctx.restore();
+    paintKingdomCamp(ctx, map, this.architecture);
     this.campLayer = layer;
     return layer;
   }
