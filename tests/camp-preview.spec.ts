@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 for (const mobile of [false, true])
-  test(`carte naturelle : ${mobile ? "téléphone, pincement" : "ordinateur, molette"}, caméra et cases`, async ({
+  test(`village rapproché : ${mobile ? "téléphone, pincement" : "ordinateur, molette"}, caméra et cases`, async ({
     page,
   }) => {
     await page.setViewportSize(
@@ -107,26 +107,67 @@ for (const mobile of [false, true])
         },
       });
     };
-    await clickCell(28, 7);
+    await expect(page.locator("h1")).toHaveText("Les rues du village");
+    await expect(canvas).toHaveAttribute("data-scale", "village-streets");
+    await expect(canvas).toHaveAttribute("data-building-count", "5");
+    const assets = await page.evaluate(async () => {
+      const image = new Image();
+      image.src = "/assets/kingdom-camp/streets-tileset.png";
+      await image.decode();
+      const c = document.createElement("canvas");
+      c.width = 2560;
+      c.height = 768;
+      const t = c.getContext("2d")!;
+      t.drawImage(image, 0, 0);
+      const alpha = t.getImageData(0, 640, 128, 128).data;
+      return {
+        w: image.width,
+        h: image.height,
+        transparent: alpha.some((v, k) => k % 4 === 3 && v === 0),
+        opaque: alpha.some((v, k) => k % 4 === 3 && v > 200),
+      };
+    });
+    expect(assets).toEqual({
+      w: 2560,
+      h: 768,
+      transparent: true,
+      opaque: true,
+    });
+    await clickCell(16, 7);
     await expect(canvas).toHaveAttribute("data-reachable", "false");
-    await expect(page.locator("[data-camp-status]")).toContainText("Village");
-    await clickCell(29, 9);
+    await expect(page.locator("[data-camp-status]")).toContainText(
+      "Maison commune",
+    );
+    await page
+      .getByRole("button", { name: "Ouvrir la porte", exact: true })
+      .click();
+    await expect(canvas).toHaveAttribute("data-open-houses", "1");
+    await expect(canvas).toHaveAttribute("data-reachable", "true");
+    await clickCell(16, 5);
     await expect(canvas).toHaveAttribute("data-reachable", "true");
     await expect(canvas).toHaveAttribute(
       "data-selected",
-      String(9 * 40 + 29 + 1),
+      String(5 * 32 + 16 + 1),
     );
+    await page.screenshot({
+      path: `/tmp/streets-interior-${mobile ? "mobile" : "desktop"}.png`,
+    });
+    await page
+      .getByRole("button", { name: "Fermer la porte", exact: true })
+      .click();
+    await expect(canvas).toHaveAttribute("data-open-houses", "0");
+    await expect(canvas).toHaveAttribute("data-reachable", "false");
     await page.getByLabel("Grille", { exact: true }).uncheck();
     await expect(canvas).toHaveAttribute("data-grid", "false");
     await page.screenshot({
-      path: `/tmp/natural-village-${mobile ? "mobile" : "desktop"}.png`,
+      path: `/tmp/streets-house-${mobile ? "mobile" : "desktop"}.png`,
     });
     await page
       .getByRole("button", { name: "Vue entière", exact: true })
       .click();
     await expect.poll(zoom).toBeLessThan(1);
     await page.screenshot({
-      path: `/tmp/natural-map-${mobile ? "mobile" : "desktop"}.png`,
+      path: `/tmp/streets-map-${mobile ? "mobile" : "desktop"}.png`,
     });
     await page.getByRole("button", { name: "Zoomer", exact: true }).click();
     const plus = await zoom();

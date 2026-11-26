@@ -1,10 +1,13 @@
-import { campTileset } from "../data/camp-tileset";
+import { villageTileset as campTileset } from "../data/village-tileset";
 import { activateMap, currentMapId, map, W, H } from "../game/active-map";
 import {
   CAMP_W,
   CAMP_H,
   campStart,
   campVillage,
+  campBuildings,
+  campHouseAt,
+  setCampHouseOpen,
 } from "../data/kingdom-camp-map";
 import { gridPath } from "../game/grid-path";
 import { CampTerrainRenderer } from "./kingdom-camp-renderer";
@@ -17,15 +20,15 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
     zoom = 2,
     grid = true;
   const camera = {
-    x: (campVillage.x + 1.5) * 32,
-    y: (campVillage.y + 1.5) * 32,
+    x: (campVillage.x + campVillage.w / 2) * 32,
+    y: (campVillage.y + campVillage.h / 2) * 32,
   };
   let selected = campStart.y * CAMP_W + campStart.x;
   const start = selected;
   let route = gridPath(W, H, start, selected, (k) =>
     map[k].walk ? map[k].cost : null,
   );
-  host.innerHTML = `<main class="camp-preview"><header><div><small>CHAPITRE II · TERRAIN</small><h1>Aux abords du village</h1></div><button data-camp-back>Retour</button></header><nav aria-label="Affichage de la carte"><button data-camp-fit>Vue entière</button><button data-camp-village>Voir le village</button><button data-camp-zoom="-" aria-label="Dézoomer">−</button><output data-camp-scale></output><button data-camp-zoom="+" aria-label="Zoomer">+</button><label><input type="checkbox" data-camp-grid checked> Grille</label></nav><section class="camp-scroll"><canvas data-camp-canvas tabindex="0" aria-label="Carte du chapitre 2. Glissez pour déplacer la vue ; molette ou pincement pour zoomer."></canvas></section><footer><p data-camp-status role="status"></p><p>Glisser : déplacer · Molette / pincer : zoomer · Toucher une case : numéro et passage</p></footer></main>`;
+  host.innerHTML = `<main class="camp-preview"><header><div><small>CHAPITRE II · TERRAIN</small><h1>Les rues du village</h1></div><button data-camp-back>Retour</button></header><nav aria-label="Affichage de la carte"><button data-camp-fit>Vue entière</button><button data-camp-village>Voir le village</button><button data-camp-zoom="-" aria-label="Dézoomer">−</button><output data-camp-scale></output><button data-camp-zoom="+" aria-label="Zoomer">+</button><label><input type="checkbox" data-camp-grid checked> Grille</label><button data-camp-door hidden>Ouvrir la porte</button></nav><section class="camp-scroll"><canvas data-camp-canvas tabindex="0" aria-label="Carte du chapitre 2. Glissez pour déplacer la vue ; molette ou pincement pour zoomer."></canvas></section><footer><p data-camp-status role="status"></p><p>Glisser : déplacer · Molette / pincer : zoomer · Toucher une case : numéro et passage</p></footer></main>`;
   const canvas = host.querySelector<HTMLCanvasElement>("[data-camp-canvas]")!,
     ctx = canvas.getContext("2d")!;
   const viewport = host.querySelector<HTMLElement>(".camp-scroll")!,
@@ -36,6 +39,8 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
   architecture.src = import.meta.env.BASE_URL + campTileset.source;
   const renderer = new CampTerrainRenderer(atlas, architecture);
   let layer: HTMLCanvasElement | null = null;
+  const opened = new Set<string>();
+  const doorButton = host.querySelector<HTMLButtonElement>("[data-camp-door]")!;
   const size = () => ({ w: viewport.clientWidth, h: viewport.clientHeight });
   const fitZoom = () => {
     const { w, h } = size();
@@ -43,7 +48,7 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
   };
   const describe = (k: number) => {
     const c = map[k];
-    return `Case ${k + 1} · (${c.x + 1}, ${c.y + 1}) · ${c.villagePart ? "Village" : (({ water: "Eau", sand: "Rive", grass: "Herbe", road: "Chemin", forest: "Lisière", tree: "Forêt", rock: "Montagne" } as Record<string, string>)[c.terrain] ?? c.terrain)} · ${c.walk ? "Praticable" : "Infranchissable"}`;
+    return `Case ${k + 1} · (${c.x + 1}, ${c.y + 1}) · ${campHouseAt(c.x, c.y)?.name ?? ({ water: "Eau", sand: "Rive", grass: "Herbe", road: "Chemin", forest: "Lisière", tree: "Forêt", rock: "Montagne" } as Record<string, string>)[c.terrain] ?? c.terrain} · ${c.walk ? "Praticable" : "Infranchissable"}`;
   };
   function clamp() {
     const { w, h } = size();
@@ -109,6 +114,15 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
       ctx.strokeRect(c.x * 32 + 1, c.y * 32 + 1, 30, 30);
       ctx.restore();
     }
+    const house = campHouseAt(map[selected].x, map[selected].y);
+    doorButton.hidden = !house;
+    if (house)
+      doorButton.textContent = opened.has(house.id)
+        ? "Fermer la porte"
+        : "Ouvrir la porte";
+    canvas.dataset.openHouses = String(opened.size);
+    canvas.dataset.buildingCount = String(campBuildings.length);
+    canvas.dataset.scale = "village-streets";
     status.textContent =
       describe(selected) +
       (route
@@ -158,6 +172,21 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
       : null;
     paint();
   }
+  doorButton.onclick = () => {
+    const house = campHouseAt(map[selected].x, map[selected].y);
+    if (!house || !layer) return;
+    const open = !opened.has(house.id);
+    setCampHouseOpen(map, house.id, open);
+    if (open) opened.add(house.id);
+    else opened.delete(house.id);
+    layer = renderer.layer("regional", ["north", "knight"], opened);
+    route = map[selected].walk
+      ? gridPath(W, H, start, selected, (k) =>
+          map[k].walk ? map[k].cost : null,
+        )
+      : null;
+    paint();
+  };
   host.querySelector("[data-camp-back]")!.addEventListener("click", back);
   host.querySelector("[data-camp-fit]")!.addEventListener("click", () => {
     zoom = fitZoom();
@@ -167,8 +196,8 @@ export function openKingdomCamp(host: HTMLElement, back: () => void) {
   });
   host.querySelector("[data-camp-village]")!.addEventListener("click", () => {
     zoom = 2;
-    camera.x = (campVillage.x + 1.5) * 32;
-    camera.y = (campVillage.y + 1.5) * 32;
+    camera.x = (campVillage.x + campVillage.w / 2) * 32;
+    camera.y = (campVillage.y + campVillage.h / 2) * 32;
     paint();
   });
   for (const b of Array.from(

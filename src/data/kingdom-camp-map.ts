@@ -1,29 +1,95 @@
 import type { Cell, Terrain } from "../game/types";
-export const CAMP_W = 40,
-  CAMP_H = 28;
-export const campStart = { x: 6, y: 24 };
-export const campVillage = {
-  x: 28,
-  y: 7,
-  w: 3,
-  h: 3,
-  name: "Village en bois",
-  entry: { x: 29, y: 9 },
-} as const;
-// The compact village is the only building footprint on this board.
-export const campBuildings = [{ id: "village", ...campVillage }] as const;
-export const campMountainPatches = [
-  { x: 17, y: 3, rx: 3, ry: 2 },
-  { x: 35, y: 22, rx: 4, ry: 3 },
-  { x: 7, y: 12, rx: 2, ry: 3 },
-] as const;
-/** Navigation checks only; these names are never drawn on the map. */
+import type { VillageProp } from "./village-tileset";
+export const CAMP_W = 32,
+  CAMP_H = 26;
+export const campStart = { x: 16, y: 24 };
+export const campBuildings = [
+  { id: "hall", name: "Maison commune", x: 14, y: 3, variant: 1 },
+  { id: "home-west", name: "Maison", x: 4, y: 5, variant: 0 },
+  { id: "workshop", name: "Atelier", x: 23, y: 6, variant: 2 },
+  { id: "home-south", name: "Chaumière", x: 6, y: 17, variant: 3 },
+  { id: "home-east", name: "Maison", x: 23, y: 18, variant: 0 },
+].map((b) => ({ ...b, w: 5, h: 5, entry: { x: b.x + 2, y: b.y + 4 } }));
+export const campVillage = campBuildings[0];
+export const campProps: {
+  type: VillageProp;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}[] = [
+  { type: "well", x: 16, y: 12, w: 1, h: 1 },
+  { type: "crate", x: 21, y: 11, w: 1, h: 1 },
+  { type: "barrel", x: 22, y: 12, w: 1, h: 1 },
+  { type: "barrel", x: 28, y: 9, w: 1, h: 1 },
+  ...[
+    [1, 1],
+    [1, 21],
+    [28, 1],
+    [28, 14],
+    [18, 22],
+    [11, 16],
+  ].map(([x, y]) => ({ type: "tree" as const, x, y, w: 2, h: 2 })),
+  ...[
+    [1, 6],
+    [2, 7],
+    [10, 4],
+    [11, 5],
+    [21, 2],
+    [26, 13],
+    [27, 14],
+    [13, 20],
+    [19, 19],
+    [10, 25],
+    [1, 17],
+    [3, 14],
+    [20, 8],
+    [20, 9],
+  ].map(([x, y]) => ({ type: "bush" as const, x, y, w: 1, h: 1 })),
+  ...[
+    [11, 18],
+    [12, 18],
+    [11, 19],
+    [12, 19],
+    [11, 20],
+    [12, 20],
+    [28, 19],
+    [29, 19],
+    [28, 20],
+    [29, 20],
+  ].map(([x, y]) => ({ type: "garden" as const, x, y, w: 1, h: 1 })),
+];
 export const campLandmarks = [
   { name: "Arrivée", ...campStart },
-  { name: "Village", x: 29, y: 10 },
-  { name: "Rivière", x: 3, y: 12 },
-  { name: "Montagne", x: 35, y: 22 },
+  ...campBuildings.map((b) => ({ name: b.id, x: b.entry.x, y: b.entry.y + 1 })),
 ];
+export function campHouseAt(x: number, y: number) {
+  return campBuildings.find(
+    (b) => x >= b.x && x < b.x + b.w && y >= b.y && y < b.y + b.h,
+  );
+}
+/** Only preview geometry changes. No campaign, roster, RNG or save is touched. */
+export function setCampHouseOpen(cells: Cell[], id: string, open: boolean) {
+  const b = campBuildings.find((b) => b.id === id);
+  if (!b) throw Error("Maison inconnue");
+  for (let dy = 0; dy < 5; dy++)
+    for (let dx = 0; dx < 5; dx++) {
+      const c = cells[(b.y + dy) * CAMP_W + b.x + dx],
+        door = dx === 2 && dy === 4,
+        inside = dx > 0 && dx < 4 && dy > 0 && dy < 4,
+        crate = dx === 1 && dy === 1;
+      const walk = open && (door || (inside && !crate));
+      Object.assign(c, {
+        terrain: walk ? "floor" : open && inside && crate ? "wagon" : "wall",
+        walk,
+        cost: walk ? 1 : 99,
+        defense: walk ? 1 : 0,
+        opaque: !walk && !(open && inside && crate),
+        tile: walk ? 26 : 9,
+        interactive: `house:${id}`,
+      });
+    }
+}
 export function kingdomCampMap() {
   const cells: Cell[] = Array.from({ length: CAMP_W * CAMP_H }, (_, i) => ({
     x: i % CAMP_W,
@@ -36,129 +102,53 @@ export function kingdomCampMap() {
     tile: 0,
     base: "grass",
   }));
-  function set(x: number, y: number, terrain: Terrain) {
-    if (x < 0 || y < 0 || x >= CAMP_W || y >= CAMP_H) return;
-    const blocked = ["wall", "rock", "water"].includes(terrain);
-    Object.assign(cells[y * CAMP_W + x], {
-      terrain,
-      walk: !blocked,
-      cost: blocked
-        ? 99
-        : terrain === "road"
-          ? 0.75
-          : ["forest", "tree"].includes(terrain)
-            ? 2
-            : 1,
-      defense: ["forest", "tree"].includes(terrain) ? 2 : 0,
-      opaque: (blocked && terrain !== "water") || terrain === "tree",
-      tile:
-        (
-          {
-            water: 4,
-            sand: 3,
-            grass: 0,
-            road: 2,
-            forest: 5,
-            tree: 6,
-            rock: 7,
-            wall: 9,
-            floor: 26,
-          } as Partial<Record<Terrain, number>>
-        )[terrain] ?? 0,
-    });
+  function set(
+    x: number,
+    y: number,
+    terrain: Terrain,
+    walk = true,
+    opaque = false,
+  ) {
+    const c = cells[y * CAMP_W + x];
+    if (c)
+      Object.assign(c, {
+        terrain,
+        walk,
+        opaque,
+        cost: walk ? (terrain === "road" ? 0.75 : 1) : 99,
+        tile: terrain === "road" ? 2 : terrain === "water" ? 4 : 0,
+      });
   }
-  // Uneven groves and open clearings, rather than a rectangular fortified yard.
-  for (const [cx, cy, rx, ry] of [
-    [12, 6, 5, 3],
-    [8, 20, 3, 3],
-    [23, 24, 4, 3],
-    [34, 13, 4, 3],
-    [25, 3, 3, 2],
-    [18, 15, 3, 3],
-    [2, 3, 3, 3],
-    [38, 4, 2, 4],
-  ])
-    for (let y = cy - ry - 1; y <= cy + ry + 1; y++)
-      for (let x = cx - rx - 1; x <= cx + rx + 1; x++) {
-        const d = ((x - cx) / rx) ** 2 + ((y - cy) / ry) ** 2;
-        if (d < 1 + Math.sin(x * 1.8 + y) * 0.18)
-          set(x, y, d < 0.48 ? "tree" : "forest");
-      }
-  for (const p of campMountainPatches)
-    for (let y = p.y - p.ry; y <= p.y + p.ry; y++)
-      for (let x = p.x - p.rx; x <= p.x + p.rx; x++)
-        if (((x - p.x) / p.rx) ** 2 + ((y - p.y) / p.ry) ** 2 <= 1.1)
-          set(x, y, "rock");
-  // A narrow stream with two banks, not a moat around the battlefield.
-  for (let y = 0; y < CAMP_H; y++) {
-    const x = 3 + Math.round(Math.sin(y / 4) * 1.4);
-    for (const dx of [0, 1]) set(x + dx, y, "water");
-  }
-  for (const c of cells)
-    if (
-      c.terrain !== "water" &&
-      c.x < 7 &&
-      [
-        [1, 0],
-        [-1, 0],
-        [0, 1],
-        [0, -1],
-      ].some(([dx, dy]) => {
-        const x = c.x + dx,
-          y = c.y + dy;
-        return (
-          x >= 0 &&
-          x < CAMP_W &&
-          y >= 0 &&
-          y < CAMP_H &&
-          cells[y * CAMP_W + x].terrain === "water"
+  // Streets at person scale: two-square passages and a small square around the well.
+  for (let y = 8; y <= 25; y++) for (const x of [16, 17]) set(x, y, "road");
+  for (let x = 6; x <= 26; x++) for (const y of [12, 13]) set(x, y, "road");
+  for (let y = 10; y <= 13; y++)
+    for (const x of [6, 7, 25, 26]) set(x, y, "road");
+  for (let y = 10; y <= 14; y++)
+    for (let x = 12; x <= 20; x++) set(x, y, "road");
+  for (let x = 8; x <= 17; x++) for (const y of [22, 23]) set(x, y, "road");
+  for (let x = 17; x <= 26; x++) set(x, 23, "road");
+  for (const b of campBuildings) set(b.entry.x, b.entry.y + 1, "road");
+  // The stream is now a village-edge watercourse, not a regional river/mountain border.
+  for (let y = 0; y < CAMP_H; y++)
+    for (const x of [30, 31]) set(x, y, "water", false, false);
+  for (const p of campProps)
+    for (let dy = 0; dy < p.h; dy++)
+      for (let dx = 0; dx < p.w; dx++) {
+        const garden = p.type === "garden",
+          tree = p.type === "tree",
+          bush = p.type === "bush";
+        set(
+          p.x + dx,
+          p.y + dy,
+          garden ? "earth" : tree ? "tree" : bush ? "forest" : "wagon",
+          garden,
+          tree,
         );
-      })
-    )
-      set(c.x, c.y, "sand");
-  const routes = [
-    [
-      [6, 24],
-      [11, 24],
-      [11, 21],
-      [15, 21],
-      [15, 19],
-      [21, 19],
-      [21, 15],
-      [25, 15],
-      [25, 11],
-      [29, 11],
-      [29, 9],
-    ],
-    [
-      [21, 19],
-      [29, 19],
-      [29, 16],
-      [35, 16],
-    ],
-  ];
-  for (const route of routes)
-    for (let i = 1; i < route.length; i++) {
-      let [x, y] = route[i - 1];
-      const [tx, ty] = route[i];
-      while (true) {
-        set(x, y, "road");
-        set(x + 1, y, "road");
-        if (x === tx && y === ty) break;
-        if (x !== tx) x += Math.sign(tx - x);
-        else y += Math.sign(ty - y);
+        const c = cells[(p.y + dy) * CAMP_W + p.x + dx];
+        if (garden) c.cost = 2;
+        if (bush) c.defense = 1;
       }
-    }
-  for (let dy = 0; dy < 3; dy++)
-    for (let dx = 0; dx < 3; dx++) {
-      const x = campVillage.x + dx,
-        y = campVillage.y + dy;
-      set(x, y, "wall");
-      cells[y * CAMP_W + x].villagePart = { dx, dy };
-    }
-  set(campVillage.entry.x, campVillage.entry.y, "floor");
-  cells[campVillage.entry.y * CAMP_W + campVillage.entry.x].defense = 3;
-  for (let x = campVillage.entry.x - 1; x <= campVillage.entry.x + 1; x++)
-    set(x, campVillage.entry.y + 1, "grass");
-  return { cells, routes, width: CAMP_W, height: CAMP_H };
+  for (const b of campBuildings) setCampHouseOpen(cells, b.id, false);
+  return { cells, routes: [] as number[][][], width: CAMP_W, height: CAMP_H };
 }

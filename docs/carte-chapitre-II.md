@@ -1,44 +1,55 @@
-# Chapitre II — Terrain naturel aux abords du village
+# Chapitre II — Essai de village à l’échelle des rues
 
 ## Version actuelle — 26 novembre 2026
 
-Le camp rectangulaire a été remplacé, à la demande du joueur, par un terrain ouvert de **40 × 28 cases** : clairières, plusieurs bois irréguliers, un petit cours d’eau à l’ouest, trois groupes montagneux et un village en bois au nord-est. Il n’y a plus de baraquements, réserve, tours, enceinte extérieure ni enclos. Aucun nom de lieu n’est dessiné sur la carte.
+La vue régionale avec un village miniature de 3 × 3 cases est remplacée par une **carte de 32 × 26 cases à échelle rapprochée**. Une case représente désormais un buisson, un puits, une caisse ou un petit élément du village. Cinq maisons individuelles sont disposées autour de rues et d’une petite place. Des jardins, tonneaux et quelques arbres complètent le décor ; un cours d’eau longe le bord est. Il n’y a ni montagnes, ni bosquets miniatures, ni enceinte extérieure, ni étiquettes dessinées sur le terrain.
 
-Le village reste une image continue sur neuf cases, comme la ruine du prologue. Sa porte est sur la case centrale sud, avec trois cases praticables devant. Les huit autres cases sont bloquées. Les défenseurs doivent en sortir et le groupe y entrer après la victoire ; la bataille et ces séquences restent à définir. Aucun intérieur de maison ni recrutement n’a été ajouté.
+Les quatre modèles de maison occupent chacun **5 × 5 cases entières**, avec une porte au centre de la façade sud. Les mêmes textures et proportions sont utilisées par les différents modèles. Les bâtiments ne dépassent pas leur emprise ; il ne s’agit pas de l’ancien village miniature agrandi.
 
-## Accès et caméra
+## Essai des maisons
 
-Accès par **Carte du chapitre 2** sur l’accueil, ou **Voir la carte du camp** au bilan de l’introduction du chapitre II (libellé de compatibilité). L’identifiant interne `kingdom-camp` est conservé.
+Dans **Carte du chapitre 2**, toucher une case d’une maison fait apparaître **Ouvrir la porte**. La porte s’ouvre, le toit est masqué et un petit intérieur de démonstration devient visible. Les cases intérieures sont alors praticables depuis la rue en passant par la porte. Les murs et la caisse intérieure restent bloquants. **Fermer la porte** restaure le bâtiment initial.
 
-L’aperçu utilise maintenant une caméra dans un canevas à la taille de la fenêtre, au lieu de redimensionner une grande image dans une zone défilante.
-
-- Zoom initial ×2 sur le village : 64 pixels par case à l’écran.
-- Molette, boutons +/− ou pincement à deux doigts ; limite haute ×6.
-- Zoom autour du pointeur ou du centre du geste.
-- Glissement à la souris ou au doigt pour déplacer la caméra ; le glissement ne sélectionne pas une case.
-- **Vue entière** pour consulter l’ensemble ; **Voir le village** pour revenir à son approche en gros plan.
-- Le redimensionnement de la fenêtre conserve le zoom choisi.
-- Grille facultative. Le numéro de case reste disponible au survol et au toucher ; le calcul de chemin réutilise les coûts du moteur.
-
-L’aperçu ne lit ni n’écrit les sauvegardes, ne crée aucune unité et restaure exactement la carte précédente à sa fermeture. Le prologue et son moteur de rendu protégé restent inchangés.
+Ce sont des intérieurs de démonstration : ils servent à vérifier le cadrage, le découpage des cases et l’accès. Ils ne contiennent ni habitant, ni récompense, ni dialogue, ni règle de recrutement. Il n’y a pas encore d’armée ou de bataille associée. L’ouverture est une commande libre d’inspection de l’aperçu, pas une action de combat. Elle n’est pas enregistrée dans la campagne.
 
 ## Ressources
 
-Le terrain, les arbres, l’eau et les montagnes reprennent les ressources régionales du prologue. Le village utilise l’illustration déjà intégrée.
+`public/assets/kingdom-camp/streets-tileset.png` est un nouveau tileset de **2560 × 768 pixels**, soit 20 colonnes et 6 lignes de cellules natives de 128 pixels, pour des cases de jeu de 32 pixels.
 
-`public/assets/kingdom-camp/tileset.png` : 8 colonnes et 7 lignes de cellules natives de 128 pixels, destinées à des cases de jeu de 32 pixels. Les quatre premières lignes reprennent les pixels de l’atlas du prologue. Le village occupe les colonnes 1 à 3 et les lignes 4 à 6, en coordonnées à partir de zéro. Les modules de palissade sont conservés dans cette ressource, mais ne sont plus dessinés sur la carte.
+- Quatre maisons : quatre blocs de 5 × 5 cellules aux colonnes 0, 5, 10 et 15, ligne 0.
+- Neuf éléments de décor, ligne 5 : buisson, puits, caisse, tonneau, arbre, potager, plancher, chemin et clôture basse.
+- Le décor possède une vraie transparence. Les textures de sol remplissent leur case.
+- Un buisson, un puits, une caisse et un tonneau occupent chacun une case ; un arbre occupe 2 × 2 cases. Les portes occupent chacune une case.
 
-`src/data/camp-tileset.ts` décrit le découpage. `scripts/build-camp-tileset.mjs` réalise l’assemblage technique. Sources générées conservées séparément : `/workspace/generated_images/exec-4eb1dfb8-d33d-49fe-85ab-c1f9278c1ccc.png` (village) et `/workspace/generated_images/exec-76c6bae8-e3f9-43a8-9f7b-7844309a6e7b.png` (palissades).
+Les nouvelles images ont été générées à partir de l’atlas du prologue pour conserver les tons et le traitement peint des matériaux. Le fond blanc de la première planche d’accessoires a été retiré par l’outil de génération avant l’assemblage. L’assemblage ne repeint pas les illustrations et conserve leurs proportions.
+
+`src/data/village-tileset.ts` décrit les cadres. Commande de réexport : `node scripts/build-village-tileset.mjs MAISONS.png ACCESSOIRES.png`.
+
+Sources conservées séparément dans l’espace de travail :
+
+- Maisons : `/workspace/generated_images/exec-4171cffd-a124-4575-98c5-e29f755b4d56.png`.
+- Accessoires transparents : `/workspace/generated_images/exec-4fbe6dce-6d04-4c4c-8ff5-adef99239ae6.png`.
+
+Les anciennes ressources restent disponibles pour comparaison, mais le village régional et les anciennes montagnes ne sont plus chargés dans cet aperçu.
+
+## Accès et commandes
+
+Accueil → **Carte du chapitre 2**, ou accès à la carte depuis le bilan de l’introduction. L’identifiant interne `kingdom-camp` est conservé.
+
+Zoom initial ×2 sur la maison commune ; molette ou pincement, glissement souris/doigt, boutons +/−, vue entière et grille facultative. Le numéro de case et la possibilité de passage restent affichés après sélection. Un redimensionnement conserve le zoom choisi.
+
+L’aperçu ne lit ni n’écrit les sauvegardes et ne crée aucune unité. En le quittant, la carte active précédente est restaurée. Les scènes, statistiques, mécaniques de combat et sprites des personnages ne sont pas modifiés.
 
 ## Vérifications
 
-**242 tests automatisés réussis.** La grille est déterministe, les accès au village sont connectés, les neuf cases sont liées, le cours d’eau reste infranchissable sans bloquer la vue, les montagnes sont bloquantes et opaques. Aucune case de mur n’existe hors de l’emprise du village et aucune ancienne construction n’est conservée.
+**243 tests automatisés réussis**, dont : coordonnées et emprises entières, cinq maisons sans chevauchement, accessoires hors des bâtiments, accès aux cinq façades, ouverture et fermeture indépendantes, entrée obligatoire par la porte, mobilier bloquant, restauration exacte des anciennes cartes, fermeture des maisons à la réouverture de l’aperçu, dimensions PNG réelles et cadres du tileset.
 
-Quatre parcours navigateur couvrent la molette, le zoom ancré, le glissement souris, le pincement et le déplacement tactiles réels via Chromium, l’absence de zoom de la page web, la conservation du zoom après redimensionnement, les boutons, les cases bloquées/praticables, l’absence d’étiquettes, les deux introductions et le retour au bilan sans toucher aux sauvegardes. Compilation du prototype et contrôle des ressources effectués.
+Quatre parcours navigateur : zoom molette et tactile, pincement sans agrandir la page web, glissement, conservation du zoom après redimensionnement, transparence effective du PNG, ouverture/fermeture du toit, sélection d’une case intérieure et chemin depuis l’arrivée, affichage sur téléphone et ordinateur, accès depuis les deux branches narratives et retour au bilan sans modifier les sauvegardes. Compilation et contrôle des ressources effectués.
 
-## Fichiers de cette correction
+## Fichiers de cette reprise
 
-- `src/data/kingdom-camp-map.ts` : nouveau terrain naturel et suppression des anciennes constructions.
-- `src/ui/kingdom-camp-renderer.ts` : paysage et village uniquement.
-- `src/ui/kingdom-camp.ts`, `src/ui/kingdom-camp.css` : caméra, interactions et interface sans étiquettes.
-- `tests/camp-preview.spec.ts`, `tests/chapter2-integration.test.ts` : gestes et contraintes du nouveau terrain.
+- `src/data/kingdom-camp-map.ts` : nouvelle disposition et géométrie des portes/intérieurs.
+- `src/data/village-tileset.ts` : découpage des nouvelles ressources.
+- `src/ui/kingdom-camp-renderer.ts`, `src/ui/kingdom-camp.ts` : dessin à l’échelle rapprochée et ouverture des maisons.
+- `public/assets/kingdom-camp/streets-tileset.png`, `scripts/build-village-tileset.mjs` : atlas et assemblage.
+- `tests/camp-preview.spec.ts`, `tests/chapter2-integration.test.ts` : vérifications.

@@ -1,63 +1,145 @@
-import { TerrainRenderer, type TerrainStyle } from "../terrain";
-import { map, currentMapId } from "../game/active-map";
 import type { Faction } from "../game/types";
-import { campTileset } from "../data/camp-tileset";
-import { campVillage, campMountainPatches } from "../data/kingdom-camp-map";
+import type { TerrainStyle } from "../terrain";
+import { map } from "../game/active-map";
+import {
+  villageTileset as tiles,
+  type VillageProp,
+} from "../data/village-tileset";
+import {
+  CAMP_W,
+  CAMP_H,
+  campBuildings,
+  campProps,
+} from "../data/kingdom-camp-map";
 
-/** Only the supplied compact village is layered over the regional landscape. */
-export class CampTerrainRenderer extends TerrainRenderer {
-  private campLayer: HTMLCanvasElement | null = null;
+/** Street-scale kit. Regional groves and miniature villages are deliberately not rendered. */
+export class CampTerrainRenderer {
   constructor(
-    atlas: HTMLImageElement,
+    private ground: HTMLImageElement,
     private architecture: HTMLImageElement,
+  ) {}
+  layer(
+    _style: TerrainStyle,
+    _factions: readonly Faction[],
+    opened: ReadonlySet<string> = new Set(),
   ) {
-    super(atlas);
-  }
-  override layer(style: TerrainStyle, factions: readonly Faction[]) {
-    const base = super.layer(style, factions);
-    if (!base || currentMapId !== "kingdom-camp") return base;
-    if (this.campLayer) return this.campLayer;
     const layer = document.createElement("canvas");
-    layer.width = base.width;
-    layer.height = base.height;
-    const ctx = layer.getContext("2d")!;
-    ctx.drawImage(base, 0, 0);
-    ctx.scale(2, 2);
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = "high";
-    ctx.save();
-    ctx.beginPath();
-    for (const c of map)
-      if (c.terrain === "rock") ctx.rect(c.x * 32, c.y * 32, 32, 32);
-    ctx.clip();
-    for (const p of campMountainPatches) {
-      const size = (Math.max(p.rx, p.ry) * 2 + 1) * 32;
-      ctx.drawImage(
+    layer.width = CAMP_W * 64;
+    layer.height = CAMP_H * 64;
+    const c = layer.getContext("2d")!;
+    c.scale(2, 2);
+    c.imageSmoothingEnabled = true;
+    c.imageSmoothingQuality = "high";
+    const grass = document.createElement("canvas");
+    grass.width = grass.height = 256;
+    const g = grass.getContext("2d")!;
+    for (let y = 0; y < 2; y++)
+      for (let x = 0; x < 2; x++) {
+        g.save();
+        g.translate(x ? 256 : 0, y ? 256 : 0);
+        g.scale(x ? -1 : 1, y ? -1 : 1);
+        g.drawImage(this.ground, 0, 0, 128, 128, 0, 0, 128, 128);
+        g.restore();
+      }
+    c.fillStyle = c.createPattern(grass, "repeat")!;
+    c.fillRect(0, 0, CAMP_W * 32, CAMP_H * 32);
+    const prop = (type: VillageProp, x: number, y: number, w = 1, h = 1) => {
+      const [sx, sy] = tiles.props[type];
+      c.drawImage(
         this.architecture,
-        7 * 128,
-        0,
+        sx * 128,
+        sy * 128,
         128,
         128,
-        (p.x + 0.5) * 32 - size / 2,
-        (p.y + 0.5) * 32 - size / 2,
-        size,
-        size,
+        x * 32,
+        y * 32,
+        w * 32,
+        h * 32,
       );
+    };
+    for (const cell of map) {
+      if (cell.terrain === "road") prop("path", cell.x, cell.y);
+      if (cell.terrain === "water")
+        c.drawImage(
+          this.ground,
+          4 * 128,
+          0,
+          128,
+          128,
+          cell.x * 32,
+          cell.y * 32,
+          32,
+          32,
+        );
     }
-    ctx.restore();
-    const v = campTileset.village;
-    ctx.drawImage(
-      this.architecture,
-      v.x * 128,
-      v.y * 128,
-      v.w * 128,
-      v.h * 128,
-      campVillage.x * 32,
-      campVillage.y * 32,
-      96,
-      96,
-    );
-    this.campLayer = layer;
+    for (const p of campProps)
+      if (p.type === "garden") prop(p.type, p.x, p.y, p.w, p.h);
+    for (const b of campBuildings) {
+      const frame = tiles.houses[b.variant];
+      if (!opened.has(b.id)) {
+        c.drawImage(
+          this.architecture,
+          frame.x * 128,
+          frame.y * 128,
+          640,
+          640,
+          b.x * 32,
+          b.y * 32,
+          160,
+          160,
+        );
+        continue;
+      }
+      for (let dy = 0; dy < 5; dy++)
+        for (let dx = 0; dx < 5; dx++) prop("floor", b.x + dx, b.y + dy);
+      for (let dx = 0; dx < 5; dx++) prop("fence", b.x + dx, b.y);
+      for (let dy = 0; dy < 5; dy++)
+        for (const dx of [0, 4]) {
+          c.save();
+          c.translate((b.x + dx + 0.5) * 32, (b.y + dy + 0.5) * 32);
+          c.rotate(Math.PI / 2);
+          const [sx, sy] = tiles.props.fence;
+          c.drawImage(
+            this.architecture,
+            sx * 128,
+            sy * 128,
+            128,
+            128,
+            -16,
+            -16,
+            32,
+            32,
+          );
+          c.restore();
+        }
+      // Retain the original lower facade on each side of the open doorway.
+      c.drawImage(
+        this.architecture,
+        frame.x * 128,
+        (frame.y + 4) * 128,
+        256,
+        128,
+        b.x * 32,
+        (b.y + 4) * 32,
+        64,
+        32,
+      );
+      c.drawImage(
+        this.architecture,
+        (frame.x + 3) * 128,
+        (frame.y + 4) * 128,
+        256,
+        128,
+        (b.x + 3) * 32,
+        (b.y + 4) * 32,
+        64,
+        32,
+      );
+      prop("crate", b.x + 1, b.y + 1);
+    }
+    // Tall vegetation is drawn last so its actual canopy is visible at the correct scale.
+    for (const p of campProps)
+      if (p.type !== "garden") prop(p.type, p.x, p.y, p.w, p.h);
     return layer;
   }
 }

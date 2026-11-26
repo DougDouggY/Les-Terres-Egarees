@@ -216,80 +216,110 @@ for (const choice of ["storm", "travelers"] as const)
     assert.equal(E.decode(E.encode(s)).chapter2?.stage, "awaiting-battle");
   });
 
-test("terrain naturel : passages connectés, village bloqué et grille stable", async () => {
-  const C = await import("../src/data/kingdom-camp-map");
-  const { gridPath } = await import("../src/game/grid-path");
-  const a = C.kingdomCampMap(),
-    b = C.kingdomCampMap();
-  assert.deepEqual(a, b);
-  assert.equal(a.cells.length, C.CAMP_W * C.CAMP_H);
-  assert.deepEqual(
-    C.campBuildings.map((b) => b.id),
-    ["village"],
-  );
-  assert.ok(
-    a.cells.filter((c) => ["forest", "tree"].includes(c.terrain)).length > 100,
-  );
-  assert.ok(a.cells.filter((c) => c.terrain === "rock").length > 30);
-  assert.ok(
-    a.cells.filter((c) => c.terrain === "wall").every((c) => !!c.villagePart),
-  );
+test("village rapproché : rues connectées, maisons et accessoires sur des cases entières", async () => {
+  const C = await import("../src/data/kingdom-camp-map"),
+    { gridPath } = await import("../src/game/grid-path");
+  const a = C.kingdomCampMap();
+  assert.deepEqual(a, C.kingdomCampMap());
+  assert.equal(a.cells.length, 32 * 26);
+  assert.equal(C.campBuildings.length, 5);
   assert.equal(
-    a.cells.some((c) => c.terrain === "earth"),
+    a.cells.some((c) => c.terrain === "rock" || c.villagePart),
     false,
   );
+  const occupied = new Set<number>();
+  for (const b of C.campBuildings)
+    for (let y = b.y; y < b.y + b.h; y++)
+      for (let x = b.x; x < b.x + b.w; x++) {
+        const k = y * C.CAMP_W + x;
+        assert.ok(!occupied.has(k));
+        occupied.add(k);
+        assert.equal(a.cells[k].walk, false);
+      }
+  for (const p of C.campProps)
+    for (let dy = 0; dy < p.h; dy++)
+      for (let dx = 0; dx < p.w; dx++)
+        assert.ok(!occupied.has((p.y + dy) * C.CAMP_W + p.x + dx), p.type);
+  assert.ok(
+    C.campProps
+      .filter((p) => p.type === "bush")
+      .every((p) => p.w === 1 && p.h === 1),
+  );
   const start = C.campStart.y * C.CAMP_W + C.campStart.x;
-  for (const p of C.campLandmarks) {
-    const k = p.y * C.CAMP_W + p.x;
-    const path = gridPath(C.CAMP_W, C.CAMP_H, start, k, (i) =>
-      a.cells[i].walk ? a.cells[i].cost : null,
+  for (const p of C.campLandmarks)
+    assert.ok(
+      gridPath(C.CAMP_W, C.CAMP_H, start, p.y * C.CAMP_W + p.x, (k) =>
+        a.cells[k].walk ? a.cells[k].cost : null,
+      ),
+      p.name,
     );
-    assert.equal(!!path, a.cells[k].walk, p.name);
-  }
-  for (const building of C.campBuildings)
-    for (let y: number = building.y; y < building.y + building.h; y++)
-      for (let x: number = building.x; x < building.x + building.w; x++)
-        assert.equal(
-          a.cells[y * C.CAMP_W + x].walk,
-          x === C.campVillage.entry.x && y === C.campVillage.entry.y,
-        );
-  for (const c of a.cells) {
-    assert.equal(c.y * C.CAMP_W + c.x, a.cells.indexOf(c));
-    if (c.terrain === "wall") assert.equal(c.walk, false);
-  }
 });
 
-test("aperçu du camp : restaurer exactement le terrain précédent", async () => {
+test("maisons rapprochées : ouvrir, entrer par la porte et refermer sans toucher aux autres maisons", async () => {
+  const C = await import("../src/data/kingdom-camp-map"),
+    { gridPath } = await import("../src/game/grid-path");
+  const a = C.kingdomCampMap(),
+    before = structuredClone(a.cells),
+    start = C.campStart.y * C.CAMP_W + C.campStart.x;
+  for (const b of C.campBuildings) {
+    const door = b.entry.y * C.CAMP_W + b.entry.x,
+      inside = (b.y + 2) * C.CAMP_W + b.x + 2;
+    assert.equal(a.cells[door].walk, false);
+    C.setCampHouseOpen(a.cells, b.id, true);
+    assert.equal(a.cells[door].walk, true);
+    assert.equal(a.cells[door].opaque, false);
+    const path = gridPath(C.CAMP_W, C.CAMP_H, start, inside, (k) =>
+      a.cells[k].walk ? a.cells[k].cost : null,
+    );
+    assert.ok(path?.steps.includes(door), b.id);
+    for (const other of C.campBuildings.filter((x) => x.id !== b.id))
+      assert.equal(
+        a.cells[other.entry.y * C.CAMP_W + other.entry.x].walk,
+        false,
+      );
+    assert.equal(a.cells[(b.y + 1) * C.CAMP_W + b.x + 1].walk, false);
+    C.setCampHouseOpen(a.cells, b.id, false);
+    assert.deepEqual(a.cells, before);
+  }
+  assert.throws(() => C.setCampHouseOpen(a.cells, "unknown", true));
+});
+
+test("aperçu rapproché : ancienne carte restaurée, toits fermés à la réouverture", async () => {
+  const C = await import("../src/data/kingdom-camp-map");
   for (const id of ["prologue", "forest-compact"] as const) {
     E.activateMap(id);
     const before = JSON.stringify(E.map),
-      width = E.W,
-      height = E.H;
+      w = E.W,
+      h = E.H;
     E.activateMap("kingdom-camp");
-    assert.equal(E.W, 40);
-    assert.equal(E.H, 28);
+    assert.equal(E.W, 32);
+    assert.equal(E.H, 26);
+    C.setCampHouseOpen(E.map, C.campBuildings[0].id, true);
     E.activateMap(id);
-    assert.equal(E.W, width);
-    assert.equal(E.H, height);
+    assert.equal(E.W, w);
+    assert.equal(E.H, h);
     assert.equal(JSON.stringify(E.map), before);
+    E.activateMap("kingdom-camp");
+    assert.equal(
+      E.map[C.campVillage.entry.y * C.CAMP_W + C.campVillage.entry.x].walk,
+      false,
+    );
+    E.activateMap(id);
   }
 });
 
-test("village en bois : neuf cases liées, porte au sud et trois cases devant", async () => {
-  const C = await import("../src/data/kingdom-camp-map");
-  const b = C.kingdomCampMap();
-  const parts = b.cells.filter((c) => c.villagePart);
-  assert.equal(parts.length, 9);
-  assert.equal(parts.filter((c) => c.walk).length, 1);
-  const entry =
-    b.cells[C.campVillage.entry.y * C.CAMP_W + C.campVillage.entry.x];
-  assert.equal(entry.walk, true);
-  assert.equal(entry.terrain, "floor");
-  assert.deepEqual(entry.villagePart, { dx: 1, dy: 2 });
-  for (let dx = -1; dx <= 1; dx++)
-    assert.equal(b.cells[(entry.y + 1) * C.CAMP_W + entry.x + dx].walk, true);
-  const water = b.cells.filter((c) => c.terrain === "water");
-  assert.ok(water.length >= C.CAMP_H * 2);
-  assert.ok(water.every((c) => !c.walk && !c.opaque));
-  assert.ok(b.cells.some((c) => c.terrain === "rock" && !c.walk && c.opaque));
+test("tileset rapproché : vrais fichiers, quatre maisons 5×5 et neuf ressources de décor", async () => {
+  const { readFile } = await import("node:fs/promises"),
+    { villageTileset: T } = await import("../src/data/village-tileset");
+  const raw = await readFile("public/" + T.source);
+  assert.equal(raw.toString("ascii", 1, 4), "PNG");
+  assert.equal(raw.readUInt32BE(16), T.columns * T.cell);
+  assert.equal(raw.readUInt32BE(20), T.rows * T.cell);
+  assert.equal(T.houses.length, 4);
+  assert.equal(Object.keys(T.props).length, 9);
+  for (const h of T.houses) {
+    assert.equal(h.w, 5);
+    assert.equal(h.h, 5);
+    assert.ok(h.x + h.w <= T.columns && h.y + h.h <= T.rows);
+  }
 });
