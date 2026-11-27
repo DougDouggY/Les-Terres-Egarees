@@ -48,6 +48,11 @@ for (const mobile of [false, true])
       .getByRole("button", { name: "Visiter · aperçu", exact: true })
       .click();
     await expect(page.getByRole("dialog")).toContainText("Grande caserne");
+    await expect(page.getByRole("dialog")).toContainText("désormais incendié");
+    await expect(military).toHaveAttribute("data-visited-buildings", "1");
+    await expect(page.locator("[data-camp-status]")).toContainText(
+      "Bâtiment incendié",
+    );
     await expect(page.getByRole("dialog")).toContainText(
       "sans entrer dans le bâtiment",
     );
@@ -55,6 +60,12 @@ for (const mobile of [false, true])
       .getByRole("button", { name: "Retour à la carte", exact: true })
       .click();
     await expect(military).toHaveAttribute("data-open-houses", "0");
+    await expect(
+      page.getByRole("button", { name: "Bâtiment visité", exact: true }),
+    ).toBeDisabled();
+    await page.screenshot({
+      path: `/tmp/camp-burned-${mobile ? "mobile" : "desktop"}.png`,
+    });
     await expect(
       page.getByRole("button", { name: "Ouvrir la porte", exact: true }),
     ).toHaveCount(0);
@@ -135,7 +146,12 @@ test("murets : raccords continus et ouvertures conservées", async ({
       ctx = walls.getContext("2d")!;
     const alpha = (x: number, y: number) =>
       ctx.getImageData(x, y, 1, 1).data[3];
-    let broken = 0;
+    let broken = 0,
+      unfilled = 0;
+    for (const wall of s.walls) {
+      const data = ctx.getImageData(wall.x * 64, wall.y * 64, 64, 64).data;
+      for (let i = 3; i < data.length; i += 4) if (data[i] !== 255) unfilled++;
+    }
     for (const w of s.walls) {
       if (
         s.walls.some(
@@ -156,6 +172,7 @@ test("murets : raccords continus et ouvertures conservées", async ({
     }
     return {
       broken,
+      unfilled,
       gaps: [
         [4, 6],
         [14, 6],
@@ -166,6 +183,59 @@ test("murets : raccords continus et ouvertures conservées", async ({
     };
   });
   expect(result.broken).toBe(0);
+  expect(result.unfilled).toBe(0);
   expect(result.gaps).toEqual([0, 0, 0, 0]);
   expect(result.size).toEqual([1280, 1536]);
+});
+
+test("six visites : chaque maison devient incendiée une seule fois", async ({
+  page,
+}) => {
+  await page.routeWebSocket(/.*/, () => {});
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/");
+  await page
+    .getByRole("button", { name: "Carte du chapitre 2", exact: true })
+    .click();
+  await page
+    .getByLabel("Version du camp", { exact: true })
+    .selectOption("military");
+  const canvas = page.locator("[data-camp-canvas]");
+  await expect(canvas).toHaveAttribute("data-ready", "true");
+  await page.getByLabel("Grille", { exact: true }).uncheck();
+  const buildings = await page.evaluate(async () => {
+    const D = await import(String("/src/data/kingdom-camp-military.ts"));
+    return D.militaryCamp().buildings.map((b: any) => ({
+      x: b.entry.x,
+      y: b.entry.y + 1,
+    }));
+  });
+  for (let i = 0; i < buildings.length; i++) {
+    const b = buildings[i],
+      r = (await canvas.boundingBox())!,
+      z = Number(await canvas.getAttribute("data-zoom")),
+      cx = Number(await canvas.getAttribute("data-camera-x")),
+      cy = Number(await canvas.getAttribute("data-camera-y"));
+    await canvas.click({
+      position: {
+        x: r.width / 2 + ((b.x + 0.5) * 32 - cx) * z,
+        y: r.height / 2 + ((b.y + 0.5) * 32 - cy) * z,
+      },
+    });
+    await page
+      .getByRole("button", { name: "Visiter · aperçu", exact: true })
+      .click();
+    await expect(canvas).toHaveAttribute(
+      "data-visited-buildings",
+      String(i + 1),
+    );
+    await page
+      .getByRole("button", { name: "Retour à la carte", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "Bâtiment visité", exact: true }),
+    ).toBeDisabled();
+  }
+  await expect(canvas).toHaveAttribute("data-open-houses", "0");
+  await page.screenshot({ path: "/tmp/camp-all-burned.png" });
 });

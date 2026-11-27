@@ -1,0 +1,53 @@
+{
+  "cell": 32,
+  "nativeCell": 128,
+  "atlas": "../compact-buildings-burned.png",
+  "columns": 3,
+  "rows": 2,
+  "frameWidth": 384,
+  "frameHeight": 256,
+  "buildings": [
+    {
+      "id": "main-barracks",
+      "frame": 0,
+      "w": 3,
+      "h": 2,
+      "file": "main-barracks.png"
+    },
+    {
+      "id": "officers",
+      "frame": 1,
+      "w": 2,
+      "h": 2,
+      "file": "officers.png"
+    },
+    {
+      "id": "stores",
+      "frame": 2,
+      "w": 3,
+      "h": 2,
+      "file": "stores.png"
+    },
+    {
+      "id": "prison",
+      "frame": 3,
+      "w": 3,
+      "h": 2,
+      "file": "prison.png"
+    },
+    {
+      "id": "second-barracks",
+      "frame": 4,
+      "w": 2,
+      "h": 2,
+      "file": "second-barracks.png"
+    },
+    {
+      "id": "provisions",
+      "frame": 5,
+      "w": 2,
+      "h": 2,
+      "file": "provisions.png"
+    }
+  ]
+}

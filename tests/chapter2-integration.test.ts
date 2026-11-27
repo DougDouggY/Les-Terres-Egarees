@@ -498,6 +498,8 @@ test("camp militaire : version indépendante, six bâtiments fermés et visites 
   assert.ok(s.buildings.every((b) => [2, 3].includes(b.w) && b.h === 2));
   assert.ok(s.buildings.some((b) => b.id === "officers"));
   assert.ok(s.buildings.some((b) => b.kind === "cells"));
+  assert.ok(s.props.every((p) => p.type === "tree" || p.type === "bush"));
+  assert.ok(s.walls.every((p) => p.material === "stone"));
   const occupied = new Set<number>();
   for (const b of s.buildings) {
     for (let y = b.y; y < b.y + b.h; y++)
@@ -572,5 +574,11 @@ test("camp militaire : version indépendante, six bâtiments fermés et visites 
     );
     assert.equal(png.readUInt32BE(16), b.w * 128);
     assert.equal(png.readUInt32BE(20), b.h * 128);
+    const damaged = await fs.readFile(
+      `public/assets/kingdom-camp/compact-buildings-burned/${f.file}`,
+    );
+    assert.equal(damaged.readUInt32BE(16), b.w * 128);
+    assert.equal(damaged.readUInt32BE(20), b.h * 128);
+    assert.notDeepEqual(damaged, png);
   }
 });

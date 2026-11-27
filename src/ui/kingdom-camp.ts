@@ -72,13 +72,17 @@ function mountCamp(
     construction = new Image(),
     life = new Image(),
     stone = new Image(),
-    houses = new Image();
+    houses = new Image(),
+    burnedHouses = new Image();
   atlas.src = import.meta.env.BASE_URL + "assets/regional-tiles.png?v=1";
   architecture.src = import.meta.env.BASE_URL + campTileset.source;
   construction.src =
     import.meta.env.BASE_URL + "assets/future-terrain/camp.png";
   const renderer = new CampTerrainRenderer(atlas, architecture, construction);
   if (proposed) {
+    burnedHouses.src =
+      import.meta.env.BASE_URL +
+      "assets/kingdom-camp/compact-buildings-burned.png";
     houses.src =
       import.meta.env.BASE_URL + "assets/kingdom-camp/compact-buildings.png";
     life.src =
@@ -94,14 +98,16 @@ function mountCamp(
         life,
         stone,
         houses,
+        burnedHouses,
       )
     : null;
   const drawLayer = () =>
     militaryRenderer
-      ? militaryRenderer.layer()
+      ? militaryRenderer.layer(visited)
       : renderer.layer("regional", ["north", "knight"], opened);
   let layer: HTMLCanvasElement | null = null;
   const opened = new Set<string>();
+  const visited = new Set<string>();
   const doorButton = host.querySelector<HTMLButtonElement>("[data-camp-door]")!;
   const size = () => ({ w: viewport.clientWidth, h: viewport.clientHeight });
   const fitZoom = () => {
@@ -180,11 +186,15 @@ function mountCamp(
     doorButton.hidden = !house;
     if (house)
       doorButton.textContent = proposed
-        ? "Visiter · aperçu"
+        ? visited.has(house.id)
+          ? "Bâtiment visité"
+          : "Visiter · aperçu"
         : opened.has(house.id)
           ? "Fermer la porte"
           : "Ouvrir la porte";
-    doorButton.disabled = !!proposed && !route;
+    doorButton.disabled =
+      !!proposed && (!route || (!!house && visited.has(house.id)));
+    canvas.dataset.visitedBuildings = String(visited.size);
     canvas.dataset.openHouses = String(opened.size);
     canvas.dataset.buildingCount = String(campBuildings.length);
     canvas.dataset.scale = proposed
@@ -195,7 +205,7 @@ function mountCamp(
     canvas.dataset.mapHeight = String(CAMP_H);
     status.textContent =
       (proposed && house
-        ? `${house.name} · Bâtiment fermé · Accès de visite à l’entrée`
+        ? `${house.name} · ${visited.has(house.id) ? "Bâtiment incendié" : "Bâtiment fermé"} · Accès de visite à l’entrée`
         : describe(selected)) +
       (route
         ? ` · Passage accessible (${Math.max(0, route.steps.length - 1)} cases)`
@@ -261,13 +271,16 @@ function mountCamp(
     const house = campHouseAt(map[selected].x, map[selected].y);
     if (!house || !layer) return;
     if (proposed) {
-      if (!route) return;
+      if (!route || visited.has(house.id)) return;
+      visited.add(house.id);
+      layer = drawLayer();
+      paint();
       const building = proposed.buildings.find((b) => b.id === house.id)!;
       host.querySelector("[data-camp-visit-dialog]")?.remove();
       const dialog = document.createElement("div");
       dialog.className = "modal-back";
       dialog.dataset.campVisitDialog = "";
-      dialog.innerHTML = `<section class="modal" role="dialog" aria-modal="true" aria-labelledby="camp-visit-title"><h2 id="camp-visit-title">${building.name}</h2><p>${building.description}</p><p>La visite se fera depuis l’entrée, sans entrer dans le bâtiment. Son résultat reste à définir.</p><button type="button" data-close-visit>Retour à la carte</button></section>`;
+      dialog.innerHTML = `<section class="modal" role="dialog" aria-modal="true" aria-labelledby="camp-visit-title"><h2 id="camp-visit-title">${building.name}</h2><p>${building.description}</p><p>Visite effectuée depuis l’entrée, sans entrer dans le bâtiment : il est désormais incendié. Les récompenses et sorties d’ennemis restent à définir.</p><button type="button" data-close-visit>Retour à la carte</button></section>`;
       host.append(dialog);
       const close =
         dialog.querySelector<HTMLButtonElement>("[data-close-visit]")!;
@@ -420,7 +433,9 @@ function mountCamp(
     atlas.decode(),
     architecture.decode(),
     construction.decode(),
-    ...(proposed ? [life.decode(), stone.decode(), houses.decode()] : []),
+    ...(proposed
+      ? [life.decode(), stone.decode(), houses.decode(), burnedHouses.decode()]
+      : []),
   ])
     .then(() => {
       if (disposed) return;

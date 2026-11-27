@@ -1,6 +1,8 @@
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { chromium } from "@playwright/test";
 const input = process.argv[2];
+const burned = process.argv.includes("--burned");
+const name = burned ? "compact-buildings-burned" : "compact-buildings";
 if (!input)
   throw Error(
     "Usage: node scripts/pack-compact-camp-buildings.mjs buildings.png",
@@ -14,7 +16,18 @@ const frames = [
   { id: "second-barracks", rect: [630, 512, 410, 512], w: 2, h: 2 },
   { id: "provisions", rect: [1040, 512, 496, 512], w: 2, h: 2 },
 ];
-await mkdir(output + "/compact-buildings", { recursive: true });
+if (burned) {
+  const rectangles = [
+    [0, 0, 670, 418],
+    [700, 0, 530, 418],
+    [1240, 0, 641, 418],
+    [0, 418, 670, 418],
+    [700, 418, 530, 418],
+    [1240, 418, 641, 418],
+  ];
+  frames.forEach((f, i) => (f.rect = rectangles[i]));
+}
+await mkdir(`${output}/${name}`, { recursive: true });
 const browser = await chromium.launch({
   executablePath: "/usr/bin/chromium",
   args: ["--no-sandbox"],
@@ -91,22 +104,19 @@ try {
     },
     { src, frames },
   );
-  await writeFile(
-    `${output}/compact-buildings.png`,
-    Buffer.from(packed.atlas, "base64"),
-  );
+  await writeFile(`${output}/${name}.png`, Buffer.from(packed.atlas, "base64"));
   for (let i = 0; i < frames.length; i++)
     await writeFile(
-      `${output}/compact-buildings/${frames[i].id}.png`,
+      `${output}/${name}/${frames[i].id}.png`,
       Buffer.from(packed.sprites[i], "base64"),
     );
   await writeFile(
-    `${output}/compact-buildings/frames.json`,
+    `${output}/${name}/frames.json`,
     JSON.stringify(
       {
         cell: 32,
         nativeCell: 128,
-        atlas: "../compact-buildings.png",
+        atlas: `../${name}.png`,
         columns: 3,
         rows: 2,
         frameWidth: 384,

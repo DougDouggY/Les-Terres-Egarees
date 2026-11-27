@@ -113,12 +113,23 @@ export function militaryCamp(): MilitaryCamp {
     entry: { x: b.x + Math.floor(b.w / 2), y: b.y + b.h - 1 },
   }));
   const props: MilitaryProp[] = [
-    { id: "well", type: "well", x: 10, y: 10, w: 1, h: 1 },
     ...[
+      [0, 0],
+      [1, 0],
+      [0, 1],
+      [1, 1],
       [0, 2],
       [8, 2],
+      [18, 0],
+      [19, 0],
+      [18, 1],
+      [19, 1],
+      [19, 2],
       [18, 2],
       [0, 20],
+      [0, 21],
+      [1, 21],
+      [0, 22],
       [17, 22],
       [0, 23],
       [18, 7],
@@ -158,38 +169,6 @@ export function militaryCamp(): MilitaryCamp {
       sprite: 2,
       walk: true,
     })),
-    { id: "store-crates", type: "crate", x: 17, y: 10, w: 1, h: 1, sprite: 12 },
-    {
-      id: "store-barrels",
-      type: "barrel",
-      x: 17,
-      y: 11,
-      w: 1,
-      h: 1,
-      sprite: 13,
-    },
-    { id: "store-cart", type: "cart", x: 15, y: 14, w: 1, h: 1, sprite: 14 },
-    {
-      id: "officers-crate",
-      type: "crate",
-      x: 15,
-      y: 3,
-      w: 1,
-      h: 1,
-      sprite: 12,
-    },
-    { id: "woodpile", type: "firewood", x: 6, y: 12, w: 1, h: 1, sprite: 3 },
-    {
-      id: "provisions-barrel",
-      type: "barrel",
-      x: 3,
-      y: 11,
-      w: 1,
-      h: 1,
-      sprite: 13,
-    },
-    { id: "weapons", type: "rack", x: 7, y: 4, w: 1, h: 1, sprite: 8 },
-    { id: "lower-cart", type: "cart", x: 16, y: 21, w: 1, h: 1, sprite: 14 },
   ];
   const walls: MilitaryWall[] = [];
   const h = (
@@ -220,8 +199,8 @@ export function militaryCamp(): MilitaryCamp {
   v(17, 2, 5, [4, 5]);
   h(14, 2, 13, [7, 8, 9]);
   v(2, 15, 20, [18, 19]);
-  v(18, 9, 15, [12, 13], "fence");
-  h(15, 14, 18, [16, 17], "fence");
+  v(18, 9, 15, [12, 13]);
+  h(15, 14, 18, [16, 17]);
   const cells: Cell[] = Array.from({ length: width * height }, (_, i) => ({
     x: i % width,
     y: Math.floor(i / width),

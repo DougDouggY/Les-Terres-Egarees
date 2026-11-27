@@ -11,8 +11,9 @@ export class MilitaryCampRenderer {
     private life: HTMLImageElement,
     private stone: HTMLImageElement,
     private houses: HTMLImageElement,
+    private burnedHouses: HTMLImageElement,
   ) {}
-  layer() {
+  layer(visited: ReadonlySet<string> = new Set()) {
     const s = this.scene,
       out = document.createElement("canvas");
     out.width = s.width * 64;
@@ -54,30 +55,52 @@ export class MilitaryCampRenderer {
     pc.globalCompositeOperation = "destination-in";
     pc.drawImage(campRoadMask(s.cells, s.width, s.height), 0, 0);
     c.drawImage(paths, 0, 0);
-    for (const cell of s.cells)
-      if (cell.terrain === "water")
-        c.drawImage(
-          this.ground,
-          512,
-          0,
-          128,
-          128,
-          cell.x * 64,
-          cell.y * 64,
-          64,
-          64,
-        );
+    // Shared grass/earth materials make a bank rather than an abrupt water square.
+    const waterCells = s.cells.map((cell) => ({
+      ...cell,
+      terrain: (cell.terrain === "water" ? "road" : "grass") as
+        "road" | "grass",
+    }));
+    const waterMask = campRoadMask(waterCells, s.width, s.height);
+    const bank = document.createElement("canvas");
+    bank.width = out.width;
+    bank.height = out.height;
+    const bc = bank.getContext("2d")!;
+    bc.fillStyle = bc.createPattern(texture(2), "repeat")!;
+    bc.fillRect(0, 0, bank.width, bank.height);
+    bc.globalCompositeOperation = "destination-in";
+    bc.filter = "blur(6px)";
+    bc.drawImage(waterMask, 0, 0);
+    c.drawImage(bank, 0, 0);
+    const maskContext = waterMask.getContext("2d")!,
+      alpha = maskContext.getImageData(0, 0, waterMask.width, waterMask.height);
+    for (let i = 3; i < alpha.data.length; i += 4)
+      alpha.data[i] = Math.max(
+        0,
+        Math.min(255, ((alpha.data[i] - 80) * 255) / 175),
+      );
+    maskContext.putImageData(alpha, 0, 0);
+    const water = document.createElement("canvas");
+    water.width = out.width;
+    water.height = out.height;
+    const wc = water.getContext("2d")!;
+    wc.fillStyle = wc.createPattern(texture(4), "repeat")!;
+    wc.fillRect(0, 0, water.width, water.height);
+    wc.globalCompositeOperation = "destination-in";
+    wc.drawImage(waterMask, 0, 0);
+    c.drawImage(water, 0, 0);
     c.drawImage(campLowWalls(s, this.stone, this.architecture), 0, 0);
     // Whole building illustrations, not scaled-down rooms or repeated roof tiles.
     for (const b of s.buildings) {
-      const sw = this.houses.width / 3,
-        sh = this.houses.height / 2;
+      const houseImage = visited.has(b.id) ? this.burnedHouses : this.houses;
+      const sw = houseImage.width / 3,
+        sh = houseImage.height / 2;
       const sample = document.createElement("canvas");
       sample.width = sw;
       sample.height = sh;
       const sc = sample.getContext("2d")!;
       sc.drawImage(
-        this.houses,
+        houseImage,
         (b.variant % 3) * sw,
         Math.floor(b.variant / 3) * sh,
         sw,
