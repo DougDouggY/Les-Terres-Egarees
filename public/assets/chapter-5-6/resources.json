@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "worldCell": 32,
+  "exportCell": 64,
+  "atlas": {
+    "columns": 4,
+    "rows": 4,
+    "cell": 256
+  },
+  "materials": "fortress-materials.png",
+  "objects": [
+    {
+      "id": "wagon-right",
+      "frame": 0,
+      "file": "objects/wagon-right.png"
+    },
+    {
+      "id": "wagon-left",
+      "frame": 1,
+      "file": "objects/wagon-left.png"
+    },
+    {
+      "id": "empty-cart",
+      "frame": 2,
+      "file": "objects/empty-cart.png"
+    },
+    {
+      "id": "barricade",
+      "frame": 3,
+      "file": "objects/barricade.png"
+    },
+    {
+      "id": "fortress-gate-closed",
+      "frame": 4,
+      "file": "objects/fortress-gate-closed.png"
+    },
+    {
+      "id": "fortress-gate-open",
+      "frame": 5,
+      "file": "objects/fortress-gate-open.png"
+    },
+    {
+      "id": "timber-door-closed",
+      "frame": 6,
+      "file": "objects/timber-door-closed.png"
+    },
+    {
+      "id": "timber-door-open",
+      "frame": 7,
+      "file": "objects/timber-door-open.png"
+    },
+    {
+      "id": "empty-cage",
+      "frame": 8,
+      "file": "objects/empty-cage.png"
+    },
+    {
+      "id": "chest",
+      "frame": 9,
+      "file": "objects/chest.png"
+    },
+    {
+      "id": "barrels",
+      "frame": 10,
+      "file": "objects/barrels.png"
+    },
+    {
+      "id": "crates",
+      "frame": 11,
+      "file": "objects/crates.png"
+    },
+    {
+      "id": "ballista",
+      "frame": 12,
+      "file": "objects/ballista.png"
+    },
+    {
+      "id": "battering-ram",
+      "frame": 13,
+      "file": "objects/battering-ram.png"
+    },
+    {
+      "id": "stable-supplies",
+      "frame": 14,
+      "file": "objects/stable-supplies.png"
+    },
+    {
+      "id": "weapons",
+      "frame": 15,
+      "file": "objects/weapons.png"
+    }
+  ],
+  "maps": [
+    {
+      "id": "convoy",
+      "width": 56,
+      "height": 40,
+      "directory": "convoy",
+      "layers": [
+        "terrain",
+        "structures",
+        "roofs",
+        "doors",
+        "doors-open",
+        "objects"
+      ],
+      "preview": "convoy/preview.png",
+      "layout": "convoy/layout.json"
+    },
+    {
+      "id": "fortress",
+      "width": 56,
+      "height": 44,
+      "directory": "fortress",
+      "layers": [
+        "terrain",
+        "structures",
+        "roofs",
+        "doors",
+        "doors-open",
+        "objects"
+      ],
+      "preview": "fortress/preview.png",
+      "layout": "fortress/layout.json"
+    }
+  ],
+  "sharedTextures": {
+    "regional": "../regional-tiles.png",
+    "camp": "../future-terrain/camp.png"
+  }
+}

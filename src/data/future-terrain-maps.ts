@@ -1,6 +1,7 @@
 /** Terrain drafts only: no campaign events, enemies or save identifiers. */
 export type TerrainDraft = {
-  id: "castle-approach" | "supplies";
+  id: "castle-approach" | "supplies" | "convoy" | "fortress";
+  layout?: import("./landscape-drafts").LandscapeDraft;
   title: string;
   atlas: "castle" | "wilds";
   width: number;

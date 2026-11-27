@@ -378,3 +378,109 @@ test("terrains suivants : deux plans indépendants et chemins traversables", asy
   first[0].tiles[0] = 15;
   assert.notEqual(first[0].tiles[0], second[0].tiles[0]);
 });
+
+test("chapitres V–VI : terrains vastes, couches indépendantes et circulation de forteresse", async () => {
+  const { campaignTerrainDrafts } =
+    await import("../src/data/landscape-drafts");
+  const { landscapePassable } =
+    await import("../src/rendering/landscape-draft-renderer");
+  const { gridPath } = await import("../src/game/grid-path");
+  const maps = campaignTerrainDrafts();
+  assert.deepEqual(
+    maps.map((m) => m.id),
+    ["convoy", "fortress"],
+  );
+  for (const m of maps) {
+    assert.ok(m.width >= 50 && m.height >= 40);
+    assert.equal(m.layout!.terrain.length, m.width * m.height);
+    assert.equal(m.blocked.length, m.width * m.height);
+    const start = m.start[1] * m.width + m.start[0],
+      destination = m.destination[1] * m.width + m.destination[0];
+    assert.ok(
+      gridPath(m.width, m.height, start, destination, (k) =>
+        landscapePassable(m, true, k % m.width, Math.floor(k / m.width))
+          ? 1
+          : null,
+      ),
+      m.id,
+    );
+    for (const p of m.layout!.props)
+      assert.ok(
+        p.x >= 0 && p.y >= 0 && p.x + p.w <= m.width && p.y + p.h <= m.height,
+      );
+  }
+  assert.equal(
+    maps[0].layout!.props.filter((p) => p.id.startsWith("wagon")).length,
+    2,
+  );
+  const fort = maps[1],
+    l = fort.layout!;
+  assert.equal(l.gates.length, 3);
+  assert.ok(l.walls.length > 100 && l.towers.length >= 4);
+  const source = fort.start[1] * fort.width + fort.start[0];
+  for (const g of l.gates) {
+    assert.equal(landscapePassable(fort, false, g.x, g.y), false);
+    assert.equal(landscapePassable(fort, true, g.x, g.y), true);
+    assert.ok(
+      gridPath(fort.width, fort.height, source, g.y * fort.width + g.x, (k) =>
+        landscapePassable(
+          fort,
+          true,
+          k % fort.width,
+          Math.floor(k / fort.width),
+        )
+          ? 1
+          : null,
+      ),
+      g.id,
+    );
+  }
+  for (const b of l.buildings) {
+    const x = b.x + Math.floor(b.w / 2),
+      y = b.y + b.h - 1;
+    assert.equal(landscapePassable(fort, false, x, y), false);
+    assert.equal(landscapePassable(fort, true, b.x + 1, b.y + 1), true);
+    assert.equal(landscapePassable(fort, true, b.x, b.y + 1), false);
+    assert.ok(
+      gridPath(fort.width, fort.height, source, y * fort.width + x, (k) =>
+        landscapePassable(
+          fort,
+          true,
+          k % fort.width,
+          Math.floor(k / fort.width),
+        )
+          ? 1
+          : null,
+      ),
+      b.id,
+    );
+  }
+});
+
+test("ressources V–VI : seize objets nommés et cartes PNG en couches", async () => {
+  const fs = await import("node:fs/promises");
+  const root = "public/assets/chapter-5-6";
+  const resources = JSON.parse(
+    await fs.readFile(`${root}/resources.json`, "utf8"),
+  );
+  assert.equal(resources.objects.length, 16);
+  assert.equal(new Set(resources.objects.map((o: any) => o.id)).size, 16);
+  for (const object of resources.objects) {
+    const data = await fs.readFile(`${root}/${object.file}`);
+    assert.equal(data.readUInt32BE(16), 256);
+    assert.equal(data.readUInt32BE(20), 256);
+  }
+  for (const map of resources.maps) {
+    const geometry = JSON.parse(
+      await fs.readFile(`${root}/${map.layout}`, "utf8"),
+    );
+    assert.equal(geometry.draft, true);
+    assert.ok(geometry.connectivityAnchors);
+    assert.equal(geometry.units, undefined);
+    for (const layer of [...map.layers, "preview"]) {
+      const data = await fs.readFile(`${root}/${map.directory}/${layer}.png`);
+      assert.equal(data.readUInt32BE(16), map.width * 64);
+      assert.equal(data.readUInt32BE(20), map.height * 64);
+    }
+  }
+});
