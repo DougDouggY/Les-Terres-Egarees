@@ -71,13 +71,16 @@ function mountCamp(
     architecture = new Image(),
     construction = new Image(),
     life = new Image(),
-    stone = new Image();
+    stone = new Image(),
+    houses = new Image();
   atlas.src = import.meta.env.BASE_URL + "assets/regional-tiles.png?v=1";
   architecture.src = import.meta.env.BASE_URL + campTileset.source;
   construction.src =
     import.meta.env.BASE_URL + "assets/future-terrain/camp.png";
   const renderer = new CampTerrainRenderer(atlas, architecture, construction);
   if (proposed) {
+    houses.src =
+      import.meta.env.BASE_URL + "assets/kingdom-camp/compact-buildings.png";
     life.src =
       import.meta.env.BASE_URL + "assets/kingdom-camp/military-life.png";
     stone.src =
@@ -88,9 +91,9 @@ function mountCamp(
         proposed,
         atlas,
         architecture,
-        construction,
         life,
         stone,
+        houses,
       )
     : null;
   const drawLayer = () =>
@@ -417,7 +420,7 @@ function mountCamp(
     atlas.decode(),
     architecture.decode(),
     construction.decode(),
-    ...(proposed ? [life.decode(), stone.decode()] : []),
+    ...(proposed ? [life.decode(), stone.decode(), houses.decode()] : []),
   ])
     .then(() => {
       if (disposed) return;

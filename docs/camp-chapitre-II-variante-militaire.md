@@ -19,9 +19,11 @@ Le changement de version réinitialise ses manipulations de test. La grille, le 
 
 ## Composition et échelle
 
-La variante mesure **40 × 32 cases**, avec des cases du monde de 32 pixels et un rendu de 64 pixels par case. L’échelle rapprochée est conservée : arbres individuels de 2 × 2 cases, buissons et stockage à taille humaine, bâtiments de plusieurs cases. Aucune tuile de forêt régionale ou de montagne miniature n’est utilisée.
+La variante mesure **20 × 24 cases**, avec des cases du monde de 32 pixels et un rendu de 64 pixels par case. L’échelle rapprochée est conservée : arbres individuels d’une case, buissons et stockage compacts, bâtiments complets de **2 × 2 ou 3 × 2 cases**. Aucune tuile de forêt régionale ou de montagne miniature n’est utilisée.
 
 La construction de Serafew dans FE8 sert de référence aux secteurs, passages et possibilités de contournement, sans reprendre sa disposition exacte, ses couleurs ou ses illustrations.
+
+Les six bâtiments sont des illustrations complètes et indépendantes, comme le bloc des ruines du prologue : toit en volume, façade, fenêtres, cheminée et porte. Ils ne sont plus assemblés avec une grande surface de toit répétée. Trois bâtiments occupent 3 × 2 cases (grande caserne, entrepôt, prison) et trois occupent 2 × 2 cases (officiers, petite caserne, intendance). Les illustrations sont cadrées dans ces emprises sans étirer leurs proportions.
 
 Six bâtiments décalés organisent le camp : grande caserne, petite caserne, entrepôt, prison, logement d’officiers et intendance. Une cour irrégulière avec un puits relie les secteurs. Quelques murs bas et clôtures délimitent les espaces sans constituer une enceinte de forteresse. Des passages resserrés alternent avec la cour, les ruelles et des dégagements aux limites du terrain.
 
@@ -34,10 +36,14 @@ Les chemins utilisent les textures et le masque de raccord du camp existant. Le 
 - `src/ui/kingdom-camp.ts` : comparaison des deux versions, visite d’aperçu et caméra commune.
 - `src/ui/kingdom-camp-renderer.ts` : masque de chemin paramétrable ; ses valeurs par défaut conservent l’ancien rendu.
 - `public/assets/kingdom-camp/military-life.png` : atlas transparent 4 × 4 de 1024 × 1024 pixels. Seuls les éléments extérieurs sont utilisés dans cette variante.
-- `scripts/pack-camp-military.mjs` : découpage de la planche sans déformation des proportions.
+- `scripts/pack-camp-military.mjs` : découpage de la planche de décor sans déformation des proportions.
+- `public/assets/kingdom-camp/compact-buildings.png`, `compact-buildings/` : atlas transparent et six bâtiments individuels, avec dimensions et cadres dans `frames.json`.
+- `scripts/pack-compact-camp-buildings.mjs` : cadrages explicites des six silhouettes ; 128 pixels natifs par case dans les PNG individuels.
 - `tests/camp-military.spec.ts`, `tests/chapter2-integration.test.ts` et configuration Playwright : vérifications.
 
 Les matériaux de bâtiment et de mur déjà présents sont réutilisés sans modifier leurs fichiers. Source originale de la nouvelle planche : `/workspace/generated_images/exec-3a42f439-2678-450d-b0fc-d3f887bb5078.png`.
+
+Source originale des bâtiments compacts : `/workspace/generated_images/exec-6d1fda74-9465-421e-ba1d-ed4405e6e1ad.png`. Les cadrages sont propres à cette planche ; ils ne supposent pas que la génération a produit six cases identiques.
 
 ## Vérifications
 
@@ -45,4 +51,4 @@ Les tests de données vérifient les six emprises fermées, l’absence de cheva
 
 Les tests navigateur couvrent la comparaison, les visites sans ouverture, la conservation des sauvegardes, les commandes de caméra et le pincement réel sur téléphone. L’ancienne version est vérifiée séparément, y compris l’ouverture et la fermeture de ses bâtiments. Les parcours narratifs du chapitre II et le lancement compilé sont contrôlés séparément. Aucun résultat de combat ni événement de visite futur n’est revendiqué.
 
-Bilan de cette version : 247 tests automatisés réussis et 13 parcours navigateur vérifiés (2 pour la variante, 3 pour l’ancien camp, 2 pour les transitions narratives, 6 pour le lancement compilé). Le contrôle ciblé de connectivité et les deux parcours de la variante ont été répétés après le dernier ajustement du passage derrière la prison.
+Bilan de cette version : 247 tests automatisés réussis et 13 parcours navigateur vérifiés (2 pour la variante, 3 pour l’ancien camp, 2 pour les transitions narratives, 6 pour le lancement compilé). La reprise compacte vérifie aussi les emprises 2 × 2 / 3 × 2, le cadrage des six PNG et leurs dimensions natives, ainsi que les nouveaux accès après réduction du terrain.

@@ -1,15 +1,15 @@
 import type { MilitaryCamp } from "../data/kingdom-camp-military";
 import { villageTileset as tiles } from "../data/village-tileset";
-import { CampTerrainRenderer, campRoadMask } from "./kingdom-camp-renderer";
+import { campRoadMask } from "./kingdom-camp-renderer";
 /** Only close-scale individual props; never regional forest or mountain sprites. */
 export class MilitaryCampRenderer {
   constructor(
     private scene: MilitaryCamp,
     private ground: HTMLImageElement,
     private architecture: HTMLImageElement,
-    private construction: HTMLImageElement,
     private life: HTMLImageElement,
     private stone: HTMLImageElement,
+    private houses: HTMLImageElement,
   ) {}
   layer() {
     const s = this.scene,
@@ -111,31 +111,52 @@ export class MilitaryCampRenderer {
         c.restore();
       }
     }
-    const buildings = new CampTerrainRenderer(
-      this.ground,
-      this.architecture,
-      this.construction,
-    );
+    // Whole building illustrations, not scaled-down rooms or repeated roof tiles.
     for (const b of s.buildings) {
-      const layers = buildings.buildingLayers(
-        b.id === "officers" ? { ...b, kind: "warehouse" } : b,
-        false,
+      const sw = this.houses.width / 3,
+        sh = this.houses.height / 2;
+      const sample = document.createElement("canvas");
+      sample.width = sw;
+      sample.height = sh;
+      const sc = sample.getContext("2d")!;
+      sc.drawImage(
+        this.houses,
+        (b.variant % 3) * sw,
+        Math.floor(b.variant / 3) * sh,
+        sw,
+        sh,
+        0,
+        0,
+        sw,
+        sh,
       );
-      c.drawImage(layers.walls, b.x * 64, b.y * 64);
-      c.drawImage(layers.roof, b.x * 64, b.y * 64);
-      if (b.id === "prison")
-        for (const x of [b.x + 2, b.x + b.w - 3])
-          c.drawImage(
-            this.life,
-            768,
-            768,
-            256,
-            256,
-            x * 64 + 16,
-            (b.y + b.h - 1) * 64 + 16,
-            32,
-            32,
-          );
+      const pixels = sc.getImageData(0, 0, sw, sh).data;
+      let left = sw,
+        top = sh,
+        right = 0,
+        bottom = 0;
+      for (let y = 0; y < sh; y++)
+        for (let x = 0; x < sw; x++)
+          if (pixels[(y * sw + x) * 4 + 3] > 32) {
+            left = Math.min(left, x);
+            top = Math.min(top, y);
+            right = Math.max(right, x + 1);
+            bottom = Math.max(bottom, y + 1);
+          }
+      const w = Math.max(1, right - left),
+        h = Math.max(1, bottom - top),
+        scale = Math.min((b.w * 64) / w, (b.h * 64) / h);
+      c.drawImage(
+        sample,
+        left,
+        top,
+        w,
+        h,
+        b.x * 64 + (b.w * 64 - w * scale) / 2,
+        (b.y + b.h) * 64 - h * scale,
+        w * scale,
+        h * scale,
+      );
     }
     for (const p of [...s.props].sort((a, b) => a.y + a.h - b.y - b.h)) {
       if (p.sprite !== undefined) {
@@ -174,7 +195,9 @@ export class MilitaryCampRenderer {
             }
         const sw = Math.max(1, right - left),
           sh = Math.max(1, bottom - top),
-          scale = Math.min((p.w * 64) / sw, (p.h * 64) / sh);
+          scale =
+            Math.min((p.w * 64) / sw, (p.h * 64) / sh) *
+            (p.type === "bush" ? 0.65 : 1);
         c.drawImage(
           sample,
           left,

@@ -23,8 +23,8 @@ for (const mobile of [false, true])
     await versions.selectOption("military");
     const military = page.locator("[data-camp-canvas]");
     await expect(military).toHaveAttribute("data-ready", "true");
-    await expect(military).toHaveAttribute("data-map-width", "40");
-    await expect(military).toHaveAttribute("data-map-height", "32");
+    await expect(military).toHaveAttribute("data-map-width", "20");
+    await expect(military).toHaveAttribute("data-map-height", "24");
     await expect(military).toHaveAttribute("data-building-count", "6");
     await page.getByLabel("Grille", { exact: true }).uncheck();
     await page.screenshot({
@@ -42,7 +42,7 @@ for (const mobile of [false, true])
         },
       });
     };
-    await clickCell(9, 11);
+    await clickCell(4, 5);
     await expect(military).toHaveAttribute("data-reachable", "true");
     await page
       .getByRole("button", { name: "Visiter · aperçu", exact: true })

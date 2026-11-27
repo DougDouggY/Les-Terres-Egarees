@@ -38,18 +38,18 @@ export type MilitaryCamp = {
 };
 /** Separate close-scale test composition. No units, visit rewards or battle events. */
 export function militaryCamp(): MilitaryCamp {
-  const width = 40,
-    height = 32,
-    start = { x: 18, y: 30 };
+  const width = 20,
+    height = 24,
+    start = { x: 9, y: 22 };
   const buildings = [
     {
       id: "main-barracks",
       name: "Grande caserne",
       kind: "barracks",
-      x: 5,
-      y: 4,
-      w: 9,
-      h: 7,
+      x: 3,
+      y: 3,
+      w: 3,
+      h: 2,
       variant: 0,
       description: "Le cantonnement principal des soldats du Royaume.",
     },
@@ -57,10 +57,10 @@ export function militaryCamp(): MilitaryCamp {
       id: "officers",
       name: "Logement des officiers",
       kind: "house",
-      x: 25,
-      y: 3,
-      w: 8,
-      h: 6,
+      x: 13,
+      y: 2,
+      w: 2,
+      h: 2,
       variant: 1,
       description: "Le logement et le poste de travail des officiers du camp.",
     },
@@ -68,10 +68,10 @@ export function militaryCamp(): MilitaryCamp {
       id: "stores",
       name: "Entrepôt de matériel",
       kind: "warehouse",
-      x: 27,
-      y: 13,
-      w: 9,
-      h: 7,
+      x: 14,
+      y: 10,
+      w: 3,
+      h: 2,
       variant: 2,
       description: "Les réserves et l’équipement de la garnison.",
     },
@@ -79,10 +79,10 @@ export function militaryCamp(): MilitaryCamp {
       id: "prison",
       name: "Prison du camp",
       kind: "cells",
-      x: 6,
-      y: 21,
-      w: 10,
-      h: 7,
+      x: 4,
+      y: 16,
+      w: 3,
+      h: 2,
       variant: 3,
       description: "Le bâtiment où le Royaume retient ses prisonniers.",
     },
@@ -90,11 +90,11 @@ export function militaryCamp(): MilitaryCamp {
       id: "second-barracks",
       name: "Petite caserne",
       kind: "barracks",
-      x: 19,
-      y: 23,
-      w: 8,
-      h: 6,
-      variant: 0,
+      x: 11,
+      y: 18,
+      w: 2,
+      h: 2,
+      variant: 4,
       description: "Un second logement de soldats, près de la cour basse.",
     },
     {
@@ -102,10 +102,10 @@ export function militaryCamp(): MilitaryCamp {
       name: "Intendance",
       kind: "house",
       x: 3,
-      y: 13,
-      w: 6,
-      h: 5,
-      variant: 1,
+      y: 9,
+      w: 2,
+      h: 2,
+      variant: 5,
       description: "Le lieu de préparation et de distribution des provisions.",
     },
   ].map((b) => ({
@@ -113,41 +113,41 @@ export function militaryCamp(): MilitaryCamp {
     entry: { x: b.x + Math.floor(b.w / 2), y: b.y + b.h - 1 },
   }));
   const props: MilitaryProp[] = [
-    { id: "well", type: "well", x: 20, y: 14, w: 2, h: 2 },
+    { id: "well", type: "well", x: 10, y: 10, w: 1, h: 1 },
     ...[
-      [1, 2],
-      [16, 2],
-      [36, 3],
-      [1, 25],
-      [34, 28],
-      [1, 29],
-      [37, 10],
-      [15, 14],
-      [28, 25],
+      [0, 2],
+      [8, 2],
+      [18, 2],
+      [0, 20],
+      [17, 22],
+      [0, 23],
+      [18, 7],
+      [6, 11],
+      [14, 20],
     ].map(([x, y], i) => ({
       id: `tree-${i}`,
       type: "tree" as const,
       x,
       y,
-      w: 2,
-      h: 2,
+      w: 1,
+      h: 1,
       sprite: i % 3 === 1 ? 1 : 0,
     })),
     ...[
-      [3, 4],
-      [14, 6],
-      [16, 8],
-      [22, 5],
-      [37, 6],
-      [24, 12],
-      [10, 15],
-      [16, 22],
-      [28, 21],
-      [31, 25],
-      [10, 29],
-      [30, 1],
-      [4, 23],
-      [36, 25],
+      [1, 4],
+      [6, 4],
+      [7, 7],
+      [11, 3],
+      [18, 5],
+      [12, 8],
+      [5, 10],
+      [7, 16],
+      [13, 15],
+      [16, 17],
+      [5, 22],
+      [15, 0],
+      [3, 18],
+      [17, 17],
     ].map(([x, y], i) => ({
       id: `bush-${i}`,
       type: "bush" as const,
@@ -158,38 +158,38 @@ export function militaryCamp(): MilitaryCamp {
       sprite: 2,
       walk: true,
     })),
-    { id: "store-crates", type: "crate", x: 36, y: 15, w: 1, h: 1, sprite: 12 },
+    { id: "store-crates", type: "crate", x: 17, y: 10, w: 1, h: 1, sprite: 12 },
     {
       id: "store-barrels",
       type: "barrel",
-      x: 36,
-      y: 17,
+      x: 17,
+      y: 11,
       w: 1,
       h: 1,
       sprite: 13,
     },
-    { id: "store-cart", type: "cart", x: 31, y: 21, w: 2, h: 1, sprite: 14 },
+    { id: "store-cart", type: "cart", x: 15, y: 14, w: 1, h: 1, sprite: 14 },
     {
       id: "officers-crate",
       type: "crate",
-      x: 33,
-      y: 5,
+      x: 15,
+      y: 3,
       w: 1,
       h: 1,
       sprite: 12,
     },
-    { id: "woodpile", type: "firewood", x: 10, y: 17, w: 2, h: 1, sprite: 3 },
+    { id: "woodpile", type: "firewood", x: 6, y: 12, w: 1, h: 1, sprite: 3 },
     {
       id: "provisions-barrel",
       type: "barrel",
       x: 3,
-      y: 18,
+      y: 11,
       w: 1,
       h: 1,
       sprite: 13,
     },
-    { id: "weapons", type: "rack", x: 16, y: 10, w: 1, h: 1, sprite: 8 },
-    { id: "lower-cart", type: "cart", x: 30, y: 29, w: 2, h: 1, sprite: 14 },
+    { id: "weapons", type: "rack", x: 7, y: 4, w: 1, h: 1, sprite: 8 },
+    { id: "lower-cart", type: "cart", x: 16, y: 21, w: 1, h: 1, sprite: 14 },
   ];
   const walls: MilitaryWall[] = [];
   const h = (
@@ -213,15 +213,15 @@ export function militaryCamp(): MilitaryCamp {
       if (!gaps.includes(y) && !walls.some((p) => p.x === x && p.y === y))
         walls.push({ x, y, axis: "vertical", material });
   };
-  h(12, 3, 13, [9, 10]);
-  h(2, 23, 35, []);
-  h(10, 23, 35, [29, 30]);
-  v(23, 3, 9, [6, 7]);
-  v(35, 3, 9, [6, 7]);
-  h(19, 3, 15, [10, 11, 12]);
-  v(3, 20, 28, [24, 25]);
-  v(37, 13, 20, [18, 19], "fence");
-  h(22, 30, 37, [33, 34], "fence");
+  h(6, 2, 7, [4, 5]);
+  h(1, 12, 17, []);
+  h(6, 12, 17, [14, 15]);
+  v(12, 2, 5, [4, 5]);
+  v(17, 2, 5, [4, 5]);
+  h(14, 2, 13, [7, 8, 9]);
+  v(2, 15, 20, [18, 19]);
+  v(18, 9, 15, [12, 13], "fence");
+  h(15, 14, 18, [16, 17], "fence");
   const cells: Cell[] = Array.from({ length: width * height }, (_, i) => ({
     x: i % width,
     y: Math.floor(i / width),
@@ -259,24 +259,22 @@ export function militaryCamp(): MilitaryCamp {
     for (let dy = 0; dy < h; dy++)
       for (let dx = 0; dx < w; dx++) set(x + dx, y + dy, "road");
   };
-  road(17, 0, 2, 32);
-  road(9, 11, 10, 2);
-  road(29, 9, 2, 4);
-  road(18, 11, 12, 2);
-  for (let y = 12; y <= 18; y++) {
-    const left = y === 12 || y === 18 ? 17 : 16;
-    road(left, y, y === 12 || y === 18 ? 7 : 9, 1);
-  }
-  road(6, 18, 12, 1);
-  road(9, 13, 2, 6);
-  road(11, 28, 8, 2);
-  road(23, 29, 8, 2);
-  road(29, 20, 2, 10);
-  road(24, 20, 11, 2);
-  road(24, 17, 2, 5);
+  road(8, 0, 2, 24);
+  road(4, 5, 6, 1);
+  road(5, 6, 2, 8);
+  road(14, 4, 2, 4);
+  road(9, 7, 7, 2);
+  for (let y = 9; y <= 13; y++)
+    road(y === 9 || y === 13 ? 8 : 7, y, y === 9 || y === 13 ? 4 : 6, 1);
+  road(4, 11, 5, 1);
+  road(5, 18, 5, 2);
+  road(12, 20, 6, 2);
+  road(17, 12, 2, 10);
+  road(12, 12, 6, 2);
+  road(12, 13, 2, 4);
   for (const b of buildings) road(b.entry.x, b.entry.y + 1, 1, 1);
-  for (let y = 24; y < 32; y++)
-    for (let x = 38 - (y > 28 ? 1 : 0); x < 40; x++) set(x, y, "water", false);
+  for (let y = 18; y < 24; y++)
+    for (let x = 19 - (y > 21 ? 1 : 0); x < 20; x++) set(x, y, "water", false);
   for (const p of props)
     for (let dy = 0; dy < p.h; dy++)
       for (let dx = 0; dx < p.w; dx++)

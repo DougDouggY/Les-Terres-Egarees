@@ -492,9 +492,10 @@ test("camp militaire : version indépendante, six bâtiments fermés et visites 
   const old = O.kingdomCampMap(),
     before = structuredClone(old),
     s = D.militaryCamp();
-  assert.equal(s.width, 40);
-  assert.equal(s.height, 32);
+  assert.equal(s.width, 20);
+  assert.equal(s.height, 24);
   assert.equal(s.buildings.length, 6);
+  assert.ok(s.buildings.every((b) => [2, 3].includes(b.w) && b.h === 2));
   assert.ok(s.buildings.some((b) => b.id === "officers"));
   assert.ok(s.buildings.some((b) => b.kind === "cells"));
   const occupied = new Set<number>();
@@ -529,30 +530,47 @@ test("camp militaire : version indépendante, six bâtiments fermés et visites 
   assert.ok(
     s.props
       .filter((p) => p.type === "tree")
-      .every((p) => p.w === 2 && p.h === 2),
+      .every((p) => p.w === 1 && p.h === 1),
   );
   const alternate = gridPath(
     s.width,
     s.height,
     s.start.y * s.width + s.start.x,
-    13 * s.width + 18,
+    10 * s.width + 9,
     (k) =>
       s.cells[k].walk &&
-      !(Math.floor(k / s.width) === 18 && [17, 18].includes(k % s.width))
+      !(Math.floor(k / s.width) === 14 && [8, 9].includes(k % s.width))
         ? s.cells[k].cost
         : null,
   );
   assert.ok(alternate, "un contournement reste ouvert sans le passage central");
   for (const [x, y] of [
-    [4, 30],
-    [35, 29],
+    [1, 22],
+    [17, 21],
   ])
     assert.ok(
-      gridPath(s.width, s.height, y * s.width + x, 13 * s.width + 18, (k) =>
+      gridPath(s.width, s.height, y * s.width + x, 10 * s.width + 9, (k) =>
         s.cells[k].walk ? s.cells[k].cost : null,
       ),
       "accès de bordure connecté",
     );
   assert.deepEqual(old, before);
   assert.deepEqual(O.kingdomCampMap(), before);
+  const fs = await import("node:fs/promises");
+  const frames = JSON.parse(
+    await fs.readFile(
+      "public/assets/kingdom-camp/compact-buildings/frames.json",
+      "utf8",
+    ),
+  );
+  assert.equal(frames.buildings.length, 6);
+  for (const b of s.buildings) {
+    const f = frames.buildings.find((f: any) => f.id === b.id);
+    assert.deepEqual([f.w, f.h], [b.w, b.h]);
+    const png = await fs.readFile(
+      `public/assets/kingdom-camp/compact-buildings/${f.file}`,
+    );
+    assert.equal(png.readUInt32BE(16), b.w * 128);
+    assert.equal(png.readUInt32BE(20), b.h * 128);
+  }
 });
