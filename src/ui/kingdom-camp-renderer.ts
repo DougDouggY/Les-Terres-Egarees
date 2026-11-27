@@ -14,13 +14,13 @@ import {
 } from "../data/kingdom-camp-map";
 type Building = (typeof campBuildings)[number];
 /** The chapter-I road mask is reused here without changing its protected renderer. */
-export function campRoadMask() {
+export function campRoadMask(cells = map, width = CAMP_W, height = CAMP_H) {
   const raw = document.createElement("canvas");
-  raw.width = CAMP_W * 64;
-  raw.height = CAMP_H * 64;
+  raw.width = width * 64;
+  raw.height = height * 64;
   const r = raw.getContext("2d")!;
   r.fillStyle = "white";
-  for (const cell of map)
+  for (const cell of cells)
     if (cell.terrain === "road") r.fillRect(cell.x * 64, cell.y * 64, 64, 64);
   const soft = document.createElement("canvas");
   soft.width = raw.width;

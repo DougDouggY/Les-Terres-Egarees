@@ -7,6 +7,7 @@ export default defineConfig({
     "cooperative-story-update.spec.ts",
     "chapter-two-review.spec.ts",
     "camp-preview.spec.ts",
+    "camp-military.spec.ts",
     "future-terrain.spec.ts",
     "chapter-5-6-terrain.spec.ts",
   ],

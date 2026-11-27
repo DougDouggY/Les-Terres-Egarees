@@ -484,3 +484,75 @@ test("ressources V–VI : seize objets nommés et cartes PNG en couches", async 
     }
   }
 });
+
+test("camp militaire : version indépendante, six bâtiments fermés et visites connectées", async () => {
+  const D = await import("../src/data/kingdom-camp-military"),
+    O = await import("../src/data/kingdom-camp-map"),
+    { gridPath } = await import("../src/game/grid-path");
+  const old = O.kingdomCampMap(),
+    before = structuredClone(old),
+    s = D.militaryCamp();
+  assert.equal(s.width, 40);
+  assert.equal(s.height, 32);
+  assert.equal(s.buildings.length, 6);
+  assert.ok(s.buildings.some((b) => b.id === "officers"));
+  assert.ok(s.buildings.some((b) => b.kind === "cells"));
+  const occupied = new Set<number>();
+  for (const b of s.buildings) {
+    for (let y = b.y; y < b.y + b.h; y++)
+      for (let x = b.x; x < b.x + b.w; x++) {
+        const k: number = y * s.width + x;
+        assert.ok(!occupied.has(k), b.id);
+        occupied.add(k);
+        assert.equal(s.cells[k].walk, false);
+      }
+    const entry = D.militaryVisitCell(s, b);
+    assert.ok(s.cells[entry].walk, b.id);
+    assert.equal(D.militaryBuildingAt(s, b.entry.x, b.entry.y + 1)?.id, b.id);
+    assert.ok(
+      gridPath(
+        s.width,
+        s.height,
+        s.start.y * s.width + s.start.x,
+        entry,
+        (k) => (s.cells[k].walk ? s.cells[k].cost : null),
+      ),
+      b.id,
+    );
+  }
+  for (const p of s.props)
+    for (let y = p.y; y < p.y + p.h; y++)
+      for (let x = p.x; x < p.x + p.w; x++) {
+        assert.ok(!occupied.has(y * s.width + x), p.id);
+        assert.ok(!s.walls.some((w) => w.x === x && w.y === y), p.id);
+      }
+  assert.ok(
+    s.props
+      .filter((p) => p.type === "tree")
+      .every((p) => p.w === 2 && p.h === 2),
+  );
+  const alternate = gridPath(
+    s.width,
+    s.height,
+    s.start.y * s.width + s.start.x,
+    13 * s.width + 18,
+    (k) =>
+      s.cells[k].walk &&
+      !(Math.floor(k / s.width) === 18 && [17, 18].includes(k % s.width))
+        ? s.cells[k].cost
+        : null,
+  );
+  assert.ok(alternate, "un contournement reste ouvert sans le passage central");
+  for (const [x, y] of [
+    [4, 30],
+    [35, 29],
+  ])
+    assert.ok(
+      gridPath(s.width, s.height, y * s.width + x, 13 * s.width + 18, (k) =>
+        s.cells[k].walk ? s.cells[k].cost : null,
+      ),
+      "accès de bordure connecté",
+    );
+  assert.deepEqual(old, before);
+  assert.deepEqual(O.kingdomCampMap(), before);
+});
