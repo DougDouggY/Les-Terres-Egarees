@@ -1,5 +1,6 @@
 import type { MilitaryCamp } from "../data/kingdom-camp-military";
 import { villageTileset as tiles } from "../data/village-tileset";
+import { campLowWalls } from "../rendering/camp-low-walls";
 import { campRoadMask } from "./kingdom-camp-renderer";
 /** Only close-scale individual props; never regional forest or mountain sprites. */
 export class MilitaryCampRenderer {
@@ -66,51 +67,7 @@ export class MilitaryCampRenderer {
           64,
           64,
         );
-    for (const wall of s.walls) {
-      if (wall.material === "stone") {
-        if (wall.axis === "vertical")
-          c.drawImage(
-            this.stone,
-            340,
-            0,
-            96,
-            256,
-            wall.x * 64,
-            wall.y * 64,
-            64,
-            64,
-          );
-        else
-          c.drawImage(
-            this.stone,
-            0,
-            0,
-            256,
-            256,
-            wall.x * 64,
-            wall.y * 64,
-            64,
-            64,
-          );
-      } else {
-        const frame = tiles.props.fence;
-        c.save();
-        c.translate((wall.x + 0.5) * 64, (wall.y + 0.5) * 64);
-        if (wall.axis === "vertical") c.rotate(Math.PI / 2);
-        c.drawImage(
-          this.architecture,
-          frame[0] * 64,
-          frame[1] * 64,
-          64,
-          64,
-          -32,
-          -32,
-          64,
-          64,
-        );
-        c.restore();
-      }
-    }
+    c.drawImage(campLowWalls(s, this.stone, this.architecture), 0, 0);
     // Whole building illustrations, not scaled-down rooms or repeated roof tiles.
     for (const b of s.buildings) {
       const sw = this.houses.width / 3,

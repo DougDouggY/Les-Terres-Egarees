@@ -52,3 +52,9 @@ Les tests de données vérifient les six emprises fermées, l’absence de cheva
 Les tests navigateur couvrent la comparaison, les visites sans ouverture, la conservation des sauvegardes, les commandes de caméra et le pincement réel sur téléphone. L’ancienne version est vérifiée séparément, y compris l’ouverture et la fermeture de ses bâtiments. Les parcours narratifs du chapitre II et le lancement compilé sont contrôlés séparément. Aucun résultat de combat ni événement de visite futur n’est revendiqué.
 
 Bilan de cette version : 247 tests automatisés réussis et 13 parcours navigateur vérifiés (2 pour la variante, 3 pour l’ancien camp, 2 pour les transitions narratives, 6 pour le lancement compilé). La reprise compacte vérifie aussi les emprises 2 × 2 / 3 × 2, le cadrage des six PNG et leurs dimensions natives, ainsi que les nouveaux accès après réduction du terrain.
+
+## Retouche des murets — 27 novembre 2026
+
+Les anciens morceaux de façades étirés sont remplacés, dans cette variante uniquement, par des murets bas à dessus continu. Les cases voisines déterminent les raccords, angles et extrémités. Les dalles de couverture suivent l’axe du muret et un bloc de couverture ferme chaque angle. Une courte face sud et une ombre discrète donnent le relief, dans l’esprit de Serafew tout en conservant les matériaux du jeu. Les clôtures sont également reliées par des traverses continues.
+
+Les emprises, collisions, ouvertures, bâtiments et points de visite restent inchangés. `src/rendering/camp-low-walls.ts` compose ce rendu avec les textures existantes ; aucune nouvelle illustration n’est nécessaire. Vérifications de cette retouche : deux parcours navigateur ordinateur/téléphone et un contrôle des raccords et ouvertures (trois tests réussis), compilation et contrôle des ressources du prototype.
